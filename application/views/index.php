@@ -18,16 +18,16 @@ Ext.onReady(function() {
 	Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
 
 	var addAct = new Ext.Action({
-	    text: 'Add',
-	    iconCls: 'b-small-plus'
+		text: 'Add',
+		iconCls: 'b-small-plus'
 	});
 	var editAct = new Ext.Action({
-	    text: 'Edit',
-	    iconCls: 'b-small-pencil'
+		text: 'Edit',
+		iconCls: 'b-small-pencil'
 	});
 	var deleteAct = new Ext.Action({
-	    text: 'Delete',
-	    iconCls: 'b-small-minus'
+		text: 'Delete',
+		iconCls: 'b-small-minus'
 	});
 
 	Ext.define('Book',{
@@ -48,7 +48,7 @@ Ext.onReady(function() {
 	});
 
 	// create the Data Store
-	var store = Ext.create('Ext.data.Store', {
+	var store = /*Ext.create('Ext.data.Store', {
 		model: 'Book',
 		proxy: {
 			// load using HTTP
@@ -61,6 +61,29 @@ Ext.onReady(function() {
 				totalProperty  : 'total'
 			}
 		}
+	});*/
+		new Ext.data.JsonStore({
+		// store configs
+		proxy: {
+			type: 'ajax',
+			url: '<?= site_url("index/loads") ?>',
+			reader: {
+				type: 'json',
+				root: 'results',
+				idProperty: 'id'
+			}
+		},
+		fields: [
+			{name:'id', type: 'int'},
+			'code',
+			{name:'size', type: 'float'},
+			{name:'create_date', type:'date'},
+			'create_by',
+			{name:'update_date', type:'date'},
+			'update_by'
+		],
+		remoteSort: true,
+		sorters: ['id ASC']
 	});
 
 	// create the grid
@@ -92,103 +115,103 @@ Ext.onReady(function() {
 
 	var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>'
 	var form = Ext.widget('form', {
-	    layout: {
-	        type: 'vbox',
-	        align: 'stretch'
-	    },
-	    border: false,
-	    bodyPadding: 10,
+		layout: {
+			type: 'vbox',
+			align: 'stretch'
+		},
+		border: false,
+		bodyPadding: 10,
 
-	    fieldDefaults: {
-	        labelAlign: 'top',
-	        labelWidth: 100,
-	        labelStyle: 'font-weight:bold'
-	    },
-	    items: [{
-	        xtype: 'fieldcontainer',
-	        fieldLabel: 'Your Name',
-	        labelStyle: 'font-weight:bold;padding:0;',
-	        layout: 'hbox',
-	        defaultType: 'textfield',
+		fieldDefaults: {
+			labelAlign: 'top',
+			labelWidth: 100,
+			labelStyle: 'font-weight:bold'
+		},
+		items: [{
+			xtype: 'fieldcontainer',
+			fieldLabel: 'Your Name',
+			labelStyle: 'font-weight:bold;padding:0;',
+			layout: 'hbox',
+			defaultType: 'textfield',
 
-	        fieldDefaults: {
-	            labelAlign: 'top'
-	        },
+			fieldDefaults: {
+				labelAlign: 'top'
+			},
 
-	        items: [{
-	            flex: 1,
-	            name: 'firstName',
-	            itemId: 'firstName',
-	            afterLabelTextTpl: required,
-	            fieldLabel: 'First',
-	            allowBlank: false
-	        }, {
-	            width: 30,
-	            name: 'middleInitial',
-	            fieldLabel: 'MI',
-	            margins: '0 0 0 5'
-	        }, {
-	            flex: 2,
-	            name: 'lastName',
-	            afterLabelTextTpl: required,
-	            fieldLabel: 'Last',
-	            allowBlank: false,
-	            margins: '0 0 0 5'
-	        }]
-	    }, {
-	        xtype: 'textfield',
-	        fieldLabel: 'Your Email Address',
-	        afterLabelTextTpl: required,
-	        vtype: 'email',
-	        allowBlank: false
-	    }, {
-	        xtype: 'textfield',
-	        fieldLabel: 'Subject',
-	        afterLabelTextTpl: required,
-	        allowBlank: false
-	    }, {
-	        xtype: 'textareafield',
-	        fieldLabel: 'Message',
-	        labelAlign: 'top',
-	        flex: 1,
-	        margins: '0',
-	        afterLabelTextTpl: required,
-	        allowBlank: false
-	    }],
+			items: [{
+				flex: 1,
+				name: 'firstName',
+				itemId: 'firstName',
+				afterLabelTextTpl: required,
+				fieldLabel: 'First',
+				allowBlank: false
+			}, {
+				width: 30,
+				name: 'middleInitial',
+				fieldLabel: 'MI',
+				margins: '0 0 0 5'
+			}, {
+				flex: 2,
+				name: 'lastName',
+				afterLabelTextTpl: required,
+				fieldLabel: 'Last',
+				allowBlank: false,
+				margins: '0 0 0 5'
+			}]
+		}, {
+			xtype: 'textfield',
+			fieldLabel: 'Your Email Address',
+			afterLabelTextTpl: required,
+			vtype: 'email',
+			allowBlank: false
+		}, {
+			xtype: 'textfield',
+			fieldLabel: 'Subject',
+			afterLabelTextTpl: required,
+			allowBlank: false
+		}, {
+			xtype: 'textareafield',
+			fieldLabel: 'Message',
+			labelAlign: 'top',
+			flex: 1,
+			margins: '0',
+			afterLabelTextTpl: required,
+			allowBlank: false
+		}],
 
-	    buttons: [{
-	        text: 'Cancel',
-	        handler: function() {
-	            this.up('form').getForm().reset();
-	            this.up('window').hide();
-	        }
-	    }, {
-	        text: 'Send',
-	        handler: function() {
-	        	this.up('form').getForm().checkValidity();
-	            if (this.up('form').getForm().isValid()) {
-	                // In a real application, this would submit the form to the configured url
-	                // this.up('form').getForm().submit();
-	                this.up('form').getForm().reset();
-	                this.up('window').hide();
-	                Ext.MessageBox.alert('Thank you!', 'Your inquiry has been sent. We will respond as soon as possible.');
-	            }
-	        }
-	    }]
+		buttons: [{
+			text: 'Cancel',
+			handler: function() {
+				this.up('form').getForm().reset();
+				this.up('window').hide();
+			}
+		}, {
+			text: 'Send',
+			handler: function() {
+				this.up('form').getForm().checkValidity();
+				if (this.up('form').getForm().isValid()) {
+					// In a real application, this would submit the form to the configured url
+					// this.up('form').getForm().submit();
+					this.up('form').getForm().reset();
+					this.up('window').hide();
+					Ext.MessageBox.alert('Thank you!', 'Your inquiry has been sent. We will respond as soon as possible.');
+				}
+			}
+		}]
 	});
 
 	var dialog = Ext.widget('window', {
-	    title: 'Contact Us',
-	    closeAction: 'hide',
-	    width: 400,
-	    height: 400,
-	    minWidth: 300,
-	    minHeight: 300,
-	    layout: 'fit',
-	    resizable: true,
-	    modal: true,
-	    items: form,
-	    defaultFocus: 'firstName'
+		title: 'Contact Us',
+		closeAction: 'hide',
+		width: 400,
+		height: 400,
+		minWidth: 300,
+		minHeight: 300,
+		layout: 'fit',
+		resizable: true,
+		modal: true,
+		items: form,
+		defaultFocus: 'firstName'
 	});
 
 
