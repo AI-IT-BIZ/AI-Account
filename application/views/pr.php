@@ -12,7 +12,7 @@
 <body>
 
 	<script type="text/javascript">
-Ext.require(['*']);
+requires: ['*'];
 Ext.onReady(function() {
 
 
@@ -59,7 +59,13 @@ Ext.onReady(function() {
 		region: 'center',
 		tbar : [
 			addAct
-		]
+		],
+		bbar: {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: store,
+			displayInfo: true
+		}
 	});
 
 	var form = Ext.widget('form', {
@@ -91,16 +97,18 @@ Ext.onReady(function() {
 		}, {
 			text: 'Send',
 			handler: function() {
-				var form = this.up('form').getForm();
-				if (form.isValid()) {
-					form.submit({
-	                    success: function(form, action) {
-	                       Ext.Msg.alert('Success', action.result.message);
-	                    },
-	                    failure: function(form, action) {
-	                        Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-	                    }
-	                });
+				var _this=this;
+				var _form = this.up('form').getForm();
+				if (_form.isValid()) {
+					_form.submit({
+						success: function(form_basic, action) {
+							//Ext.Msg.alert('Success', action.result.message);
+							var evt = form.fireEvent('afterSave', form_basic);
+						},
+						failure: function(form_basic, action) {
+							Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+						}
+					});
 				}
 			}
 		}]
@@ -124,6 +132,13 @@ Ext.onReady(function() {
 
 	addAct.setHandler(function(){
 		dialog.show();
+	});
+
+	form.addEvents('afterSave');
+	form.on('afterSave', function(form_basic){
+		form_basic.reset();
+		store.load();
+		dialog.hide();
 	});
 
 	////////////////////////////////////////////
