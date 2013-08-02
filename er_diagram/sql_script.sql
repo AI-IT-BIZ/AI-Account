@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		2/8/2013
+Modified		3/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,9 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_gjou;
+drop table IF EXISTS tbl_ggrp;
+drop table IF EXISTS tbl_glno;
 drop table IF EXISTS tbl_trpo;
 drop table IF EXISTS tbl_trko;
 drop table IF EXISTS tbl_rtyp;
@@ -233,6 +236,34 @@ Create table tbl_trpo (
  Primary Key (trdoc,trapo)) ENGINE = InnoDB
 COMMENT = 'Transaction Item';
 
+Create table tbl_glno (
+	saknr Varchar(10) NOT NULL COMMENT 'GL Acount',
+	sgtxt Varchar(40) COMMENT 'GL Text',
+	entxt Varchar(40) COMMENT 'GL Eng Text',
+	xbilk Varchar(1) COMMENT 'Balance sheet account',
+	erdat Datetime COMMENT 'Create Date',
+	ernam Varchar(10) COMMENT 'Create Name',
+	glgrp Varchar(4) COMMENT 'Account Group',
+	gltyp Varchar(4) COMMENT 'Account type',
+	xloev Varchar(1) COMMENT 'Delete Flag',
+	debit Decimal(17,2) COMMENT 'Debit Beginning',
+	credi Decimal(17,2) COMMENT 'Credit Beginning',
+	under Varchar(10) COMMENT 'Under GL Account',
+ Primary Key (saknr)) ENGINE = InnoDB
+COMMENT = 'GL Account';
+
+Create table tbl_ggrp (
+	glgrp Varchar(4) NOT NULL COMMENT 'Account Group',
+	grptx Varchar(40) COMMENT 'Account Grp Desc',
+ Primary Key (glgrp)) ENGINE = InnoDB
+COMMENT = 'Account Group';
+
+Create table tbl_gjou (
+	jounr Varchar(2) NOT NULL COMMENT 'Jounal no',
+	joutx Varchar(40) COMMENT 'Jounal Text',
+ Primary Key (jounr)) ENGINE = InnoDB
+COMMENT = 'Jounal type';
+
 
 
 
@@ -245,6 +276,54 @@ COMMENT = 'Transaction Item';
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
-INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000)
+INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
+
+INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
+
+INSERT INTO tbl_gjou (jounr, joutx) VALUES ('01', 'General'),('02', 'Pay'),('03', 'Receive'),('04', 'Sale'),('05', 'Buy');
+
+INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gltyp,under) 
+        VALUES ('100000','Asset','2013/07/02','ASD','1','1','1'),
+               ('110000','Current Asset','2013/07/02','ASD','1','1','100000'),
+               ('111000','Cash&Bank','2013/07/02','ASD','1','1','110000'),
+               ('111100','Cash','2013/07/02','ASD','1','2','111000'),
+               ('111200','Bank','2013/07/02','ASD','1','1','111000'),
+               ('111210','Credit Card','2013/07/02','ASD','1','2','111200'),
+               ('111211','Current-BKK','2013/07/02','ASD','1','2','111200'),
+               ('111212','Current-KBank','2013/07/02','ASD','1','2','111200'),
+               ('200000','Liabibity','2013/07/02','ASD','2','1','2'),
+               ('210000','Current Liabibity','2013/07/02','ASD','2','1','200000'),
+               ('211000','A/C Payable Purchase','2013/07/02','ASD','2','1','210000'),
+               ('211001','A/C Payable Purchase','2013/07/02','ASD','2','2','211000'),
+               ('300000','Shareholders Equity','2013/07/02','ASD','3','1','3'),
+               ('310000','Share Capital','2013/07/02','ASD','3','2','300000'),
+               ('400000','Revenue','2013/07/02','ASD','4','1','4'),
+               ('410000','Revenue-Sale','2013/07/02','ASD','4','1','400000'),
+               ('411000','Sale','2013/07/02','ASD','4','2','410000'),
+               ('500000','Expense','2013/07/02','ASD','5','1','5'),
+               ('510000','Cost of Goods Sold','2013/07/02','ASD','5','1','500000'),
+               ('511000','Cost of Sale','2013/07/02','ASD','5','2','510000'),
+               ('512000','Net Purchasing','2013/07/02','ASD','5','1','511000'),
+               ('512010','Purchasing','2013/07/02','ASD','5','2','512000'),
+               ('512020','Receive Decrease','2013/07/02','ASD','5','2','512000'),
+               ('512030','Return Goods','2013/07/02','ASD','5','2','512000');
+
+INSERT INTO tbl_mtyp (mtart, matxt) VALUES ('EX', 'Expense'),('IN', 'Income');
+
+INSERT INTO tbl_mgrp (matkl, matxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
+
+INSERT INTO tbl_unit (meins, metxt) VALUES ('EA', 'Eeach'),('BOX', 'Box'),('CAN', 'Can'),('DOZ', 'Dozen'),
+('KG', 'Kilogram'),('g', 'Gram'),('BOT', 'Bottle');
+
+INSERT INTO tbl_dist (distr, distx) VALUES ('01', 'Bangkok'),('02', 'Ayutaya'),('03', 'Nakronpatom'),('04', 'Cholburi'),
+('05', 'Nakronrachasima'),('06', 'Saraburi'),('07', 'Supan');
+
+INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr,unit1,cost1) 
+        VALUES ('100001','RM Mat test1','EX','RM','2013/07/02','ASD','EA','100001','EA','10'),
+               ('100002','RM Mat test2','EX','RM','2013/07/02','ASD','EA','100001','EA','20'),
+               ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002','EA','30'),
+               ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002','EA','40');
+
+
 
 
