@@ -132,8 +132,8 @@ function endsWith($haystack, $needle)
 							render : function(c) {
 								pEl = c.getEl();
 
-								pEl.getById('div-income').on('click', function(){ alert('income click');/*this.fireEvent('click', c);*/ }, c);
-								pEl.getById('div-journal').on('click', function(){ alert('journal click');/*this.fireEvent('click', c);*/ }, c);
+								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
+								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 							}
 						}
 					}
@@ -143,7 +143,7 @@ function endsWith($haystack, $needle)
 
 			////////////////////////////////////////////
 			// VIEWPORT
-			var viewport = Ext.create('Ext.Viewport', {
+			$om.viewport = Ext.create('Ext.Viewport', {
 				layout: {
 					type: 'border',
 					padding: 5

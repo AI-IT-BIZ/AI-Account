@@ -1,7 +1,10 @@
 
 Ext.define('Account.PR.MainWindow', {
 	extend	: 'Ext.window.Window',
-	requires : ['Account.PR.Grid', 'Account.PR.Item.Window'],
+	requires : [
+		'Account.PR.Grid',
+		'Account.PR.Item.Window'
+	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -28,6 +31,14 @@ Ext.define('Account.PR.MainWindow', {
 			text: 'เพิ่ม',
 			iconCls: 'b-small-plus'
 		});
+		this.editAct = new Ext.Action({
+			text: 'แก้ไข',
+			iconCls: 'b-small-pencil'
+		});
+		this.deleteAct = new Ext.Action({
+			text: 'ลบ',
+			iconCls: 'b-small-minus'
+		});
 
 		this.itemDialog = Ext.create('Account.PR.Item.Window');
 
@@ -37,15 +48,36 @@ Ext.define('Account.PR.MainWindow', {
 
 		this.items = [this.grid];
 
-		this.tbar = [this.addAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
 		});
 
+		this.editAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.show();
+				_this.itemDialog.form.load(id);
+			}
+		});
+
+		this.deleteAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.form.remove(id);
+			}
+		});
+
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
+			_this.grid.load();
+		});
+
+		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
 

@@ -6,8 +6,8 @@ Ext.define('Account.PR.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Request',
 			closeAction: 'hide',
-			height: 180,
-			minHeight: 180,
+			height: 200,
+			minHeight: 200,
 			width: 300,
 			minWidth: 300,
 			layout: 'fit',

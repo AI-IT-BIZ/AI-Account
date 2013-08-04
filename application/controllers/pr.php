@@ -12,6 +12,22 @@ class Pr extends CI_Controller {
 		$this->phxview->RenderLayout('default');
 	}
 
+	function load(){
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('id', $id);
+		$query = $this->db->get('pr');
+		if($query->num_rows()>0){
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$query->first_row('array')
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+
 	function loads(){
 		$tbName = 'pr';
 /*
@@ -45,25 +61,41 @@ class Pr extends CI_Controller {
 	}
 
 	function save(){
+		$id = $this->input->post('id');
+		$query = null;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('id', $id);
+			$query = $this->db->get('pr');
+		}
 
 		$formData = array(
 			'code' => $this->input->post('code')
 		);
-		/*if ($query->num_rows() > 0){
-			$this->db->where($tbPK, $id);
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('id', $id);
 			$this->db->set('update_date', 'NOW()', false);
-			$this->db->set('update_by', $sess_user_id);
-			$this->db->update($tbName, $formData);
+			$this->db->set('update_by', 'test');
+			$this->db->update('pr', $formData);
 		}else{
-		 */
 			$this->db->set('create_date', 'NOW()', false);
 			$this->db->set('create_by', 'test');
 			$this->db->insert('pr', $formData);
-		//}
+		}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
+		));
+	}
+
+	function remove(){
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$query = $this->db->delete('pr');
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$id
 		));
 	}
 
