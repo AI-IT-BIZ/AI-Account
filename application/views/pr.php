@@ -5,6 +5,8 @@ Ext.onReady(function() {
 
 	$om.prDialog = Ext.create('Account.PR.MainWindow');
 
+	$om.warehouseDialog =
+
 	$om.viewport.on('click_income', function(){
 		$om.prDialog.show();
 	});

@@ -11,6 +11,25 @@ class Warehouse extends CI_Controller {
 		$this->load->view('warehouse');
 	}
 
+	function load(){
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('warnr', $id);
+		$query = $this->db->get('mwar');
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['warnr'];
+
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+
 	function loads(){
 		$tbName = 'mwar';
 /*
@@ -44,28 +63,38 @@ class Warehouse extends CI_Controller {
 	}
 
 	function save(){
+		$id = $this->input->post('id');
+		$query = null;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('warnr', $id);
+			$query = $this->db->get('mwar');
+		}
 
 		$formData = array(
 			'warnr' => $this->input->post('warnr'),
-			'watxt' => $this->input->post('watxt'),
-			'sgtxt' => $this->input->post('sgtxt')
-			
+			'watxt' => $this->input->post('watxt')
 		);
-		/*if ($query->num_rows() > 0){
-			$this->db->where($tbPK, $id);
-			$this->db->set('update_date', 'NOW()', false);
-			$this->db->set('update_by', $sess_user_id);
-			$this->db->update($tbName, $formData);
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('warnr', $id);
+			$this->db->update('mwar', $formData);
 		}else{
-		 */
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
 			$this->db->insert('mwar', $formData);
-		//}
+		}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
+		));
+	}
+
+	function remove(){
+		$id = $this->input->post('id');
+		$this->db->where('warnr', $id);
+		$query = $this->db->delete('mwar');
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$id
 		));
 	}
 
