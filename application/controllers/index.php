@@ -14,7 +14,8 @@ class Index extends CI_Controller {
 
 	function index()
 	{
-		$this->load->view('index');
+		$this->phxview->RenderView('index');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function loads(){
