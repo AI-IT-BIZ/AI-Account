@@ -56,8 +56,8 @@ class Mattype extends CI_Controller {
 			$this->db->update($tbName, $formData);
 		}else{
 		 */
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			//$this->db->set('ernam', 'test');
 			$this->db->insert('mtyp', $formData);
 		//}
 

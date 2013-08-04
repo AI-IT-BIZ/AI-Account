@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		3/8/2013
+Modified		4/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,17 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_jobp;
+drop table IF EXISTS tbl_jobk;
+drop table IF EXISTS tbl_jtyp;
+drop table IF EXISTS tbl_styp;
+drop table IF EXISTS tbl_doct;
+drop table IF EXISTS tbl_tax1;
+drop table IF EXISTS tbl_apov;
+drop table IF EXISTS tbl_psal;
+drop table IF EXISTS tbl_kna1;
+drop table IF EXISTS tbl_vbap;
+drop table IF EXISTS tbl_vbak;
 drop table IF EXISTS tbl_gjou;
 drop table IF EXISTS tbl_ggrp;
 drop table IF EXISTS tbl_glno;
@@ -264,6 +275,167 @@ Create table tbl_gjou (
  Primary Key (jounr)) ENGINE = InnoDB
 COMMENT = 'Jounal type';
 
+Create table tbl_vbak (
+	vbeln Varchar(10) NOT NULL COMMENT 'Sale Order no',
+	bldat Date COMMENT 'SO Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(40) COMMENT 'SO Status',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(10) COMMENT 'Job No',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person',
+	rtype Varchar(4) COMMENT 'Reason Type',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	payty Varchar(4) COMMENT 'Pay Type',
+	taxty Varchar(4) COMMENT 'Tax Type',
+	lidat Int COMMENT 'Limit Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	waerk Varchar(3) COMMENT 'Currency',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Int COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type',
+ Primary Key (vbeln)) ENGINE = InnoDB
+COMMENT = 'Sale Order Header';
+
+Create table tbl_vbap (
+	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	dismt Decimal(17,2) COMMENT 'Discount amt',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+ Primary Key (vbeln,vbelp)) ENGINE = InnoDB
+COMMENT = 'SO Item';
+
+Create table tbl_kna1 (
+	kunnr Varchar(10) NOT NULL COMMENT 'Customer Code',
+	name1 Varchar(35) COMMENT 'Vendor Name1',
+	name2 Varchar(10) COMMENT 'Vendor Name2',
+	adr01 Varchar(40) COMMENT 'Address 1',
+	adr02 Varchar(40) COMMENT 'Address 2',
+	ort01 Varchar(40) COMMENT 'City',
+	distr Varchar(4) COMMENT 'District',
+	pstlz Varchar(10) COMMENT 'Post Code',
+	telf1 Varchar(30) COMMENT 'Telephon',
+	telfx Varchar(30) COMMENT 'Fax No',
+	pson1 Varchar(30) COMMENT 'Contact Person',
+	taxbs Varchar(30) COMMENT 'Tax no',
+	saknr Varchar(10) COMMENT 'GL Account',
+	ptype Varchar(2) COMMENT 'Price type',
+	retax Varchar(1) COMMENT 'Tax Return',
+	crdit Decimal(17,2) COMMENT 'Credit Amount',
+	disct Decimal(17,2) COMMENT 'Discount Amount',
+	pappr Decimal(17,2) COMMENT 'Approve Amount',
+	begin Decimal(17,2) COMMENT 'Beginning Amount',
+	endin Decimal(17,2) COMMENT 'Ending Amount',
+	sgtxt Varchar(40) COMMENT 'Text Note',
+	ktype Varchar(4) COMMENT 'Customer Type',
+ Primary Key (kunnr)) ENGINE = InnoDB
+COMMENT = 'Customer Master';
+
+Create table tbl_psal (
+	salnr Varchar(10) NOT NULL COMMENT 'Sale Person',
+	name1 Varchar(35) COMMENT 'Vendor Name1',
+	name2 Varchar(10) COMMENT 'Vendor Name2',
+	adr01 Varchar(40) COMMENT 'Address 1',
+	adr02 Varchar(40) COMMENT 'Address 2',
+	ort01 Varchar(40) COMMENT 'City',
+	distr Varchar(4) COMMENT 'District',
+	pstlz Varchar(10) COMMENT 'Post Code',
+	telf1 Varchar(30) COMMENT 'Telephon',
+	telfx Varchar(30) COMMENT 'Fax No',
+	pson1 Varchar(30) COMMENT 'Contact Person',
+	taxbs Varchar(30) COMMENT 'Tax no',
+	saknr Varchar(10) COMMENT 'GL Account',
+	ptype Varchar(2) COMMENT 'Price type',
+	retax Varchar(1) COMMENT 'Tax Return',
+	crdit Decimal(17,2) COMMENT 'Credit Amount',
+	disct Decimal(17,2) COMMENT 'Discount Amount',
+	pappr Decimal(17,2) COMMENT 'Approve Amount',
+	begn1 Decimal(17,2) COMMENT 'Start Amt1',
+	endn1 Decimal(17,2) COMMENT 'Ending Amt1',
+	sgtxt Varchar(40) COMMENT 'Text Note',
+	stype Varchar(4) COMMENT 'Customer Type',
+	begn2 Decimal(17,2) COMMENT 'Start Amt2',
+	begn3 Decimal(17,2) COMMENT 'Start Amt3',
+	endn2 Decimal(17,2) COMMENT 'Ending Amt2',
+	endn3 Decimal(17,2) COMMENT 'Ending Amt3',
+	perc1 Int COMMENT 'Percent 1',
+	perc2 Int COMMENT 'Percent 2',
+	perc3 Int COMMENT 'Percent 3',
+ Primary Key (salnr)) ENGINE = InnoDB
+COMMENT = 'Sale Person';
+
+Create table tbl_apov (
+	aponr Varchar(4) NOT NULL COMMENT 'Approve Status',
+	apotx Varchar(40) COMMENT 'Approve Text',
+ Primary Key (aponr)) ENGINE = InnoDB
+COMMENT = 'Approve Status';
+
+Create table tbl_tax1 (
+	taxnr Varchar(4) NOT NULL COMMENT 'Tax Type',
+	taxtx Varchar(40) COMMENT 'Tax Type Desc',
+ Primary Key (taxnr)) ENGINE = InnoDB
+COMMENT = 'Tax Type';
+
+Create table tbl_doct (
+	docty Varchar(4) NOT NULL COMMENT 'Doc Type',
+	doctx Varchar(40) COMMENT 'Doc Type Desc',
+ Primary Key (docty)) ENGINE = InnoDB
+COMMENT = 'Doc Type';
+
+Create table tbl_styp (
+	stype Varchar(4) NOT NULL COMMENT 'Sale type',
+	sgtxt Varchar(40) COMMENT 'Sale type Desc',
+ Primary Key (stype)) ENGINE = InnoDB
+COMMENT = 'Sale type';
+
+Create table tbl_jtyp (
+	jtype Varchar(4) NOT NULL COMMENT 'Job type',
+	jobtx Varchar(40) COMMENT 'Job type Desc',
+ Primary Key (jtype)) ENGINE = InnoDB
+COMMENT = 'Job type';
+
+Create table tbl_jobk (
+	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
+	jobtx Varchar(50) COMMENT 'Job name',
+	jtype Varchar(4) COMMENT 'Job Type',
+	bldat Date COMMENT 'Transaction Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(40) COMMENT 'Job Status',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	salnr Varchar(10) COMMENT 'Sale no',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+ Primary Key (jobnr)) ENGINE = InnoDB
+COMMENT = 'Job Header';
+
+Create table tbl_jobp (
+	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
+	jobpo Varchar(4) NOT NULL COMMENT 'Job Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(40) COMMENT 'PR Status',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	duedt Date COMMENT 'Due Date',
+	dueam Decimal(17,2) COMMENT 'Due Amt',
+ Primary Key (jobnr,jobpo)) ENGINE = InnoDB
+COMMENT = 'Job Item';
+
 
 
 
@@ -323,6 +495,18 @@ INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr,unit1,cost
                ('100002','RM Mat test2','EX','RM','2013/07/02','ASD','EA','100001','EA','20'),
                ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002','EA','30'),
                ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002','EA','40');
+               
+INSERT INTO tbl_apov (aponr, apotx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected');
+
+INSERT INTO tbl_tax1 (taxnr, taxtx) VALUES ('01', 'Include Tax'),('02', 'Separate Tax'),('03', 'Tax Zero'),('04', 'Except Tax');
+
+INSERT INTO tbl_doct (doctx, docty) VALUES ('QA', 'Quotation'),('VA', 'Sale Order');
+
+INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02', 'Material Sales on Credit'),
+('03', 'Service Sales by Cash'),('04', 'Service Sales on Credit');
+
+INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
+('03', 'Board'),('04', 'Event');
 
 
 

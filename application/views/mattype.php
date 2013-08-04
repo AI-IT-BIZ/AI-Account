@@ -58,9 +58,9 @@ Ext.onReady(function() {
 		store: store,
 		columns: [
 			{text: "Mat Type", width: 120, dataIndex: 'mtart', sortable: true},
-			{text: "Description", flex: true, dataIndex: 'matxt', sortable: true},
-			{text: "Create Date", width: 125, dataIndex: 'erdat', sortable: true},
-			{text: "Create Name", width: 125, dataIndex: 'ernam', sortable: true}
+			{text: "Description", flex: true, dataIndex: 'matxt', sortable: true}
+			//{text: "Create Date", width: 125, dataIndex: 'erdat', sortable: true},
+			//{text: "Create Name", width: 125, dataIndex: 'ernam', sortable: true}
 		],
 		forceFit: false,
 		height:210,
