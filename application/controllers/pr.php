@@ -8,7 +8,8 @@ class Pr extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('pr');
+		$this->phxview->RenderView('pr');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function loads(){

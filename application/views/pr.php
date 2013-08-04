@@ -1,20 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>AI Account</title>
+<script type="text/javascript">
+Ext.Loader.setPath('Account', __base_url+'assets/js');
+Ext.require('Account.PR.Grid');
+Ext.onReady(function() {
+/*
+Ext.define('Account.PR.Grid', {
+	extend	: 'Ext.grid.Panel',
+	constructor:function(config) {
+		return this.callParent(arguments);
+	},
+	initComponent : function() {
+		this.store = new Ext.data.JsonStore({
+			// store configs
+			proxy: {
+				type: 'ajax',
+				url: __base_url+'pr/loads',
+				reader: {
+					type: 'json',
+					root: 'rows',
+					idProperty: 'id'
+				}
+			},
+			fields: [
+				{name:'id', type: 'int'},
+				'code',
+				{name:'create_date'},
+				'create_by',
+				{name:'update_date'},
+				'update_by'
+			],
+			remoteSort: true,
+			sorters: ['id ASC']
+		});
 
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all-neptune.css') ?>" />
-	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
+		this.columns = [
+			{text: "Id", width: 120, dataIndex: 'id', sortable: true},
+			{text: "รหัส", flex: true, dataIndex: 'code', sortable: true},
+			{text: "create_date", width: 125, dataIndex: 'create_date', sortable: true}
+		];
+		return this.callParent(arguments);
+	}
+});
 
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style.css') ?>" />
-</head>
-<body>
+var grid = Ext.create('Account.PR.Grid');
+*/
+var prDialog = Ext.create('Account.PR.MainWindow');
+prDialog.show();
+		//Ext.getCmp('center-wrap').add(grid);
+		//Ext.getCmp('center-wrap').doLayout();
+//console.log(grid);
+//grid.on('show', function(){ grid.doLayout(); console.log('do layout'); });
 
-	<script type="text/javascript">
+
+
+
+
+	//Ext.Loader.setPath('Account', __base_url+'assets/js');
+	//Ext.create('Account.PR.Grid');
+});
+/*
+	Ext.onReady(function() {
+		$om.panel = new Ext.Panel({
+			title:'xxxxxxx',
+			html: '<h1>sdfasdfasdffsda</h1>'
+		});
+
+		Ext.getCmp('center-wrap').add($om.panel);
+		Ext.getCmp('center-wrap').doLayout();
+	});
+*/
+/*
 requires: ['*'];
 Ext.onReady(function() {
-
 
 	var addAct = new Ext.Action({
 		text: 'เพิ่ม',
@@ -143,7 +199,6 @@ Ext.onReady(function() {
 
 	////////////////////////////////////////////
 	// VIEWPORT
-
 	var viewport = Ext.create('Ext.Viewport', {
 		layout: {
 			type: 'border',
@@ -166,9 +221,5 @@ Ext.onReady(function() {
 		]
 	});
 });
-
-	</script>
-
-
-</body>
-</html>
+*/
+</script>
