@@ -12,8 +12,7 @@ Ext.define('Account.PR.Item.Window', {
 			minWidth: 300,
 			layout: 'fit',
 			resizable: true,
-			modal: true,
-			html: 'This is content'
+			modal: true
 		});
 
 		return this.callParent(arguments);

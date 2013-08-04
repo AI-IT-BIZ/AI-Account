@@ -3,16 +3,6 @@
 Ext.define('Account.PR.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-		/*
-		Ext.apply(this, {
-			bbar: {
-				xtype: 'pagingtoolbar',
-				pageSize: 10,
-				store: this.store,
-				displayInfo: true
-			}
-		});
-		*/
 
 		return this.callParent(arguments);
 	},
@@ -57,7 +47,7 @@ Ext.define('Account.PR.Grid', {
 	},
 	load: function(options){
 		this.store.load(options);
-	},
+	}
 });
 
 /*

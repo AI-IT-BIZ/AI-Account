@@ -1,4 +1,3 @@
-
 Ext.define('Account.PR.MainWindow', {
 	extend	: 'Ext.window.Window',
 	requires : [
