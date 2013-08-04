@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Mattype extends CI_Controller {
+class GL extends CI_Controller {
 
 	function __construct()
 	{
@@ -8,11 +8,11 @@ class Mattype extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('mattype');
+		$this->load->view('gl');
 	}
 
 	function loads(){
-		$tbName = 'mtyp';
+		$tbName = 'glno';
 /*
 		function createQuery($_this){
 			$query = $_this->input->post('query');
@@ -22,9 +22,9 @@ class Mattype extends CI_Controller {
 		}
 
 		createQuery($this);
-		$this->db->select('id');*/
+		$this->db->select('id');
 		$totalCount = $this->db->count_all_results($tbName);
-
+*/
 //		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -46,8 +46,18 @@ class Mattype extends CI_Controller {
 	function save(){
 
 		$formData = array(
-			'mtart' => $this->input->post('mtart'),
-			'matxt' => $this->input->post('matxt')
+			'saknr' => $this->input->post('saknr'),
+			'sgtxt' => $this->input->post('sgtxt'),
+			'entxt' => $this->input->post('entxt'),
+			'xbilk' => $this->input->post('xbilk'),
+			'erdat' => $this->input->post('erdat'),
+			'ernam' => $this->input->post('ernam'),
+			'glgrp' => $this->input->post('glgrp'),
+			'gltyp' => $this->input->post('gltpy'),
+			'xloev' => $this->input->post('xloev'),
+			'debit' => $this->input->post('debit'),
+			'credi' => $this->input->post('credi'),
+			'under' => $this->input->post('under'),
 		);
 		/*if ($query->num_rows() > 0){
 			$this->db->where($tbPK, $id);
@@ -56,40 +66,14 @@ class Mattype extends CI_Controller {
 			$this->db->update($tbName, $formData);
 		}else{
 		 */
-			//$this->db->set('erdat', 'NOW()', false);
-			//$this->db->set('ernam', 'test');
-			$this->db->insert('mtyp', $formData);
+			$this->db->set('erdat', 'NOW()', false);
+			$this->db->set('ernam', 'test');
+			$this->db->insert('gl', $formData);
 		//}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
-		));
-	}
-
-
-
-	public function loads_combo(){
-		$tbName = 'mtyp';
-		$tbPK = 'mtart';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('matxt', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
 		));
 	}
 
