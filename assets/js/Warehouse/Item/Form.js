@@ -34,19 +34,6 @@ Ext.define('Account.Warehouse.Item.Form', {
 			allowBlank: false
 		}];
 
-		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				this.up('form').getForm().reset();
-				this.up('window').hide();
-			}
-		}, {
-			text: 'Save',
-			handler: function() {
-				_this.save();
-			}
-		}];
-
 		return this.callParent(arguments);
 	},
 	load : function(id){
