@@ -151,6 +151,10 @@ Ext.onReady(function() {
 	});
 	
 	editAct.setHandler(function(){
+		var selection = grid.getView().getSelectionModel().getSelection()[0];
+                    if (selection) {
+                        store.remove(selection);
+                    }
 		dialog.show();
 	});
 	

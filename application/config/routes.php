@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "index";
+//$route['default_controller'] = "mattype";
 $route['404_override'] = '';
 
 

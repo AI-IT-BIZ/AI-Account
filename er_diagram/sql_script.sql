@@ -156,17 +156,20 @@ Create table tbl_lfa1 (
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
 	pson1 Varchar(30) COMMENT 'Contact Person',
-	taxbs Varchar(30) COMMENT 'Tax no',
+	taxnr Varchar(4) COMMENT 'Tax type',
 	saknr Varchar(10) COMMENT 'GL Account',
-	ptype Varchar(2) COMMENT 'Price type',
+	taxid Varchar(15) COMMENT 'Tax ID',
 	retax Varchar(1) COMMENT 'Tax Return',
-	crdit Decimal(17,2) COMMENT 'Credit Amount',
+	crdit Int COMMENT 'Credit Amount',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
-	pappr Decimal(17,2) COMMENT 'Approve Amount',
+	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
 	sgtxt Varchar(40) COMMENT 'Text Note',
 	vtype Varchar(4) COMMENT 'Vendor Type',
+	erdat Datetime COMMENT 'Creaate Date',
+	ernam Varchar(10) COMMENT 'Create Name',
+	email Varchar(20) COMMENT 'Email',
  Primary Key (lifnr)) ENGINE = InnoDB
 COMMENT = 'Vendor Master';
 
@@ -213,9 +216,11 @@ Create table tbl_ttyp (
 COMMENT = 'Transaction type';
 
 Create table tbl_rtyp (
+	reanr Varchar(4) NOT NULL COMMENT 'Reason code',
 	rtype Varchar(4) NOT NULL COMMENT 'Reason type',
-	typtx Varchar(40) COMMENT 'Reason Desc',
- Primary Key (rtype)) ENGINE = InnoDB
+	typtx Varchar(40) COMMENT 'Type Desc',
+	reatx Varchar(40) COMMENT 'Reason Text',
+ Primary Key (reanr,rtype)) ENGINE = InnoDB
 COMMENT = 'Reason type';
 
 Create table tbl_trko (
@@ -329,17 +334,21 @@ Create table tbl_kna1 (
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
 	pson1 Varchar(30) COMMENT 'Contact Person',
-	taxbs Varchar(30) COMMENT 'Tax no',
+	taxnr Varchar(4) COMMENT 'Tax type',
 	saknr Varchar(10) COMMENT 'GL Account',
-	ptype Varchar(2) COMMENT 'Price type',
+	pleve Varchar(1) COMMENT 'Price Level',
 	retax Varchar(1) COMMENT 'Tax Return',
-	crdit Decimal(17,2) COMMENT 'Credit Amount',
+	crdit Int COMMENT 'Credit Amount',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
-	pappr Decimal(17,2) COMMENT 'Approve Amount',
+	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
 	sgtxt Varchar(40) COMMENT 'Text Note',
 	ktype Varchar(4) COMMENT 'Customer Type',
+	erdat Varchar(10) COMMENT 'Create Date',
+	ernam Varchar(10) COMMENT 'Create Name',
+	email Varchar(20) COMMENT 'Email',
+	taxid Varchar(15) COMMENT 'Tax ID',
  Primary Key (kunnr)) ENGINE = InnoDB
 COMMENT = 'Customer Master';
 
