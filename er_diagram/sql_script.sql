@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		4/8/2013
+Modified		6/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,11 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_plev;
+drop table IF EXISTS tbl_ktyp;
+drop table IF EXISTS tbl_ekpo;
+drop table IF EXISTS tbl_ekko;
+drop table IF EXISTS tbl_ebpo;
 drop table IF EXISTS tbl_jobp;
 drop table IF EXISTS tbl_jobk;
 drop table IF EXISTS tbl_jtyp;
@@ -28,7 +33,7 @@ drop table IF EXISTS tbl_ggrp;
 drop table IF EXISTS tbl_glno;
 drop table IF EXISTS tbl_trpo;
 drop table IF EXISTS tbl_trko;
-drop table IF EXISTS tbl_rtyp;
+drop table IF EXISTS tbl_reson;
 drop table IF EXISTS tbl_ttyp;
 drop table IF EXISTS tbl_unit;
 drop table IF EXISTS tbl_mwar;
@@ -38,7 +43,7 @@ drop table IF EXISTS tbl_dist;
 drop table IF EXISTS tbl_vtyp;
 drop table IF EXISTS tbl_lfa1;
 drop table IF EXISTS tbl_mara;
-drop table IF EXISTS tbl_eban;
+drop table IF EXISTS tbl_ebko;
 drop table IF EXISTS tbl_init;
 drop table IF EXISTS tbl_user;
 drop table IF EXISTS tbl_auth;
@@ -83,13 +88,13 @@ Create table tbl_user (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	ort02 Varchar(40) COMMENT 'District',
+	distr Varchar(4) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
 	posit Varchar(10) COMMENT 'Position',
 	passw Varchar(20) COMMENT 'Password',
-	autnr Char(20) COMMENT 'Authorize ID',
+	autnr Char(20) COMMENT 'Authorize ID (tbl_auth)',
  Primary Key (uname)) ENGINE = InnoDB
 COMMENT = 'User Login';
 
@@ -101,24 +106,25 @@ Create table tbl_init (
  Primary Key (objnr)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
-Create table tbl_eban (
-	banfn Varchar(10) NOT NULL COMMENT 'PR no.',
-	bnfpo Varchar(5) COMMENT 'PR item',
+Create table tbl_ebko (
+	purnr Varchar(10) NOT NULL COMMENT 'PR no.',
 	bldat Date COMMENT 'PR Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'PR Status',
+	statu Varchar(4) COMMENT 'PR Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	sgtxt Varchar(40) COMMENT 'Text Note',
-	matnr Varchar(10) COMMENT 'Material Code',
-	menge Decimal(15,2) COMMENT 'Amount',
-	meins Varchar(3) COMMENT 'Unit',
 	lfdat Date COMMENT 'Delivery Date',
-	lifnr Varchar(10) COMMENT 'Vendor',
+	lifnr Varchar(10) COMMENT 'Vendor (tbl_lfa1)',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
- Primary Key (banfn)) ENGINE = InnoDB
-COMMENT = 'PR Doc';
+	beamt Decimal(17,2) COMMENT 'Amt Before Vat',
+	dismt Decimal(17,2) COMMENT 'Discount',
+	taxpr Decimal(17,2) COMMENT 'Tax percent',
+	netwr Decimal(17,2) COMMENT 'Net Amt',
+	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
+ Primary Key (purnr)) ENGINE = InnoDB
+COMMENT = 'PR Header Doc';
 
 Create table tbl_mara (
 	matnr Varchar(10) NOT NULL COMMENT 'Material Code',
@@ -127,16 +133,11 @@ Create table tbl_mara (
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create name',
 	lvorm Varchar(1) COMMENT 'Delete Flage',
-	matkl Varchar(4) COMMENT 'Material Group',
-	mtart Varchar(4) COMMENT 'Material Type',
+	matkl Varchar(4) COMMENT 'Material Group (tbl_mgrp)',
+	mtart Varchar(4) COMMENT 'Material Type (tbl_mtyp)',
 	meins Varchar(3) COMMENT 'Unit',
-	saknr Varchar(10) COMMENT 'GL Account',
-	unit1 Varchar(3) COMMENT 'Unit 1',
-	cost1 Decimal(17,2) COMMENT 'Cost 1',
-	unit2 Varchar(3) COMMENT 'Unit 2',
-	cost2 Decimal(17,2) COMMENT 'Cost 2',
-	unit3 Varchar(3) COMMENT 'Unit 3',
-	cost3 Decimal(17,2) COMMENT 'Cost 3',
+	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
+	pleve Varchar(4) COMMENT 'Cost Level',
 	updat Datetime COMMENT 'Update Date',
 	upnam Varchar(10) COMMENT 'Update Name',
 	beqty Decimal(15,2) COMMENT 'Beginning Qty',
@@ -151,13 +152,13 @@ Create table tbl_lfa1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distr Varchar(4) COMMENT 'District',
+	distr Varchar(4) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
 	pson1 Varchar(30) COMMENT 'Contact Person',
-	taxnr Varchar(4) COMMENT 'Tax type',
-	saknr Varchar(10) COMMENT 'GL Account',
+	taxnr Varchar(4) COMMENT 'Tax type (tbl_tax1)',
+	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
 	taxid Varchar(15) COMMENT 'Tax ID',
 	retax Varchar(1) COMMENT 'Tax Return',
 	crdit Int COMMENT 'Credit Amount',
@@ -166,7 +167,7 @@ Create table tbl_lfa1 (
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
 	sgtxt Varchar(40) COMMENT 'Text Note',
-	vtype Varchar(4) COMMENT 'Vendor Type',
+	vtype Varchar(4) COMMENT 'Vendor Type (tbl_vtyp)',
 	erdat Datetime COMMENT 'Creaate Date',
 	ernam Varchar(10) COMMENT 'Create Name',
 	email Varchar(20) COMMENT 'Email',
@@ -215,7 +216,7 @@ Create table tbl_ttyp (
  Primary Key (ttype)) ENGINE = InnoDB
 COMMENT = 'Transaction type';
 
-Create table tbl_rtyp (
+Create table tbl_reson (
 	reanr Varchar(4) NOT NULL COMMENT 'Reason code',
 	rtype Varchar(4) NOT NULL COMMENT 'Reason type',
 	typtx Varchar(40) COMMENT 'Type Desc',
@@ -227,7 +228,7 @@ Create table tbl_trko (
 	trdoc Varchar(10) NOT NULL COMMENT 'Transaction no.',
 	bldat Date COMMENT 'Transaction Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'PR Status',
+	statu Varchar(40) COMMENT 'TR Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
@@ -237,7 +238,7 @@ Create table tbl_trko (
 	updat Datetime COMMENT 'Update Date',
 	waout Varchar(4) COMMENT 'Warehouse Out',
 	warin Varchar(4) COMMENT 'Warehouse In',
-	rtype Varchar(4) COMMENT 'Reason Type',
+	reanr Varchar(4) COMMENT 'Reason Type (tbl_reson->type->01)',
  Primary Key (trdoc)) ENGINE = InnoDB
 COMMENT = 'Transaction Header Doc';
 
@@ -245,10 +246,9 @@ Create table tbl_trpo (
 	trdoc Varchar(10) NOT NULL COMMENT 'Transaction no.',
 	trapo Varchar(4) NOT NULL COMMENT 'Transaction Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'PR Status',
-	matnr Varchar(10) COMMENT 'Material Code',
+	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
 	menge Decimal(15,2) COMMENT 'Amount',
-	meins Varchar(3) COMMENT 'Unit',
+	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
  Primary Key (trdoc,trapo)) ENGINE = InnoDB
 COMMENT = 'Transaction Item';
 
@@ -259,8 +259,8 @@ Create table tbl_glno (
 	xbilk Varchar(1) COMMENT 'Balance sheet account',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
-	glgrp Varchar(4) COMMENT 'Account Group',
-	gltyp Varchar(4) COMMENT 'Account type',
+	glgrp Varchar(4) COMMENT 'Account Group (tbl_ggrp)',
+	gltyp Varchar(4) COMMENT 'Account type (1->Group,2->Subordinate)',
 	xloev Varchar(1) COMMENT 'Delete Flag',
 	debit Decimal(17,2) COMMENT 'Debit Beginning',
 	credi Decimal(17,2) COMMENT 'Credit Beginning',
@@ -284,29 +284,29 @@ Create table tbl_vbak (
 	vbeln Varchar(10) NOT NULL COMMENT 'Sale Order no',
 	bldat Date COMMENT 'SO Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'SO Status',
+	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
-	jobnr Varchar(10) COMMENT 'Job No',
+	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	auart Varchar(4) COMMENT 'SO type',
-	salnr Varchar(10) COMMENT 'Sale person',
-	rtype Varchar(4) COMMENT 'Reason Type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
 	payty Varchar(4) COMMENT 'Pay Type',
-	taxty Varchar(4) COMMENT 'Tax Type',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
 	lidat Int COMMENT 'Limit Date',
-	kunnr Varchar(10) COMMENT 'Cutomer no',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	waerk Varchar(3) COMMENT 'Currency',
 	beamt Decimal(17,2) COMMENT 'Amount',
 	dismt Decimal(10,2) COMMENT 'Discount amt',
-	taxpr Int COMMENT 'Percent Tax',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
-	docty Varchar(4) COMMENT 'Doc type',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
  Primary Key (vbeln)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -329,14 +329,14 @@ Create table tbl_kna1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distr Varchar(4) COMMENT 'District',
+	distr Varchar(4) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
 	pson1 Varchar(30) COMMENT 'Contact Person',
-	taxnr Varchar(4) COMMENT 'Tax type',
-	saknr Varchar(10) COMMENT 'GL Account',
-	pleve Varchar(1) COMMENT 'Price Level',
+	taxnr Varchar(4) COMMENT 'Tax type (tbl_tax1)',
+	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
+	pleve Varchar(4) COMMENT 'Price Level (tbl_plev)',
 	retax Varchar(1) COMMENT 'Tax Return',
 	crdit Int COMMENT 'Credit Amount',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
@@ -344,7 +344,7 @@ Create table tbl_kna1 (
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
 	sgtxt Varchar(40) COMMENT 'Text Note',
-	ktype Varchar(4) COMMENT 'Customer Type',
+	ktype Varchar(4) COMMENT 'Customer Type (tbl_ktyp)',
 	erdat Varchar(10) COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
 	email Varchar(20) COMMENT 'Email',
@@ -386,9 +386,9 @@ Create table tbl_psal (
 COMMENT = 'Sale Person';
 
 Create table tbl_apov (
-	aponr Varchar(4) NOT NULL COMMENT 'Approve Status',
-	apotx Varchar(40) COMMENT 'Approve Text',
- Primary Key (aponr)) ENGINE = InnoDB
+	statu Varchar(4) NOT NULL COMMENT 'Approve Status',
+	statx Varchar(40) COMMENT 'Approve Text',
+ Primary Key (statu)) ENGINE = InnoDB
 COMMENT = 'Approve Status';
 
 Create table tbl_tax1 (
@@ -418,10 +418,10 @@ COMMENT = 'Job type';
 Create table tbl_jobk (
 	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
 	jobtx Varchar(50) COMMENT 'Job name',
-	jtype Varchar(4) COMMENT 'Job Type',
+	jtype Varchar(4) COMMENT 'Job Type (tbl_jtyp)',
 	bldat Date COMMENT 'Transaction Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'Job Status',
+	statu Varchar(4) COMMENT 'Job Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
@@ -436,7 +436,6 @@ Create table tbl_jobp (
 	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
 	jobpo Varchar(4) NOT NULL COMMENT 'Job Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(40) COMMENT 'PR Status',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
@@ -444,6 +443,62 @@ Create table tbl_jobp (
 	dueam Decimal(17,2) COMMENT 'Due Amt',
  Primary Key (jobnr,jobpo)) ENGINE = InnoDB
 COMMENT = 'Job Item';
+
+Create table tbl_ebpo (
+	purnr Varchar(10) NOT NULL COMMENT 'PR no.',
+	purpo Varchar(5) COMMENT 'PR item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
+	dismt Decimal(17,2) COMMENT 'Discount Amt',
+ Primary Key (purnr)) ENGINE = InnoDB
+COMMENT = 'PR Item';
+
+Create table tbl_ekko (
+	ebeln Varchar(10) NOT NULL COMMENT 'PO no.',
+	bldat Date COMMENT 'PO Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'PO Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	sgtxt Varchar(40) COMMENT 'Text Note',
+	lfdat Date COMMENT 'Delivery Date',
+	lifnr Varchar(10) COMMENT 'Vendor (tbl_lfa1)',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	beamt Decimal(17,2) COMMENT 'Amt Before Vat',
+	dismt Decimal(17,2) COMMENT 'Discount',
+	taxpr Decimal(17,2) COMMENT 'Tax percent',
+	netwr Decimal(17,2) COMMENT 'Net Amt',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+ Primary Key (ebeln)) ENGINE = InnoDB
+COMMENT = 'PO Header Doc';
+
+Create table tbl_ekpo (
+	ebeln Varchar(10) NOT NULL COMMENT 'PO no.',
+	ebelp Varchar(5) COMMENT 'PO item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
+	dismt Decimal(17,2) COMMENT 'Discount Amt',
+ Primary Key (ebeln)) ENGINE = InnoDB
+COMMENT = 'PO Item';
+
+Create table tbl_ktyp (
+	ktype Varchar(4) NOT NULL COMMENT 'Customer type',
+	custx Varchar(40) COMMENT 'Customer Type Desc',
+ Primary Key (ktype)) ENGINE = InnoDB
+COMMENT = 'Customer Type';
+
+Create table tbl_plev (
+	pleve Varchar(4) NOT NULL COMMENT 'Price Level',
+	matnr Varchar(10) NOT NULL COMMENT 'Material Code',
+	unit Varchar(3) COMMENT 'Unit 1 (tbl_unit)',
+	cost Decimal(17,2) COMMENT 'Cost 1',
+ Primary Key (pleve,matnr)) ENGINE = InnoDB
+COMMENT = 'Cost/Price Level';
 
 
 
@@ -488,6 +543,10 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gltyp,under)
                ('512010','Purchasing','2013/07/02','ASD','5','2','512000'),
                ('512020','Receive Decrease','2013/07/02','ASD','5','2','512000'),
                ('512030','Return Goods','2013/07/02','ASD','5','2','512000');
+               
+INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Order'),('IV', 'Invoice');
+
+INSERT INTO tbl_mwar (warnr, watxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
 
 INSERT INTO tbl_mtyp (mtart, matxt) VALUES ('EX', 'Expense'),('IN', 'Income');
 
@@ -499,13 +558,13 @@ INSERT INTO tbl_unit (meins, metxt) VALUES ('EA', 'Eeach'),('BOX', 'Box'),('CAN'
 INSERT INTO tbl_dist (distr, distx) VALUES ('01', 'Bangkok'),('02', 'Ayutaya'),('03', 'Nakronpatom'),('04', 'Cholburi'),
 ('05', 'Nakronrachasima'),('06', 'Saraburi'),('07', 'Supan');
 
-INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr,unit1,cost1) 
-        VALUES ('100001','RM Mat test1','EX','RM','2013/07/02','ASD','EA','100001','EA','10'),
-               ('100002','RM Mat test2','EX','RM','2013/07/02','ASD','EA','100001','EA','20'),
-               ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002','EA','30'),
-               ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002','EA','40');
+INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr) 
+        VALUES ('100001','RM Mat test1','EX','RM','2013/07/02','ASD','EA','100001'),
+               ('100002','RM Mat test2','EX','RM','2013/07/02','ASD','EA','100001'),
+               ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002'),
+               ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002');
                
-INSERT INTO tbl_apov (aponr, apotx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected');
+INSERT INTO tbl_apov (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected');
 
 INSERT INTO tbl_tax1 (taxnr, taxtx) VALUES ('01', 'Include Tax'),('02', 'Separate Tax'),('03', 'Tax Zero'),('04', 'Except Tax');
 
@@ -516,6 +575,35 @@ INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02
 
 INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 ('03', 'Board'),('04', 'Event');
+
+INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
+        VALUES ('01', '01', 'Transaction Mat', 'Balance'),
+               ('20', '01', 'Transaction Mat', 'General Recieve'),
+               ('21', '01', 'Transaction Mat', 'Purchase'),
+               ('30', '01', 'Transaction Mat', 'Sale'),
+               ('01', '02', 'Reject Reason', 'Defective product'),
+               ('02', '02', 'Reject Reason', 'Absence product'),
+               ('03', '02', 'Reject Reason', 'Over product'),
+               ('04', '02', 'Reject Reason', 'Wrong product'),
+               ('05', '02', 'Reject Reason', 'Over price'),
+               ('06', '02', 'Reject Reason', 'Wrong price');
+
+INSERT INTO tbl_plev (pleve, ) VALUES ('01','100001','EA','200'),('02','100001','Dozen','2400'),('03','100001','Dozen2','4800'),
+('01','100002','EA','300'),('02','100002','Dozen','1200'),('03','100002','Dozen2','3600'),
+('01','200001','EA','400'),('02','200001','Dozen','2400'),('03','200001','Dozen2','4800'),
+('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
+               
+INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,pleve,crdit,disct,taxid,) 
+        VALUES ('100001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','10000','500','330111001'),
+               ('100002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20000','5%','330111002'),
+               ('100003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30000','10%','330111002'),
+               ('100004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','40000','800','330111002');
+               
+INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disct,taxid,) 
+        VALUES ('200001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','10000','500','330111001'),
+               ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002'),
+               ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002'),
+               ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002');
 
 
 
