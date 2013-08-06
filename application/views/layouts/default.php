@@ -134,6 +134,8 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
+								pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
+					
 							}
 						}
 					}

@@ -510,4 +510,3 @@ INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 
 
 
-

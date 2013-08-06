@@ -13,6 +13,13 @@ Ext.onReady(function() {
 			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
 		$om.warehouseDialog.show();
 	});
+	
+	$om.viewport.on('click_balance', function(){
+		if(!$om.warehouseDialog)
+			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
+		$om.warehouseDialog.show();
+	});
+	
 
 });
 </script>
