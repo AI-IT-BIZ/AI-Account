@@ -8,11 +8,11 @@ class Mattrans extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('material');
+		$this->load->view('mattrans');
 	}
 
 	function loads(){
-		$tbName = 'mara';
+		$tbName = 'trko';
 /*
 		function createQuery($_this){
 			$query = $_this->input->post('query');
@@ -46,21 +46,20 @@ class Mattrans extends CI_Controller {
 	function save(){
 
 		$formData = array(
-			'matnr' => $this->input->post('matnr'),
-			'maktx' => $this->input->post('maktx'),
-			'maetx' => $this->input->post('maetx'),
+			'trdoc' => $this->input->post('trdoc'),
+			'bldat' => $this->input->post('bldat'),
+			/*'maetx' => $this->input->post('maetx'),
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
-			'saknr' => $this->input->post('saknr'),
+			'saknr' => $this->input->post('saknr'),*/
 			'beqty' => $this->input->post('beqty'),
-			
-			'beval' => $this->input->post('beval'),
-			'cosav' => $this->input->post('cosav'),
+			'beval' => $this->input->post('beval')
+			/*'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
 			'enval' => $this->input->post('enval'),
 			'cost1' => $this->input->post('cost1'),
 			'cost2' => $this->input->post('cost2'),
-			'cost3' => $this->input->post('cost3'),
+			'cost3' => $this->input->post('cost3'),*/
 			);
 			
 		/*if ($query->num_rows() > 0){

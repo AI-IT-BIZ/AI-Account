@@ -51,19 +51,32 @@ Ext.onReady(function() {
 		remoteSort: true,
 		sorters: ['matnr ASC']
 	});
+	
+//Edit Obj
+var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+        clicksToEdit: 1
+    });
 
 	// create the grid
 	var grid = Ext.create('Ext.grid.Panel', {
 		store: store,
+		plugins: [cellEditing],
 		columns: [
-			{text: "Material Code", width: 70, dataIndex: 'matnr', sortable: true},
+			{text: "Material Code", 
+			 width: 70, 
+			 dataIndex: 'matnr', 
+			 sortable: true,
+			 field: {
+                xtype: 'triggerfield'
+            }
+			 },
 			{text: "Material Name", width: 120, dataIndex: 'maktx', sortable: true},
 			{text: "Quantity", 
 			 width: 70, 
 			 dataIndex: 'beqty', 
 			 sortable: true,
 			 field: {
-                xtype: 'datefield'
+                xtype: 'numberfield'
             }
 			 
 			 },

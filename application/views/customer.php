@@ -35,59 +35,71 @@ Ext.onReady(function() {
 		// store configs
 		proxy: {
 			type: 'ajax',
-			url: '<?= site_url("mattrans/loads") ?>',
+			url: '<?= site_url("customer/loads") ?>',
 			reader: {
 				type: 'json',
 				root: 'rows',
-				idProperty: 'matnr'
+				idProperty: 'kunnr'
 			}
 		},
 		fields: [
-			{name:'matnr'},
-			'maktx',
-	        'mtart',
-	        'maktx',
-	        'mtart',
-	        'meins',
-	        'saknr',
-	        'beqty',
+			{name:'kunnr'},
+			'name1',
+	        'adr01',
+	        'distr',
+	        'pstlz',
 	        
-	        'beval',
-	        /*'cosav',
-	        'enqty',
-	        'enval',
-	        'cost1',
-	        'cost2',
-	        'cost3',
+	        'telf1',
+	        'telfx',
+	        'pson1',
+	        'taxbs',
+	        'saknr',
+	        'ptype',
+	        
+	        'retax',
+	        'crdit',
+	        'disct',
+	        'pappr',
+	        'begin',
+	        'endin',
+	        'sgtxt',
+	        'ktype',
 	        
 			{name:'erdat'},
-			'ernam',
-			{name:'updat'},
-			'upnam'*/
+			'ernam'
+			//{name:'updat'},
+			//'upnam'
 		],
 		remoteSort: true,
-		sorters: ['matnr ASC']
+		sorters: ['kunnr ASC']
 	});
 
 	// create the grid
 	var grid = Ext.create('Ext.grid.Panel', {
 		store: store,
 		columns: [
-			{text: "Material Code", width: 70, dataIndex: 'matnr', sortable: true},
-			{text: "Material Name", width: 120, dataIndex: 'maktx', sortable: true},
-			{text: "Material Type", width: 50, dataIndex: 'mtart', sortable: true},
-			{text: "Unit", width: 40, dataIndex: 'meins', sortable: true},
-			{text: "GL Account", width: 70, dataIndex: 'saknr', sortable: true},
-			{text: "Beginning Qty", width: 70, dataIndex: 'beqty', sortable: true},
-			{text: "Beginning Value", width: 70, dataIndex: 'beval', sortable: true},
-			{text: "Average Cost", width: 60, dataIndex: 'cosav', sortable: true},
-			{text: "Ending Qty", width: 60, dataIndex: 'enqty', sortable: true},
-			{text: "Ending Value", width: 60, dataIndex: 'valre', sortable: true},
-			{text: "Cost 1", width: 50, dataIndex: 'cost1', sortable: true},
-			{text: "Cost 2", width: 50, dataIndex: 'cost2', sortable: true},
-			{text: "Cost 3", width: 50, dataIndex: 'cost3', sortable: true},
-			{text: "Create Date", width: 50, dataIndex: 'erdat', sortable: true},
-			{text: "Create Name", width: 40, dataIndex: 'ernam', sortable: true}
+			{text: "Customer No", width: 70, dataIndex: 'kunnr', sortable: true},
+			{text: "Customer Name", width: 120, dataIndex: 'name1', sortable: true},
+			{text: "Address", width: 50, dataIndex: 'adr01', sortable: true},
+			{text: "District", width: 40, dataIndex: 'distr', sortable: true},
+			{text: "Post Code", width: 30, dataIndex: 'pstlz', sortable: true},
+			{text: "Telephon", width: 30, dataIndex: 'telf1', sortable: true},
+			{text: "Fax", width: 30, dataIndex: 'telfx', sortable: true},
+			{text: "Contact Person", width: 50, dataIndex: 'pson1', sortable: true},
+			{text: "Tax Type", width: 50, dataIndex: 'taxnr', sortable: true},
+			
+			{text: "Price Type", width: 30, dataIndex: 'ptype', sortable: true},
+			{text: "Tax Return", width: 120, dataIndex: 'retax', sortable: true},
+			{text: "Credit", width: 50, dataIndex: 'crdit', sortable: true},
+			{text: "Discount", width: 40, dataIndex: 'retax', sortable: true},
+			{text: "Price Level", width: 20, dataIndex: 'pleve', sortable: true},
+			{text: "Approve Amt", width: 30, dataIndex: 'apamt', sortable: true},
+			{text: "Qty Beginning", width: 30, dataIndex: 'begin', sortable: true},
+			{text: "Qty Ending", width: 50, dataIndex: 'endin', sortable: true},
+			{text: "Remark", width: 50, dataIndex: 'sgtxt', sortable: true},
+			
+			{text: "Create Name", width: 40, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date", width: 50, dataIndex: 'updat', sortable: true}
 		],
 		forceFit: true,
 		height:210,
@@ -99,7 +111,7 @@ Ext.onReady(function() {
 	});
 
 	var form = Ext.widget('form', {
-		url: '<?= site_url("material/save") ?>',
+		url: '<?= site_url("customer/save") ?>',
 		layout: {
 			type: 'vbox',
 			align: 'stretch'
@@ -115,10 +127,11 @@ Ext.onReady(function() {
 		defaults: {
             anchor: '100%'
         },
+        
 // Frame number 1	
 		items: [{
             xtype:'fieldset',
-            title: 'Material Data',
+            title: 'Customer Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -127,18 +140,23 @@ Ext.onReady(function() {
             },
 		items: [{
 			xtype: 'textfield',
-			fieldLabel: 'Material Code',
-			name: 'matnr',
+			fieldLabel: 'Customer No',
+			name: 'kunnr',
 			allowBlank: false
 		}, {
 			xtype: 'textfield',
-			fieldLabel: 'Material Name',
-			name: 'maktx',
+			fieldLabel: 'Customer Name',
+			name: 'name1',
 			allowBlank: true
 		}, {
+			xtype: 'textfield',
+			fieldLabel: 'Address',
+			name: 'adr01',
+			allowBlank: true
+		},{
                     xtype: 'combobox',
-                    fieldLabel: 'Material Type',
-                    name: 'mtart',
+                    fieldLabel: 'District',
+                    name: 'distr',
                     /*store: Ext.create('Ext.data.ArrayStore', {
                         fields: ['abbr', 'state'],
                         data : Ext.example.states // from states.js
@@ -147,13 +165,43 @@ Ext.onReady(function() {
                     displayField: 'state',
                     typeAhead: true,
                     queryMode: 'local',*/
-                    emptyText: 'Select a mat-type...'
+                    emptyText: 'Select a district...'
                 }, {
 			xtype: 'textfield',
-			fieldLabel: 'Unit',
-			name: 'meins',
+			fieldLabel: 'Post Code',
+			name: 'pstlz',
 			allowBlank: true
 		}, {
+			xtype: 'textfield',
+			fieldLabel: 'Telephon',
+			name: 'telf1',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+		    fieldLabel: 'Fax',
+			name: 'telfx',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+		    fieldLabel: 'Email',
+			name: 'email',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+		    fieldLabel: 'Tax ID',
+			name: 'taxid',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+		    fieldLabel: 'GL Account',
+			name: 'saknr',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+		    fieldLabel: 'Price Type',
+			name: 'taxnr',
+			allowBlank: true
+		},/*{
 			xtype: 'textfield',
 			//xtype: 'filefield',
             id: 'form-file',
@@ -165,7 +213,7 @@ Ext.onReady(function() {
             buttonConfig: {
                 iconCls: 'b-small-pencil'
             }
-            }]
+            }*/]
 		}, {
 // Frame number 2	
 			xtype:'fieldset',
@@ -179,33 +227,38 @@ Ext.onReady(function() {
      items :[{
 		
 		xtype: 'numberfield',
-			fieldLabel: 'Beginning Qty',
-			name: 'beqty',
+			fieldLabel: 'Credit',
+			name: 'crdit',
 			allowBlank: true
 		},{
 			xtype: 'numberfield',
-			fieldLabel: 'Beginning Value',
-			name: 'beval',
+			fieldLabel: 'Discount',
+			name: 'disct',
 			allowBlank: true
 		}, {
 			xtype: 'numberfield',
-			fieldLabel: 'Average Cost',
-			name: 'cosav',
+			fieldLabel: 'Cost Level',
+			name: 'pleve',
+			allowBlank: true
+		}, {
+			xtype: 'numberfield',
+			fieldLabel: 'Credit Approval',
+			name: 'apamt',
+			allowBlank: true
+		}, {
+			xtype: 'numberfield',
+			fieldLabel: 'Begining Qty',
+			name: 'begin',
 			allowBlank: true
 		}, {
 			xtype: 'numberfield',
 			fieldLabel: 'Ending Qty',
-			name: 'enqty',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Ending Value',
-			name: 'enval',
+			name: 'endin',
 			allowBlank: true
 		}]
 	},{
 // Frame number 3	
-			xtype:'fieldset',
+			/*xtype:'fieldset',
             title: 'Costing Data',
             collapsible: true,
             defaultType: 'textfield',
@@ -269,7 +322,7 @@ Ext.onReady(function() {
 			allowBlank: true
 		}
 		]
-		}]
+		}]*/
 		}]
 		}],
 
@@ -299,7 +352,7 @@ Ext.onReady(function() {
 	});
 
 	var dialog = Ext.widget('window', {
-		title: 'Material Master',
+		title: 'Customer Master',
 		closeAction: 'hide',
 		height: 550,
 		minHeight: 400,
@@ -309,7 +362,7 @@ Ext.onReady(function() {
 		resizable: true,
 		modal: true,
 		items: form,
-		defaultFocus: 'mtart'
+		defaultFocus: 'kunnr'
 	});
 
 	store.load();

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Material extends CI_Controller {
+class Customer extends CI_Controller {
 
 	function __construct()
 	{
@@ -8,11 +8,11 @@ class Material extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('material');
+		$this->load->view('customer');
 	}
 
 	function loads(){
-		$tbName = 'mara';
+		$tbName = 'kna1';
 /*
 		function createQuery($_this){
 			$query = $_this->input->post('query');
@@ -46,24 +46,27 @@ class Material extends CI_Controller {
 	function save(){
 
 		$formData = array(
-			'matnr' => $this->input->post('matnr'),
-			'maktx' => $this->input->post('maktx'),
-			'maetx' => $this->input->post('maetx'),
-			'mtart' => $this->input->post('mtart'),
-			'meins' => $this->input->post('meins'),
-			'saknr' => $this->input->post('saknr'),
-			'beqty' => $this->input->post('beqty'),
+			'kunnr' => $this->input->post('kunnr'),
+			'name1' => $this->input->post('name1'),
+			//'name2' => $this->input->post('name2'),
+			'adr01' => $this->input->post('adr01'),
+			//'adr02' => $this->input->post('adr02'),
+			'distr' => $this->input->post('distr'),
+			'telf1' => $this->input->post('telf1'),
+			'telfx' => $this->input->post('telfx'),		
+			'enval' => $this->input->post('pson1'),
+			'cost1' => $this->input->post('taxbs'),
 			
-			'beval' => $this->input->post('beval'),
-			'cosav' => $this->input->post('cosav'),
-			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),
-			'unit1' => $this->input->post('unit1'),
-			'unit2' => $this->input->post('unit2'),
-			'unit3' => $this->input->post('unit3'),
-			'cost1' => $this->input->post('cost1'),
-			'cost2' => $this->input->post('cost2'),
-			'cost3' => $this->input->post('cost3')
+			'saknr' => $this->input->post('saknr'),
+			'taxnr' => $this->input->post('taxnr'),
+			'pleve' => $this->input->post('pleve'),
+			'retax' => $this->input->post('retax'),
+			'crdit' => $this->input->post('crdit'),
+			'disct' => $this->input->post('disct'),
+			'pappr' => $this->input->post('pappr'),
+			'endin' => $this->input->post('endin'),
+			'sgtxt' => $this->input->post('sgtxt'),
+			'ktype' => $this->input->post('ktype')
 			);
 			
 		/*if ($query->num_rows() > 0){
