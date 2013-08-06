@@ -63,6 +63,13 @@ function endsWith($haystack, $needle)
 
 		#div-reconsile { position:absolute; top:400px; left:530px; width: 100px; height:100px; }
 		#div-transfer { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
+		
+		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
+		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
+		#div-deposit { top:30px; left:780px; width: 100px; height:100px; }
+		#div-packing { top:30px; left:890px; width: 100px; height:100px; }
+		#div-return { top:140px; left:780px; width: 210px; height:100px; }
+		#div-salep { top:250px; left:780px; width: 210px; height:100px; }
 	</style>
 </head>
 <body>
@@ -199,7 +206,6 @@ function endsWith($haystack, $needle)
 			};
 
 
-
 			var tree = new Ext.tree.TreePanel({
 				region: 'west',
 				collapsible: false,
@@ -259,6 +265,13 @@ function endsWith($haystack, $needle)
 
 									'<div id="div-reconsile" class="box box-orange"><span>Reconsile Account</span></div>',
 									'<div id="div-transfer" class="box box-orange"><span>Transfer between account</span></div>',
+								'</div>',
+								
+								'<div id="div1-4-container">',
+									'<div id="div-deposit" class="box box-green"><span>Deposit Receipt</span></div>',
+									'<div id="div-packing" class="box box-green"><span>Packing List</span></div>',
+									'<div id="div-return" class="box box-green"><span>Product Return</span></div>',
+									'<div id="div-salep" class="box box-green"><span>Sale Person</span></div>',
 								'</div>'
 								].join(''),
 						listeners : {
