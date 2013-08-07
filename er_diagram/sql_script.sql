@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		6/8/2013
+Modified		7/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,7 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_apop;
 drop table IF EXISTS tbl_plev;
 drop table IF EXISTS tbl_ktyp;
 drop table IF EXISTS tbl_ekpo;
@@ -161,7 +162,7 @@ Create table tbl_lfa1 (
 	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
 	taxid Varchar(15) COMMENT 'Tax ID',
 	retax Varchar(1) COMMENT 'Tax Return',
-	crdit Int COMMENT 'Credit Amount',
+	crdit Int COMMENT 'Long-term',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
@@ -338,7 +339,7 @@ Create table tbl_kna1 (
 	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
 	pleve Varchar(4) COMMENT 'Price Level (tbl_plev)',
 	retax Varchar(1) COMMENT 'Tax Return',
-	crdit Int COMMENT 'Credit Amount',
+	crdit Int COMMENT 'Long-term',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
@@ -421,7 +422,7 @@ Create table tbl_jobk (
 	jtype Varchar(4) COMMENT 'Job Type (tbl_jtyp)',
 	bldat Date COMMENT 'Transaction Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(4) COMMENT 'Job Status (tbl_apov)',
+	statu Varchar(4) COMMENT 'Job Status (tbl_apop)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
@@ -429,6 +430,9 @@ Create table tbl_jobk (
 	updat Datetime COMMENT 'Update Date',
 	salnr Varchar(10) COMMENT 'Sale no',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
+	stdat Date COMMENT 'Start Date',
+	endat Date COMMENT 'End Date',
+	datam Int COMMENT 'Long-term',
  Primary Key (jobnr)) ENGINE = InnoDB
 COMMENT = 'Job Header';
 
@@ -500,6 +504,12 @@ Create table tbl_plev (
  Primary Key (pleve,matnr)) ENGINE = InnoDB
 COMMENT = 'Cost/Price Level';
 
+Create table tbl_apop (
+	statu Varchar(4) NOT NULL COMMENT 'Approve Status',
+	statx Varchar(40) COMMENT 'Approve Text',
+ Primary Key (statu)) ENGINE = InnoDB
+COMMENT = 'Approve Status for Project managment';
+
 
 
 
@@ -566,6 +576,10 @@ INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr)
                
 INSERT INTO tbl_apov (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected');
 
+INSERT INTO tbl_apop (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected'),
+                                            ('05', 'Phase 1 Completed'),('06', 'Phase 2 Completed'),('07', 'Phase 3 Completed'),('08', 'Phase 4 Completed'),
+                                            ('09', 'Phase 5 Completed'),('10', 'Phase 6 Completed');
+
 INSERT INTO tbl_tax1 (taxnr, taxtx) VALUES ('01', 'Include Tax'),('02', 'Separate Tax'),('03', 'Tax Zero'),('04', 'Except Tax');
 
 INSERT INTO tbl_doct (doctx, docty) VALUES ('QA', 'Quotation'),('VA', 'Sale Order');
@@ -588,22 +602,22 @@ INSERT INTO tbl_reson (reanr,rtype, typtx, reatx)
                ('05', '02', 'Reject Reason', 'Over price'),
                ('06', '02', 'Reject Reason', 'Wrong price');
 
-INSERT INTO tbl_plev (pleve, ) VALUES ('01','100001','EA','200'),('02','100001','Dozen','2400'),('03','100001','Dozen2','4800'),
+INSERT INTO tbl_plev (pleve,matnr,unit,cost) VALUES ('01','100001','EA','200'),('02','100001','Dozen','2400'),('03','100001','Dozen2','4800'),
 ('01','100002','EA','300'),('02','100002','Dozen','1200'),('03','100002','Dozen2','3600'),
 ('01','200001','EA','400'),('02','200001','Dozen','2400'),('03','200001','Dozen2','4800'),
 ('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
                
-INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,pleve,crdit,disct,taxid,) 
-        VALUES ('100001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','10000','500','330111001'),
-               ('100002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20000','5%','330111002'),
-               ('100003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30000','10%','330111002'),
-               ('100004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','40000','800','330111002');
+INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,pleve,crdit,disct,taxid) 
+        VALUES ('100001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','30','500','330111001'),
+               ('100002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','15','5%','330111002'),
+               ('100003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20','10%','330111002'),
+               ('100004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30','800','330111002');
                
-INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disct,taxid,) 
-        VALUES ('200001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','10000','500','330111001'),
-               ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002'),
-               ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002'),
-               ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','10000','500','330111002');
+INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disct,taxid) 
+        VALUES ('200001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),
+               ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
+               ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
+               ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
 
 
 
