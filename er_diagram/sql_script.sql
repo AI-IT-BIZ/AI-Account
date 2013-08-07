@@ -106,6 +106,8 @@ Create table tbl_init (
 	short Varchar(2) COMMENT 'Short Letter',
 	minnr Varchar(10) COMMENT 'Initial no',
 	maxnr Varchar(10) COMMENT 'Limit no',
+	perio Varchar(6) COMMENT 'Period',
+	curnr Varchar(10) COMMENT 'Current no',
  Primary Key (objnr,modul)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
@@ -532,16 +534,18 @@ INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
-INSERT INTO tbl_init (objnr,modul,sgtxt,short,minnr,maxnr) VALUES ('0001','SD','Project Job','PJ','100000','999999'),
-                                                             ('0002','SD','Quotation','QT','200000','999999'),
-                                                             ('0003','SD','Invoice','IV','300000','999999'),
-                                                             ('0004','SD','Deposit Receipt','DR','400000','999999'),
-                                                             ('0005','SD','Packing List','PL','500000','999999'),
-                                                             ('0006','SD','Product Return','PT','600000','999999'),
-                                                             ('0001','MM','Purchase Requisition','PR','100000','999999'),
-                                                             ('0002','MM','Purchase Order','PO','200000','999999'),
-                                                             ('0003','MM','Goods Receipt','GR','300000','999999'),
-                                                             ('0004','MM','Material Transactin','DR','400000','999999');
+INSERT INTO tbl_init (objnr,modul,sgtxt,short,minnr,maxnr,perio,curnr) VALUES ('0001','SD','Project Job','PJ','100000','999999','201308','100000'),
+                                                             ('0002','SD','Quotation','QT','200000','999999','201308','200000'),
+                                                             ('0003','SD','Invoice','IV','300000','999999','201308','300000'),
+                                                             ('0004','SD','Deposit Receipt','DR','400000','999999','201308','400000'),
+                                                             ('0005','SD','Packing List','PL','500000','999999','201308','500000'),
+                                                             ('0006','SD','Product Return','PT','600000','999999','201308','600000'),
+                                                             ('0001','MM','Purchase Requisition','PR','100000','999999','201308','100000'),
+                                                             ('0002','MM','Purchase Order','PO','200000','999999','201308','200000'),
+                                                             ('0003','MM','Goods Receipt','GR','300000','999999','201308','300000'),
+                                                             ('0004','MM','Material Transactin','DR','400000','999999','201308','400000'),
+                                                             ('0001','MT','Customer','CS','100000','999999','201308','100000'),
+                                                             ('0002','MT','Vendor','VD','200000','999999','201308','200000');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
