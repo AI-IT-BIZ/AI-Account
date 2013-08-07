@@ -101,10 +101,12 @@ COMMENT = 'User Login';
 
 Create table tbl_init (
 	objnr Varchar(10) NOT NULL COMMENT 'Object id',
-	perio Varchar(6) COMMENT 'Period',
+	modul Varchar(4) NOT NULL COMMENT 'Module',
+	sgtxt Varchar(40) COMMENT 'Object Description',
+	short Varchar(2) COMMENT 'Short Letter',
 	minnr Varchar(10) COMMENT 'Initial no',
 	maxnr Varchar(10) COMMENT 'Limit no',
- Primary Key (objnr)) ENGINE = InnoDB
+ Primary Key (objnr,modul)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
 Create table tbl_ebko (
@@ -433,6 +435,12 @@ Create table tbl_jobk (
 	stdat Date COMMENT 'Start Date',
 	endat Date COMMENT 'End Date',
 	datam Int COMMENT 'Long-term',
+	kunnr Varchar(10) COMMENT 'Customer id (tbl_kna1)',
+	pson1 Varchar(40) COMMENT 'Contact person',
+	telf1 Varbinary(30) COMMENT 'Telephon no',
+	telfx Varchar(20) COMMENT 'Fax',
+	pramt Decimal(17,2) COMMENT 'Project amount',
+	esamt Decimal(17,2) COMMENT 'Estimate cost',
  Primary Key (jobnr)) ENGINE = InnoDB
 COMMENT = 'Job Header';
 
@@ -523,6 +531,17 @@ COMMENT = 'Approve Status for Project managment';
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
+
+INSERT INTO tbl_init (objnr,modul,sgtxt,short,minnr,maxnr) VALUES ('0001','SD','Project Job','PJ','100000','999999'),
+                                                             ('0002','SD','Quotation','QT','200000','999999'),
+                                                             ('0003','SD','Invoice','IV','300000','999999'),
+                                                             ('0004','SD','Deposit Receipt','DR','400000','999999'),
+                                                             ('0005','SD','Packing List','PL','500000','999999'),
+                                                             ('0006','SD','Product Return','PT','600000','999999'),
+                                                             ('0001','MM','Purchase Requisition','PR','100000','999999'),
+                                                             ('0002','MM','Purchase Order','PO','200000','999999'),
+                                                             ('0003','MM','Goods Receipt','GR','300000','999999'),
+                                                             ('0004','MM','Material Transactin','DR','400000','999999');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
