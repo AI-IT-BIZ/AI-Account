@@ -7,11 +7,11 @@ Ext.define('Account.Quotation.Item.Form', {
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'right',
+				labelAlign: 'left',
 				msgTarget: 'qtip',//'side',
-				labelWidth: 105,
+				labelWidth: 105
 				//width:300,
-				labelStyle: 'font-weight:bold'
+				//labelStyle: 'font-weight:bold'
 			}
 		});
 
@@ -23,13 +23,14 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.items = [{
 			xtype:'fieldset',
             title: 'Header Data',
-            //collapsible: true,
+            collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
                 anchor: '100%'
             },
      items:[{
+// Project Code
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -42,11 +43,20 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'jobnr',
 			//flex: 2,
 			//anchor:'90%',
-			width:300,
+			labelAlign: 'top',
+			width:350,
 			allowBlank: false
 		},{
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
+			anchor:'90%',
+			labelAlign: 'right',
+			//width:450,
+			allowBlank: true
+		},{
 			xtype: 'displayfield',
-            fieldLabel: '',
+            //fieldLabel: 'jobtx',
             //flex: 3,
             //value: '<span style="color:green;"></span>'
 			name: 'name1',
@@ -54,6 +64,7 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		}]
+// Customer Code
 		},{
                 xtype: 'container',
                 layout: 'hbox',
@@ -64,18 +75,30 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'kunnr',
 			//flex: 2,
 			//anchor:'90%',
-			width:300,
+			width:350,
+			labelAlign: 'top',
 			allowBlank: false
 		},{
+            xtype: 'textfield',
+			fieldLabel: 'Terms:',
+			name: 'ptype',
+			anchor:'90%',
+			labelAlign: 'right',
+			//width:450,
+			allowBlank: true
+         
+         },{
 			xtype: 'displayfield',
             fieldLabel: '',
             //flex: 3,
             //value: '<span style="color:green;"></span>'
 			name: 'name1',
+			labelAlign: 'top',
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
 		}]
+// Address Bill&Ship
 		},{
 			xtype: 'container',
                     layout: 'hbox',
@@ -83,127 +106,73 @@ Ext.define('Account.Quotation.Item.Form', {
                     margin: '0 0 5 0',
    items: [{
 			xtype: 'textarea',
-			fieldLabel: 'Address',
+			fieldLabel: 'Bill To',
 			name: 'adr01',
 			anchor:'90%',
-			width:450,
+			width:350,
+			labelAlign: 'top',
 			allowBlank: true
 		},{
-            fieldLabel: 'Phone Number',
-            labelWidth: 110,
-            name: 'telf1',
-            width: 200,
-            emptyText: 'xxx-xxx-xxxx',
-            maskRe: /[\d\-]/,
-            regex: /^\d{3}-\d{3}-\d{4}$/,
-            regexText: 'Must be in the format xxx-xxx-xxxx'
+            xtype: 'textarea',
+			fieldLabel: 'Ship To',
+			name: 'adr01',
+			anchor:'90%',
+			width:350,
+			labelAlign: 'right',
+			labelAlign: 'top',
+			margin: '0 0 0 110',
+			allowBlank: true
+         }]
+// Sale Person         
+         },{
+			xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+   items: [{
+			xtype: 'textfield',
+			fieldLabel: 'Sale Person',
+			name: 'taxnr',
+			anchor:'90%',
+			width:350,
+			allowBlank: true
+		},{
+            xtype: 'checkboxfield',
+			//fieldLabel: 'Same as Billing To',
+			//name: 'refnr',
+			anchor:'90%',
+			//labelAlign: 'right',
+			//width:450,
+			margin: '0 0 0 110',
+			boxLabel: 'Same as Bill To',
+			//allowBlank: true
+         
+         }]
+// Tax&Ref no.
+         },{
+         xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+   items: [{
+			xtype: 'textfield',
+			fieldLabel: 'Tax',
+			name: 'taxnr',
+			anchor:'90%',
+			width:350,
+			allowBlank: true
+		},{
+            xtype: 'textfield',
+			fieldLabel: 'Ref.no:',
+			name: 'refnr',
+			anchor:'90%',
+			labelAlign: 'right',
+			//width:450,
+			allowBlank: true
          
          }]
          }]
-        },{
-         xtype: 'fieldset',
-         title: 'Project Detail',
-         defaultType: 'textfield',
-         layout: 'anchor',
-         defaults: {
-                  anchor: '100%'
-                },
-     items: [{
-     	xtype: 'container',
-        layout: 'hbox',
-        margin: '0 0 5 0',
-     items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Project No',
-			name: 'jobnr',
-			anchor:'100%',
-			labelWidth: 90,
-			allowBlank: false
-		},{
-			xtype: 'datefield',
-			fieldLabel: 'Project Date',
-			name: 'bldat',
-			anchor:'100%',
-			labelWidth: 100,
-			allowBlank: false
-	    }]
-	   },{
-			xtype: 'textfield',
-			fieldLabel: 'Project Name',
-			name: 'jobtx',
-			width: 550,
-			labelWidth: 90,
-			allowBlank: false
-	
-	    },{
-			xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[{
-			xtype: 'textfield',
-			fieldLabel: 'Project Owner',
-			name: 'salnr',
-			//flex: 2,
-			//anchor:'90%',
-			//width:300,
-			allowBlank: false
-		},{
-			xtype: 'displayfield',
-            fieldLabel: '',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
-			name: 'name1',
-			margins: '0 0 0 6',
-            //emptyText: 'Customer',
-            allowBlank: true
-		}]
-	
-	    },{
-	    	xtype: 'container',
-                    layout: 'hbox',
-                    margin: '0 0 5 0',
-     items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Project Amt',
-			name: 'pramt',
-			anchor:'100%',
-			labelWidth: 90,
-			allowBlank: true
-	    },{
-			xtype: 'textfield',
-			fieldLabel: 'Estimate Cost',
-			name: 'esamt',
-			anchor:'100%',
-			labelWidth: 100,
-			allowBlank: true
-	    }]
-	   },{
-	   	xtype: 'container',
-                    layout: 'hbox',
-                    margin: '0 0 5 0',
-     items: [{
-			xtype: 'datefield',
-			fieldLabel: 'Start Date',
-			name: 'stdat',
-			anchor:'100%',
-			labelWidth: 90,
-			allowBlank: true
-	    },{
-			xtype: 'datefield',
-			fieldLabel: 'End Date',
-			name: 'endat',
-			anchor:'100%',
-			labelWidth: 100,
-			allowBlank: true
-	    },{
-			xtype: 'displayfield',
-			fieldLabel: '',
-			name: 'datam',
-			anchor:'100%',
-			Width: 30,
-			allowBlank: true
-	    }]
-		}]
+
 		//}]
 		}];
 

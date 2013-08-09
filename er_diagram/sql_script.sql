@@ -12,6 +12,7 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_payp;
 drop table IF EXISTS tbl_ctyp;
 drop table IF EXISTS tbl_ptyp;
 drop table IF EXISTS tbl_clev;
@@ -64,6 +65,7 @@ Create table tbl_pr (
 	create_by Varchar(100),
 	update_date Datetime,
 	update_by Varchar(100),
+	mtart Varchar(4),
  Primary Key (id)) ENGINE = InnoDB;
 
 Create table tbl_pr_item (
@@ -329,6 +331,8 @@ Create table tbl_vbap (
 	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	pramt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
@@ -533,6 +537,18 @@ Create table tbl_ctyp (
  Primary Key (ctype)) ENGINE = InnoDB
 COMMENT = 'Currency Type';
 
+Create table tbl_payp (
+	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	paypr Varchar(4) NOT NULL COMMENT 'Period Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	sgtxt Varchar(40) COMMENT 'Description Text',
+	duedt Date COMMENT 'Due Date',
+	perct Decimal(17,2) COMMENT 'Percent',
+	pramt Decimal(17,2) COMMENT 'Period Amount',
+	ctype Varchar(3) COMMENT 'Currency',
+ Primary Key (vbeln,paypr)) ENGINE = InnoDB
+COMMENT = 'Payment Periods';
+
 
 
 
@@ -626,7 +642,7 @@ INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02
 INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 ('03', 'Board'),('04', 'Event');
 
-INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to SCB'),('04', 'Credit Card');
+INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to Book Bank'),('04', 'Credit Card');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),

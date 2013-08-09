@@ -67,14 +67,14 @@ Ext.define('Account.Quotation.MainWindow', {
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(){
-			_this.itemDialog.hide();
-			_this.grid.load();
-		});
+		//this.itemDialog.form.on('afterSave', function(){
+		//	_this.itemDialog.hide();
+		//	_this.grid.load();
+		//});
 
-		this.itemDialog.form.on('afterDelete', function(){
-			_this.grid.load();
-		});
+		//this.itemDialog.form.on('afterDelete', function(){
+		//	_this.grid.load();
+		//});
 
 
 		// --- after ---

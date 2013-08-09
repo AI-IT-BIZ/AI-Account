@@ -35,7 +35,7 @@ Ext.define('Account.Quotation.Grid', {
 				'exchg'
 			],
 			remoteSort: true,
-			sorters: ['jobnr ASC']
+			sorters: ['vbeln ASC']
 		});
 
 		this.columns = [

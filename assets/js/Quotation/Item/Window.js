@@ -17,18 +17,21 @@ Ext.define('Account.Quotation.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Quotation.Item.Form');//, { region:'north' });
+		this.form1 = Ext.create('Account.Quotation.Item.Form',{ region:'north' });
+        this.grid1 = Ext.create('Account.Quotation.Item.Grid_p',{ region:'center' });
+        this.grid2 = Ext.create('Account.Quotation.Item.Grid_i',{ region:'south' });
 
-		/*this.grid = new Ext.Panel({
+		this.items = [
+			this.form1,
+			this.grid1,
+			this.grid2
+		];
+		
+          /*this.grid = new Ext.Panel({
 			title:'this is item grid',
 			html:'item grid',
 			region: 'center'
 		});*/
-
-		this.items = //[
-			this.form;
-			//this.grid
-		//];
 
 		this.buttons = [{
 			text: 'Save',
