@@ -12,6 +12,7 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_clev;
 drop table IF EXISTS tbl_apop;
 drop table IF EXISTS tbl_plev;
 drop table IF EXISTS tbl_ktyp;
@@ -61,6 +62,7 @@ Create table tbl_pr (
 	create_by Varchar(100),
 	update_date Datetime,
 	update_by Varchar(100),
+	mtart Varchar(4) COMMENT 'Mat type',
  Primary Key (id)) ENGINE = InnoDB;
 
 Create table tbl_pr_item (
@@ -367,26 +369,14 @@ Create table tbl_psal (
 	distr Varchar(4) COMMENT 'District',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
-	telfx Varchar(30) COMMENT 'Fax No',
-	pson1 Varchar(30) COMMENT 'Contact Person',
 	taxbs Varchar(30) COMMENT 'Tax no',
 	saknr Varchar(10) COMMENT 'GL Account',
-	ptype Varchar(2) COMMENT 'Price type',
-	retax Varchar(1) COMMENT 'Tax Return',
-	crdit Decimal(17,2) COMMENT 'Credit Amount',
-	disct Decimal(17,2) COMMENT 'Discount Amount',
-	pappr Decimal(17,2) COMMENT 'Approve Amount',
-	begn1 Decimal(17,2) COMMENT 'Start Amt1',
-	endn1 Decimal(17,2) COMMENT 'Ending Amt1',
+	ctype Varchar(2) COMMENT 'Comission type (''01''->Levels,''02''->Step',
+	goals Decimal(17,2) COMMENT 'Sale Goal',
+	stdat Date COMMENT 'Start Date',
+	endat Date COMMENT 'End Date',
 	sgtxt Varchar(40) COMMENT 'Text Note',
-	stype Varchar(4) COMMENT 'Customer Type',
-	begn2 Decimal(17,2) COMMENT 'Start Amt2',
-	begn3 Decimal(17,2) COMMENT 'Start Amt3',
-	endn2 Decimal(17,2) COMMENT 'Ending Amt2',
-	endn3 Decimal(17,2) COMMENT 'Ending Amt3',
-	perc1 Int COMMENT 'Percent 1',
-	perc2 Int COMMENT 'Percent 2',
-	perc3 Int COMMENT 'Percent 3',
+	percs Decimal(17,2) COMMENT 'Percent',
  Primary Key (salnr)) ENGINE = InnoDB
 COMMENT = 'Sale Person';
 
@@ -433,7 +423,6 @@ Create table tbl_jobk (
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	salnr Varchar(10) COMMENT 'Sale no',
-	netwr Decimal(17,2) COMMENT 'Net Amount',
 	stdat Date COMMENT 'Start Date',
 	endat Date COMMENT 'End Date',
 	datam Int COMMENT 'Long-term',
@@ -520,6 +509,15 @@ Create table tbl_apop (
  Primary Key (statu)) ENGINE = InnoDB
 COMMENT = 'Approve Status for Project managment';
 
+Create table tbl_clev (
+	cleve Varchar(4) NOT NULL COMMENT 'Comission Level',
+	salnr Varchar(10) NOT NULL COMMENT 'Sale Code',
+	beamt Decimal(17,2) COMMENT 'Start Amount',
+	enamt Decimal(17,2) COMMENT 'Start Amount',
+	perce Decimal(17,2) COMMENT 'Percent',
+ Primary Key (cleve,salnr)) ENGINE = InnoDB
+COMMENT = 'Comission Level';
+
 
 
 
@@ -576,6 +574,11 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gltyp,under)
                ('512010','Purchasing','2013/07/02','ASD','5','2','512000'),
                ('512020','Receive Decrease','2013/07/02','ASD','5','2','512000'),
                ('512030','Return Goods','2013/07/02','ASD','5','2','512000');
+
+INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', ' Interior and architect'),('02', 'Web Design&Application'),('03', 'Installation art'),
+                                            ('04', ' Styling and environmental decoration'),('05', 'Book&Magazine Cover design'),
+                                            ('06', 'An Archaeology of Memory exhibition'),('07', 'Paper pop-up'),('08', 'Music video'),
+                                            ('09', 'Window display'),('10', 'Event design'),('11', 'Other job design');
                
 INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Order'),('IV', 'Invoice');
 
@@ -609,9 +612,6 @@ INSERT INTO tbl_doct (doctx, docty) VALUES ('QA', 'Quotation'),('VA', 'Sale Orde
 
 INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02', 'Material Sales on Credit'),
 ('03', 'Service Sales by Cash'),('04', 'Service Sales on Credit');
-
-INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
-('03', 'Board'),('04', 'Event');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),
