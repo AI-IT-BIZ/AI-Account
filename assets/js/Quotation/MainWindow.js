@@ -1,13 +1,13 @@
-Ext.define('Account.Warehouse.MainWindow', {
+Ext.define('Account.Quotation.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Warehouse management',
+			title: 'Quotation',
 			closeAction: 'hide',
-			height: 380,
+			height: 600,
 			minHeight: 380,
-			width: 500,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -37,11 +37,11 @@ Ext.define('Account.Warehouse.MainWindow', {
 		
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
-		this.grid = Ext.create('Account.Warehouse.Grid', {
+		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center'
 		});
 
-		this.itemDialog = Ext.create('Account.Warehouse.Item.Window');
+		this.itemDialog = Ext.create('Account.Quotation.Item.Window');
 
 		this.items = [this.grid];
 

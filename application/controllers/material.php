@@ -57,13 +57,7 @@ class Material extends CI_Controller {
 			'beval' => $this->input->post('beval'),
 			'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),
-			'unit1' => $this->input->post('unit1'),
-			'unit2' => $this->input->post('unit2'),
-			'unit3' => $this->input->post('unit3'),
-			'cost1' => $this->input->post('cost1'),
-			'cost2' => $this->input->post('cost2'),
-			'cost3' => $this->input->post('cost3')
+			'enval' => $this->input->post('enval')
 			);
 			
 		/*if ($query->num_rows() > 0){

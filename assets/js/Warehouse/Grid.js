@@ -1,9 +1,9 @@
 Ext.define('Account.Warehouse.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-
 		return this.callParent(arguments);
 	},
+	
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
