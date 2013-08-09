@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customer extends CI_Controller {
+class District extends CI_Controller {
 
 	function __construct()
 	{
@@ -8,11 +8,11 @@ class Customer extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('customer');
+		$this->load->view('mattype');
 	}
 
 	function loads(){
-		$tbName = 'kna1';
+		$tbName = 'mtyp';
 /*
 		function createQuery($_this){
 			$query = $_this->input->post('query');
@@ -44,30 +44,11 @@ class Customer extends CI_Controller {
 	}
 
 	function save(){
+
 		$formData = array(
-			'kunnr' => $this->input->post('kunnr'),
-			'name1' => $this->input->post('name1'),
-			//'name2' => $this->input->post('name2'),
-			'adr01' => $this->input->post('adr01'),
-			//'adr02' => $this->input->post('adr02'),
-			'distr' => $this->input->post('distr'),
-			'telf1' => $this->input->post('telf1'),
-			'telfx' => $this->input->post('telfx'),		
-			'enval' => $this->input->post('pson1'),
-			'cost1' => $this->input->post('taxbs'),
-			
-			'saknr' => $this->input->post('saknr'),
-			'taxnr' => $this->input->post('taxnr'),
-			'pleve' => $this->input->post('pleve'),
-			'retax' => $this->input->post('retax'),
-			'crdit' => $this->input->post('crdit'),
-			'disct' => $this->input->post('disct'),
-			'pappr' => $this->input->post('pappr'),
-			'endin' => $this->input->post('endin'),
-			'sgtxt' => $this->input->post('sgtxt'),
-			'ktype' => $this->input->post('ktype')
-			);
-			
+			'mtart' => $this->input->post('mtart'),
+			'matxt' => $this->input->post('matxt')
+		);
 		/*if ($query->num_rows() > 0){
 			$this->db->where($tbPK, $id);
 			$this->db->set('update_date', 'NOW()', false);
@@ -75,14 +56,40 @@ class Customer extends CI_Controller {
 			$this->db->update($tbName, $formData);
 		}else{
 		 */
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
-			$this->db->insert('mara', $formData);
+			//$this->db->set('erdat', 'NOW()', false);
+			//$this->db->set('ernam', 'test');
+			$this->db->insert('mtyp', $formData);
 		//}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
+		));
+	}
+
+
+
+	public function loads_combo(){
+		$tbName = 'dist';
+		$tbPK = 'distr';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('distx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
 		));
 	}
 

@@ -20,6 +20,12 @@ Ext.onReady(function() {
 		$om.warehouseDialog.show();
 	});
 	
+	$om.viewport.on('click_customer', function(){
+		if(!$om.customerDialog)
+			$om.customerDialog = Ext.create('Account.Customer.MainWindow');
+		$om.customerDialog.show();
+	});
+	
 
 });
 </script>
