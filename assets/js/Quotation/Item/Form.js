@@ -22,7 +22,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		this.items = [{
 			xtype:'fieldset',
-            title: 'Customer Data',
+            title: 'Header Data',
             //collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -30,13 +30,35 @@ Ext.define('Account.Quotation.Item.Form', {
                 anchor: '100%'
             },
      items:[{
-                xtype: 'container',
+     	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[{
 			xtype: 'hidden',
 			name: 'id'
 		},{
+			xtype: 'textfield',
+			fieldLabel: 'Project Code',
+			name: 'jobnr',
+			//flex: 2,
+			//anchor:'90%',
+			width:300,
+			allowBlank: false
+		},{
+			xtype: 'displayfield',
+            fieldLabel: '',
+            //flex: 3,
+            //value: '<span style="color:green;"></span>'
+			name: 'name1',
+			margins: '0 0 0 6',
+            //emptyText: 'Customer',
+            allowBlank: true
+		}]
+		},{
+                xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[{
 			xtype: 'textfield',
 			fieldLabel: 'Customer Code',
 			name: 'kunnr',

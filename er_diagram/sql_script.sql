@@ -328,6 +328,7 @@ Create table tbl_vbap (
 	meins Varchar(3) COMMENT 'Unit',
 	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
@@ -655,6 +656,12 @@ INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disc
                ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
                ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
                ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
+               
+INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distr,pstlz,telf1) 
+        VALUES ('300001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
+               ('300002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('300003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('300004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333');
 
 INSERT INTO tbl_ctyp (ctype, curtx) VALUES ('THB', 'Thai baht'),('USD', 'US Dollar'),('CNY','China Yuan Renminbi'),('EUR', 'Euro Member Countries'),
 ('AED',	'United Arab Emirates Dirham'),

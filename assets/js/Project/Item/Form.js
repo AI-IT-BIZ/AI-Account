@@ -106,7 +106,7 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'kunnr',
 			//flex: 2,
 			//anchor:'90%',
-			width:300,
+			//width:300,
 			allowBlank: false
 		},{
 			xtype: 'displayfield',
