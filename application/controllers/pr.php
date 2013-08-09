@@ -70,7 +70,8 @@ class Pr extends CI_Controller {
 		}
 
 		$formData = array(
-			'code' => $this->input->post('code')
+			'code' => $this->input->post('code'),
+			'mtart' => $this->input->post('mtart')
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('id', $id);

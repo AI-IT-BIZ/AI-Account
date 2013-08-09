@@ -21,7 +21,8 @@ Ext.define('Account.PR.Item.Form', {
 
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Choose Material',
-			hiddenName : 'mat',
+			//hiddenName : 'mat',
+			name: 'mtart',
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',

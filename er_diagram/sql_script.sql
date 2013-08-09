@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		7/8/2013
+Modified		9/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,8 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_ctyp;
+drop table IF EXISTS tbl_ptyp;
 drop table IF EXISTS tbl_clev;
 drop table IF EXISTS tbl_apop;
 drop table IF EXISTS tbl_plev;
@@ -62,7 +64,6 @@ Create table tbl_pr (
 	create_by Varchar(100),
 	update_date Datetime,
 	update_by Varchar(100),
-	mtart Varchar(4) COMMENT 'Mat type',
  Primary Key (id)) ENGINE = InnoDB;
 
 Create table tbl_pr_item (
@@ -303,17 +304,18 @@ Create table tbl_vbak (
 	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
-	payty Varchar(4) COMMENT 'Pay Type',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
 	lidat Int COMMENT 'Limit Date',
 	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
-	waerk Varchar(3) COMMENT 'Currency',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
 	dismt Decimal(10,2) COMMENT 'Discount amt',
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,3) COMMENT 'Exchange rate',
  Primary Key (vbeln)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -326,6 +328,7 @@ Create table tbl_vbap (
 	meins Varchar(3) COMMENT 'Unit',
 	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
@@ -518,6 +521,18 @@ Create table tbl_clev (
  Primary Key (cleve,salnr)) ENGINE = InnoDB
 COMMENT = 'Comission Level';
 
+Create table tbl_ptyp (
+	ptype Varchar(4) NOT NULL COMMENT 'Pay type',
+	paytx Varchar(40) COMMENT 'Pay Type Desc',
+ Primary Key (ptype)) ENGINE = InnoDB
+COMMENT = 'Payment Method';
+
+Create table tbl_ctyp (
+	ctype Varchar(4) NOT NULL COMMENT 'Currency type',
+	curtx Varchar(40) COMMENT 'Currency Desc',
+ Primary Key (ctype)) ENGINE = InnoDB
+COMMENT = 'Currency Type';
+
 
 
 
@@ -574,11 +589,6 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gltyp,under)
                ('512010','Purchasing','2013/07/02','ASD','5','2','512000'),
                ('512020','Receive Decrease','2013/07/02','ASD','5','2','512000'),
                ('512030','Return Goods','2013/07/02','ASD','5','2','512000');
-
-INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', ' Interior and architect'),('02', 'Web Design&Application'),('03', 'Installation art'),
-                                            ('04', ' Styling and environmental decoration'),('05', 'Book&Magazine Cover design'),
-                                            ('06', 'An Archaeology of Memory exhibition'),('07', 'Paper pop-up'),('08', 'Music video'),
-                                            ('09', 'Window display'),('10', 'Event design'),('11', 'Other job design');
                
 INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Order'),('IV', 'Invoice');
 
@@ -613,6 +623,11 @@ INSERT INTO tbl_doct (doctx, docty) VALUES ('QA', 'Quotation'),('VA', 'Sale Orde
 INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02', 'Material Sales on Credit'),
 ('03', 'Service Sales by Cash'),('04', 'Service Sales on Credit');
 
+INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
+('03', 'Board'),('04', 'Event');
+
+INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to SCB'),('04', 'Credit Card');
+
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),
                ('20', '01', 'Transaction Mat', 'General Recieve'),
@@ -641,6 +656,172 @@ INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disc
                ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
                ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
                ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
+               
+INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distr,pstlz,telf1) 
+        VALUES ('300001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
+               ('300002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('300003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('300004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333');
 
-
+INSERT INTO tbl_ctyp (ctype, curtx) VALUES ('THB', 'Thai baht'),('USD', 'US Dollar'),('CNY','China Yuan Renminbi'),('EUR', 'Euro Member Countries'),
+('AED',	'United Arab Emirates Dirham'),
+('AFN',	'Afghanistan Afghani'),
+('ALL',	'Albania Lek'),
+('AMD',	'Armenia Dram'),
+('ANG',	'Netherlands Antilles Guilder'),
+('AOA',	'Angola Kwanza'),
+('ARS',	'Argentina Peso'),
+('AUD',	'Australia Dollar'),
+('AWG',	'Aruba Guilder'),
+('AZN',	'Azerbaijan New Manat'),
+('BAM',	'Bosnia and Herzegovina Convertible Marka'),
+('BBD',	'Barbados Dollar'),
+('BDT',	'Bangladesh Taka'),
+('BGN',	'Bulgaria Lev'),
+('BHD',	'Bahrain Dinar'),
+('BIF',	'Burundi Franc'),
+('BMD',	'Bermuda Dollar'),
+('BND',	'Brunei Darussalam Dollar'),
+('BOB',	'Bolivia Boliviano'),
+('BRL',	'Brazil Real'),
+('BSD',	'Bahamas Dollar'),
+('BTN',	'Bhutan Ngultrum'),
+('BWP',	'Botswana Pula'),
+('BYR',	'Belarus Ruble'),
+('BZD',	'Belize Dollar'),
+('CAD',	'Canada Dollar'),
+('CDF',	'Congo/Kinshasa Franc'),
+('CHF',	'Switzerland Franc'),
+('CLP',	'Chile Peso'),
+('COP',	'Colombia Peso'),
+('CRC',	'Costa Rica Colon'),
+('CUC',	'Cuba Convertible Peso'),
+('CUP',	'Cuba Peso'),
+('CVE',	'Cape Verde Escudo'),
+('CZK',	'Czech Republic Koruna'),
+('DJF',	'Djibouti Franc'),
+('DKK',	'Denmark Krone'),
+('DOP',	'Dominican Republic Peso'),
+('DZD',	'Algeria Dinar'),
+('EGP',	'Egypt Pound'),
+('ERN',	'Eritrea Nakfa'),
+('ETB',	'Ethiopia Birr'),
+('FJD',	'Fiji Dollar'),
+('FKP',	'Falkland Islands (Malvinas) Pound'),
+('GBP',	'United Kingdom Pound'),
+('GEL',	'Georgia Lari'),
+('GGP',	'Guernsey Pound'),
+('GHS',	'Ghana Cedi'),
+('GIP',	'Gibraltar Pound'),
+('GMD',	'Gambia Dalasi'),
+('GNF',	'Guinea Franc'),
+('GTQ',	'Guatemala Quetzal'),
+('GYD',	'Guyana Dollar'),
+('HKD',	'Hong Kong Dollar'),
+('HNL',	'Honduras Lempira'),
+('HRK',	'Croatia Kuna'),
+('HTG',	'Haiti Gourde'),
+('HUF',	'Hungary Forint'),
+('IDR',	'Indonesia Rupiah'),
+('ILS',	'Israel Shekel'),
+('IMP',	'Isle of Man Pound'),
+('INR',	'India Rupee'),
+('IQD',	'Iraq Dinar'),
+('IRR',	'Iran Rial'),
+('ISK',	'Iceland Krona'),
+('JEP',	'Jersey Pound'),
+('JMD',	'Jamaica Dollar'),
+('JOD',	'Jordan Dinar'),
+('JPY',	'Japan Yen'),
+('KES',	'Kenya Shilling'),
+('KGS',	'Kyrgyzstan Som'),
+('KHR',	'Cambodia Riel'),
+('KMF',	'Comoros Franc'),
+('KPW',	'Korea (North) Won'),
+('KRW',	'Korea (South) Won'),
+('KWD',	'Kuwait Dinar'),
+('KYD',	'Cayman Islands Dollar'),
+('KZT',	'Kazakhstan Tenge'),
+('LAK',	'Laos Kip'),
+('LBP',	'Lebanon Pound'),
+('LKR',	'Sri Lanka Rupee'),
+('LRD',	'Liberia Dollar'),
+('LSL',	'Lesotho Loti'),
+('LTL',	'Lithuania Litas'),
+('LVL',	'Latvia Lat'),
+('LYD',	'Libya Dinar'),
+('MAD',	'Morocco Dirham'),
+('MDL',	'Moldova Leu'),
+('MGA',	'Madagascar Ariary'),
+('MKD',	'Macedonia Denar'),
+('MMK',	'Myanmar (Burma) Kyat'),
+('MNT',	'Mongolia Tughrik'),
+('MOP',	'Macau Pataca'),
+('MRO',	'Mauritania Ouguiya'),
+('MUR',	'Mauritius Rupee'),
+('MVR',	'Maldives (Maldive Islands) Rufiyaa'),
+('MWK',	'Malawi Kwacha'),
+('MXN',	'Mexico Peso'),
+('MYR',	'Malaysia Ringgit'),
+('MZN',	'Mozambique Metical'),
+('NAD',	'Namibia Dollar'),
+('NGN',	'Nigeria Naira'),
+('NIO',	'Nicaragua Cordoba'),
+('NOK',	'Norway Krone'),
+('NPR',	'Nepal Rupee'),
+('NZD',	'New Zealand Dollar'),
+('OMR',	'Oman Rial'),
+('PAB',	'Panama Balboa'),
+('PEN',	'Peru Nuevo Sol'),
+('PGK',	'Papua New Guinea Kina'),
+('PHP',	'Philippines Peso'),
+('PKR',	'Pakistan Rupee'),
+('PLN',	'Poland Zloty'),
+('PYG',	'Paraguay Guarani'),
+('QAR',	'Qatar Riyal'),
+('RON',	'Romania New Leu'),
+('RSD',	'Serbia Dinar'),
+('RUB',	'Russia Ruble'),
+('RWF',	'Rwanda Franc'),
+('SAR',	'Saudi Arabia Riyal'),
+('SBD',	'Solomon Islands Dollar'),
+('SCR',	'Seychelles Rupee'),
+('SDG',	'Sudan Pound'),
+('SEK',	'Sweden Krona'),
+('SGD',	'Singapore Dollar'),
+('SHP',	'Saint Helena Pound'),
+('SLL',	'Sierra Leone Leone'),
+('SOS',	'Somalia Shilling'),
+('SPL',	'Seborga Luigino'),
+('SRD',	'Suriname Dollar'),
+('STD',	'São Tomé and Príncipe Dobra'),
+('SVC',	'El Salvador Colon'),
+('SYP',	'Syria Pound'),
+('SZL',	'Swaziland Lilangeni'),
+('TJS',	'Tajikistan Somoni'),
+('TMT',	'Turkmenistan Manat'),
+('TND',	'Tunisia Dinar'),
+('TOP',	'Tonga Pa-anga'),
+('TRY',	'Turkey Lira'),
+('TTD',	'Trinidad and Tobago Dollar'),
+('TVD',	'Tuvalu Dollar'),
+('TWD',	'Taiwan New Dollar'),
+('TZS',	'Tanzania Shilling'),
+('UAH',	'Ukraine Hryvna'),
+('UGX',	'Uganda Shilling'),
+('UYU',	'Uruguay Peso'),
+('UZS',	'Uzbekistan Som'),
+('VEF',	'Venezuela Bolivar'),
+('VND',	'Viet Nam Dong'),
+('VUV',	'Vanuatu Vatu'),
+('WST',	'Samoa Tala'),
+('XAF',	'Communauté Financière Africaine (BEAC) CFA Franc BEAC'),
+('XCD',	'East Caribbean Dollar'),
+('XDR',	'International Monetary Fund (IMF) Special Drawing Rights'),
+('XOF',	'Communauté Financière Africaine (BCEAO) Franc'),
+('XPF',	'Comptoirs Français du Pacifique (CFP) Franc'),
+('YER',	'Yemen Rial'),
+('ZAR',	'South Africa Rand'),
+('ZMW',	'Zambia Kwacha'),
+('ZWD',	'Zimbabwe Dollar');
 

@@ -15,7 +15,6 @@
 Ext.require(['*']);
 Ext.onReady(function() {
 
-
 	var addAct = new Ext.Action({
 		text: 'เพิ่ม',
 		iconCls: 'b-small-plus'
