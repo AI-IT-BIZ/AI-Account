@@ -5,9 +5,9 @@ Ext.define('Account.Warehouse.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Warehouse',
 			closeAction: 'hide',
-			height: 400,
+			height: 500,
 			width: 400,
-			layout: 'border',
+			layout: 'accordion',
 			resizable: true,
 			modal: true
 		});
@@ -17,17 +17,40 @@ Ext.define('Account.Warehouse.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Warehouse.Item.Form', { region:'north' });
-
+		this.form = Ext.create('Account.Warehouse.Item.Form', {
+			title:'Form warehouse'
+		});
+/*
 		this.grid = new Ext.Panel({
 			title:'this is item grid',
 			html:'item grid',
 			region: 'center'
 		});
+*/
+		this.grid = Ext.create('Account.Warehouse.Grid', {
+			title: 'grid 1'
+		});
+		this.grid2 = Ext.create('Account.Warehouse.Grid', {
+			region:'center'
+		});
+		this.formTotal = Ext.create('Account.Warehouse.Item.Form', {
+			title:'Grid2 Summary',
+			region:'south'
+		});
 
 		this.items = [
 			this.form,
-			this.grid
+			this.grid,
+			{
+				xtype: 'panel',
+				border: false,
+				title: 'grid2',
+				layout: 'border',
+				items:[
+					this.grid2,
+					this.formTotal
+				]
+			}
 		];
 
 		this.buttons = [{
