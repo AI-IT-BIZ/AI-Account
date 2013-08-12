@@ -7,9 +7,9 @@ Ext.define('Account.Warehouse.Item.Form', {
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'top',
+				labelAlign: 'right',
 				labelWidth: 100,
-				width:200,
+				width:300,
 				labelStyle: 'font-weight:bold'
 			}
 		});

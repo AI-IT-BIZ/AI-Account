@@ -7,7 +7,7 @@ Ext.define('Account.Warehouse.Item.Window', {
 			closeAction: 'hide',
 			height: 500,
 			width: 400,
-			layout: 'accordion',
+			layout: 'border',
 			resizable: true,
 			modal: true
 		});
@@ -18,7 +18,7 @@ Ext.define('Account.Warehouse.Item.Window', {
 		var _this=this;
 
 		this.form = Ext.create('Account.Warehouse.Item.Form', {
-			title:'Form warehouse'
+			region:'north'
 		});
 /*
 		this.grid = new Ext.Panel({
@@ -31,27 +31,33 @@ Ext.define('Account.Warehouse.Item.Window', {
 			title: 'grid 1'
 		});
 		this.grid2 = Ext.create('Account.Warehouse.Grid', {
+			border: false,
 			region:'center'
 		});
 		this.formTotal = Ext.create('Account.Warehouse.Item.Form', {
-			title:'Grid2 Summary',
+			border: false,
+			split: true,
 			region:'south'
 		});
 
-		this.items = [
-			this.form,
-			this.grid,
-			{
-				xtype: 'panel',
-				border: false,
-				title: 'grid2',
-				layout: 'border',
-				items:[
-					this.grid2,
-					this.formTotal
-				]
-			}
-		];
+		this.items = [this.form, {
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			items: [
+				this.grid,
+				{
+					xtype: 'panel',
+					border: false,
+					title: 'grid2',
+					layout: 'border',
+					items:[
+						this.grid2,
+						this.formTotal
+					]
+				}
+			]
+		}];
 
 		this.buttons = [{
 			text: 'Cancel',
