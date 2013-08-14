@@ -67,7 +67,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_tcombo',
+					url: __site_url+'invoice/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -102,7 +102,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_taxcombo',
+					url: __site_url+'invoice/loads_taxcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',

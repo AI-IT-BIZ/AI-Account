@@ -92,7 +92,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 70,
 			//anchor:'90%',
 			width: 240,
-			margin: '0 0 0 -20',
+			margin: '0 0 0 5',
 			labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
@@ -159,13 +159,17 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat',
-			//anchor:'80%',
-			labelAlign: 'right',
+			xtype: 'textfield',
+            fieldLabel: 'Quotation No',
+            name: 'vbeln',
+            //flex: 3,
+            value: 'QTxxxx-xxxx',
+            labelAlign: 'right',
+			//name: 'qt',
 			width:240,
-			allowBlank: true
+			//margins: '0 0 0 10',
+            //emptyText: 'Customer',
+            allowBlank: true
 		}]
 // Customer Code
 		},{
@@ -193,23 +197,12 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'numberfield',
-			fieldLabel: 'Terms',
-			name: 'terms',
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
 			//anchor:'80%',
 			labelAlign: 'right',
-			width:200,
-			allowBlank: true
-		},{
-			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			//align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
-			margin: '0 0 0 5',
-			width:10,
-			value: 'Days',
+			width:240,
 			allowBlank: true
 		}]
 // Address Bill&Ship
@@ -244,25 +237,15 @@ Ext.define('Account.Quotation.Item.Form', {
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
    items: [this.comboPSale ,{
-            xtype: 'checkboxfield',
-			//fieldLabel: 'Same as Billing To',
-			//name: 'refnr',
-			anchor:'90%',
-			//labelAlign: 'right',
-			//width:450,
-			margin: '0 0 0 135',
-			boxLabel: 'Same as Bill To',
-			//allowBlank: true
-         },{
-            xtype: 'textfield',
-			fieldLabel: 'Exchg.Rate',
-			name: 'exchg',
-			anchor:'80%',
+			xtype: 'numberfield',
+			fieldLabel: 'Terms',
+			name: 'terms',
+			//anchor:'80%',
 			labelAlign: 'right',
-			width:240,
-			//margin: '0 0 0 5',
+			width:200,
+			margin: '0 0 0 25',
 			allowBlank: true
-         },{
+		},{
 			xtype: 'displayfield',
 			//fieldLabel: '%',
 			//name: 'taxpr',
@@ -270,10 +253,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 5,
 			//anchor:'90%',
 			margin: '0 0 0 5',
-			width:15,
-			value: 'THB/USD',
+			width:10,
+			value: 'Days',
 			allowBlank: true
-		}]
+		},this.comboTax]
 // Tax&Ref no.
          },{
          xtype: 'container',
@@ -290,7 +273,27 @@ Ext.define('Account.Quotation.Item.Form', {
 			margin: '0 0 0 25',
 			//width:450,
 			allowBlank: true
-         },this.comboTax]
+         },{
+            xtype: 'textfield',
+			fieldLabel: 'Exchg.Rate',
+			name: 'exchg',
+			//anchor:'80%',
+			labelAlign: 'right',
+			width:240,
+			margin: '0 0 0 -20',
+			allowBlank: true
+         },{
+			xtype: 'displayfield',
+			//fieldLabel: '%',
+			//name: 'taxpr',
+			//align: 'right',
+			//labelWidth: 5,
+			//anchor:'90%',
+			margin: '0 0 0 5',
+			width:15,
+			value: 'THB/USD',
+			allowBlank: true
+		}]
          }]
 
 		//}]
