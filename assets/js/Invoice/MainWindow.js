@@ -1,9 +1,9 @@
-Ext.define('Account.Quotation.MainWindow', {
+Ext.define('Account.Invoice.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation',
+			title: 'Invoice',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -37,11 +37,11 @@ Ext.define('Account.Quotation.MainWindow', {
 		
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
-		this.grid = Ext.create('Account.Quotation.Grid', {
+		this.grid = Ext.create('Account.Invoice.Grid', {
 			region:'center'
 		});
 
-		this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+		this.itemDialog = Ext.create('Account.Invoice.Item.Window');
 
 		this.items = [this.grid];
 

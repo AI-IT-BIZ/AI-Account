@@ -1,4 +1,4 @@
-Ext.define('Account.Quotation.Grid', {
+Ext.define('Account.Invoice.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,22 +8,18 @@ Ext.define('Account.Quotation.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads",
+				url: __site_url+"Invoice/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'invnr'
 				}
 			},
 			fields: [
-			    'vbeln',
+			    'invnr',
 				'bldat',
-				'auart',
 				'txz01',
-				'jobnr',
-				'statu',
-				'reanr',
-				'refnr',
+				'vbeln',
 				'ptype',
 				'taxnr',
 				'lidat',
@@ -32,6 +28,7 @@ Ext.define('Account.Quotation.Grid', {
 				'cytpe',
 				'beamt',
 				'taxpr',
+				'terms',
 				'exchg'
 			],
 			remoteSort: true,
@@ -39,12 +36,14 @@ Ext.define('Account.Quotation.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Quotation No", width: 100, dataIndex: 'vbeln', sortable: true},
-			{text: "Quotation Date", width: 150, dataIndex: 'bldat', sortable: true},
+		    {text: "Invoice No", width: 100, dataIndex: 'invnr', sortable: true},
+			{text: "Invoice Date", width: 150, dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Quotation No", width: 100, dataIndex: 'vbeln', sortable: true},
+			//{text: "Quotation Date", width: 150, dataIndex: 'bldat', sortable: true},
+			//{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
+			//{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Status", width: 60, dataIndex: 'statu', sortable: true},
 			{text: "Amount", width: 100, dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 80, dataIndex: 'ctype', sortable: true}

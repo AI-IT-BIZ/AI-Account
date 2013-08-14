@@ -1,9 +1,9 @@
-Ext.define('Account.Quotation.Item.Window', {
+Ext.define('Account.Invoice.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Quotation',
+			title: 'Create/Edit Invoice',
 			//closeAction: 'hide',
 			height: 850,
 			width: 950,
@@ -18,28 +18,30 @@ Ext.define('Account.Quotation.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form1 = Ext.create('Account.Quotation.Item.Form',{ region:'north' });
-        this.grid1 = Ext.create('Account.Quotation.Item.Grid_i',{ 
-        	title:'Project Items'
+		this.form = Ext.create('Account.Invoice.Item.Form',{ region:'north' });
+        this.grid = Ext.create('Account.Invoice.Item.Grid_i',{ 
+        	//title:'Invoice Items'
+        	region:'center'
         	});
-        this.grid2 = Ext.create('Account.Quotation.Item.Grid_p',{ 
+        /*this.grid2 = Ext.create('Account.Quotation.Item.Grid_p',{ 
         	border: false,
         	region:'center' 
-        	});
-       this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
+        	});*/
+       this.formTotal = Ext.create('Account.Invoice.Item.Form_t', {
 			border: false,
 			split: true,
 			region:'south'
 		});
 
 		this.items = [
-		     this.form1, 
-		   {
+		     this.form, 
+		     this.grid,
+		  /* {
 			xtype:'tabpanel',
 			region:'center',
 			activeTab: 0,
 			items: [
-				this.grid1,
+				this.grid,
 				{
 				xtype: 'panel',
 				border: false,
@@ -50,7 +52,7 @@ Ext.define('Account.Quotation.Item.Window', {
 					
 				]
 			  }]
-			},this.formTotal];
+			}*/,this.formTotal];
 		
           /*this.grid = new Ext.Panel({
 			title:'this is item grid',

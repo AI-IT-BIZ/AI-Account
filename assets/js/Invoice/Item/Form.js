@@ -1,9 +1,9 @@
-Ext.define('Account.Quotation.Item.Form', {
+Ext.define('Account.Invoice.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/save',
+			url: __site_url+'invoice/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -33,7 +33,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
+					url: __site_url+'invoice/loads_scombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -67,7 +67,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_tcombo',
+					url: __site_url+'invoice/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -92,7 +92,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 70,
 			//anchor:'90%',
 			width: 240,
-			margin: '0 0 0 5',
+			margin: '0 0 0 -20',
 			labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
@@ -102,7 +102,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_taxcombo',
+					url: __site_url+'invoice/loads_taxcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -159,17 +159,13 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'textfield',
-            fieldLabel: 'Quotation No',
-            name: 'vbeln',
-            //flex: 3,
-            value: 'QTxxxx-xxxx',
-            labelAlign: 'right',
-			//name: 'qt',
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
+			//anchor:'80%',
+			labelAlign: 'right',
 			width:240,
-			//margins: '0 0 0 10',
-            //emptyText: 'Customer',
-            allowBlank: true
+			allowBlank: true
 		}]
 // Customer Code
 		},{
@@ -197,12 +193,23 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat',
+			xtype: 'numberfield',
+			fieldLabel: 'Terms',
+			name: 'terms',
 			//anchor:'80%',
 			labelAlign: 'right',
-			width:240,
+			width:200,
+			allowBlank: true
+		},{
+			xtype: 'displayfield',
+			//fieldLabel: '%',
+			//name: 'taxpr',
+			//align: 'right',
+			//labelWidth: 5,
+			//anchor:'90%',
+			margin: '0 0 0 5',
+			width:10,
+			value: 'Days',
 			allowBlank: true
 		}]
 // Address Bill&Ship
@@ -237,15 +244,25 @@ Ext.define('Account.Quotation.Item.Form', {
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
    items: [this.comboPSale ,{
-			xtype: 'numberfield',
-			fieldLabel: 'Terms',
-			name: 'terms',
-			//anchor:'80%',
+            xtype: 'checkboxfield',
+			//fieldLabel: 'Same as Billing To',
+			//name: 'refnr',
+			anchor:'90%',
+			//labelAlign: 'right',
+			//width:450,
+			margin: '0 0 0 135',
+			boxLabel: 'Same as Bill To',
+			//allowBlank: true
+         },{
+            xtype: 'textfield',
+			fieldLabel: 'Exchg.Rate',
+			name: 'exchg',
+			anchor:'80%',
 			labelAlign: 'right',
-			width:200,
-			margin: '0 0 0 25',
+			width:240,
+			//margin: '0 0 0 5',
 			allowBlank: true
-		},{
+         },{
 			xtype: 'displayfield',
 			//fieldLabel: '%',
 			//name: 'taxpr',
@@ -253,10 +270,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 5,
 			//anchor:'90%',
 			margin: '0 0 0 5',
-			width:10,
-			value: 'Days',
+			width:15,
+			value: 'THB/USD',
 			allowBlank: true
-		},this.comboTax]
+		}]
 // Tax&Ref no.
          },{
          xtype: 'container',
@@ -273,27 +290,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			margin: '0 0 0 25',
 			//width:450,
 			allowBlank: true
-         },{
-            xtype: 'textfield',
-			fieldLabel: 'Exchg.Rate',
-			name: 'exchg',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			margin: '0 0 0 -20',
-			allowBlank: true
-         },{
-			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			//align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
-			margin: '0 0 0 5',
-			width:15,
-			value: 'THB/USD',
-			allowBlank: true
-		}]
+         },this.comboTax]
          }]
 
 		//}]
@@ -326,7 +323,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/remove',
+			url:__site_url+'project/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
