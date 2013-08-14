@@ -1,9 +1,9 @@
-Ext.define('Account.Quotation.Item.Form', {
+Ext.define('Account.Invoice.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/save',
+			url: __site_url+'invoice/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -33,7 +33,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
+					url: __site_url+'invoice/loads_scombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -323,7 +323,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/remove',
+			url:__site_url+'project/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

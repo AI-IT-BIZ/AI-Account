@@ -77,7 +77,7 @@ Ext.define('Account.Project.Item.Form', {
 					'name1'
 				],
 				remoteSort: true,
-				sorters: 'jtype ASC'
+				sorters: 'salnr ASC'
 			}),
 			queryMode: 'remote',
 			displayField: 'name1',

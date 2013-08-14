@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Quotation extends CI_Controller {
+class Invoice extends CI_Controller {
 
 	function __construct()
 	{
@@ -145,6 +145,7 @@ class Quotation extends CI_Controller {
 		}
 
 		$formData = array(
+		    'invnr' => $this->input->post('invnr'),
 			'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
