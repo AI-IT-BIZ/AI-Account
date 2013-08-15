@@ -18,9 +18,12 @@ class Pr extends CI_Controller {
 		$this->db->where('id', $id);
 		$query = $this->db->get('pr');
 		if($query->num_rows()>0){
+			$result = $query->first_row('array');
+			$result['create_date']=substr($result['create_date'], 0, 10);
+
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$query->first_row('array')
+				'data'=>$result
 			));
 		}else
 			echo json_encode(array(
@@ -74,6 +77,10 @@ class Pr extends CI_Controller {
 			'mtart' => $this->input->post('mtart'),
 			'create_date' => $this->input->post('create_date')
 		);
+
+		// start transaction
+		$this->db->trans_start();
+
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('id', $id);
 			$this->db->set('update_date', 'NOW()', false);
@@ -83,14 +90,40 @@ class Pr extends CI_Controller {
 			//$this->db->set('create_date', 'NOW()', false);
 			$this->db->set('create_by', 'test');
 			$this->db->insert('pr', $formData);
+
+			$id = $this->db->insert_id();
 		}
 
-		echo $this->db->last_query();
+		// ลบ pr_item ภายใต้ id ทั้งหมด
+		$this->db->where('pr_id', $id);
+		$this->db->delete('pr_item');
 
-		echo json_encode(array(
-			'success'=>true,
-			'data'=>$_POST
-		));
+		// เตรียมข้อมูล pr item
+		$pr_item = $this->input->post('pr_item');
+		$pr_item_array = json_decode($pr_item);
+
+		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+		foreach($pr_item_array AS $p){
+			$this->db->insert('pr_item', array(
+				'pr_id'=>$id,
+				'code'=>$p->code,
+				'price'=>$p->price,
+				'amount'=>$p->amount
+			));
+		}
+
+		// end transaction
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE)
+			echo json_encode(array(
+				'success'=>false
+			));
+		else
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$_POST
+			));
 	}
 
 	function remove(){
@@ -100,6 +133,24 @@ class Pr extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
+		));
+	}
+
+	///////////////////////////////////////////////
+	// PR ITEM
+	///////////////////////////////////////////////
+
+
+	function loads_pr_item(){
+
+		$pr_id = $this->input->get('pr_id');
+		$this->db->where('pr_id', $pr_id);
+
+		$query = $this->db->get('pr_item');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
 		));
 	}
 
