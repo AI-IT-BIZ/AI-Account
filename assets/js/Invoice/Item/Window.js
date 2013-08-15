@@ -5,7 +5,7 @@ Ext.define('Account.Invoice.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Invoice',
 			//closeAction: 'hide',
-			height: 850,
+			height: 650,
 			width: 950,
 			layout: 'border',
 			//layout: 'accordion',
@@ -21,38 +21,40 @@ Ext.define('Account.Invoice.Item.Window', {
 		this.form = Ext.create('Account.Invoice.Item.Form',{ region:'north' });
         this.grid = Ext.create('Account.Invoice.Item.Grid_i',{ 
         	//title:'Invoice Items'
+        	height: 320,
         	region:'center'
         	});
-        /*this.grid2 = Ext.create('Account.Quotation.Item.Grid_p',{ 
-        	border: false,
-        	region:'center' 
-        	});*/
+        this.grid2 = Ext.create('Account.Invoice.Item.Grid_gl',{ 
+        	//border: false,
+        	region:'south'
+        	});
        this.formTotal = Ext.create('Account.Invoice.Item.Form_t', {
 			border: false,
-			split: true,
-			region:'south'
+			title:'Total Invoice',
+			split: true//,
+			//region:'south'
 		});
 
 		this.items = [
 		     this.form, 
 		     this.grid,
-		  /* {
+		  {
 			xtype:'tabpanel',
-			region:'center',
+			region:'south',
 			activeTab: 0,
 			items: [
-				this.grid,
+				this.formTotal,
 				{
 				xtype: 'panel',
 				border: false,
-				title: 'Payment Periods',
+				title: 'GL Posting',
 				layout: 'border',
 				items:[
-					this.grid2//,
+					this.grid2,
 					
 				]
 			  }]
-			}*/,this.formTotal];
+			}];
 		
           /*this.grid = new Ext.Panel({
 			title:'this is item grid',

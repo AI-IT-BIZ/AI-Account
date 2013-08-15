@@ -217,6 +217,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'adr01',
 			anchor:'90%',
 			width:350,
+			rows:2,
 			labelAlign: 'top',
 			allowBlank: true
 		},{
@@ -225,6 +226,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'adr01',
 			anchor:'90%',
 			width:350,
+			rows:2,
 			labelAlign: 'right',
 			labelAlign: 'top',
 			margin: '0 0 0 135',
