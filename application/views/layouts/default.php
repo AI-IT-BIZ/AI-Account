@@ -14,7 +14,7 @@ function endsWith($haystack, $needle)
 	<meta charset="utf-8">
 	<title>AI Account</title>
 
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all-neptune.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
@@ -36,7 +36,7 @@ function endsWith($haystack, $needle)
 		.box-red:hover { background-color:#de5151; }
 		.box-base { background-color:#004d61; }
 		.box-base:hover { background-color:#0c6177; }
-		
+
 		#div1-1-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-1-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-project { top:30px; left:30px; width: 210px; height:100px; }
@@ -46,7 +46,7 @@ function endsWith($haystack, $needle)
 		#div-rquotation { position:absolute; top:400px; left:30px; width: 100px; height:100px; }
 		#div-rinvoice { position:absolute; top:400px; left:140px; width: 100px; height:100px; }
 		#div-config { position:absolute; top:620px; left:30px; width: 210px; height:100px; }
-		
+
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-2-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-pr { top:30px; left:280px; width: 210px; height:100px; }
@@ -66,7 +66,7 @@ function endsWith($haystack, $needle)
 
 		#div-reconsile { position:absolute; top:400px; left:530px; width: 100px; height:100px; }
 		#div-transfer { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
-		
+
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-deposit { top:30px; left:780px; width: 100px; height:100px; }
@@ -74,7 +74,7 @@ function endsWith($haystack, $needle)
 		#div-return { top:140px; left:780px; width: 100px; height:100px; }
 		#div-salep { top:140px; left:890px; width: 100px; height:100px; }
 		#div-material { top:250px; left:780px; width: 210px; height:100px; }
-		
+
 		#div-trans { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-mat-balance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 	</style>
@@ -125,7 +125,7 @@ function endsWith($haystack, $needle)
 					nodeRecievePayment
 				]
 			};*/
-			
+
 			var nodeProject = {
 				text: 'Create New Projects',
 				leaf: true
@@ -156,7 +156,7 @@ function endsWith($haystack, $needle)
 					nodeCustomer
 				]
 			};
-			
+
 			var nodePR = {
 				text: 'Create New Purcharse Requisitons',
 				leaf: true
@@ -186,7 +186,7 @@ function endsWith($haystack, $needle)
 					nodeVendor
 				]
 			};
-			
+
 			var nodeTrans = {
 				text: 'Create New Material Transactions',
 				leaf: true
@@ -211,7 +211,7 @@ function endsWith($haystack, $needle)
 					nodeMaterial
 				]
 			};
-			
+
 			var nodeReport1 = {
 				text: 'Report 1',
 				leaf: true
@@ -235,7 +235,7 @@ function endsWith($haystack, $needle)
 					nodeReport3
 				]
 			};
-			
+
 			var nodeChart = {
 				text: 'Chart of Accounts',
 				leaf: true
@@ -293,7 +293,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
 									'<div id="div-invoice" class="box box-green"><span>Create New Invoices</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
-									
+
 									'<div id="div-rquotation" class="box box-orange"><span>Quotations Report</span></div>',
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
 									'<div id="div-config" class="box box-base"><span>Configure BizNet Accounts</span></div>',
@@ -304,7 +304,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-po" class="box box-red"><span>Purchase Orders</span></div>',
 									'<div id="div-gr" class="box box-red"><span>Create New Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
-									
+
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
 									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
 								'</div>',
@@ -326,7 +326,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-return" class="box box-green"><span>Product Returns</span></div>',
 									'<div id="div-salep" class="box box-green"><span>Sale Persons</span></div>',
 									'<div id="div-material" class="box box-green"><span>Create new Materials</span></div>',
-									
+
 									'<div id="div-trans" class="box box-orange"><span>Material Transactions</span></div>',
 									'<div id="div-mat-balance" class="box box-orange"><span>Material Balances</span></div>',
 								'</div>'
