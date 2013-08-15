@@ -71,7 +71,8 @@ class Pr extends CI_Controller {
 
 		$formData = array(
 			'code' => $this->input->post('code'),
-			'mtart' => $this->input->post('mtart')
+			'mtart' => $this->input->post('mtart'),
+			'create_date' => $this->input->post('create_date')
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('id', $id);
@@ -79,10 +80,12 @@ class Pr extends CI_Controller {
 			$this->db->set('update_by', 'test');
 			$this->db->update('pr', $formData);
 		}else{
-			$this->db->set('create_date', 'NOW()', false);
+			//$this->db->set('create_date', 'NOW()', false);
 			$this->db->set('create_by', 'test');
 			$this->db->insert('pr', $formData);
 		}
+
+		echo $this->db->last_query();
 
 		echo json_encode(array(
 			'success'=>true,

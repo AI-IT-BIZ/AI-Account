@@ -7,9 +7,9 @@ Ext.define('Account.PR.Item.Form', {
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'top',
+				labelAlign: 'right',
 				labelWidth: 100,
-				width:200,
+				width:300,
 				labelStyle: 'font-weight:bold'
 			}
 		});
@@ -58,7 +58,16 @@ Ext.define('Account.PR.Item.Form', {
 			fieldLabel: 'Code',
 			name: 'code',
 			allowBlank: false
-		}, this.comboMType];
+		},
+		this.comboMType,
+		{
+			xtype: 'datefield',
+			fieldLabel: 'วันที่สร้าง',
+			name: 'create_date',
+			allowBlank: false,
+			format:'d/m/Y',
+			submitFormat:'Y-m-d'
+		}];
 
 		this.buttons = [{
 			text: 'Cancel',
