@@ -337,11 +337,11 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-<<<<<<< HEAD
+
 								pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
 					
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
-=======
+
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
@@ -358,7 +358,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-packing').on('click', function(){ $om.viewport.fireEvent('click_return', c); }, c);
 								pEl.getById('div-salep').on('click', function(){ $om.viewport.fireEvent('click_salep', c); }, c);
->>>>>>> 372de345d31aabab0118ef8ac613603c425ccad0
+
 							}
 						}
 					}
