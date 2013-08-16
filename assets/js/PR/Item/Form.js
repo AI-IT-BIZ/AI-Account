@@ -58,7 +58,13 @@ Ext.define('Account.PR.Item.Form', {
 			fieldLabel: 'Code',
 			name: 'code',
 			allowBlank: false
-		}, this.comboMType];
+		}, this.comboMType,
+		{
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
+			allowBlank: false
+		}];
 
 		this.buttons = [{
 			text: 'Cancel',
