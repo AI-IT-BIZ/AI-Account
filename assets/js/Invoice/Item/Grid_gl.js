@@ -1,4 +1,4 @@
-Ext.define('Account.Invoice.Item.Grid_p', {
+Ext.define('Account.Invoice.Item.Grid_gl', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -12,28 +12,26 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'belnr'
+					idProperty: 'saknr'
 				}
 			},
 			fields: [
-				'paypr',
+				'saknr',
 				'sgtxt',
-				'duedt',
-				'perct',
-				'pramt',
-				'ctype'
+				'netwr1',
+				'netwr2'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['saknr ASC']
 		});
 
 		this.columns = [
-		    {text: "Period No", width: 80, dataIndex: 'vbeln', sortable: true},
-			{text: "Period Desc.", width: 300, dataIndex: 'bldat', sortable: true},
-		    {text: "Period Date", width: 100, dataIndex: 'kunnr', sortable: true},
-			{text: "Percent", width: 100, dataIndex: 'name1', sortable: true},
-			{text: "Amount", width: 150, dataIndex: 'jobnr', sortable: true},
-			{text: "Currency", width: 100, dataIndex: 'jobtx', sortable: true}
+		    {text: "Account No", width: 80, dataIndex: 'saknr', sortable: true},
+			{text: "Account Name", width: 300, dataIndex: 'sgtxt', sortable: true},
+		    {text: "Debit", width: 100, dataIndex: 'netwr1', sortable: true},
+			{text: "Credit", width: 100, dataIndex: 'netwr2', sortable: true}//,
+			//{text: "Amount", width: 150, dataIndex: 'jobnr', sortable: true},
+			//{text: "Currency", width: 100, dataIndex: 'jobtx', sortable: true}
 		];
 
 		this.bbar = {

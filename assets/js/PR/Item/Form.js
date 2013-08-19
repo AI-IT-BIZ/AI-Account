@@ -7,9 +7,9 @@ Ext.define('Account.PR.Item.Form', {
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'right',
+				labelAlign: 'top',
 				labelWidth: 100,
-				width:300,
+				width:200,
 				labelStyle: 'font-weight:bold'
 			}
 		});
@@ -18,10 +18,6 @@ Ext.define('Account.PR.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-
-		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
-			name: 'pr_item'
-		});
 
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Choose Material',
@@ -54,9 +50,7 @@ Ext.define('Account.PR.Item.Form', {
 			valueField: 'mtart'
 		});
 
-		this.items = [
-			this.hdnPrItem,
-		{
+		this.items = [{
 			xtype: 'hidden',
 			name: 'id'
 		},{
@@ -64,16 +58,36 @@ Ext.define('Account.PR.Item.Form', {
 			fieldLabel: 'Code',
 			name: 'code',
 			allowBlank: false
-		},
-		this.comboMType,
+		}, this.comboMType,
 		{
 			xtype: 'datefield',
-			fieldLabel: 'วันที่สร้าง',
-			name: 'create_date',
-			allowBlank: false,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
+			fieldLabel: 'Date',
+			name: 'bldat',
+			allowBlank: false
+		}];
+
+		this.buttons = [{
+			text: 'Cancel',
+			handler: function() {
+				this.up('form').getForm().reset();
+				this.up('window').hide();
+			}
+		}, {
+			text: 'Save',
+			handler: function() {
+				var _form_basic = this.up('form').getForm();
+				if (_form_basic.isValid()) {
+					_form_basic.submit({
+						success: function(form_basic, action) {
+							form_basic.reset();
+							_this.fireEvent('afterSave', _this);
+						},
+						failure: function(form_basic, action) {
+							Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+						}
+					});
+				}
+			}
 		}];
 
 		return this.callParent(arguments);
@@ -83,21 +97,6 @@ Ext.define('Account.PR.Item.Form', {
 			params: { id: id },
 			url:__site_url+'pr/load'
 		});
-	},
-	save : function(){
-		var _this=this;
-		var _form_basic = this.getForm();
-		if (_form_basic.isValid()) {
-			_form_basic.submit({
-				success: function(form_basic, action) {
-					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
-				},
-				failure: function(form_basic, action) {
-					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-				}
-			});
-		}
 	},
 	remove : function(id){
 		var _this=this;

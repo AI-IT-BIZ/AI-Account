@@ -21,6 +21,7 @@ Ext.define('Account.PR.Grid', {
 			fields: [
 				{name:'id', type: 'int'},
 				'code',
+				{name:'bldat'},
 				{name:'create_date'},
 				'create_by',
 				{name:'update_date'},
@@ -33,7 +34,8 @@ Ext.define('Account.PR.Grid', {
 		this.columns = [
 			{text: "Id", width: 120, dataIndex: 'id', sortable: true},
 			{text: "รหัส", flex: true, dataIndex: 'code', sortable: true},
-			{text: "create_date", width: 125, dataIndex: 'create_date', sortable: true}
+			{text: "PR date", flex: true, dataIndex: 'bldat', sortable: true},
+			{text: "Create date", width: 125, dataIndex: 'create_date', sortable: true}
 		];
 
 		this.bbar = {

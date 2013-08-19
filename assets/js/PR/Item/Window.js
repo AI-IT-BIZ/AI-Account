@@ -6,12 +6,13 @@ Ext.define('Account.PR.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Request',
 			closeAction: 'hide',
-			height: 350,
-			width: 450,
-			layout: 'border',
+			height: 300,
+			minHeight: 200,
+			width: 300,
+			minWidth: 300,
+			layout: 'fit',
 			resizable: true,
-			modal: true,
-			border: false
+			modal: true
 		});
 
 		return this.callParent(arguments);
@@ -19,33 +20,9 @@ Ext.define('Account.PR.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.PR.Item.Form', {
-			region:'north',
-			split:true,
-			border:true,
-			height:'120'
-		});
-		this.grid = Ext.create('Account.PR.Item.GridItem', {
-			region:'center'
-		});
+		this.form = Ext.create('Account.PR.Item.Form');
 
-		this.items = [this.form, this.grid];
-
-		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				_this.form.getForm().reset();
-				_this.hide();
-			}
-		}, {
-			text: 'Save',
-			handler: function() {
-				var rs = _this.grid.getData();
-				_this.form.hdnPrItem.setValue(Ext.encode(rs));
-
-				_this.form.save();
-			}
-		}];
+		this.items = this.form;
 
 		return this.callParent(arguments);
 	}

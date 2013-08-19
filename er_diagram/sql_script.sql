@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		13/8/2013
+Modified		15/8/2013
 Project		
 Model		
 Company		
@@ -12,6 +12,9 @@ Database		mySQL 5
 
 
 
+drop table IF EXISTS tbl_bsik;
+drop table IF EXISTS tbl_bsid;
+drop table IF EXISTS tbl_bkpf;
 drop table IF EXISTS tbl_vbrk;
 drop table IF EXISTS tbl_payp;
 drop table IF EXISTS tbl_ctyp;
@@ -134,6 +137,9 @@ Create table tbl_ebko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
+	taxnr Varchar(4) COMMENT 'Tax Type',
+	refnr Varchar(10) COMMENT 'Referance Doc',
+	crdat Int COMMENT 'Credit Date',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Header Doc';
 
@@ -319,7 +325,6 @@ Create table tbl_vbak (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
-	terms Int COMMENT 'Terms',
  Primary Key (vbeln)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -328,13 +333,13 @@ Create table tbl_vbap (
 	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
-	menge Decimal(15,2) COMMENT 'Amount',
+	menge Decimal(15,2) COMMENT 'Quantity',
 	meins Varchar(3) COMMENT 'Unit',
 	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
-	pramt Decimal(17,2) COMMENT 'Item Amount',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
@@ -361,7 +366,7 @@ Create table tbl_kna1 (
 	endin Decimal(17,2) COMMENT 'Ending Amount',
 	sgtxt Varchar(40) COMMENT 'Text Note',
 	ktype Varchar(4) COMMENT 'Customer Type (tbl_ktyp)',
-	erdat Varchar(10) COMMENT 'Create Date',
+	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
 	email Varchar(20) COMMENT 'Email',
 	taxid Varchar(15) COMMENT 'Tax ID',
@@ -461,9 +466,12 @@ Create table tbl_ebpo (
 	purpo Varchar(5) COMMENT 'PR item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
-	menge Decimal(15,2) COMMENT 'Amount',
+	menge Decimal(15,2) COMMENT 'Quantity',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Unit/Price',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Item';
 
@@ -484,6 +492,9 @@ Create table tbl_ekko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	taxnr Varchar(4) COMMENT 'Tax Type',
+	refnr Varchar(10) COMMENT 'Referance Doc',
+	crdat Int COMMENT 'Credit date',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -492,9 +503,12 @@ Create table tbl_ekpo (
 	ebelp Varchar(5) COMMENT 'PO item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
-	menge Decimal(15,2) COMMENT 'Amount',
+	menge Decimal(15,2) COMMENT 'Quantity',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Unit/Price',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Item';
 
@@ -581,9 +595,130 @@ Create table tbl_vbrk (
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
 	saknr Varchar(10) COMMENT 'GL No',
 	vbeln Varchar(10) COMMENT 'SO no',
-	terms Int COMMENT 'Terms',
  Primary Key (invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
+
+Create table tbl_bkpf (
+	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
+	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
+	bldat Date COMMENT 'Invoice Date',
+	budat Date COMMENT 'Posting Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	lidat Int COMMENT 'Limit Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	saknr Varchar(10) COMMENT 'GL No',
+	vbeln Varchar(10) COMMENT 'SO no',
+	blart Varchar(2) COMMENT 'Doc type',
+	invnr Varchar(10) COMMENT 'Invoice no',
+ Primary Key (bukrs,belnr,gjahr)) ENGINE = InnoDB
+COMMENT = 'GL Header Doc';
+
+Create table tbl_bsid (
+	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
+	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
+	buzei Varchar(3) NOT NULL COMMENT 'Line item',
+	bldat Date COMMENT 'Invoice Date',
+	budat Date COMMENT 'Posting Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	lidat Int COMMENT 'Limit Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	saknr Varchar(10) COMMENT 'GL No',
+	vbeln Varchar(10) COMMENT 'SO no',
+	blart Varchar(2) COMMENT 'Doc type',
+	invnr Varchar(10) COMMENT 'Invoice no',
+	augdt Date COMMENT 'Clearing date',
+	augbl Varchar(10) COMMENT 'Clearing Doc',
+	shkzg Varchar(1) COMMENT 'Debit/Credit ind.',
+ Primary Key (bukrs,belnr,gjahr,buzei)) ENGINE = InnoDB
+COMMENT = 'GL Item (Customer)';
+
+Create table tbl_bsik (
+	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
+	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
+	buzei Varchar(3) NOT NULL COMMENT 'Line item',
+	bldat Date COMMENT 'Invoice Date',
+	budat Date COMMENT 'Posting Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	lidat Int COMMENT 'Limit Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	saknr Varchar(10) COMMENT 'GL No',
+	vbeln Varchar(10) COMMENT 'SO no',
+	blart Varchar(2) COMMENT 'Doc type',
+	invnr Varchar(10) COMMENT 'Invoice no',
+	augdt Date COMMENT 'Clearing date',
+	augbl Varchar(10) COMMENT 'Clearing Doc',
+	shkzg Varchar(1) COMMENT 'Debit/Credit ind.',
+ Primary Key (bukrs,belnr,gjahr,buzei)) ENGINE = InnoDB
+COMMENT = 'GL Item (Vendor)';
 
 
 
@@ -678,7 +813,7 @@ INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02
 INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 ('03', 'Board'),('04', 'Event');
 
-INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque'),('02', 'Cash'),('03', 'Transfer to Bank'),('04', 'Credit Card');
+INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to Book Bank'),('04', 'Credit Card');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),
