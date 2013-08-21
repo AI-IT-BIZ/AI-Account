@@ -140,7 +140,7 @@ class Pr extends CI_Controller {
 	// PR ITEM
 	///////////////////////////////////////////////
 
-
+	
 	function loads_pr_item(){
 
 		$pr_id = $this->input->get('pr_id');
