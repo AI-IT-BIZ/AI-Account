@@ -11,6 +11,24 @@ class Customer extends CI_Controller {
 		$this->load->view('customer');
 	}
 
+	function load(){
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('kunnr', $id);
+		$query = $this->db->get('kna1');
+		if($query->num_rows()>0){
+			$result = $query->first_row('array');
+
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+
 	function loads(){
 		$tbName = 'kna1';
 /*
@@ -53,10 +71,10 @@ class Customer extends CI_Controller {
 			//'adr02' => $this->input->post('adr02'),
 			'distr' => $this->input->post('distr'),
 			'telf1' => $this->input->post('telf1'),
-			'telfx' => $this->input->post('telfx'),		
+			'telfx' => $this->input->post('telfx'),
 			'enval' => $this->input->post('pson1'),
 			'cost1' => $this->input->post('taxbs'),
-			
+
 			'saknr' => $this->input->post('saknr'),
 			'taxnr' => $this->input->post('taxnr'),
 			'pleve' => $this->input->post('pleve'),
@@ -68,7 +86,7 @@ class Customer extends CI_Controller {
 			'sgtxt' => $this->input->post('sgtxt'),
 			'ktype' => $this->input->post('ktype')
 			);
-			
+
 		/*if ($query->num_rows() > 0){
 			$this->db->where($tbPK, $id);
 			$this->db->set('update_date', 'NOW()', false);
