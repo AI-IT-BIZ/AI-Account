@@ -13,9 +13,9 @@ class Customer2 extends CI_Controller {
 	}
 
 	function load(){
-		$id = $this->input->post('id');
+		$kunnr = $this->input->post('kunnr');
 		$this->db->limit(1);
-		$this->db->where('id', $id);
+		$this->db->where('kunnr', $kunnr);
 		$query = $this->db->get('kna1');
 		if($query->num_rows()>0){
 			echo json_encode(array(
@@ -61,35 +61,53 @@ class Customer2 extends CI_Controller {
 	}
 
 	function save(){
-		
-		$id = $this->input->post('id');
+		$kunnr = $this->input->post('kunnr');
 		$query = null;
-		if(!empty($id)){
+		if(!empty($kunnr)){
 			$this->db->limit(1);
-			$this->db->where('id', $id);
+			$this->db->where('kunnr', $kunnr);
 			$query = $this->db->get('kna1');
 		}
 
 		$formData = array(
 			'kunnr' => $this->input->post('kunnr'),
 			'name1' => $this->input->post('name1'),
+			
 			'adr01' => $this->input->post('adr01'),
+			'ktype' => $this->input->post('ktype'),
+			
+			'distr' => $this->input->post('distr'),
+			'pstlz' => $this->input->post('pstlz'),
+			'crdit' => $this->input->post('crdit'),
+			
 			'telf1' => $this->input->post('telf1'),
+			'disct' => $this->input->post('disct'),
+			
 			'telfx' => $this->input->post('telfx'),
+			'pleve' => $this->input->post('pleve'),
+			
+			'email' => $this->input->post('email'),
+			
 			'pson1' => $this->input->post('pson1'),
-			'distr' => $this->input->post('distr')
+			'apamt' => $this->input->post('apamt'),
+			
+			'taxid' => $this->input->post('taxid'),
+			'begin' => $this->input->post('begin'),
+			
+			'saknr' => $this->input->post('saknr'),
+			'endin' => $this->input->post('endin'),
+			
+			'taxnr' => $this->input->post('taxnr'),
+			
+			'sgtxt' => $this->input->post('sgtxt')
 			
 		);
-		/*Update Case*/
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('id', $id);
-			$this->db->set('update_date', 'NOW()', false);
-			$this->db->set('update_by', 'wang');
+			$this->db->where('kunnr', $kunnr);
 			$this->db->update('kna1', $formData);
 		}else{
-		/*Create Case*/
-			$this->db->set('create_date', 'NOW()', false);
-			$this->db->set('create_by', 'wang');
+			$this->db->set('erdat', 'NOW()', false);
+			$this->db->set('ernam', 'somwang');
 			$this->db->insert('kna1', $formData);
 		}
 
@@ -100,13 +118,40 @@ class Customer2 extends CI_Controller {
 	}
 
 	function remove(){
-		$id = $this->input->post('id');
-		$this->db->where('id', $id);
+		$kunnr = $this->input->post('kunnr');
+		$this->db->where('kunnr', $kunnr);
 		$query = $this->db->delete('kna1');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$id
+			'data'=>$kunnr
 		));
 	}
 
+	public function loads_combo($tbName,$tbPK,$tbTxt){
+		/*$tbName = 'mtyp';
+		$tbPK = 'mtart';*/
+		
+		$tbName = $tbName;
+		$tbPK = $tbPK;
+		$tbTxt = $tbTxt;
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like($tbTxt, $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
 }
