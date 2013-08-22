@@ -8,7 +8,7 @@ Ext.define('Account.PR.Item.Form', {
 			bodyPadding: 10,
 			fieldDefaults: {
 				labelAlign: 'right',
-				labelWidth: 100,
+				labelWidth: 130,
 				width:300,
 				labelStyle: 'font-weight:bold'
 			}
@@ -19,8 +19,20 @@ Ext.define('Account.PR.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 
+		// INIT Warehouse search popup ///////////////////////////////////////////////
+		this.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
+		// END Warehouse search popup ///////////////////////////////////////////////
+
 		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
 			name: 'pr_item'
+		});
+
+		this.trigWarehouse = Ext.create('Ext.form.field.Trigger', {
+			name: 'customer_code',
+			fieldLabel: 'Warehouse Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
 		});
 
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
@@ -74,7 +86,51 @@ Ext.define('Account.PR.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
+		},
+		this.trigWarehouse,
+		{
+			xtype: 'textfield',
+			fieldLabel: 'Warehouse Text',
+			name: 'warehouse_text',
+			allowBlank: true
 		}];
+
+		// event ///
+		this.trigWarehouse.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'warehouse/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.warnr);
+							_this.getForm().findField('warehouse_text').setValue(r.data.watxt);
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.warehouseDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWarehouse.setValue(record.data.warnr);
+			_this.getForm().findField('warehouse_text').setValue(record.data.watxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.warehouseDialog.hide();
+		});
+
+		this.trigWarehouse.onTriggerClick = function(){
+			_this.warehouseDialog.show();
+		};
 
 		return this.callParent(arguments);
 	},
