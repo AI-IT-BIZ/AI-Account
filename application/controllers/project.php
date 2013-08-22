@@ -77,7 +77,7 @@ class Project extends CI_Controller {
 		$formData = array(
 			'jobnr' => $this->input->post('jobnr'),
 			'jobtx' => $this->input->post('jobtx'),
-			'jtyp' => $this->input->post('jtyp'),
+			'jtype' => $this->input->post('jtype'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
@@ -120,6 +120,30 @@ class Project extends CI_Controller {
 
 		if(!empty($query) && $query!=''){
 			$this->db->or_like('jobtx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+	
+	public function loads_scombo(){
+		$tbName = 'apov';
+		$tbPK = 'statu';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('statx', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 

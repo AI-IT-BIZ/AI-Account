@@ -19,6 +19,40 @@ Ext.define('Account.Invoice.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'INV Status',
+			name : 'statu',
+			labelAlign: 'right',
+			//labelWidth: 95,
+			width: 240,
+			editable: false,
+			margin: '0 0 0 -20',
+			//allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
 
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
@@ -98,7 +132,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please select Tax --',
+			emptyText: '-- Select Tax --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -203,6 +237,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
 			allowBlank: true
 		}]
 // Address Bill&Ship
@@ -275,27 +312,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 25',
 			//width:450,
 			allowBlank: true
-         },{
-            xtype: 'textfield',
-			fieldLabel: 'Exchg.Rate',
-			name: 'exchg',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			margin: '0 0 0 -20',
-			allowBlank: true
-         },{
-			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			//align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
-			margin: '0 0 0 5',
-			width:15,
-			value: 'THB/USD',
-			allowBlank: true
-		}]
+         },this.comboQStatus]
          }]
 
 		//}]

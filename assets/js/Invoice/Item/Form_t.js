@@ -21,6 +21,31 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		var _this=this;
 
 		this.items = [{
+			xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    //margin: '5 0 5 600',
+   items: [{
+            xtype: 'textfield',
+			fieldLabel: 'Exchg.Rate',
+			name: 'exchg',
+			//anchor:'80%',
+			labelAlign: 'right',
+			width:240,
+			margin: '0 0 0 -35',
+			allowBlank: true
+         },{
+   	        xtype: 'displayfield',
+			//fieldLabel: '%',
+			//name: 'taxpr',
+			//align: 'right',
+			//labelWidth: 5,
+			//anchor:'90%',
+			margin: '0 0 0 5',
+			width:15,
+			value: 'THB/USD',
+			allowBlank: true
+		},{
 			xtype: 'textfield',
 			fieldLabel: 'Total',
 			name: 'beamt',
@@ -29,8 +54,9 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			//anchor:'50%',
 			labelWidth: 155,
 			width:270,
-			margin: '0 0 0 600',
+			margin: '0 0 0 375',
 			allowBlank: false
+		}]
 		},{
 			xtype: 'container',
                     layout: 'hbox',

@@ -9,20 +9,23 @@ class Invoice extends CI_Controller {
 
 	function index(){
 		//$this->load->view('project');
+		$this->phxview->RenderView('vbak');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('vbeln', $id);
-		$query = $this->db->get('vbak');
+		$this->db->where('invnr', $id);
+		$query = $this->db->get('vbrk');
 		if($query->num_rows()>0){
-			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['vbeln'];
+			$result = $query->first_row('array');
+			//$result['id'] = $result['vbeln'];
+			$result['bldat']=substr($result['bldat'], 0, 10);
 
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$result_data
+				'data'=>$result
 			));
 		}else
 			echo json_encode(array(
@@ -31,7 +34,7 @@ class Invoice extends CI_Controller {
 	}
 
 	function loads(){
-		$tbName = 'vbak';
+		$tbName = 'vbrk';
 		//$tbName2 = 'jobp';
 /*
 		function createQuery($_this){
@@ -101,7 +104,7 @@ class Invoice extends CI_Controller {
 	}
 	
 	function loads_item(){
-		$tbName = 'vbap';
+		$tbName = 'vbrp';
 		//$tbName2 = 'jobp';
 /*
 		function createQuery($_this){
@@ -140,8 +143,8 @@ class Invoice extends CI_Controller {
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('vbeln', $id);
-			$query = $this->db->get('vbak');
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('vbrk');
 		}
 
 		$formData = array(
@@ -167,19 +170,79 @@ class Invoice extends CI_Controller {
 			'exchg' => $this->input->post('exchg')
 		);
 		
-		  $this->db->set('erdat', 'NOW()', false);
-		  $this->db->set('ernam', 'test');
+		// start transaction
+		$this->db->trans_start();  
 		
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('vbeln', $id);
+			$this->db->where('invnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
 			$this->db->update('vbak', $formData);
 		}else{
-			$this->db->insert('vbak', $formData);
+			$this->db->set('erdat', 'NOW()', false);
+		    $this->db->set('ernam', 'test');
+			$this->db->insert('vbrk', $formData);
+			
+			$id = $this->db->insert_id();
 		}
+
+		// ลบ pr_item ภายใต้ id ทั้งหมด
+		$this->db->where('vbelp', $id);
+		$this->db->delete('vbrp');
+
+		// เตรียมข้อมูล pr item
+		$vbap = $this->input->post('vbrp');
+		$qt_item_array = json_decode($vbap);
+
+		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+		foreach($qt_item_array AS $p){
+			$this->db->insert('vbrp', array(
+				//'vbeln'=>$id,
+				'vbelp'=>$id,
+				'matnr'=>$p->matnr,
+				'menge'=>$p->menge,
+				'meins'=>$p->meins,
+				'dismt'=>$p->dismt,
+				'unitp'=>$p->unitp,
+				'itamt'=>$p->itamt,
+				'ctype'=>$p->ctype
+			));
+		}
+
+		// end transaction
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE)
+			echo json_encode(array(
+				'success'=>false
+			));
+		else
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$_POST
+			));
+	}
+
+    public function loads_acombo(){
+		$tbName = 'apov';
+		$tbPK = 'statu';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('statx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
 
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$_POST
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
 		));
 	}
 
@@ -254,8 +317,8 @@ class Invoice extends CI_Controller {
 
 	function remove(){
 		$id = $this->input->post('id');
-		$this->db->where('vbeln', $id);
-		$query = $this->db->delete('vbak');
+		$this->db->where('invnr', $id);
+		$query = $this->db->delete('vbrk');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
