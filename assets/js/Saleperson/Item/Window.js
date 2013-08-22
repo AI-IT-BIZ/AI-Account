@@ -1,12 +1,12 @@
-Ext.define('Account.Customer.Item.Window', {
+Ext.define('Account.Saleperson.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Customer',
+			title: 'Create/Edit Sale Person',
 			closeAction: 'hide',
-			height: 560,
-			width: 830,
+			height: 430,
+			width: 620,
 			layout: 'border',
 			resizable: true,
 			modal: true
@@ -17,7 +17,7 @@ Ext.define('Account.Customer.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Customer.Item.Form');//, { region:'north' });
+		this.form = Ext.create('Account.Saleperson.Item.Form');//, { region:'north' });
 
 		/*this.grid = new Ext.Panel({
 			title:'this is item grid',

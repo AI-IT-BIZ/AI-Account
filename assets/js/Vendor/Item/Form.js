@@ -1,9 +1,9 @@
-Ext.define('Account.Customer.Item.Form', {
+Ext.define('Account.Vendor.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'customer2/save',
+			url: __site_url+'vendor/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -22,10 +22,10 @@ Ext.define('Account.Customer.Item.Form', {
 
 /*(1)---ComboBox-------------------------------*/
 /*---ComboBox Type-------------------------------*/
-		this.comboKtype = Ext.create('Ext.form.ComboBox', {
+		this.comboVtype = Ext.create('Ext.form.ComboBox', {
 							
 			fieldLabel: 'Type',
-			name: 'ktype',
+			name: 'vtype',
 			width:320,
 			labelWidth: 180,
 			editable: false,
@@ -37,23 +37,23 @@ Ext.define('Account.Customer.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer2/loads_combo/ktyp/ktype/custx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'vendor/loads_combo/vtyp/vtype/ventx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
-						idProperty: 'ktype'
+						idProperty: 'vtype'
 					}
 				},
 				fields: [
-					'ktype',
-					'custx'
+					'vtype',
+					'ventx'
 				],
 				remoteSort: true,
-				sorters: 'ktype ASC'
+				sorters: 'vtype ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'custx',
-			valueField: 'ktype'
+			displayField: 'ventx',
+			valueField: 'vtype'
 		});
 /*---ComboBox Price Level----------------------------*/
 		this.comboPleve = Ext.create('Ext.form.ComboBox', {
@@ -71,7 +71,7 @@ Ext.define('Account.Customer.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer2/loads_combo/plev/pleve/cost',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'vendor/loads_combo/plev/pleve/cost',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -105,7 +105,7 @@ Ext.define('Account.Customer.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',  
-					url: __site_url+'customer2/loads_combo/dist/distr/distx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'vendor/loads_combo/dist/distr/distx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -139,7 +139,7 @@ Ext.define('Account.Customer.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer2/loads_combo/glno/saknr/sgtxt',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'vendor/loads_combo/glno/saknr/sgtxt',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -173,7 +173,7 @@ Ext.define('Account.Customer.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer2/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'vendor/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -200,10 +200,10 @@ Ext.define('Account.Customer.Item.Form', {
 			
 
 /*(3)---Start Form-------------------------------*/	
-/*---Customer Head fieldset 1 --------------------------*/
+/*---Vendor Head fieldset 1 --------------------------*/
 /*------------------------------------------------------*/
 xtype:'fieldset',
-title: 'Customer Head',
+title: 'Vendor Head',
 //collapsible: true,
 defaultType: 'textfield',
 layout: 'anchor',
@@ -217,8 +217,8 @@ defaults: {anchor: '100%'},
 					name: 'id'
 					},{
 					xtype: 'textfield',
-					fieldLabel: 'Customer Code',
-					name: 'kunnr',
+					fieldLabel: 'Vendor Code',
+					name: 'lifnr',
 					//flex: 2,
 					//anchor:'90%',
 					width:290,
@@ -226,7 +226,7 @@ defaults: {anchor: '100%'},
 					allowBlank: false
 					},{
 					xtype: 'textfield',
-					fieldLabel: 'Customer Name',
+					fieldLabel: 'Vendor Name',
 					name: 'name1',
 					//flex: 2,
 					//anchor:'90%',
@@ -234,11 +234,11 @@ defaults: {anchor: '100%'},
 					allowBlank: false
 			}]
 	}]
-/*---Customer Data fieldset 2--------------------------*/
+/*---Vendor Data fieldset 2--------------------------*/
 /*-----------------------------*/
 },{
 xtype:'fieldset',
-title: 'Customer Data',
+title: 'Vendor Data',
 //collapsible: true,
 defaultType: 'textfield',
 layout: 'anchor',
@@ -255,7 +255,7 @@ defaults: {anchor: '100%'},
 					width:450,
 					height:50,
 					allowBlank: true
-				},this.comboKtype,{
+				},this.comboVtype,{
 					
 			}]
 	/*=======================*/
@@ -341,8 +341,6 @@ defaults: {anchor: '100%'},
 		            labelWidth: 100,
 		            name: '',
 		            width: 160
-		            
-					},this.comboPleve,{
 			}]
 	/*=======================*/
 	},{
@@ -452,28 +450,26 @@ defaults: {anchor: '100%'},
 					fieldLabel: '',
 		            labelWidth: 100,
 		            name: '',
-		            width: 160
-		            
+		            width: 15
 					},{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            name: '',
-		            labelWidth: 180,
-		            width: 280,
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;'
+		            xtype: 'checkboxfield',
+		            name: 'retax',
+		            fieldLabel: '',
+		            //value: '1',
+                	inputValue: '1',
+                	//checked: true,
+		            boxLabel: 'ขอคืนภาษี'	
 			}]
 			
 	/*=======================*/
 	/*=======================*/
 			
 	}]	
-/*---Customer Note fieldset 3--------------------------*/
+/*---Vendor Note fieldset 3--------------------------*/
 /*-----------------------------------------------------*/
 },{
 xtype:'fieldset',
-title: 'Customer Note',
+title: 'Vendor Note',
 //collapsible: true,
 defaultType: 'textfield',
 layout: 'anchor',
@@ -525,17 +521,17 @@ defaults: {anchor: '100%'},
 	},
 
 /*(5)---Call Function-------------------------------*/	
-	load : function(kunnr){
+	load : function(lifnr){
 		this.getForm().load({
-			params: { kunnr: kunnr },
-			url:__site_url+'customer2/load'
+			params: { lifnr: lifnr },
+			url:__site_url+'vendor/load'
 		});
 	},
-	remove : function(kunnr){
+	remove : function(lifnr){
 		var _this=this;
 		this.getForm().load({
-			params: { kunnr: kunnr },
-			url:__site_url+'customer2/remove',
+			params: { lifnr: lifnr },
+			url:__site_url+'vendor/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

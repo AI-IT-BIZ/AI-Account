@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Customer.Grid', {
+Ext.define('Account.PR2.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -11,34 +11,34 @@ Ext.define('Account.Customer.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customer2/loads',
+				url: __site_url+'pr2/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'kunnr'
+					idProperty: 'id'
 				}
 			},
 			fields: [
-				'kunnr',
+				{name:'id', type: 'int'},
+				'purnr',
+				{name:'bldat'},
+				'lifnr',
 				'name1',
-				'adr01',
-				'distr',
-				'telf1',
-				'telfx',
-				'pson1'
+				'netwr',
+				'statx'
 			],
 			remoteSort: true,
-			sorters: ['kunnr ASC']
+			sorters: ['id ASC']
 		});
 
 		this.columns = [
-			{text: "Code", width: 80, dataIndex: 'kunnr', sortable: true},
-			{text: "Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Address", flex: true, dataIndex: 'adr01', sortable: true},
-			{text: "District", flex: true, dataIndex: 'distr', sortable: true},
-			{text: "Telephon", flex: true, dataIndex: 'telf1', sortable: true},
-			{text: "Fax No", flex: true, dataIndex: 'telfx', sortable: true},
-			{text: "Contact Person", flex: true, dataIndex: 'pson1', sortable: true}
+			//{text: "Id", width: 120, dataIndex: 'id', sortable: true},
+			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
+			{text: "PR Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
+			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
+			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

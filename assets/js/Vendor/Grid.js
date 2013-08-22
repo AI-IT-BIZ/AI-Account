@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Customer.Grid', {
+Ext.define('Account.Vendor.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -11,15 +11,15 @@ Ext.define('Account.Customer.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customer2/loads',
+				url: __site_url+'vendor/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'kunnr'
+					idProperty: 'lifnr'
 				}
 			},
 			fields: [
-				'kunnr',
+				'lifnr',
 				'name1',
 				'adr01',
 				'distr',
@@ -28,11 +28,11 @@ Ext.define('Account.Customer.Grid', {
 				'pson1'
 			],
 			remoteSort: true,
-			sorters: ['kunnr ASC']
+			sorters: ['lifnr ASC']
 		});
 
 		this.columns = [
-			{text: "Code", width: 80, dataIndex: 'kunnr', sortable: true},
+			{text: "Code", width: 80, dataIndex: 'lifnr', sortable: true},
 			{text: "Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Address", flex: true, dataIndex: 'adr01', sortable: true},
 			{text: "District", flex: true, dataIndex: 'distr', sortable: true},
@@ -55,50 +55,4 @@ Ext.define('Account.Customer.Grid', {
 	}
 });
 
-/*
-var store = new Ext.data.JsonStore({
-		// store configs
-		proxy: {
-			type: 'ajax',
-			url: '<?= site_url("pr/loads") ?>',
-			reader: {
-				type: 'json',
-				root: 'rows',
-				idProperty: 'id'
-			}
-		},
-		fields: [
-			{name:'id', type: 'int'},
-			'code',
-			{name:'create_date'},
-			'create_by',
-			{name:'update_date'},
-			'update_by'
-		],
-		remoteSort: true,
-		sorters: ['id ASC']
-	});
 
-	// create the grid
-	var grid = Ext.create('Ext.grid.Panel', {
-		store: store,
-		columns: [
-			{text: "Id", width: 120, dataIndex: 'id', sortable: true},
-			{text: "รหัส", flex: true, dataIndex: 'code', sortable: true},
-			{text: "create_date", width: 125, dataIndex: 'create_date', sortable: true}
-		],
-		forceFit: true,
-		height:210,
-		split: true,
-		region: 'center',
-		tbar : [
-			addAct
-		],
-		bbar: {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: store,
-			displayInfo: true
-		}
-	});
-*/

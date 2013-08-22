@@ -1,3 +1,8 @@
 https://github.com/AI-IT-BIZ/AI-Account
 
 test commit
+#----Somwang Update
+1) 14/-8/13 แก้ชนิดของฟิลด์ erdat ในตาราง kna1 เป็น datetime นะคะ
+2) 19/-8/13 เพิ่มฟิลด์ id ในตาราง ebko,ebpo
+3) 19/-8/13 เพิ่มฟิลด์ pr_id ในตาราง ebpo
+4) 19/-8/13 เพิ่มฟิลด์ taxnr ในตาราง ebko
