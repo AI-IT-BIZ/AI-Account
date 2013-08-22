@@ -2,8 +2,8 @@
 Ext.Loader.setPath('Account', __base_url+'assets/js');
 
 Ext.onReady(function() {
-    $om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-    $om.quotationDialog.show();
+       // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
+		//$om.invoiceDialog.show();
     
 	$om.viewport.on('click_income', function(){
 		if(!$om.prDialog)

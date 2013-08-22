@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		15/8/2013
+Modified		21/8/2013
 Project		
 Model		
 Company		
@@ -11,7 +11,13 @@ Database		mySQL 5
 
 
 
+Drop View IF EXISTS v_qt_customer
+;
 
+
+
+
+drop table IF EXISTS tbl_vbrp;
 drop table IF EXISTS tbl_bsik;
 drop table IF EXISTS tbl_bsid;
 drop table IF EXISTS tbl_bkpf;
@@ -137,9 +143,6 @@ Create table tbl_ebko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
-	taxnr Varchar(4) COMMENT 'Tax Type',
-	refnr Varchar(10) COMMENT 'Referance Doc',
-	crdat Int COMMENT 'Credit Date',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Header Doc';
 
@@ -333,7 +336,7 @@ Create table tbl_vbap (
 	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
-	menge Decimal(15,2) COMMENT 'Quantity',
+	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
 	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
@@ -466,12 +469,9 @@ Create table tbl_ebpo (
 	purpo Varchar(5) COMMENT 'PR item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
-	menge Decimal(15,2) COMMENT 'Quantity',
+	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
-	ctype Varchar(3) COMMENT 'Currency',
-	unitp Decimal(17,2) COMMENT 'Unit/Price',
-	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Item';
 
@@ -492,9 +492,6 @@ Create table tbl_ekko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
-	taxnr Varchar(4) COMMENT 'Tax Type',
-	refnr Varchar(10) COMMENT 'Referance Doc',
-	crdat Int COMMENT 'Credit date',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -503,12 +500,9 @@ Create table tbl_ekpo (
 	ebelp Varchar(5) COMMENT 'PO item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
-	menge Decimal(15,2) COMMENT 'Quantity',
+	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
-	ctype Varchar(3) COMMENT 'Currency',
-	unitp Decimal(17,2) COMMENT 'Unit/Price',
-	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Item';
 
@@ -720,6 +714,20 @@ Create table tbl_bsik (
  Primary Key (bukrs,belnr,gjahr,buzei)) ENGINE = InnoDB
 COMMENT = 'GL Item (Vendor)';
 
+Create table tbl_vbrp (
+	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	dismt Decimal(17,2) COMMENT 'Discount amt',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+ Primary Key (vbeln,vbelp)) ENGINE = InnoDB
+COMMENT = 'SO Item';
 
 
 
@@ -728,6 +736,14 @@ COMMENT = 'GL Item (Vendor)';
 
 
 
+
+
+
+
+create view v_qt_customer as
+
+select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01` from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)))
+;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

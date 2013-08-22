@@ -1,5 +1,9 @@
 Ext.define('Account.Quotation.MainWindow', {
 	extend	: 'Ext.window.Window',
+	requires : [
+		'Account.Quotation.Grid',
+		'Account.Quotation.Item.Window'
+	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -48,6 +52,9 @@ Ext.define('Account.Quotation.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
+			
+			// สั่ง pr_item grid load
+			_this.itemDialog.grid.load({vbelp: 0});
 		});
 		
 		this.editAct.setHandler(function(){
@@ -56,6 +63,9 @@ Ext.define('Account.Quotation.MainWindow', {
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
+				
+				// สั่ง pr_item grid load
+				_this.itemDialog.grid.load({vbelp: id});
 			}
 		});
 
@@ -70,11 +80,11 @@ Ext.define('Account.Quotation.MainWindow', {
 		//this.itemDialog.form.on('afterSave', function(){
 		//	_this.itemDialog.hide();
 		//	_this.grid.load();
-		//});
+		//);
 
 		//this.itemDialog.form.on('afterDelete', function(){
 		//	_this.grid.load();
-		//});
+	//	});
 
 
 		// --- after ---

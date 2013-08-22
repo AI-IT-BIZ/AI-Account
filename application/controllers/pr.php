@@ -5,6 +5,12 @@ class Pr extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model('code_model','',TRUE);
+	}
+
+	function test_get_code(){
+		echo $this->code_model->generate('PR', '2013-05-22');
 	}
 
 	function index(){
@@ -32,6 +38,8 @@ class Pr extends CI_Controller {
 	}
 
 	function loads(){
+		//$this->db->set_dbprefix('v_');
+
 		$tbName = 'pr';
 /*
 		function createQuery($_this){
@@ -59,7 +67,7 @@ class Pr extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$query->num_rows()
 		));
 	}
 

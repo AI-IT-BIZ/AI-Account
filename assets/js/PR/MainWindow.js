@@ -42,7 +42,8 @@ Ext.define('Account.PR.MainWindow', {
 		this.itemDialog = Ext.create('Account.PR.Item.Window');
 
 		this.grid = Ext.create('Account.PR.Grid', {
-			region:'center'
+			region:'center',
+			border: false
 		});
 
 		this.items = [this.grid];
@@ -52,6 +53,9 @@ Ext.define('Account.PR.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
+
+			// สั่ง pr_item grid load
+			_this.itemDialog.grid.load({pr_id: 0});
 		});
 
 		this.editAct.setHandler(function(){
@@ -60,6 +64,9 @@ Ext.define('Account.PR.MainWindow', {
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
+
+				// สั่ง pr_item grid load
+				_this.itemDialog.grid.load({pr_id: id});
 			}
 		});
 
@@ -73,6 +80,7 @@ Ext.define('Account.PR.MainWindow', {
 
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
+
 			_this.grid.load();
 		});
 

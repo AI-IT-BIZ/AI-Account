@@ -11,7 +11,7 @@ Ext.define('Account.Project.Item.Form', {
 				msgTarget: 'qtip',//'side',
 				labelWidth: 105,
 				//width:300,
-				labelStyle: 'font-weight:bold'
+				//labelStyle: 'font-weight:bold'
 			}
 		});
 
@@ -23,7 +23,7 @@ Ext.define('Account.Project.Item.Form', {
 		this.comboJType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Project Type',
 			name : 'jtype',
-			labelWidth: 95,
+			labelWidth: 100,
 			//width: 300,
 			editable: false,
 			allowBlank : false,
@@ -52,11 +52,43 @@ Ext.define('Account.Project.Item.Form', {
 			valueField: 'jtype'
 		});
 		
+		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Project Status',
+			name : 'statu',
+			labelWidth: 100,
+			//width: 300,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'project/loads_scombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
+		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Project Owner',
 			name : 'salnr',
-			labelWidth: 95,
-			//width: 300,
+			labelWidth: 100,
+			width: 300,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -132,9 +164,9 @@ Ext.define('Account.Project.Item.Form', {
 			allowBlank: true
 		},{
             fieldLabel: 'Phone Number',
-            labelWidth: 110,
+            labelWidth: 105,
             name: 'telf1',
-            width: 200,
+            width: 205,
             emptyText: 'xxx-xxx-xxxx',
             maskRe: /[\d\-]/,
             regex: /^\d{3}-\d{3}-\d{4}$/,
@@ -150,7 +182,12 @@ Ext.define('Account.Project.Item.Form', {
          defaults: {
                   anchor: '100%'
                 },
-     items: [this.comboJType,{
+     items: [{
+     	xtype: 'container',
+        layout: 'hbox',
+        margin: '0 0 5 0',
+     items: [this.comboJType,this.comboJStatus]
+	   },{
      	xtype: 'container',
         layout: 'hbox',
         margin: '0 0 5 0',
@@ -159,7 +196,7 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project No',
 			name: 'jobnr',
 			anchor:'100%',
-			labelWidth: 95,
+			labelWidth: 100,
 			allowBlank: false
 		},{
 			xtype: 'datefield',
@@ -167,6 +204,9 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'bldat',
 			anchor:'100%',
 			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
 			allowBlank: false
 	    }]
 	   },{
@@ -174,7 +214,7 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Name',
 			name: 'jobtx',
 			width: 555,
-			labelWidth: 95,
+			labelWidth: 100,
 			allowBlank: false
 	
 	    },{
@@ -197,14 +237,14 @@ Ext.define('Account.Project.Item.Form', {
                     layout: 'hbox',
                     margin: '0 0 5 0',
      items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Project Amt',
+			xtype: 'numberfield',
+			fieldLabel: 'Project Amount',
 			name: 'pramt',
 			anchor:'100%',
-			labelWidth: 95,
+			labelWidth: 100,
 			allowBlank: true
 	    },{
-			xtype: 'textfield',
+			xtype: 'numberfield',
 			fieldLabel: 'Estimate Cost',
 			name: 'esamt',
 			anchor:'100%',
@@ -220,7 +260,10 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Start Date',
 			name: 'stdat',
 			anchor:'100%',
-			labelWidth: 95,
+			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
 			allowBlank: true
 	    },{
 			xtype: 'datefield',
@@ -228,6 +271,9 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'endat',
 			anchor:'100%',
 			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
 			allowBlank: true
 	    },{
 			xtype: 'displayfield',

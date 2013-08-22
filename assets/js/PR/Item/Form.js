@@ -7,9 +7,9 @@ Ext.define('Account.PR.Item.Form', {
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'top',
-				labelWidth: 100,
-				width:200,
+				labelAlign: 'right',
+				labelWidth: 130,
+				width:300,
 				labelStyle: 'font-weight:bold'
 			}
 		});
@@ -18,6 +18,22 @@ Ext.define('Account.PR.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+
+		// INIT Warehouse search popup ///////////////////////////////////////////////
+		this.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
+		// END Warehouse search popup ///////////////////////////////////////////////
+
+		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
+			name: 'pr_item'
+		});
+
+		this.trigWarehouse = Ext.create('Ext.form.field.Trigger', {
+			name: 'customer_code',
+			fieldLabel: 'Warehouse Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
 
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Choose Material',
@@ -50,7 +66,9 @@ Ext.define('Account.PR.Item.Form', {
 			valueField: 'mtart'
 		});
 
-		this.items = [{
+		this.items = [
+			this.hdnPrItem,
+		{
 			xtype: 'hidden',
 			name: 'id'
 		},{
@@ -58,37 +76,61 @@ Ext.define('Account.PR.Item.Form', {
 			fieldLabel: 'Code',
 			name: 'code',
 			allowBlank: false
-		}, this.comboMType,
+		},
+		this.comboMType,
 		{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat',
-			allowBlank: false
+			fieldLabel: 'วันที่สร้าง',
+			name: 'create_date',
+			allowBlank: false,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+		},
+		this.trigWarehouse,
+		{
+			xtype: 'textfield',
+			fieldLabel: 'Warehouse Text',
+			name: 'warehouse_text',
+			allowBlank: true
 		}];
 
-		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				this.up('form').getForm().reset();
-				this.up('window').hide();
-			}
-		}, {
-			text: 'Save',
-			handler: function() {
-				var _form_basic = this.up('form').getForm();
-				if (_form_basic.isValid()) {
-					_form_basic.submit({
-						success: function(form_basic, action) {
-							form_basic.reset();
-							_this.fireEvent('afterSave', _this);
-						},
-						failure: function(form_basic, action) {
-							Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+		// event ///
+		this.trigWarehouse.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'warehouse/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.warnr);
+							_this.getForm().findField('warehouse_text').setValue(r.data.watxt);
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
-					});
-				}
+					}
+				});
 			}
-		}];
+		}, this);
+
+		_this.warehouseDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWarehouse.setValue(record.data.warnr);
+			_this.getForm().findField('warehouse_text').setValue(record.data.watxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.warehouseDialog.hide();
+		});
+
+		this.trigWarehouse.onTriggerClick = function(){
+			_this.warehouseDialog.show();
+		};
 
 		return this.callParent(arguments);
 	},
@@ -97,6 +139,21 @@ Ext.define('Account.PR.Item.Form', {
 			params: { id: id },
 			url:__site_url+'pr/load'
 		});
+	},
+	save : function(){
+		var _this=this;
+		var _form_basic = this.getForm();
+		if (_form_basic.isValid()) {
+			_form_basic.submit({
+				success: function(form_basic, action) {
+					form_basic.reset();
+					_this.fireEvent('afterSave', _this);
+				},
+				failure: function(form_basic, action) {
+					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+				}
+			});
+		}
 	},
 	remove : function(id){
 		var _this=this;
