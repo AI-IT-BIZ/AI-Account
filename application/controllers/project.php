@@ -5,10 +5,19 @@ class Project extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		
+		$this->load->model('code_model','',TRUE);
 	}
+	
+	/*
+	function test_get_code(){
+		echo $this->code_model->generate('PR', '2013-05-22');
+	}*/
 
 	function index(){
 		//$this->load->view('project');
+		$this->phxview->RenderView('jobk');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
@@ -31,6 +40,7 @@ class Project extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'jobk';
 		//$tbName2 = 'jobp';
 /*

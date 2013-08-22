@@ -32,10 +32,10 @@ Ext.define('Account.Project.Grid', {
 		});
 
 		this.columns = [
+		    {text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
+			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Project Date", width: 90, dataIndex: 'bldat', sortable: true},
 			{text: "Status", width: 60, dataIndex: 'statu', sortable: true},
 			{text: "Owner", width: 100, dataIndex: 'salnr', sortable: true},

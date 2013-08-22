@@ -19,16 +19,9 @@ Ext.define('Account.Quotation.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-        /*{
-            xtype: 'textfield',
-			fieldLabel: 'Exchg.Rate',
-			name: 'exchg',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			margin: '0 0 0 -20',
-			allowBlank: true
-         }*/
+        // INIT Warehouse search popup ///////////////////////////////////
+		this.qtDialog = Ext.create('Account.Warehouse.MainWindow');
+		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
 			name : 'statu',

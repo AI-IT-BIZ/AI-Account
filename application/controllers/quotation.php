@@ -5,6 +5,17 @@ class Quotation extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		
+		$this->load->model('code_model','',TRUE);
+	}
+	/*
+	function test_get_code(){
+		echo $this->code_model->generate('PR', '2013-05-22');
+	}*/
+
+	function index(){
+		$this->phxview->RenderView('vbak');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function index(){
@@ -34,6 +45,7 @@ class Quotation extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
 		//$tbName2 = 'jobp';
 /*

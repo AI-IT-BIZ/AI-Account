@@ -20,6 +20,9 @@ Ext.define('Account.Project.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
+		// INIT Warehouse search popup ///////
+		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		
 		this.comboJType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Project Type',
 			name : 'jtype',
@@ -116,6 +119,14 @@ Ext.define('Account.Project.Item.Form', {
 			valueField: 'salnr'
 		});
 		
+		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
+			name: 'kunnr',
+			fieldLabel: 'Customer Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
 		this.items = [{
 			xtype:'fieldset',
             title: 'Customer Data',
@@ -132,15 +143,7 @@ Ext.define('Account.Project.Item.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
-		},{
-			xtype: 'textfield',
-			fieldLabel: 'Customer Code',
-			name: 'kunnr',
-			//flex: 2,
-			//anchor:'90%',
-			//width:300,
-			allowBlank: false
-		},{
+		},this.trigCustomer,{
 			xtype: 'displayfield',
             fieldLabel: '',
             //flex: 3,
@@ -287,14 +290,62 @@ Ext.define('Account.Project.Item.Form', {
 		//}]
 		}];
 
+		//return this.callParent(arguments);
+	//},
+	
+	// event ///
+		this.trigCustomer.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.kunnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+							_this.getForm().findField('telf1').setValue(r.data.telf1);
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer.setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('adr01').setValue(record.data.adr01);
+			_this.getForm().findField('telf1').setValue(record.data.telf1);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog.hide();
+		});
+
+		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.show();
+		};
+
 		return this.callParent(arguments);
 	},
+	
+	// load //
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
 			url:__site_url+'project/load'
 		});
 	},
+	
+	// save //
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
