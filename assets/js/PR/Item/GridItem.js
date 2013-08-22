@@ -12,9 +12,15 @@ Ext.define('Account.PR.Item.GridItem', {
 			iconCls: 'b-small-plus'
 		});
 
+		// INIT Warehouse search popup ///////////////////////////////////////////////
+		this.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
+		// END Warehouse search popup ///////////////////////////////////////////////
+
 		this.tbar = [this.addAct, this.deleteAct];
 
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing');
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		});
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -39,13 +45,20 @@ Ext.define('Account.PR.Item.GridItem', {
 		this.columns = [{
 			text: "Code", flex: true, dataIndex: 'code', sortable: true,
 			field: {
-				type: 'textfield'
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				allowBlank : false,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.warehouseDialog.show();
+				}
 			},
 			sortable: false
 		}, {
 			text: "Price", width: 100, dataIndex: 'price', sortable: true,
 			field: {
-				type: 'numberfield',
+				xtype: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
@@ -55,13 +68,15 @@ Ext.define('Account.PR.Item.GridItem', {
 					}
 				}
 			},
+			renderer: function(v,p,r){ return (v)?Ext.util.Format.usMoney(v).replace(/^\$/, ''):''; },
 			sortable: false
 		}, {
 			text: "Amount", width: 100, dataIndex: 'amount', sortable: true,
 			field: {
-				type: 'numberfield',
+				xtype: 'numberfield',
 				decimalPrecision: 2
 			},
+			renderer: function(v,p,r){ return (v)?Ext.util.Format.usMoney(v).replace(/^\$/, ''):''; },
 			sortable: false
 		}, {
 			xtype: 'actioncolumn',
@@ -79,9 +94,60 @@ Ext.define('Account.PR.Item.GridItem', {
 		this.plugins = [this.editing];
 
 
-		// init event
+		// init event ///////
 		this.addAct.setHandler(function(){
 			_this.addRecord();
+		});
+
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='code'){
+				var v = e.value;
+
+				if(Ext.isEmpty(v)) return;
+
+				Ext.Ajax.request({
+					url: __site_url+'warehouse/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							var rModel = _this.store.getById(e.record.data.id);
+
+							// change cell code value (use db value)
+							rModel.set(e.field, r.data.warnr);
+
+							// change cell price value
+							rModel.set('price', 100+Math.random());
+
+							// change cell amount value
+							rModel.set('amount', 100+Math.random());
+						}else{
+							_this.editing.startEdit(e.record, e.column);
+						}
+					}
+				});
+			}
+		});
+
+		_this.warehouseDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+
+				// change cell code value (use db value)
+				rModel.set('code', record.data.warnr);
+
+				// change cell price value
+				rModel.set('price', 100+Math.random());
+
+				// change cell amount value
+				rModel.set('amount', 100+Math.random());
+			}
+			grid.getSelectionModel().deselectAll();
+			_this.warehouseDialog.hide();
 		});
 
 		return this.callParent(arguments);

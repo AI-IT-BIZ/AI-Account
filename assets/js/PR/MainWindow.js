@@ -42,7 +42,8 @@ Ext.define('Account.PR.MainWindow', {
 		this.itemDialog = Ext.create('Account.PR.Item.Window');
 
 		this.grid = Ext.create('Account.PR.Grid', {
-			region:'center'
+			region:'center',
+			border: false
 		});
 
 		this.items = [this.grid];

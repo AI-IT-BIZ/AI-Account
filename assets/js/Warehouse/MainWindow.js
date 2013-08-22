@@ -17,7 +17,7 @@ Ext.define('Account.Warehouse.MainWindow', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -34,11 +34,12 @@ Ext.define('Account.Warehouse.MainWindow', {
 			text: 'Delete',
 			iconCls: 'b-small-minus'
 		});
-		
+
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		this.grid = Ext.create('Account.Warehouse.Grid', {
-			region:'center'
+			region:'center',
+			border: false
 		});
 
 		this.itemDialog = Ext.create('Account.Warehouse.Item.Window');
@@ -49,7 +50,7 @@ Ext.define('Account.Warehouse.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
 		});
-		
+
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
