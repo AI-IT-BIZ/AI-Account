@@ -1028,4 +1028,3 @@ INSERT INTO tbl_ctyp (ctype, curtx) VALUES ('THB', 'Thai baht'),('USD', 'US Doll
 ('ZMW',	'Zambia Kwacha'),
 ('ZWD',	'Zimbabwe Dollar');
 
-

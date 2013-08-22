@@ -62,7 +62,6 @@ class Customer extends CI_Controller {
 	}
 
 	function save(){
-
 		$formData = array(
 			'kunnr' => $this->input->post('kunnr'),
 			'name1' => $this->input->post('name1'),

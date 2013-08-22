@@ -15,6 +15,21 @@ Ext.onReady(function() {
 			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
 		$om.warehouseDialog.show();
 	});
+//<<<<<<< HEAD
+	
+	$om.viewport.on('click_balance', function(){
+		if(!$om.warehouseDialog)
+			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
+		$om.warehouseDialog.show();
+	});
+	
+	$om.viewport.on('click_customer', function(){
+		if(!$om.customerDialog)
+			$om.customerDialog = Ext.create('Account.Customer.MainWindow');
+		$om.customerDialog.show();
+	});
+	
+//=======
 	//Sale Module
 	$om.viewport.on('click_project', function(){
 		if(!$om.projectDialog)
@@ -31,6 +46,25 @@ Ext.onReady(function() {
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
+//>>>>>>> 1c8f8bbd3fc200a5b2da2715f79b31f50b6b03c5
+	$om.viewport.on('click_vendor', function(){
+		if(!$om.vendorDialog)
+			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		$om.vendorDialog.show();
+	});
+	
+	$om.viewport.on('click_salep', function(){
+		if(!$om.salepersonDialog)
+			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
+		$om.salepersonDialog.show();
+	});
+	
+	$om.viewport.on('click_pr', function(){
+		if(!$om.pr2Dialog)
+			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
+		$om.pr2Dialog.show();
+	});
+	
 
 });
 </script>
