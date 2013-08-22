@@ -75,7 +75,9 @@ Ext.define('Account.PR.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Code',
 			name: 'code',
-			allowBlank: false
+			readOnly: true,
+			disabled: true,
+			value:'PRXXXX-XXXXXX'
 		},
 		this.comboMType,
 		{

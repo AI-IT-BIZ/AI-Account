@@ -81,7 +81,7 @@ class Pr extends CI_Controller {
 		}
 
 		$formData = array(
-			'code' => $this->input->post('code'),
+			//'code' => $this->input->post('code'),
 			'mtart' => $this->input->post('mtart'),
 			'create_date' => $this->input->post('create_date')
 		);
@@ -95,7 +95,7 @@ class Pr extends CI_Controller {
 			$this->db->set('update_by', 'test');
 			$this->db->update('pr', $formData);
 		}else{
-			//$this->db->set('create_date', 'NOW()', false);
+			$this->db->set('code', $this->code_model->generate('PR', $this->input->post('create_date')));
 			$this->db->set('create_by', 'test');
 			$this->db->insert('pr', $formData);
 
