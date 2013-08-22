@@ -52,11 +52,19 @@ Ext.onReady(function() {
 			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		$om.vendorDialog.show();
 	});
+	
 	$om.viewport.on('click_salep', function(){
 		if(!$om.salepersonDialog)
 			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
 		$om.salepersonDialog.show();
 	});
+	
+	$om.viewport.on('click_pr', function(){
+		if(!$om.pr2Dialog)
+			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
+		$om.pr2Dialog.show();
+	});
+	
 
 });
 </script>
