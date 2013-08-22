@@ -98,8 +98,6 @@ class Project extends CI_Controller {
 			'datam' => $this->input->post('datam'),
 			'kunnr' => $this->input->post('kunnr'),
 			'pson1' => $this->input->post('pson1'),		
-			'telf1' => $this->input->post('telf1'),
-			'telfx' => $this->input->post('telfx'),
 			'pramt' => $this->input->post('pramt'),
 			'esamt' => $this->input->post('esamt')
 		);

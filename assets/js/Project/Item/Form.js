@@ -150,7 +150,8 @@ Ext.define('Account.Project.Item.Form', {
             //value: '<span style="color:green;"></span>'
 			name: 'name1',
 			margins: '0 0 0 6',
-            //emptyText: 'Customer',
+            //emptyText: 'Customer
+            width: 600,
             allowBlank: true
 		}]
 		},{
@@ -189,11 +190,6 @@ Ext.define('Account.Project.Item.Form', {
      	xtype: 'container',
         layout: 'hbox',
         margin: '0 0 5 0',
-     items: [this.comboJType,this.comboJStatus]
-	   },{
-     	xtype: 'container',
-        layout: 'hbox',
-        margin: '0 0 5 0',
      items: [{
 			xtype: 'textfield',
 			fieldLabel: 'Project No',
@@ -201,7 +197,12 @@ Ext.define('Account.Project.Item.Form', {
 			anchor:'100%',
 			labelWidth: 100,
 			allowBlank: false
-		},{
+		},this.comboJStatus]
+	   },{
+     	xtype: 'container',
+        layout: 'hbox',
+        margin: '0 0 5 0',
+     items: [this.comboJType,{
 			xtype: 'datefield',
 			fieldLabel: 'Project Date',
 			name: 'bldat',
@@ -361,6 +362,7 @@ Ext.define('Account.Project.Item.Form', {
 			});
 		}
 	},
+	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({

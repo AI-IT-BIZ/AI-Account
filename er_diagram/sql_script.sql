@@ -11,7 +11,10 @@ Database		mySQL 5
 
 
 
-Drop View IF EXISTS v_qt_customer
+Drop View IF EXISTS v_jobk
+;
+
+Drop View IF EXISTS v_vbak
 ;
 
 
@@ -117,6 +120,7 @@ COMMENT = 'User Login';
 Create table tbl_init (
 	objnr Varchar(10) NOT NULL COMMENT 'Object id',
 	modul Varchar(4) NOT NULL COMMENT 'Module',
+	grpmo Varchar(4) NOT NULL COMMENT 'Module grp',
 	sgtxt Varchar(40) COMMENT 'Object Description',
 	short Varchar(2) COMMENT 'Short Letter',
 	minnr Varchar(10) COMMENT 'Initial no',
@@ -445,8 +449,6 @@ Create table tbl_jobk (
 	datam Int COMMENT 'Long-term',
 	kunnr Varchar(10) COMMENT 'Customer id (tbl_kna1)',
 	pson1 Varchar(40) COMMENT 'Contact person',
-	telf1 Varbinary(30) COMMENT 'Telephon no',
-	telfx Varchar(20) COMMENT 'Fax',
 	pramt Decimal(17,2) COMMENT 'Project amount',
 	esamt Decimal(17,2) COMMENT 'Estimate cost',
  Primary Key (jobnr)) ENGINE = InnoDB
@@ -740,28 +742,37 @@ COMMENT = 'SO Item';
 
 
 
-create view v_qt_customer as
+create view v_vbak as
 
-select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01` from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)))
-;
+select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
+`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,
+`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,
+`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,
+`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
+`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
+`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
+`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01` from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
+create view v_jobk as
+
+select a.*,b.name1,b.telf1 from (`tbl_jobk` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
-INSERT INTO tbl_init (objnr,modul,sgtxt,short,minnr,maxnr,perio,curnr) VALUES ('0001','SD','Project Job','PJ','100000','999999','201308','100000'),
-                                                             ('0002','SD','Quotation','QT','200000','999999','201308','200000'),
-                                                             ('0003','SD','Invoice','IV','300000','999999','201308','300000'),
-                                                             ('0004','SD','Deposit Receipt','DR','400000','999999','201308','400000'),
-                                                             ('0005','SD','Packing List','PL','500000','999999','201308','500000'),
-                                                             ('0006','SD','Product Return','PT','600000','999999','201308','600000'),
-                                                             ('0001','MM','Purchase Requisition','PR','100000','999999','201308','100000'),
-                                                             ('0002','MM','Purchase Order','PO','200000','999999','201308','200000'),
-                                                             ('0003','MM','Goods Receipt','GR','300000','999999','201308','300000'),
-                                                             ('0004','MM','Material Transactin','DR','400000','999999','201308','400000'),
-                                                             ('0001','MT','Customer','CS','100000','999999','201308','100000'),
-                                                             ('0002','MT','Vendor','VD','200000','999999','201308','200000');
+INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr) VALUES ('0001','PJ','SD','Project Job','PJ','1000','9999','1308','100000'),
+                                                             ('0002','QT','SD','Quotation','QT','1000','9999','1308','200000'),
+                                                             ('0003','IV','SD','Invoice','IV','1000','9999','1308','300000'),
+                                                             ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','400000'),
+                                                             ('0005','PL','SD','Packing List','PL','1000','9999','1308','500000'),
+                                                             ('0006','PT','SD','Product Return','PT','1000','9999','1308','600000'),
+                                                             ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','100000'),
+                                                             ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','200000'),
+                                                             ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','300000'),
+                                                             ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','400000'),
+                                                             ('0001','CS','MM','Customer','CS','10000','99999','1308','100000'),
+                                                             ('0002','VD','MM','Vendor','VD','20000','99999','1308','200000');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
@@ -1027,4 +1038,5 @@ INSERT INTO tbl_ctyp (ctype, curtx) VALUES ('THB', 'Thai baht'),('USD', 'US Doll
 ('ZAR',	'South Africa Rand'),
 ('ZMW',	'Zambia Kwacha'),
 ('ZWD',	'Zimbabwe Dollar');
+
 
