@@ -9,6 +9,8 @@ class Quotation extends CI_Controller {
 
 	function index(){
 		//$this->load->view('project');
+		$this->phxview->RenderView('vbak');
+		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
@@ -17,12 +19,13 @@ class Quotation extends CI_Controller {
 		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
 		if($query->num_rows()>0){
-			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['vbeln'];
+			$result = $query->first_row('array');
+			//$result['id'] = $result['vbeln'];
+			$result['bldat']=substr($result['bldat'], 0, 10);
 
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$result_data
+				'data'=>$result
 			));
 		}else
 			echo json_encode(array(
@@ -166,20 +169,58 @@ class Quotation extends CI_Controller {
 			'exchg' => $this->input->post('exchg')
 		);
 		
-		  $this->db->set('erdat', 'NOW()', false);
-		  $this->db->set('ernam', 'test');
+		// start transaction
+		$this->db->trans_start();  
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('vbeln', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
 			$this->db->update('vbak', $formData);
 		}else{
+			$this->db->set('erdat', 'NOW()', false);
+		    $this->db->set('ernam', 'test');
 			$this->db->insert('vbak', $formData);
+			
+			$id = $this->db->insert_id();
 		}
 
-		echo json_encode(array(
-			'success'=>true,
-			'data'=>$_POST
-		));
+		// ลบ pr_item ภายใต้ id ทั้งหมด
+		$this->db->where('vbelp', $id);
+		$this->db->delete('vbap');
+
+		// เตรียมข้อมูล pr item
+		$vbap = $this->input->post('vbap');
+		$qt_item_array = json_decode($vbap);
+
+		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+		foreach($qt_item_array AS $p){
+			$this->db->insert('vbap', array(
+				//'vbeln'=>$id,
+				'vbelp'=>$id,
+				'matnr'=>$p->matnr,
+				'menge'=>$p->menge,
+				'meins'=>$p->meins,
+				'dismt'=>$p->dismt,
+				'unitp'=>$p->unitp,
+				'itamt'=>$p->itamt,
+				'ctype'=>$p->ctype
+			));
+			
+		}
+
+		// end transaction
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE)
+			echo json_encode(array(
+				'success'=>false
+			));
+		else
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$_POST
+			));
 	}
 
     public function loads_scombo(){
@@ -192,6 +233,30 @@ class Quotation extends CI_Controller {
 
 		if(!empty($query) && $query!=''){
 			$this->db->or_like('name1', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+	
+	public function loads_acombo(){
+		$tbName = 'apov';
+		$tbPK = 'statu';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('statx', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 
@@ -258,6 +323,24 @@ class Quotation extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
+		));
+	}
+	
+	///////////////////////////////////////////////
+	// Quotation ITEM
+	///////////////////////////////////////////////
+
+
+	function loads_qt_item(){
+
+		$pr_id = $this->input->get('qt_id');
+		$this->db->where('qt_id', $pr_id);
+
+		$query = $this->db->get('vbelp');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
 		));
 	}
 
