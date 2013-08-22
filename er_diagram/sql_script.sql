@@ -127,6 +127,7 @@ Create table tbl_init (
 	maxnr Varchar(10) COMMENT 'Limit no',
 	perio Varchar(6) COMMENT 'Period',
 	curnr Varchar(10) COMMENT 'Current no',
+	tname Varchar(8) COMMENT 'Table Name',
  Primary Key (objnr,modul)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
@@ -761,18 +762,18 @@ INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
-INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr) VALUES ('0001','PJ','SD','Project Job','PJ','1000','9999','1308','100000'),
-                                                             ('0002','QT','SD','Quotation','QT','1000','9999','1308','200000'),
-                                                             ('0003','IV','SD','Invoice','IV','1000','9999','1308','300000'),
-                                                             ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','400000'),
-                                                             ('0005','PL','SD','Packing List','PL','1000','9999','1308','500000'),
-                                                             ('0006','PT','SD','Product Return','PT','1000','9999','1308','600000'),
-                                                             ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','100000'),
-                                                             ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','200000'),
-                                                             ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','300000'),
-                                                             ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','400000'),
-                                                             ('0001','CS','MM','Customer','CS','10000','99999','1308','100000'),
-                                                             ('0002','VD','MM','Vendor','VD','20000','99999','1308','200000');
+INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname) VALUES ('0001','PJ','PS','Project Job','PJ','1000','9999','1308','1000','tbl_jobk'),
+                                                             ('0002','QT','SD','Quotation','QT','1000','9999','1308','2000','tbl_vbak'),
+                                                             ('0003','IV','SD','Invoice','IV','1000','9999','1308','3000','tbl_vbrk'),
+                                                             ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','4000','tbl_jobk'),
+                                                             ('0005','PL','SD','Packing List','PL','1000','9999','1308','5000','tbl_jobk'),
+                                                             ('0006','PT','SD','Product Return','PT','1000','9999','1308','6000','tbl_jobk'),
+                                                             ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','1000','tbl_ebko'),
+                                                             ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko'),
+                                                             ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko'),
+                                                             ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk'),
+                                                             ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1'),
+                                                             ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
@@ -860,22 +861,22 @@ INSERT INTO tbl_plev (pleve,matnr,unit,cost) VALUES ('01','100001','EA','200'),(
 ('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
                
 INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,pleve,crdit,disct,taxid) 
-        VALUES ('100001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','30','500','330111001'),
-               ('100002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','15','5%','330111002'),
-               ('100003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20','10%','330111002'),
-               ('100004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30','800','330111002');
+        VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','30','500','330111001'),
+               ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','15','5%','330111002'),
+               ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20','10%','330111002'),
+               ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30','800','330111002');
                
 INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disct,taxid) 
-        VALUES ('200001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),
-               ('200002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
-               ('200003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
-               ('200004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
+        VALUES ('20001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),
+               ('20002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
+               ('20003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
+               ('20004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
                
 INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distr,pstlz,telf1) 
-        VALUES ('300001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
-               ('300002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
-               ('300003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
-               ('300004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333');
+        VALUES ('30001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
+               ('30002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('30003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
+               ('30004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333');
 
 INSERT INTO tbl_ctyp (ctype, curtx) VALUES ('THB', 'Thai baht'),('USD', 'US Dollar'),('CNY','China Yuan Renminbi'),('EUR', 'Euro Member Countries'),
 ('AED',	'United Arab Emirates Dirham'),

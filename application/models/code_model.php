@@ -14,8 +14,10 @@ Class Code_model extends CI_Model
 			$min_code_length = strlen($min_code);
 
 			$short_code = $result_init['short'];
+			
+			$tb_name = $result_init['tname'];
 
-			$sql = "SELECT code, CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix FROM tbl_pr
+			$sql = "SELECT code, CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix FROM ".$tb_name."
 WHERE code LIKE (SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0'), '%'))
 ORDER BY id DESC
 LIMIT 1";

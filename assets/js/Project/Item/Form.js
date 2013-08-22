@@ -170,11 +170,11 @@ Ext.define('Account.Project.Item.Form', {
             fieldLabel: 'Phone Number',
             labelWidth: 105,
             name: 'telf1',
-            width: 205,
-            emptyText: 'xxx-xxx-xxxx',
-            maskRe: /[\d\-]/,
-            regex: /^\d{3}-\d{3}-\d{4}$/,
-            regexText: 'Must be in the format xxx-xxx-xxxx'
+            width: 205
+            //emptyText: 'xxx-xxx-xxxx',
+            //maskRe: /[\d\-]/,
+           // regex: /^\d{3}-\d{3}-\d{4}$/,
+            //regexText: 'Must be in the format xxx-xxx-xxxx'
          
          }]
          }]

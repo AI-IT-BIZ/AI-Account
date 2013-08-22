@@ -16,11 +16,12 @@ class Project extends CI_Controller {
 
 	function index(){
 		//$this->load->view('project');
-		$this->phxview->RenderView('jobk');
-		$this->phxview->RenderLayout('default');
+		//$this->phxview->RenderView('jobk');
+		//$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('jobnr', $id);
