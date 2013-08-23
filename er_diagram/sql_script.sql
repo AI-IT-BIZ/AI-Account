@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		21/8/2013
+Modified		23/8/2013
 Project		
 Model		
 Company		
@@ -177,7 +177,7 @@ Create table tbl_lfa1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distr Varchar(4) COMMENT 'District (tbl_dist)',
+	distx Varchar(40) COMMENT 'District text (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
@@ -358,7 +358,7 @@ Create table tbl_kna1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distr Varchar(4) COMMENT 'District (tbl_dist)',
+	distx Varchar(40) COMMENT 'District text (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
@@ -388,7 +388,7 @@ Create table tbl_psal (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distr Varchar(4) COMMENT 'District',
+	distx Varchar(40) COMMENT 'District text',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	taxbs Varchar(30) COMMENT 'Tax no',
@@ -745,17 +745,18 @@ COMMENT = 'SO Item';
 
 create view v_vbak as
 
-select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
-`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,
-`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,
-`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,
-`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
-`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
-`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
-`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01` from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
+select a.*,b.name1,b.telf1
+,b.adr01,`b`.`telfx` AS `telfx`,
+`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx` AS `distx`
+ from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
 create view v_jobk as
 
-select a.*,b.name1,b.telf1 from (`tbl_jobk` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
+select a.*,b.name1,b.telf1
+,b.adr01,`b`.`telfx` AS `telfx`,
+`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx` AS `distx`
+ from (`tbl_jobk` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -860,19 +861,19 @@ INSERT INTO tbl_plev (pleve,matnr,unit,cost) VALUES ('01','100001','EA','200'),(
 ('01','200001','EA','400'),('02','200001','Dozen','2400'),('03','200001','Dozen2','4800'),
 ('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
                
-INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,pleve,crdit,disct,taxid) 
+INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,pleve,crdit,disct,taxid) 
         VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','30','500','330111001'),
                ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','15','5%','330111002'),
                ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20','10%','330111002'),
                ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30','800','330111002');
                
-INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distr,pstlz,telf1,taxnr,crdit,disct,taxid) 
+INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,crdit,disct,taxid) 
         VALUES ('20001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),
                ('20002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
                ('20003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
                ('20004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
                
-INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distr,pstlz,telf1) 
+INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distx,pstlz,telf1) 
         VALUES ('30001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
                ('30002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
                ('30003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333'),
