@@ -16,10 +16,11 @@ Ext.define('Account.Project.Grid', {
 				}
 			},
 			fields: [
+			    'jobnr',
+				'jobtx',
 			    'kunnr',
 				'name1',
-				'jobnr',
-				'jobtx',
+				
 				'bldat',
 				'statu',
 				'salnr',

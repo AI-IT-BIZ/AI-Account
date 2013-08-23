@@ -30,7 +30,9 @@ class Project extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			
-			$result_data['adr01'] .= PHP_EOL.$result_data['distx'];//.'hhhhhhhhhh';
+			$result_data['adr01'] .= PHP_EOL.$result_data['distx'].$result_data['pstlz'].
+			                         'Tel'.$result_data['telf1'].'Fax'.$result_data['telfx'].
+									 'Email'.$result_data['email'];
 			
 			$result_data['id'] = $result_data['jobnr'];
 
@@ -111,8 +113,14 @@ class Project extends CI_Controller {
 		  
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('jobnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
 			$this->db->update('jobk', $formData);
 		}else{
+			$this->db->set('jobnr', $this->code_model->generate('PJ',
+			$this->input->post('bldat')));
+			$this->db->set('erdat', 'NOW()', false);
+			$this->db->set('ernam', 'test');
 			$this->db->insert('jobk', $formData);
 		}
 

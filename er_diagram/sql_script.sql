@@ -128,11 +128,12 @@ Create table tbl_init (
 	perio Varchar(6) COMMENT 'Period',
 	curnr Varchar(10) COMMENT 'Current no',
 	tname Varchar(8) COMMENT 'Table Name',
+	tcode Varchar(5) COMMENT 'Code field',
  Primary Key (objnr,modul)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
 Create table tbl_ebko (
-	purnr Varchar(10) NOT NULL COMMENT 'PR no.',
+	purnr Varchar(20) NOT NULL COMMENT 'PR no.',
 	bldat Date COMMENT 'PR Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	statu Varchar(4) COMMENT 'PR Status (tbl_apov)',
@@ -250,7 +251,7 @@ Create table tbl_reson (
 COMMENT = 'Reason type';
 
 Create table tbl_trko (
-	trdoc Varchar(10) NOT NULL COMMENT 'Transaction no.',
+	trdoc Varchar(20) NOT NULL COMMENT 'Transaction no.',
 	bldat Date COMMENT 'Transaction Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	statu Varchar(40) COMMENT 'TR Status (tbl_apov)',
@@ -268,7 +269,7 @@ Create table tbl_trko (
 COMMENT = 'Transaction Header Doc';
 
 Create table tbl_trpo (
-	trdoc Varchar(10) NOT NULL COMMENT 'Transaction no.',
+	trdoc Varchar(20) NOT NULL COMMENT 'Transaction no.',
 	trapo Varchar(4) NOT NULL COMMENT 'Transaction Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
@@ -306,7 +307,7 @@ Create table tbl_gjou (
 COMMENT = 'Jounal type';
 
 Create table tbl_vbak (
-	vbeln Varchar(10) NOT NULL COMMENT 'Sale Order no',
+	vbeln Varchar(20) NOT NULL COMMENT 'Sale Order no',
 	bldat Date COMMENT 'SO Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
@@ -337,7 +338,7 @@ Create table tbl_vbak (
 COMMENT = 'Sale Order Header';
 
 Create table tbl_vbap (
-	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
@@ -433,7 +434,7 @@ Create table tbl_jtyp (
 COMMENT = 'Job type';
 
 Create table tbl_jobk (
-	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
+	jobnr Varchar(20) NOT NULL COMMENT 'Job No',
 	jobtx Varchar(50) COMMENT 'Job name',
 	jtype Varchar(4) COMMENT 'Job Type (tbl_jtyp)',
 	bldat Date COMMENT 'Transaction Date',
@@ -468,7 +469,7 @@ Create table tbl_jobp (
 COMMENT = 'Job Item';
 
 Create table tbl_ebpo (
-	purnr Varchar(10) NOT NULL COMMENT 'PR no.',
+	purnr Varchar(20) NOT NULL COMMENT 'PR no.',
 	purpo Varchar(5) COMMENT 'PR item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
@@ -479,7 +480,7 @@ Create table tbl_ebpo (
 COMMENT = 'PR Item';
 
 Create table tbl_ekko (
-	ebeln Varchar(10) NOT NULL COMMENT 'PO no.',
+	ebeln Varchar(20) NOT NULL COMMENT 'PO no.',
 	bldat Date COMMENT 'PO Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	statu Varchar(4) COMMENT 'PO Status (tbl_apov)',
@@ -499,7 +500,7 @@ Create table tbl_ekko (
 COMMENT = 'PO Header Doc';
 
 Create table tbl_ekpo (
-	ebeln Varchar(10) NOT NULL COMMENT 'PO no.',
+	ebeln Varchar(20) NOT NULL COMMENT 'PO no.',
 	ebelp Varchar(5) COMMENT 'PO item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
@@ -597,7 +598,7 @@ COMMENT = 'Invoice Header';
 
 Create table tbl_bkpf (
 	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
-	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	belnr Varchar(20) NOT NULL COMMENT 'Doc no',
 	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
 	bldat Date COMMENT 'Invoice Date',
 	budat Date COMMENT 'Posting Date',
@@ -635,7 +636,7 @@ COMMENT = 'GL Header Doc';
 
 Create table tbl_bsid (
 	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
-	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	belnr Varchar(20) NOT NULL COMMENT 'Doc no',
 	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
 	buzei Varchar(3) NOT NULL COMMENT 'Line item',
 	bldat Date COMMENT 'Invoice Date',
@@ -677,7 +678,7 @@ COMMENT = 'GL Item (Customer)';
 
 Create table tbl_bsik (
 	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
-	belnr Varchar(10) NOT NULL COMMENT 'Doc no',
+	belnr Varchar(20) NOT NULL COMMENT 'Doc no',
 	gjahr Varchar(4) NOT NULL COMMENT 'Fiscal Year',
 	buzei Varchar(3) NOT NULL COMMENT 'Line item',
 	bldat Date COMMENT 'Invoice Date',
@@ -753,28 +754,36 @@ select a.*,b.name1,b.telf1
 create view v_jobk as
 
 select a.*,b.name1,b.telf1
-,b.adr01,`b`.`telfx` AS `telfx`,
-`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx` AS `distx`
- from (`tbl_jobk` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
+,b.adr01,b.telfx,
+b.pstlz,b.email,b.distx,
+c.name1 as sname
+ from tbl_jobk a 
+ inner join 
+ tbl_kna1 b 
+ on a.kunnr = b.kunnr
+ inner join 
+ tbl_psal c 
+ on a.salnr = c.salnr
+ ;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
-INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname) VALUES ('0001','PJ','PS','Project Job','PJ','1000','9999','1308','1000','tbl_jobk'),
-                                                             ('0002','QT','SD','Quotation','QT','1000','9999','1308','2000','tbl_vbak'),
-                                                             ('0003','IV','SD','Invoice','IV','1000','9999','1308','3000','tbl_vbrk'),
-                                                             ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','4000','tbl_jobk'),
-                                                             ('0005','PL','SD','Packing List','PL','1000','9999','1308','5000','tbl_jobk'),
-                                                             ('0006','PT','SD','Product Return','PT','1000','9999','1308','6000','tbl_jobk'),
-                                                             ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','1000','tbl_ebko'),
-                                                             ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko'),
-                                                             ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko'),
-                                                             ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk'),
-                                                             ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1'),
-                                                             ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1');
+INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname,tcode) 
+        VALUES ('0001','PJ','PS','Project Job','PJ','1000','9999','1308','1000','tbl_jobk','jobnr'),
+               ('0002','QT','SD','Quotation','QT','1000','9999','1308','2000','tbl_vbak','vbeln'),
+               ('0003','IV','SD','Invoice','IV','1000','9999','1308','3000','tbl_vbrk','invnr'),
+               ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','4000','tbl_jobk',''),
+               ('0005','PL','SD','Packing List','PL','1000','9999','1308','5000','tbl_jobk',''),
+               ('0006','PT','SD','Product Return','PT','1000','9999','1308','6000','tbl_jobk',''),
+               ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','1000','tbl_ebko','purnr'),
+               ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko','ebeln'),
+               ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko','mbeln'),
+               ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk',''),
+               ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1','kunnr'),
+               ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 

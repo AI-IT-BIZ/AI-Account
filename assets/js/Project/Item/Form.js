@@ -63,6 +63,7 @@ Ext.define('Account.Project.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
+			disabled: true,
 			clearFilterOnReset: true,
 			emptyText: '-- Please select Status --',
 			store: new Ext.data.JsonStore({
@@ -84,7 +85,8 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu'
+			valueField: 'statu',
+			value: 'Waiting Approve'
 		});
 		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
@@ -151,32 +153,16 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'name1',
 			margins: '0 0 0 6',
             //emptyText: 'Customer
-            width: 600,
+            width: 400,
             allowBlank: true
 		}]
 		},{
-			xtype: 'container',
-                    layout: 'hbox',
-                    defaultType: 'textfield',
-                    margin: '0 0 5 0',
-   items: [{
 			xtype: 'textarea',
 			fieldLabel: 'Address',
 			name: 'adr01',
 			anchor:'90%',
-			width:450,
+			width:500,
 			allowBlank: true
-		},{
-            fieldLabel: 'Phone Number',
-            labelWidth: 105,
-            name: 'telf1',
-            width: 205
-            //emptyText: 'xxx-xxx-xxxx',
-            //maskRe: /[\d\-]/,
-           // regex: /^\d{3}-\d{3}-\d{4}$/,
-            //regexText: 'Must be in the format xxx-xxx-xxxx'
-         
-         }]
          }]
         },{
          xtype: 'fieldset',
@@ -196,7 +182,10 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'jobnr',
 			anchor:'100%',
 			labelWidth: 100,
-			allowBlank: false
+			value:'PJXXXX-XXXX',
+			readOnly: true,
+			disabled: true
+			//allowBlank: false
 		},this.comboJStatus]
 	   },{
      	xtype: 'container',
@@ -217,7 +206,7 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Project Name',
 			name: 'jobtx',
-			width: 555,
+			width: 495,
 			labelWidth: 100,
 			allowBlank: false
 	
@@ -312,7 +301,7 @@ Ext.define('Account.Project.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
-							_this.getForm().findField('telf1').setValue(r.data.telf1);
+							//_this.getForm().findField('telf1').setValue(r.data.telf1);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -325,7 +314,7 @@ Ext.define('Account.Project.Item.Form', {
 			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('adr01').setValue(record.data.adr01);
-			_this.getForm().findField('telf1').setValue(record.data.telf1);
+			//_this.getForm().findField('telf1').setValue(record.data.telf1);
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();

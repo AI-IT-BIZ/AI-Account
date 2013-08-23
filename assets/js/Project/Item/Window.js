@@ -6,7 +6,7 @@ Ext.define('Account.Project.Item.Window', {
 			title: 'Create/Edit Project',
 			closeAction: 'hide',
 			height: 450,
-			width: 700,
+			width: 600,
 			layout: 'border',
 			resizable: true,
 			modal: true
