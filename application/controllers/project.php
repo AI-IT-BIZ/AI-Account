@@ -28,6 +28,9 @@ class Project extends CI_Controller {
 		$query = $this->db->get('jobk');
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
+			
+			$result_data['adr01'] .= PHP_EOL.$result_data['distr'];//.'hhhhhhhhhh';
+			
 			$result_data['id'] = $result_data['jobnr'];
 
 			echo json_encode(array(
