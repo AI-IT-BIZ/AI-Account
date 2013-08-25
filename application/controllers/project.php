@@ -92,7 +92,7 @@ class Project extends CI_Controller {
 		}
 
 		$formData = array(
-			'jobnr' => $this->input->post('jobnr'),
+			//'jobnr' => $this->input->post('jobnr'),
 			'jobtx' => $this->input->post('jobtx'),
 			'jtype' => $this->input->post('jtype'),
 			'bldat' => $this->input->post('bldat'),

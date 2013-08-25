@@ -14,7 +14,6 @@ Ext.define('Account.Project.Item.Form', {
 				//labelStyle: 'font-weight:bold'
 			}
 		});
-
 		return this.callParent(arguments);
 	},
 	initComponent : function() {
@@ -86,7 +85,7 @@ Ext.define('Account.Project.Item.Form', {
 			queryMode: 'remote',
 			displayField: 'statx',
 			valueField: 'statu',
-			value: 'Waiting Approve'
+			value: '01'
 		});
 		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
