@@ -30,9 +30,9 @@ class Project extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			
-			$result_data['adr01'] .= PHP_EOL.$result_data['distx'].$result_data['pstlz'].
-			                         'Tel'.$result_data['telf1'].'Fax'.$result_data['telfx'].
-									 'Email'.$result_data['email'];
+			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.$result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
 			
 			$result_data['id'] = $result_data['jobnr'];
 
@@ -83,6 +83,7 @@ class Project extends CI_Controller {
 	}
 
 	function save(){
+		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){

@@ -299,8 +299,19 @@ Ext.define('Account.Project.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-							//_this.getForm().findField('telf1').setValue(r.data.telf1);
+							var _addr = r.data.adr01;
+                           if(!Ext.isEmpty(r.data.pstlz))
+                             _addr += ' '+r.data.pstlz;
+                           if(!Ext.isEmpty(r.data.telf1))
+                            _addr += '\n'+'Tel: '+r.data.telf1;
+                           if(!Ext.isEmpty(r.data.telfx))
+                             _addr += '\n'+'Fax: '+r.data.telfx;
+                           if(!Ext.isEmpty(r.data.email))
+                            _addr += '\n'+'Email: '+r.data.email;
+                            _this.getForm().findField('adr01').setValue(_addr);
+							//_this.getForm().findField('adr01').setValue(r.data.adr01
+							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
+							//+r.data.telfx+'\n'+'Email '+r.data.email);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -312,8 +323,20 @@ Ext.define('Account.Project.Item.Form', {
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('adr01').setValue(record.data.adr01);
-			//_this.getForm().findField('telf1').setValue(record.data.telf1);
+			
+			var _addr = record.data.adr01;
+            if(!Ext.isEmpty(record.data.pstlz))
+              _addr += ' '+record.data.pstlz;
+            if(!Ext.isEmpty(record.data.telf1))
+               _addr += '\n'+'Tel: '+record.data.telf1;
+             if(!Ext.isEmpty(record.data.telfx))
+               _addr += '\n'+'Fax: '+record.data.telfx;
+             if(!Ext.isEmpty(record.data.email))
+               _addr += '\n'+'Email: '+record.data.email;
+             _this.getForm().findField('adr01').setValue(_addr);
+			//_this.getForm().findField('adr01').setValue(record.data.adr01
+			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
+			//+record.data.telfx+'\n'+'Email '+record.data.email);
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();

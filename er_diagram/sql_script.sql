@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		23/8/2013
+Modified		25/8/2013
 Project		
 Model		
 Company		
@@ -128,7 +128,7 @@ Create table tbl_init (
 	perio Varchar(6) COMMENT 'Period',
 	curnr Varchar(10) COMMENT 'Current no',
 	tname Varchar(8) COMMENT 'Table Name',
-	tcode Varchar(5) COMMENT 'Code field',
+	tcode Varchar(5) COMMENT 'Field Doc code',
  Primary Key (objnr,modul)) ENGINE = InnoDB
 COMMENT = 'Running no.';
 
@@ -178,7 +178,7 @@ Create table tbl_lfa1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distx Varchar(40) COMMENT 'District text (tbl_dist)',
+	distx Varchar(40) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
@@ -359,7 +359,7 @@ Create table tbl_kna1 (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distx Varchar(40) COMMENT 'District text (tbl_dist)',
+	distx Varchar(40) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
@@ -389,7 +389,7 @@ Create table tbl_psal (
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
 	ort01 Varchar(40) COMMENT 'City',
-	distx Varchar(40) COMMENT 'District text',
+	distx Varchar(40) COMMENT 'District',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	taxbs Varchar(30) COMMENT 'Tax no',
@@ -457,7 +457,7 @@ Create table tbl_jobk (
 COMMENT = 'Job Header';
 
 Create table tbl_jobp (
-	jobnr Varchar(10) NOT NULL COMMENT 'Job No',
+	jobnr Varchar(20) NOT NULL COMMENT 'Job No',
 	jobpo Varchar(4) NOT NULL COMMENT 'Job Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
@@ -552,7 +552,7 @@ Create table tbl_ctyp (
 COMMENT = 'Currency Type';
 
 Create table tbl_payp (
-	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
 	paypr Varchar(4) NOT NULL COMMENT 'Period Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	sgtxt Varchar(40) COMMENT 'Description Text',
@@ -564,7 +564,7 @@ Create table tbl_payp (
 COMMENT = 'Payment Periods';
 
 Create table tbl_vbrk (
-	invnr Varchar(10) NOT NULL COMMENT 'Invoice no',
+	invnr Varchar(20) NOT NULL COMMENT 'Invoice no',
 	bldat Date COMMENT 'Invoice Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
@@ -719,7 +719,7 @@ Create table tbl_bsik (
 COMMENT = 'GL Item (Vendor)';
 
 Create table tbl_vbrp (
-	vbeln Varchar(10) NOT NULL COMMENT 'SO no.',
+	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
@@ -746,25 +746,29 @@ COMMENT = 'SO Item';
 
 create view v_vbak as
 
-select a.*,b.name1,b.telf1
-,b.adr01,`b`.`telfx` AS `telfx`,
-`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx` AS `distx`
- from (`tbl_vbak` `a` left join `tbl_kna1` `b` on((`a`.`kunnr` = `b`.`kunnr`)));
+select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
+`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,
+`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,
+`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,
+`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
+`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
+`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
+`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01`,`c`.`name1` AS `sname` 
+from tbl_vbak a inner join tbl_kna1 b 
+on a.kunnr = b.kunnr
+inner join tbl_psal c on a.salnr = c.salnr;
 create view v_jobk as
 
-select a.*,b.name1,b.telf1
-,b.adr01,b.telfx,
-b.pstlz,b.email,b.distx,
-c.name1 as sname
- from tbl_jobk a 
- inner join 
- tbl_kna1 b 
- on a.kunnr = b.kunnr
- inner join 
- tbl_psal c 
- on a.salnr = c.salnr
- ;
+select `a`.`jobnr` AS `jobnr`,`a`.`jobtx` AS `jobtx`,`a`.`jtype` AS `jtype`,`a`.`bldat` AS `bldat`,
+`a`.`loekz` AS `loekz`,`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,
+`a`.`txz01` AS `txz01`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,`a`.`salnr` AS `salnr`,
+`a`.`stdat` AS `stdat`,`a`.`endat` AS `endat`,`a`.`datam` AS `datam`,`a`.`kunnr` AS `kunnr`,
+`a`.`pson1` AS `pson1`,`a`.`pramt` AS `pramt`,`a`.`esamt` AS `esamt`,`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx` AS `distx`,`c`.`name1` AS `sname` 
+from tbl_jobk a inner join tbl_kna1 b 
+on a.kunnr = b.kunnr
+inner join tbl_psal c on a.salnr = c.salnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -772,18 +776,18 @@ INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
 INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname,tcode) 
-        VALUES ('0001','PJ','PS','Project Job','PJ','1000','9999','1308','1000','tbl_jobk','jobnr'),
-               ('0002','QT','SD','Quotation','QT','1000','9999','1308','2000','tbl_vbak','vbeln'),
-               ('0003','IV','SD','Invoice','IV','1000','9999','1308','3000','tbl_vbrk','invnr'),
-               ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','4000','tbl_jobk',''),
-               ('0005','PL','SD','Packing List','PL','1000','9999','1308','5000','tbl_jobk',''),
-               ('0006','PT','SD','Product Return','PT','1000','9999','1308','6000','tbl_jobk',''),
-               ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','1000','tbl_ebko','purnr'),
-               ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko','ebeln'),
-               ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko','mbeln'),
-               ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk',''),
-               ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1','kunnr'),
-               ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr');
+               VALUES ('0001','PJ','PS','Project Job','PJ','1000','9999','1308','1000','tbl_jobk','jobnr'),
+                      ('0002','QT','SD','Quotation','QT','1000','9999','1308','2000','tbl_vbak','vbeln'),
+                      ('0003','IV','SD','Invoice','IV','1000','9999','1308','3000','tbl_vbrk','invnr'),
+                      ('0004','DR','SD','Deposit Receipt','DR','1000','9999','1308','4000','tbl_jobk','vbeln'),
+                      ('0005','PL','SD','Packing List','PL','1000','9999','1308','5000','tbl_jobk','vbeln'),
+                      ('0006','PT','SD','Product Return','PT','1000','9999','1308','6000','tbl_jobk','vbeln'),
+                      ('0001','PR','MM','Purchase Requisition','PR','1000','9999','1308','1000','tbl_ebko','purnr'),
+                      ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko','ebeln'),
+                      ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko','mbeln'),
+                      ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk','vbeln'),
+                      ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1','kunnr'),
+                      ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 

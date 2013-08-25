@@ -14,19 +14,16 @@ class Quotation extends CI_Controller {
 	}*/
 
 	function index(){
-		$this->phxview->RenderView('vbak');
-		$this->phxview->RenderLayout('default');
-	}
-
-	function index(){
 		//$this->load->view('project');
-		$this->phxview->RenderView('vbak');
-		$this->phxview->RenderLayout('default');
+		//$this->phxview->RenderView('vbak');
+		//$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
+		
 		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
 		if($query->num_rows()>0){
