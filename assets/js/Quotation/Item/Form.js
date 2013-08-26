@@ -19,8 +19,9 @@ Ext.define('Account.Quotation.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-        // INIT Warehouse search popup ///////////////////////////////////
-		this.qtDialog = Ext.create('Account.Warehouse.MainWindow');
+        // INIT Customer search popup ///////////////////////////////////
+        this.projectDialog = Ext.create('Account.Project.MainWindow');
+		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
@@ -29,6 +30,9 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 95,
 			width: 240,
 			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			//disabled: true,
 			margin: '0 0 0 -20',
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -160,7 +164,22 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbap'
 		});
-
+		
+        this.trigProject = Ext.create('Ext.form.field.Trigger', {
+			name: 'jobnr',
+			fieldLabel: 'Project Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
+		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
+			name: 'kunnr',
+			fieldLabel: 'Customer Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
 
 		this.items = [this.hdnQtItem,
 		   {
@@ -173,6 +192,7 @@ Ext.define('Account.Quotation.Item.Form', {
                 anchor: '100%'
             },
      items:[{
+     	
 // Project Code
      	xtype: 'container',
                 layout: 'hbox',
@@ -180,16 +200,7 @@ Ext.define('Account.Quotation.Item.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
-		},{
-			xtype: 'textfield',
-			fieldLabel: 'Project Code',
-			name: 'jobnr',
-			//flex: 2,
-			//anchor:'90%',
-			labelAlign: 'letf',
-			width:240,
-			allowBlank: false
-		},{
+		},this.trigProject,{
 			xtype: 'displayfield',
 			//xtype: 'textfield',
             //fieldLabel: 'jobtx',
@@ -205,29 +216,19 @@ Ext.define('Account.Quotation.Item.Form', {
             fieldLabel: 'Quotation No',
             name: 'vbeln',
             //flex: 3,
-            value: 'QTxxxx-xxxx',
+            value: 'QTXXXX-XXXX',
             labelAlign: 'right',
 			//name: 'qt',
 			width:240,
-			//margins: '0 0 0 10',
-            //emptyText: 'Customer',
-            allowBlank: true
+            readOnly: true,
+			disabled: true
 		}]
 // Customer Code
 		},{
                 xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[{
-			xtype: 'textfield',
-			fieldLabel: 'Customer Code',
-			name: 'kunnr',
-			//flex: 2,
-			//anchor:'90%',
-			width:240,
-			labelAlign: 'letf',
-			allowBlank: false
-		},{
+     items :[this.trigCustomer,{
 			xtype: 'displayfield',
             //fieldLabel: '',
             //flex: 3,
@@ -268,7 +269,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		},{
             xtype: 'textarea',
 			fieldLabel: 'Ship To',
-			name: 'adr01',
+			name: 'adr11',
 			anchor:'90%',
 			width:350,
 			rows:2,
@@ -325,9 +326,145 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		//}]
 		}];
+		
+		// event trigCustomer///
+		this.trigCustomer.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.kunnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);
+							var _addr = r.data.adr01;
+                           if(!Ext.isEmpty(r.data.pstlz))
+                             _addr += ' '+r.data.pstlz;
+                           if(!Ext.isEmpty(r.data.telf1))
+                            _addr += '\n'+'Tel: '+r.data.telf1;
+                           if(!Ext.isEmpty(r.data.telfx))
+                             _addr += '\n'+'Fax: '+r.data.telfx;
+                           if(!Ext.isEmpty(r.data.email))
+                            _addr += '\n'+'Email: '+r.data.email;
+                            _this.getForm().findField('adr01').setValue(_addr);
+                            _this.getForm().findField('adr11').setValue(_addr);
+							//_this.getForm().findField('adr01').setValue(r.data.adr01
+							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
+							//+r.data.telfx+'\n'+'Email '+r.data.email);
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer.setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			
+			var _addr = record.data.adr01;
+            if(!Ext.isEmpty(record.data.pstlz))
+              _addr += ' '+record.data.pstlz;
+            if(!Ext.isEmpty(record.data.telf1))
+               _addr += '\n'+'Tel: '+record.data.telf1;
+             if(!Ext.isEmpty(record.data.telfx))
+               _addr += '\n'+'Fax: '+record.data.telfx;
+             if(!Ext.isEmpty(record.data.email))
+               _addr += '\n'+'Email: '+record.data.email;
+             _this.getForm().findField('adr01').setValue(_addr);
+             _this.getForm().findField('adr11').setValue(_addr);
+			//_this.getForm().findField('adr01').setValue(record.data.adr01
+			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
+			//+record.data.telfx+'\n'+'Email '+record.data.email);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog.hide();
+		});
+
+		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.show();
+		};
+		
+		// event trigProject///
+		this.trigProject.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+							_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+							
+			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('salnr').setValue(record.data.salnr);
+
+			var _addr = record.data.adr01;
+            if(!Ext.isEmpty(record.data.pstlz))
+              _addr += ' '+record.data.pstlz;
+            if(!Ext.isEmpty(record.data.telf1))
+               _addr += '\n'+'Tel: '+record.data.telf1;
+             if(!Ext.isEmpty(record.data.telfx))
+               _addr += '\n'+'Fax: '+record.data.telfx;
+             if(!Ext.isEmpty(record.data.email))
+               _addr += '\n'+'Email: '+record.data.email;
+             _this.getForm().findField('adr01').setValue(_addr);
+			 _this.getForm().findField('adr11').setValue(_addr);				
+						}else{
+							o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject.setValue(record.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+			
+			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('salnr').setValue(record.data.salnr);
+			
+			var _addr = record.data.adr01;
+            if(!Ext.isEmpty(record.data.pstlz))
+              _addr += ' '+record.data.pstlz;
+            if(!Ext.isEmpty(record.data.telf1))
+               _addr += '\n'+'Tel: '+record.data.telf1;
+             if(!Ext.isEmpty(record.data.telfx))
+               _addr += '\n'+'Fax: '+record.data.telfx;
+             if(!Ext.isEmpty(record.data.email))
+               _addr += '\n'+'Email: '+record.data.email;
+             _this.getForm().findField('adr01').setValue(_addr);
+             _this.getForm().findField('adr11').setValue(_addr);
+             
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog.hide();
+		});
+
+		this.trigProject.onTriggerClick = function(){
+			_this.projectDialog.show();
+		};
 
 		return this.callParent(arguments);
 	},
+	
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },

@@ -1,4 +1,4 @@
-Ext.define('Account.Project.Grid', {
+Ext.define('Account.Material.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,7 +8,7 @@ Ext.define('Account.Project.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"project/loads",
+				url: __site_url+"material/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',

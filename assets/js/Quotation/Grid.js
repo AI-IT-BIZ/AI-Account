@@ -18,21 +18,14 @@ Ext.define('Account.Quotation.Grid', {
 			fields: [
 			    'vbeln',
 				'bldat',
-				'auart',
-				'txz01',
-				'jobnr',
-				'statu',
-				'reanr',
-				'refnr',
-				'ptype',
-				'taxnr',
-				'lidat',
 				'kunnr',
+				'name1',
+				'jobnr',
+				'jobtx',
+				'statx',
+				'sname',
 				'netwr',
-				'cytpe',
-				'beamt',
-				'taxpr',
-				'exchg'
+				'cytpe'
 			],
 			remoteSort: true,
 			sorters: ['vbeln ASC']
@@ -45,7 +38,8 @@ Ext.define('Account.Quotation.Grid', {
 			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
-			{text: "Status", width: 60, dataIndex: 'statu', sortable: true},
+			{text: "Status", width: 60, dataIndex: 'statx', sortable: true},
+			{text: "Sale Name", width: 60, dataIndex: 'sname', sortable: true},
 			{text: "Amount", width: 100, dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 80, dataIndex: 'ctype', sortable: true}
 		];

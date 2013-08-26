@@ -1,18 +1,14 @@
-Ext.define('Account.Quotation.MainWindow', {
+Ext.define('Account.Material.MainWindow', {
 	extend	: 'Ext.window.Window',
-	requires : [
-		'Account.Quotation.Grid',
-		'Account.Quotation.Item.Window'
-	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation',
+			title: 'Material Management',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1000,
-			minWidth: 500,
+			width: 600,
+			minWidth: 1000,
 			resizable: true,
 			modal: true,
 			layout:'border',
@@ -41,21 +37,21 @@ Ext.define('Account.Quotation.MainWindow', {
 		
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
-		this.grid = Ext.create('Account.Quotation.Grid', {
-			region:'center',
-			border: false
+		this.grid = Ext.create('Account.Material.Grid', {
+			region:'center'
 		});
 
-		this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+		this.itemDialog = Ext.create('Account.Material.Item.Window');
 
 		this.items = [this.grid];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			//_this.itemDialog.reset();
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load
-			_this.itemDialog.grid.load({vbelp: 0});
+			_this.itemDialog.grid.load({jobnr: 0});
 		});
 		
 		this.editAct.setHandler(function(){
@@ -66,7 +62,7 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.load(id);
 				
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid.load({vbelp: id});
+				_this.itemDialog.grid.load({jobnr: id});
 			}
 		});
 
@@ -78,14 +74,14 @@ Ext.define('Account.Quotation.MainWindow', {
 			}
 		});
 
-		//this.itemDialog.form.on('afterSave', function(){
-		//	_this.itemDialog.hide();
-		//	_this.grid.load();
-		//);
+		this.itemDialog.form.on('afterSave', function(){
+			_this.itemDialog.hide();
+			_this.grid.load();
+		});
 
-		//this.itemDialog.form.on('afterDelete', function(){
-		//	_this.grid.load();
-	//	});
+		this.itemDialog.form.on('afterDelete', function(){
+			_this.grid.load();
+		});
 
 
 		// --- after ---

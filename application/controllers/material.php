@@ -5,10 +5,33 @@ class Material extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('code_model','',TRUE);
 	}
 
 	function index(){
 		$this->load->view('material');
+	}
+	
+	function load(){
+		//$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		
+		$this->db->where('matnr', $id);
+		$query = $this->db->get('mara');
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			
+			$result_data['id'] = $result_data['matnr'];
+
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
 	}
 
 	function loads(){
@@ -44,6 +67,14 @@ class Material extends CI_Controller {
 	}
 
 	function save(){
+		
+		$id = $this->input->post('id');
+		$query = null;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('matnr', $id);
+			$query = $this->db->get('mara');
+		}
 
 		$formData = array(
 			'matnr' => $this->input->post('matnr'),
@@ -60,17 +91,18 @@ class Material extends CI_Controller {
 			'enval' => $this->input->post('enval')
 			);
 			
-		/*if ($query->num_rows() > 0){
-			$this->db->where($tbPK, $id);
-			$this->db->set('update_date', 'NOW()', false);
-			$this->db->set('update_by', $sess_user_id);
-			$this->db->update($tbName, $formData);
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('matnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
+			$this->db->update('mara', $formData);
 		}else{
-		 */
+			$this->db->set('matnr', $this->code_model->generate('10',
+			$this->input->post('bldat')));
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'test');
 			$this->db->insert('mara', $formData);
-		//}
+		}
 
 		echo json_encode(array(
 			'success'=>true,

@@ -26,10 +26,18 @@ class Quotation extends CI_Controller {
 		
 		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
+		
 		if($query->num_rows()>0){
-			$result = $query->first_row('array');
-			//$result['id'] = $result['vbeln'];
-			$result['bldat']=substr($result['bldat'], 0, 10);
+			$result_data = $query->first_row('array');
+			//$result_data['id'] = $result_data['vbeln'];
+			
+			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         $result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+									 
+			//$result['bldat']=substr($result['bldat'], 0, 10);
+			
 
 			echo json_encode(array(
 				'success'=>true,
@@ -111,41 +119,6 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
-	function loads_item(){
-		$tbName = 'vbap';
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
 
 	function save(){
 		$id = $this->input->post('id');
@@ -157,7 +130,7 @@ class Quotation extends CI_Controller {
 		}
 
 		$formData = array(
-			'vbeln' => $this->input->post('vbeln'),
+			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
@@ -342,15 +315,51 @@ class Quotation extends CI_Controller {
 
 	function loads_qt_item(){
 
-		$pr_id = $this->input->get('qt_id');
-		$this->db->where('qt_id', $pr_id);
+		$qt_id = $this->input->get('vbelp');
+		$this->db->where('vbelp', $qt_id);
 
-		$query = $this->db->get('vbelp');
+		$query = $this->db->get('vbap');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
 	}
+	
+	/*
+	function loads_item(){
+		$tbName = 'vbap';
+		//$tbName2 = 'jobp';
+
+		//function createQuery($_this){
+		//	$query = $_this->input->post('query');
+		//	if(isset($query) && strlen($query)>0){
+		//		$_this->db->or_like('code', $query);
+		//	}
+		//}
+
+		createQuery($this);
+		$this->db->select('id');
+		//$totalCount1 = $this->db->count_all_results($tbName1);
+		$totalCount = $this->db->count_all_results($tbName);
+
+//		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		//$sort = $this->input->post('sort');
+		//$dir = $this->input->post('dir');
+		//$this->db->order_by($sort, $dir);
+
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}*/
 
 }

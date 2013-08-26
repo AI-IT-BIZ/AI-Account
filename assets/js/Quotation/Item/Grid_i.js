@@ -11,6 +11,10 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
+		
+		// INIT Material search popup //////////////////////////////////
+		//this.materialDialog = Ext.create('Account.Material.MainWindow');
+		// END Material search popup ///////////////////////////////////
 
 		this.tbar = [this.addAct, this.deleteAct];
 
@@ -137,7 +141,58 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
+		/*
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='code'){
+				var v = e.value;
 
+				if(Ext.isEmpty(v)) return;
+
+				Ext.Ajax.request({
+					url: __site_url+'warehouse/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							var rModel = _this.store.getById(e.record.data.id);
+
+							// change cell code value (use db value)
+							rModel.set(e.field, r.data.warnr);
+
+							// change cell price value
+							rModel.set('price', 100+Math.random());
+
+							// change cell amount value
+							rModel.set('amount', 100+Math.random());
+						}else{
+							_this.editing.startEdit(e.record, e.column);
+						}
+					}
+				});
+			}
+		});
+
+		_this.materailDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+
+				// change cell code value (use db value)
+				rModel.set('matnr', record.data.matnr);
+
+				// Materail text
+				rModel.set('maktx', record.data.maktx);
+
+				// change cell amount value
+				//rModel.set('amount', 100+Math.random());
+			}
+			grid.getSelectionModel().deselectAll();
+			_this.materailDialog.hide();
+		});
+*/
 		return this.callParent(arguments);
 	},
 	

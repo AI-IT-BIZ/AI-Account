@@ -109,8 +109,8 @@ class Project extends CI_Controller {
 			'pramt' => $this->input->post('pramt'),
 			'esamt' => $this->input->post('esamt')
 		);
-		  $this->db->set('erdat', 'NOW()', false);
-		  $this->db->set('ernam', 'test');
+		  //$this->db->set('erdat', 'NOW()', false);
+		  //$this->db->set('ernam', 'test');
 		  
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('jobnr', $id);

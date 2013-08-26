@@ -46,7 +46,7 @@ Ext.onReady(function() {
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
-//>>>>>>> 1c8f8bbd3fc200a5b2da2715f79b31f50b6b03c5
+//Purchase Module
 	$om.viewport.on('click_vendor', function(){
 		if(!$om.vendorDialog)
 			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
@@ -63,6 +63,24 @@ Ext.onReady(function() {
 		if(!$om.pr2Dialog)
 			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
 		$om.pr2Dialog.show();
+	});
+//Material Module
+	$om.viewport.on('click_material', function(){
+		if(!$om.materialDialog)
+			$om.materialDialog = Ext.create('Account.Material.MainWindow');
+		$om.materialDialog.show();
+	});
+	
+	$om.viewport.on('click_return', function(){
+		if(!$om.returnDialog)
+			$om.returnDialog = Ext.create('Account.Return.MainWindow');
+		$om.returnDialog.show();
+	});
+	
+	$om.viewport.on('click_picking', function(){
+		if(!$om.pickingDialog)
+			$om.pickingDialog = Ext.create('Account.Picking.MainWindow');
+		$om.pickingDialog.show();
 	});
 	
 

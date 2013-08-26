@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		25/8/2013
+Modified		26/8/2013
 Project		
 Model		
 Company		
@@ -753,10 +753,12 @@ select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
 `a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
 `a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
 `a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
-`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01`,`c`.`name1` AS `sname` 
-from tbl_vbak a inner join tbl_kna1 b 
+`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
+from tbl_vbak a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-inner join tbl_psal c on a.salnr = c.salnr;
+left join tbl_psal c on a.salnr = c.salnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_jobk e on a.jobnr = e.jobnr;
 create view v_jobk as
 
 select `a`.`jobnr` AS `jobnr`,`a`.`jobtx` AS `jobtx`,`a`.`jtype` AS `jtype`,`a`.`bldat` AS `bldat`,
@@ -765,10 +767,11 @@ select `a`.`jobnr` AS `jobnr`,`a`.`jobtx` AS `jobtx`,`a`.`jtype` AS `jtype`,`a`.
 `a`.`stdat` AS `stdat`,`a`.`endat` AS `endat`,`a`.`datam` AS `datam`,`a`.`kunnr` AS `kunnr`,
 `a`.`pson1` AS `pson1`,`a`.`pramt` AS `pramt`,`a`.`esamt` AS `esamt`,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx` AS `distx`,`c`.`name1` AS `sname` 
-from tbl_jobk a inner join tbl_kna1 b 
+`b`.`email` AS `email`,`b`.`distx` AS `distx`,`c`.`name1` AS `sname`,d.statx 
+from tbl_jobk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-inner join tbl_psal c on a.salnr = c.salnr;
+left join tbl_psal c on a.salnr = c.salnr
+left join tbl_apov d on a.statu = d.statu;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
