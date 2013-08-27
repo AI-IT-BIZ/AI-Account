@@ -24,12 +24,12 @@ Ext.define('Account.Quotation.Item.Window', {
 		var _this=this;
 
 		this.form = Ext.create('Account.Quotation.Item.Form',{ region:'north' });
-        this.grid1 = Ext.create('Account.Quotation.Item.Grid_i',{ 
+        this.grid1 = Ext.create('Account.Quotation.Item.Grid_i',{
         	title:'Project Items'
         	});
-        this.grid2 = Ext.create('Account.Quotation.Item.Grid_p',{ 
+        this.grid2 = Ext.create('Account.Quotation.Item.Grid_p',{
         	border: false,
-        	region:'center' 
+        	region:'center'
         	});
        this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
 			border: false,
@@ -38,7 +38,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		});
 
 		this.items = [
-		     this.form, 
+		     this.form,
 		   {
 			xtype:'tabpanel',
 			region:'center',
@@ -52,11 +52,11 @@ Ext.define('Account.Quotation.Item.Window', {
 				layout: 'border',
 				items:[
 					this.grid2//,
-					
+
 				]
 			  }]
 			},this.formTotal];
-		
+
           /*this.grid = new Ext.Panel({
 			title:'this is item grid',
 			html:'item grid',
@@ -68,7 +68,7 @@ Ext.define('Account.Quotation.Item.Window', {
 			handler: function() {
 				var rs = _this.grid1.getData();
 				_this.form1.hdnQtItem.setValue(Ext.encode(rs));
-				
+
 				_this.form1.save();
 			}
 		}, {
@@ -78,6 +78,23 @@ Ext.define('Account.Quotation.Item.Window', {
 				_this.hide();
 			}
 		}];
+
+		// event
+		this.grid1.store.on('update', function(store, record){
+			var sum = 0;
+			store.each(function(r){
+				var qty = parseFloat(r.data['menge']),
+					price = parseFloat(r.data['unitp']),
+					discount = parseFloat(r.data['dismt']);
+				qty = isNaN(qty)?0:qty;
+				price = isNaN(price)?0:price;
+				discount = isNaN(discount)?0:discount;
+
+				sum += (qty * price) - discount;
+			});
+			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+			_this.formTotal.calculate();
+		});
 
 		return this.callParent(arguments);
 	}
