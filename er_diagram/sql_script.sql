@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		26/8/2013
+Modified		27/8/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_vbap
+;
 
 Drop View IF EXISTS v_jobk
 ;
@@ -772,6 +775,11 @@ from tbl_jobk a left join tbl_kna1 b
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu;
+create view v_vbap as
+
+select a.*,b.maktx
+from tbl_vbap a left join tbl_mara b 
+on a.matnr = b.matnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

@@ -47,7 +47,7 @@ Ext.define('Account.Project.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			//_this.itemDialog.reset();
+			_this.itemDialog.form.getForm().reset();
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load

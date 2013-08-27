@@ -38,24 +38,24 @@ Ext.define('Account.Quotation.MainWindow', {
 			text: 'Delete',
 			iconCls: 'b-small-minus'
 		});
-		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
+        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
 		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
 			border: false
 		});
 
-		this.itemDialog = Ext.create('Account.Quotation.Item.Window');
-
 		this.items = [this.grid];
+		
+		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load
-			_this.itemDialog.grid.load({vbelp: 0});
+			_this.itemDialog.grid1.load({vbelp: 0});
+			_this.itemDialog.grid2.load({paypr: 0});
 		});
 		
 		this.editAct.setHandler(function(){
@@ -66,7 +66,8 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.load(id);
 				
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid.load({vbelp: id});
+				_this.itemDialog.grid1.load({vbelp: id});
+				_this.itemDialog.grid2.load({paypr: 0});
 			}
 		});
 
@@ -77,15 +78,16 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		//console.log(this.itemDialog.form);
 
-		//this.itemDialog.form.on('afterSave', function(){
-		//	_this.itemDialog.hide();
-		//	_this.grid.load();
-		//);
+		this.itemDialog.form.on('afterSave', function(){
+			_this.itemDialog.hide();
+			_this.grid.load();
+		});
 
-		//this.itemDialog.form.on('afterDelete', function(){
-		//	_this.grid.load();
-	//	});
+		this.itemDialog.form.on('afterDelete', function(){
+			_this.grid.load();
+		});
 
 
 		// --- after ---

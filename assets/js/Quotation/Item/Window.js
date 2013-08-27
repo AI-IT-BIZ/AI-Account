@@ -23,7 +23,7 @@ Ext.define('Account.Quotation.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form1 = Ext.create('Account.Quotation.Item.Form',{ region:'north' });
+		this.form = Ext.create('Account.Quotation.Item.Form',{ region:'north' });
         this.grid1 = Ext.create('Account.Quotation.Item.Grid_i',{ 
         	title:'Project Items'
         	});
@@ -38,7 +38,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		});
 
 		this.items = [
-		     this.form1, 
+		     this.form, 
 		   {
 			xtype:'tabpanel',
 			region:'center',

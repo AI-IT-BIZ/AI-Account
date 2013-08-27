@@ -29,13 +29,14 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'vbelp'
 				}
 			},
 			fields: [
-			    'vbeln',
+			    //'vbeln',
 				'vbelp',
 				'matnr',
+				'maktx',
 				'menge',
 				'meins',
 				'unitp',
@@ -226,9 +227,10 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		rec = { id:newId, matnr:'',maktx:'',meins:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
-		this.store.insert(0, rec);
+		var lastRecord = this.store.count();
+		this.store.insert(lastRecord, rec);
 		edit.startEditByPosition({
-			row: 0,
+			row: lastRecord,
 			column: 0
 		});
 	},

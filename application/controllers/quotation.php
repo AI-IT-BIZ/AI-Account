@@ -188,7 +188,6 @@ class Quotation extends CI_Controller {
 				'itamt'=>$p->itamt,
 				'ctype'=>$p->ctype
 			));
-			
 		}
 
 		// end transaction
@@ -312,9 +311,8 @@ class Quotation extends CI_Controller {
 	// Quotation ITEM
 	///////////////////////////////////////////////
 
-
 	function loads_qt_item(){
-
+        $this->db->set_dbprefix('v_');
 		$qt_id = $this->input->get('vbelp');
 		$this->db->where('vbelp', $qt_id);
 
