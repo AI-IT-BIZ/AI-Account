@@ -12,37 +12,31 @@ Ext.define('Account.Material.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'jobnr'
+					idProperty: 'matnr'
 				}
 			},
 			fields: [
-			    'jobnr',
-				'jobtx',
-			    'kunnr',
-				'name1',
+			    'matnr',
+				'maktx',
+			    'matkl',
+				'mtart',
 				
-				'bldat',
-				'statx',
-				'sname',
-				'stdat',
-				'endat',
-				'datam'
+				'meins',
+				'saknr',
+				'erdat'
 			],
 			remoteSort: true,
 			sorters: ['jobnr ASC']
 		});
 
 		this.columns = [
-		    {text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
-		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Project Date", width: 90, dataIndex: 'bldat', sortable: true},
-			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "Project Owner", width: 120, dataIndex: 'sname', sortable: true},
-			{text: "Start Date", width: 80, dataIndex: 'stdat', sortable: true},
-			{text: "End Date", width: 80, dataIndex: 'endat', sortable: true},
-			{text: "Long-term", width: 80, dataIndex: 'datam', sortable: true}
+		    {text: "Material No", width: 100, dataIndex: 'matnr', sortable: true},
+			{text: "Material Name", width: 150, dataIndex: 'maktx', sortable: true},
+		    {text: "Material Grp", width: 100, dataIndex: 'matkl', sortable: true},
+			{text: "Material Type", width: 150, dataIndex: 'mtart', sortable: true},
+			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
+			{text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
+			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true}
 		];
 
 		this.bbar = {

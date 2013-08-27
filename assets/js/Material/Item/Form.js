@@ -1,9 +1,9 @@
-Ext.define('Account.Project.Item.Form', {
+Ext.define('Account.Material.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'project/save',
+			url: __site_url+'material/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -20,12 +20,44 @@ Ext.define('Account.Project.Item.Form', {
 		var _this=this;
 		
 		// INIT Warehouse search popup ///////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.comboJType = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Project Type',
-			name : 'jtype',
-			labelWidth: 100,
+		this.comboMGrp = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Material Grp',
+			name : 'matkl',
+			//labelWidth: 100,
+			//width: 300,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please select Group --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'material/loads_gcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'matkl'
+					}
+				},
+				fields: [
+					'matkl',
+					'matxt'
+				],
+				remoteSort: true,
+				sorters: 'matkl ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'matxt',
+			valueField: 'matkl'
+		});
+		
+		this.comboMType = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Material Type',
+			name : 'mtart',
+			//labelWidth: 100,
 			//width: 300,
 			editable: false,
 			allowBlank : false,
@@ -35,316 +67,176 @@ Ext.define('Account.Project.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'project/loads_tcombo',
+					url: __site_url+'material/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
-						idProperty: 'jtype'
+						idProperty: 'mtart'
 					}
 				},
 				fields: [
-					'jtype',
-					'jobtx'
+					'mtart',
+					'matxt'
 				],
 				remoteSort: true,
-				sorters: 'jtype ASC'
+				sorters: 'mtart ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'jobtx',
-			valueField: 'jtype'
+			displayField: 'matxt',
+			valueField: 'mtart'
 		});
-		
-		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Project Status',
-			name : 'statu',
-			labelWidth: 100,
-			//width: 300,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			disabled: true,
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Status --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'project/loads_scombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statu',
-			value: '01'
-		});
-		
-		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Project Owner',
-			name : 'salnr',
-			labelWidth: 100,
-			width: 300,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Owner --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'project/loads_ocombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
-		});
-		
-		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
-			fieldLabel: 'Customer Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
-		});
-		
+
+
 		this.items = [{
-			xtype:'fieldset',
-            title: 'Customer Data',
-            //collapsible: true,
+            xtype:'fieldset',
+            title: 'Material Data',
+            collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
                 anchor: '100%'
             },
-     items:[{
-                xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
+		items: [{
+			xtype: 'textfield',
+			fieldLabel: 'Material Code',
+			name: 'matnr',
+			allowBlank: false
+		}, {
+			xtype: 'textfield',
+			fieldLabel: 'Material Name',
+			name: 'maktx',
+			width: 400,
+			allowBlank: true
+		}, this.comboMGrp,this.comboMType, 
+		  {
+			xtype: 'textfield',
+			fieldLabel: 'Unit',
+			name: 'meins',
+			allowBlank: true
+		}, {
+			xtype: 'textfield',
+			//xtype: 'filefield',
+            id: 'form-file',
+            emptyText: 'Select a GL account',
+			fieldLabel: 'GL Account',
+			name: 'saknr',
+			allowBlank: true,
+			buttonText: '',
+            buttonConfig: {
+                iconCls: 'b-small-pencil'
+            }
+            }]
+		}, {
+// Frame number 2	
+			xtype:'fieldset',
+            title: 'Balance Data',
+            collapsible: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
      items :[{
-			xtype: 'hidden',
-			name: 'id'
-		},this.trigCustomer,{
-			xtype: 'displayfield',
-            fieldLabel: '',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
-			name: 'name1',
-			margins: '0 0 0 6',
-            //emptyText: 'Customer
-            width: 400,
-            allowBlank: true
-		}]
+		
+		xtype: 'numberfield',
+			fieldLabel: 'Beginning Qty',
+			name: 'beqty',
+			allowBlank: true
 		},{
-			xtype: 'textarea',
-			fieldLabel: 'Address',
-			name: 'adr01',
+			xtype: 'numberfield',
+			fieldLabel: 'Beginning Value',
+			name: 'beval',
+			allowBlank: true
+		}, {
+			xtype: 'numberfield',
+			fieldLabel: 'Average Cost',
+			name: 'cosav',
+			allowBlank: true
+		}, {
+			xtype: 'numberfield',
+			fieldLabel: 'Ending Qty',
+			name: 'enqty',
+			allowBlank: true
+		}, {
+			xtype: 'numberfield',
+			fieldLabel: 'Ending Value',
+			name: 'enval',
+			allowBlank: true
+		}]
+	},{
+// Frame number 3	
+			xtype:'fieldset',
+            title: 'Costing Data',
+            collapsible: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
+            xtype: 'container',
+            anchor: '100%',
+            layout: 'hbox',
+            items:[{
+                xtype: 'container',
+                flex: 1,
+                layout: 'anchor',
+     items :[{
+			xtype: 'textfield',
+			fieldLabel: 'Unit 1',
+			name: 'unit1',
 			anchor:'90%',
-			width:500,
 			allowBlank: true
-         }]
-        },{
-         xtype: 'fieldset',
-         title: 'Project Detail',
-         defaultType: 'textfield',
-         layout: 'anchor',
-         defaults: {
-                  anchor: '100%'
-                },
-     items: [{
-     	xtype: 'container',
-        layout: 'hbox',
-        margin: '0 0 5 0',
-     items: [{
+		},{
 			xtype: 'textfield',
-			fieldLabel: 'Project No',
-			name: 'jobnr',
-			anchor:'100%',
-			labelWidth: 100,
-			value:'PJXXXX-XXXX',
-			readOnly: true,
-			disabled: true
-			//allowBlank: false
-		},this.comboJStatus]
-	   },{
-     	xtype: 'container',
-        layout: 'hbox',
-        margin: '0 0 5 0',
-     items: [this.comboJType,{
-			xtype: 'datefield',
-			fieldLabel: 'Project Date',
-			name: 'bldat',
-			anchor:'100%',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-	    }]
-	   },{
+			fieldLabel: 'Unit 2',
+			name: 'unit1',
+			anchor:'90%',
+			allowBlank: true
+		},{
 			xtype: 'textfield',
-			fieldLabel: 'Project Name',
-			name: 'jobtx',
-			width: 495,
-			labelWidth: 100,
-			allowBlank: false
-	
-	    },{
-			xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.comboPOwner,{
-			xtype: 'displayfield',
-            fieldLabel: '',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
-			name: 'name1',
-			margins: '0 0 0 6',
-            //emptyText: 'Customer',
-            allowBlank: true
+			fieldLabel: 'Unit 3',
+			name: 'unit3',
+			anchor:'90%',
+			allowBlank: true
 		}]
-	
-	    },{
-	    	xtype: 'container',
-                    layout: 'hbox',
-                    margin: '0 0 5 0',
-     items: [{
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'anchor',
+        items: [{
 			xtype: 'numberfield',
-			fieldLabel: 'Project Amount',
-			name: 'pramt',
+			fieldLabel: 'Cost 1',
+			name: 'cost1',
 			anchor:'100%',
-			labelWidth: 100,
+			labelWidth: 90,
 			allowBlank: true
-	    },{
+		},{
 			xtype: 'numberfield',
-			fieldLabel: 'Estimate Cost',
-			name: 'esamt',
+			fieldLabel: 'Cost 2',
+			minValue: 0,
+			name: 'cost2',
 			anchor:'100%',
-			labelWidth: 100,
+			labelWidth: 90,
 			allowBlank: true
-	    }]
-	   },{
-	   	xtype: 'container',
-                    layout: 'hbox',
-                    margin: '0 0 5 0',
-     items: [{
-			xtype: 'datefield',
-			fieldLabel: 'Start Date',
-			name: 'stdat',
+		},{
+			xtype: 'numberfield',
+			fieldLabel: 'Cost 3',
+			minValue: 0,
+			name: 'cost3',
 			anchor:'100%',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
+			labelWidth: 90,
 			allowBlank: true
-	    },{
-			xtype: 'datefield',
-			fieldLabel: 'End Date',
-			name: 'endat',
-			anchor:'100%',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: true
-	    },{
-			xtype: 'displayfield',
-			fieldLabel: '',
-			name: 'datam',
-			anchor:'100%',
-			Width: 30,
-			allowBlank: true
-	    }]
+		}
+		]
 		}]
+		}]
+
 		//}]
 		}];
 
 		//return this.callParent(arguments);
 	//},
-	
-	// event ///
-		this.trigCustomer.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'customer/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.kunnr);
-							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _addr = r.data.adr01;
-                           if(!Ext.isEmpty(r.data.pstlz))
-                             _addr += ' '+r.data.pstlz;
-                           if(!Ext.isEmpty(r.data.telf1))
-                            _addr += '\n'+'Tel: '+r.data.telf1;
-                           if(!Ext.isEmpty(r.data.telfx))
-                             _addr += '\n'+'Fax: '+r.data.telfx;
-                           if(!Ext.isEmpty(r.data.email))
-                            _addr += '\n'+'Email: '+r.data.email;
-                            _this.getForm().findField('adr01').setValue(_addr);
-							//_this.getForm().findField('adr01').setValue(r.data.adr01
-							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
-							//+r.data.telfx+'\n'+'Email '+r.data.email);
-						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			
-			var _addr = record.data.adr01;
-            if(!Ext.isEmpty(record.data.pstlz))
-              _addr += ' '+record.data.pstlz;
-            if(!Ext.isEmpty(record.data.telf1))
-               _addr += '\n'+'Tel: '+record.data.telf1;
-             if(!Ext.isEmpty(record.data.telfx))
-               _addr += '\n'+'Fax: '+record.data.telfx;
-             if(!Ext.isEmpty(record.data.email))
-               _addr += '\n'+'Email: '+record.data.email;
-             _this.getForm().findField('adr01').setValue(_addr);
-			//_this.getForm().findField('adr01').setValue(record.data.adr01
-			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
-			//+record.data.telfx+'\n'+'Email '+record.data.email);
-
-			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
-		});
-
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.show();
-		};
 
 		return this.callParent(arguments);
 	},
@@ -353,7 +245,7 @@ Ext.define('Account.Project.Item.Form', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'project/load'
+			url:__site_url+'material/load'
 		});
 	},
 	
@@ -378,7 +270,7 @@ Ext.define('Account.Project.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'project/remove',
+			url:__site_url+'material/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

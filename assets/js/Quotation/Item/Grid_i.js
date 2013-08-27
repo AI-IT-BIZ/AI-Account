@@ -13,12 +13,14 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 		
 		// INIT Material search popup //////////////////////////////////
-		//this.materialDialog = Ext.create('Account.Material.MainWindow');
+		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
 
 		this.tbar = [this.addAct, this.deleteAct];
 
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing');
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		});
 		
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -53,7 +55,14 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		    },
 			{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
 			field: {
-				type: 'textfield'
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				allowBlank : false,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.materialDialog.show();
+				}
 			},
 			},
 		    {text: "Description", width: 200, dataIndex: 'maktx', sortable: false,
@@ -141,15 +150,15 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-		/*
+		
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='code'){
+			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'warehouse/load',
+					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -160,13 +169,15 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 							var rModel = _this.store.getById(e.record.data.id);
 
 							// change cell code value (use db value)
-							rModel.set(e.field, r.data.warnr);
+							rModel.set(e.field, r.data.matnr);
 
-							// change cell price value
-							rModel.set('price', 100+Math.random());
+							// Materail text
+							rModel.set('maktx', r.data.maktx);
 
-							// change cell amount value
-							rModel.set('amount', 100+Math.random());
+							// Unit
+							rModel.set('meins', r.data.meins);
+							//rModel.set('amount', 100+Math.random());
+							
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -175,7 +186,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			}
 		});
 
-		_this.materailDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
@@ -186,13 +197,15 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				// Materail text
 				rModel.set('maktx', record.data.maktx);
 
-				// change cell amount value
+				// Unit
+				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
+
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.materailDialog.hide();
+			_this.materialDialog.hide();
 		});
-*/
+
 		return this.callParent(arguments);
 	},
 	
@@ -210,7 +223,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, code:'', price:0, amount:1 };
+		rec = { id:newId, matnr:'',maktx:'',meins:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		this.store.insert(0, rec);

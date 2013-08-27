@@ -51,7 +51,7 @@ Ext.define('Account.Project.MainWindow', {
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load
-			_this.itemDialog.grid.load({jobnr: 0});
+			//_this.itemDialog.grid.load({jobnr: 0});
 		});
 		
 		this.editAct.setHandler(function(){
@@ -62,7 +62,7 @@ Ext.define('Account.Project.MainWindow', {
 				_this.itemDialog.form.load(id);
 				
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid.load({jobnr: id});
+				//_this.itemDialog.grid.load({jobnr: id});
 			}
 		});
 

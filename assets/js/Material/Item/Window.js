@@ -1,11 +1,11 @@
-Ext.define('Account.Project.Item.Window', {
+Ext.define('Account.Material.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Project',
+			title: 'Create/Edit Material',
 			closeAction: 'hide',
-			height: 450,
+			height: 550,
 			width: 600,
 			layout: 'border',
 			resizable: true,
@@ -17,7 +17,7 @@ Ext.define('Account.Project.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Project.Item.Form');//, { region:'north' });
+		this.form = Ext.create('Account.Material.Item.Form');//, { region:'north' });
 
 		/*this.grid = new Ext.Panel({
 			title:'this is item grid',

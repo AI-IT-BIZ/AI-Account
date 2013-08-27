@@ -9,7 +9,7 @@ class Material extends CI_Controller {
 	}
 
 	function index(){
-		$this->load->view('material');
+		//$this->load->view('material');
 	}
 	
 	function load(){
@@ -65,6 +65,54 @@ class Material extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+	
+	public function loads_tcombo(){
+		$tbName = 'mtyp';
+		$tbPK = 'mtart';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('matxt', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+	
+	public function loads_gcombo(){
+		$tbName = 'mgrp';
+		$tbPK = 'matkl';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('matxt', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
 
 	function save(){
 		
@@ -77,9 +125,10 @@ class Material extends CI_Controller {
 		}
 
 		$formData = array(
-			'matnr' => $this->input->post('matnr'),
+			//'matnr' => $this->input->post('matnr'),
 			'maktx' => $this->input->post('maktx'),
-			'maetx' => $this->input->post('maetx'),
+			//'maetx' => $this->input->post('maetx'),
+			'matkl' => $this->input->post('matkl'),
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),
@@ -107,6 +156,16 @@ class Material extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
+		));
+	}
+
+    function remove(){
+		$id = $this->input->post('id');
+		$this->db->where('matnr', $id);
+		$query = $this->db->delete('mara');
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$id
 		));
 	}
 
