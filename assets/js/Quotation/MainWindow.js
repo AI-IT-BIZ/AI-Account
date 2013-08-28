@@ -1,9 +1,9 @@
 Ext.define('Account.Quotation.MainWindow', {
 	extend	: 'Ext.window.Window',
-	requires : [
-		'Account.Quotation.Grid',
-		'Account.Quotation.Item.Window'
-	],
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -51,6 +51,10 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.formTotal.getForm().reset();
+			//_this.itemDialog.grid1.load({vbelp: 999});
+			//_this.itemDialog.grid2.load({paypr: 999});
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load

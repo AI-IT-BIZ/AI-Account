@@ -1,10 +1,10 @@
 Ext.define('Account.Quotation.Item.Window', {
 	extend	: 'Ext.window.Window',
-	requires : ['Account.Quotation.Item.Form',
-	            'Account.Quotation.Item.Form_t',
-	            'Account.Quotation.Item.Grid_i',
-	            'Account.Quotation.Item.Grid_p'
-	           ],
+	//requires : ['Account.Quotation.Item.Form',
+	//            'Account.Quotation.Item.Form_t',
+	//            'Account.Quotation.Item.Grid_i',
+	//            'Account.Quotation.Item.Grid_p'
+	//           ],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -67,9 +67,9 @@ Ext.define('Account.Quotation.Item.Window', {
 			text: 'Save',
 			handler: function() {
 				var rs = _this.grid1.getData();
-				_this.form1.hdnQtItem.setValue(Ext.encode(rs));
+				_this.form.hdnQtItem.setValue(Ext.encode(rs));
 
-				_this.form1.save();
+				_this.form.save();
 			}
 		}, {
 			text: 'Cancel',

@@ -249,7 +249,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
-			allowBlank: true
+			allowBlank: false
 		}]
 // Address Bill&Ship
 		},{
@@ -471,6 +471,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			url:__site_url+'quotation/load'
 		});
 	},
+	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
@@ -486,6 +487,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			});
 		}
 	},
+	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({

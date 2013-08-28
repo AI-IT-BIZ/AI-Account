@@ -35,6 +35,7 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
+			$result_data['adr11'] = $result_data['adr01'];
 									 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 			
@@ -160,11 +161,13 @@ class Quotation extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('vbak', $formData);
 		}else{
+			$id = $this->code_model->generate('QT', $this->input->post('bldat'));
+			$this->db->set('vbeln', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('vbak', $formData);
 			
-			$id = $this->db->insert_id();
+			//$id = $this->db->insert_id();
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -172,14 +175,14 @@ class Quotation extends CI_Controller {
 		$this->db->delete('vbap');
 
 		// เตรียมข้อมูล pr item
-		$vbap = $this->input->post('vbap');
+		$vbap = $this->input->post('vbap');//$this->input->post('vbelp');
 		$qt_item_array = json_decode($vbap);
-
+		
 		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 		foreach($qt_item_array AS $p){
 			$this->db->insert('vbap', array(
-				//'vbeln'=>$id,
-				'vbelp'=>$id,
+				'vbeln'=>$id,
+				'vbelp'=>$p->vbelp,
 				'matnr'=>$p->matnr,
 				'menge'=>$p->menge,
 				'meins'=>$p->meins,

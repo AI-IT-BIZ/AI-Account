@@ -108,6 +108,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			width:270,
 			labelWidth: 155,
 			margin: '0 0 0 600',
+			Style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
 			readOnly: true
 		});
@@ -214,7 +215,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			total = parseFloat(total),
 			total = isNaN(total)?0:total;
 
-		console.log(total);
+		//console.log(total);
 
 		if(total<=0) return;
 

@@ -111,7 +111,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'',sgtxt:'',duedt:'',ctype:'THB' };
+		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		var lastRecord = this.store.count();

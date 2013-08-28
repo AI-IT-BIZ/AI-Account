@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		27/8/2013
+Modified		28/8/2013
 Project		
 Model		
 Company		
@@ -317,7 +317,7 @@ Create table tbl_vbak (
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
-	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
+	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
@@ -499,6 +499,7 @@ Create table tbl_ekko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	purnr Varchar(20) COMMENT 'Purchase Order (tbl_ebko)',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -595,7 +596,7 @@ Create table tbl_vbrk (
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
 	saknr Varchar(10) COMMENT 'GL No',
-	vbeln Varchar(10) COMMENT 'SO no',
+	vbeln Varchar(20) COMMENT 'SO no (tbl_vbak)',
  Primary Key (invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
