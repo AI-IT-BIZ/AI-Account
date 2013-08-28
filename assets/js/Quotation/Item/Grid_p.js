@@ -5,14 +5,35 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 	},
 	
 	initComponent : function() {
+		var _this=this;
+
+		this.addAct = new Ext.Action({
+			text: 'Add',
+			iconCls: 'b-small-plus'
+		});
+		this.copyAct = new Ext.Action({
+			text: 'Copy',
+			iconCls: 'b-small-copy'
+		});
+		this.deleteAct = new Ext.Action({
+			text: 'Delete',
+			iconCls: 'b-small-minus'
+		});
+		
+		this.tbar = [this.addAct, this.copyAct, this.deleteAct];
+		
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		});
+		
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads_pp",
+				url: __site_url+"Quotation/loads_pay_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'paypr'
 				}
 			},
 			fields: [
@@ -24,16 +45,40 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['paypr ASC']
 		});
 
 		this.columns = [
-		    {text: "Period No", width: 80, dataIndex: 'vbeln', sortable: true},
-			{text: "Period Desc.", width: 300, dataIndex: 'bldat', sortable: true},
-		    {text: "Period Date", width: 100, dataIndex: 'kunnr', sortable: true},
-			{text: "Percent", width: 100, dataIndex: 'name1', sortable: true},
-			{text: "Amount", width: 150, dataIndex: 'jobnr', sortable: true},
-			{text: "Currency", width: 100, dataIndex: 'jobtx', sortable: true}
+		    {text: "Period No", width: 80, dataIndex: 'paypr', sortable: true,
+		    field: {
+				type: 'textfield'
+			},
+			},
+			{text: "Period Desc.", width: 300, dataIndex: 'sgtxt', sortable: true,
+			field: {
+				type: 'textfield'
+			},
+			},
+		    {text: "Period Date", width: 100, dataIndex: 'duedt', sortable: true,
+		    field: {
+				type: 'datefield'
+			},
+			},
+			{text: "Percent", width: 100, dataIndex: 'perct', sortable: true,
+			field: {
+				type: 'numberfield'
+			},
+			},
+			{text: "Amount", width: 150, dataIndex: 'pramt', sortable: true,
+			field: {
+				type: 'numberfield'
+			},
+			},
+			{text: "Currency", width: 100, dataIndex: 'ctype', sortable: true,
+			field: {
+				type: 'textfield'
+			},
+			}
 		];
 
 		this.bbar = {
@@ -42,10 +87,50 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			store: this.store,
 			displayInfo: true
 		};
+		
+		this.plugins = [this.editing];
+
+		// init event
+		this.addAct.setHandler(function(){
+			_this.addRecord();
+		});
 
 		return this.callParent(arguments);
 	},
 	load: function(options){
 		this.store.load(options);
+	},
+	
+	addRecord: function(){
+		// หา record ที่สร้างใหม่ล่าสุด
+		var newId = -1;
+		this.store.each(function(r){
+			if(r.get('id')<newId)
+				newId = r.get('id');
+		});
+		newId--;
+
+		// add new record
+		rec = { id:newId, paypr:'',sgtxt:'',duedt:'',ctype:'THB' };
+		edit = this.editing;
+		edit.cancelEdit();
+		var lastRecord = this.store.count();
+		this.store.insert(lastRecord, rec);
+		edit.startEditByPosition({
+			row: lastRecord,
+			column: 0
+		});
+	},
+	
+	removeRecord: function(grid, rowIndex){
+		this.store.removeAt(rowIndex);
+	},
+	
+	getData: function(){
+		var rs = [];
+		this.store.each(function(r){
+			rs.push(r.getData());
+		});
+		return rs;
 	}
 });

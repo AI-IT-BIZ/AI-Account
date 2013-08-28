@@ -324,6 +324,19 @@ class Quotation extends CI_Controller {
 		));
 	}
 	
+	function loads_pay_item(){
+        //$this->db->set_dbprefix('v_');
+		$qt_id = $this->input->get('paypr');
+		$this->db->where('paypr', $qt_id);
+
+		$query = $this->db->get('payp');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
 	/*
 	function loads_item(){
 		$tbName = 'vbap';

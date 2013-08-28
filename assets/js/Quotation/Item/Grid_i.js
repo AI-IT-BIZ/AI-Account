@@ -11,12 +11,20 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
+		this.copyAct = new Ext.Action({
+			text: 'Copy',
+			iconCls: 'b-small-copy'
+		});
+		this.deleteAct = new Ext.Action({
+			text: 'Delete',
+			iconCls: 'b-small-minus'
+		});
 		
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
 
-		this.tbar = [this.addAct, this.deleteAct];
+		this.tbar = [this.addAct, this.copyAct, this.deleteAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1

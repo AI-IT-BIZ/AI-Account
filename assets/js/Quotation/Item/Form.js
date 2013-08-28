@@ -33,7 +33,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			//disabled: true,
-			margin: '0 0 0 -20',
+			margin: '0 0 0 -17',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -132,7 +132,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//labelWidth: 70,
 			//anchor:'90%',
 			width: 240,
-			margin: '0 0 0 5',
+			margin: '0 0 0 8',
 			labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
@@ -275,7 +275,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			rows:2,
 			labelAlign: 'right',
 			labelAlign: 'top',
-			margin: '0 0 0 135',
+			margin: '0 0 0 145',
 			allowBlank: true
          }]
 // Sale Person         
@@ -291,7 +291,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:200,
-			margin: '0 0 0 25',
+			margin: '0 0 0 35',
 			allowBlank: true
 		},{
 			xtype: 'displayfield',
@@ -318,7 +318,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//anchor:'90%',
 			width:240,
 			labelAlign: 'right',
-			margin: '0 0 0 25',
+			margin: '0 0 0 35',
 			//width:450,
 			allowBlank: true
          },this.comboQStatus]
