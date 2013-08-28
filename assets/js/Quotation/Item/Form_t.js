@@ -23,7 +23,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		this.txtTotal = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Total',
 			name: 'beamt',
-			textAlign: 'right',
+			//textAlign: 'right',
 			//flex: 2,
 			//anchor:'50%',
 			//style: {
