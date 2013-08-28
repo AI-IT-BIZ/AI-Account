@@ -21,7 +21,7 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -46,7 +46,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		});
 
 		this.items = [this.grid];
-		
+
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
@@ -56,19 +56,19 @@ Ext.define('Account.Quotation.MainWindow', {
 			_this.itemDialog.grid1.load({vbelp: 999});
 			//_this.itemDialog.grid2.load({paypr: 999});
 			_this.itemDialog.show();
-			
+
 			// สั่ง pr_item grid load
 			_this.itemDialog.grid1.load({vbelp: 0});
 			_this.itemDialog.grid2.load({paypr: 0});
 		});
-		
+
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
-				
+
 				// สั่ง pr_item grid load
 				_this.itemDialog.grid1.load({vbelp: id});
 				_this.itemDialog.grid2.load({paypr: id});
