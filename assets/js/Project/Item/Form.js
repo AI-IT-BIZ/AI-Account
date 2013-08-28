@@ -234,6 +234,7 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'pramt',
 			anchor:'100%',
 			labelWidth: 100,
+			align: 'right',
 			allowBlank: true
 	    },{
 			xtype: 'numberfield',
@@ -241,6 +242,7 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'esamt',
 			anchor:'100%',
 			labelWidth: 100,
+			align: 'right',
 			allowBlank: true
 	    }]
 	   },{

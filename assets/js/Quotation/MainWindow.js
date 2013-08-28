@@ -53,7 +53,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.getForm().reset();
 			_this.itemDialog.formTotal.getForm().reset();
-			//_this.itemDialog.grid1.load({vbelp: 999});
+			_this.itemDialog.grid1.load({vbelp: 999});
 			//_this.itemDialog.grid2.load({paypr: 999});
 			_this.itemDialog.show();
 			

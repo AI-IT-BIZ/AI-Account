@@ -15,16 +15,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		this.deleteAct = new Ext.Action({
-			text: 'Delete',
-			iconCls: 'b-small-minus'
-		});
+		//this.deleteAct = new Ext.Action({
+		//	text: 'Delete',
+		//	iconCls: 'b-small-minus'
+		//});
 		
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
 
-		this.tbar = [this.addAct, this.copyAct, this.deleteAct];
+		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -56,7 +56,18 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			sorters: ['vbeln ASC']
 		});
 
-		this.columns = [
+		this.columns = [{
+			xtype: 'actioncolumn',
+			width: 30,
+			sortable: false,
+			menuDisabled: true,
+			items: [{
+				icon: __base_url+'assets/images/icons/bin.gif',
+				tooltip: 'Delete QT Item',
+				scope: this,
+				handler: this.removeRecord
+			}]
+			},
 		    {text: "Items", width: 70, dataIndex: 'vbelp', sortable: false,
 		    field: {
 				type: 'textfield'
@@ -79,7 +90,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-			{text: "Qty", width: 70, dataIndex: 'menge', sortable: false,
+			{text: "Qty", 
+			width: 70, 
+			dataIndex: 'menge', 
+			sortable: false,
+			align: 'right',
 			field: {
 				type: 'numberfield',
 				//decimalPrecision: 2,
@@ -97,7 +112,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 			},
-			{text: "Price/Unit", width: 120, dataIndex: 'unitp', sortable: false,
+			{text: "Price/Unit", 
+			width: 120, 
+			dataIndex: 'unitp', 
+			sortable: false,
+			align: 'right',
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
@@ -110,7 +129,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Discount", width: 100, dataIndex: 'dismt', sortable: false,
+			{text: "Discount", 
+			width: 100, 
+			dataIndex: 'dismt', 
+			sortable: false,
+			align: 'right',
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
@@ -123,7 +146,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Amount", width: 120, dataIndex: 'itamt', sortable: false,
+			{text: "Amount", 
+			width: 120, 
+			dataIndex: 'itamt', 
+			sortable: false,
+			align: 'right',
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
@@ -136,22 +163,15 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Currency", width: 100, dataIndex: 'ctype', sortable: false,
+			{text: "Currency", 
+			width: 100, 
+			dataIndex: 'ctype', 
+			sortable: false,
+			align: 'center',
 			field: {
 				type: 'textfield'
 			},
-		},{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/delete.gif',
-				tooltip: 'Delete QT Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-			}];
+		}];
 
 		this.plugins = [this.editing];
 

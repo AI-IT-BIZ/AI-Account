@@ -15,12 +15,12 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		this.deleteAct = new Ext.Action({
-			text: 'Delete',
-			iconCls: 'b-small-minus'
-		});
+		//this.deleteAct = new Ext.Action({
+		//	text: 'Delete',
+		//	iconCls: 'b-small-minus'
+		//});
 		
-		this.tbar = [this.addAct, this.copyAct, this.deleteAct];
+		this.tbar = [this.addAct, this.copyAct];
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -64,17 +64,29 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				type: 'datefield'
 			},
 			},
-			{text: "Percent", width: 100, dataIndex: 'perct', sortable: true,
+			{text: "Percent", 
+			width: 100, 
+			dataIndex: 'perct', 
+			sortable: true,
+			align: 'right',
 			field: {
 				type: 'numberfield'
 			},
 			},
-			{text: "Amount", width: 150, dataIndex: 'pramt', sortable: true,
+			{text: "Amount", 
+			width: 150, 
+			dataIndex: 'pramt', 
+			sortable: true,
+			align: 'right',
 			field: {
 				type: 'numberfield'
 			},
 			},
-			{text: "Currency", width: 100, dataIndex: 'ctype', sortable: true,
+			{text: "Currency", 
+			width: 100, 
+			dataIndex: 'ctype', 
+			sortable: true,
+			align: 'center',
 			field: {
 				type: 'textfield'
 			},

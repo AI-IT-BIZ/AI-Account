@@ -291,6 +291,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:200,
+			align: 'right',
 			margin: '0 0 0 35',
 			allowBlank: true
 		},{
