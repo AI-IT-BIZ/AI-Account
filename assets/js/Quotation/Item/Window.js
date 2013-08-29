@@ -82,6 +82,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		// event
 		this.grid1.store.on('update', function(store, record){
 			var sum = 0;
+			store.suspendEvent('update');
 			store.each(function(r){
 				var qty = parseFloat(r.data['menge']),
 					price = parseFloat(r.data['unitp']),
@@ -90,8 +91,14 @@ Ext.define('Account.Quotation.Item.Window', {
 				price = isNaN(price)?0:price;
 				discount = isNaN(discount)?0:discount;
 
-				sum += (qty * price) - discount;
+				var amt = (qty * price) - discount;
+
+				// set amount value
+				record.set('itamt', amt);
+
+				sum += amt;
 			});
+			store.resumeEvent('update');
 			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 			_this.formTotal.calculate();
 		});

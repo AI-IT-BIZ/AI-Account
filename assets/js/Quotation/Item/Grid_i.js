@@ -3,7 +3,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -19,7 +19,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		//	text: 'Delete',
 		//	iconCls: 'b-small-minus'
 		//});
-		
+
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
@@ -29,11 +29,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads_qt_item",
+				url: __site_url+"quotation/loads_qt_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -90,9 +90,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-			{text: "Qty", 
-			width: 70, 
-			dataIndex: 'menge', 
+			{text: "Qty",
+			width: 70,
+			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -112,9 +112,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 			},
-			{text: "Price/Unit", 
-			width: 120, 
-			dataIndex: 'unitp', 
+			{text: "Price/Unit",
+			width: 120,
+			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -129,9 +129,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Discount", 
-			width: 100, 
-			dataIndex: 'dismt', 
+			{text: "Discount",
+			width: 100,
+			dataIndex: 'dismt',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -146,26 +146,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Amount", 
-			width: 120, 
-			dataIndex: 'itamt', 
-			sortable: false,
-			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
+			{
+				text: "Amount",
+				width: 120,
+				dataIndex: 'itamt',
+				sortable: false,
+				align: 'right',
 			},
-			},
-			{text: "Currency", 
-			width: 100, 
-			dataIndex: 'ctype', 
+			{text: "Currency",
+			width: 100,
+			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
 			field: {
@@ -179,7 +169,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
@@ -206,7 +196,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 							// Unit
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
-							
+
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -237,11 +227,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
 		this.store.load(options);
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -259,14 +249,14 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.store.insert(lastRecord, rec);
 		edit.startEditByPosition({
 			row: lastRecord,
-			column: 0
+			column: 1
 		});
 	},
-	
+
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 	},
-	
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
