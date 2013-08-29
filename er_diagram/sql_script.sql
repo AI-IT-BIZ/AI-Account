@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		28/8/2013
+Modified		29/8/2013
 Project		
 Model		
 Company		
@@ -727,7 +727,7 @@ Create table tbl_bsik (
 COMMENT = 'GL Item (Vendor)';
 
 Create table tbl_vbrp (
-	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
+	invnr Varchar(20) NOT NULL COMMENT 'Invoice no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
@@ -738,7 +738,7 @@ Create table tbl_vbrp (
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
- Primary Key (vbeln,vbelp)) ENGINE = InnoDB
+ Primary Key (invnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
 
@@ -816,7 +816,8 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko','mbeln'),
                       ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk','vbeln'),
                       ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1','kunnr'),
-                      ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr');
+                      ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr'),
+                      ('0007','SP','SD','Sale Person','SP','30000','99999','1308','30000','tbl_psal','salnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
