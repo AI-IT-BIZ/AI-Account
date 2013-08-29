@@ -5,15 +5,17 @@ class Invoice extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('code_model','',TRUE);
 	}
 
 	function index(){
 		//$this->load->view('project');
-		$this->phxview->RenderView('vbak');
-		$this->phxview->RenderLayout('default');
+		//$this->phxview->RenderView('vbak');
+		//$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('invnr', $id);
@@ -21,7 +23,13 @@ class Invoice extends CI_Controller {
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			//$result['id'] = $result['vbeln'];
-			$result['bldat']=substr($result['bldat'], 0, 10);
+			//$result['bldat']=substr($result['bldat'], 0, 10);
+			
+			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         $result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+			$result_data['adr11'] = $result_data['adr01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -34,6 +42,7 @@ class Invoice extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrk';
 		//$tbName2 = 'jobp';
 /*
@@ -102,41 +111,6 @@ class Invoice extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
-	function loads_item(){
-		$tbName = 'vbrp';
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
 
 	function save(){
 		$id = $this->input->post('id');
@@ -148,7 +122,7 @@ class Invoice extends CI_Controller {
 		}
 
 		$formData = array(
-		    'invnr' => $this->input->post('invnr'),
+		    //'invnr' => $this->input->post('invnr'),
 			'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
@@ -179,6 +153,9 @@ class Invoice extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('vbak', $formData);
 		}else{
+			$id = $this->code_model->generate('IV', 
+			$this->input->post('bldat'));
+			$this->db->set('invnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('vbrk', $formData);
@@ -197,8 +174,8 @@ class Invoice extends CI_Controller {
 		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 		foreach($qt_item_array AS $p){
 			$this->db->insert('vbrp', array(
-				//'vbeln'=>$id,
-				'vbelp'=>$id,
+				'invnr'=>$id,
+				'vbelp'=>$p->vbelp,
 				'matnr'=>$p->matnr,
 				'menge'=>$p->menge,
 				'meins'=>$p->meins,
@@ -322,6 +299,23 @@ class Invoice extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
+		));
+	}
+	
+	///////////////////////////////////////////////
+	// Quotation ITEM
+	///////////////////////////////////////////////
+
+	function loads_iv_item(){
+        $this->db->set_dbprefix('v_');
+		$qt_id = $this->input->get('vbeln');
+		$this->db->where('vbeln', $qt_id);
+
+		$query = $this->db->get('vbrp');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
 		));
 	}
 

@@ -45,10 +45,21 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['paypr ASC']
+			sorters: ['vbeln ASC']
 		});
 
-		this.columns = [
+		this.columns = [{
+			xtype: 'actioncolumn',
+			width: 30,
+			sortable: false,
+			menuDisabled: true,
+			items: [{
+				icon: __base_url+'assets/images/icons/bin.gif',
+				tooltip: 'Delete QT Payment',
+				scope: this,
+				handler: this.removeRecord
+			}]
+			},
 		    {text: "Period No", width: 80, dataIndex: 'paypr', sortable: true,
 		    field: {
 				type: 'textfield'

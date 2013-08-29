@@ -35,19 +35,23 @@ Ext.define('Account.Invoice.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
-
-		this.grid = Ext.create('Account.Invoice.Grid', {
-			region:'center'
-		});
-
 		this.itemDialog = Ext.create('Account.Invoice.Item.Window');
 
+		this.grid = Ext.create('Account.Invoice.Grid', {
+			region:'center',
+			border: false
+		});
+
 		this.items = [this.grid];
+		
+		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.show();
+			
+			// สั่ง pr_item grid load
+			_this.itemDialog.grid.load({pr_id: 0});
 		});
 		
 		this.editAct.setHandler(function(){

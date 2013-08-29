@@ -197,7 +197,7 @@ Ext.define('Account.Invoice.Item.Form', {
             fieldLabel: 'Invoice No',
             name: 'vbeln',
             //flex: 3,
-            value: 'IVxxxx-xxxx',
+            value: 'IVXXXX-XXXX',
             labelAlign: 'right',
 			//name: 'qt',
 			width:240,
@@ -260,7 +260,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		},{
             xtype: 'textarea',
 			fieldLabel: 'Ship To',
-			name: 'adr01',
+			name: 'adr11',
 			anchor:'90%',
 			width:350,
 			rows:2,

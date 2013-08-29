@@ -11,6 +11,9 @@ Database		mySQL 5
 
 
 
+Drop View IF EXISTS v_vbrk
+;
+
 Drop View IF EXISTS v_vbap
 ;
 
@@ -564,6 +567,7 @@ Create table tbl_payp (
 	perct Decimal(17,2) COMMENT 'Percent',
 	pramt Decimal(17,2) COMMENT 'Period Amount',
 	ctype Varchar(3) COMMENT 'Currency',
+	statu Varchar(4) COMMENT 'Aprove Status (tbl_apov)',
  Primary Key (vbeln,paypr)) ENGINE = InnoDB
 COMMENT = 'Payment Periods';
 
@@ -757,7 +761,9 @@ select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
 `a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
 `a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
 `a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
-`b`.`name1` AS `name1`,`b`.`adr01` AS `adr01`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
+`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
 from tbl_vbak a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
@@ -781,6 +787,17 @@ create view v_vbap as
 select a.*,b.maktx
 from tbl_vbap a left join tbl_mara b 
 on a.matnr = b.matnr;
+create view v_vbrk as
+
+select a.*,`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,c.name1 as sname,d.statx,
+e.paypr,e.sgtxt,e.statu as stat1
+from tbl_vbrk a left join tbl_kna1 b 
+on a.kunnr = b.kunnr
+left join tbl_psal c on a.salnr = c.salnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_payp e on a.vbeln = e.vbeln;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
