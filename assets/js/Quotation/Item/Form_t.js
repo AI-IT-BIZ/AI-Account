@@ -177,6 +177,15 @@ Ext.define('Account.Quotation.Item.Form_t', {
 	this.txtNet];
 
 		// Event /////////
+		var setAlignRight = function(o){
+			o.inputEl.setStyle('text-align', 'right');
+		};
+		this.txtTotal.on('render', setAlignRight);
+		this.txtDiscountValue.on('render', setAlignRight);
+		this.txtDiscountSum.on('render', setAlignRight);
+		this.txtTaxValue.on('render', setAlignRight);
+		this.txtNet.on('render', setAlignRight);
+
 		this.txtDiscount.on('keyup', this.calculate, this);
 		this.txtTax.on('keyup', this.calculate, this);
 
