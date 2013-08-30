@@ -3,12 +3,12 @@ Ext.define('Account.Quotation.Grid', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads",
+				url: __site_url+"quotation/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',

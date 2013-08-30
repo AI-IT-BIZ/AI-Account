@@ -37,11 +37,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbelp'
+					idProperty: 'vbelp,vbelp'
 				}
 			},
 			fields: [
-			    //'vbeln',
+			    'vbeln',
 				'vbelp',
 				'matnr',
 				'maktx',
@@ -53,7 +53,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
@@ -245,7 +245,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 	},
 
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	},
 
 	addRecord: function(){
@@ -258,19 +260,32 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, matnr:'',maktx:'',meins:'', ctype:'THB' };
+		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
-		var lastRecord = this.store.count();
-		this.store.insert(lastRecord, rec);
+		// find current record
+		var sel = this.getView().getSelectionModel().getSelection()[0];
+		var selIndex = this.store.indexOf(sel);
+		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({
-			row: lastRecord,
-			column: 2
+			row: selIndex+1,
+			column: 0
 		});
+
+		this.runNumRow();
 	},
 
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
+
+		this.runNumRow();
+	},
+
+	runNumRow: function(){
+		var row_num = 0;
+		this.store.each(function(r){
+			r.set('vbelp', row_num++);
+		});
 	},
 
 	getData: function(){
