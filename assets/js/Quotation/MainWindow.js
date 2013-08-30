@@ -60,6 +60,18 @@ Ext.define('Account.Quotation.MainWindow', {
 			// สั่ง pr_item grid load
 			_this.itemDialog.grid1.load({vbeln: 0});
 			_this.itemDialog.grid2.load({vbeln: 0});
+
+			// default status = wait for approve
+			console.log('each store on combo');
+			var comboStatus = _this.itemDialog.form.comboQStatus;
+			comboStatus.store.load(function(rs){
+				Ext.each(rs, function(r){
+					if(r.get('statu')=='01'){
+						comboStatus.select(r);
+						return false;
+					}
+				});
+			});
 		});
 
 		this.editAct.setHandler(function(){
