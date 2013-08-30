@@ -5,6 +5,8 @@ class Customer2 extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		
+		$this->load->model('code_model2','',TRUE);
 	}
 
 	function index(){
@@ -68,15 +70,15 @@ class Customer2 extends CI_Controller {
 			$this->db->where('kunnr', $kunnr);
 			$query = $this->db->get('kna1');
 		}
-
+		
 		$formData = array(
-			'kunnr' => $this->input->post('kunnr'),
+			//'kunnr' => $this->input->post('kunnr'),
 			'name1' => $this->input->post('name1'),
 			
 			'adr01' => $this->input->post('adr01'),
 			'ktype' => $this->input->post('ktype'),
 			
-			'distr' => $this->input->post('distr'),
+			'distx' => $this->input->post('distx'),
 			'pstlz' => $this->input->post('pstlz'),
 			'crdit' => $this->input->post('crdit'),
 			
@@ -106,6 +108,7 @@ class Customer2 extends CI_Controller {
 			$this->db->where('kunnr', $kunnr);
 			$this->db->update('kna1', $formData);
 		}else{
+			$this->db->set('kunnr', $this->code_model2->generate2('CS'));
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'somwang');
 			$this->db->insert('kna1', $formData);
@@ -154,4 +157,7 @@ class Customer2 extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+	
+	 
+	
 }

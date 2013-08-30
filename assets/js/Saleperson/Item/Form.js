@@ -85,7 +85,9 @@ defaults: {anchor: '100%'},
 					//flex: 2,
 					//anchor:'90%',
 					width:200,
-					allowBlank: false
+					//allowBlank: false
+					readOnly: true,
+					//disabled: true,
 					},{
 					xtype: 'textfield',
 					fieldLabel: 'Sale Person Name',
@@ -95,6 +97,7 @@ defaults: {anchor: '100%'},
 					//anchor:'90%',
 					width:370,
 					allowBlank: false
+					
 			}]
 	}]
 /*---Sale Person Data fieldset 2--------------------------*/

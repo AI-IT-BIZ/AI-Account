@@ -5,6 +5,7 @@ class Vendor extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('code_model2','',TRUE);
 	}
 
 	function index(){
@@ -55,13 +56,13 @@ class Vendor extends CI_Controller {
 		}
 		
 		$formData = array(
-			'lifnr' => $this->input->post('lifnr'),
+			//'lifnr' => $this->input->post('lifnr'),
 			'name1' => $this->input->post('name1'),
 			
 			'adr01' => $this->input->post('adr01'),
 			'vtype' => $this->input->post('vtype'),
 			
-			'distr' => $this->input->post('distr'),
+			'distx' => $this->input->post('distx'),
 			'pstlz' => $this->input->post('pstlz'),
 			'crdit' => $this->input->post('crdit'),
 			
@@ -91,6 +92,7 @@ class Vendor extends CI_Controller {
 			$this->db->where('lifnr', $lifnr);
 			$this->db->update('lfa1', $formData);
 		}else{
+			$this->db->set('lifnr', $this->code_model2->generate2('VD'));
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'somwang');
 			$this->db->insert('lfa1', $formData);
