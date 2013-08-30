@@ -94,7 +94,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		this.comboDistr = Ext.create('Ext.form.ComboBox', {
 							
 			fieldLabel: 'District',
-			name: 'distr',
+			name: 'distx',
 			width:290,
 			labelWidth: 120,
 			editable: false,
@@ -121,7 +121,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'distx',
-			valueField: 'distr'
+			valueField: 'distx'
 		});
 
 /*---ComboBox GL Account----------------------------*/
@@ -219,11 +219,9 @@ defaults: {anchor: '100%'},
 					xtype: 'textfield',
 					fieldLabel: 'Vendor Code',
 					name: 'lifnr',
-					//flex: 2,
-					//anchor:'90%',
-					width:290,
-					editable: false,
-					allowBlank: false
+			readOnly: true,
+			//disabled: true,
+			value:'XXXXX'
 					},{
 					xtype: 'textfield',
 					fieldLabel: 'Vendor Name',

@@ -5,6 +5,7 @@ class Saleperson extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('code_model2','',TRUE);
 	}
 
 	function index(){
@@ -61,7 +62,7 @@ class Saleperson extends CI_Controller {
 		$endat = date_format($endat, 'Y-m-d');
 		
 		$formData = array(
-			'salnr' => $this->input->post('salnr'),
+			//'salnr' => $this->input->post('salnr'),
 			'name1' => $this->input->post('name1'),
 			'ctype' => $this->input->post('ctype'),
 			
@@ -75,6 +76,7 @@ class Saleperson extends CI_Controller {
 			$this->db->where('salnr', $salnr);
 			$this->db->update('psal', $formData);
 		}else{
+			$this->db->set('salnr', $this->code_model2->generate2('SP'));
 			//$this->db->set('erdat', 'NOW()', false);
 			//$this->db->set('ernam', 'somwang');
 			$this->db->insert('psal', $formData);
