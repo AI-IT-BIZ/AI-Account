@@ -63,20 +63,20 @@ Ext.define('Account.Quotation.MainWindow', {
 		});
 
 		this.editAct.setHandler(function(){
-			var sel = _this.grid1.getView().getSelectionModel().getSelection()[0];
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid1.load({vbelp: id});
+				_this.itemDialog.grid1.load({vbeln: id});
 				_this.itemDialog.grid2.load({paypr: id});
 			}
 		});
 
 		this.deleteAct.setHandler(function(){
-			var sel = _this.grid1.getView().getSelectionModel().getSelection()[0];
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.form.remove(id);

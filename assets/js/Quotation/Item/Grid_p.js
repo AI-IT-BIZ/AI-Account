@@ -3,7 +3,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -19,17 +19,17 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		//	text: 'Delete',
 		//	iconCls: 'b-small-minus'
 		//});
-		
+
 		this.tbar = [this.addAct, this.copyAct];
-		
+
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads_pay_item",
+				url: __site_url+"quotation/loads_pay_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -75,27 +75,27 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				type: 'datefield'
 			},
 			},
-			{text: "Percent", 
-			width: 100, 
-			dataIndex: 'perct', 
+			{text: "Percent",
+			width: 100,
+			dataIndex: 'perct',
 			sortable: true,
 			align: 'right',
 			field: {
 				type: 'numberfield'
 			},
 			},
-			{text: "Amount", 
-			width: 150, 
-			dataIndex: 'pramt', 
+			{text: "Amount",
+			width: 150,
+			dataIndex: 'pramt',
 			sortable: true,
 			align: 'right',
 			field: {
 				type: 'numberfield'
 			},
 			},
-			{text: "Currency", 
-			width: 100, 
-			dataIndex: 'ctype', 
+			{text: "Currency",
+			width: 100,
+			dataIndex: 'ctype',
 			sortable: true,
 			align: 'center',
 			field: {
@@ -110,7 +110,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			store: this.store,
 			displayInfo: true
 		};
-		
+
 		this.plugins = [this.editing];
 
 		// init event
@@ -121,9 +121,11 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -137,18 +139,31 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
-		var lastRecord = this.store.count();
-		this.store.insert(lastRecord, rec);
+		// find current record
+		var sel = this.getView().getSelectionModel().getSelection()[0];
+		var selIndex = this.store.indexOf(sel);
+		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({
-			row: lastRecord,
+			row: selIndex+1,
 			column: 0
 		});
+
+		this.runNumRow();
 	},
-	
+
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
+
+		this.runNumRow();
 	},
-	
+
+	runNumRow: function(){
+		var row_num = 0;
+		this.store.each(function(r){
+			r.set('vbelp', row_num++);
+		});
+	},
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){

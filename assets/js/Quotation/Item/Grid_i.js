@@ -3,7 +3,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -19,7 +19,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		//	text: 'Delete',
 		//	iconCls: 'b-small-minus'
 		//});
-		
+
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
@@ -29,19 +29,19 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Quotation/loads_qt_item",
+				url: __site_url+"quotation/loads_qt_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbelp'
+					idProperty: 'vbelp,vbelp'
 				}
 			},
 			fields: [
-			    //'vbeln',
+			    'vbeln',
 				'vbelp',
 				'matnr',
 				'maktx',
@@ -53,7 +53,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
@@ -67,13 +67,18 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				scope: this,
 				handler: this.removeRecord
 			}]
-			},
-		    {text: "Items", width: 70, dataIndex: 'vbelp', sortable: false,
-		    field: {
-				type: 'textfield'
-			},
-		    },
-			{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
+		},{
+			id : 'RowNumber',
+			header : "No.",
+			dataIndex : 'vbelp',
+			width : 60,
+			align : 'center',
+			resizable : false, sortable : false,
+			renderer : function(value, metaData, record, rowIndex) {
+				return rowIndex+1;
+			}
+		},
+		{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -90,9 +95,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-			{text: "Qty", 
-			width: 70, 
-			dataIndex: 'menge', 
+			{text: "Qty",
+			width: 70,
+			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -112,9 +117,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				type: 'textfield'
 			},
 			},
-			{text: "Price/Unit", 
-			width: 120, 
-			dataIndex: 'unitp', 
+			{text: "Price/Unit",
+			width: 120,
+			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -129,9 +134,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Discount", 
-			width: 100, 
-			dataIndex: 'dismt', 
+			{text: "Discount",
+			width: 100,
+			dataIndex: 'dismt',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -146,26 +151,27 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Amount", 
-			width: 120, 
-			dataIndex: 'itamt', 
-			sortable: false,
-			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
+			{
+				text: "Amount",
+				width: 120,
+				dataIndex: 'itamt',
+				sortable: false,
+				align: 'right',
+				renderer: function(v,p,r){
+					var qty = parseFloat(r.data['menge']),
+						price = parseFloat(r.data['unitp']),
+						discount = parseFloat(r.data['dismt']);
+					qty = isNaN(qty)?0:qty;
+					price = isNaN(price)?0:price;
+					discount = isNaN(discount)?0:discount;
+
+					var amt = (qty * price) - discount;
+					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
-			},
-			{text: "Currency", 
-			width: 100, 
-			dataIndex: 'ctype', 
+			{text: "Currency",
+			width: 100,
+			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
 			field: {
@@ -179,7 +185,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
@@ -206,7 +212,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 							// Unit
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
-							
+
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -237,11 +243,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -252,21 +260,34 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, matnr:'',maktx:'',meins:'', ctype:'THB' };
+		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
-		var lastRecord = this.store.count();
-		this.store.insert(lastRecord, rec);
+		// find current record
+		var sel = this.getView().getSelectionModel().getSelection()[0];
+		var selIndex = this.store.indexOf(sel);
+		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({
-			row: lastRecord,
+			row: selIndex+1,
 			column: 0
 		});
+
+		this.runNumRow();
 	},
-	
+
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
+
+		this.runNumRow();
 	},
-	
+
+	runNumRow: function(){
+		var row_num = 0;
+		this.store.each(function(r){
+			r.set('vbelp', row_num++);
+		});
+	},
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){

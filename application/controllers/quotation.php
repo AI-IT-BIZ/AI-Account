@@ -5,7 +5,7 @@ class Quotation extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('code_model','',TRUE);
 	}
 	/*
@@ -23,26 +23,26 @@ class Quotation extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		
+
 		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
-		
+
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
-			//$result_data['id'] = $result_data['vbeln'];
-			
+			$result_data['id'] = $result_data['vbeln'];
+
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
 			$result_data['adr11'] = $result_data['adr01'];
-									 
+
 			//$result['bldat']=substr($result['bldat'], 0, 10);
-			
+
 
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$result
+				'data'=>$result_data
 			));
 		}else
 			echo json_encode(array(
@@ -116,10 +116,10 @@ class Quotation extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg')
 		);
-		
+
 		// start transaction
-		$this->db->trans_start();  
-		
+		$this->db->trans_start();
+
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('vbeln', $id);
 			$this->db->set('updat', 'NOW()', false);
@@ -131,7 +131,7 @@ class Quotation extends CI_Controller {
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('vbak', $formData);
-			
+
 			//$id = $this->db->insert_id();
 		}
 
@@ -142,22 +142,24 @@ class Quotation extends CI_Controller {
 		// เตรียมข้อมูล pr item
 		$vbap = $this->input->post('vbap');//$this->input->post('vbelp');
 		$qt_item_array = json_decode($vbap);
-		
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($qt_item_array AS $p){
-			$this->db->insert('vbap', array(
-				'vbeln'=>$id,
-				'vbelp'=>$p->vbelp,
-				'matnr'=>$p->matnr,
-				'menge'=>$p->menge,
-				'meins'=>$p->meins,
-				'dismt'=>$p->dismt,
-				'unitp'=>$p->unitp,
-				'itamt'=>$p->itamt,
-				'ctype'=>$p->ctype
-			));
+		if(!empty($vbap) && !empty($qt_item_array)){
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			$item_index = 0;
+			foreach($qt_item_array AS $p){
+				$this->db->insert('vbap', array(
+					'vbeln'=>$id,
+					'vbelp'=>++$item_index,//vbelp,
+					'matnr'=>$p->matnr,
+					'menge'=>$p->menge,
+					'meins'=>$p->meins,
+					'dismt'=>$p->dismt,
+					'unitp'=>$p->unitp,
+					'itamt'=>$p->itamt,
+					'ctype'=>$p->ctype
+				));
+			}
 		}
-		
+
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('paypr', $id);
 		$this->db->delete('payp');
@@ -165,18 +167,21 @@ class Quotation extends CI_Controller {
 		// เตรียมข้อมูล pr item
 		$vbap = $this->input->post('payp');//$this->input->post('vbelp');
 		$qt_item_array = json_decode($vbap);
-		
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($qt_item_array AS $p){
-			$this->db->insert('payp', array(
-				'vbeln'=>$id,
-				'paypr'=>$p->paypr,
-				'sgtxt'=>$p->sgtxt,
-				'duedt'=>$p->duedt,
-				'perct'=>$p->perct,
-				'pramt'=>$p->pramt,
-				'ctype'=>$p->ctype
-			));
+		if(!empty($vbap) && !empty($qt_item_array)){
+			$qt_item_array = json_decode($vbap);
+
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			foreach($qt_item_array AS $p){
+				$this->db->insert('payp', array(
+					'vbeln'=>$id,
+					'paypr'=>$p->paypr,
+					'sgtxt'=>$p->sgtxt,
+					'duedt'=>$p->duedt,
+					'perct'=>$p->perct,
+					'pramt'=>$p->pramt,
+					'ctype'=>$p->ctype
+				));
+			}
 		}
 
 		// end transaction
@@ -215,7 +220,7 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
+
 	public function loads_acombo(){
 		$tbName = 'apov';
 		$tbPK = 'statu';
@@ -239,7 +244,7 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
+
 	public function loads_tcombo(){
 		$tbName = 'ptyp';
 		$tbPK = 'ptype';
@@ -262,7 +267,7 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-    
+
     public function loads_taxcombo(){
 		$tbName = 'tax1';
 		$tbPK = 'taxnr';
@@ -295,7 +300,7 @@ class Quotation extends CI_Controller {
 			'data'=>$id
 		));
 	}
-	
+
 	///////////////////////////////////////////////
 	// Quotation ITEM
 	///////////////////////////////////////////////
@@ -312,7 +317,7 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
+
 	function loads_pay_item(){
         //$this->db->set_dbprefix('v_');
 		$qt_id = $this->input->get('vbeln');
@@ -325,7 +330,7 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
+
 	/*
 	function loads_item(){
 		$tbName = 'vbap';

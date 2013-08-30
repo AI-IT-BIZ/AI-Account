@@ -10,7 +10,7 @@ class Pr extends CI_Controller {
 	}
 
 	function test_get_code(){
-		echo $this->code_model->generate('PJ', '2013-08-22');
+		echo $this->code_model->generate('QT', '2013-08-13');
 	}
 
 	function index(){

@@ -90,7 +90,9 @@ Ext.define('Account.Quotation.Item.Window', {
 				price = isNaN(price)?0:price;
 				discount = isNaN(discount)?0:discount;
 
-				sum += (qty * price) - discount;
+				var amt = (qty * price) - discount;
+
+				sum += amt;
 			});
 			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 			_this.formTotal.calculate();
