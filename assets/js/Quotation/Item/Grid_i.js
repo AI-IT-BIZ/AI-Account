@@ -67,13 +67,18 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				scope: this,
 				handler: this.removeRecord
 			}]
-			},
-		    {text: "Items", width: 70, dataIndex: 'vbelp', sortable: false,
-		    field: {
-				type: 'textfield'
-			},
-		    },
-			{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
+		},{
+			id : 'RowNumber',
+			header : "No.",
+			dataIndex : 'vbelp',
+			width : 60,
+			align : 'center',
+			resizable : false, sortable : false,
+			renderer : function(value, metaData, record, rowIndex) {
+				return rowIndex+1;
+			}
+		},
+		{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -152,6 +157,17 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
+				renderer: function(v,p,r){
+					var qty = parseFloat(r.data['menge']),
+						price = parseFloat(r.data['unitp']),
+						discount = parseFloat(r.data['dismt']);
+					qty = isNaN(qty)?0:qty;
+					price = isNaN(price)?0:price;
+					discount = isNaN(discount)?0:discount;
+
+					var amt = (qty * price) - discount;
+					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+				}
 			},
 			{text: "Currency",
 			width: 100,
@@ -249,7 +265,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.store.insert(lastRecord, rec);
 		edit.startEditByPosition({
 			row: lastRecord,
-			column: 1
+			column: 2
 		});
 	},
 
