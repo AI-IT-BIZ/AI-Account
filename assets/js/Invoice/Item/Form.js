@@ -159,6 +159,41 @@ Ext.define('Account.Invoice.Item.Form', {
 			valueField: 'taxnr'
 		});
 		
+		this.comboPeriod = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payment Period',
+			name : 'paypr',
+			//labelWidth: 70,
+			//anchor:'90%',
+			width: 240,
+			//margin: '0 0 0 5',
+			labelAlign: 'left',
+			//editable: false,
+			allowBlank : true,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Period --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_percombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'paypr'
+					}
+				},
+				fields: [
+					'paypr',
+					'sgtxt'
+				],
+				remoteSort: true,
+				sorters: 'paypr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'sgtxt',
+			valueField: 'paypr'
+		});
+		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbrp'
 		});
@@ -223,7 +258,39 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:240,
 			//margins: '0 0 0 10',
             //emptyText: 'Customer',
+            readOnly: true,
+			disabled: true
+		}]
+		},{
+// Payment Period
+     	xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[{
+			xtype: 'hidden',
+			name: 'id'
+		},this.comboPeriod,{
+			xtype: 'displayfield',
+			//xtype: 'textfield',
+            //fieldLabel: 'jobtx',
+            //flex: 3,
+            //value: '<span style="color:green;"></span>'
+			name: 'sgtxt',
+			width:350,
+			margins: '0 0 0 6',
+            //emptyText: 'Customer',
             allowBlank: true
+		},{
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
+			//anchor:'80%',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 // Customer Code
 		},{
@@ -241,17 +308,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:350,
             //emptyText: 'Customer',
             allowBlank: true
-		},{
-			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
 		}]
 // Address Bill&Ship
 		},{
@@ -347,6 +403,8 @@ Ext.define('Account.Invoice.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							var _addr = r.data.adr01;
+						   if(!Ext.isEmpty(r.data.distx))
+                             _addr += ' '+r.data.distx;
                            if(!Ext.isEmpty(r.data.pstlz))
                              _addr += ' '+r.data.pstlz;
                            if(!Ext.isEmpty(r.data.telf1))
@@ -373,6 +431,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+              _addr += ' '+record.data.distx;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
             if(!Ext.isEmpty(record.data.telf1))

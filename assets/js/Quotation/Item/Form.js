@@ -372,6 +372,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(r.data.distx))
+              _addr += ' '+r.data.distx;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
             if(!Ext.isEmpty(record.data.telf1))
@@ -417,6 +419,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
 
 			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+              _addr += ' '+record.data.distx;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
             if(!Ext.isEmpty(record.data.telf1))

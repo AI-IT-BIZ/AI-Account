@@ -302,6 +302,8 @@ Ext.define('Account.Project.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							var _addr = r.data.adr01;
+						  if(!Ext.isEmpty(r.data.distx))
+                             _addr += ' '+r.data.distx;
                            if(!Ext.isEmpty(r.data.pstlz))
                              _addr += ' '+r.data.pstlz;
                            if(!Ext.isEmpty(r.data.telf1))
@@ -327,6 +329,8 @@ Ext.define('Account.Project.Item.Form', {
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+              _addr += ' '+record.data.distx;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
             if(!Ext.isEmpty(record.data.telf1))

@@ -173,14 +173,37 @@ class Invoice extends CI_Controller {
 		$tbPK = 'statu';
         
 		$this->db->where('apgrp', '2');
-		//$query = $this->input->post('query');
-		$query = $this->db->get('apov');
+		$query = $this->input->post('query');
+		//$query = $this->db->get('apov');
 		
 
 		$totalCount = $this->db->count_all_results($tbName);
 
 		if(!empty($query) && $query!=''){
 			$this->db->or_like('statx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
+   public function loads_percombo(){
+		$tbName = 'payp';
+		$tbPK = 'vbeln';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('sgtxt', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 
