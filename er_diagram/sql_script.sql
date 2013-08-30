@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		29/8/2013
+Modified		30/8/2013
 Project		
 Model		
 Company		
@@ -26,6 +26,8 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_vbok;
+drop table IF EXISTS tbl_vbop;
 drop table IF EXISTS tbl_vbrp;
 drop table IF EXISTS tbl_bsik;
 drop table IF EXISTS tbl_bsid;
@@ -313,10 +315,10 @@ Create table tbl_gjou (
 COMMENT = 'Jounal type';
 
 Create table tbl_vbak (
-	vbeln Varchar(20) NOT NULL COMMENT 'Sale Order no',
-	bldat Date COMMENT 'SO Date',
+	vbeln Varchar(20) NOT NULL COMMENT 'Quotation no',
+	bldat Date COMMENT 'Quotation Date',
 	loekz Varchar(1) COMMENT 'Delete flag',
-	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
+	statu Varchar(4) COMMENT 'Quotation Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
@@ -341,11 +343,11 @@ Create table tbl_vbak (
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
  Primary Key (vbeln)) ENGINE = InnoDB
-COMMENT = 'Sale Order Header';
+COMMENT = 'Quotation Header';
 
 Create table tbl_vbap (
-	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
-	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	vbeln Varchar(20) NOT NULL COMMENT 'Quotation no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'Quotation Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -356,7 +358,7 @@ Create table tbl_vbap (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
-COMMENT = 'SO Item';
+COMMENT = 'Quotation Item';
 
 Create table tbl_kna1 (
 	kunnr Varchar(10) NOT NULL COMMENT 'Customer Code',
@@ -412,6 +414,7 @@ COMMENT = 'Sale Person';
 Create table tbl_apov (
 	statu Varchar(4) NOT NULL COMMENT 'Approve Status',
 	statx Varchar(40) COMMENT 'Approve Text',
+	apgrp Varchar(1) COMMENT 'Aprove group',
  Primary Key (statu)) ENGINE = InnoDB
 COMMENT = 'Approve Status';
 
@@ -579,7 +582,6 @@ Create table tbl_vbrk (
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
-	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
@@ -739,7 +741,53 @@ Create table tbl_vbrp (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
  Primary Key (invnr,vbelp)) ENGINE = InnoDB
+COMMENT = 'Invoice Item';
+
+Create table tbl_vbop (
+	ordnr Varchar(20) NOT NULL COMMENT 'Quotation no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	dismt Decimal(17,2) COMMENT 'Discount amt',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+ Primary Key (ordnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
+
+Create table tbl_vbok (
+	ordnr Varchar(20) NOT NULL COMMENT 'Sale Order no',
+	bldat Date COMMENT 'SO Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	lidat Int COMMENT 'Limit Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,3) COMMENT 'Exchange rate',
+ Primary Key (ordnr)) ENGINE = InnoDB
+COMMENT = 'Sale Order Header';
 
 
 
@@ -792,12 +840,13 @@ create view v_vbrk as
 select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,c.name1 as sname,d.statx,
-e.paypr,e.sgtxt,e.statu as stat1
+e.paypr,e.sgtxt,e.statu as stat1,f.jobnr
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_payp e on a.vbeln = e.vbeln;
+left join tbl_payp e on a.vbeln = e.vbeln
+left join tbl_vbak f on a.vbeln = f.vbeln;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -869,7 +918,8 @@ INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr)
                ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002'),
                ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002');
                
-INSERT INTO tbl_apov (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected');
+INSERT INTO tbl_apov (statu, statx, apgrp) VALUES ('01', 'Waiting Approve', '1'),('02', 'Approved', '1'),('03', 'Unapproved', '1'),('04', 'Rejected', '1'),
+                                            ('05', 'Active', '2'),('06', 'Parking', '2'),('07', 'Rejected', '2');
 
 INSERT INTO tbl_apop (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected'),
                                             ('05', 'Phase 1 Completed'),('06', 'Phase 2 Completed'),('07', 'Phase 3 Completed'),('08', 'Phase 4 Completed'),

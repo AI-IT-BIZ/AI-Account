@@ -20,10 +20,10 @@ class Invoice extends CI_Controller {
 		$this->db->limit(1);
 		$this->db->where('invnr', $id);
 		$query = $this->db->get('vbrk');
+		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
-			//$result['id'] = $result['vbeln'];
-			//$result['bldat']=substr($result['bldat'], 0, 10);
+			$result['id'] = $result['invnr'];
 			
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
@@ -44,41 +44,6 @@ class Invoice extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrk';
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-	
-	function loads_pp(){
-		$tbName = 'payp';
 		//$tbName2 = 'jobp';
 /*
 		function createQuery($_this){
@@ -168,11 +133,13 @@ class Invoice extends CI_Controller {
 		$this->db->delete('vbrp');
 
 		// เตรียมข้อมูล pr item
-		$vbap = $this->input->post('vbrp');
-		$qt_item_array = json_decode($vbap);
-
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($qt_item_array AS $p){
+		$vbrp = $this->input->post('vbrp');
+		$iv_item_array = json_decode($vbrp);
+		
+		if(!empty($vbap) && !empty($iv_item_array)){
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			$item_index = 0;
+		foreach($iv_item_array AS $p){
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
 				'vbelp'=>$p->vbelp,
@@ -184,6 +151,7 @@ class Invoice extends CI_Controller {
 				'itamt'=>$p->itamt,
 				'ctype'=>$p->ctype
 			));
+	    	}
 		}
 
 		// end transaction
@@ -203,8 +171,11 @@ class Invoice extends CI_Controller {
     public function loads_acombo(){
 		$tbName = 'apov';
 		$tbPK = 'statu';
-
-		$query = $this->input->post('query');
+        
+		$this->db->where('apgrp', '2');
+		//$query = $this->input->post('query');
+		$query = $this->db->get('apov');
+		
 
 		$totalCount = $this->db->count_all_results($tbName);
 

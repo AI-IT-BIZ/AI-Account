@@ -7,7 +7,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1000,
+			width: 1120,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -48,6 +48,8 @@ Ext.define('Account.Invoice.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.formTotal.getForm().reset();
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load
@@ -60,6 +62,10 @@ Ext.define('Account.Invoice.MainWindow', {
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
+				
+				// สั่ง pr_item grid load
+				_this.itemDialog.grid1.load({vbelp: id});
+				_this.itemDialog.grid2.load({buzei: id});
 			}
 		});
 
@@ -71,14 +77,14 @@ Ext.define('Account.Invoice.MainWindow', {
 			}
 		});
 
-		//this.itemDialog.form.on('afterSave', function(){
-		//	_this.itemDialog.hide();
-		//	_this.grid.load();
-		//});
+		this.itemDialog.form.on('afterSave', function(){
+			_this.itemDialog.hide();
+			_this.grid.load();
+		});
 
-		//this.itemDialog.form.on('afterDelete', function(){
-		//	_this.grid.load();
-		//});
+		this.itemDialog.form.on('afterDelete', function(){
+			_this.grid.load();
+		});
 
 
 		// --- after ---

@@ -194,7 +194,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'project/load'
+			url:__site_url+'quotation/load'
 		});
 	},
 	save : function(){

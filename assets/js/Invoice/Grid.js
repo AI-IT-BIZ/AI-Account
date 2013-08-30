@@ -18,18 +18,16 @@ Ext.define('Account.Invoice.Grid', {
 			fields: [
 			    'invnr',
 				'bldat',
-				'txz01',
-				'vbeln',
-				'ptype',
-				'taxnr',
-				'lidat',
 				'kunnr',
+				'name1',
+				'vbeln',
+				'jobtx',
+				'sname',
+				'statu',
+				'paytx',
 				'netwr',
 				'cytpe',
-				'beamt',
-				'taxpr',
-				'terms',
-				'exchg'
+				'beamt'
 			],
 			remoteSort: true,
 			sorters: ['vbeln ASC']
@@ -37,16 +35,16 @@ Ext.define('Account.Invoice.Grid', {
 
 		this.columns = [
 		    {text: "Invoice No", width: 100, dataIndex: 'invnr', sortable: true},
-			{text: "Invoice Date", width: 150, dataIndex: 'bldat', sortable: true},
+			{text: "Invoice Date", width: 80, dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Quotation No", width: 100, dataIndex: 'vbeln', sortable: true},
-			//{text: "Quotation Date", width: 150, dataIndex: 'bldat', sortable: true},
-			//{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
-			//{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
-			{text: "Status", width: 60, dataIndex: 'statu', sortable: true},
-			{text: "Amount", width: 100, dataIndex: 'netwr', sortable: true},
-			{text: "Currency", width: 80, dataIndex: 'ctype', sortable: true}
+			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Sale Person", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
+			{text: "Payment Method", width: 100, dataIndex: 'paytx', sortable: true},
+			{text: "Amount", width: 80, dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 50, dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

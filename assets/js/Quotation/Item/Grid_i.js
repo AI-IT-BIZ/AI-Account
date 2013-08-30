@@ -37,7 +37,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbelp,vbelp'
+					idProperty: 'vbeln,vbelp'
 				}
 			},
 			fields: [
