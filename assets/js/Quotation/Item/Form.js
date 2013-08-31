@@ -22,7 +22,7 @@ Ext.define('Account.Quotation.Item.Form', {
         // INIT Customer search popup ///////////////////////////////////
         this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
-		
+
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
@@ -59,7 +59,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});
-		
+
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
 			name : 'salnr',
@@ -91,7 +91,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'name1',
 			valueField: 'salnr'
 		});
-		
+
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
@@ -125,7 +125,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'paytx',
 			valueField: 'ptype'
 		});
-		
+
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Tax',
 			name : 'taxnr',
@@ -160,7 +160,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbap',
 		});
@@ -168,7 +168,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
 			name: 'payp',
 		});
-		
+
         this.trigProject = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr',
 			fieldLabel: 'Project Code',
@@ -176,7 +176,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
@@ -196,7 +196,7 @@ Ext.define('Account.Quotation.Item.Form', {
                 anchor: '100%'
             },
      items:[{
-     	
+
 // Project Code
      	xtype: 'container',
                 layout: 'hbox',
@@ -283,7 +283,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			margin: '0 0 0 145',
 			allowBlank: true
          }]
-// Sale Person         
+// Sale Person
          },{
 			xtype: 'container',
                     layout: 'hbox',
@@ -332,7 +332,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		//}]
 		}];
-		
+
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -375,7 +375,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			
+
 			var _addr = record.data.adr01;
 			if(!Ext.isEmpty(r.data.distx))
               _addr += ' '+r.data.distx;
@@ -400,7 +400,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
-		
+
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -418,7 +418,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.jobnr);
 							_this.getForm().findField('jobtx').setValue(r.data.jobtx);
-							
+
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
@@ -435,7 +435,7 @@ Ext.define('Account.Quotation.Item.Form', {
              if(!Ext.isEmpty(record.data.email))
                _addr += '\n'+'Email: '+record.data.email;
              _this.getForm().findField('adr01').setValue(_addr);
-			 _this.getForm().findField('adr11').setValue(_addr);				
+			 _this.getForm().findField('adr11').setValue(_addr);
 						}else{
 							o.markInvalid('Could not find project code : '+o.getValue());
 						}
@@ -447,11 +447,11 @@ Ext.define('Account.Quotation.Item.Form', {
 		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigProject.setValue(record.data.jobnr);
 			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
-			
+
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
-			
+
 			var _addr = record.data.adr01;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
@@ -463,7 +463,7 @@ Ext.define('Account.Quotation.Item.Form', {
                _addr += '\n'+'Email: '+record.data.email;
              _this.getForm().findField('adr01').setValue(_addr);
              _this.getForm().findField('adr11').setValue(_addr);
-             
+
 			grid.getSelectionModel().deselectAll();
 			_this.projectDialog.hide();
 		});
@@ -474,14 +474,14 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
 			url:__site_url+'quotation/load'
 		});
 	},
-	
+
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
@@ -497,7 +497,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			});
 		}
 	},
-	
+
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({

@@ -17,6 +17,28 @@ function endsWith($haystack, $needle)
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript">
+		Ext.form.field.ComboBox.override( {
+			setValue: function(v) {
+				var _this=this;
+				v = (v && v.toString) ? v.toString() : v;
+				if(!this.store.isLoaded && this.queryMode == 'remote') {
+					this.store.addListener('load', function(store, rs) {
+						this.store.isLoaded = true;
+						Ext.each(rs, function(o){
+							if(o.get(o.idProperty)==v){
+								_this.setValue(o);
+								return;
+							}
+						});
+					}, this);
+				   this.store.load();
+				} else {
+					this.callOverridden(arguments);
+				}
+			}
+		});
+	</script>
+	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
 			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>';
 	</script>
@@ -288,7 +310,7 @@ function endsWith($haystack, $needle)
 						layout:'fit', border:false,
 						autoScroll: true,
 						html : [//Sale Module
-						        '<div id="div1-1-container">',
+								'<div id="div1-1-container">',
 									'<div id="div-project" class="box box-green"><span>Create New Projects</span></div>',
 									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
 									'<div id="div-invoice" class="box box-green"><span>Create New Invoices</span></div>',
@@ -308,8 +330,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
 									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
 								'</div>',
-						        //Account Module
-						        '<div id="div1-3-container">',
+								//Account Module
+								'<div id="div1-3-container">',
 									'<div id="div-income" class="box box-blue"><span>Income Statement</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
 									'<div id="div-balance" class="box box-blue"><span>Balance Sheet</span></div>',
