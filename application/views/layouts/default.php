@@ -17,23 +17,20 @@ function endsWith($haystack, $needle)
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript">
-		Ext.form.field.ComboBox.override( {
+		Ext.form.field.ComboBox.override({
 			setValue: function(v) {
-				var _this=this;
-				v = (v && v.toString) ? v.toString() : v;
+				var _this=this,
+					args = arguments;
+				//v = (v && v.toString) ? v.toString() : v;
 				if(!this.store.isLoaded && this.queryMode == 'remote') {
 					this.store.addListener('load', function(store, rs) {
 						this.store.isLoaded = true;
-						Ext.each(rs, function(o){
-							if(o.get(o.idProperty)==v){
-								_this.setValue(o);
-								return;
-							}
-						});
+
+						//_this.setValue(v);
 					}, this);
-				   this.store.load();
+					this.store.load();
 				} else {
-					this.callOverridden(arguments);
+					this.callOverridden(args);
 				}
 			}
 		});

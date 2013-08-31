@@ -51,20 +51,8 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.getForm().reset();
-			_this.itemDialog.formTotal.getForm().reset();
-			//_this.itemDialog.grid1.load({vbelp: 999});
-			//_this.itemDialog.grid2.load({paypr: 999});
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
-
-			// สั่ง pr_item grid load
-			_this.itemDialog.grid1.load({vbeln: 0});
-			_this.itemDialog.grid2.load({vbeln: 0});
-
-			// default status = wait for approve
-			console.log('each store on combo');
-			var comboStatus = _this.itemDialog.form.comboQStatus;
-			comboStatus.setValue('01');
 		});
 
 		this.editAct.setHandler(function(){
@@ -75,8 +63,8 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid1.load({vbeln: id});
-				//_this.itemDialog.grid2.load({vbeln: id});
+				_this.itemDialog.form.gridItem.load({vbeln: id});
+				_this.itemDialog.form.gridPayment.load({vbeln: id});
 			}
 		});
 

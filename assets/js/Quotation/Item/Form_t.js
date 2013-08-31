@@ -46,7 +46,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			enableKeyEvents: true,
 			validator: function(v){
 				if(!Ext.isEmpty(v)){
-					var regEx = /^([0-9]*)(\.[1-9]*)?$|^([0-9]|[1-9][0-9]|100)(\.[1-9]*)?(%)$/gi;
+					var regEx = /^([0-9]*)(\.[0-9]*)?$|^([1-9]|[1-9][0-9]|100)(\.[0-9]*)?(%)$/gi;
 					if(regEx.test(v))
 						return true;
 					else
@@ -82,7 +82,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			align: 'right',
 			labelWidth: 80,
 			//anchor:'90%',
-			width:120,
+			width:130,
 			enableKeyEvents: true,
 			minValue: 0,
 			maxValue: 100,
@@ -96,7 +96,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			name: 'ccc',
 			align: 'right',
 			//anchor:'90%',
-			margin: '0 0 0 30',
+			margin: '0 0 0 20',
 			width:110,
 			readOnly: true
 
