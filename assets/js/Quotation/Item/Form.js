@@ -162,7 +162,11 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 		
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbap'
+			name: 'vbap',
+		});
+		
+		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
+			name: 'payp',
 		});
 		
         this.trigProject = Ext.create('Ext.form.field.Trigger', {
@@ -181,7 +185,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			allowBlank : false
 		});
 
-		this.items = [this.hdnQtItem,
+		this.items = [this.hdnQtItem,this.hdnPpItem,
 		   {
 			xtype:'fieldset',
             title: 'Header Data',
@@ -212,7 +216,7 @@ Ext.define('Account.Quotation.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'textfield',
+			xtype: 'displayfield',
             fieldLabel: 'Quotation No',
             name: 'vbeln',
             //flex: 3,
@@ -221,7 +225,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			//name: 'qt',
 			width:240,
             readOnly: true,
-			disabled: true
+            labelStyle: 'font-weight:bold'
+			//disabled: true
 		}]
 // Customer Code
 		},{

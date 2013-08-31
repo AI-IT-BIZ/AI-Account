@@ -25,11 +25,11 @@ class Invoice extends CI_Controller {
 			$result = $query->first_row('array');
 			$result['id'] = $result['invnr'];
 			
-			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
-			                         $result_data['telfx'].
-									 PHP_EOL.'Email: '.$result_data['email'];
-			$result_data['adr11'] = $result_data['adr01'];
+			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
+			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
+			                         $result['telfx'].
+									 PHP_EOL.'Email: '.$result['email'];
+			$result['adr11'] = $result['adr01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -92,8 +92,8 @@ class Invoice extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'jobnr' => $this->input->post('jobnr'),
-			'auart' => $this->input->post('auart'),
+			//'jobnr' => $this->input->post('jobnr'),
+			//'auart' => $this->input->post('auart'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -116,7 +116,7 @@ class Invoice extends CI_Controller {
 			$this->db->where('invnr', $id);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
-			$this->db->update('vbak', $formData);
+			$this->db->update('vbrk', $formData);
 		}else{
 			$id = $this->code_model->generate('IV', 
 			$this->input->post('bldat'));
@@ -125,24 +125,24 @@ class Invoice extends CI_Controller {
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('vbrk', $formData);
 			
-			$id = $this->db->insert_id();
+			//$id = $this->db->insert_id();
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('vbelp', $id);
+		$this->db->where('invnr', $id);
 		$this->db->delete('vbrp');
 
 		// เตรียมข้อมูล pr item
 		$vbrp = $this->input->post('vbrp');
 		$iv_item_array = json_decode($vbrp);
 		
-		if(!empty($vbap) && !empty($iv_item_array)){
+		if(!empty($vbrp) && !empty($iv_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($iv_item_array AS $p){
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
-				'vbelp'=>$p->vbelp,
+				'vbelp'=>++$item_index,
 				'matnr'=>$p->matnr,
 				'menge'=>$p->menge,
 				'meins'=>$p->meins,
@@ -302,8 +302,8 @@ class Invoice extends CI_Controller {
 
 	function loads_iv_item(){
         $this->db->set_dbprefix('v_');
-		$qt_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $qt_id);
+		$iv_id = $this->input->get('invnr');
+		$this->db->where('invnr', $iv_id);
 
 		$query = $this->db->get('vbrp');
 		echo json_encode(array(
@@ -312,5 +312,19 @@ class Invoice extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
+	
+	function loads_gl_item(){
+        $this->db->set_dbprefix('v_');
+		$iv_id = $this->input->get('belnr');
+		$this->db->where('belnr', $iv_id);
+
+		$query = $this->db->get('bkpf');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
 
 }

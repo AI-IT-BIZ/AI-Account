@@ -71,7 +71,7 @@ Ext.define('Account.Quotation.MainWindow', {
 
 				// สั่ง pr_item grid load
 				_this.itemDialog.grid1.load({vbeln: id});
-				_this.itemDialog.grid2.load({paypr: id});
+				//_this.itemDialog.grid2.load({vbeln: id});
 			}
 		});
 

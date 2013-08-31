@@ -53,7 +53,8 @@ Ext.define('Account.Invoice.MainWindow', {
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load
-			_this.itemDialog.grid.load({pr_id: 0});
+			_this.itemDialog.grid1.load({invpr: 0});
+			//_this.itemDialog.grid2.load({invpr: 0});
 		});
 		
 		this.editAct.setHandler(function(){
@@ -64,8 +65,8 @@ Ext.define('Account.Invoice.MainWindow', {
 				_this.itemDialog.form.load(id);
 				
 				// สั่ง pr_item grid load
-				_this.itemDialog.grid1.load({vbelp: id});
-				_this.itemDialog.grid2.load({buzei: id});
+				_this.itemDialog.grid1.load({invpr: id});
+				//_this.itemDialog.grid2.load({invpr: id});
 			}
 		});
 

@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		30/8/2013
+Modified		31/8/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_vbrp
+;
 
 Drop View IF EXISTS v_vbrk
 ;
@@ -569,7 +572,7 @@ Create table tbl_payp (
 	duedt Date COMMENT 'Due Date',
 	perct Decimal(17,2) COMMENT 'Percent',
 	pramt Decimal(17,2) COMMENT 'Period Amount',
-	ctype Varchar(3) COMMENT 'Currency',
+	ctyp1 Varchar(3) COMMENT 'Currency',
 	statu Varchar(4) COMMENT 'Aprove Status (tbl_apov)',
  Primary Key (vbeln,paypr)) ENGINE = InnoDB
 COMMENT = 'Payment Periods';
@@ -585,7 +588,7 @@ Create table tbl_vbrk (
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
-	auart Varchar(4) COMMENT 'SO type',
+	itype Varchar(4) COMMENT 'Invoice type',
 	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
@@ -847,6 +850,11 @@ left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_payp e on a.vbeln = e.vbeln
 left join tbl_vbak f on a.vbeln = f.vbeln;
+create view v_vbrp as
+
+select a.*,b.maktx
+from tbl_vbrp a left join tbl_mara b 
+on a.matnr = b.matnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

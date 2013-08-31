@@ -229,7 +229,7 @@ Ext.define('Account.Invoice.Item.Form', {
                 anchor: '100%'
             },
      items:[{
-// Project Code
+// Quotation Code
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -248,9 +248,9 @@ Ext.define('Account.Invoice.Item.Form', {
             //emptyText: 'Customer',
             allowBlank: true
 		},{
-			xtype: 'textfield',
+			xtype: 'displayfield',
             fieldLabel: 'Invoice No',
-            name: 'vbeln',
+            name: 'invnr',
             //flex: 3,
             value: 'IVXXXX-XXXX',
             labelAlign: 'right',
@@ -259,17 +259,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			//margins: '0 0 0 10',
             //emptyText: 'Customer',
             readOnly: true,
-			disabled: true
+			labelStyle: 'font-weight:bold'
 		}]
 		},{
 // Payment Period
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[{
-			xtype: 'hidden',
-			name: 'id'
-		},this.comboPeriod,{
+     items :[this.comboPeriod,{
 			xtype: 'displayfield',
 			//xtype: 'textfield',
             //fieldLabel: 'jobtx',

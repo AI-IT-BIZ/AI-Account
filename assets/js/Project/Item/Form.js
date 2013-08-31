@@ -58,11 +58,11 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Status',
 			name : 'statu',
 			labelWidth: 100,
-			//width: 300,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			disabled: true,
+			//margin: '0 0 0 40',
+			//disabled: true,
 			clearFilterOnReset: true,
 			emptyText: '-- Please select Status --',
 			store: new Ext.data.JsonStore({
@@ -84,8 +84,8 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu',
-			value: '01'
+			valueField: 'statu'//,
+			//value: '01'
 		});
 		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
@@ -176,14 +176,16 @@ Ext.define('Account.Project.Item.Form', {
         layout: 'hbox',
         margin: '0 0 5 0',
      items: [{
-			xtype: 'textfield',
+			xtype: 'displayfield',
 			fieldLabel: 'Project No',
 			name: 'jobnr',
+			width: 248,
 			anchor:'100%',
 			labelWidth: 100,
 			value:'PJXXXX-XXXX',
 			readOnly: true,
-			disabled: true
+			labelStyle: 'font-weight:bold'
+			//disabled: true
 			//allowBlank: false
 		},this.comboJStatus]
 	   },{

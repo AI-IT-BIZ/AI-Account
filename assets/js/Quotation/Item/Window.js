@@ -68,6 +68,9 @@ Ext.define('Account.Quotation.Item.Window', {
 			handler: function() {
 				var rs = _this.grid1.getData();
 				_this.form.hdnQtItem.setValue(Ext.encode(rs));
+				
+				//var rs2 = _this.grid2.getData();
+				//_this.form.hdnPpItem.setValue(Ext.encode(rs2));
 
 				_this.form.save();
 			}
