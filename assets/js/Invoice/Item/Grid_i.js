@@ -29,7 +29,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Invoice/loads_it",
+				url: __site_url+"Invoice/loads_iv_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
