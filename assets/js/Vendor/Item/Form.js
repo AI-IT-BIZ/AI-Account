@@ -5,13 +5,11 @@ Ext.define('Account.Vendor.Item.Form', {
 		Ext.apply(this, {
 			url: __site_url+'vendor/save',
 			border: false,
-			bodyPadding: 10,
+			//bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'left',
-				msgTarget: 'qtip',//'side',
+            	msgTarget: 'side',
 				labelWidth: 120,
-				//width:300,
-				labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
+				//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
 			}
 		});
 
@@ -26,14 +24,13 @@ Ext.define('Account.Vendor.Item.Form', {
 							
 			fieldLabel: 'Type',
 			name: 'vtype',
-			width:320,
-			labelWidth: 180,
+			width:290,
+			//labelWidth: 120,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 		    emptyText: '-- Please select data --',
-			labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',		    
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -60,8 +57,8 @@ Ext.define('Account.Vendor.Item.Form', {
 							
 			fieldLabel: 'Price Level',
 			name: 'pleve',
-			width:280,
-			labelWidth: 180,
+			width:307,
+			labelWidth: 176,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -202,294 +199,207 @@ Ext.define('Account.Vendor.Item.Form', {
 /*(3)---Start Form-------------------------------*/	
 /*---Vendor Head fieldset 1 --------------------------*/
 /*------------------------------------------------------*/
-xtype:'fieldset',
-title: 'Vendor Head',
-//collapsible: true,
-defaultType: 'textfield',
-layout: 'anchor',
-defaults: {anchor: '100%'},
-	items:[{
-			xtype: 'container',
-            layout: 'hbox',
-            margin: '0 0 5 0',
-			items :[{
-					xtype: 'hidden',
-					name: 'id'
-					},{
-					xtype: 'textfield',
+
+
+		items: [{
+            xtype: 'container',
+            anchor: '100%',
+            layout: 'anchor',
+            margin: '10',
+            items:[{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items: [{
+                    xtype:'textfield',
 					fieldLabel: 'Vendor Code',
 					name: 'lifnr',
-			readOnly: true,
-			//disabled: true,
-			value:'XXXXX'
-					},{
+                    emptyText: 'XXXXX',
+					readOnly: true,
+					//disabled: true,
+					anchor:'95%',
+					width:200,
+                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Vendor Name',
 					name: 'name1',
-					//flex: 2,
-					//anchor:'90%',
-					width:480,
-					allowBlank: false
-			}]
-	}]
-/*---Vendor Data fieldset 2--------------------------*/
-/*-----------------------------*/
-},{
-xtype:'fieldset',
-title: 'Vendor Data',
-//collapsible: true,
-defaultType: 'textfield',
-layout: 'anchor',
-defaults: {anchor: '100%'},
-	items:[{
-			xtype: 'container',
-            layout: 'hbox',
-            margin: '0 0 5 0',
-			items :[{
+					allowBlank: false,
+					anchor:'100%',
+					width:350,
+            		margin: '0 0 0 50',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboVtype,{
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items: [{
 					xtype: 'textarea',
 					fieldLabel: 'Address',
 					name: 'adr01',
-					anchor:'90%',
-					width:450,
-					height:50,
-					allowBlank: true
-				},this.comboVtype,{
-					
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[this.comboDistr,{
-					
-					},{
+					anchor:'95%',
+					allowBlank: true,
+					width:600,
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboDistr,{
+                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Post Code',
-		            labelWidth: 90,
 		            name: 'pstlz',
-		            width: 156,
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
-		            regexText: 'Must be in the format xxxxxx'
-		            
-					},{
-					xtype: 'textfield',
-					fieldLabel: 'Crdit',
-		            name: 'crdit',
-		            labelWidth: 180,
-		            width: 280,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            //regex: /^\d{1}$/,
-		            regexText: 'Must be in the format x',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;'
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+		            regexText: 'Must be in the format xxxxx',
+            		margin: '0 0 0 54',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Phone Number',
 		            name: 'telf1',
 		            width: 290,
 		            emptyText: 'xxx-xxx-xxxx',
 		            maskRe: /[\d\-]/,
-		            //regex: /^\d{3}-\d{3}-\d{4}$/,
-		            regexText: 'Must be in the format xxx-xxx-xxxx'
-					
-					},{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 160
-		            
-					},{
-					xtype: 'textfield',
-					fieldLabel: 'Discount',
-		            name: 'disct',
-		            labelWidth: 180,
-		            width: 280,
+                }, {
+					xtype: 'numberfield',
+					fieldLabel: 'Crdit',
+		            name: 'crdit',
 		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;'
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+            		margin: '0 0 0 56',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
 		            width: 290,
 		            emptyText: 'xxx-xxxxxx',
 		            maskRe: /[\d\-]/,
-		            //regex: /^\d{3}-\d{6}$/,
+		            regex: /^\d{3}-\d{6}$/,
 		            regexText: 'Must be in the format xxx-xxxxxx'
-					
-					},{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 160
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+                }, {
+                	
+					xtype: 'textfield',
+					fieldLabel: 'Discount',
+		            name: 'disct',
+		            maskRe: /[\d\-]/,
+		            regexText: 'Must be in the format Number',
+            		margin: '0 0 0 56',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'email',
-					anchor:'90%',
-					width:290,
-					allowBlank: true
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+		            width: 290,
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Contact Person',
 					name: 'pson1',
-					anchor:'90%',
-					width:290,
-					allowBlank: true
-					
-					},{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 160
-		            
-					},{
+		            width: 290,
+                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Approve Amount',
 		            name: 'apamt',
-		            labelWidth: 180,
-		            width: 280,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-					TextFieldAlign: 'right',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px; '
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+		            maskRe: /[\d\.]/,
+            		margin: '0 0 0 56',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Tax ID',
 					name: 'taxid',
-					anchor:'90%',
-					width:290,
-					allowBlank: true
-					
-					},{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 160
-		            
-					},{
+		            maskRe: /[\d]/,
+		            width: 290,
+                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Beginning Amount',
 		            name: 'begin',
-		            labelWidth: 180,
-		            width: 280,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;'
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[this.comboSaknr,{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 160
-		            
-					},{
+		            maskRe: /[\d\.]/,
+            		margin: '0 0 0 56',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboSaknr,{
+                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Ending Amount',
 		            name: 'endin',
-		            labelWidth: 180,
-		            width: 280,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-					labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;'
-			}]
-	/*=======================*/
-	},{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[this.comboTaxnr,{
-					xtype: 'displayfield',
-					fieldLabel: '',
-		            labelWidth: 100,
-		            name: '',
-		            width: 15
-					},{
+		            maskRe: /[\d\.]/,
+            		margin: '0 0 0 54',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboTaxnr,{
+				},{
 		            xtype: 'checkboxfield',
 		            name: 'retax',
 		            fieldLabel: '',
-		            //value: '1',
                 	inputValue: '1',
                 	//checked: true,
-		            boxLabel: 'ขอคืนภาษี'	
-			}]
-			
-	/*=======================*/
-	/*=======================*/
-			
-	}]	
-/*---Vendor Note fieldset 3--------------------------*/
-/*-----------------------------------------------------*/
-},{
-xtype:'fieldset',
-title: 'Vendor Note',
-//collapsible: true,
-defaultType: 'textfield',
-layout: 'anchor',
-defaults: {anchor: '100%'},
-	items:[{
-			xtype: 'container',
-		    layout: 'hbox',
-		    margin: '0 0 5 0',
-			items :[{
+		            boxLabel: 'ขอคืนภาษี',	
+            		margin: '0 0 0 54',
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items: [{
 					xtype: 'textarea',
 					fieldLabel: 'Text Note',
 					name: 'sgtxt',
-					anchor:'90%',
-					width:770,
-					height:40,
-					allowBlank: true
-			}]
-	}]
+					anchor:'95%',
+					allowBlank: true,
+					width:600,
+                }]
+            }]
+        }]
+              
 
 /*---End Form--------------------------*/	
 }]
-
 /*(4)---Buttons-------------------------------*/
 		this.buttons = [{
 			text: 'Cancel',
