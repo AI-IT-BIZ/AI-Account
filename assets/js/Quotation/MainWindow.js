@@ -64,14 +64,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			// default status = wait for approve
 			console.log('each store on combo');
 			var comboStatus = _this.itemDialog.form.comboQStatus;
-			comboStatus.store.load(function(rs){
-				Ext.each(rs, function(r){
-					if(r.get('statu')=='01'){
-						comboStatus.select(r);
-						return false;
-					}
-				});
-			});
+			comboStatus.setValue('01');
 		});
 
 		this.editAct.setHandler(function(){
