@@ -32,6 +32,7 @@ Ext.define('Account.Invoice.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
 		

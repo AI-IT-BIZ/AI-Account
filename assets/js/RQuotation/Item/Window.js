@@ -1,14 +1,18 @@
-Ext.define('Account.Project.MainWindow', {
+Ext.define('Account.Quotation.Item.Window', {
 	extend	: 'Ext.window.Window',
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Project Management',
+			title: 'Quotation Report',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 600,
-			minWidth: 1000,
+			width: 1000,
+			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
@@ -17,7 +21,7 @@ Ext.define('Account.Project.MainWindow', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -32,38 +36,47 @@ Ext.define('Account.Project.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
-		this.grid = Ext.create('Account.Project.Grid', {
-			region:'center'
+        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+		this.grid = Ext.create('Account.Quotation.Grid', {
+			region:'center',
+			border: false
 		});
 
-		this.itemDialog = Ext.create('Account.Project.Item.Window');
-
 		this.items = [this.grid];
+
+		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.formTotal.getForm().reset();
+			//_this.itemDialog.grid1.load({vbelp: 999});
+			//_this.itemDialog.grid2.load({paypr: 999});
 			_this.itemDialog.show();
-			
+
 			// สั่ง pr_item grid load
-			//_this.itemDialog.grid.load({jobnr: 0});
+			_this.itemDialog.grid1.load({vbeln: 0});
+			_this.itemDialog.grid2.load({vbeln: 0});
+
+			// default status = wait for approve
+			console.log('each store on combo');
+			var comboStatus = _this.itemDialog.form.comboQStatus;
+			comboStatus.setValue('01');
 		});
-		
+
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
-				
+
 				// สั่ง pr_item grid load
-				//_this.itemDialog.grid.load({jobnr: id});
+				_this.itemDialog.grid1.load({vbeln: id});
+				//_this.itemDialog.grid2.load({vbeln: id});
 			}
 		});
 
@@ -74,6 +87,7 @@ Ext.define('Account.Project.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
