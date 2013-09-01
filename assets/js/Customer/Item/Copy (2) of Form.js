@@ -8,7 +8,7 @@ Ext.define('Account.Customer.Item.Form', {
 			//bodyPadding: 10,
 			fieldDefaults: {
             	msgTarget: 'side',
-				labelWidth: 120,
+				labelWidth: 120
 				//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
 			}
 		});
@@ -24,13 +24,14 @@ Ext.define('Account.Customer.Item.Form', {
 							
 			fieldLabel: 'Type',
 			name: 'ktype',
-			width:290,
-			//labelWidth: 120,
+			width:320,
+			labelWidth: 180,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',	    
+		    emptyText: '-- Please select data --',
+			labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',		    
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -57,8 +58,8 @@ Ext.define('Account.Customer.Item.Form', {
 							
 			fieldLabel: 'Price Level',
 			name: 'pleve',
-			width:307,
-			labelWidth: 176,
+			width:280,
+			labelWidth: 180,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -93,7 +94,7 @@ Ext.define('Account.Customer.Item.Form', {
 			fieldLabel: 'District',
 			name: 'distx',
 			width:290,
-			//labelWidth: 120,
+			labelWidth: 120,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -203,188 +204,56 @@ Ext.define('Account.Customer.Item.Form', {
 		items: [{
             xtype: 'container',
             anchor: '100%',
-            layout: 'anchor',
+            layout: 'hbox',
+            margin: '10',
+            items:[{
+                    xtype:'textfield',
+                    fieldLabel: 'First Name',
+                    allowBlank: false,
+                    name: 'first',
+                    anchor:'95%',
+                    value: 'Don'
+                }, {
+                    xtype:'textfield',
+                    fieldLabel: 'Company',
+                    name: 'company',
+                    anchor:'95%'
+            }]
+		}],
+
+		items: [{
+            xtype: 'container',
+            anchor: '100%',
+            layout: 'hbox',
             margin: '10',
             items:[{
                 xtype: 'container',
                 flex: 1,
-                layout: 'hbox',
-                padding:2,
+                layout: 'anchor',
                 items: [{
                     xtype:'textfield',
-                    fieldLabel: 'Customer Code',
-                    emptyText: 'XXXXX',
-                    name: 'kunnr',
-					readOnly: true,
-					//disabled: true,
-					anchor:'95%',
-					width:200,
+                    fieldLabel: 'First Name',
+                    allowBlank: false,
+                    name: 'first',
+                    anchor:'95%',
+                    value: 'Don'
                 }, {
-					xtype: 'textfield',
-					fieldLabel: 'Customer Name',
-					name: 'name1',
-					allowBlank: false,
-					anchor:'100%',
-					width:350,
-            		margin: '0 0 0 50',
+                    xtype:'textfield',
+                    fieldLabel: 'Company',
+                    name: 'company',
+                    anchor:'95%'
                 }]
             },{
                 xtype: 'container',
                 flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[this.comboKtype,{
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
+                layout: 'anchor',
+            	margin: '0 0 0 25',
                 items: [{
 					xtype: 'textarea',
 					fieldLabel: 'Address',
 					name: 'adr01',
-					anchor:'95%',
-					allowBlank: true,
-					width:600,
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[this.comboDistr,{
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Post Code',
-		            name: 'pstlz',
-		            emptyText: 'xxxxx',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{5}$/,
-		            regexText: 'Must be in the format xxxxx',
-            		margin: '0 0 0 54',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Phone Number',
-		            name: 'telf1',
-		            width: 290,
-		            emptyText: 'xxx-xxx-xxxx',
-		            maskRe: /[\d\-]/,
-                }, {
-					xtype: 'numberfield',
-					fieldLabel: 'Crdit',
-		            name: 'crdit',
-		            maskRe: /[\d\-]/,
-            		margin: '0 0 0 56',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Fax Number',
-		            name: 'telfx',
-		            width: 290,
-		            emptyText: 'xxx-xxxxxx',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{3}-\d{6}$/,
-		            regexText: 'Must be in the format xxx-xxxxxx'
-                }, {
-                	
-					xtype: 'textfield',
-					fieldLabel: 'Discount',
-		            name: 'disct',
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-            		margin: '0 0 0 56',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Email',
-					name: 'email',
-		            width: 290,
-               	},this.comboPleve,{
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Contact Person',
-					name: 'pson1',
-		            width: 290,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Approve Amount',
-		            name: 'apamt',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Tax ID',
-					name: 'taxid',
-		            maskRe: /[\d]/,
-		            width: 290,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Beginning Amount',
-		            name: 'begin',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[this.comboSaknr,{
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Ending Amount',
-		            name: 'endin',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 54',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[this.comboTaxnr,{
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items: [{
-					xtype: 'textarea',
-					fieldLabel: 'Text Note',
-					name: 'sgtxt',
-					anchor:'95%',
-					allowBlank: true,
-					width:600,
+					anchor:'100%',
+					allowBlank: true
                 }]
             }]
         }]

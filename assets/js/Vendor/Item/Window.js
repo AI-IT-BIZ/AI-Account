@@ -5,8 +5,8 @@ Ext.define('Account.Vendor.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Vendor',
 			closeAction: 'hide',
-			height: 560,
-			width: 830,
+			height: 520,
+			width: 638,
 			layout: 'border',
 			resizable: true,
 			modal: true

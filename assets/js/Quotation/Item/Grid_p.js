@@ -71,18 +71,18 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				return rowIndex+1;
 		}
 			},{
-			text: "Period Desc.", 
-			width: 400, 
-			dataIndex: 'sgtxt', 
+			text: "Period Desc.",
+			width: 380,
+			dataIndex: 'sgtxt',
 			sortable: true,
 			field: {
 				type: 'textfield'
 			}
 			},
-		    {text: "Period Date", 
-		    width: 100, 
+		    {text: "Period Date",
+		    width: 100,
 		    xtype: 'datecolumn',
-		    dataIndex: 'duedt', 
+		    dataIndex: 'duedt',
 		    sortable: true,
 		    editor: {
                 xtype: 'datefield',
@@ -147,8 +147,8 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 
 		return this.callParent(arguments);
 	},
-	
-	load2: function(options){
+
+	load: function(options){
 		this.store.load({
 			params: options
 		});
@@ -192,7 +192,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		});
 	},
 
-	getData2: function(){
+	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
 			rs.push(r.getData());

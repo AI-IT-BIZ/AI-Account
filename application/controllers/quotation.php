@@ -39,6 +39,10 @@ class Quotation extends CI_Controller {
 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
+			// unset calculated value
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
+
 
 			echo json_encode(array(
 				'success'=>true,
@@ -168,7 +172,7 @@ class Quotation extends CI_Controller {
 		$payp = $this->input->post('payp');//$this->input->post('vbelp');
 		$pp_item_array = json_decode($payp);
 		if(!empty($payp) && !empty($pp_item_array)){
-            
+
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pp_item_array AS $p){

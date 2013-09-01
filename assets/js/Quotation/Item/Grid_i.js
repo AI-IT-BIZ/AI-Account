@@ -78,14 +78,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Material Code", 
-		width: 110, 
-		dataIndex: 'matnr', 
+		{text: "Material Code",
+		width: 110,
+		dataIndex: 'matnr',
 		sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
-				allowBlank : false,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
@@ -93,9 +92,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-		    {text: "Description", 
-		    width: 240, 
-		    dataIndex: 'maktx', 
+		    {text: "Description",
+		    width: 220,
+		    dataIndex: 'maktx',
 		    sortable: false,
 		    field: {
 				type: 'textfield'
