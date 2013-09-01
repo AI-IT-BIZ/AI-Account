@@ -355,7 +355,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			{
 				xtype: 'panel',
 				border: false,
-				title: 'Payment Periods',
+				title: 'Partial Payment',
 				layout: 'border',
 				items:[
 					this.gridPayment

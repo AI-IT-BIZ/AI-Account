@@ -83,14 +83,16 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		    width: 100,
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
+		    format:'d/m/Y',
 		    sortable: true,
 		    editor: {
                 xtype: 'datefield',
                 //allowBlank: false,
-                //format: 'd/m/Y',
-                //minValue: '01/01/2006',
+                format:'d/m/Y',
+			    altFormats:'Y-m-d|d/m/Y',
+			    submitFormat:'Y-m-d'
                 //minText: 'Cannot have a start date before the company existed!',
-                maxValue: Ext.Date.format(new Date(), 'd/m/Y')
+                //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
             }
 			},
 			{text: "Percent",
@@ -114,10 +116,20 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			align: 'right',
 			editor: {
                 xtype: 'numberfield',
-                allowBlank: false
-                //minValue: 1,
-                //maxValue: 150000
-            }
+                allowBlank: false,
+                
+                renderer: function(v,p,r){
+					var perc = parseFloat(r.data['perct']),
+						//price = parseFloat(r.data['unitp']),
+						net = parseFloat(r.data['netwr']);
+					perc = isNaN(perc)?0:perc;
+					net = isNaN(net)?0:net;
+
+					var amt = (perc * net) / 100;
+					    amt = net - amt;
+					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+            
+            }}
 			},
 			{text: "Currency",
 			width: 70,

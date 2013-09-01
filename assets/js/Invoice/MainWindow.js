@@ -49,8 +49,7 @@ Ext.define('Account.Invoice.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.getForm().reset();
-			//_this.itemDialog.formTotal.getForm().reset();
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
 			
 			// สั่ง pr_item grid load

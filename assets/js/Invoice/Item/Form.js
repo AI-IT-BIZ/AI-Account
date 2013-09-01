@@ -140,6 +140,40 @@ Ext.define('Account.Invoice.Item.Form', {
 			valueField: 'ptype'
 		});
 		
+		this.comboCond = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Condition',
+			name : 'condi',
+			//labelWidth: 95,
+			width: 350,
+			//anchor:'80%',
+			//labelAlign: 'right',
+			editable: false,
+			//allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please Select Condition --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_condcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'condi'
+					}
+				},
+				fields: [
+					'condi',
+					'contx'
+				],
+				remoteSort: true,
+				sorters: 'ptype ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'contx',
+			valueField: 'condi'
+		});
+		
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Tax',
 			name : 'taxnr',
@@ -149,7 +183,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 5',
 			labelAlign: 'right',
 			editable: false,
-			allowBlank : false,
+			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Tax --',
@@ -176,12 +210,10 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		
 		this.comboPeriod = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payment Period',
+			fieldLabel: 'Partial Payment',
 			name : 'paypr',
-			//labelWidth: 70,
-			//anchor:'90%',
 			width: 240,
-			//margin: '0 0 0 5',
+			valueField: 'paypr',
 			labelAlign: 'left',
 			//editable: false,
 			allowBlank : true,
@@ -206,8 +238,19 @@ Ext.define('Account.Invoice.Item.Form', {
 				sorters: 'paypr ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'sgtxt',
-			valueField: 'paypr'
+			//displayField: 'paypr',
+			tpl: Ext.create('Ext.XTemplate',
+        '<tpl for=".">',
+            '<div class="x-boundlist-item">{paypr} - {sgtxt}</div>',
+        '</tpl>'
+    ),
+    // template for the content inside text field
+    displayTpl: Ext.create('Ext.XTemplate',
+        '<tpl for=".">',
+            '{paypr} - {sgtxt}',
+        '</tpl>'
+    )
+			
 		});
 		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
@@ -288,7 +331,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelStyle: 'font-weight:bold'
 		}]
 		},{
-// Payment Period
+// Partial Payment
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -331,6 +374,18 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:350,
             //emptyText: 'Customer',
             allowBlank: true
+		},{
+			xtype: 'datefield',
+			fieldLabel: 'Due Date',
+			name: 'duedt',
+			//anchor:'80%',
+			labelAlign: 'right',
+			width:240,
+			readOnly: true,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 // Address Bill&Ship
 		},{
@@ -352,11 +407,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Ship To',
 			name: 'adr11',
 			anchor:'90%',
-			width:350,
+			width:355,
 			rows:2,
 			labelAlign: 'right',
 			labelAlign: 'top',
-			margin: '0 0 0 135',
+			margin: '0 0 0 130',
 			allowBlank: true
          }]
 // Sale Person         
@@ -402,9 +457,26 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 25',
 			//width:450,
 			allowBlank: true
-         },this.comboQStatus]
-         }]
-
+         },this.comboQStatus
+         ]
+         },{
+         xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+   items: [this.comboCond,{
+            xtype: 'displayfield',
+			//fieldLabel: 'Reference No',
+			//name: 'refnr',
+			//anchor:'90%',
+			width:240,
+			labelAlign: 'right',
+			margin: '0 0 0 25',
+			//width:450,
+			allowBlank: true
+         }
+         ]
+       }]
 		}]
 		};
 		
@@ -413,7 +485,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:170,
 			//border: false,
 			items: [
 				this.formTotal,
@@ -422,78 +494,6 @@ Ext.define('Account.Invoice.Item.Form', {
 		}
 			
 		];
-		
-		
-		
-		// event trigCustomer///
-		this.trigCustomer.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'customer/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.kunnr);
-							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _addr = r.data.adr01;
-						   if(!Ext.isEmpty(r.data.distx))
-                             _addr += ' '+r.data.distx;
-                           if(!Ext.isEmpty(r.data.pstlz))
-                             _addr += ' '+r.data.pstlz;
-                           if(!Ext.isEmpty(r.data.telf1))
-                            _addr += '\n'+'Tel: '+r.data.telf1;
-                           if(!Ext.isEmpty(r.data.telfx))
-                             _addr += '\n'+'Fax: '+r.data.telfx;
-                           if(!Ext.isEmpty(r.data.email))
-                            _addr += '\n'+'Email: '+r.data.email;
-                            _this.getForm().findField('adr01').setValue(_addr);
-                            _this.getForm().findField('adr11').setValue(_addr);
-							//_this.getForm().findField('adr01').setValue(r.data.adr01
-							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
-							//+r.data.telfx+'\n'+'Email '+r.data.email);
-						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-              _addr += ' '+record.data.distx;
-            if(!Ext.isEmpty(record.data.pstlz))
-              _addr += ' '+record.data.pstlz;
-            if(!Ext.isEmpty(record.data.telf1))
-               _addr += '\n'+'Tel: '+record.data.telf1;
-             if(!Ext.isEmpty(record.data.telfx))
-               _addr += '\n'+'Fax: '+record.data.telfx;
-             if(!Ext.isEmpty(record.data.email))
-               _addr += '\n'+'Email: '+record.data.email;
-             _this.getForm().findField('adr01').setValue(_addr);
-             _this.getForm().findField('adr11').setValue(_addr);
-			//_this.getForm().findField('adr01').setValue(record.data.adr01
-			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
-			//+record.data.telfx+'\n'+'Email '+record.data.email);
-
-			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
-		});
-
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.show();
-		};
 		
 		// event trigQuotation///
 		this.trigQuotation.on('keyup',function(o, e){
@@ -523,7 +523,7 @@ Ext.define('Account.Invoice.Item.Form', {
 				});
 			}
 		}, this);
-
+		
 		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigQuotation.setValue(record.data.vbeln);
 			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
@@ -540,13 +540,78 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.quotationDialog.show();
 		};
 		
-		// grid event
+		// event trigCustomer///
+		this.trigCustomer.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.kunnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);
+							var _addr = r.data.adr01;
+						   if(!Ext.isEmpty(r.data.distx))
+                             _addr += ' '+r.data.distx;
+                           if(!Ext.isEmpty(r.data.pstlz))
+                             _addr += ' '+r.data.pstlz;
+                           if(!Ext.isEmpty(r.data.telf1))
+                            _addr += '\n'+'Tel: '+r.data.telf1;
+                           if(!Ext.isEmpty(r.data.telfx))
+                             _addr += ' '+'Fax: '+r.data.telfx;
+                           if(!Ext.isEmpty(r.data.email))
+                            _addr += '\n'+'Email: '+r.data.email;
+                            _this.getForm().findField('adr01').setValue(_addr);
+                            _this.getForm().findField('adr11').setValue(_addr);
+							
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer.setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			
+			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+              _addr += ' '+record.data.distx;
+            if(!Ext.isEmpty(record.data.pstlz))
+              _addr += ' '+record.data.pstlz;
+            if(!Ext.isEmpty(record.data.telf1))
+               _addr += '\n'+'Tel: '+record.data.telf1;
+             if(!Ext.isEmpty(record.data.telfx))
+               _addr += ' '+'Fax: '+record.data.telfx;
+             if(!Ext.isEmpty(record.data.email))
+               _addr += '\n'+'Email: '+record.data.email;
+             _this.getForm().findField('adr01').setValue(_addr);
+             _this.getForm().findField('adr11').setValue(_addr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog.hide();
+		});
+
+		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.show();
+		};
+		
+	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 
 		return this.callParent(arguments);
-	},
+	},	
 	
 	load : function(id){
 		var _this=this;
@@ -565,10 +630,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnQtItem.setValue(Ext.encode(rsItem));
-
-		var rsPayment = _this.gridPayment.getData();
-		this.hdnPpItem.setValue(Ext.encode(rsPayment));
+		this.hdnIvItem.setValue(Ext.encode(rsItem));
 		
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
@@ -599,10 +661,11 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ vbeln: 0 });
-		this.gridPayment.load({ vbeln: 0 });
+		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
+		this.comboCond.setValue('01');
 	},
 	
 	// calculate total functions

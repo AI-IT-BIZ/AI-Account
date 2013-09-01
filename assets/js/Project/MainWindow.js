@@ -48,7 +48,7 @@ Ext.define('Account.Project.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
 		});
 		

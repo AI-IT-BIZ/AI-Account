@@ -92,8 +92,6 @@ class Invoice extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			//'jobnr' => $this->input->post('jobnr'),
-			//'auart' => $this->input->post('auart'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -106,7 +104,9 @@ class Invoice extends CI_Controller {
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg')
+			'exchg' => $this->input->post('exchg'),
+			'duedt' => $this->input->post('duedt'),
+			'condi' => $this->input->post('condi')
 		);
 		
 		// start transaction
@@ -166,6 +166,29 @@ class Invoice extends CI_Controller {
 				'success'=>true,
 				'data'=>$_POST
 			));
+	}
+
+    public function loads_condcombo(){
+		$tbName = 'cond';
+		$tbPK = 'condi';
+        
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('contx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
 	}
 
     public function loads_acombo(){

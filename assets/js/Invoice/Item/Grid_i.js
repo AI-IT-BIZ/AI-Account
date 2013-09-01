@@ -60,7 +60,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete QT Item',
+				tooltip: 'Delete Invoice Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
@@ -75,7 +75,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
+		{text: "Material Code", 
+		width: 120, 
+		dataIndex: 'matnr', 
+		sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -112,7 +115,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit", 
+			width: 50, 
+			dataIndex: 'meins', 
+			sortable: false,
 			field: {
 				type: 'textfield'
 			},

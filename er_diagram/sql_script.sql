@@ -32,6 +32,7 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_cond;
 drop table IF EXISTS tbl_bsik;
 drop table IF EXISTS tbl_vbok;
 drop table IF EXISTS tbl_vbop;
@@ -296,11 +297,11 @@ Create table tbl_glno (
 	saknr Varchar(10) NOT NULL COMMENT 'GL Acount',
 	sgtxt Varchar(40) COMMENT 'GL Text',
 	entxt Varchar(40) COMMENT 'GL Eng Text',
-	xbilk Varchar(1) COMMENT 'Balance sheet account',
+	gltyp Varchar(1) COMMENT 'GL Type (''1''->Debit, ''2''->Credit)',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
 	glgrp Varchar(4) COMMENT 'Account Group (tbl_ggrp)',
-	gltyp Varchar(4) COMMENT 'Account type (1->Group,2->Subordinate)',
+	gllev Varchar(4) COMMENT 'Account type (1->Group,2->Subordinate)',
 	xloev Varchar(1) COMMENT 'Delete Flag',
 	debit Decimal(17,2) COMMENT 'Debit Beginning',
 	credi Decimal(17,2) COMMENT 'Credit Beginning',
@@ -343,7 +344,7 @@ Create table tbl_vbak (
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
-	dismt Decimal(10,2) COMMENT 'Discount amt',
+	dismt Varchar(20) COMMENT 'Discount amt',
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
@@ -602,13 +603,14 @@ Create table tbl_vbrk (
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
-	dismt Decimal(10,2) COMMENT 'Discount amt',
+	dismt Varchar(20) COMMENT 'Discount amt',
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
 	saknr Varchar(10) COMMENT 'GL No',
 	vbeln Varchar(20) COMMENT 'SO no (tbl_vbak)',
+	condi Varchar(4) COMMENT 'Payment Condition',
  Primary Key (invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
@@ -781,6 +783,12 @@ Create table tbl_bsik (
  Primary Key (bukrs,belnr,gjahr,belpr)) ENGINE = InnoDB
 COMMENT = 'GL Item (Vendor)';
 
+Create table tbl_cond (
+	condi Varchar(4) NOT NULL COMMENT 'Payment Condition type',
+	contx Varchar(40) COMMENT 'Condition Desc',
+ Primary Key (condi)) ENGINE = InnoDB
+COMMENT = 'Payment Condition Type';
+
 
 
 
@@ -936,6 +944,9 @@ INSERT INTO tbl_styp (stype, sgtxt) VALUES ('01', 'Material Sales by Cash'),('02
 
 INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 ('03', 'Board'),('04', 'Event');
+
+INSERT INTO tbl_cond (condi, contx) VALUES ('01', 'After issue Invoice'),('02', 'After reciept Invoice'),
+('03', 'After reciept Service/Goods');
 
 INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to Book Bank'),('04', 'Credit Card');
 
