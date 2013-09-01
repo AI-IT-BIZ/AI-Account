@@ -64,7 +64,7 @@ Ext.define('Account.Project.Item.Form', {
 			//margin: '0 0 0 40',
 			//disabled: true,
 			clearFilterOnReset: true,
-			emptyText: '-- Please select Status --',
+			emptyText: '-- Please Status --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -359,9 +359,14 @@ Ext.define('Account.Project.Item.Form', {
 	
 	// load //
 	load : function(id){
+		var _this=this;
+		
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'project/load'
+			url:__site_url+'project/load'//,
+			//success: function(form, act){
+			//	_this.fireEvent('afterLoad', form, act);
+			//}			
 		});
 	},
 	
@@ -391,5 +396,12 @@ Ext.define('Account.Project.Item.Form', {
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+	reset: function(){
+		this.getForm().reset();
+
+		// default status = wait for approve
+		this.comboJStatus.setValue('01');
 	}
 });

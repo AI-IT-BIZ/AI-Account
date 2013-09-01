@@ -4,15 +4,14 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		Ext.apply(this, {
 			url: __site_url+'invoice/save',
-			border: false,
-			bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'left',
-				msgTarget: 'qtip',//'side',
-				labelWidth: 105
-				//width:300,
-				//labelStyle: 'font-weight:bold'
-			}
+			layout: 'border',
+			border: false
+			//bodyPadding: 10,
+			//fieldDefaults: {
+		    //labelAlign: 'left',
+			//msgTarget: 'qtip',//'side',
+			//labelWidth: 105
+			//}
 		});
 
 		return this.callParent(arguments);
@@ -23,6 +22,23 @@ Ext.define('Account.Invoice.Item.Form', {
 		// INIT Customer search popup ///////////////////////////////
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		
+		this.gridItem = Ext.create('Account.Invoice.Item.Grid_i',{
+			//title:'Invoice Items',
+			height: 320,
+			region:'center'
+		});
+		this.gridGL = Ext.create('Account.Invoice.Item.Grid_gl',{
+			border: true,
+			region:'center',
+			title: 'GL Posting'
+		});
+		this.formTotal = Ext.create('Account.Invoice.Item.Form_t', {
+			border: true,
+			split: true,
+			title:'Total Invoice',
+			region:'south'
+		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'INV Status',
@@ -219,7 +235,17 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		
 // Start Write Forms
-		this.items = [this.hdnIvItem,{
+		var mainFormPanel = {
+			xtype: 'panel',
+			border: true,
+			region:'north',
+			bodyPadding: '5 10 0 10',
+			fieldDefaults: {
+				labelAlign: 'left',
+				msgTarget: 'qtip',
+				labelWidth: 105
+			},
+			items: [this.hdnIvItem,{
 			xtype:'fieldset',
             title: 'Header Data',
             collapsible: true,
@@ -228,8 +254,8 @@ Ext.define('Account.Invoice.Item.Form', {
             defaults: {
                 anchor: '100%'
             },
+// Quotation Code            
      items:[{
-// Quotation Code
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -379,8 +405,25 @@ Ext.define('Account.Invoice.Item.Form', {
          },this.comboQStatus]
          }]
 
-		//}]
-		}];
+		}]
+		};
+		
+		this.items = [mainFormPanel,this.gridItem,
+		{
+			xtype:'tabpanel',
+			region:'south',
+			activeTab: 0,
+			height:200,
+			//border: false,
+			items: [
+				this.formTotal,
+				this.gridGL
+			]
+		}
+			
+		];
+		
+		
 		
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
@@ -496,20 +539,37 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigQuotation.onTriggerClick = function(){
 			_this.quotationDialog.show();
 		};
+		
+		// grid event
+		this.gridItem.store.on('update', this.calculateTotal, this);
+		this.gridItem.store.on('load', this.calculateTotal, this);
+		this.on('afterLoad', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
 	
 	load : function(id){
+		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'invoice/load'
+			url:__site_url+'invoice/load',
+			success: function(form, act){
+				_this.fireEvent('afterLoad', form, act);
+			}
 		});
 	},
 	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
+		
+		// add grid data to json
+		var rsItem = this.gridItem.getData();
+		this.hdnQtItem.setValue(Ext.encode(rsItem));
+
+		var rsPayment = _this.gridPayment.getData();
+		this.hdnPpItem.setValue(Ext.encode(rsPayment));
+		
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -522,6 +582,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			});
 		}
 	},
+	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -531,5 +592,36 @@ Ext.define('Account.Invoice.Item.Form', {
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+	reset: function(){
+		this.getForm().reset();
+
+		// สั่ง grid load เพื่อเคลียร์ค่า
+		this.gridItem.load({ vbeln: 0 });
+		this.gridPayment.load({ vbeln: 0 });
+
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
+	},
+	
+	// calculate total functions
+	calculateTotal: function(){
+		var store = this.gridItem.store;
+		var sum = 0;
+		store.each(function(r){
+			var qty = parseFloat(r.data['menge']),
+				price = parseFloat(r.data['unitp']),
+				discount = parseFloat(r.data['dismt']);
+			qty = isNaN(qty)?0:qty;
+			price = isNaN(price)?0:price;
+			discount = isNaN(discount)?0:discount;
+
+			var amt = (qty * price) - discount;
+
+			sum += amt;
+		});
+		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.calculate();
 	}
 });

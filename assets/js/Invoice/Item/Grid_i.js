@@ -87,7 +87,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			},
-		    {text: "Description", width: 200, dataIndex: 'maktx', sortable: false,
+		    {text: "Description", 
+		    width: 210, 
+		    dataIndex: 'maktx', 
+		    sortable: false,
 		    field: {
 				type: 'textfield'
 			},
@@ -167,7 +170,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 100,
+			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',

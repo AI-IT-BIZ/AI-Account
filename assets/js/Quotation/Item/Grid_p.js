@@ -43,7 +43,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				'duedt',
 				'perct',
 				'pramt',
-				'ctype'
+				'ctyp1'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -87,7 +87,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		    editor: {
                 xtype: 'datefield',
                 //allowBlank: false,
-                format: 'd/m/Y',
+                //format: 'd/m/Y',
                 //minValue: '01/01/2006',
                 //minText: 'Cannot have a start date before the company existed!',
                 maxValue: Ext.Date.format(new Date(), 'd/m/Y')
@@ -164,7 +164,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'', sgtxt:'', duedt:'',perct:'', ctyp1:'THB' };
+		rec = { id:newId, ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

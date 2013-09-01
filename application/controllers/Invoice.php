@@ -318,7 +318,7 @@ class Invoice extends CI_Controller {
 		$iv_id = $this->input->get('belnr');
 		$this->db->where('belnr', $iv_id);
 
-		$query = $this->db->get('bkpf');
+		$query = $this->db->get('bsid');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

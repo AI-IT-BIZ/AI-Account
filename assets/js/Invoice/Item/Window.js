@@ -18,49 +18,11 @@ Ext.define('Account.Invoice.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Invoice.Item.Form',{ region:'north' });
-        this.grid1 = Ext.create('Account.Invoice.Item.Grid_i',{ 
-        	//title:'Invoice Items'
-        	height: 320,
-        	region:'center'
-        	});
-        this.grid2 = Ext.create('Account.Invoice.Item.Grid_gl',{ 
-        	border: false,
-        	region:'south'
-        	});
-       this.formTotal = Ext.create('Account.Invoice.Item.Form_t', {
-			border: false,
-			title:'Total Invoice',
-			split: true//,
-			//region:'south'
-		});
+		this.form = Ext.create('Account.Invoice.Item.Form',{ region:'center' });
 
 		this.items = [
 		     this.form, 
-		     this.grid1,
-		  {
-			xtype:'tabpanel',
-			region:'south',
-			activeTab: 0,
-			items: [
-				this.formTotal,
-				{
-				xtype: 'panel',
-				border: false,
-				title: 'GL Posting',
-				layout: 'border',
-				items:[
-					this.grid2,
-					
-				]
-			  }]
-			}];
-		
-          /*this.grid = new Ext.Panel({
-			title:'this is item grid',
-			html:'item grid',
-			region: 'center'
-		});*/
+		   ];
 
 		this.buttons = [{
 			text: 'Save',
@@ -77,7 +39,7 @@ Ext.define('Account.Invoice.Item.Window', {
 				_this.hide();
 			}
 		}];
-		
+/*		
 		// event
 		this.grid1.store.on('update', function(store, record){
 			var sum = 0;
@@ -96,7 +58,7 @@ Ext.define('Account.Invoice.Item.Window', {
 			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 			_this.formTotal.calculate();
 		});
-
+*/
 		return this.callParent(arguments);
 	}
 });

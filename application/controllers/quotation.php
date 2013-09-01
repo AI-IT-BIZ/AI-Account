@@ -165,7 +165,7 @@ class Quotation extends CI_Controller {
 		}
 
 		// ลบ pay_item ภายใต้ id ทั้งหมด
-		$this->db->where('paypr', $id);
+		$this->db->where('vbeln', $id);
 		$this->db->delete('payp');
 
 		// เตรียมข้อมูล pay item
