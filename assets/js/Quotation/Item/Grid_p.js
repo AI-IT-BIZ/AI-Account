@@ -107,7 +107,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
-						//console.log(v);
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
@@ -129,17 +128,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 /*
-					var perc = parseFloat(r.data['perct']),
-						net = parseFloat(r.data['netwr']);
-
 					console.log(net);
-
-					perc = isNaN(perc)?0:perc;
-					net = isNaN(net)?0:net;
-					//console.log(net);
-					var amt = (perc * net) / 100;
-					    amt = net - amt;
-					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 */
 				}
 			},
