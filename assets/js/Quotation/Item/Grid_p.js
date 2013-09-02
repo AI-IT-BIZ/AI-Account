@@ -121,17 +121,26 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			//sortable: true,
 			align: 'right',
 			renderer: function(v,p,r){
+				var net = _this.netValue;
+				if(net<=0)
+					return 0;
+
+				var perc = parseFloat(r.data['perct']);
+				var amt = (perc * net) / 100;
+				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+/*
 					var perc = parseFloat(r.data['perct']),
 						net = parseFloat(r.data['netwr']);
-						
+
 					console.log(net);
-						
+
 					perc = isNaN(perc)?0:perc;
 					net = isNaN(net)?0:net;
-					//console.log(net);	
+					//console.log(net);
 					var amt = (perc * net) / 100;
 					    amt = net - amt;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+*/
 				}
 			},
 			{text: "Currency",
@@ -206,5 +215,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			rs.push(r.getData());
 		});
 		return rs;
-	}
+	},
+	netValue : 0
 });
