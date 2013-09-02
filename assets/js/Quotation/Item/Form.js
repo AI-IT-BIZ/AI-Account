@@ -28,7 +28,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			split: true,
 			region:'south'
 		});
-		// END INIT other components ///////////////////////////////////
+		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
