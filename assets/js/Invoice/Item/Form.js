@@ -6,12 +6,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			url: __site_url+'invoice/save',
 			layout: 'border',
 			border: false
-			//bodyPadding: 10,
-			//fieldDefaults: {
-		    //labelAlign: 'left',
-			//msgTarget: 'qtip',//'side',
-			//labelWidth: 105
-			//}
 		});
 
 		return this.callParent(arguments);
@@ -55,7 +49,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_acombo',
+					url: __site_url+'invoice/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -381,11 +375,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
-			readOnly: true,
+			//readOnly: true,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
+			submitFormat:'Y-m-d'//,
+			//allowBlank: false
 		}]
 // Address Bill&Ship
 		},{
@@ -664,7 +658,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
-		this.comboQStatus.setValue('01');
+		this.comboQStatus.setValue('05');
 		this.comboCond.setValue('01');
 	},
 	

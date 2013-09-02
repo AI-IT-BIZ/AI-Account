@@ -96,7 +96,7 @@ class Invoice extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'lidat' => $this->input->post('lidat'),
+			'terms' => $this->input->post('terms'),
 			'kunnr' => $this->input->post('kunnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
@@ -106,6 +106,9 @@ class Invoice extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
+			'vbeln' => $this->input->post('vbeln'),
+			'paypr' => $this->input->post('paypr'),
+			'belnr' => $this->input->post('belnr'),
 			'condi' => $this->input->post('condi')
 		);
 		
@@ -194,12 +197,12 @@ class Invoice extends CI_Controller {
     public function loads_acombo(){
 		$tbName = 'apov';
 		$tbPK = 'statu';
-        
-		$this->db->where('apgrp', '2');
-		$query = $this->input->post('query');
+		
+        //$this->db->where('apgrp', '2');
 		//$query = $this->db->get('apov');
 		
-
+		$query = $this->input->post('query');
+		
 		$totalCount = $this->db->count_all_results($tbName);
 
 		if(!empty($query) && $query!=''){
@@ -209,6 +212,7 @@ class Invoice extends CI_Controller {
 
 		//$this->db->order_by($_POST['sort'], $_POST['dir']);
 		$query = $this->db->get($tbName);
+		//$query = $this->db->get('apov');
 
 		echo json_encode(array(
 			'success'=>true,

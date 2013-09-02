@@ -38,10 +38,10 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 				return rowIndex+1;
 		}
 		},
-		    {text: "GL No.", width: 80, dataIndex: 'belnr', sortable: true},
+		    {text: "GL No.", width: 120, dataIndex: 'belnr', sortable: true},
 			{text: "GL Description", width: 300, dataIndex: 'gjahr', sortable: true},
-		    {text: "Debit", width: 100, dataIndex: 'bldat', sortable: true},
-			{text: "Credit", width: 100, dataIndex: 'saknr', sortable: true}
+		    {text: "Debit", width: 150, dataIndex: 'bldat', sortable: true},
+			{text: "Credit", width: 150, dataIndex: 'saknr', sortable: true}
 		];
 		
 		return this.callParent(arguments);

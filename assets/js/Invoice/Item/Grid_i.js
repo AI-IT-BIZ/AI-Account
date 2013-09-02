@@ -266,7 +266,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
+		rec = { id:newId, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

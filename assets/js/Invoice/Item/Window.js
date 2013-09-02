@@ -9,6 +9,7 @@ Ext.define('Account.Invoice.Item.Window', {
 			width: 950,
 			layout: 'border',
 			//layout: 'accordion',
+			border: false,
 			resizable: true,
 			modal: true
 		});
@@ -21,14 +22,14 @@ Ext.define('Account.Invoice.Item.Window', {
 		this.form = Ext.create('Account.Invoice.Item.Form',{ region:'center' });
 
 		this.items = [
-		     this.form, 
+		     this.form
 		   ];
 
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
-				var rs = _this.grid1.getData();
-				_this.form.hdnIvItem.setValue(Ext.encode(rs));
+				//var rs = _this.grid1.getData();
+				//_this.form.hdnIvItem.setValue(Ext.encode(rs));
 				
 				_this.form.save();
 			}

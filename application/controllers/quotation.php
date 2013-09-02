@@ -110,7 +110,7 @@ class Quotation extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'lidat' => $this->input->post('lidat'),
+			'terms' => $this->input->post('terms'),
 			'kunnr' => $this->input->post('kunnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),

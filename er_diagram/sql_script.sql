@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		1/9/2013
+Modified		2/9/2013
 Project		
 Model		
 Company		
@@ -164,6 +164,7 @@ Create table tbl_ebko (
 	taxpr Decimal(17,2) COMMENT 'Tax percent',
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
+	crdit Int COMMENT 'Credit terms',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Header Doc';
 
@@ -339,7 +340,7 @@ Create table tbl_vbak (
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
-	lidat Int COMMENT 'Limit Date',
+	terms Int COMMENT 'Terms Date',
 	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
@@ -513,6 +514,7 @@ Create table tbl_ekko (
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	purnr Varchar(20) COMMENT 'Purchase Order (tbl_ebko)',
+	crdit Int COMMENT 'Credit terms',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -569,7 +571,7 @@ Create table tbl_ctyp (
 COMMENT = 'Currency Type';
 
 Create table tbl_payp (
-	vbeln Varchar(20) NOT NULL COMMENT 'SO no.',
+	vbeln Varchar(20) NOT NULL COMMENT 'Quotation no.',
 	paypr Varchar(4) NOT NULL COMMENT 'Period Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	sgtxt Varchar(40) COMMENT 'Description Text',
@@ -579,7 +581,7 @@ Create table tbl_payp (
 	ctyp1 Varchar(3) COMMENT 'Currency',
 	statu Varchar(4) COMMENT 'Aprove Status (tbl_apov)',
  Primary Key (vbeln,paypr)) ENGINE = InnoDB
-COMMENT = 'Payment Periods';
+COMMENT = 'Partial Payment Periods';
 
 Create table tbl_vbrk (
 	invnr Varchar(20) NOT NULL COMMENT 'Invoice no',
@@ -598,7 +600,7 @@ Create table tbl_vbrk (
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
-	lidat Int COMMENT 'Limit Date',
+	terms Int COMMENT 'Terms Date',
 	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
@@ -608,9 +610,10 @@ Create table tbl_vbrk (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
-	saknr Varchar(10) COMMENT 'GL No',
-	vbeln Varchar(20) COMMENT 'SO no (tbl_vbak)',
+	vbeln Varchar(20) COMMENT 'QT no (tbl_vbak)',
 	condi Varchar(4) COMMENT 'Payment Condition',
+	paypr Varchar(4) COMMENT 'Partial Payment',
+	belnr Varchar(20) COMMENT 'GL Doc',
  Primary Key (invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
@@ -735,7 +738,7 @@ Create table tbl_vbok (
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
-	lidat Int COMMENT 'Limit Date',
+	terms Int COMMENT 'Terms Date',
 	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
@@ -806,7 +809,7 @@ select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
 `a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,
 `a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,
 `a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,
-`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`lidat` AS `lidat`,`a`.`kunnr` AS `kunnr`,
+`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`terms` AS `terms`,`a`.`kunnr` AS `kunnr`,
 `a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
 `a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
 `b`.`name1` AS `name1`,
@@ -839,13 +842,13 @@ create view v_vbrk as
 
 select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,c.name1 as sname,d.statx,
-e.paypr,e.sgtxt,e.statu as stat1,f.jobnr
+`b`.`email` AS `email`,`b`.`distx`,c.name1 as sname,d.statx,e.sgtxt,e.statu as stat1,f.jobnr
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_payp e on a.vbeln = e.vbeln
+and a.paypr = e.paypr
 left join tbl_vbak f on a.vbeln = f.vbeln;
 create view v_vbrp as
 
