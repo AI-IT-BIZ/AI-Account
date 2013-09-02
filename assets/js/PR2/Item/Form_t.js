@@ -15,7 +15,7 @@ Ext.define('Account.PR2.Item.Form_t', {
 			}
 			*/
 			border: false,
-			bodyPadding: 10,
+			//bodyPadding: 10,
 			fieldDefaults: {
 				labelAlign: 'left',
 				labelWidth: 100,
@@ -29,115 +29,118 @@ Ext.define('Account.PR2.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
+/*(2)---Hidden id-------------------------------*/
 		this.items = [{
-			xtype: 'textfield',
-			fieldLabel: 'Total',
-			name: 'beamt',
-			//align: 'right',
-			//flex: 2,
-			//anchor:'50%',
-			labelWidth: 155,
-			width:270,
-			margin: '0 0 0 590',
-			allowBlank: false
+			xtype: 'hidden',
+			name: 'id'
 		},{
-			xtype: 'container',
-                    layout: 'hbox',
-                    defaultType: 'textfield',
-                    margin: '5 0 5 590',
-   items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Discount',
-			name: 'dismt',
-			//anchor:'80%',
-			//fieldWidth: 250,
-			//align: 'right',
-			//margin: '0 0 0 650',
-			labelWidth: 80,
-			width:150,
-			allowBlank: true
-		},{
-            xtype: 'textfield',
-			//fieldLabel: 'Discount',
-			name: 'aaa',
-			//align: 'right',
-			//anchor:'80%',
-			width:110,
-			margin: '0 0 0 10',
-			allowBlank: true
-         
-         }]
-         },{
-         	xtype: 'textfield',
-			fieldLabel: 'After Discount',
-			name: 'bbb',
-			//align: 'right',
-			//flex: 2,
-			//anchor:'90%',
-			width:270,
-			labelWidth: 155,
-			margin: '0 0 0 590',
-			allowBlank: false
-		},{
-			xtype: 'container',
-                    layout: 'hbox',
-                    defaultType: 'textfield',
-                    margin: '5 0 5 590',
-   items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			//align: 'right',
-			labelWidth: 80,
-			//anchor:'90%',
-			width:120,
-			allowBlank: true
-		},{
-			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			//align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
-			width:10,
-			value: '%',
-			allowBlank: true
-		},{
-            xtype: 'textfield',
-			//fieldLabel: 'Discount',
-			name: 'ccc',
-			//align: 'right',
-			//anchor:'90%',
-			margin: '0 0 0 30',
-			width:110,
-			allowBlank: true
-         
-         }]
-         },{
-         	xtype: 'textfield',
-			fieldLabel: 'Net Amount',
-			name: 'netwr',
-			//align: 'right',
-			//flex: 2,
-			//anchor:'90%',
-			width:270,
-			labelWidth: 155,
-			margin: '0 0 0 590',
-			labelStyle: 'font-weight:bold',
-			allowBlank: false
-         },{
-         	xtype: 'textarea',
-			fieldLabel: 'Comment',
-			name: 'sgtxt',
-			//align: 'right',
-			//flex: 2,
-			//anchor:'90%',
-			width:455,
-			height:50,
-			labelWidth: 100,
-			margin: '0 0 0 10',
-			allowBlank: false
-		}];
+			
+		
+		items: [{
+            xtype: 'container',
+            anchor: '100%',
+            layout: 'hbox',
+            margin: '20',
+            items:[{
+                xtype: 'container',
+                flex: 0,
+                layout: 'anchor',
+            	margin: '60 0 0 0',
+                items: [{
+					xtype: 'textarea',
+					fieldLabel: 'Comment',
+					name: 'sgtxt',
+					anchor:'100%',
+					width: 455, 
+					rows:3,
+					allowBlank: true
+                }]
+            },{
+                xtype: 'container',
+                flex: 0,
+                layout: 'anchor',
+            	margin: '0 0 0 70',
+                items: [{
+		            xtype: 'container',
+		            anchor: '100%',
+		            layout: 'hbox',
+            		margin: '0 0 5 0',
+                	items: [{
+						xtype: 'textfield',
+						fieldLabel: 'Total',
+						name: 'beamt',
+						labelWidth: 150,
+						width:240,
+                	}]
+                },{
+		            xtype: 'container',
+		            anchor: '100%',
+		            layout: 'hbox',
+            		margin: '0 0 5 0',
+                	items: [{
+						xtype: 'textfield',
+						fieldLabel: 'Discount',
+						name: 'dismt',
+						labelWidth: 80,
+						width:150,
+					},{
+			            xtype: 'textfield',
+						name: '',
+						width:85,
+						allowBlank: true,
+						margin: '0 0 0 5',
+                	}]
+             	},{
+		            xtype: 'container',
+		            anchor: '100%',
+		            layout: 'hbox',
+            		margin: '0 0 5 0',
+                	items: [{
+			         	xtype: 'textfield',
+						fieldLabel: 'After Discount',
+						name: '',
+						labelWidth: 150,
+						width:240,
+                	}]
+             	},{
+		            xtype: 'container',
+		            anchor: '100%',
+		            layout: 'hbox',
+            		margin: '0 0 5 0',
+                	items: [{
+						xtype: 'textfield',
+						fieldLabel: 'Tax',
+						name: 'taxpr',
+						labelWidth: 80,
+						width:120,
+					},{
+						xtype: 'displayfield',
+						width:10,
+						value: '%',
+					},{
+			            xtype: 'textfield',
+						name: '',
+						margin: '0 0 0 25',
+						width:85,
+                	}]
+             	},{
+		            xtype: 'container',
+		            anchor: '100%',
+		            layout: 'hbox',
+            		margin: '0 0 5 0',
+                	items: [{
+			         	xtype: 'textfield',
+						fieldLabel: 'Net Amount',
+						name: 'netwr',
+						labelWidth: 150,
+						width:240,
+						labelStyle: 'font-weight:bold',
+                	}]
+                }]
+            }]
+        }],
+//---end form------------------------------------------------------  
+}];
 
 		return this.callParent(arguments);
 	},

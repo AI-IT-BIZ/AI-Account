@@ -15,7 +15,7 @@ Ext.define('Account.PR2.Item.Form', {
 			}
 			*/
 			border: false,
-			bodyPadding: 5,
+			bodyPadding: 10,
 			fieldDefaults: {
 				labelAlign: 'left',
 				labelWidth: 100,
@@ -101,8 +101,8 @@ Ext.define('Account.PR2.Item.Form', {
 							
 			fieldLabel: 'Tax Type',
 			name: 'taxnr',
-			//width:185,
-			//labelWidth: 80,
+			width:185,
+			labelWidth: 80,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -142,67 +142,73 @@ Ext.define('Account.PR2.Item.Form', {
 /*---end hidden field-------------------------------*/	
 
 
-		xtype: 'fieldset',
-		title: 'Header Data',
-
-		items: [{
-            xtype: 'container',
-            anchor: '100%',
-            layout: 'hbox',
-            margin: '10',
-            items:[{
-                xtype: 'container',
-                flex: 0,
-                layout: 'anchor',
-                items :[ this.comboLifnr,{
-                }, {
-					xtype: 'textarea',
-					fieldLabel: 'Address',
-					name: 'adr01',
-					anchor:'95%',
-					width: 455, 
-					rows:4,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Reference No',
-					name: 'refnr',
-					anchor:'95%',
-					//margin: '20 0 0 0',
-                }]
-            },{
-                xtype: 'container',
-                flex: 0,
-                layout: 'anchor',
-            	margin: '0 0 0 70',
-                items: [{
-					xtype: 'textfield',
-					fieldLabel: 'PR No',
-					name: 'purnr',
-					anchor:'100%',
-					emptyText: 'PRxxxx-xxxx',
-                }, {
-					xtype: 'datefield',
-					fieldLabel: 'PR Date',
-					name: 'bldat',
-					anchor:'100%',
-                }, {
-					xtype: 'datefield',
-					fieldLabel: 'Delivery Date',
-					name: 'lfdat',
-					anchor:'100%',
-                }, {
-					xtype: 'numberfield',
-					fieldLabel: 'Credit',
-					name: 'crdat',
-					anchor:'100%', 
-                }, this.comboTaxnr,{
-                }]
-            }]
-        }]
-	             
-//---end form------------------------------------------------------                
-}] //end form
-	
+				xtype: 'fieldset',
+				title: 'Header Data',
+				collapsible: true,
+				defaults: {
+						labelWidth: 89,
+					    anchor: '100%',
+						layout: {
+						type: 'hbox',
+						labelWidth: 100,
+						defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+				    }
+				},
+                items: [
+                    {
+						xtype: 'fieldcontainer',
+					    layout: 'hbox',
+					    margin: '0 0 5 10',
+                        defaults: {
+                            //hideLabel: true
+                        },
+						items :[
+							this.comboLifnr,
+							{xtype: 'displayfield',fieldLabel: '',name: '',width: 15},
+							//xtype: 'checkboxfield',name: 'retax',fieldLabel: '',inputValue: '1',boxLabel: 'แสดง',checked: true},
+                            {xtype: 'textfield',    fieldLabel: 'PR No', labelWidth: 80, name: 'purnr', width: 185, allowBlank: false,emptyText: 'PRxxxx-xxxx',labelAlign: 'left',margin: '0 0 0 394',}	
+						]    
+					},	
+                    {
+                        xtype: 'fieldcontainer',
+                         
+					    margin: '0 0 5 10',
+                        defaults: {
+                            //hideLabel: true
+                        },
+                        items: [
+                            {xtype: 'textarea',    fieldLabel: 'Address', name: 'adr01', width: 455, rows:2,},	
+                            {xtype: 'datefield',    fieldLabel: 'PR Date', labelWidth: 80, name: 'bldat', width: 185, allowBlank: false,margin: '0 0 0 183',format:'d/m/Y',altFormats:'Y-m-d|d/m/Y',submitFormat:'Y-m-d',labelAlign: 'left'}	                       	
+                        ]
+                    },
+                    {
+                        xtype: 'fieldcontainer',
+                         
+					    margin: '0 0 5 10',
+                        defaults: {
+                            //hideLabel: true
+                        },
+                        items: [
+                            {xtype: 'datefield',    fieldLabel: 'Delivery Date', labelWidth: 80, name: 'lfdat', width: 185, allowBlank: false,margin: '0 0 0 643',format:'d/m/Y',altFormats:'Y-m-d|d/m/Y',submitFormat:'Y-m-d'}	                       	
+                        ]
+                    },
+                    {
+                        xtype: 'fieldcontainer',
+                         
+					    margin: '0 0 10 10',
+                        defaults: {
+                            //hideLabel: true
+                        },
+                        items: [
+                            {xtype: 'textfield', fieldLabel: 'Reference No', name: 'refnr', width: 238},
+                            {xtype: 'displayfield', value: '', width: 260},
+                            {xtype: 'numberfield', fieldLabel: 'Credit', name: 'crdat',labelWidth: 60, width: 130},	
+                            this.comboTaxnr	                       	
+                        ]
+                    }
+                 ]
+		}];
+		
 /*--------------------------------------------------*/
 /*----------------------------------*/			
 /*
