@@ -202,7 +202,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
+// Partial Payment Period	
 		this.comboPeriod = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Partial Payment',
 			name : 'paypr',
@@ -214,6 +215,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Period --',
+			//listeners:{
+           //scope: yourScope,
+           //'select': yourFunction
+           // },
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -234,17 +239,17 @@ Ext.define('Account.Invoice.Item.Form', {
 			queryMode: 'remote',
 			//displayField: 'paypr',
 			tpl: Ext.create('Ext.XTemplate',
-        '<tpl for=".">',
-            '<div class="x-boundlist-item">{paypr} - {sgtxt}</div>',
-        '</tpl>'
-    ),
-    // template for the content inside text field
-    displayTpl: Ext.create('Ext.XTemplate',
-        '<tpl for=".">',
-            '{paypr} - {sgtxt}',
-        '</tpl>'
-    )
-			
+            '<tpl for=".">',
+                '<div class="x-boundlist-item">{paypr} - {sgtxt}</div>',
+            '</tpl>'
+            ),
+            // template for the content inside text field
+            displayTpl: Ext.create('Ext.XTemplate',
+            '<tpl for=".">',
+               '{paypr} - {sgtxt}',
+            '</tpl>'
+            )
+	  		
 		});
 		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
@@ -489,6 +494,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			
 		];
 		
+		// event comboPeriod///
+		//this.comboPeriod.on('select',function(o, e){
+			
+		//}, this);
+		
 		// event trigQuotation///
 		this.trigQuotation.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -625,7 +635,16 @@ Ext.define('Account.Invoice.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnIvItem.setValue(Ext.encode(rsItem));
-		
+/*
+		this.getForm().getFields().each(function(f){
+			//console.log(f.name);
+    		 if(!f.validate()){
+    		 	var p = f.up();
+    		 	console.log(p);
+    			 console.log('invalid at : '+f.name);
+    		 }
+    	 });
+*/
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
