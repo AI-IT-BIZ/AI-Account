@@ -69,7 +69,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			}]
 		},{
 			id : 'RowNumber',
-			header : "No.",
+			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
 			align : 'center',
@@ -78,11 +78,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
+		{text: "Material Code",
+		width: 110,
+		dataIndex: 'matnr',
+		sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
-				allowBlank : false,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
@@ -90,7 +92,10 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-		    {text: "Description", width: 200, dataIndex: 'maktx', sortable: false,
+		    {text: "Description",
+		    width: 220,
+		    dataIndex: 'maktx',
+		    sortable: false,
 		    field: {
 				type: 'textfield'
 			},
@@ -118,7 +123,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
-			width: 120,
+			width: 100,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -170,7 +175,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 100,
+			width: 70,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
@@ -260,7 +265,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
+		rec = { id:newId, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

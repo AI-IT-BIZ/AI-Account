@@ -39,6 +39,10 @@ class Quotation extends CI_Controller {
 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
+			// unset calculated value
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
+
 
 			echo json_encode(array(
 				'success'=>true,
@@ -106,7 +110,7 @@ class Quotation extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'lidat' => $this->input->post('lidat'),
+			'terms' => $this->input->post('terms'),
 			'kunnr' => $this->input->post('kunnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
@@ -136,10 +140,10 @@ class Quotation extends CI_Controller {
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('vbelp', $id);
+		$this->db->where('vbeln', $id);
 		$this->db->delete('vbap');
 
-		// เตรียมข้อมูล pr item
+		// เตรียมข้อมูล  qt item
 		$vbap = $this->input->post('vbap');//$this->input->post('vbelp');
 		$qt_item_array = json_decode($vbap);
 		if(!empty($vbap) && !empty($qt_item_array)){
@@ -160,26 +164,26 @@ class Quotation extends CI_Controller {
 			}
 		}
 
-		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('paypr', $id);
+		// ลบ pay_item ภายใต้ id ทั้งหมด
+		$this->db->where('vbeln', $id);
 		$this->db->delete('payp');
 
-		// เตรียมข้อมูล pr item
-		$vbap = $this->input->post('payp');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($vbap);
-		if(!empty($vbap) && !empty($qt_item_array)){
-			$qt_item_array = json_decode($vbap);
+		// เตรียมข้อมูล pay item
+		$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		$pp_item_array = json_decode($payp);
+		if(!empty($payp) && !empty($pp_item_array)){
 
-			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-			foreach($qt_item_array AS $p){
+			$item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($pp_item_array AS $p){
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,
-					'paypr'=>$p->paypr,
+					'paypr'=>++$item_index,
 					'sgtxt'=>$p->sgtxt,
 					'duedt'=>$p->duedt,
 					'perct'=>$p->perct,
 					'pramt'=>$p->pramt,
-					'ctype'=>$p->ctype
+					'ctyp1'=>$p->ctyp1
 				));
 			}
 		}
@@ -320,8 +324,8 @@ class Quotation extends CI_Controller {
 
 	function loads_pay_item(){
         //$this->db->set_dbprefix('v_');
-		$qt_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $qt_id);
+		$pp_id = $this->input->get('vbeln');
+		$this->db->where('vbeln', $pp_id);
 
 		$query = $this->db->get('payp');
 		echo json_encode(array(
@@ -330,41 +334,5 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-
-	/*
-	function loads_item(){
-		$tbName = 'vbap';
-		//$tbName2 = 'jobp';
-
-		//function createQuery($_this){
-		//	$query = $_this->input->post('query');
-		//	if(isset($query) && strlen($query)>0){
-		//		$_this->db->or_like('code', $query);
-		//	}
-		//}
-
-		createQuery($this);
-		$this->db->select('id');
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}*/
 
 }

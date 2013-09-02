@@ -58,13 +58,13 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Status',
 			name : 'statu',
 			labelWidth: 100,
-			//width: 300,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			disabled: true,
+			//margin: '0 0 0 40',
+			//disabled: true,
 			clearFilterOnReset: true,
-			emptyText: '-- Please select Status --',
+			emptyText: '-- Please Status --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -84,8 +84,8 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu',
-			value: '01'
+			valueField: 'statu'//,
+			//value: '01'
 		});
 		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
@@ -176,14 +176,16 @@ Ext.define('Account.Project.Item.Form', {
         layout: 'hbox',
         margin: '0 0 5 0',
      items: [{
-			xtype: 'textfield',
+			xtype: 'displayfield',
 			fieldLabel: 'Project No',
 			name: 'jobnr',
+			width: 248,
 			anchor:'100%',
 			labelWidth: 100,
 			value:'PJXXXX-XXXX',
 			readOnly: true,
-			disabled: true
+			labelStyle: 'font-weight:bold'
+			//disabled: true
 			//allowBlank: false
 		},this.comboJStatus]
 	   },{
@@ -302,6 +304,8 @@ Ext.define('Account.Project.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							var _addr = r.data.adr01;
+						  if(!Ext.isEmpty(r.data.distx))
+                             _addr += ' '+r.data.distx;
                            if(!Ext.isEmpty(r.data.pstlz))
                              _addr += ' '+r.data.pstlz;
                            if(!Ext.isEmpty(r.data.telf1))
@@ -327,6 +331,8 @@ Ext.define('Account.Project.Item.Form', {
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+              _addr += ' '+record.data.distx;
             if(!Ext.isEmpty(record.data.pstlz))
               _addr += ' '+record.data.pstlz;
             if(!Ext.isEmpty(record.data.telf1))
@@ -353,9 +359,14 @@ Ext.define('Account.Project.Item.Form', {
 	
 	// load //
 	load : function(id){
+		var _this=this;
+		
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'project/load'
+			url:__site_url+'project/load'//,
+			//success: function(form, act){
+			//	_this.fireEvent('afterLoad', form, act);
+			//}			
 		});
 	},
 	
@@ -385,5 +396,12 @@ Ext.define('Account.Project.Item.Form', {
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+	reset: function(){
+		this.getForm().reset();
+
+		// default status = wait for approve
+		this.comboJStatus.setValue('01');
 	}
 });

@@ -33,19 +33,20 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'paypr'
+					idProperty: 'vbeln,paypr'
 				}
 			},
 			fields: [
+			    'vbeln',
 				'paypr',
 				'sgtxt',
 				'duedt',
 				'perct',
 				'pramt',
-				'ctype'
+				'ctyp1'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['paypr ASC']
 		});
 
 		this.columns = [{
@@ -57,49 +58,87 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete QT Payment',
 				scope: this,
-				handler: this.removeRecord
+				handler: this.removeRecord2
 			}]
-			},
-		    {text: "Period No", width: 80, dataIndex: 'paypr', sortable: true,
-		    field: {
-				type: 'textfield'
-			},
-			},
-			{text: "Period Desc.", width: 300, dataIndex: 'sgtxt', sortable: true,
+			},{
+			id : 'RowNumber2',
+			header : "Periods No.",
+			dataIndex : 'paypr',
+			width : 90,
+			align : 'center',
+			resizable : false, sortable : false,
+			renderer : function(value, metaData, record, rowIndex) {
+				return rowIndex+1;
+		}
+			},{
+			text: "Period Desc.",
+			width: 380,
+			dataIndex: 'sgtxt',
+			sortable: true,
 			field: {
 				type: 'textfield'
+			}
 			},
-			},
-		    {text: "Period Date", width: 100, dataIndex: 'duedt', sortable: true,
-		    field: {
-				type: 'datefield'
-			},
+		    {text: "Period Date",
+		    width: 100,
+		    xtype: 'datecolumn',
+		    dataIndex: 'duedt',
+		    format:'d/m/Y',
+		    sortable: true,
+		    editor: {
+                xtype: 'datefield',
+                //allowBlank: false,
+                format:'d/m/Y',
+			    altFormats:'Y-m-d|d/m/Y',
+			    submitFormat:'Y-m-d'
+                //minText: 'Cannot have a start date before the company existed!',
+                //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
+            }
 			},
 			{text: "Percent",
 			width: 100,
+			xtype: 'numbercolumn',
 			dataIndex: 'perct',
 			sortable: true,
 			align: 'right',
-			field: {
-				type: 'numberfield'
-			},
+			editor: {
+                xtype: 'numberfield',
+                //allowBlank: false,
+                minValue: 1,
+                maxValue: 150000
+            }
 			},
 			{text: "Amount",
 			width: 150,
 			dataIndex: 'pramt',
+			xtype: 'numbercolumn',
 			sortable: true,
 			align: 'right',
-			field: {
-				type: 'numberfield'
-			},
+			editor: {
+                xtype: 'numberfield',
+                allowBlank: false,
+                
+                renderer: function(v,p,r){
+					var perc = parseFloat(r.data['perct']),
+						//price = parseFloat(r.data['unitp']),
+						net = parseFloat(r.data['netwr']);
+					perc = isNaN(perc)?0:perc;
+					net = isNaN(net)?0:net;
+
+					var amt = (perc * net) / 100;
+					    amt = net - amt;
+					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+            
+            }}
 			},
 			{text: "Currency",
-			width: 100,
-			dataIndex: 'ctype',
+			width: 70,
+			dataIndex: 'ctyp1',
+			//xtype: 'textcolumn',
 			sortable: true,
 			align: 'center',
-			field: {
-				type: 'textfield'
+			editor: {
+				xtype: 'textfield'
 			},
 			}
 		];
@@ -115,18 +154,19 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 
 		// init event
 		this.addAct.setHandler(function(){
-			_this.addRecord();
+			_this.addRecord2();
 		});
 
 		return this.callParent(arguments);
 	},
+
 	load: function(options){
 		this.store.load({
 			params: options
 		});
 	},
 
-	addRecord: function(){
+	addRecord2: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -136,7 +176,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
+		rec = { id:newId, ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -148,19 +188,19 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			column: 0
 		});
 
-		this.runNumRow();
+		this.runNumRow2();
 	},
 
-	removeRecord: function(grid, rowIndex){
+	removeRecord2: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
-		this.runNumRow();
+		this.runNumRow2();
 	},
 
-	runNumRow: function(){
+	runNumRow2: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('vbelp', row_num++);
+			r.set('paypr', row_num++);
 		});
 	},
 

@@ -46,6 +46,16 @@ Ext.onReady(function() {
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
+	$om.viewport.on('click_rquotation', function(){
+		if(!$om.quotationDialog)
+			$om.quotationDialog = Ext.create('Account.rQuotation.MainWindow');
+		$om.quotationDialog.show();
+	});
+	$om.viewport.on('click_rinvoice', function(){
+		if(!$om.invoiceDialog)
+			$om.invoiceDialog = Ext.create('Account.rInvoice.MainWindow');
+		$om.invoiceDialog.show();
+	});
 //Purchase Module
 	$om.viewport.on('click_vendor', function(){
 		if(!$om.vendorDialog)

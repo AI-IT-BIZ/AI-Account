@@ -1,13 +1,17 @@
-Ext.define('Account.Invoice.MainWindow', {
+Ext.define('Account.Quotation.Item.Window', {
 	extend	: 'Ext.window.Window',
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Invoice',
+			title: 'Quotation Report',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1120,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -17,7 +21,7 @@ Ext.define('Account.Invoice.MainWindow', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -32,41 +36,47 @@ Ext.define('Account.Invoice.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-		
-		this.itemDialog = Ext.create('Account.Invoice.Item.Window');
 
-		this.grid = Ext.create('Account.Invoice.Grid', {
+        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
-		
+
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
+			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.formTotal.getForm().reset();
+			//_this.itemDialog.grid1.load({vbelp: 999});
+			//_this.itemDialog.grid2.load({paypr: 999});
 			_this.itemDialog.show();
-			
+
 			// สั่ง pr_item grid load
-			//_this.itemDialog.grid1.load({invpr: 0});
-			//_this.itemDialog.grid2.load({invpr: 0});
+			_this.itemDialog.grid1.load({vbeln: 0});
+			_this.itemDialog.grid2.load({vbeln: 0});
+
+			// default status = wait for approve
+			console.log('each store on combo');
+			var comboStatus = _this.itemDialog.form.comboQStatus;
+			comboStatus.setValue('01');
 		});
-		
+
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
-				
+
 				// สั่ง pr_item grid load
-				_this.itemDialog.gridItem.load({invpr: id});
-			    //_this.itemDialog.grid2.load({invpr: id});
+				_this.itemDialog.grid1.load({vbeln: id});
+				//_this.itemDialog.grid2.load({vbeln: id});
 			}
 		});
 
@@ -77,6 +87,7 @@ Ext.define('Account.Invoice.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();

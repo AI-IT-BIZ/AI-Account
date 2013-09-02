@@ -1,17 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Quotation extends CI_Controller {
+class Invoice extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		
 		$this->load->model('code_model','',TRUE);
 	}
-	/*
-	function test_get_code(){
-		echo $this->code_model->generate('PR', '2013-05-22');
-	}*/
 
 	function index(){
 		//$this->load->view('project');
@@ -23,22 +18,18 @@ class Quotation extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		
-		$this->db->where('vbeln', $id);
-		$query = $this->db->get('vbak');
+		$this->db->where('invnr', $id);
+		$query = $this->db->get('vbrk');
 		
 		if($query->num_rows()>0){
-			$result_data = $query->first_row('array');
-			//$result_data['id'] = $result_data['vbeln'];
+			$result = $query->first_row('array');
+			$result['id'] = $result['invnr'];
 			
-			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
-			                         $result_data['telfx'].
-									 PHP_EOL.'Email: '.$result_data['email'];
-			$result_data['adr11'] = $result_data['adr01'];
-									 
-			//$result['bldat']=substr($result['bldat'], 0, 10);
-			
+			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
+			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
+			                         $result['telfx'].
+									 PHP_EOL.'Email: '.$result['email'];
+			$result['adr11'] = $result['adr01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -52,42 +43,7 @@ class Quotation extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbak';
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-	
-	function loads_pp(){
-		$tbName = 'payp';
+		$tbName = 'vbrk';
 		//$tbName2 = 'jobp';
 /*
 		function createQuery($_this){
@@ -126,22 +82,21 @@ class Quotation extends CI_Controller {
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('vbeln', $id);
-			$query = $this->db->get('vbak');
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('vbrk');
 		}
 
 		$formData = array(
-			//'vbeln' => $this->input->post('vbeln'),
+		    //'invnr' => $this->input->post('invnr'),
+			'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'jobnr' => $this->input->post('jobnr'),
-			'auart' => $this->input->post('auart'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'lidat' => $this->input->post('lidat'),
+			'terms' => $this->input->post('terms'),
 			'kunnr' => $this->input->post('kunnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
@@ -149,40 +104,48 @@ class Quotation extends CI_Controller {
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg')
+			'exchg' => $this->input->post('exchg'),
+			'duedt' => $this->input->post('duedt'),
+			'vbeln' => $this->input->post('vbeln'),
+			'paypr' => $this->input->post('paypr'),
+			//'belnr' => $this->input->post('belnr'),
+			'condi' => $this->input->post('condi')
 		);
 		
 		// start transaction
 		$this->db->trans_start();  
 		
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('vbeln', $id);
+			$this->db->where('invnr', $id);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
-			$this->db->update('vbak', $formData);
+			$this->db->update('vbrk', $formData);
 		}else{
-			$id = $this->code_model->generate('QT', $this->input->post('bldat'));
-			$this->db->set('vbeln', $id);
+			$id = $this->code_model->generate('IV', 
+			$this->input->post('bldat'));
+			$this->db->set('invnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
-			$this->db->insert('vbak', $formData);
+			$this->db->insert('vbrk', $formData);
 			
 			//$id = $this->db->insert_id();
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('vbelp', $id);
-		$this->db->delete('vbap');
+		$this->db->where('invnr', $id);
+		$this->db->delete('vbrp');
 
 		// เตรียมข้อมูล pr item
-		$vbap = $this->input->post('vbap');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($vbap);
+		$vbrp = $this->input->post('vbrp');
+		$iv_item_array = json_decode($vbrp);
 		
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($qt_item_array AS $p){
-			$this->db->insert('vbap', array(
-				'vbeln'=>$id,
-				'vbelp'=>$p->vbelp,
+		if(!empty($vbrp) && !empty($iv_item_array)){
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			$item_index = 0;
+		foreach($iv_item_array AS $p){
+			$this->db->insert('vbrp', array(
+				'invnr'=>$id,
+				'vbelp'=>++$item_index,
 				'matnr'=>$p->matnr,
 				'menge'=>$p->menge,
 				'meins'=>$p->meins,
@@ -191,27 +154,7 @@ class Quotation extends CI_Controller {
 				'itamt'=>$p->itamt,
 				'ctype'=>$p->ctype
 			));
-		}
-		
-		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('paypr', $id);
-		$this->db->delete('payp');
-
-		// เตรียมข้อมูล pr item
-		$vbap = $this->input->post('payp');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($vbap);
-		
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($qt_item_array AS $p){
-			$this->db->insert('payp', array(
-				'vbeln'=>$id,
-				'paypr'=>$p->paypr,
-				'sgtxt'=>$p->sgtxt,
-				'duedt'=>$p->duedt,
-				'perct'=>$p->perct,
-				'pramt'=>$p->pramt,
-				'ctype'=>$p->ctype
-			));
+	    	}
 		}
 
 		// end transaction
@@ -228,16 +171,16 @@ class Quotation extends CI_Controller {
 			));
 	}
 
-    public function loads_scombo(){
-		$tbName = 'psal';
-		$tbPK = 'salnr';
-
+    public function loads_condcombo(){
+		$tbName = 'cond';
+		$tbPK = 'condi';
+        
 		$query = $this->input->post('query');
 
 		$totalCount = $this->db->count_all_results($tbName);
 
 		if(!empty($query) && $query!=''){
-			$this->db->or_like('name1', $query);
+			$this->db->or_like('contx', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 
@@ -250,18 +193,67 @@ class Quotation extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
-	public function loads_acombo(){
+
+    public function loads_acombo(){
 		$tbName = 'apov';
 		$tbPK = 'statu';
+		
+        //$this->db->where('apgrp', '2');
+		//$query = $this->db->get('apov');
+		
+		$query = $this->input->post('query');
+		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('statx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+		//$query = $this->db->get('apov');
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
+   public function loads_percombo(){
+		$tbName = 'payp';
+		$tbPK = 'vbeln';
 
 		$query = $this->input->post('query');
 
 		$totalCount = $this->db->count_all_results($tbName);
 
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('sgtxt', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
+    public function loads_scombo(){
+		$tbName = 'psal';
+		$tbPK = 'salnr';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
 
 		if(!empty($query) && $query!=''){
-			$this->db->or_like('statx', $query);
+			$this->db->or_like('name1', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 
@@ -323,8 +315,8 @@ class Quotation extends CI_Controller {
 
 	function remove(){
 		$id = $this->input->post('id');
-		$this->db->where('vbeln', $id);
-		$query = $this->db->delete('vbak');
+		$this->db->where('invnr', $id);
+		$query = $this->db->delete('vbrk');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
@@ -335,12 +327,12 @@ class Quotation extends CI_Controller {
 	// Quotation ITEM
 	///////////////////////////////////////////////
 
-	function loads_qt_item(){
+	function loads_iv_item(){
         $this->db->set_dbprefix('v_');
-		$qt_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $qt_id);
+		$iv_id = $this->input->get('invnr');
+		$this->db->where('invnr', $iv_id);
 
-		$query = $this->db->get('vbap');
+		$query = $this->db->get('vbrp');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -348,12 +340,12 @@ class Quotation extends CI_Controller {
 		));
 	}
 	
-	function loads_pay_item(){
-        //$this->db->set_dbprefix('v_');
-		$qt_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $qt_id);
+	function loads_gl_item(){
+        $this->db->set_dbprefix('v_');
+		$iv_id = $this->input->get('belnr');
+		$this->db->where('belnr', $iv_id);
 
-		$query = $this->db->get('payp');
+		$query = $this->db->get('bsid');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -361,40 +353,5 @@ class Quotation extends CI_Controller {
 		));
 	}
 	
-	/*
-	function loads_item(){
-		$tbName = 'vbap';
-		//$tbName2 = 'jobp';
-
-		//function createQuery($_this){
-		//	$query = $_this->input->post('query');
-		//	if(isset($query) && strlen($query)>0){
-		//		$_this->db->or_like('code', $query);
-		//	}
-		//}
-
-		createQuery($this);
-		$this->db->select('id');
-		//$totalCount1 = $this->db->count_all_results($tbName1);
-		$totalCount = $this->db->count_all_results($tbName);
-
-//		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}*/
 
 }

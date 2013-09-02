@@ -32,6 +32,7 @@ Ext.define('Account.Project.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
 		
@@ -47,11 +48,8 @@ Ext.define('Account.Project.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.getForm().reset();
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
-			
-			// สั่ง pr_item grid load
-			//_this.itemDialog.grid.load({jobnr: 0});
 		});
 		
 		this.editAct.setHandler(function(){

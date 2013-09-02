@@ -3,7 +3,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		var _this=this;
 
@@ -15,7 +15,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		
+
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
@@ -25,11 +25,11 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Invoice/loads_it",
+				url: __site_url+"invoice/loads_iv_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -60,7 +60,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete QT Item',
+				tooltip: 'Delete Invoice Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
@@ -75,7 +75,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Material Code", width: 120, dataIndex: 'matnr', sortable: false,
+		{text: "Material Code",
+		width: 120,
+		dataIndex: 'matnr',
+		sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -87,7 +90,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			},
-		    {text: "Description", width: 200, dataIndex: 'maktx', sortable: false,
+		    {text: "Description",
+		    width: 210,
+		    dataIndex: 'maktx',
+		    sortable: false,
 		    field: {
 				type: 'textfield'
 			},
@@ -109,7 +115,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit",
+			width: 50,
+			dataIndex: 'meins',
+			sortable: false,
 			field: {
 				type: 'textfield'
 			},
@@ -167,7 +176,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 100,
+			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
@@ -175,7 +184,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				type: 'textfield'
 			},
 		}];
-		
+
 		this.plugins = [this.editing];
 
 		// init event
@@ -240,13 +249,13 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
 		this.store.load({
 			params: options
 		});
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -257,7 +266,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, paypr:'', sgtxt:'', duedt:'', ctype:'THB' };
+		rec = { id:newId, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
