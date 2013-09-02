@@ -1,4 +1,4 @@
-Ext.define('Account.Quotation.Grid', {
+Ext.define('Account.RQuotation.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);

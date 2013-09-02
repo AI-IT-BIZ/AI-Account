@@ -27,7 +27,7 @@ Ext.define('Account.RQuotation.Form', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
 			labelAlign: 'right',
-			//labelWidth: 95,
+			//labelWidth: 90,
 			width: 240,
 			editable: false,
 			allowBlank : false,
@@ -94,35 +94,32 @@ Ext.define('Account.RQuotation.Form', {
 		
 		this.trigProject = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr',
+			labelWidth: 90,
 			fieldLabel: 'Project Code',
 			triggerCls: 'x-form-search-trigger',
-			
-			enableKeyEvents: true,
-			allowBlank : true
+			labelWidth: 90,
+			enableKeyEvents: true
 		});
 		
 		this.trigProject2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr2',
-			//fieldLabel: 'Project Code',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : true
+			enableKeyEvents: true
 		});
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : true
+			labelWidth: 90,
+			enableKeyEvents: true
 		});
 		
 		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			//fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : true
+			enableKeyEvents: true
 		});
 
 		this.items = [{
@@ -134,7 +131,13 @@ Ext.define('Account.RQuotation.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
-		},this.trigProject,this.trigProject2]
+		},this.trigProject,
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigProject2]
 // Customer Code
 		},{
           xtype: 'container',
@@ -143,7 +146,15 @@ Ext.define('Account.RQuotation.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
-		},this.trigCustomer,this.trigCustomer2]  
+		},this.trigCustomer,
+		
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigCustomer2]  
+		//},{
 	    /*},{
           xtype: 'container',
                 layout: 'hbox',

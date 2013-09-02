@@ -47,14 +47,14 @@ Ext.onReady(function() {
 		$om.invoiceDialog.show();
 	});
 	$om.viewport.on('click_rquotation', function(){
-		if(!$om.quotationDialog)
-			$om.quotationDialog = Ext.create('Account.rQuotation.MainWindow');
-		$om.quotationDialog.show();
+		if(!$om.rquotationDialog)
+			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
+		$om.rquotationDialog.show();
 	});
 	$om.viewport.on('click_rinvoice', function(){
-		if(!$om.invoiceDialog)
-			$om.invoiceDialog = Ext.create('Account.rInvoice.MainWindow');
-		$om.invoiceDialog.show();
+		if(!$om.rinvoiceDialog)
+			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
+		$om.rinvoiceDialog.show();
 	});
 //Purchase Module
 	$om.viewport.on('click_vendor', function(){

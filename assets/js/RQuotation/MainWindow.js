@@ -8,10 +8,10 @@ Ext.define('Account.RQuotation.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation Report',
+			title: 'Quotation Selection',
 			closeAction: 'hide',
-			height: 650,
-			width: 950,
+			height: 350,
+			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
 			resizable: true,
@@ -23,7 +23,7 @@ Ext.define('Account.RQuotation.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+		//this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
 
 		this.form = Ext.create('Account.RQuotation.Form',{ region:'center' });
 
@@ -37,8 +37,8 @@ Ext.define('Account.RQuotation.MainWindow', {
 				//var rs = _this.grid1.getData();
 				//_this.form.hdnQtItem.setValue(Ext.encode(rs));
 
-				_this.itemDialog.form.getForm().reset();
-			    _this.itemDialog.formTotal.getForm().reset();
+				//_this.itemDialog.form.getForm().reset();
+			    //_this.itemDialog.formTotal.getForm().reset();
 			    _this.itemDialog.show();
 			}
 		}, {
