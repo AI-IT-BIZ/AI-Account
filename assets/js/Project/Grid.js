@@ -23,6 +23,7 @@ Ext.define('Account.Project.Grid', {
 				
 				'bldat',
 				'statx',
+				'salnr',
 				'sname',
 				'stdat',
 				'endat',
@@ -39,7 +40,12 @@ Ext.define('Account.Project.Grid', {
 			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Project Date", width: 90, dataIndex: 'bldat', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "Project Owner", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "",
+			 xtype: 'hidden',
+			width: 0, 
+			dataIndex: 'salnr', 
+			sortable: true},
+			{text: "Sale Person", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Start Date", width: 80, dataIndex: 'stdat', sortable: true},
 			{text: "End Date", width: 80, dataIndex: 'endat', sortable: true},
 			{text: "Long-term", width: 80, dataIndex: 'datam', sortable: true}

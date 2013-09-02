@@ -532,6 +532,7 @@ COMMENT = 'PO Item';
 Create table tbl_ktyp (
 	ktype Varchar(4) NOT NULL COMMENT 'Customer type',
 	custx Varchar(40) COMMENT 'Customer Type Desc',
+	saknr Varchar(10) COMMENT 'GL no',
  Primary Key (ktype)) ENGINE = InnoDB
 COMMENT = 'Customer Type';
 
@@ -863,7 +864,7 @@ on a.saknr = b.saknr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
-
+
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
 INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname,tcode) 
@@ -916,6 +917,8 @@ INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Orde
 INSERT INTO tbl_mwar (warnr, watxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
 
 INSERT INTO tbl_mtyp (mtart, matxt) VALUES ('EX', 'Expense'),('IN', 'Income');
+
+INSERT INTO tbl_ktyp (ktype, custx, saknr) VALUES ('01', 'Regular Customer', '410000'),('02', 'Temporary Customer', '411000');
 
 INSERT INTO tbl_mgrp (matkl, matxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
 

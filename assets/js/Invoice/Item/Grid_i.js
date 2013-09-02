@@ -82,7 +82,6 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
-				allowBlank : false,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();

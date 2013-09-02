@@ -101,35 +101,37 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			dataIndex: 'perct',
 			sortable: true,
 			align: 'right',
-			editor: {
-                xtype: 'numberfield',
-                //allowBlank: false,
-                minValue: 1,
-                maxValue: 150000
-            }
+			field: {
+                type: 'numberfield',
+                decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						console.log(v);
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}
+			},
 			},
 			{text: "Amount",
 			width: 150,
 			dataIndex: 'pramt',
-			xtype: 'numbercolumn',
-			sortable: true,
+			//xtype: 'numbercolumn',
+			//sortable: true,
 			align: 'right',
-			editor: {
-                xtype: 'numberfield',
-                allowBlank: false,
-                
-                renderer: function(v,p,r){
+			renderer: function(v,p,r){
 					var perc = parseFloat(r.data['perct']),
 						//price = parseFloat(r.data['unitp']),
 						net = parseFloat(r.data['netwr']);
+					console.log(net);	
 					perc = isNaN(perc)?0:perc;
 					net = isNaN(net)?0:net;
-
+					
 					var amt = (perc * net) / 100;
 					    amt = net - amt;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-            
-            }}
+				}
 			},
 			{text: "Currency",
 			width: 70,
@@ -142,13 +144,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			},
 			}
 		];
-
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};
 
 		this.plugins = [this.editing];
 
