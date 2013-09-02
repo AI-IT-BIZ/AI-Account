@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		2/9/2013
+Modified		3/9/2013
 Project		
 Model		
 Company		
@@ -165,6 +165,8 @@ Create table tbl_ebko (
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
 	crdit Int COMMENT 'Credit terms',
+	refnr Varchar(40) COMMENT 'Referance',
+	taxnr Varchar(4) COMMENT 'Tax type',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Header Doc';
 
@@ -515,6 +517,8 @@ Create table tbl_ekko (
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	purnr Varchar(20) COMMENT 'Purchase Order (tbl_ebko)',
 	crdit Int COMMENT 'Credit terms',
+	refnr Varchar(40) COMMENT 'Referance',
+	taxnr Varchar(4) COMMENT 'Tax type',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 

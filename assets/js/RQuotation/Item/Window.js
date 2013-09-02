@@ -26,7 +26,7 @@ Ext.define('Account.RQuotation.Item.Window', {
 		var _this=this;
 
 		// --- object ---
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -37,10 +37,10 @@ Ext.define('Account.RQuotation.Item.Window', {
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus'
-		});
+		});*/
 
-        this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RQuotation.Grid', {
+       // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+		this.grid = Ext.create('Account.RQuotation.Item.Grid', {
 			region:'center',
 			border: false
 		});

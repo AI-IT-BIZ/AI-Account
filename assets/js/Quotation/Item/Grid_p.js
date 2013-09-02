@@ -123,7 +123,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				var net = _this.netValue;
 				if(net<=0)
 					return 0;
-
+                //net = isNaN(net)?0:net;
 				var perc = parseFloat(r.data['perct']);
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
@@ -170,7 +170,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctyp1:'THB' };
+		rec = { id:newId, pramt:0, ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

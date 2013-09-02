@@ -26,14 +26,49 @@ Ext.define('Account.RQuotation.Form', {
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
-			labelAlign: 'right',
-			//labelWidth: 90,
-			width: 240,
+			//labelAlign: 'right',
+			labelWidth: 90,
+			//width: 240,
 			editable: false,
-			allowBlank : false,
 			triggerAction : 'all',
 			//disabled: true,
-			margin: '0 0 0 -17',
+			//margin: '0 0 0 -17',
+			//allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
+		
+		this.comboQStatus2 = Ext.create('Ext.form.ComboBox', {
+			//fieldLabel: 'QT Status',
+			name : 'statu',
+			//labelAlign: 'right',
+			//labelWidth: 90,
+			//width: 240,
+			editable: false,
+			triggerAction : 'all',
+			//disabled: true,
+			//margin: '0 0 0 -17',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -63,8 +98,40 @@ Ext.define('Account.RQuotation.Form', {
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
 			name : 'salnr',
-			//labelWidth: 95,
-			width: 350,
+			labelWidth: 90,
+			//width: 350,
+			editable: false,
+			//allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please select Saleperson --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_scombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'salnr'
+					}
+				},
+				fields: [
+					'salnr',
+					'name1'
+				],
+				remoteSort: true,
+				sorters: 'salnr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'name1',
+			valueField: 'salnr'
+		});
+		
+		this.comboPSale2 = Ext.create('Ext.form.ComboBox', {
+			//fieldLabel: 'Saleperson',
+			name : 'salnr',
+			//labelWidth: 90,
+			//width: 350,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -97,7 +164,6 @@ Ext.define('Account.RQuotation.Form', {
 			labelWidth: 90,
 			fieldLabel: 'Project Code',
 			triggerCls: 'x-form-search-trigger',
-			labelWidth: 90,
 			enableKeyEvents: true
 		});
 		
@@ -125,13 +191,41 @@ Ext.define('Account.RQuotation.Form', {
 		this.items = [{
 
 // Project Code
-     	xtype: 'container',
+        xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[{
-			xtype: 'hidden',
-			name: 'id'
-		},this.trigProject,
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat1',
+			labelWidth: 90,
+			//anchor:'80%',
+			//labelAlign: 'right',
+		    //width:140,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			},{
+			xtype: 'displayfield',
+		    value: 'To',
+		    width:40,
+		    margins: '0 0 0 25'
+		   },{
+			xtype: 'datefield',
+			//fieldLabel: 'Date',
+			name: 'bldat2',
+			//anchor:'80%',
+			//labelAlign: 'right',
+		    //width:140,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			}]
+	    },{
+     	xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigProject,
 		{xtype: 'displayfield',
 		  value: 'To',
 		  width:40,
@@ -154,23 +248,31 @@ Ext.define('Account.RQuotation.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigCustomer2]  
-		//},{
-	    /*},{
+		},{
+			
           xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[{
-			xtype: 'hidden',
-			name: 'id'
-		},this.comboPSale,this.comboPSale2]  
+     items :[this.comboPSale,
+		{
+			xtype: 'displayfield',
+		    value: 'To',
+		    width:40,
+		    margins: '0 0 0 25'
+		  },
+		this.comboPSale2]  
 		},{
-     items :[{
-			xtype: 'hidden',
-			name: 'id'
-		},this.comboQStatus,this.comboQStatus2]    */
-         //}]
-
-		//}]
+			xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.comboQStatus,
+		{
+			xtype: 'displayfield',
+		    value: 'To',
+		    width:40,
+		    margins: '0 0 0 25'
+		  },
+		this.comboQStatus2]    
 		}];
 
 		// event trigCustomer///

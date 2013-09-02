@@ -10,7 +10,7 @@ Ext.define('Account.RQuotation.MainWindow', {
 		Ext.apply(this, {
 			title: 'Quotation Selection',
 			closeAction: 'hide',
-			height: 350,
+			height: 220,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
@@ -23,7 +23,7 @@ Ext.define('Account.RQuotation.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		//this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+		this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
 
 		this.form = Ext.create('Account.RQuotation.Form',{ region:'center' });
 
