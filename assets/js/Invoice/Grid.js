@@ -3,12 +3,12 @@ Ext.define('Account.Invoice.Grid', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Invoice/loads",
+				url: __site_url+"invoice/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
