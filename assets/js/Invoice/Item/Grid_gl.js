@@ -3,12 +3,12 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"Invoice/loads_gl_item",
+				url: __site_url+"invoice/loads_gl_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -43,7 +43,7 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 		    {text: "Debit", width: 150, dataIndex: 'bldat', sortable: true},
 			{text: "Credit", width: 150, dataIndex: 'saknr', sortable: true}
 		];
-		
+
 		return this.callParent(arguments);
 	},
 	load: function(options){
