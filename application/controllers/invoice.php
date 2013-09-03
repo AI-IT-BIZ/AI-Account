@@ -107,7 +107,7 @@ class Invoice extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
 			'vbeln' => $this->input->post('vbeln'),
-			'paypr' => $this->input->post('paypr'),
+			//'paypr' => $this->input->post('paypr'),
 			//'belnr' => $this->input->post('belnr'),
 			'condi' => $this->input->post('condi')
 		);

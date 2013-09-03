@@ -273,7 +273,73 @@ Ext.define('Account.RQuotation.Form', {
 		    margins: '0 0 0 25'
 		  },
 		this.comboQStatus2]    
-		}];
+		}
+////////////////////////////////////////////////		
+		,{
+			items: [{
+            xtype: 'container',
+           // anchor: '100%',
+            border: false,
+            layout: 'hbox',
+            items:[{
+                xtype: 'container',
+                layout: 'anchor',
+     items :[{
+			xtype: 'container',
+            layout: 'hbox',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [{
+            xtype: 'textfield',
+			fieldLabel: 'Exchg.Rate',
+			name: 'exchg',
+			labelAlign: 'right',
+			width:240,
+			align: 'right',
+			margin: '0 0 0 -35'
+         },{
+   	        xtype: 'displayfield',
+			align: 'right',
+			margin: '0 0 0 5',
+			width:15,
+			value: 'THB/USD'
+		}]
+		},{
+			xtype: 'textarea',
+			fieldLabel: 'Unit 2',
+			labelAlign: 'right',
+			margin: '5 0 0 -35',
+			rows:2,
+			width:240,
+			name: 'unit1'//,
+			//anchor:'90%'
+		}]
+            },{
+                xtype: 'container',
+                layout: 'anchor',
+                margins: '0 0 0 50',
+        items: [{
+			xtype: 'container',
+            layout: 'hbox',
+            //margin: '5 0 5 600',
+			items: [this.txtDiscount,this.txtDiscountValue]
+		},{
+			xtype: 'numberfield',
+			fieldLabel: 'Cost 2',
+			name: 'cost2'//,
+			//anchor:'100%',
+			//labelWidth: 90
+		},{
+			xtype: 'numberfield',
+			fieldLabel: 'Cost 3',
+			name: 'cost3'//,
+			//anchor:'100%',
+			//labelWidth: 90
+		}]
+		}]
+		}]
+		}
+		];
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
@@ -358,30 +424,4 @@ Ext.define('Account.RQuotation.Form', {
 		});
 	},
 
-	save : function(){
-		var _this=this;
-		var _form_basic = this.getForm();
-		if (_form_basic.isValid()) {
-			_form_basic.submit({
-				success: function(form_basic, action) {
-					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
-				},
-				failure: function(form_basic, action) {
-					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-				}
-			});
-		}
-	},
-
-	remove : function(id){
-		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
-			}
-		});
-	}
-});
+	});

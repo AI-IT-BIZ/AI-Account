@@ -202,55 +202,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-
-// Partial Payment Period	
-		this.comboPeriod = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Partial Payment',
-			name : 'paypr',
-			width: 240,
-			valueField: 'paypr',
-			labelAlign: 'left',
-			//editable: false,
-			allowBlank : true,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Select Period --',
-			//listeners:{
-           //scope: yourScope,
-           //'select': yourFunction
-           // },
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'invoice/loads_percombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'paypr'
-					}
-				},
-				fields: [
-					'paypr',
-					'sgtxt'
-				],
-				remoteSort: true,
-				sorters: 'paypr ASC'
-			}),
-			queryMode: 'remote',
-			//displayField: 'paypr',
-			tpl: Ext.create('Ext.XTemplate',
-            '<tpl for=".">',
-                '<div class="x-boundlist-item">{paypr} - {sgtxt}</div>',
-            '</tpl>'
-            ),
-            // template for the content inside text field
-            displayTpl: Ext.create('Ext.XTemplate',
-            '<tpl for=".">',
-               '{paypr} - {sgtxt}',
-            '</tpl>'
-            )
-	  		
-		});
 		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbrp'
@@ -329,34 +280,7 @@ Ext.define('Account.Invoice.Item.Form', {
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 		}]
-		},{
-// Partial Payment
-     	xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.comboPeriod,{
-			xtype: 'displayfield',
-			//xtype: 'textfield',
-            //fieldLabel: 'jobtx',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
-			name: 'sgtxt',
-			width:350,
-			margins: '0 0 0 6',
-            //emptyText: 'Customer',
-            allowBlank: true
-		},{
-			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-		}]
+
 // Customer Code
 		},{
                 xtype: 'container',
@@ -375,16 +299,15 @@ Ext.define('Account.Invoice.Item.Form', {
             allowBlank: true
 		},{
 			xtype: 'datefield',
-			fieldLabel: 'Due Date',
-			name: 'duedt',
+			fieldLabel: 'Date',
+			name: 'bldat',
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
-			//readOnly: true,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'//,
-			//allowBlank: false
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 // Address Bill&Ship
 		},{
@@ -399,8 +322,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			anchor:'90%',
 			width:350,
 			rows:2,
-			labelAlign: 'top',
-			allowBlank: true
+			labelAlign: 'top'
 		},{
             xtype: 'textarea',
 			fieldLabel: 'Ship To',
@@ -410,8 +332,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			rows:2,
 			labelAlign: 'right',
 			labelAlign: 'top',
-			margin: '0 0 0 130',
-			allowBlank: true
+			margin: '0 0 0 130'
          }]
 // Sale Person         
          },{
@@ -423,22 +344,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			xtype: 'numberfield',
 			fieldLabel: 'Terms',
 			name: 'terms',
-			//anchor:'80%',
 			labelAlign: 'right',
 			width:200,
-			margin: '0 0 0 25',
-			allowBlank: true
+			margin: '0 0 0 25'
 		},{
 			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			//align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
 			margin: '0 0 0 5',
 			width:10,
-			value: 'Days',
-			allowBlank: true
+			value: 'Days'
 		},this.comboTax]
 // Tax&Ref no.
          },{
@@ -446,33 +359,33 @@ Ext.define('Account.Invoice.Item.Form', {
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.comboPay,{
-            xtype: 'textfield',
-			fieldLabel: 'Reference No',
-			name: 'refnr',
-			//anchor:'90%',
-			width:240,
+   items: [this.comboPay,
+          {
+			xtype: 'datefield',
+			fieldLabel: 'Due Date',
+			name: 'duedt',
 			labelAlign: 'right',
+			width:240,
 			margin: '0 0 0 25',
-			//width:450,
-			allowBlank: true
-         },this.comboQStatus
+			readOnly: true,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+		},this.comboQStatus
          ]
          },{
          xtype: 'container',
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.comboCond,{
-            xtype: 'displayfield',
-			//fieldLabel: 'Reference No',
-			//name: 'refnr',
-			//anchor:'90%',
-			width:240,
+   items: [this.comboCond,
+          {
+            xtype: 'textfield',
+			fieldLabel: 'Reference No',
+			name: 'refnr',
+			width:460,
 			labelAlign: 'right',
-			margin: '0 0 0 25',
-			//width:450,
-			allowBlank: true
+			margin: '0 0 0 25'
          }
          ]
        }]
@@ -485,7 +398,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			region:'south',
 			activeTab: 0,
 			height:170,
-			//border: false,
 			items: [
 				this.formTotal,
 				this.gridGL
