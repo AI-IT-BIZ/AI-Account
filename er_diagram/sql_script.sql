@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		2/9/2013
+Modified		3/9/2013
 Project		
 Model		
 Company		
@@ -165,6 +165,8 @@ Create table tbl_ebko (
 	netwr Decimal(17,2) COMMENT 'Net Amt',
 	reanr Varchar(4) COMMENT 'Reject Reason no. (tbl_reson->type->02)',
 	crdit Int COMMENT 'Credit terms',
+	refnr Varchar(40) COMMENT 'Referance',
+	taxnr Varchar(4) COMMENT 'Tax type',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Header Doc';
 
@@ -493,6 +495,9 @@ Create table tbl_ebpo (
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Item';
 
@@ -515,6 +520,8 @@ Create table tbl_ekko (
 	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
 	purnr Varchar(20) COMMENT 'Purchase Order (tbl_ebko)',
 	crdit Int COMMENT 'Credit terms',
+	refnr Varchar(40) COMMENT 'Referance',
+	taxnr Varchar(4) COMMENT 'Tax type',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -526,6 +533,9 @@ Create table tbl_ekpo (
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Item';
 
@@ -562,6 +572,7 @@ COMMENT = 'Comission Level';
 Create table tbl_ptyp (
 	ptype Varchar(4) NOT NULL COMMENT 'Pay type',
 	paytx Varchar(40) COMMENT 'Pay Type Desc',
+	saknr Varchar(10) COMMENT 'gl no',
  Primary Key (ptype)) ENGINE = InnoDB
 COMMENT = 'Payment Method';
 
@@ -886,31 +897,39 @@ INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),(
 
 INSERT INTO tbl_gjou (jounr, joutx) VALUES ('01', 'General'),('02', 'Pay'),('03', 'Receive'),('04', 'Sale'),('05', 'Buy');
 
-INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gltyp,under) 
-        VALUES ('100000','Asset','2013/07/02','ASD','1','1','1'),
-               ('110000','Current Asset','2013/07/02','ASD','1','1','100000'),
-               ('111000','Cash&Bank','2013/07/02','ASD','1','1','110000'),
-               ('111100','Cash','2013/07/02','ASD','1','2','111000'),
-               ('111200','Bank','2013/07/02','ASD','1','1','111000'),
-               ('111210','Credit Card','2013/07/02','ASD','1','2','111200'),
-               ('111211','Current-BKK','2013/07/02','ASD','1','2','111200'),
-               ('111212','Current-KBank','2013/07/02','ASD','1','2','111200'),
-               ('200000','Liabibity','2013/07/02','ASD','2','1','2'),
-               ('210000','Current Liabibity','2013/07/02','ASD','2','1','200000'),
-               ('211000','A/C Payable Purchase','2013/07/02','ASD','2','1','210000'),
-               ('211001','A/C Payable Purchase','2013/07/02','ASD','2','2','211000'),
-               ('300000','Shareholders Equity','2013/07/02','ASD','3','1','3'),
-               ('310000','Share Capital','2013/07/02','ASD','3','2','300000'),
-               ('400000','Revenue','2013/07/02','ASD','4','1','4'),
-               ('410000','Revenue-Sale','2013/07/02','ASD','4','1','400000'),
-               ('411000','Sale','2013/07/02','ASD','4','2','410000'),
-               ('500000','Expense','2013/07/02','ASD','5','1','5'),
-               ('510000','Cost of Goods Sold','2013/07/02','ASD','5','1','500000'),
-               ('511000','Cost of Sale','2013/07/02','ASD','5','2','510000'),
-               ('512000','Net Purchasing','2013/07/02','ASD','5','1','511000'),
-               ('512010','Purchasing','2013/07/02','ASD','5','2','512000'),
-               ('512020','Receive Decrease','2013/07/02','ASD','5','2','512000'),
-               ('512030','Return Goods','2013/07/02','ASD','5','2','512000');
+INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under) 
+        VALUES ('100000','Asset','2013/07/02','ASD','1','1','1','1'),
+               ('110000','Current Asset','2013/07/02','ASD','1','1','1','100000'),
+               ('111000','Cash&Bank','2013/07/02','ASD','1','1','1','110000'),
+               ('111100','Cash','2013/07/02','ASD','1','2','1','111000'),
+               ('111200','Transfer to Bank','2013/07/02','ASD','1','1','1','111000'),
+               ('111210','Credit Card','2013/07/02','ASD','1','2','1','111200'),
+               ('111211','Current-BKK','2013/07/02','ASD','1','2','1','111200'),
+               ('111212','Current-KBank','2013/07/02','ASD','1','2','1','111200'),
+               ('112000','General Customer','2013/07/02','ASD','1','2','1','110000'),
+               ('113000','Cheque','2013/07/02','ASD','1','2','1','110000'),
+               ('114000','Debt will lose','2013/07/02','ASD','1','2','1','110000'),
+               ('115000','Other Customer','2013/07/02','ASD','1','2','1','110000'),
+               ('200000','Liabibity','2013/07/02','ASD','2','1','1','2'),
+               ('210000','Current Liabibity','2013/07/02','ASD','2','1','1','200000'),
+               ('211000','A/C Payable Purchase','2013/07/02','ASD','2','1','1','210000'),
+               ('211001','A/C Payable Purchase','2013/07/02','ASD','2','2','1','211000'),
+               ('300000','Shareholders Equity','2013/07/02','ASD','3','1','1','3'),
+               ('310000','Share Capital','2013/07/02','ASD','3','2','1','300000'),
+               ('400000','Revenue','2013/07/02','ASD','4','1','1','4'),
+               ('410000','Revenue-Sale','2013/07/02','ASD','4','1','1','400000'),
+               ('411000','Sale','2013/07/02','ASD','4','2','1','410000'),
+               ('420000','Revenue-Serice','2013/07/02','ASD','4','1','1','400000'),
+               ('420010','General Serice','2013/07/02','ASD','4','2','1','420000'),
+               ('420020','Cosult Serice','2013/07/02','ASD','4','2','1','420000'),
+               ('420030','Other Serice','2013/07/02','ASD','4','2','1','420000'),
+               ('500000','Expense','2013/07/02','ASD','5','1','1','5'),
+               ('510000','Cost of Goods Sold','2013/07/02','ASD','5','1','1','500000'),
+               ('511000','Cost of Sale','2013/07/02','ASD','5','2','1','510000'),
+               ('512000','Net Purchasing','2013/07/02','ASD','5','1','1','511000'),
+               ('512010','Purchasing','2013/07/02','ASD','5','2','1','512000'),
+               ('512020','Receive Decrease','2013/07/02','ASD','5','2','1','512000'),
+               ('512030','Return Goods','2013/07/02','ASD','5','2','1','512000');
                
 INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Order'),('IV', 'Invoice');
 
@@ -954,7 +973,8 @@ INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 INSERT INTO tbl_cond (condi, contx) VALUES ('01', 'After issue Invoice'),('02', 'After reciept Invoice'),
 ('03', 'After reciept Service/Goods');
 
-INSERT INTO tbl_ptyp (ptype, paytx) VALUES ('01', 'Cheque 30 days in advance'),('02', 'Cash'),('03', 'Transfer to Book Bank'),('04', 'Credit Card');
+INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Cheque 30 days in advance', '113000'),('02', 'Cash', '111100'),
+('03', 'Transfer to Book Bank', '111200'),('04', 'Credit Card', '111210');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),

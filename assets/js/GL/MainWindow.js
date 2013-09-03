@@ -1,14 +1,14 @@
-Ext.define('Account.Invoice.MainWindow', {
+Ext.define('Account.GL.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Invoice',
+			title: 'GL Management',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1120,
-			minWidth: 500,
+			width: 600,
+			minWidth: 1000,
 			resizable: true,
 			modal: true,
 			layout:'border',
@@ -17,7 +17,7 @@ Ext.define('Account.Invoice.MainWindow', {
 
 		return this.callParent(arguments);
 	},
-
+	
 	initComponent : function() {
 		var _this=this;
 
@@ -35,38 +35,32 @@ Ext.define('Account.Invoice.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-
-		this.itemDialog = Ext.create('Account.Invoice.Item.Window');
-
-		this.grid = Ext.create('Account.Invoice.Grid', {
-			region:'center',
-			border: false
-		});
-
-		this.items = [this.grid];
-
+		
 		this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
+		this.grid = Ext.create('Account.GL.Grid', {
+			region:'center'
+		});
+
+		//this.itemDialog = Ext.create('Account.GL.Item.Window');
+
+		this.items = [this.grid];
+/*
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
-
-			// สั่ง pr_item grid load
-			//_this.itemDialog.grid1.load({invpr: 0});
-			//_this.itemDialog.grid2.load({invpr: 0});
 		});
-
+		
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
-
+				
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({invpr: id});
-			    //_this.itemDialog.grid2.load({invpr: id});
+				//_this.itemDialog.grid.load({jobnr: id});
 			}
 		});
 
@@ -87,7 +81,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			_this.grid.load();
 		});
 
-
+*/
 		// --- after ---
 		this.grid.load();
 

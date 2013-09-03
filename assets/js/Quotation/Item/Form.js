@@ -592,6 +592,9 @@ Ext.define('Account.Quotation.Item.Form', {
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-		this.formTotal.calculate();
+		var net = this.formTotal.calculate();
+
+		// set value to grid payment
+		this.gridPayment.netValue = net;
 	}
 });

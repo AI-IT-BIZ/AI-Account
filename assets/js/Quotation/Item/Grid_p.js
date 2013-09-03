@@ -107,7 +107,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
-						console.log(v);
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
@@ -121,16 +120,16 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			//sortable: true,
 			align: 'right',
 			renderer: function(v,p,r){
-					var perc = parseFloat(r.data['perct']),
-						//price = parseFloat(r.data['unitp']),
-						net = parseFloat(r.data['netwr']);
-					console.log(net);	
-					perc = isNaN(perc)?0:perc;
-					net = isNaN(net)?0:net;
-					
-					var amt = (perc * net) / 100;
-					    amt = net - amt;
-					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+				var net = _this.netValue;
+				if(net<=0)
+					return 0;
+                //net = isNaN(net)?0:net;
+				var perc = parseFloat(r.data['perct']);
+				var amt = (perc * net) / 100;
+				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+/*
+					console.log(net);
+*/
 				}
 			},
 			{text: "Currency",
@@ -171,7 +170,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctyp1:'THB' };
+		rec = { id:newId, pramt:0, ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -205,5 +204,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			rs.push(r.getData());
 		});
 		return rs;
-	}
+	},
+	netValue : 0
 });
