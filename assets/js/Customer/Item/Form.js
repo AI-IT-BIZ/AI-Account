@@ -8,7 +8,7 @@ Ext.define('Account.Customer.Item.Form', {
 			//bodyPadding: 10,
 			fieldDefaults: {
             	msgTarget: 'side',
-				labelWidth: 120,
+				labelWidth: 105,
 				//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
 			}
 		});
@@ -57,8 +57,8 @@ Ext.define('Account.Customer.Item.Form', {
 							
 			fieldLabel: 'Price Level',
 			name: 'pleve',
-			width:307,
-			labelWidth: 176,
+			width:293,
+			labelWidth: 160,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -127,7 +127,7 @@ Ext.define('Account.Customer.Item.Form', {
 			fieldLabel: 'GL Account',
 			name: 'saknr',
 			width:290,
-			labelWidth: 120,
+			labelWidth: 105,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -161,7 +161,7 @@ Ext.define('Account.Customer.Item.Form', {
 			fieldLabel: 'Tax Type',
 			name: 'taxnr',
 			width:290,
-			labelWidth: 120,
+			labelWidth: 105,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -210,30 +210,31 @@ Ext.define('Account.Customer.Item.Form', {
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items: [{
+                 items :[this.comboKtype,{
+                }, {
                     xtype:'textfield',
                     fieldLabel: 'Customer Code',
                     emptyText: 'XXXXX',
                     name: 'kunnr',
+					labelAlign: 'right',
 					readOnly: true,
 					//disabled: true,
 					anchor:'95%',
 					width:200,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Customer Name',
-					name: 'name1',
-					allowBlank: false,
-					anchor:'100%',
-					width:350,
-            		margin: '0 0 0 50',
+            		margin: '0 0 0 90',
                 }]
             },{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboKtype,{
+                items :[{
+					xtype: 'textfield',
+					fieldLabel: 'Customer Name',
+					name: 'name1',
+					allowBlank: false,
+					anchor:'100%',
+					width:583,
                 }]
             },{
                 xtype: 'container',
@@ -245,8 +246,9 @@ Ext.define('Account.Customer.Item.Form', {
 					fieldLabel: 'Address',
 					name: 'adr01',
 					anchor:'95%',
+					rows:2,
 					allowBlank: true,
-					width:600,
+					width:583,
                 }]
             },{
                 xtype: 'container',
@@ -382,9 +384,10 @@ Ext.define('Account.Customer.Item.Form', {
 					xtype: 'textarea',
 					fieldLabel: 'Text Note',
 					name: 'sgtxt',
+					rows:3,
 					anchor:'95%',
 					allowBlank: true,
-					width:600,
+					width:583,
                 }]
             }]
         }]
@@ -394,12 +397,6 @@ Ext.define('Account.Customer.Item.Form', {
 
 /*(4)---Buttons-------------------------------*/
 		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				this.up('form').getForm().reset();
-				this.up('window').hide();
-			}
-		}, {
 			text: 'Save',
 			handler: function() {
 				var _form_basic = this.up('form').getForm();
@@ -414,6 +411,12 @@ Ext.define('Account.Customer.Item.Form', {
 						}
 					});
 				}
+			}
+		}, {
+			text: 'Cancel',
+			handler: function() {
+				this.up('form').getForm().reset();
+				this.up('window').hide();
 			}
 		}];
 

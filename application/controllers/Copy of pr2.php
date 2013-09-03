@@ -5,8 +5,6 @@ class Pr2 extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('code_model','',TRUE);
 	}
 
 	function index(){
@@ -82,19 +80,19 @@ class Pr2 extends CI_Controller {
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('purnr', $id);
+			$this->db->where('id', $id);
 			$query = $this->db->get('ebko');
 		}
 
 		$formData = array(
-			//'purnr' => $this->input->post('purnr'),
+			'purnr' => $this->input->post('purnr'),
 			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
 			'lfdat' => $this->input->post('lfdat'),
-			//'taxnr' => $this->input->post('taxnr'),
-			//'crdat' => $this->input->post('crdat'),
-			//'refnr' => $this->input->post('refnr'),
+			'taxnr' => $this->input->post('taxnr'),
+			'crdat' => $this->input->post('crdat'),
+			'refnr' => $this->input->post('refnr'),
 			//'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			
@@ -105,44 +103,40 @@ class Pr2 extends CI_Controller {
 		$this->db->trans_start();
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('purnr', $id);
+			$this->db->where('id', $id);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'somwang');
 			$this->db->update('ebko', $formData);
 		}else{
-			
-			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
-			$this->db->set('purnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'somwang');
 			$this->db->insert('ebko', $formData);
+
+			$id = $this->db->insert_id();
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('purnr', $id);
+		$this->db->where('pr_id', $id);
 		$this->db->delete('ebpo');
 
-		// เตรียมข้อมูล  qt item
-		$ebpo = $this->input->post('vbap');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($ebpo);
-		if(!empty($ebpo) && !empty($qt_item_array)){
-			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-			$item_index = 0;
-			foreach($qt_item_array AS $p){
-				$this->db->insert('ebpo', array(
-					'vbeln'=>$id,
-					'vbelp'=>++$item_index,//vbelp,
-					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
-					'meins'=>$p->meins,
-					'dismt'=>$p->dismt,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
-					'ctype'=>$p->ctype
-				));
-			}
+		// เตรียมข้อมูล pr item
+		$ebpo = $this->input->post('ebpo');
+		$ebpo_array = json_decode($ebpo);
+
+		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+		foreach($ebpo_array AS $p){
+			$this->db->insert('ebpo', array(
+				'pr_id'=>$id,
+				'purpo'=>$p->purpo,
+				'menge'=>$p->menge,
+				'meins'=>$p->meins,
+				'matnr'=>$p->matnr,
+				'itamt'=>$p->itamt,
+				'unitp'=>$p->unitp,
+				'dismt'=>$p->dismt
+				
+			));
 		}
-		
 
 		// end transaction
 		$this->db->trans_complete();

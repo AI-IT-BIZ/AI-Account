@@ -74,6 +74,12 @@ Ext.onReady(function() {
 			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
 		$om.pr2Dialog.show();
 	});
+	
+	$om.viewport.on('click_po', function(){
+		if(!$om.pr2Dialog)
+			$om.pr2Dialog = Ext.create('Account.PO.MainWindow');
+		$om.pr2Dialog.show();
+	});
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)
