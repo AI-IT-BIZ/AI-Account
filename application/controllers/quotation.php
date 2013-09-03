@@ -25,6 +25,47 @@ class Quotation extends CI_Controller {
 		$this->db->limit(1);
 
 		$this->db->where('vbeln', $id);
+// Start for report
+        $vbeln1 = $this->input->post('vbeln1');
+		if(!empty($vbeln1)){
+			
+		}
+// End for report		
+		$query = $this->db->get('vbak');
+
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['vbeln'];
+
+			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         $result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+			$result_data['adr11'] = $result_data['adr01'];
+
+			//$result['bldat']=substr($result['bldat'], 0, 10);
+
+			// unset calculated value
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
+
+
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+	
+	function load_report(){
+		$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+
+		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
 
 		if($query->num_rows()>0){
