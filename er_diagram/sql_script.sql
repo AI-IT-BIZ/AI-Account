@@ -495,6 +495,9 @@ Create table tbl_ebpo (
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (purnr)) ENGINE = InnoDB
 COMMENT = 'PR Item';
 
@@ -530,6 +533,9 @@ Create table tbl_ekpo (
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
 	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	ctype Varchar(3) COMMENT 'Currency',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Item';
 
