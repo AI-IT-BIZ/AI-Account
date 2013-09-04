@@ -33,29 +33,27 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"quotation/loads_qt_item",
+				url: __site_url+"pr2/loads_pr_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln,vbelp'
+					idProperty: 'purnr,purpo'
 				}
 			},
 			fields: [
-				{ name:'id', type:'int' },
+			    'purnr',
 				'purpo',
-				{ name:'pr_id', type:'int' },
-				{ name:'menge', type:'float' },
-				'meins',
-				'metxt',
 				'matnr',
 				'maktx',
-				{ name:'itamt', type:'float' },
-				{ name:'unitp', type:'decimal' },
-				{ name:'dismt', type:'decimal' },
+				'menge',
+				'meins',
+				'unitp',
+				'dismt',
+				'itamt',
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['vbelp ASC']
+			sorters: ['purpo ASC']
 		});
 
 		this.columns = [{
@@ -65,7 +63,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete QT Item',
+				tooltip: 'Delete PR Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
@@ -81,7 +79,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			}
 		},
 		{text: "Material Code",
-		width: 110,
+		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
 			field: {
@@ -95,7 +93,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			},
 		    {text: "Description",
-		    width: 220,
+		    width: 200,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    field: {
@@ -103,7 +101,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
-			width: 70,
+			width: 50,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -142,7 +140,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
-			width: 100,
+			width: 80,
 			dataIndex: 'dismt',
 			sortable: false,
 			align: 'right',
@@ -160,7 +158,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			{
 				text: "Amount",
-				width: 120,
+				width: 90,
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
@@ -177,7 +175,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 70,
+			width: 65,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',

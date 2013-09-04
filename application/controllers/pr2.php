@@ -20,19 +20,36 @@ class Pr2 extends CI_Controller {
 		//$this->db->where('purnr', $id);
 		//$query = $this->db->get('ebko');
 		
-		$sql="SELECT *,t2.lifnr
+		$sql="SELECT purnr,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
+			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr
 			FROM tbl_ebko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 			inner join tbl_apov AS t3 ON t1.statu=t3.statu
 			WHERE purnr='$id'";
 		$query = $this->db->query($sql);
 		
 		if($query->num_rows()>0){
+			/*	
 			$result = $query->first_row('array');
 			$result['bldat']=substr($result['bldat'], 0, 10);
+			*/
+			
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['purnr'];
 
+			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         $result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+
+			//$result['bldat']=substr($result['bldat'], 0, 10);
+
+			// unset calculated value
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
+			
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$result
+				'data'=>$result_data
 			));
 		}else
 			echo json_encode(array(
@@ -85,6 +102,7 @@ class Pr2 extends CI_Controller {
 	}
 
 	function save(){
+		//$id = $this->input->post('purnr');
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
@@ -172,6 +190,9 @@ class Pr2 extends CI_Controller {
 		$purnr = $this->input->post('purnr'); 
 		$this->db->where('purnr', $purnr);
 		$query = $this->db->delete('ebko');
+		
+		$this->db->where('purnr', $purnr);
+		$query = $this->db->delete('ebpo');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$purnr
@@ -184,7 +205,7 @@ class Pr2 extends CI_Controller {
 
 
 	function loads_pr_item(){
-
+		/*
 		$pr_id = $this->input->get('pr_id');
 		$this->db->where('pr_id', $pr_id);
 
@@ -196,6 +217,21 @@ class Pr2 extends CI_Controller {
 			WHERE pr_id = $pr_id";
 		$query = $this->db->query($sql);
 		
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));*/
+		
+        
+		$pr_id = $this->input->get('purnr');
+		
+		$sql="SELECT *,t1.meins
+			FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
+				inner join tbl_unit AS t3 ON t1.meins=t3.meins
+			WHERE purnr = '$pr_id'";
+		$query = $this->db->query($sql);
 		
 		echo json_encode(array(
 			'success'=>true,

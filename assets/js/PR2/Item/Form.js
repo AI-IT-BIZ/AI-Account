@@ -157,18 +157,22 @@ Ext.define('Account.PR2.Item.Form', {
 						name: 'name1',
 						//labelAlign: 'l',
 						margins: '0 0 0 6',
-						width:350,
+						width:286,
 						//emptyText: 'Customer',
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
+					//xtype: 'textfield',
+					fieldLabel: 'Purchase No',
+					name: 'purnr',
+					anchor:'100%',
 						fieldLabel: 'Purchase No',
-						name: 'vbeln',
+						name: 'purnr',
 						//flex: 3,
 						value: 'PRXXXX-XXXX',
-						labelAlign: 'right',
+						//labelAlign: 'left',
 						//name: 'qt',
-						width:240,
+						width:232,
 						readOnly: true,
 						labelStyle: 'font-weight:bold'
 						//disabled: true
@@ -260,6 +264,7 @@ Ext.define('Account.PR2.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
+							var _crdit = r.data.crdit;
 							var _addr = r.data.adr01;
 							if(!Ext.isEmpty(r.data.distx))
 			                    _addr += ' '+r.data.distx;
@@ -276,6 +281,7 @@ Ext.define('Account.PR2.Item.Form', {
 							//_this.getForm().findField('adr01').setValue(r.data.adr01
 							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
 							//+r.data.telfx+'\n'+'Email '+r.data.email);
+							//_this.getForm().findField('crdit').setValue(9);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
