@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		4/9/2013
+Modified		3/9/2013
 Project		
 Model		
 Company		
@@ -817,7 +817,13 @@ COMMENT = 'Payment Condition Type';
 
 create view v_vbak as
 
-select a.*,
+select `a`.`vbeln` AS `vbeln`,`a`.`bldat` AS `bldat`,`a`.`loekz` AS `loekz`,
+`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,`a`.`txz01` AS `txz01`,
+`a`.`jobnr` AS `jobnr`,`a`.`revnr` AS `revnr`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,
+`a`.`auart` AS `auart`,`a`.`salnr` AS `salnr`,`a`.`reanr` AS `reanr`,`a`.`refnr` AS `refnr`,
+`a`.`ptype` AS `ptype`,`a`.`taxnr` AS `taxnr`,`a`.`terms` AS `terms`,`a`.`kunnr` AS `kunnr`,
+`a`.`netwr` AS `netwr`,`a`.`ctype` AS `ctype`,`a`.`beamt` AS `beamt`,`a`.`dismt` AS `dismt`,
+`a`.`taxpr` AS `taxpr`,`a`.`duedt` AS `duedt`,`a`.`docty` AS `docty`,`a`.`exchg` AS `exchg`,
 `b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
@@ -828,7 +834,11 @@ left join tbl_apov d on a.statu = d.statu
 left join tbl_jobk e on a.jobnr = e.jobnr;
 create view v_jobk as
 
-select a.*,`b`.`name1` AS `name1`,
+select `a`.`jobnr` AS `jobnr`,`a`.`jobtx` AS `jobtx`,`a`.`jtype` AS `jtype`,`a`.`bldat` AS `bldat`,
+`a`.`loekz` AS `loekz`,`a`.`statu` AS `statu`,`a`.`ernam` AS `ernam`,`a`.`erdat` AS `erdat`,
+`a`.`txz01` AS `txz01`,`a`.`upnam` AS `upnam`,`a`.`updat` AS `updat`,`a`.`salnr` AS `salnr`,
+`a`.`stdat` AS `stdat`,`a`.`endat` AS `endat`,`a`.`datam` AS `datam`,`a`.`kunnr` AS `kunnr`,
+`a`.`pson1` AS `pson1`,`a`.`pramt` AS `pramt`,`a`.`esamt` AS `esamt`,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx` AS `distx`,`c`.`name1` AS `sname`,d.statx 
 from tbl_jobk a left join tbl_kna1 b 

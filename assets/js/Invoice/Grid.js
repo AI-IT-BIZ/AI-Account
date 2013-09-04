@@ -23,39 +23,28 @@ Ext.define('Account.Invoice.Grid', {
 				'vbeln',
 				'jobtx',
 				'sname',
-				'statx',
+				'statu',
 				'paytx',
 				'netwr',
-				'ctype'
+				'cytpe',
+				'beamt'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: ['vbeln ASC']
 		});
 
 		this.columns = [
-		    {text: "Invoice No", 
-		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
-			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', 
-			dataIndex: 'bldat', sortable: true},
-		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
-			width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Quotation No", 
-			width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Project Name", 
-			width: 150, dataIndex: 'jobtx', sortable: true},
-			{text: "Sale Person", 
-			width: 120, dataIndex: 'sname', sortable: true},
-			{text: "Status", 
-			width: 100, dataIndex: 'statx', sortable: true},
-			{text: "Payment Method", 
-			width: 100, dataIndex: 'paytx', sortable: true},
-			{text: "Amount", 
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+		    {text: "Invoice No", width: 100, dataIndex: 'invnr', sortable: true},
+			{text: "Invoice Date", width: 80, dataIndex: 'bldat', sortable: true},
+		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
+			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
+			{text: "Quotation No", width: 100, dataIndex: 'vbeln', sortable: true},
+			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Sale Person", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
+			{text: "Payment Method", width: 100, dataIndex: 'paytx', sortable: true},
+			{text: "Amount", width: 80, dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 50, dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

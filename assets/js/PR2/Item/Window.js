@@ -1,17 +1,21 @@
 Ext.define('Account.PR2.Item.Window', {
 	extend	: 'Ext.window.Window',
-	requires : ['Account.PR2.Item.Form'],
+	//requires : ['Account.Quotation.Item.Form',
+	//            'Account.Quotation.Item.Form_t',
+	//            'Account.Quotation.Item.Grid_i',
+	//            'Account.Quotation.Item.Grid_p'
+	//           ],
 	constructor:function(config) {
 
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Request',
 			closeAction: 'hide',
 			height: 600,
-			width: 900,
+			width: 825,
 			layout: 'border',
+			border: false,
 			resizable: true,
-			modal: true,
-			border: false
+			modal: true
 		});
 
 		return this.callParent(arguments);
@@ -19,41 +23,44 @@ Ext.define('Account.PR2.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.PR2.Item.Form', {
-			region:'north',
-			split:true,
-			border:true,
-			height:'120'
-		});
-		this.grid = Ext.create('Account.PR2.Item.GridItem', {
-			region:'center'
-		});
-		this.form2 = Ext.create('Account.PR2.Item.Form_t', {
-			region:'south'
-		});
+		this.form = Ext.create('Account.PR2.Item.Form',{ region:'center' });
 
-		//this.items = [this.form, this.grid, this.grid2];
-		this.items = [this.form, this.grid, this.form2];
+		this.items = [
+		     this.form
+		];
 
 		this.buttons = [{
+			text: 'Save',
+			handler: function() {
+				_this.form.save();
+			}
+		}, {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
-				_this.form2.getForm().reset();
 				_this.hide();
 			}
-		}, {
-			text: 'Save',
-			handler: function() {
-				var rs = _this.grid.getData();
-				_this.form.hdnPrItem.setValue(Ext.encode(rs));
-
-				_this.form.save();
-				
-				_this.form2.save();
-			}
 		}];
+/*
+		// event
+		this.grid1.store.on('update', function(store, record){
+			var sum = 0;
+			store.each(function(r){
+				var qty = parseFloat(r.data['menge']),
+					price = parseFloat(r.data['unitp']),
+					discount = parseFloat(r.data['dismt']);
+				qty = isNaN(qty)?0:qty;
+				price = isNaN(price)?0:price;
+				discount = isNaN(discount)?0:discount;
 
+				var amt = (qty * price) - discount;
+
+				sum += amt;
+			});
+			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+			_this.formTotal.calculate();
+		});
+*/
 		return this.callParent(arguments);
 	}
 });

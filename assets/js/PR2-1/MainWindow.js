@@ -1,13 +1,13 @@
-Ext.define('Account.Quotation.MainWindow', {
+Ext.define('Account.PR2.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-	//	'Account.Quotation.Grid',
-	//	'Account.Quotation.Item.Window'
-	//],
+	requires : [
+		'Account.PR2.Grid',
+		'Account.PR2.Item.Window'
+	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation',
+			title: 'Purchase Requisitions',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -16,33 +16,33 @@ Ext.define('Account.Quotation.MainWindow', {
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true
+			maximizable: true,
+			defaultFocus: 'code'
 		});
 
 		return this.callParent(arguments);
 	},
-
 	initComponent : function() {
 		var _this=this;
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'Add',
+			text: 'เพิ่ม',
 			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
-			text: 'Edit',
+			text: 'แก้ไข',
 			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'Delete',
+			text: 'ลบ',
 			iconCls: 'b-small-minus'
 		});
 
-        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
-		this.grid = Ext.create('Account.Quotation.Grid', {
-			region:'center',
-			border: false
+		this.itemDialog = Ext.create('Account.PR2.Item.Window');
+
+		this.grid = Ext.create('Account.PR2.Grid', {
+			region:'center'
 		});
 
 		this.items = [this.grid];
@@ -51,8 +51,10 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
+
+			// สั่ง pr_item grid load
+			_this.itemDialog.grid.load({pr_id: 0});
 		});
 
 		this.editAct.setHandler(function(){
@@ -63,8 +65,7 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({vbeln: id});
-				_this.itemDialog.form.gridPayment.load({vbeln: id});
+				_this.itemDialog.grid.load({pr_id: id});
 			}
 		});
 
@@ -75,17 +76,16 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
 
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
+
 			_this.grid.load();
 		});
 
-		this.itemDialog.form.on('afterDelete', function(){
+		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
-
 
 		// --- after ---
 		this.grid.load();

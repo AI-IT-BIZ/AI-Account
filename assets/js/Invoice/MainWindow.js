@@ -7,7 +7,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1090,
+			width: 1120,
 			minWidth: 500,
 			resizable: true,
 			modal: true,

@@ -25,13 +25,15 @@ class Quotation extends CI_Controller {
 		$this->db->limit(1);
 
 		$this->db->where('vbeln', $id);
-
 		$query = $this->db->get('vbak');
+<<<<<<< HEAD
 		
 		//$vbeln1 = 'QT1309-1000';
 		//echo '$vbeln1';
 		
 		//echo $this->db->last_query();
+=======
+>>>>>>> b74efa06abdcea95f7cb4589dae36c57cef67135
 
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
@@ -63,6 +65,7 @@ class Quotation extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
+<<<<<<< HEAD
 		
 		// Start for report
 		
@@ -123,12 +126,30 @@ class Quotation extends CI_Controller {
 // End for report	
 
 		createQuery($this);
+=======
+		//$tbName2 = 'jobp';
+/*
+		function createQuery($_this){
+			$query = $_this->input->post('query');
+			if(isset($query) && strlen($query)>0){
+				$_this->db->or_like('code', $query);
+			}
+		}
+
+		createQuery($this);
+		$this->db->select('id');*/
+		//$totalCount1 = $this->db->count_all_results($tbName1);
+>>>>>>> b74efa06abdcea95f7cb4589dae36c57cef67135
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		//$sort = $this->input->post('sort');
+		//$dir = $this->input->post('dir');
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -148,12 +169,7 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
-        
-		$exchg = $this->input->post('exchg');
-		$curr = 'THB';
-		if($exchg <> 0){
-			$curr = 'USD';
-		}
+
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -172,7 +188,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $curr,
+			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg')
 		);
 
@@ -194,7 +210,7 @@ class Quotation extends CI_Controller {
 			//$id = $this->db->insert_id();
 		}
 
-		// ลบ qt item ภายใต้ id ทั้งหมด
+		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('vbeln', $id);
 		$this->db->delete('vbap');
 
