@@ -28,6 +28,9 @@ class Quotation extends CI_Controller {
 
 		$query = $this->db->get('vbak');
 		
+		//$vbeln1 = 'QT1309-1000';
+		//echo '$vbeln1';
+		
 		//echo $this->db->last_query();
 
 		if($query->num_rows()>0){
@@ -63,62 +66,66 @@ class Quotation extends CI_Controller {
 		
 		// Start for report
 		
-        $vbeln1 = 'QT1309-1000';
-		//$vbeln2 = $this->input->post('vbeln2');
-		echo '$vbeln1';
-		/*
-		if(!empty($vbeln1) && empty($vbeln2)){
-		  $this->db->where('vbeln', $vbeln1);
-		}
-		elseif(!empty($vbeln1) && !empty($vbeln2)){
-		  $this->db->where('vbeln >=', $vbeln1);
-		  $this->db->where('vbeln <=', $vbeln2);
+		function createQuery($_this){
+	        //$vbeln1 = 'QT1309-1000';
+			//$vbeln2 = $_this->input->post('vbeln2');
+			//echo '$vbeln1';
+			/*
+			if(!empty($vbeln1) && empty($vbeln2)){
+			  $_this->db->where('vbeln', $vbeln1);
+			}
+			elseif(!empty($vbeln1) && !empty($vbeln2)){
+			  $_this->db->where('vbeln >=', $vbeln1);
+			  $_this->db->where('vbeln <=', $vbeln2);
+			}
+			
+			$bldat1 = $_this->input->post('bldat1');
+			$bldat2 = $_this->input->post('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}*/
+			
+			$jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+			/*
+			$statu1 = $_this->input->post('statu1');
+			$statu2 = $_this->input->post('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('jobnr', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}*/
 		}
 		
-		$bldat1 = $this->input->post('bldat1');
-		$bldat2 = $this->input->post('bldat2');
-		if(!empty($bldat1) && empty($bldat2)){
-		  $this->db->where('bldat', $bldat1);
-		}
-		elseif(!empty($bldat1) && !empty($bldat2)){
-		  $this->db->where('bldat >=', $bldat1);
-		  $this->db->where('bldat <=', $bldat2);
-		}
-		
-		$jobnr1 = $this->input->post('jobnr1');
-		$jobnr2 = $this->input->post('jobnr2');
-		if(!empty($jobnr1) && empty($jobnr2)){
-		  $this->db->where('jobnr', $jobnr1);
-		}
-		elseif(!empty($jobnr1) && !empty($jobnr2)){
-		  $this->db->where('jobnr >=', $jobnr1);
-		  $this->db->where('jobnr <=', $jobnr2);
-		}
-		
-		$kunnr1 = $this->input->post('kunnr1');
-		$kunnr2 = $this->input->post('kunnr2');
-		if(!empty($kunnr1) && empty($kunnr2)){
-		  $this->db->where('kunnr', $kunnr1);
-		}
-		elseif(!empty($kunnr1) && !empty($kunnr2)){
-		  $this->db->where('kunnr >=', $kunnr1);
-		  $this->db->where('kunnr <=', $kunnr2);
-		}
-		
-		$statu1 = $this->input->post('statu1');
-		$statu2 = $this->input->post('statu2');
-		if(!empty($statu1) && empty($statu2)){
-		  $this->db->where('jobnr', $statu1);
-		}
-		elseif(!empty($statu1) && !empty($statu2)){
-		  $this->db->where('statu >=', $statu1);
-		  $this->db->where('statu <=', $statu2);
-		}*/
 // End for report	
 
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-//		createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);

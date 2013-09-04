@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.Item.Grid', {
+Ext.define('Account.RInvoice.Item.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,18 +8,19 @@ Ext.define('Account.RQuotation.Item.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"quotation/loads",
+				url: __site_url+"invoice/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'invnr'
 				}
 			},
 			fields: [
-			    'vbeln',
+			    'invnr',
 				'bldat',
 				'kunnr',
 				'name1',
+				'vbeln',
 				'jobnr',
 				'jobtx',
 				'statx',
@@ -40,6 +41,8 @@ Ext.define('Account.RQuotation.Item.Grid', {
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
 			width: 120, dataIndex: 'name1', sortable: true},
+			{text: "Quotation No", 
+			width: 90, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Project No", 
 			width: 90, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", 
@@ -64,8 +67,6 @@ Ext.define('Account.RQuotation.Item.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load({
-			params: options
-		});
+		this.store.load(options);
 	}
 });

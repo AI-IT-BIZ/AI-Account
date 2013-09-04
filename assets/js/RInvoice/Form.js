@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.Form', {
+Ext.define('Account.RInvoice.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -20,16 +20,18 @@ Ext.define('Account.RQuotation.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
+        this.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
         this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
         this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
+		this.invoiceDialog2 = Ext.create('Account.Invoice.MainWindow');
 		this.quotationDialog2 = Ext.create('Account.Quotation.MainWindow');
         this.projectDialog2 = Ext.create('Account.Project.MainWindow');
 		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
         
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Quotation Status',
+			fieldLabel: 'Invoice Status',
 			name : 'statu',
 			labelWidth: 100,
 			editable: false,
@@ -40,7 +42,7 @@ Ext.define('Account.RQuotation.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_acombo',
+					url: __site_url+'invoice/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -60,7 +62,7 @@ Ext.define('Account.RQuotation.Form', {
 		});
 		
 		this.comboQStatus2 = Ext.create('Ext.form.ComboBox', {
-			name : 'statu2',
+			name : 'statu',
 			editable: false,
 			triggerAction : 'all',
 			triggerAction : 'all',
@@ -69,7 +71,7 @@ Ext.define('Account.RQuotation.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_acombo',
+					url: __site_url+'invoice/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -119,7 +121,7 @@ Ext.define('Account.RQuotation.Form', {
 		});
 		
 		this.comboPSale2 = Ext.create('Ext.form.ComboBox', {
-			name : 'salnr2',
+			name : 'salnr',
 			editable: false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -144,6 +146,20 @@ Ext.define('Account.RQuotation.Form', {
 			queryMode: 'remote',
 			displayField: 'name1',
 			valueField: 'salnr'
+		});
+		
+		this.trigInvoice = Ext.create('Ext.form.field.Trigger', {
+			name: 'invnr',
+			labelWidth: 100,
+			fieldLabel: 'Invoice Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+		
+		this.trigInvoice2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'invnr',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
 		});
 		
 		this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
@@ -183,7 +199,7 @@ Ext.define('Account.RQuotation.Form', {
 		});
 		
 		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr2',
+			name: 'kunnr',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -214,7 +230,19 @@ Ext.define('Account.RQuotation.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-		},{/*
+		},{
+	    xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigInvoice,
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigInvoice2]  
+// Quotation Code
+		},{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -225,7 +253,8 @@ Ext.define('Account.RQuotation.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigQuotation2]
-	    },{*/
+// Project Code
+	    },{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -280,6 +309,78 @@ Ext.define('Account.RQuotation.Form', {
 		}
 ////////////////////////////////////////////////		
 		];
+		
+		// event trigInvoice///
+		this.trigInvoice.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.vbeln);
+							
+						}else{
+							o.markInvalid('Could not find quotation code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		this.trigInvoice2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.vbeln);
+							
+						}else{
+							o.markInvalid('Could not find quotation code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+
+		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigInvoice.setValue(record.data.vbeln);
+
+			grid.getSelectionModel().deselectAll();
+			_this.invoiceDialog.hide();
+		});
+		
+		_this.invoiceDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigInvoice2.setValue(record.data.vbeln);
+
+			grid.getSelectionModel().deselectAll();
+			_this.invoiceDialog2.hide();
+		});
+
+		this.trigInvoice.onTriggerClick = function(){
+			_this.invoiceDialog.show();
+		};
+		
+		this.trigInvoice2.onTriggerClick = function(){
+			_this.invoiceDialog2.show();
+		};
 		
 		// event trigQuotation///
 		this.trigQuotation.on('keyup',function(o, e){
@@ -501,7 +602,11 @@ Ext.define('Account.RQuotation.Form', {
 		return this.callParent(arguments);
 	},
 
-	//load: function(options){
-	//	this.getForm().load(options);
-	//}
+	load : function(id){
+		this.getForm().load({
+			params: { id: id },
+			url:__site_url+'quotation/load'
+		});
+	},
+
 	});
