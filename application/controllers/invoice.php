@@ -44,28 +44,13 @@ class Invoice extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrk';
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
 
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
 		$totalCount = $this->db->count_all_results($tbName);
 
 //		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -85,6 +70,12 @@ class Invoice extends CI_Controller {
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('vbrk');
 		}
+		
+		$exchg = $this->input->post('exchg');
+		$curr = 'THB';
+		if($exchg <> 0){
+			$curr = 'USD';
+		}
 
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),
@@ -103,7 +94,7 @@ class Invoice extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $this->input->post('ctype'),
+			'ctype' => $curr,
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
 			'vbeln' => $this->input->post('vbeln'),

@@ -3,7 +3,7 @@ Ext.define('Account.RQuotation.Form', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			//url: __site_url+'quotation/report',
+			//url: __site_url+'quotation/loads',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -23,6 +23,10 @@ Ext.define('Account.RQuotation.Form', {
         this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
         this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		
+		this.quotationDialog2 = Ext.create('Account.Quotation.MainWindow');
+        this.projectDialog2 = Ext.create('Account.Project.MainWindow');
+		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
         
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Quotation Status',
@@ -292,7 +296,31 @@ Ext.define('Account.RQuotation.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.kunnr);
+							o.setValue(r.data.vbeln);
+							
+						}else{
+							o.markInvalid('Could not find quotation code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		this.trigQuotation2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'quotation/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.vbeln);
 							
 						}else{
 							o.markInvalid('Could not find quotation code : '+o.getValue());
@@ -302,16 +330,27 @@ Ext.define('Account.RQuotation.Form', {
 			}
 		}, this);
 
+
 		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation.setValue(record.data.kunnr);
-			//_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.trigQuotation.setValue(record.data.vbeln);
 
 			grid.getSelectionModel().deselectAll();
 			_this.quotationDialog.hide();
 		});
+		
+		_this.quotationDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigQuotation2.setValue(record.data.vbeln);
+
+			grid.getSelectionModel().deselectAll();
+			_this.quotationDialog2.hide();
+		});
 
 		this.trigQuotation.onTriggerClick = function(){
 			_this.quotationDialog.show();
+		};
+		
+		this.trigQuotation2.onTriggerClick = function(){
+			_this.quotationDialog2.show();
 		};
 
 		// event trigCustomer///
@@ -350,6 +389,42 @@ Ext.define('Account.RQuotation.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
+		
+		this.trigCustomer2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.kunnr);
+							
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer2.setValue(record.data.kunnr);
+			//_this.getForm().findField('name1').setValue(record.data.name1);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog2.hide();
+		});
+
+		this.trigCustomer2.onTriggerClick = function(){
+			_this.customerDialog2.show();
+		};
 
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
@@ -386,6 +461,42 @@ Ext.define('Account.RQuotation.Form', {
 		this.trigProject.onTriggerClick = function(){
 			_this.projectDialog.show();
 		};
+		
+		this.trigProject2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+
+						}else{
+							o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject2.setValue(record.data.jobnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog2.hide();
+		});
+
+		this.trigProject2.onTriggerClick = function(){
+			_this.projectDialog2.show();
+		};
+
 
 		return this.callParent(arguments);
 	},
