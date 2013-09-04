@@ -189,13 +189,13 @@ Ext.define('Account.PR2.Item.Form', {
 							name: 'adr01',
 							anchor:'95%',
 							width: 455, 
-							rows:4,
+							rows:2,
 		                }, {
 							xtype: 'textfield',
 							fieldLabel: 'Reference No',
 							name: 'refnr',
 							anchor:'95%',
-							//margin: '20 0 0 0',
+							margin: '25 0 0 0',
 		                }]
 		            },{
 		                xtype: 'container',
@@ -221,7 +221,7 @@ Ext.define('Account.PR2.Item.Form', {
 		                }, {
 							xtype: 'numberfield',
 							fieldLabel: 'Credit',
-							name: 'crdat',
+							name: 'crdit',
 							anchor:'100%', 
                 		}, this.comboTaxnr,{
 		                }]
@@ -403,7 +403,7 @@ Ext.define('Account.PR2.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/load',
+			url:__site_url+'pr2/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -439,11 +439,11 @@ Ext.define('Account.PR2.Item.Form', {
 			});
 		}
 	},
-	remove : function(id){
+	remove : function(purnr){
 		var _this=this;
 		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
+			params: { purnr: purnr },
+			url:__site_url+'pr2/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

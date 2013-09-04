@@ -16,9 +16,16 @@ class Pr2 extends CI_Controller {
 
 	function load(){
 		$id = $this->input->post('id');
-		$this->db->limit(1);
-		$this->db->where('id', $id);
-		$query = $this->db->get('ebko');
+		//$this->db->limit(1);
+		//$this->db->where('purnr', $id);
+		//$query = $this->db->get('ebko');
+		
+		$sql="SELECT *,t2.lifnr
+			FROM tbl_ebko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+			inner join tbl_apov AS t3 ON t1.statu=t3.statu
+			WHERE purnr='$id'";
+		$query = $this->db->query($sql);
+		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			$result['bldat']=substr($result['bldat'], 0, 10);
@@ -60,7 +67,7 @@ class Pr2 extends CI_Controller {
 		//$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		
-		$sql="SELECT t1.id,purnr,
+		$sql="SELECT purnr,
 				bldat,
 				t2.lifnr,
 				name1,
@@ -85,18 +92,21 @@ class Pr2 extends CI_Controller {
 			$this->db->where('purnr', $id);
 			$query = $this->db->get('ebko');
 		}
-
+		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
 			//'purnr' => $this->input->post('purnr'),
 			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
 			'lfdat' => $this->input->post('lfdat'),
-			//'taxnr' => $this->input->post('taxnr'),
+			'taxnr' => $this->input->post('taxnr'),
+			'refnr' => $this->input->post('refnr'),
 			//'crdat' => $this->input->post('crdat'),
-			//'refnr' => $this->input->post('refnr'),
-			//'dismt' => $this->input->post('dismt'),
+			'crdit' => $this->input->post('crdit'),
+			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
+			'sgtxt' => $this->input->post('sgtxt'),
+			'netwr' => $netwr,
 			
 			
 		);
@@ -123,15 +133,15 @@ class Pr2 extends CI_Controller {
 		$this->db->delete('ebpo');
 
 		// เตรียมข้อมูล  qt item
-		$ebpo = $this->input->post('vbap');//$this->input->post('vbelp');
+		$ebpo = $this->input->post('ebpo');//$this->input->post('vbelp');
 		$qt_item_array = json_decode($ebpo);
 		if(!empty($ebpo) && !empty($qt_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 			foreach($qt_item_array AS $p){
 				$this->db->insert('ebpo', array(
-					'vbeln'=>$id,
-					'vbelp'=>++$item_index,//vbelp,
+					'purnr'=>$id,
+					'purpo'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
@@ -159,12 +169,12 @@ class Pr2 extends CI_Controller {
 	}
 
 	function remove(){
-		$id = $this->input->post('id');
-		$this->db->where('id', $id);
+		$purnr = $this->input->post('purnr'); 
+		$this->db->where('purnr', $purnr);
 		$query = $this->db->delete('ebko');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$id
+			'data'=>$purnr
 		));
 	}
 

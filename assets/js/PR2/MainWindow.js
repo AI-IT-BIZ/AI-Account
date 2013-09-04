@@ -72,6 +72,7 @@ Ext.define('Account.PR2.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});

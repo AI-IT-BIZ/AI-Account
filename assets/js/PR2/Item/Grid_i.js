@@ -51,7 +51,8 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				'maktx',
 				{ name:'itamt', type:'float' },
 				{ name:'unitp', type:'decimal' },
-				{ name:'dismt', type:'decimal' }
+				{ name:'dismt', type:'decimal' },
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -290,7 +291,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('vbelp', row_num++);
+			r.set('purpo', row_num++);
 		});
 	},
 
