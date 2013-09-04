@@ -8,10 +8,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			bodyPadding: 10,
 			fieldDefaults: {
 				labelAlign: 'left',
-				msgTarget: 'qtip',//'side',
-				//labelWidth: 125
-				//width:300,
-				//labelStyle: 'font-weight:bold'
+				msgTarget: 'qtip'
 			}
 		});
 
@@ -23,24 +20,15 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		this.txtTotal = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Total',
 			name: 'beamt',
-			//textAlign: 'right',
-			//flex: 2,
-			//anchor:'50%',
-			//style: {
-              // textAlign: 'right'
-             //     },
 			labelWidth: 155,
 			width:270,
-			margin: '0 0 0 375',
+			//margin: '0 0 0 175',
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
 			name: 'dismt',
-			//anchor:'80%',
-			//fieldWidth: 250,
 			align: 'right',
-			//margin: '0 0 0 650',
 			labelWidth: 80,
 			width:150,
 			enableKeyEvents: true,
@@ -56,10 +44,8 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			}
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
-			//fieldLabel: 'Discount',
 			name: 'aaa',
 			align: 'right',
-			//anchor:'80%',
 			width:110,
 			margin: '0 0 0 10',
 			readOnly: true
@@ -68,11 +54,9 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			fieldLabel: 'After Discount',
 			name: 'bbb',
 			align: 'right',
-			//flex: 2,
-			//anchor:'90%',
 			width:270,
 			labelWidth: 155,
-			margin: '0 0 0 600',
+			margin: '4 0 0 0',
 			readOnly: true
 		});
 		this.txtTax = Ext.create('Ext.form.field.Text', {
@@ -81,22 +65,19 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			name: 'taxpr',
 			align: 'right',
 			labelWidth: 80,
-			//anchor:'90%',
 			width:120,
 			enableKeyEvents: true,
 			minValue: 0,
 			maxValue: 100,
+			margin: '4 0 0 0',
 			hideTrigger: true,
-			allowDecimals: false,
-			allowBlank: true
+			allowDecimals: false
 		});
 		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
-			//fieldLabel: 'Discount',
 			name: 'ccc',
 			align: 'right',
-			//anchor:'90%',
-			margin: '0 0 0 30',
+			margin: '4 0 0 30',
 			width:110,
 			readOnly: true
 
@@ -106,76 +87,91 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
 			align: 'right',
-			//flex: 2,
-			//anchor:'90%',
 			width:270,
 			labelWidth: 155,
-			margin: '0 0 0 600',
+			margin: '4 0 0 0',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
 			readOnly: true
 		});
 
+// Start Write Forms
 		this.items = [{
 			xtype: 'container',
-                    layout: 'hbox',
-                    defaultType: 'textfield',
-                    //margin: '5 0 5 600',
-   items: [{
-            xtype: 'textfield',
-			fieldLabel: 'Exchg.Rate',
-			name: 'exchg',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:240,
-			align: 'right',
-			margin: '0 0 0 -35',
-			allowBlank: true
-         },{
-   	        xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
-			align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
-			margin: '0 0 0 5',
-			width:15,
-			value: 'THB/USD',
-			allowBlank: true
-		},
-		this.txtTotal
-		]
-		},{
+            layout: 'hbox',
+            anchor: '100%',
+            defaultType: 'textfield',
+            //margin: '5 0 5 600',
+        items: [{
+                xtype: 'container',
+                layout: 'anchor',
+     items :[{
 			xtype: 'container',
             layout: 'hbox',
-            defaultType: 'textfield',
-            margin: '5 0 5 600',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [{
+            xtype: 'textfield',
+			fieldLabel: 'Exchange Rate',
+			name: 'exchg',
+			//labelAlign: 'right',
+			width:240,
+			align: 'right',
+			//margin: '0 0 0 -35'
+         },{
+   	        xtype: 'displayfield',
+			align: 'right',
+			margin: '0 0 0 5',
+			width:60,
+			value: 'THB/USD'
+		}]
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Rejected Reason',
+			align: 'right',
+			margin: '3 0 0 0',
+			width:380,
+			name: 'reanr'
+		},{
+			xtype: 'textarea',
+			fieldLabel: 'Text Note',
+			//labelAlign: 'right',
+			margin: '3 0 0 0',
+			rows:2,
+			width:380,
+			name: 'txz01'//,
+			//anchor:'90%'
+		}]
+            },{
+                xtype: 'container',
+                layout: 'anchor',
+                margins: '0 0 0 200',
+        items: [this.txtTotal,{
+			xtype: 'container',
+            layout: 'hbox',
+            //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
-		},
-		this.txtDiscountSum,
-		{
+		},this.txtDiscountSum,{
 			xtype: 'container',
 			layout: 'hbox',
 			defaultType: 'textfield',
-			margin: '5 0 5 600',
+			//margin: '5 0 5 600',
 	items: [
 		this.txtTax
 		,{
 			xtype: 'displayfield',
-			//fieldLabel: '%',
-			//name: 'taxpr',
 			align: 'right',
-			//labelWidth: 5,
-			//anchor:'90%',
 			width:10,
-			value: '%',
-			allowBlank: true
+			margin: '4 0 0 0',
+			value: '%'
 		},
 		this.txtTaxValue
 	]
 	},
-	this.txtNet];
-
+	this.txtNet]
+		}]
+		}];
+		
 		// Event /////////
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');

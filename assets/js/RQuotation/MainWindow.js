@@ -10,7 +10,7 @@ Ext.define('Account.RQuotation.MainWindow', {
 		Ext.apply(this, {
 			title: 'Quotation Selection',
 			closeAction: 'hide',
-			height: 220,
+			height: 270,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
@@ -32,7 +32,7 @@ Ext.define('Account.RQuotation.MainWindow', {
 				];
 
 		this.buttons = [{
-			text: 'Execute',
+			text: 'Report',
 			handler: function() {
 				//var rs = _this.grid1.getData();
 				//_this.form.hdnQtItem.setValue(Ext.encode(rs));

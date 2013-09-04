@@ -3,7 +3,7 @@ Ext.define('Account.RQuotation.Form', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/report',
+			//url: __site_url+'quotation/loads',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -20,20 +20,20 @@ Ext.define('Account.RQuotation.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
+        this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
         this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
-
+		
+		this.quotationDialog2 = Ext.create('Account.Quotation.MainWindow');
+        this.projectDialog2 = Ext.create('Account.Project.MainWindow');
+		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
+        
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'QT Status',
+			fieldLabel: 'Quotation Status',
 			name : 'statu',
-			//labelAlign: 'right',
-			labelWidth: 90,
-			//width: 240,
+			labelWidth: 100,
 			editable: false,
 			triggerAction : 'all',
-			//disabled: true,
-			//margin: '0 0 0 -17',
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
@@ -60,16 +60,9 @@ Ext.define('Account.RQuotation.Form', {
 		});
 		
 		this.comboQStatus2 = Ext.create('Ext.form.ComboBox', {
-			//fieldLabel: 'QT Status',
 			name : 'statu',
-			//labelAlign: 'right',
-			//labelWidth: 90,
-			//width: 240,
 			editable: false,
 			triggerAction : 'all',
-			//disabled: true,
-			//margin: '0 0 0 -17',
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
@@ -98,10 +91,8 @@ Ext.define('Account.RQuotation.Form', {
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
 			name : 'salnr',
-			labelWidth: 90,
-			//width: 350,
+			labelWidth: 100,
 			editable: false,
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Please select Saleperson --',
@@ -128,12 +119,8 @@ Ext.define('Account.RQuotation.Form', {
 		});
 		
 		this.comboPSale2 = Ext.create('Ext.form.ComboBox', {
-			//fieldLabel: 'Saleperson',
 			name : 'salnr',
-			//labelWidth: 90,
-			//width: 350,
 			editable: false,
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Please select Saleperson --',
@@ -159,9 +146,23 @@ Ext.define('Account.RQuotation.Form', {
 			valueField: 'salnr'
 		});
 		
+		this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
+			name: 'vbeln',
+			labelWidth: 100,
+			fieldLabel: 'Quotation Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+		
+		this.trigQuotation2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'vbeln2',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+		
 		this.trigProject = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr',
-			labelWidth: 90,
+			labelWidth: 100,
 			fieldLabel: 'Project Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
@@ -177,13 +178,12 @@ Ext.define('Account.RQuotation.Form', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
-			labelWidth: 90,
+			labelWidth: 100,
 			enableKeyEvents: true
 		});
 		
 		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
-			//fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -198,10 +198,7 @@ Ext.define('Account.RQuotation.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Date',
 			name: 'bldat1',
-			labelWidth: 90,
-			//anchor:'80%',
-			//labelAlign: 'right',
-		    //width:140,
+			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -212,15 +209,22 @@ Ext.define('Account.RQuotation.Form', {
 		    margins: '0 0 0 25'
 		   },{
 			xtype: 'datefield',
-			//fieldLabel: 'Date',
 			name: 'bldat2',
-			//anchor:'80%',
-			//labelAlign: 'right',
-		    //width:140,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
+		},{
+     	xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigQuotation,
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigQuotation2]
 	    },{
      	xtype: 'container',
                 layout: 'hbox',
@@ -273,7 +277,81 @@ Ext.define('Account.RQuotation.Form', {
 		    margins: '0 0 0 25'
 		  },
 		this.comboQStatus2]    
-		}];
+		}
+////////////////////////////////////////////////		
+		];
+		
+		// event trigQuotation///
+		this.trigQuotation.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'quotation/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.vbeln);
+							
+						}else{
+							o.markInvalid('Could not find quotation code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		this.trigQuotation2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'quotation/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.vbeln);
+							
+						}else{
+							o.markInvalid('Could not find quotation code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+
+		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigQuotation.setValue(record.data.vbeln);
+
+			grid.getSelectionModel().deselectAll();
+			_this.quotationDialog.hide();
+		});
+		
+		_this.quotationDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigQuotation2.setValue(record.data.vbeln);
+
+			grid.getSelectionModel().deselectAll();
+			_this.quotationDialog2.hide();
+		});
+
+		this.trigQuotation.onTriggerClick = function(){
+			_this.quotationDialog.show();
+		};
+		
+		this.trigQuotation2.onTriggerClick = function(){
+			_this.quotationDialog2.show();
+		};
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
@@ -311,6 +389,42 @@ Ext.define('Account.RQuotation.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
+		
+		this.trigCustomer2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.kunnr);
+							
+						}else{
+							o.markInvalid('Could not find customer code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer2.setValue(record.data.kunnr);
+			//_this.getForm().findField('name1').setValue(record.data.name1);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog2.hide();
+		});
+
+		this.trigCustomer2.onTriggerClick = function(){
+			_this.customerDialog2.show();
+		};
 
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
@@ -347,6 +461,42 @@ Ext.define('Account.RQuotation.Form', {
 		this.trigProject.onTriggerClick = function(){
 			_this.projectDialog.show();
 		};
+		
+		this.trigProject2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+
+						}else{
+							o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject2.setValue(record.data.jobnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog2.hide();
+		});
+
+		this.trigProject2.onTriggerClick = function(){
+			_this.projectDialog2.show();
+		};
+
 
 		return this.callParent(arguments);
 	},
@@ -358,30 +508,4 @@ Ext.define('Account.RQuotation.Form', {
 		});
 	},
 
-	save : function(){
-		var _this=this;
-		var _form_basic = this.getForm();
-		if (_form_basic.isValid()) {
-			_form_basic.submit({
-				success: function(form_basic, action) {
-					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
-				},
-				failure: function(form_basic, action) {
-					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-				}
-			});
-		}
-	},
-
-	remove : function(id){
-		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
-			}
-		});
-	}
-});
+	});
