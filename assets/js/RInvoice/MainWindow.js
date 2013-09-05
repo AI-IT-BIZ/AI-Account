@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.MainWindow', {
+Ext.define('Account.RInvoice.MainWindow', {
 	extend	: 'Ext.window.Window',
 	//requires : ['Account.Quotation.Item.Form',
 	//            'Account.Quotation.Item.Form_t',
@@ -8,9 +8,9 @@ Ext.define('Account.RQuotation.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation Selection',
+			title: 'Invoice Selection',
 			closeAction: 'hide',
-			height: 250,
+			height: 270,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
@@ -23,9 +23,9 @@ Ext.define('Account.RQuotation.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+		this.itemDialog = Ext.create('Account.RInvoice.Item.Window');
 
-		this.form = Ext.create('Account.RQuotation.Form',{ region:'center' });
+		this.form = Ext.create('Account.RInvoice.Form',{ region:'center' });
 
 		this.items = [
 		     this.form
@@ -40,8 +40,6 @@ Ext.define('Account.RQuotation.MainWindow', {
 				//_this.itemDialog.form.getForm().reset();
 			    //_this.itemDialog.formTotal.getForm().reset();
 			    _this.itemDialog.show();
-			    
-			    _this.itemDialog.grid.load();
 			}
 		}, {
 			text: 'Cancel',
@@ -51,11 +49,8 @@ Ext.define('Account.RQuotation.MainWindow', {
 			}
 		}];
 		
-		// set handler for item grid store
-		this.itemDialog.grid.store.on('beforeload', function(store){
-			var formValues = _this.form.getForm().getValues();
-			store.getProxy().extraParams = formValues;
-		});
+		// --- after ---
+		this.form.load();
 
 		return this.callParent(arguments);
 	}

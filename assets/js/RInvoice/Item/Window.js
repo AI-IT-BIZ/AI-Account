@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.Item.Window', {
+Ext.define('Account.RInvoice.Item.Window', {
 	extend	: 'Ext.window.Window',
 	//requires : [
 	//	'Account.Quotation.Grid',
@@ -7,7 +7,7 @@ Ext.define('Account.RQuotation.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation Report',
+			title: 'Invoice Report',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -40,13 +40,15 @@ Ext.define('Account.RQuotation.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-
 		this.grid = Ext.create('Account.RQuotation.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
+
+		// --- after ---
+		this.grid.load();
 
 		return this.callParent(arguments);
 	}

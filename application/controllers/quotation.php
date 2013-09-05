@@ -57,21 +57,73 @@ class Quotation extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
-		//$tbName2 = 'jobp';
-/*
+		
+		// Start for report
+		
 		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
+	        $vbeln1 = $_this->input->get('vbeln');
+			$vbeln2 = $_this->input->get('vbeln2');
+			if(!empty($vbeln1) && empty($vbeln2)){
+			  $_this->db->where('vbeln', $vbeln1);
+			}
+			elseif(!empty($vbeln1) && !empty($vbeln2)){
+			  $_this->db->where('vbeln >=', $vbeln1);
+			  $_this->db->where('vbeln <=', $vbeln2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
 			}
 		}
+// End for report	
 
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
+		//function createQuery($_this){
+		//	$query = $_this->input->post('query');
+		//	if(isset($query) && strlen($query)>0){
+		//		$_this->db->or_like('code', $query);
+		//	}
+		//}
+
+		//createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-//		createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -98,6 +150,12 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
+		
+		$exchg = $this->input->post('exchg');
+        $curr = 'THB';
+        if($exchg <> 0){
+          $curr = 'USD';
+        }
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
@@ -117,7 +175,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $this->input->post('ctype'),
+			'ctype' => $curr,
 			'exchg' => $this->input->post('exchg')
 		);
 

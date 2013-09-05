@@ -32,26 +32,16 @@ Ext.define('Account.RQuotation.Item.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Quotation No", 
-		    width: 90, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Quotation Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
-		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
-			width: 120, dataIndex: 'name1', sortable: true},
-			{text: "Project No", 
-			width: 90, align: 'center', dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", 
-			width: 150, dataIndex: 'jobtx', sortable: true},
-			{text: "Status", 
-			width: 100, dataIndex: 'statx', sortable: true},
-			{text: "Sale Name", 
-			width: 120, dataIndex: 'sname', sortable: true},
-			{text: "Amount", 
-			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+		    {text: "Quotation No", width: 100, dataIndex: 'vbeln', sortable: true},
+			{text: "Quotation Date", width: 80, dataIndex: 'bldat', sortable: true},
+		    {text: "Customer No", width: 100, dataIndex: 'kunnr', sortable: true},
+			{text: "Customer Name", width: 100, dataIndex: 'name1', sortable: true},
+			{text: "Project No", width: 100, dataIndex: 'jobnr', sortable: true},
+			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
+			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "Amount", width: 100, dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 80, dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {
@@ -64,6 +54,8 @@ Ext.define('Account.RQuotation.Item.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	}
 });
