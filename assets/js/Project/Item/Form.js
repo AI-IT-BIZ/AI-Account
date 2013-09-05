@@ -19,7 +19,7 @@ Ext.define('Account.Project.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		// INIT Warehouse search popup ///////
+		// INIT Warehouse search popup //////
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
 		this.comboJType = Ext.create('Ext.form.ComboBox', {

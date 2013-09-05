@@ -1,9 +1,9 @@
 Ext.define('Account.RQuotation.Item.Window', {
 	extend	: 'Ext.window.Window',
-	requires : [
-		'Account.Quotation.Grid',
-		'Account.Quotation.Item.Window'
-	],
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -40,13 +40,13 @@ Ext.define('Account.RQuotation.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+
 		this.grid = Ext.create('Account.RQuotation.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
-
 
 		return this.callParent(arguments);
 	}

@@ -17,7 +17,7 @@ Ext.define('Account.Project.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Project.Item.Form');//, { region:'north' });
+		this.form = Ext.create('Account.Project.Item.Form');
 
 		/*this.grid = new Ext.Panel({
 			title:'this is item grid',

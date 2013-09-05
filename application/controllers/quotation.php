@@ -26,14 +26,6 @@ class Quotation extends CI_Controller {
 
 		$this->db->where('vbeln', $id);
 		$query = $this->db->get('vbak');
-<<<<<<< HEAD
-		
-		//$vbeln1 = 'QT1309-1000';
-		//echo '$vbeln1';
-		
-		//echo $this->db->last_query();
-=======
->>>>>>> b74efa06abdcea95f7cb4589dae36c57cef67135
 
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
@@ -65,15 +57,12 @@ class Quotation extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
-<<<<<<< HEAD
 		
 		// Start for report
 		
 		function createQuery($_this){
-	        //$vbeln1 = 'QT1309-1000';
-			//$vbeln2 = $_this->input->post('vbeln2');
-			//echo '$vbeln1';
-			/*
+	        $vbeln1 = $_this->input->get('vbeln');
+			$vbeln2 = $_this->input->get('vbeln2');
 			if(!empty($vbeln1) && empty($vbeln2)){
 			  $_this->db->where('vbeln', $vbeln1);
 			}
@@ -82,15 +71,15 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('vbeln <=', $vbeln2);
 			}
 			
-			$bldat1 = $_this->input->post('bldat1');
-			$bldat2 = $_this->input->post('bldat2');
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
-			}*/
+			}
 			
 			$jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
@@ -111,35 +100,27 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
-			/*
-			$statu1 = $_this->input->post('statu1');
-			$statu2 = $_this->input->post('statu2');
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('jobnr', $statu1);
+			  $_this->db->where('statu', $statu1);
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
-			}*/
-		}
-		
-// End for report	
-
-		createQuery($this);
-=======
-		//$tbName2 = 'jobp';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
 			}
 		}
+// End for report	
 
-		createQuery($this);
-		$this->db->select('id');*/
-		//$totalCount1 = $this->db->count_all_results($tbName1);
->>>>>>> b74efa06abdcea95f7cb4589dae36c57cef67135
+		//function createQuery($_this){
+		//	$query = $_this->input->post('query');
+		//	if(isset($query) && strlen($query)>0){
+		//		$_this->db->or_like('code', $query);
+		//	}
+		//}
+
+		//createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
@@ -169,6 +150,12 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
+		
+		$exchg = $this->input->post('exchg');
+        $curr = 'THB';
+        if($exchg <> 0){
+          $curr = 'USD';
+        }
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
@@ -188,7 +175,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $this->input->post('ctype'),
+			'ctype' => $curr,
 			'exchg' => $this->input->post('exchg')
 		);
 

@@ -8,7 +8,6 @@ Ext.define('Account.Invoice.Item.Window', {
 			height: 650,
 			width: 950,
 			layout: 'border',
-			//layout: 'accordion',
 			border: false,
 			resizable: true,
 			modal: true

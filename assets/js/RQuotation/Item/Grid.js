@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.Grid', {
+Ext.define('Account.RQuotation.Item.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -25,7 +25,7 @@ Ext.define('Account.RQuotation.Grid', {
 				'statx',
 				'sname',
 				'netwr',
-				'cytpe'
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbeln ASC']

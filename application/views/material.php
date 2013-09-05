@@ -257,8 +257,7 @@ Ext.onReady(function() {
 			anchor:'100%',
 			labelWidth: 90,
 			allowBlank: true
-		}
-		]
+		}]
 		}]
 		}]
 		}],

@@ -16,9 +16,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 
-		// INIT Material search popup //////////////////////////////////
+		// INIT Material search popup /////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
-		// END Material search popup ///////////////////////////////////
+		// END Material search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
 

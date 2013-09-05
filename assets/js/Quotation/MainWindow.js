@@ -11,7 +11,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1000,
+			width: 1020,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
