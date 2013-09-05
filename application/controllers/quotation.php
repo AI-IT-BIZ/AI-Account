@@ -25,10 +25,7 @@ class Quotation extends CI_Controller {
 		$this->db->limit(1);
 
 		$this->db->where('vbeln', $id);
-
 		$query = $this->db->get('vbak');
-		
-		//echo $this->db->last_query();
 
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
@@ -60,68 +57,28 @@ class Quotation extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
-		
-		// Start for report
-		
-        $vbeln1 = 'QT1309-1000';
-		//$vbeln2 = $this->input->post('vbeln2');
-		echo '$vbeln1';
-		/*
-		if(!empty($vbeln1) && empty($vbeln2)){
-		  $this->db->where('vbeln', $vbeln1);
+		//$tbName2 = 'jobp';
+/*
+		function createQuery($_this){
+			$query = $_this->input->post('query');
+			if(isset($query) && strlen($query)>0){
+				$_this->db->or_like('code', $query);
+			}
 		}
-		elseif(!empty($vbeln1) && !empty($vbeln2)){
-		  $this->db->where('vbeln >=', $vbeln1);
-		  $this->db->where('vbeln <=', $vbeln2);
-		}
-		
-		$bldat1 = $this->input->post('bldat1');
-		$bldat2 = $this->input->post('bldat2');
-		if(!empty($bldat1) && empty($bldat2)){
-		  $this->db->where('bldat', $bldat1);
-		}
-		elseif(!empty($bldat1) && !empty($bldat2)){
-		  $this->db->where('bldat >=', $bldat1);
-		  $this->db->where('bldat <=', $bldat2);
-		}
-		
-		$jobnr1 = $this->input->post('jobnr1');
-		$jobnr2 = $this->input->post('jobnr2');
-		if(!empty($jobnr1) && empty($jobnr2)){
-		  $this->db->where('jobnr', $jobnr1);
-		}
-		elseif(!empty($jobnr1) && !empty($jobnr2)){
-		  $this->db->where('jobnr >=', $jobnr1);
-		  $this->db->where('jobnr <=', $jobnr2);
-		}
-		
-		$kunnr1 = $this->input->post('kunnr1');
-		$kunnr2 = $this->input->post('kunnr2');
-		if(!empty($kunnr1) && empty($kunnr2)){
-		  $this->db->where('kunnr', $kunnr1);
-		}
-		elseif(!empty($kunnr1) && !empty($kunnr2)){
-		  $this->db->where('kunnr >=', $kunnr1);
-		  $this->db->where('kunnr <=', $kunnr2);
-		}
-		
-		$statu1 = $this->input->post('statu1');
-		$statu2 = $this->input->post('statu2');
-		if(!empty($statu1) && empty($statu2)){
-		  $this->db->where('jobnr', $statu1);
-		}
-		elseif(!empty($statu1) && !empty($statu2)){
-		  $this->db->where('statu >=', $statu1);
-		  $this->db->where('statu <=', $statu2);
-		}*/
-// End for report	
 
+		createQuery($this);
+		$this->db->select('id');*/
+		//$totalCount1 = $this->db->count_all_results($tbName1);
 		$totalCount = $this->db->count_all_results($tbName);
 
 //		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		//$sort = $this->input->post('sort');
+		//$dir = $this->input->post('dir');
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -141,12 +98,7 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
-        
-		$exchg = $this->input->post('exchg');
-		$curr = 'THB';
-		if($exchg <> 0){
-			$curr = 'USD';
-		}
+
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -165,7 +117,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $curr,
+			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg')
 		);
 
@@ -187,7 +139,7 @@ class Quotation extends CI_Controller {
 			//$id = $this->db->insert_id();
 		}
 
-		// ลบ qt item ภายใต้ id ทั้งหมด
+		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('vbeln', $id);
 		$this->db->delete('vbap');
 
