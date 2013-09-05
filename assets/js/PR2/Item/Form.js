@@ -235,54 +235,18 @@ Ext.define('Account.PR2.Item.Form', {
 			}]
 		};
 
-		
-		this.items = [mainFormPanel,
-		{
-			xtype:'panel',
-			region:'center',
-			activeTab: 0,
-			border: false,
-			items: [this.gridItem,
-			{
-			  }]
-			},
-			this.formTotal
-		];
-/*
 		this.items = [mainFormPanel,
 		{
 			xtype:'tabpanel',
 			region:'center',
 			activeTab: 0,
 			border: false,
-			items: [this.gridItem,
-			{
-				xtype: 'panel',
-				border: false,
-				title: 'Partial Payment',
-				layout: 'border',
-				items:[
-					this.gridPayment
-				]
+			items: [this.gridItem,{
 			  }]
 			},
 			this.formTotal
 		];
-		
-		this.items = [mainFormPanel,
-		{
-			//xtype:'tabpanel',
-			xtype:'panel',
-			region:'center',
-			//activeTab: 0,
-			border: false,
-			items: [this.gridItem
-			]
-			},
-			this.formTotal
-		];
 
- */
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -495,8 +459,8 @@ Ext.define('Account.PR2.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ purnr: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
+		this.gridItem.load({ vbeln: 0 });
+		this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
