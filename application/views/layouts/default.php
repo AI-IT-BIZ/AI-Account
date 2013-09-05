@@ -62,8 +62,10 @@ function endsWith($haystack, $needle)
 		#div-quotation { top:160px; left:30px; width: 90px; height:90px; }
 		#div-customer { top:160px; left:150px; width: 90px; height:90px; }
 		#div-invoice { top:280px; left:30px; width: 210px; height:100px; }
-		#div-rquotation { position:absolute; top:400px; left:30px; width: 100px; height:100px; }
-		#div-rinvoice { position:absolute; top:400px; left:140px; width: 100px; height:100px; }
+		#div-rproject { position:absolute; top:400px; left:30px; width: 100px; height:100px; }
+		#div-rquotation { position:absolute; top:400px; left:140px; width: 100px; height:100px; }
+		#div-rinvoice { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
+		#div-rinv_payment { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
 		#div-config { position:absolute; top:620px; left:30px; width: 210px; height:100px; }
 
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
@@ -313,8 +315,10 @@ function endsWith($haystack, $needle)
 									'<div id="div-invoice" class="box box-green"><span>Create New Invoices</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
 
+									'<div id="div-rproject" class="box box-orange"><span>Projects Report</span></div>',
 									'<div id="div-rquotation" class="box box-orange"><span>Quotations Report</span></div>',
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
+									'<div id="div-rinv_payment" class="box box-orange"><span>Invoices Payment Report</span></div>',
 									'<div id="div-config" class="box box-base"><span>Configure BizNet Accounts</span></div>',
 								'</div>',
 								//Purchase Module
@@ -367,8 +371,10 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-invoice').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
 								
+								pEl.getById('div-rproject').on('click', function(){ $om.viewport.fireEvent('click_rproject', c); }, c);
 								pEl.getById('div-rquotation').on('click', function(){ $om.viewport.fireEvent('click_rquotation', c); }, c);
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+								pEl.getById('div-rinv_payment').on('click', function(){ $om.viewport.fireEvent('click_rinv_payment', c); }, c);
 								//Purchases Module
 								pEl.getById('div-pr').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);

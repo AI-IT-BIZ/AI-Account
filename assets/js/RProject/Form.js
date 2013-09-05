@@ -1,4 +1,4 @@
-Ext.define('Account.RQuotation.Form', {
+Ext.define('Account.RProject.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -10,8 +10,6 @@ Ext.define('Account.RQuotation.Form', {
 				labelAlign: 'left',
 				msgTarget: 'qtip',//'side',
 				labelWidth: 105
-				//width:300,
-				//labelStyle: 'font-weight:bold'
 			}
 		});
 
@@ -22,14 +20,12 @@ Ext.define('Account.RQuotation.Form', {
         // INIT Customer search popup ///////////////////////////////////
         this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
-		this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		
 		this.projectDialog2 = Ext.create('Account.Project.MainWindow');
 		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
-		this.quotationDialog2 = Ext.create('Account.Quotation.MainWindow');
-
+		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Project Status',
+			fieldLabel: 'Quotation Status',
 			name : 'statu',
 			editable: false,
 			triggerAction : 'all',
@@ -144,20 +140,6 @@ Ext.define('Account.RQuotation.Form', {
 			valueField: 'salnr'
 		});
 		
-		this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln',
-			//labelWidth: 90,
-			fieldLabel: 'Quotation Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
-		this.trigQuotation2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln2',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
 		this.trigProject = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr',
 			//labelWidth: 90,
@@ -211,17 +193,6 @@ Ext.define('Account.RQuotation.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-		},{
-     	xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.trigQuotation,
-		{xtype: 'displayfield',
-		  value: 'To',
-		  width:40,
-		  margins: '0 0 0 25'
-		},
-		this.trigQuotation2]
 	    },{
      	xtype: 'container',
                 layout: 'hbox',
@@ -274,43 +245,7 @@ Ext.define('Account.RQuotation.Form', {
 		    margins: '0 0 0 25'
 		  },
 		this.comboQStatus2]    
-		}];
-		
-		// event trigQuotation2///
-		this.trigQuotation2.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.vbeln);
-							
-						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.quotationDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation2.setValue(record.data.vbeln);
-
-			grid.getSelectionModel().deselectAll();
-			_this.quotationDialog2.hide();
-		});
-
-		this.trigQuotation2.onTriggerClick = function(){
-			_this.quotationDialog2.show();
-		};
+		}];		
 
 		// event trigCustomer///
 		this.trigCustomer2.on('keyup',function(o, e){
@@ -384,42 +319,6 @@ Ext.define('Account.RQuotation.Form', {
 			_this.projectDialog2.show();
 		};
 		
-		// event trigQuotation///
-		this.trigQuotation.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.vbeln);
-							
-						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation.setValue(record.data.vbeln);
-
-			grid.getSelectionModel().deselectAll();
-			_this.quotationDialog.hide();
-		});
-
-		this.trigQuotation.onTriggerClick = function(){
-			_this.quotationDialog.show();
-		};
-
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
