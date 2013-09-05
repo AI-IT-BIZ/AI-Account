@@ -1,10 +1,6 @@
 Ext.define('Account.Quotation.Item.Window', {
 	extend	: 'Ext.window.Window',
-	//requires : ['Account.Quotation.Item.Form',
-	//            'Account.Quotation.Item.Form_t',
-	//            'Account.Quotation.Item.Grid_i',
-	//            'Account.Quotation.Item.Grid_p'
-	//           ],
+
 	constructor:function(config) {
 
 		Ext.apply(this, {

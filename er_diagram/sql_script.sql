@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		4/9/2013
+Modified		5/9/2013
 Project		
 Model		
 Company		
@@ -844,14 +844,14 @@ create view v_vbrk as
 
 select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,c.name1 as sname,d.statx,e.sgtxt,e.statu as stat1,f.jobnr
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,c.name1 as sname,d.statx,e.paytx,e.saknr,f.jobnr, g.jobtx
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_payp e on a.vbeln = e.vbeln
-and a.paypr = e.paypr
-left join tbl_vbak f on a.vbeln = f.vbeln;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_vbak f on a.vbeln = f.vbeln
+inner join tbl_jobk g on f.jobnr = g.jobnr;
 create view v_vbrp as
 
 select a.*,b.maktx
@@ -879,9 +879,11 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0002','PO','MM','Purchase Order','PO','1000','9999','1308','2000','tbl_ekko','ebeln'),
                       ('0003','GR','MM','Goods Receipt','GR','1000','9999','1308','3000','tbl_egko','mbeln'),
                       ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk','vbeln'),
-                      ('0001','CS','MT','Customer','CS','10000','99999','1308','10000','tbl_kna1','kunnr'),
-                      ('0002','VD','MT','Vendor','VD','20000','99999','1308','20000','tbl_lfa1','lifnr'),
-                      ('0007','SP','SD','Sale Person','SP','30000','99999','1308','30000','tbl_psal','salnr');
+                      ('0001','CM','SD','Customer','1','0001','99999','1308','10000','tbl_kna1','kunnr'),
+                      ('0002','VD','MM','Vendor','2','0001','99999','1308','20000','tbl_lfa1','lifnr'),
+                      ('0007','SP','SD','Sale Person','3','0001','99999','1308','30000','tbl_psal','salnr');
+                      ('0001','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr');
+                      ('0002','AP','AC','Account Payable','AP','10000','99999','1308','30000','tbl_bkpf','belnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 

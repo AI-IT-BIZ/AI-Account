@@ -15,10 +15,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		//this.deleteAct = new Ext.Action({
-		//	text: 'Delete',
-		//	iconCls: 'b-small-minus'
-		//});
 
 		this.tbar = [this.addAct, this.copyAct];
 

@@ -17,7 +17,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 
 		this.gridItem = Ext.create('Account.Quotation.Item.Grid_i',{
-			title:'Project Items'
+			title:'Quotation Items'
 		});
 		this.gridPayment = Ext.create('Account.Quotation.Item.Grid_p',{
 			border: true,
