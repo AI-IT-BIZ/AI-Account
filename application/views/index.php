@@ -46,6 +46,11 @@ Ext.onReady(function() {
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
+	$om.viewport.on('click_rproject', function(){
+		if(!$om.rprojectDialog)
+			$om.rprojectDialog = Ext.create('Account.RProject.MainWindow');
+		$om.rprojectDialog.show();
+	});
 	$om.viewport.on('click_rquotation', function(){
 		if(!$om.rquotationDialog)
 			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
@@ -55,6 +60,12 @@ Ext.onReady(function() {
 		if(!$om.rinvoiceDialog)
 			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
 		$om.rinvoiceDialog.show();
+	});
+	
+	$om.viewport.on('click_rinv_payment', function(){
+		if(!$om.rinv_paymentDialog)
+			$om.rinv_paymentDialog = Ext.create('Account.RInv_payment.MainWindow');
+		$om.rinv_paymentDialog.show();
 	});
 //Purchase Module
 	$om.viewport.on('click_vendor', function(){

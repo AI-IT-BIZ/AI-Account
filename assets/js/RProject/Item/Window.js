@@ -1,13 +1,10 @@
-Ext.define('Account.RInvoice.Item.Window', {
+Ext.define('Account.RProject.Item.Window', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-	//	'Account.Quotation.Grid',
-	//	'Account.Quotation.Item.Window'
-	//],
+
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Invoice Report',
+			title: 'Project Report',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -18,6 +15,7 @@ Ext.define('Account.RInvoice.Item.Window', {
 			layout:'border',
 			maximizable: true
 		});
+
 		return this.callParent(arguments);
 	},
 
@@ -39,15 +37,13 @@ Ext.define('Account.RInvoice.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RQuotation.Item.Grid', {
+
+		this.grid = Ext.create('Account.RProject.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
-
-		// --- after ---
-		//this.grid.load();
 
 		return this.callParent(arguments);
 	}

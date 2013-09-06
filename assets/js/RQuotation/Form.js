@@ -29,7 +29,7 @@ Ext.define('Account.RQuotation.Form', {
 		this.quotationDialog2 = Ext.create('Account.Quotation.MainWindow');
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Quotation Status',
+			fieldLabel: 'Project Status',
 			name : 'statu',
 			editable: false,
 			triggerAction : 'all',

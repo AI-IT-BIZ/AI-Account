@@ -49,10 +49,54 @@ class Project extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'jobk';
+		
+// Start for report
+		function createQuery($_this){
+            $jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}
+
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+// End for report
 
 		$totalCount = $this->db->count_all_results($tbName);
 
-//		createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -96,6 +140,7 @@ class Project extends CI_Controller {
 			'kunnr' => $this->input->post('kunnr'),
 			'pson1' => $this->input->post('pson1'),		
 			'pramt' => $this->input->post('pramt'),
+			'ctype' => $this->input->post('ctype'),
 			'esamt' => $this->input->post('esamt')
 		);
 		  //$this->db->set('erdat', 'NOW()', false);

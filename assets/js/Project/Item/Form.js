@@ -224,7 +224,9 @@ Ext.define('Account.Project.Item.Form', {
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
-		}]
+		},{xtype: 'hidden',
+			name: 'ctype',
+			value: 'THB'}]
 	
 	    },{
 	    	xtype: 'container',

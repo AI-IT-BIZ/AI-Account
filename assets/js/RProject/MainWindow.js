@@ -1,12 +1,12 @@
-Ext.define('Account.RInvoice.MainWindow', {
+Ext.define('Account.RProject.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Invoice Selection',
+			title: 'Project Selection',
 			closeAction: 'hide',
-			height: 270,
+			height: 250,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
@@ -19,9 +19,9 @@ Ext.define('Account.RInvoice.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.itemDialog = Ext.create('Account.RInvoice.Item.Window');
+		this.itemDialog = Ext.create('Account.RProject.Item.Window');
 
-		this.form = Ext.create('Account.RInvoice.Form',{ region:'center' });
+		this.form = Ext.create('Account.RProject.Form',{ region:'center' });
 
 		this.items = [
 		     this.form
@@ -30,8 +30,13 @@ Ext.define('Account.RInvoice.MainWindow', {
 		this.buttons = [{
 			text: 'Report',
 			handler: function() {
+				//var rs = _this.grid1.getData();
+				//_this.form.hdnQtItem.setValue(Ext.encode(rs));
 
+				//_this.itemDialog.form.getForm().reset();
+			    //_this.itemDialog.formTotal.getForm().reset();
 			    _this.itemDialog.show();
+			    
 			    _this.itemDialog.grid.load();
 			}
 		}, {
@@ -47,6 +52,7 @@ Ext.define('Account.RInvoice.MainWindow', {
 			var formValues = _this.form.getForm().getValues();
 			store.getProxy().extraParams = formValues;
 		});
+
 		return this.callParent(arguments);
 	}
 });

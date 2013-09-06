@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		5/9/2013
+Modified		6/9/2013
 Project		
 Model		
 Company		
@@ -32,6 +32,8 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_mkpf;
+drop table IF EXISTS tbl_mseg;
 drop table IF EXISTS tbl_cond;
 drop table IF EXISTS tbl_bsik;
 drop table IF EXISTS tbl_vbok;
@@ -221,6 +223,7 @@ COMMENT = 'Vendor Master';
 Create table tbl_vtyp (
 	vtype Varchar(4) NOT NULL COMMENT 'Vendor type',
 	ventx Varchar(40) COMMENT 'Vendor Type Desc',
+	saknr Varchar(10) COMMENT 'gl no',
  Primary Key (vtype)) ENGINE = InnoDB
 COMMENT = 'Vendor Type';
 
@@ -472,6 +475,7 @@ Create table tbl_jobk (
 	pson1 Varchar(40) COMMENT 'Contact person',
 	pramt Decimal(17,2) COMMENT 'Project amount',
 	esamt Decimal(17,2) COMMENT 'Estimate cost',
+	ctype Varchar(3) COMMENT 'Currency type',
  Primary Key (jobnr)) ENGINE = InnoDB
 COMMENT = 'Job Header';
 
@@ -522,6 +526,7 @@ Create table tbl_ekko (
 	crdit Int COMMENT 'Credit terms',
 	refnr Varchar(40) COMMENT 'Referance',
 	taxnr Varchar(4) COMMENT 'Tax type',
+	ptype Varchar(4) COMMENT 'Payment type',
  Primary Key (ebeln)) ENGINE = InnoDB
 COMMENT = 'PO Header Doc';
 
@@ -804,6 +809,45 @@ Create table tbl_cond (
  Primary Key (condi)) ENGINE = InnoDB
 COMMENT = 'Payment Condition Type';
 
+Create table tbl_mseg (
+	mbeln Varchar(20) NOT NULL COMMENT 'Mat doc no.',
+	mbelp Varchar(5) COMMENT 'mat doc item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
+	dismt Decimal(17,2) COMMENT 'Discount Amt',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	ctype Varchar(3) COMMENT 'Currency',
+ Primary Key (mbeln)) ENGINE = InnoDB
+COMMENT = 'Mat doc Item';
+
+Create table tbl_mkpf (
+	mbeln Varchar(20) NOT NULL COMMENT 'mat doc no.',
+	bldat Date COMMENT 'PO Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'PO Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	sgtxt Varchar(40) COMMENT 'Text Note',
+	lfdat Date COMMENT 'Delivery Date',
+	lifnr Varchar(10) COMMENT 'Vendor (tbl_lfa1)',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	beamt Decimal(17,2) COMMENT 'Amt Before Vat',
+	dismt Decimal(17,2) COMMENT 'Discount',
+	taxpr Decimal(17,2) COMMENT 'Tax percent',
+	netwr Decimal(17,2) COMMENT 'Net Amt',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	purnr Varchar(20) COMMENT 'Purchase Order (tbl_ebko)',
+	crdit Int COMMENT 'Credit terms',
+	refnr Varchar(40) COMMENT 'Referance',
+	taxnr Varchar(4) COMMENT 'Tax type',
+	ptype Varchar(4) COMMENT 'Payment type',
+ Primary Key (mbeln)) ENGINE = InnoDB
+COMMENT = 'Mat Doc';
+
 
 
 
@@ -881,8 +925,8 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0004','MT','MM','Material Transactin','MT','1000','9999','1308','4000','tbl_jobk','vbeln'),
                       ('0001','CM','SD','Customer','1','0001','99999','1308','10000','tbl_kna1','kunnr'),
                       ('0002','VD','MM','Vendor','2','0001','99999','1308','20000','tbl_lfa1','lifnr'),
-                      ('0007','SP','SD','Sale Person','3','0001','99999','1308','30000','tbl_psal','salnr');
-                      ('0001','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr');
+                      ('0007','SP','SD','Sale Person','3','0001','99999','1308','30000','tbl_psal','salnr'),
+                      ('0001','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0002','AP','AC','Account Payable','AP','10000','99999','1308','30000','tbl_bkpf','belnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
