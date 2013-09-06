@@ -1,4 +1,4 @@
-Ext.define('Account.PR2.Grid', {
+Ext.define('Account.PO.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,44 +8,32 @@ Ext.define('Account.PR2.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"pr2/loads",
+				url: __site_url+"po/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'purnr'
+					idProperty: 'ebeln'
 				}
 			},
 			fields: [
-			    'purnr',
+			    'ebeln',
 				'bldat',
 				'lifnr',
 				'name1',
 				'netwr',
-				'statx',
-				'adr01',
-				'distx',
-				'pstlz',
-				'telf1',
-				'telfx',
-				'email'
+				'statx'
 			],
 			remoteSort: true,
-			sorters: ['purnr ASC']
+			sorters: ['ebeln ASC']
 		});
 
 		this.columns = [
-			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
-			{text: "PR Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "PO No", flex: true, dataIndex: 'purnr', sortable: true},
+			{text: "PO Date", width: 125, dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
-			{text: "", width: 0, dataIndex: 'adr01', sortable: true},
-			{text: "", width: 0, dataIndex: 'distx', sortable: true},
-			{text: "", width: 0, dataIndex: 'pstlz', sortable: true},
-			{text: "", width: 0, dataIndex: 'telf1', sortable: true},
-			{text: "", width: 0, dataIndex: 'telfx', sortable: true},
-			{text: "", width: 0, dataIndex: 'email', sortable: true}
+			{text: "PO Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

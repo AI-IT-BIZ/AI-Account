@@ -1,9 +1,9 @@
-Ext.define('Account.PR2.Item.Form', {
+Ext.define('Account.PO.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'pr2/save',
+			url: __site_url+'po/save',
 			layout: 'border',
 			border: false
 		});
@@ -16,9 +16,10 @@ Ext.define('Account.PR2.Item.Form', {
 		//this.projectDialog = Ext.create('Account.Project.MainWindow');
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		this.quotationDialog = Ext.create('Account.PR2.MainWindow');
 
-		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
-			title:'Purchase Items',
+		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
+			title:'Purchase Order Items',
 			height: 320,
 			region:'center'
 		});
@@ -31,7 +32,7 @@ Ext.define('Account.PR2.Item.Form', {
 			region:'center'
 		});
 		*/
-		this.formTotal = Ext.create('Account.PR2.Item.Form_t', {
+		this.formTotal = Ext.create('Account.PO.Item.Form_t', {
 			border: true,
 			split: true,
 			region:'south'
@@ -90,7 +91,7 @@ Ext.define('Account.PR2.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'pr2/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'po/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -108,7 +109,40 @@ Ext.define('Account.PR2.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});	
-		
+/*---ComboBox ประเภท----------------------------*/
+		this.comboTpye = Ext.create('Ext.form.ComboBox', {
+							
+			fieldLabel: 'ประเภท',
+			name: '',
+			//width:185,
+			//labelWidth: 80,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+		    emptyText: '-- Please select data --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'po/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'taxnr'
+					}
+				},
+				fields: [
+					'taxnr',
+					'taxtx'
+				],
+				remoteSort: true,
+				sorters: 'taxnr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'taxtx',
+			valueField: 'taxnr'
+		});	
+/*-------------------------------*/			
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebpo',
 		});
@@ -125,6 +159,16 @@ Ext.define('Account.PR2.Item.Form', {
 			allowBlank : false
 		});
 
+        this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
+			name: 'purnr',
+			fieldLabel: 'PR No',
+			labelAlign: 'letf',
+			//width:240,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
 		this.trigVender = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
@@ -132,7 +176,8 @@ Ext.define('Account.PR2.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-
+		
+	
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -156,33 +201,23 @@ Ext.define('Account.PR2.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigVender,{
+					},this.trigQuotation,{
 						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
-						name: 'name1',
-						//labelAlign: 'l',
-						margins: '0 0 0 6',
-						width:286,
-						//emptyText: 'Customer',
-						allowBlank: true
-					},{
-						xtype: 'displayfield',
-					//xtype: 'textfield',
-					fieldLabel: 'Purchase No',
-					name: 'purnr',
-					anchor:'100%',
+						//xtype: 'textfield',
 						fieldLabel: 'Purchase No',
 						name: 'purnr',
+						anchor:'100%',
+						fieldLabel: 'Purchase Order',
+						name: 'purnr',
 						//flex: 3,
-						value: 'PRXXXX-XXXX',
+						value: 'POXXXX-XXXX',
 						//labelAlign: 'left',
 						//name: 'qt',
 						width:232,
 						readOnly: true,
-						labelStyle: 'font-weight:bold'
-						//disabled: true
+						labelStyle: 'font-weight:bold',
+						//disabled: true,
+						margin: '0 0 0 292',
 					}]
 				// Address Bill&Ship
 	            },{
@@ -193,8 +228,19 @@ Ext.define('Account.PR2.Item.Form', {
 		                xtype: 'container',
 		                flex: 0,
 		                layout: 'anchor',
-		                items :[ this.comboLifnr,{
-		                }, {
+		                
+		                items :[{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.trigVender,{
+								xtype: 'displayfield',
+								name: 'name1',
+								margins: '0 0 0 6',
+								width:150,
+								allowBlank: true 
+			                }]
+						}, {
 							xtype: 'textarea',
 							fieldLabel: 'Address',
 							name: 'adr01',
@@ -206,16 +252,17 @@ Ext.define('Account.PR2.Item.Form', {
 							fieldLabel: 'Reference No',
 							name: 'refnr',
 							anchor:'95%',
-							margin: '25 0 0 0',
+							margin: '25 0 5 0',
 		                }]
 		            },{
 		                xtype: 'container',
 		                flex: 0,
 		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [{
+		                items: [this.comboTpye,{
+		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'PR Date',
+							fieldLabel: 'PO Date',
 							name: 'bldat',
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
@@ -342,6 +389,65 @@ Ext.define('Account.PR2.Item.Form', {
 			_this.vendorDialog.show();
 		};
 
+		// event trigQuotation///
+		this.trigQuotation.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'pr2/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.purnr);
+							_this.getForm().findField('lifnr').setValue(record.data.lifnr);
+							_this.getForm().findField('name1').setValue(record.data.name1);
+							//alert(_this.getForm().findField('refnr').getValue());
+							//_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+							//_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+							//_this.getForm().findField('name1').setValue(record.data.name1);
+							//_this.getForm().findField('salnr').setValue(record.data.salnr);				
+						}else{
+							o.markInvalid('Could not find purchase no : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigQuotation.setValue(record.data.purnr);
+			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			//_this.getForm().findField('adr01').setValue('asdf'); 
+			//_this.getForm().findField('adr01').setValue(record.data.adr01+'asdf');
+			
+			var _addr = record.data.adr01;
+			if(!Ext.isEmpty(record.data.distx))
+			  _addr += ' '+record.data.distx;
+			if(!Ext.isEmpty(record.data.pstlz))
+			  _addr += ' '+record.data.pstlz;
+			if(!Ext.isEmpty(record.data.telf1))
+				_addr += '\n'+'Tel: '+record.data.telf1;
+			 if(!Ext.isEmpty(record.data.telfx))
+				_addr += '\n'+'Fax: '+record.data.telfx;
+			 if(!Ext.isEmpty(record.data.email))
+				_addr += '\n'+'Email: '+record.data.email;
+			 _this.getForm().findField('adr01').setValue(_addr);
+             
+			grid.getSelectionModel().deselectAll();
+			_this.quotationDialog.hide();
+		});
+
+		this.trigQuotation.onTriggerClick = function(){
+			_this.quotationDialog.show();
+		};
+		
 		/*_this.projectDialog
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
