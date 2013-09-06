@@ -18,12 +18,19 @@ Ext.define('Account.PR2.Item.Form', {
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
+			title:'Purchase Items',
+			height: 320,
+			region:'center'
+		});
+		/*
+		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
 			title:'Purchase Items'
 		});
 		this.gridPayment = Ext.create('Account.PR2.Item.Grid_p',{
 			border: true,
 			region:'center'
 		});
+		*/
 		this.formTotal = Ext.create('Account.PR2.Item.Form_t', {
 			border: true,
 			split: true,
@@ -234,18 +241,34 @@ Ext.define('Account.PR2.Item.Form', {
 
 			}]
 		};
-
-		this.items = [mainFormPanel,
+/*
+ 		this.items = [mainFormPanel,
 		{
 			xtype:'tabpanel',
 			region:'center',
 			activeTab: 0,
 			border: false,
-			items: [this.gridItem,{
-			  }]
-			},
+			items: [
+				this.gridItem
+			]
+		},
 			this.formTotal
 		];
+ */
+ 		this.items = [mainFormPanel,
+		{
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			border: false,
+			items: [
+				this.gridItem
+			]
+		},
+			this.formTotal
+		];
+		
+		
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){
@@ -423,8 +446,8 @@ Ext.define('Account.PR2.Item.Form', {
 		var rsItem = this.gridItem.getData();
 		this.hdnQtItem.setValue(Ext.encode(rsItem));
 
-		var rsPayment = _this.gridPayment.getData();
-		this.hdnPpItem.setValue(Ext.encode(rsPayment));
+		//var rsPayment = _this.gridPayment.getData();
+		//this.hdnPpItem.setValue(Ext.encode(rsPayment));
 /*
 		this.getForm().getFields().each(function(f){
 			console.log(f.name);
@@ -460,7 +483,7 @@ Ext.define('Account.PR2.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ vbeln: 0 });
-		this.gridPayment.load({ vbeln: 0 });
+		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');

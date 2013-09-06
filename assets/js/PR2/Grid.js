@@ -21,7 +21,13 @@ Ext.define('Account.PR2.Grid', {
 				'lifnr',
 				'name1',
 				'netwr',
-				'statx'
+				'statx',
+				'adr01',
+				'distx',
+				'pstlz',
+				'telf1',
+				'telfx',
+				'email'
 			],
 			remoteSort: true,
 			sorters: ['purnr ASC']
@@ -33,7 +39,13 @@ Ext.define('Account.PR2.Grid', {
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "", width: 0, dataIndex: 'adr01', sortable: true},
+			{text: "", width: 0, dataIndex: 'distx', sortable: true},
+			{text: "", width: 0, dataIndex: 'pstlz', sortable: true},
+			{text: "", width: 0, dataIndex: 'telf1', sortable: true},
+			{text: "", width: 0, dataIndex: 'telfx', sortable: true},
+			{text: "", width: 0, dataIndex: 'email', sortable: true}
 		];
 
 		this.bbar = {
