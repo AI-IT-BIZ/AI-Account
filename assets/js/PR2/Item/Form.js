@@ -18,7 +18,7 @@ Ext.define('Account.PR2.Item.Form', {
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
-			title:'Purchase Items',
+			//title:'Purchase Items',
 			height: 320,
 			region:'center'
 		});
@@ -255,6 +255,7 @@ Ext.define('Account.PR2.Item.Form', {
 			this.formTotal
 		];
  */
+ /*
  		this.items = [mainFormPanel,
 		{
 			xtype:'tabpanel',
@@ -267,8 +268,11 @@ Ext.define('Account.PR2.Item.Form', {
 		},
 			this.formTotal
 		];
+*/		
 		
-		
+		this.items = [mainFormPanel,this.gridItem,this.formTotal
+			
+		];	
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){

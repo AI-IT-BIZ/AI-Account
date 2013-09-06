@@ -37,7 +37,7 @@ Ext.define('Account.PO.Item.Form', {
 		});
 		*/
 		this.formTotal = Ext.create('Account.PO.Item.Form_t', {
-			title:'Total Purchase Order',
+			//title:'Total Purchase Order',
 			border: true,
 			split: true,
 			region:'south'
@@ -310,7 +310,7 @@ Ext.define('Account.PO.Item.Form', {
  */
 		
 		
-		
+/*		
 		this.items = [mainFormPanel,this.gridItem,
 		{
 			xtype:'tabpanel',
@@ -324,6 +324,11 @@ Ext.define('Account.PO.Item.Form', {
 		}
 			
 		];
+*/
+
+		this.items = [mainFormPanel,this.gridItem,this.formTotal
+			
+		];		
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){

@@ -76,9 +76,9 @@ Ext.onReady(function() {
 	});
 	
 	$om.viewport.on('click_po', function(){
-		if(!$om.pr2Dialog)
-			$om.pr2Dialog = Ext.create('Account.PO.MainWindow');
-		$om.pr2Dialog.show();
+		if(!$om.poDialog)
+			$om.poDialog = Ext.create('Account.PO.MainWindow');
+		$om.poDialog.show();
 	});
 //Material Module
 	$om.viewport.on('click_material', function(){
