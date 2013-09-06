@@ -67,6 +67,8 @@ Ext.define('Account.RInvoice.Item.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	}
 });

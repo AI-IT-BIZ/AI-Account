@@ -1,10 +1,6 @@
 Ext.define('Account.RInvoice.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : ['Account.Quotation.Item.Form',
-	//            'Account.Quotation.Item.Form_t',
-	//            'Account.Quotation.Item.Grid_i',
-	//            'Account.Quotation.Item.Grid_p'
-	//           ],
+
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -34,12 +30,9 @@ Ext.define('Account.RInvoice.MainWindow', {
 		this.buttons = [{
 			text: 'Report',
 			handler: function() {
-				//var rs = _this.grid1.getData();
-				//_this.form.hdnQtItem.setValue(Ext.encode(rs));
 
-				//_this.itemDialog.form.getForm().reset();
-			    //_this.itemDialog.formTotal.getForm().reset();
 			    _this.itemDialog.show();
+			    _this.itemDialog.grid.load();
 			}
 		}, {
 			text: 'Cancel',
@@ -49,9 +42,11 @@ Ext.define('Account.RInvoice.MainWindow', {
 			}
 		}];
 		
-		// --- after ---
-		this.form.load();
-
+		// set handler for item grid store
+		this.itemDialog.grid.store.on('beforeload', function(store){
+			var formValues = _this.form.getForm().getValues();
+			store.getProxy().extraParams = formValues;
+		});
 		return this.callParent(arguments);
 	}
 });

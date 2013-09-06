@@ -18,7 +18,6 @@ Ext.define('Account.RInvoice.Item.Window', {
 			layout:'border',
 			maximizable: true
 		});
-
 		return this.callParent(arguments);
 	},
 
@@ -48,7 +47,7 @@ Ext.define('Account.RInvoice.Item.Window', {
 		this.items = [this.grid];
 
 		// --- after ---
-		this.grid.load();
+		//this.grid.load();
 
 		return this.callParent(arguments);
 	}

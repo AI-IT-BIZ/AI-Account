@@ -517,7 +517,6 @@ Ext.define('Account.RInvoice.Form', {
 
 		_this.customerDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer2.setValue(record.data.kunnr);
-			//_this.getForm().findField('name1').setValue(record.data.name1);
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog2.hide();
@@ -602,11 +601,11 @@ Ext.define('Account.RInvoice.Form', {
 		return this.callParent(arguments);
 	},
 
-	load : function(id){
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/load'
-		});
-	},
+	//load : function(id){
+	//	this.getForm().load({
+	//		params: { id: id },
+	//		url:__site_url+'quotation/load'
+	//	});
+	//},
 
 	});
