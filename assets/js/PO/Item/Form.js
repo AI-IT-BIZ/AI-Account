@@ -19,9 +19,13 @@ Ext.define('Account.PO.Item.Form', {
 		this.quotationDialog = Ext.create('Account.PR2.MainWindow');
 
 		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
-			title:'Purchase Order Items',
 			height: 320,
 			region:'center'
+		});
+		this.gridGL = Ext.create('Account.PO.Item.Grid_gl',{
+			border: true,
+			region:'center',
+			title: 'GL Posting'
 		});
 		/*
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
@@ -33,6 +37,7 @@ Ext.define('Account.PO.Item.Form', {
 		});
 		*/
 		this.formTotal = Ext.create('Account.PO.Item.Form_t', {
+			title:'Total Purchase Order',
 			border: true,
 			split: true,
 			region:'south'
@@ -109,11 +114,11 @@ Ext.define('Account.PO.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});	
-/*---ComboBox ประเภท----------------------------*/
-		this.comboTpye = Ext.create('Ext.form.ComboBox', {
+/*---ComboBox Payment type----------------------------*/
+		this.comboPtype = Ext.create('Ext.form.ComboBox', {
 							
-			fieldLabel: 'ประเภท',
-			name: '',
+			fieldLabel: 'Payment type',
+			name: 'ptype',
 			//width:185,
 			//labelWidth: 80,
 			editable: false,
@@ -124,23 +129,23 @@ Ext.define('Account.PO.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'po/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'po/loads_combo/ptyp/ptype/paytx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
-						idProperty: 'taxnr'
+						idProperty: 'ptype'
 					}
 				},
 				fields: [
-					'taxnr',
-					'taxtx'
+					'ptype',
+					'paytx'
 				],
 				remoteSort: true,
-				sorters: 'taxnr ASC'
+				sorters: 'ptype ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'taxtx',
-			valueField: 'taxnr'
+			displayField: 'paytx',
+			valueField: 'ptype'
 		});	
 /*-------------------------------*/			
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
@@ -237,7 +242,7 @@ Ext.define('Account.PO.Item.Form', {
 								xtype: 'displayfield',
 								name: 'name1',
 								margins: '0 0 0 6',
-								width:150,
+								width:160,
 								allowBlank: true 
 			                }]
 						}, {
@@ -259,7 +264,7 @@ Ext.define('Account.PO.Item.Form', {
 		                flex: 0,
 		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [this.comboTpye,{
+		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
 							fieldLabel: 'PO Date',
@@ -289,6 +294,7 @@ Ext.define('Account.PO.Item.Form', {
 			}]
 		};
 /*
+ 		
  		this.items = [mainFormPanel,
 		{
 			xtype:'tabpanel',
@@ -302,20 +308,22 @@ Ext.define('Account.PO.Item.Form', {
 			this.formTotal
 		];
  */
- 		this.items = [mainFormPanel,
+		
+		
+		
+		this.items = [mainFormPanel,this.gridItem,
 		{
 			xtype:'tabpanel',
-			region:'center',
+			region:'south',
 			activeTab: 0,
-			border: false,
+			height:170,
 			items: [
-				this.gridItem
+				this.formTotal,
+				this.gridGL
 			]
-		},
-			this.formTotal
+		}
+			
 		];
-		
-		
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){

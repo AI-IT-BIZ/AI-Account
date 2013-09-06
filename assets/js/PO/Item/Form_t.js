@@ -163,27 +163,27 @@ Ext.define('Account.PO.Item.Form_t', {
 		            xtype: 'container',
 		            anchor: '100%',
 		            layout: 'hbox',
-            		margin: '0 0 5 0',
+            		margin: '0 0 3 0',
                 	items: [this.txtTotal,{
                 	}]
                 },{
 		            xtype: 'container',
 		            anchor: '100%',
 		            layout: 'hbox',
-            		margin: '0 0 5 0',
+            		margin: '0 0 3 0',
                 	items: [this.txtDiscount,this.txtDiscountValue]
              	},{
 		            xtype: 'container',
 		            anchor: '100%',
 		            layout: 'hbox',
-            		margin: '0 0 5 0',
+            		margin: '0 0 3 0',
                 	items: [this.txtDiscountSum,{
                 	}]
              	},{
 		            xtype: 'container',
 		            anchor: '100%',
 		            layout: 'hbox',
-            		margin: '0 0 5 0',
+            		margin: '0 0 3 0',
                 	items: [this.txtTax,{
 						xtype: 'displayfield',
 						//fieldLabel: '%',
@@ -201,7 +201,7 @@ Ext.define('Account.PO.Item.Form_t', {
 		            xtype: 'container',
 		            anchor: '100%',
 		            layout: 'hbox',
-            		margin: '0 0 5 0',
+            		margin: '0 0 3 0',
                 	items: [this.txtNet,{
                 	}]
                 }]
