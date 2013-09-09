@@ -23,7 +23,7 @@ Ext.define('Account.Customer.Item.Form', {
 		this.comboKtype = Ext.create('Ext.form.ComboBox', {
 							
 			fieldLabel: 'Type',
-			name: 'ktype',
+			name: 'custx',
 			width:290,
 			//labelWidth: 120,
 			editable: false,
@@ -154,7 +154,7 @@ Ext.define('Account.Customer.Item.Form', {
 			displayField: 'sgtxt',
 			valueField: 'saknr'
 		});
-
+		
 /*---ComboBox Tax Type----------------------------*/
 		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
 							
@@ -189,10 +189,64 @@ Ext.define('Account.Customer.Item.Form', {
 			valueField: 'taxnr'
 		});	
 
+
+//---Create Selection--------------------------------------------
+        this.ktypDialog = Ext.create('Account.Ktyp.MainWindow');
+		
+		this.trigKtyp = Ext.create('Ext.form.field.Trigger', {
+			name: 'custx',
+			fieldLabel: 'Type',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+//---event triger----------------------------------------------------------------	
+		// event trigKtyp//
+		this.trigKtyp.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'Ktyp/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.ktype);
+							_this.trigKtyp.setValue(record.data.custx);
+							_this.getForm().findField('ktype').setValue(record.data.ktype);
+							_this.getForm().findField('saknr').setValue(record.data.saknr);
+
+						}else{
+							o.markInvalid('Could not find customer type : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.ktypDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigKtyp.setValue(record.data.custx);
+			_this.getForm().findField('ktype').setValue(record.data.ktype);
+			_this.getForm().findField('saknr').setValue(record.data.saknr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.ktypDialog.hide();
+		});
+
+		this.trigKtyp.onTriggerClick = function(){
+			_this.ktypDialog.show();
+		};		
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
 			xtype: 'hidden',
 			name: 'id'
+		},{
+			xtype: 'hidden',
+			name: 'ktype'
 		},{
 			
 
@@ -210,7 +264,7 @@ Ext.define('Account.Customer.Item.Form', {
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                 items :[this.comboKtype,{
+                 items :[this.trigKtyp,{
                 }, {
                     xtype:'textfield',
                     fieldLabel: 'Customer Code',

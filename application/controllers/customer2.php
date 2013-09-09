@@ -15,10 +15,15 @@ class Customer2 extends CI_Controller {
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'kna1';
+		
 		$kunnr = $this->input->post('kunnr');
 		$this->db->limit(1);
 		$this->db->where('kunnr', $kunnr);
-		$query = $this->db->get('kna1');
+		
+		//$query = $this->db->get('kna1');
+		$query = $this->db->get($tbName);
 		if($query->num_rows()>0){
 			echo json_encode(array(
 				'success'=>true,
@@ -31,6 +36,7 @@ class Customer2 extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'kna1';
 /*
 		function createQuery($_this){
