@@ -56,34 +56,86 @@ class Pr2 extends CI_Controller {
 				'success'=>false
 			));
 	}
-	
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');
-		$totalCount = $this->db->count_all_results($tbName);
-*/
-//		createQuery($this);
+		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		// Start for report
+		function createQuery($_this){
+			
+			$bldat1 = $_this->input->get('bldat1');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
 
-		//$query = $this->db->get($tbName);
-		//echo $this->db->last_query();
+            $purnr1 = $_this->input->get('purnr');
+			$purnr2 = $_this->input->get('purnr2');
+			if(!empty($purnr1) && empty($purnr2)){
+			  $_this->db->where('purnr', $purnr1);
+			}
+			elseif(!empty($purnr1) && !empty($purnr2)){
+			  $_this->db->where('purnr >=', $purnr1);
+			  $_this->db->where('purnr <=', $purnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('kunnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report	
+		/*$sql="SELECT purnr,
+				bldat,
+				t2.lifnr,
+				name1,
+				netwr,
+				statx,t2.adr01,t2.distx,t2.pstlz,t2.telf1,t2.telfx,t2.email 
+			FROM tbl_ebko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+			inner join tbl_apov AS t3 ON t1.statu=t3.statu";
+		$query = $this->db->query($sql);*/
 		
+		//$totalCount = $this->db->count_all_results($tbName);
+		createQuery($this); 
+		$query = $this->db->get($tbName);
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>2//$totalCount
+		));
+	}
+
+	function loads2(){
+		$tbName = 'ebko';
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
 		$sql="SELECT purnr,
 				bldat,
 				t2.lifnr,
@@ -100,7 +152,6 @@ class Pr2 extends CI_Controller {
 			'totalCount'=>2//$totalCount
 		));
 	}
-
 	function save(){
 		//$id = $this->input->post('purnr');
 		$id = $this->input->post('id');

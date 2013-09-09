@@ -74,8 +74,10 @@ function endsWith($haystack, $needle)
 		#div-po { top:160px; left:280px; width: 90px; height:90px; }
 		#div-vendor { top:160px; left:400px; width: 90px; height:90px; }
 		#div-gr { top:280px; left:280px; width: 210px; height:100px; }
-		#div-rpo { position:absolute; top:400px; left:280px; width: 100px; height:100px; }
-		#div-rgr { position:absolute; top:400px; left:390px; width: 100px; height:100px; }
+		#div-rpr { position:absolute; top:400px; left:280px; width: 100px; height:100px; }
+		#div-rpo { position:absolute; top:400px; left:390px; width: 100px; height:100px; }
+		#div-rgr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
+		
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
 		#div1-3-container div span { position:absolute; bottom:10px; left:10px; }
@@ -328,6 +330,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-gr" class="box box-red"><span>Create New Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
 
+									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
 									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
 								'</div>',
@@ -381,6 +384,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-gr').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
 								pEl.getById('div-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
+								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								//Sub Module
 								pEl.getById('div-deposit').on('click', function(){ $om.viewport.fireEvent('click_deposit', c); }, c);
 								pEl.getById('div-return').on('click', function(){ $om.viewport.fireEvent('click_return', c); }, c);
