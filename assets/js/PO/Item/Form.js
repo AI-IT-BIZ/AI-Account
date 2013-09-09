@@ -22,12 +22,12 @@ Ext.define('Account.PO.Item.Form', {
 			height: 320,
 			region:'center'
 		});
+		/*
 		this.gridGL = Ext.create('Account.PO.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
-		/*
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
 			title:'Purchase Items'
 		});
@@ -44,6 +44,7 @@ Ext.define('Account.PO.Item.Form', {
 		});
 		// END INIT other components ////////////////////////////////
 
+		/*
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
@@ -79,7 +80,7 @@ Ext.define('Account.PO.Item.Form', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});
-
+		/*
 
 /*---ComboBox Tax Type----------------------------*/
 		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
@@ -149,9 +150,10 @@ Ext.define('Account.PO.Item.Form', {
 		});	
 /*-------------------------------*/			
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
-			name: 'ebpo',
+			name: 'ekpo',
 		});
 
+		/*
 		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
 			name: 'payp',
 		});
@@ -163,6 +165,7 @@ Ext.define('Account.PO.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+		*/
 
         this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
 			name: 'purnr',
@@ -208,12 +211,9 @@ Ext.define('Account.PO.Item.Form', {
 						name: 'id'
 					},this.trigQuotation,{
 						xtype: 'displayfield',
-						//xtype: 'textfield',
-						fieldLabel: 'Purchase No',
-						name: 'purnr',
 						anchor:'100%',
 						fieldLabel: 'Purchase Order',
-						name: 'purnr',
+						name: 'ebeln',
 						//flex: 3,
 						value: 'POXXXX-XXXX',
 						//labelAlign: 'left',
@@ -326,7 +326,10 @@ Ext.define('Account.PO.Item.Form', {
 		];
 */
 
-		this.items = [mainFormPanel,this.gridItem,this.formTotal
+		this.items = [
+			mainFormPanel,
+			this.gridItem,
+			this.formTotal
 			
 		];		
 
@@ -366,7 +369,7 @@ Ext.define('Account.PO.Item.Form', {
 							//+r.data.telfx+'\n'+'Email '+r.data.email);
 							//_this.getForm().findField('crdit').setValue(9);
 						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
+							o.markInvalid('Could not find Vendor code : '+o.getValue());
 						}
 					}
 				});
@@ -452,11 +455,19 @@ Ext.define('Account.PO.Item.Form', {
 			 if(!Ext.isEmpty(record.data.email))
 				_addr += '\n'+'Email: '+record.data.email;
 			 _this.getForm().findField('adr01').setValue(_addr);
-             
+			 
 			grid.getSelectionModel().deselectAll();
+			//---Load PRitem to POitem Grid-----------
+			var grdpurnr = _this.trigQuotation.value;
+			//alert(grdpurnr);
+			_this.gridItem.load({grdpurnr: grdpurnr });
+			//----------------------------------------
 			_this.quotationDialog.hide();
 		});
 
+		// สั่ง grid load เพื่อเคลียร์ค่า
+		//this.gridItem.load({ ebeln: 0 });
+		
 		this.trigQuotation.onTriggerClick = function(){
 			_this.quotationDialog.show();
 		};
@@ -551,7 +562,7 @@ Ext.define('Account.PO.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'pr2/load',
+			url:__site_url+'po/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -587,11 +598,11 @@ Ext.define('Account.PO.Item.Form', {
 			});
 		}
 	},
-	remove : function(purnr){
+	remove : function(ebeln){
 		var _this=this;
 		this.getForm().load({
-			params: { purnr: purnr },
-			url:__site_url+'pr2/remove',
+			params: { ebeln: ebeln },
+			url:__site_url+'po/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -601,11 +612,11 @@ Ext.define('Account.PO.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ vbeln: 0 });
+		this.gridItem.load({ ebeln: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
-		this.comboQStatus.setValue('01');
+		//this.comboQStatus.setValue('01');
 	},
 	// calculate total functions
 	calculateTotal: function(){

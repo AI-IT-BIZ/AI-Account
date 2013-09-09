@@ -63,8 +63,8 @@ Ext.define('Account.PO.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({purnr: id});
-				_this.itemDialog.form.gridPayment.load({purnr: id});
+				_this.itemDialog.form.gridItem.load({ebeln: id});
+				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});
 

@@ -33,16 +33,16 @@ Ext.define('Account.PO.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"pr2/loads_pr_item",
+				url: __site_url+"po/loads_po_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'purnr,purpo'
+					idProperty: 'ebeln,ebelp'
 				}
 			},
 			fields: [
-			    'purnr',
-				'purpo',
+			    'ebeln',
+				'ebelp',
 				'matnr',
 				'maktx',
 				'menge',
@@ -53,7 +53,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['purpo ASC']
+			sorters: ['ebelp ASC']
 		});
 
 		this.columns = [{
@@ -63,14 +63,14 @@ Ext.define('Account.PO.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete PR Item',
+				tooltip: 'Delete PO Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
 		},{
 			id : 'RowNumber',
 			header : "Items",
-			dataIndex : 'purpo',
+			dataIndex : 'ebelp',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -289,7 +289,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('purpo', row_num++);
+			r.set('ebelp', row_num++);
 		});
 	},
 

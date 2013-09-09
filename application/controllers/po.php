@@ -16,15 +16,25 @@ class Po extends CI_Controller {
 
 	function load(){
 		$id = $this->input->post('id');
+		
 		//$this->db->limit(1);
 		//$this->db->where('purnr', $id);
 		//$query = $this->db->get('ebko');
-		
+		/*
 		$sql="SELECT purnr,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
 			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr
-			FROM tbl_ebko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+			FROM tbl_ekko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 			inner join tbl_apov AS t3 ON t1.statu=t3.statu
 			WHERE purnr='$id'";
+		 */
+		$sql="SELECT ebeln,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
+			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr,
+			t1.purnr,t1.ptype
+			FROM tbl_ekko AS t1 
+				inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+				inner join tbl_apov AS t3 ON t1.statu=t3.statu
+			WHERE ebeln='$id'";
+			//echo $sql; exit;
 		$query = $this->db->query($sql);
 		
 		if($query->num_rows()>0){
@@ -34,7 +44,7 @@ class Po extends CI_Controller {
 			*/
 			
 			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['purnr'];
+			$result_data['id'] = $result_data['ebeln'];
 
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
@@ -102,13 +112,14 @@ class Po extends CI_Controller {
 	}
 
 	function save(){
-		//$id = $this->input->post('purnr');
+		//$id = $this->input->post('ebeln');
 		$id = $this->input->post('id');
+		//echo $id; exit;
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('purnr', $id);
-			$query = $this->db->get('ebko');
+			$this->db->where('ebeln', $id);
+			$query = $this->db->get('ekko');
 		}
 		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
@@ -119,7 +130,8 @@ class Po extends CI_Controller {
 			'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
-			//'crdat' => $this->input->post('crdat'),
+			'purnr' => $this->input->post('purnr'),
+			'ptype' => $this->input->post('ptype'),
 			'crdit' => $this->input->post('crdit'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
@@ -133,33 +145,33 @@ class Po extends CI_Controller {
 		$this->db->trans_start();
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('purnr', $id);
+			$this->db->where('ebeln', $id);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'somwang');
-			$this->db->update('ebko', $formData);
+			$this->db->update('ekko', $formData);
 		}else{
 			
-			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
-			$this->db->set('purnr', $id);
+			$id = $this->code_model->generate('PO', $this->input->post('bldat'));
+		//echo $id; exit;
+			$this->db->set('ebeln', $id);
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'somwang');
-			$this->db->insert('ebko', $formData);
+			$this->db->insert('ekko', $formData);
 		}
-
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('purnr', $id);
-		$this->db->delete('ebpo');
+		$this->db->where('ebeln', $id);
+		$this->db->delete('ekpo');
 
 		// เตรียมข้อมูล  qt item
-		$ebpo = $this->input->post('ebpo');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($ebpo);
-		if(!empty($ebpo) && !empty($qt_item_array)){
+		$ekpo = $this->input->post('ekpo');//$this->input->post('vbelp');
+		$qt_item_array = json_decode($ekpo);
+		if(!empty($ekpo) && !empty($qt_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 			foreach($qt_item_array AS $p){
-				$this->db->insert('ebpo', array(
-					'purnr'=>$id,
-					'purpo'=>++$item_index,//vbelp,
+				$this->db->insert('ekpo', array(
+					'ebeln'=>$id,
+					'ebelp'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
@@ -170,8 +182,7 @@ class Po extends CI_Controller {
 				));
 			}
 		}
-		
-
+	
 		// end transaction
 		$this->db->trans_complete();
 
@@ -186,16 +197,18 @@ class Po extends CI_Controller {
 			));
 	}
 
+
 	function remove(){
-		$purnr = $this->input->post('purnr'); 
-		$this->db->where('purnr', $purnr);
-		$query = $this->db->delete('ebko');
+		$ebeln = $this->input->post('ebeln'); 
+		//echo $ebeln; exit;
+		$this->db->where('ebeln', $ebeln);
+		$query = $this->db->delete('ekko');
 		
-		$this->db->where('purnr', $purnr);
-		$query = $this->db->delete('ebpo');
+		$this->db->where('ebeln', $ebeln);
+		$query = $this->db->delete('ekpo');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$purnr
+			'data'=>$ebeln
 		));
 	}
 
@@ -204,34 +217,36 @@ class Po extends CI_Controller {
 	///////////////////////////////////////////////
 
 
-	function loads_pr_item(){
-		/*
-		$pr_id = $this->input->get('pr_id');
-		$this->db->where('pr_id', $pr_id);
+	function loads_po_item(){
+		$grdpurnr = $this->input->get('grdpurnr');
+		//echo "111".$grdpurnr;//exit;
 
-		//$query = $this->db->get('ebpo');
-		
+		/*
+		$po_id = $this->input->get('ebeln');
+		//echo "test na";
 		$sql="SELECT *,t1.meins
-			FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
+			FROM tbl_ekpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
 				inner join tbl_unit AS t3 ON t1.meins=t3.meins
-			WHERE pr_id = $pr_id";
+			WHERE ebeln = '$po_id'";
 		$query = $this->db->query($sql);
+		*/
 		
+		$po_id = $this->input->get('ebeln');
+		if(!empty($grdpurnr)){
+			$sql="SELECT *,t1.meins
+				FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
+					inner join tbl_unit AS t3 ON t1.meins=t3.meins
+				WHERE purnr = '$grdpurnr'";
+			$query = $this->db->query($sql);
+		}else{
+			$sql="SELECT *,t1.meins
+				FROM tbl_ekpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
+					inner join tbl_unit AS t3 ON t1.meins=t3.meins
+				WHERE ebeln = '$po_id'";
+			$query = $this->db->query($sql);
+		}
 		
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));*/
-		
-        
-		$pr_id = $this->input->get('purnr');
-		
-		$sql="SELECT *,t1.meins
-			FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
-				inner join tbl_unit AS t3 ON t1.meins=t3.meins
-			WHERE purnr = '$pr_id'";
-		$query = $this->db->query($sql);
+		//echo $sql;//exit;
 		
 		echo json_encode(array(
 			'success'=>true,
