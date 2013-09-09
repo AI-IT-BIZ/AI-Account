@@ -380,6 +380,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
 								pEl.getById('div-gr').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
 								pEl.getById('div-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								//Sub Module
 								pEl.getById('div-deposit').on('click', function(){ $om.viewport.fireEvent('click_deposit', c); }, c);
 								pEl.getById('div-return').on('click', function(){ $om.viewport.fireEvent('click_return', c); }, c);

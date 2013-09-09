@@ -15,18 +15,13 @@ class Po extends CI_Controller {
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'ekko';
+		
 		$id = $this->input->post('id');
 		
-		//$this->db->limit(1);
-		//$this->db->where('purnr', $id);
-		//$query = $this->db->get('ebko');
+		 
 		/*
-		$sql="SELECT purnr,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
-			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr
-			FROM tbl_ekko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
-			inner join tbl_apov AS t3 ON t1.statu=t3.statu
-			WHERE purnr='$id'";
-		 */
 		$sql="SELECT ebeln,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
 			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr,
 			t1.purnr,t1.ptype
@@ -37,6 +32,11 @@ class Po extends CI_Controller {
 			//echo $sql; exit;
 		$query = $this->db->query($sql);
 		
+		 */
+		
+		$this->db->where('ebeln', $id);
+		$query = $this->db->get('ekko');
+		 
 		if($query->num_rows()>0){
 			/*	
 			$result = $query->first_row('array');
@@ -69,32 +69,70 @@ class Po extends CI_Controller {
 	
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'ekko';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
 
-		createQuery($this);
-		$this->db->select('id');
-		$totalCount = $this->db->count_all_results($tbName);
-*/
-//		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
-		//$query = $this->db->get($tbName);
-		//echo $this->db->last_query();
 		
-		$sql="SELECT ebeln,
+		// Start for report
+		function createQuery($_this){
+			
+			$bldat1 = $_this->input->get('bldat1');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+
+            $ebeln1 = $_this->input->get('ebeln');
+			$ebeln2 = $_this->input->get('ebeln2');
+			if(!empty($ebeln1) && empty($ebeln2)){
+			  $_this->db->where('ebeln', $ebeln1);
+			}
+			elseif(!empty($ebeln1) && !empty($ebeln2)){
+			  $_this->db->where('ebeln >=', $ebeln1);
+			  $_this->db->where('ebeln <=', $ebeln2);
+			}
+			
+            $purnr1 = $_this->input->get('purnr');
+			$purnr2 = $_this->input->get('purnr2');
+			if(!empty($purnr1) && empty($purnr2)){
+			  $_this->db->where('purnr', $purnr1);
+			}
+			elseif(!empty($purnr1) && !empty($purnr2)){
+			  $_this->db->where('purnr >=', $purnr1);
+			  $_this->db->where('purnr <=', $purnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('kunnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report		
+		
+		/*$sql="SELECT ebeln,
 				bldat,
 				t2.lifnr,
 				name1,
@@ -102,7 +140,11 @@ class Po extends CI_Controller {
 				statx 
 			FROM tbl_ekko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 			inner join tbl_apov AS t3 ON t1.statu=t3.statu";
-		$query = $this->db->query($sql);
+		$query = $this->db->query($sql);*/
+		
+		//$totalCount = $this->db->count_all_results($tbName);
+		createQuery($this); 
+		$query = $this->db->get($tbName);
 		
 		echo json_encode(array(
 			'success'=>true,

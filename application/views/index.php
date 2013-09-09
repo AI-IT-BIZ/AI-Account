@@ -91,6 +91,12 @@ Ext.onReady(function() {
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
 	});
+	
+	$om.viewport.on('click_rpo', function(){
+		if(!$om.rpoDialog)
+			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
+		$om.rpoDialog.show();
+	});
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)
