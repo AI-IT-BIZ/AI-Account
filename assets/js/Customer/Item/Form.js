@@ -197,7 +197,8 @@ Ext.define('Account.Customer.Item.Form', {
 			name: 'custx',
 			fieldLabel: 'Type',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
+			enableKeyEvents: true,
+			width:290,
 		});
 //---event triger----------------------------------------------------------------	
 		// event trigKtyp//
