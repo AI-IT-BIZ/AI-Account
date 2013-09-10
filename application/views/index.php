@@ -92,6 +92,12 @@ Ext.onReady(function() {
 		$om.poDialog.show();
 	});
 	
+	$om.viewport.on('click_gr', function(){
+		if(!$om.grDialog)
+			$om.grDialog = Ext.create('Account.Goodsreceipt.MainWindow');
+		$om.grDialog.show();
+	});
+	
 	$om.viewport.on('click_rpo', function(){
 		if(!$om.rpoDialog)
 			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
