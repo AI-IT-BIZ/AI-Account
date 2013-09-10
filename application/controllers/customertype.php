@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Ktyp extends CI_Controller {
+class Customertype extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,7 +10,7 @@ class Ktyp extends CI_Controller {
 
 
 	function index(){
-		$this->phxview->RenderView('Ktyp');
+		$this->phxview->RenderView('Customertype');
 		$this->phxview->RenderLayout('default');
 	}
 
