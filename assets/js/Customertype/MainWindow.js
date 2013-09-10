@@ -1,7 +1,7 @@
-Ext.define('Account.Ktyp.MainWindow', {
+Ext.define('Account.Customertype.MainWindow', {
 	extend	: 'Ext.window.Window',
 	requires : [
-		'Account.Ktyp.Grid',
+		'Account.Customertype.Grid',
 		//'Account.PR.Item.Window'
 	],
 	constructor:function(config) {
@@ -40,9 +40,9 @@ Ext.define('Account.Ktyp.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 		*/
-		this.itemDialog = Ext.create('Account.PR.Item.Window');
+		//this.itemDialog = Ext.create('Account.PR.Item.Window');
 
-		this.grid = Ext.create('Account.Ktyp.Grid', {
+		this.grid = Ext.create('Account.Customertype.Grid', {
 			region:'center',
 			border: false
 		});
@@ -79,7 +79,6 @@ Ext.define('Account.Ktyp.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		*/
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
 
@@ -90,6 +89,7 @@ Ext.define('Account.Ktyp.MainWindow', {
 			_this.grid.load();
 		});
 
+		*/
 		// --- after ---
 		this.grid.load();
 

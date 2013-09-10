@@ -191,7 +191,7 @@ Ext.define('Account.Customer.Item.Form', {
 
 
 //---Create Selection--------------------------------------------
-        this.ktypDialog = Ext.create('Account.Ktyp.MainWindow');
+        this.ktypDialog = Ext.create('Account.Customertype.MainWindow');
 		
 		this.trigKtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'custx',

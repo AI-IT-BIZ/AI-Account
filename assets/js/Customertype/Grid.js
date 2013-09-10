@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Ktyp.Grid', {
+Ext.define('Account.Customertype.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
