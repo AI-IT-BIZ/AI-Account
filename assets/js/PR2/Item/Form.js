@@ -202,11 +202,23 @@ Ext.define('Account.PR2.Item.Form', {
 							width: 455, 
 							rows:2,
 		                }, {
-							xtype: 'textfield',
-							fieldLabel: 'Reference No',
-							name: 'refnr',
-							anchor:'95%',
-							margin: '25 0 0 0',
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[{
+								xtype: 'textfield',
+								fieldLabel: 'Reference No',
+								name: 'refnr',
+								anchor:'95%',
+			                }, {
+								xtype: 'numberfield',
+								fieldLabel: 'Credit',
+								name: 'crdit',
+								anchor:'100%', 
+								//width: 20, 
+								labelWidth: 50,
+								margin: '0 0 0 40',
+			                }]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -229,11 +241,6 @@ Ext.define('Account.PR2.Item.Form', {
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
 							anchor:'100%',
-		                }, {
-							xtype: 'numberfield',
-							fieldLabel: 'Credit',
-							name: 'crdit',
-							anchor:'100%', 
                 		}, this.comboTaxnr,{
 		                }]
 		            }]

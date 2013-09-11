@@ -147,7 +147,7 @@ Ext.define('Account.PO.Item.Form_t', {
             	margin: '0 0 0 0',
                 items: [{
 					xtype: 'textarea',
-					fieldLabel: 'Comment',
+					fieldLabel: 'Text Note ',
 					name: 'sgtxt',
 					anchor:'100%',
 					width: 455, 

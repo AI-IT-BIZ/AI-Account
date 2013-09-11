@@ -8,7 +8,7 @@ Ext.define('Account.Goodsreceipt.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"po/loads",
+				url: __site_url+"goodsreceipt/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
