@@ -92,13 +92,13 @@ function endsWith($haystack, $needle)
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-deposit { top:30px; left:780px; width: 100px; height:100px; }
-		#div-packing { top:30px; left:890px; width: 100px; height:100px; }
-		#div-return { top:140px; left:780px; width: 100px; height:100px; }
+		#div-receipt { top:30px; left:780px; width: 100px; height:100px; }
+		#div-payment { top:30px; left:890px; width: 100px; height:100px; }
+		#div-otincome { top:140px; left:780px; width: 100px; height:100px; }
 		#div-salep { top:140px; left:890px; width: 100px; height:100px; }
-		#div-material { top:250px; left:780px; width: 210px; height:100px; }
+		#div-otexpense { top:250px; left:780px; width: 210px; height:100px; }
 
-		#div-trans { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
+		#div-material { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-mat-balance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 	</style>
 </head>
@@ -347,13 +347,13 @@ function endsWith($haystack, $needle)
 								'</div>',
 								//Sub Module
 								'<div id="div1-4-container">',
-									'<div id="div-deposit" class="box box-green"><span>Deposit Receipts</span></div>',
-									'<div id="div-packing" class="box box-green"><span>Packing Lists</span></div>',
-									'<div id="div-return" class="box box-green"><span>Product Returns</span></div>',
+									'<div id="div-receipt" class="box box-green"><span>Receipt</span></div>',
+									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
+									'<div id="div-otincome" class="box box-blue"><span>Other Income</span></div>',
 									'<div id="div-salep" class="box box-green"><span>Sale Persons</span></div>',
-									'<div id="div-material" class="box box-green"><span>Create new Materials</span></div>',
+									'<div id="div-otexpense" class="box box-blue"><span>Other Expense</span></div>',
 
-									'<div id="div-trans" class="box box-orange"><span>Material Transactions</span></div>',
+									'<div id="div-material" class="box box-orange"><span>New Materials</span></div>',
 									'<div id="div-mat-balance" class="box box-orange"><span>Material Balances</span></div>',
 								'</div>'
 								].join(''),
@@ -386,12 +386,12 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								//Sub Module
-								pEl.getById('div-deposit').on('click', function(){ $om.viewport.fireEvent('click_deposit', c); }, c);
-								pEl.getById('div-return').on('click', function(){ $om.viewport.fireEvent('click_return', c); }, c);
+								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
-								pEl.getById('div-packing').on('click', function(){ $om.viewport.fireEvent('click_return', c); }, c);
+								pEl.getById('div-otincome').on('click', function(){ $om.viewport.fireEvent('click_otincome', c); }, c);
 								pEl.getById('div-salep').on('click', function(){ $om.viewport.fireEvent('click_salep', c); }, c);
-
+                                pEl.getById('div-otexpense').on('click', function(){ $om.viewport.fireEvent('click_otexpense', c); }, c);
 							}
 						}
 					}

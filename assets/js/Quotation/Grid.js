@@ -26,7 +26,10 @@ Ext.define('Account.Quotation.Grid', {
 				'salnr',
 				'sname',
 				'netwr',
-				'ctype'
+				'ctype',
+				'ptype',
+				'taxnr',
+				'terms'
 			],
 			remoteSort: true,
 			sorters: ['vbeln ASC']
@@ -45,16 +48,15 @@ Ext.define('Account.Quotation.Grid', {
 			width: 100, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "",
-			 xtype: 'hidden',
-			width: 0, 
-			dataIndex: 'salnr', 
-			sortable: true},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'salnr'},
 			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Amount", 
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'ptype'},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'taxnr'},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'terms'}
 		];
 
 		this.bbar = {

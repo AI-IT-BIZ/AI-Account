@@ -116,16 +116,28 @@ Ext.onReady(function() {
 		$om.materialDialog.show();
 	});
 	
-	$om.viewport.on('click_return', function(){
-		if(!$om.returnDialog)
-			$om.returnDialog = Ext.create('Account.Return.MainWindow');
-		$om.returnDialog.show();
+	$om.viewport.on('click_receipt', function(){
+		if(!$om.receiptDialog)
+			$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
+		$om.receiptDialog.show();
 	});
 	
-	$om.viewport.on('click_picking', function(){
-		if(!$om.pickingDialog)
-			$om.pickingDialog = Ext.create('Account.Picking.MainWindow');
-		$om.pickingDialog.show();
+	$om.viewport.on('click_payment', function(){
+		if(!$om.paymentDialog)
+			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
+		$om.paymentDialog.show();
+	});
+	
+	$om.viewport.on('click_otincome', function(){
+		if(!$om.otincomeDialog)
+			$om.otincomeDialog = Ext.create('Account.Otincome.MainWindow');
+		$om.otincomeDialog.show();
+	});
+	
+	$om.viewport.on('click_otexpense', function(){
+		if(!$om.otexpenseDialog)
+			$om.otexpenseDialog = Ext.create('Account.Otexpense.MainWindow');
+		$om.otexpenseDialog.show();
 	});
 	
 

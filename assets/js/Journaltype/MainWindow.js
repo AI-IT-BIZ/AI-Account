@@ -1,59 +1,76 @@
-Ext.define('Account.Quotation.MainWindow', {
+Ext.define('Account.Journaltype.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-	//	'Account.Quotation.Grid',
-	//	'Account.Quotation.Item.Window'
-	//],
+
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Quotation',
+			title: 'Bank Name',
 			closeAction: 'hide',
-			height: 600,
+			height: 380,
 			minHeight: 380,
-			width: 1020,
+			width: 500,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true
+			maximizable: true,
+			defaultFocus: 'code'
 		});
 
 		return this.callParent(arguments);
 	},
-
 	initComponent : function() {
 		var _this=this;
 
 		// --- object ---
+		/*
 		this.addAct = new Ext.Action({
-			text: 'Add',
+			text: 'เพิ่ม',
 			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
-			text: 'Edit',
+			text: 'แก้ไข',
 			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'Delete',
-			disabled: true,
+			text: 'ลบ',
 			iconCls: 'b-small-minus'
-		});
+		});*/
+		
+		//this.itemDialog = Ext.create('Account.Bankname.Item.Window');
 
-        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
-		this.grid = Ext.create('Account.Quotation.Grid', {
+		this.grid = Ext.create('Account.Journaltype.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
+		
+		this.buttons = [{
+			text: 'Save',
+			handler: function() {
+				//var rs = _this.grid1.getData();
+				//_this.form.hdnIvItem.setValue(Ext.encode(rs));
+				
+				_this.form.save();
+			}
+		}, {
+			text: 'Cancel',
+			handler: function() {
+				_this.form.getForm().reset();
+				_this.hide();
+			}
+		}];
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
+		/*
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
+
+			// สั่ง pr_item grid load
+			_this.itemDialog.grid.load({pr_id: 0});
 		});
 
 		this.editAct.setHandler(function(){
@@ -64,8 +81,7 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({vbeln: id});
-				_this.itemDialog.form.gridPayment.load({vbeln: id});
+				_this.itemDialog.grid.load({pr_id: id});
 			}
 		});
 
@@ -76,18 +92,17 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
-
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
+
 			_this.grid.load();
 		});
 
-		this.itemDialog.form.on('afterDelete', function(){
+		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
-
-
+*/
+		
 		// --- after ---
 		this.grid.load();
 

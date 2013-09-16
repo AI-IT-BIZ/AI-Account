@@ -305,7 +305,7 @@ Ext.define('Account.Quotation.Item.Form', {
 					items: [this.comboPSale,
 					{
 						xtype: 'numberfield',
-						fieldLabel: 'Terms',
+						fieldLabel: 'Credit Terms',
 						name: 'terms',
 						//anchor:'80%',
 						labelAlign: 'right',

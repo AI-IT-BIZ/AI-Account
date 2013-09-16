@@ -1,4 +1,4 @@
-Ext.define('Account.RInvoice.Item.Grid', {
+Ext.define('Account.SInvoice.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -18,15 +18,17 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			fields: [
 			    'invnr',
 				'bldat',
-				'vbeln',
 				'kunnr',
 				'name1',
-				'jobnr',
+				'vbeln',
 				'jobtx',
-				'statx',
 				'sname',
+				'statx',
+				'paytx',
 				'netwr',
-				'ctype'
+				'ctype',
+				'refnr',
+				'txz01'
 			],
 			remoteSort: true,
 			sorters: ['invnr ASC']
@@ -36,27 +38,28 @@ Ext.define('Account.RInvoice.Item.Grid', {
 		    {text: "Invoice No", 
 		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
 			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 70, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Quotation No", 
-		    width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
+			width: 80, align: 'center', 
+			dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No", 
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
-			width: 120, dataIndex: 'name1', sortable: true},
+			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Quotation No", 
 			width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Project No", 
-			width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", 
-			width: 120, dataIndex: 'jobtx', sortable: true},
+			width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Sale Person", 
+			width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Status", 
-			width: 60, dataIndex: 'statx', sortable: true},
-			{text: "Sale Name", 
-			width: 100, dataIndex: 'sname', sortable: true},
+			width: 100, dataIndex: 'statx', sortable: true},
+			{text: "Payment Method", 
+			width: 100, dataIndex: 'paytx', sortable: true},
 			{text: "Amount", 
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'refnr'},
+			{text: "",xtype: 'hidden',width: 0, dataIndex: 'txz01'}
 		];
 
 		this.bbar = {
@@ -69,8 +72,6 @@ Ext.define('Account.RInvoice.Item.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load({
-			params: options
-		});
+		this.store.load(options);
 	}
 });

@@ -53,7 +53,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			_this.itemDialog.show();
 
 			// สั่ง pr_item grid load
-			//_this.itemDialog.grid1.load({invpr: 0});
+			//_this.itemDialog.grid.load({invpr: 0});
 			//_this.itemDialog.grid2.load({invpr: 0});
 		});
 
@@ -65,8 +65,8 @@ Ext.define('Account.Invoice.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({invpr: id});
-			    //_this.itemDialog.grid2.load({invpr: id});
+				_this.itemDialog.form.gridItem.load({invnr: id});
+			    //_this.itemDialog.grid2.load({invnr: id});
 			}
 		});
 

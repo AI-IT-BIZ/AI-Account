@@ -1,4 +1,4 @@
-Ext.define('Account.Invoice.Item.Grid_i', {
+Ext.define('Account.Receipt.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -16,8 +16,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 
-		// INIT Material search popup /////////////////////////////////
-		this.materialDialog = Ext.create('Account.Material.MainWindow');
+		// INIT Invoice search popup /////////////////////////////////
+		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
 		// END Material search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -29,24 +29,23 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"invoice/loads_iv_item",
+				url: __site_url+"receipt/loads_rc_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: 'recnr,vbelp'
 				}
 			},
 			fields: [
-			    'invnr',
+			    'recnr',
 				'vbelp',
-				'matnr',
-				'maktx',
-				'menge',
-				'meins',
-				'unitp',
-				'dismt',
+				'invnr',
+				'refnr',
+				'invdt',
+				'texts',
 				'itamt',
-				'ctype'
+				'payrc',
+				'reman'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -60,7 +59,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Invoice Item',
+				tooltip: 'Delete Receipt Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
@@ -75,9 +74,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Material Code",
+		{text: "Invoice Code",
 		width: 120,
-		dataIndex: 'matnr',
+		dataIndex: 'invnr',
 		sortable: false,
 			field: {
 				xtype: 'triggerfield',
@@ -85,46 +84,37 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
-					_this.materialDialog.show();
+					_this.invoiceDialog.show();
 				}
 			},
 			},
-		    {text: "Description",
-		    width: 210,
-		    dataIndex: 'maktx',
+		    {text: "Ref.No",
+		    width: 120,
+		    dataIndex: 'refnr',
 		    sortable: false,
 		    field: {
 				type: 'textfield'
 			},
 		    },
-			{text: "Qty",
-			width: 70,
-			dataIndex: 'menge',
-			sortable: false,
-			align: 'right',
-			field: {
-				type: 'numberfield',
-				//decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
-			},
-			{text: "Unit",
-			width: 50,
-			dataIndex: 'meins',
-			sortable: false,
-			field: {
+		    {text: "Invoice Date",
+		    width: 80,
+		    dataIndex: 'invdt',
+		    sortable: false,
+		    field: {
 				type: 'textfield'
 			},
+		    },
+		    {text: "Text Note",
+		    width: 180,
+		    dataIndex: 'texts',
+		    sortable: false,
+		    field: {
+				type: 'textfield'
 			},
-			{text: "Price/Unit",
-			width: 120,
-			dataIndex: 'unitp',
+		    },
+			{text: "Invoice Amt",
+			width: 100,
+			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -139,9 +129,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Discount",
+			{text: "Payment Amt",
 			width: 100,
-			dataIndex: 'dismt',
+			dataIndex: 'payrc',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -157,23 +147,21 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 			},
 			{
-				text: "Amount",
+				text: "Remain Amt",
 				width: 120,
-				dataIndex: 'itamt',
+				dataIndex: 'reman',
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['dismt']);
-					qty = isNaN(qty)?0:qty;
-					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
+					var itamt = parseFloat(r.data['itamt']),
+						pay = parseFloat(r.data['payrc']);
+					itamt = isNaN(itamt)?0:itamt;
+					pay = isNaN(pay)?0:pay;
 
-					var amt = (qty * price) - discount;
+					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},
+			}/*,
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -182,7 +170,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
-		}];
+		}*/];
 
 		this.plugins = [this.editing];
 
@@ -192,13 +180,13 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		});
 
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='matnr'){
+			if(e.column.dataIndex=='invnr'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'material/load',
+					url: __site_url+'invoice/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -209,13 +197,19 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							var rModel = _this.store.getById(e.record.data.id);
 
 							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
+							rModel.set(e.field, r.data.invnr);
 
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
+							// Ref no
+							rModel.set('refnr', r.data.refnr);
 
-							// Unit
-							rModel.set('meins', r.data.meins);
+							// Invoice date
+							rModel.set('invdt', r.data.bldat);
+							
+							// Text Note
+							rModel.set('texts', r.data.txz01);
+							
+							// Invoice amt
+							rModel.set('itamt', r.data.netwr);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -226,24 +220,30 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			}
 		});
 
-		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
 
 				// change cell code value (use db value)
-				rModel.set('matnr', record.data.matnr);
+				rModel.set('invnr', record.data.invnr);
 
-				// Materail text
-				rModel.set('maktx', record.data.maktx);
+				// Ref no
+				rModel.set('refnr', record.data.refnr);
 
-				// Unit
-				rModel.set('meins', record.data.meins);
+				// Invoice date
+				rModel.set('invdt', record.data.bldat);
+				
+				// Text note
+				rModel.set('texts', record.data.txz01);
+
+				// Invoice amt
+				rModel.set('itamt', record.data.netwr);
 				//rModel.set('amount', 100+Math.random());
 
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.materialDialog.hide();
+			_this.invoiceDialog.hide();
 		});
 
 		return this.callParent(arguments);
@@ -265,7 +265,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctype:'THB' };
+		rec = { id:newId, invnr:'' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

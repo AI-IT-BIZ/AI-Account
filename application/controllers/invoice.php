@@ -47,6 +47,16 @@ class Invoice extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
 			if(!empty($vbeln1) && empty($vbeln2)){
@@ -100,6 +110,8 @@ class Invoice extends CI_Controller {
 // End for report
 
 		$totalCount = $this->db->count_all_results($tbName);
+		
+		//echo 'aaaa';
 
 		createQuery($this);
 		$limit = $this->input->get('limit');
@@ -240,29 +252,18 @@ class Invoice extends CI_Controller {
 	}
 
     public function loads_acombo(){
-		$tbName = 'apov';
-		$tbPK = 'statu';
+		//$tbName = 'apov';
+		//$tbPK = 'statu';
 		
-        //$this->db->where('apgrp', '2');
-		//$query = $this->db->get('apov');
+        $sql="SELECT *
+			FROM tbl_apov
+			WHERE apgrp = '2'";
+		$query = $this->db->query($sql);
 		
-		$query = $this->input->post('query');
-		
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('statx', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-		//$query = $this->db->get('apov');
-
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
+			'totalCount'=>$query->num_rows()
 		));
 	}
 
@@ -373,11 +374,20 @@ class Invoice extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_iv_item(){
-        $this->db->set_dbprefix('v_');
-		$iv_id = $this->input->get('invnr');
-		$this->db->where('invnr', $iv_id);
+		$qtnr = $this->input->get('qtnr');
+		if(!empty($qtnr)){
+			$this->db->set_dbprefix('v_');
+	     	//$iv_id = $this->input->get('vbap');
+		    $this->db->where('vbeln', $qtnr);
 
-		$query = $this->db->get('vbrp');
+		    $query = $this->db->get('vbap');
+		}else{
+            $this->db->set_dbprefix('v_');
+	     	$iv_id = $this->input->get('invnr');
+		    $this->db->where('invnr', $iv_id);
+
+		    $query = $this->db->get('vbrp');
+		}
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

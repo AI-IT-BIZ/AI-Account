@@ -39,7 +39,7 @@ Ext.define('Account.RInvoice.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RQuotation.Item.Grid', {
+		this.grid = Ext.create('Account.RInvoice.Item.Grid', {
 			region:'center',
 			border: false
 		});

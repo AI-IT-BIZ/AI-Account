@@ -342,7 +342,7 @@ Ext.define('Account.Invoice.Item.Form', {
                     margin: '0 0 5 0',
    items: [this.comboPSale ,{
 			xtype: 'numberfield',
-			fieldLabel: 'Terms',
+			fieldLabel: 'Credit Terms',
 			name: 'terms',
 			labelAlign: 'right',
 			width:200,
@@ -406,11 +406,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			
 		];
 		
-		// event comboPeriod///
-		//this.comboPeriod.on('select',function(o, e){
-			
-		//}, this);
-		
 		// event trigQuotation///
 		this.trigQuotation.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -429,9 +424,18 @@ Ext.define('Account.Invoice.Item.Form', {
 							o.setValue(r.data.vbeln);
 							_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 							
-			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('salnr').setValue(record.data.salnr);				
+			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
+			_this.getForm().findField('name1').setValue(r.data.name1);
+			_this.getForm().findField('salnr').setValue(r.data.salnr);	
+			_this.getForm().findField('ptype').setValue(r.data.ptype);	
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);	
+			_this.getForm().findField('terms').setValue(r.data.terms);	
+			
+			//---Load PRitem to POitem Grid-----------
+			var qtnr = _this.trigQuotation.value;
+			//alert(qtnr);
+			_this.gridItem.load({qtnr: qtnr });
+			//----------------------------------------			
 						}else{
 							o.markInvalid('Could not find quotation no : '+o.getValue());
 						}
@@ -447,8 +451,17 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
+			_this.getForm().findField('ptype').setValue(record.data.ptype);
+			_this.getForm().findField('taxnr').setValue(record.data.taxnr);
+			_this.getForm().findField('terms').setValue(record.data.terms);
              
 			grid.getSelectionModel().deselectAll();
+			//---Load PRitem to POitem Grid-----------
+			var qtnr = _this.trigQuotation.value;
+			//console.log(qtnr);
+			//alert(qtnr);
+			_this.gridItem.load({qtnr: qtnr });
+			//----------------------------------------
 			_this.quotationDialog.hide();
 		});
 
@@ -585,7 +598,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ vbeln: 0 });
+		this.gridItem.load({ invnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve

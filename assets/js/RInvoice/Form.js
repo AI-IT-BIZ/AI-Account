@@ -157,7 +157,7 @@ Ext.define('Account.RInvoice.Form', {
 		});
 		
 		this.trigInvoice2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'invnr',
+			name: 'invnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -325,7 +325,7 @@ Ext.define('Account.RInvoice.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.vbeln);
+							o.setValue(r.data.invnr);
 							
 						}else{
 							o.markInvalid('Could not find quotation code : '+o.getValue());
@@ -349,7 +349,7 @@ Ext.define('Account.RInvoice.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.vbeln);
+							o.setValue(r.data.invnr);
 							
 						}else{
 							o.markInvalid('Could not find quotation code : '+o.getValue());
@@ -361,14 +361,14 @@ Ext.define('Account.RInvoice.Form', {
 
 
 		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigInvoice.setValue(record.data.vbeln);
+			_this.trigInvoice.setValue(record.data.invnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.invoiceDialog.hide();
 		});
 		
 		_this.invoiceDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigInvoice2.setValue(record.data.vbeln);
+			_this.trigInvoice2.setValue(record.data.invnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.invoiceDialog2.hide();
