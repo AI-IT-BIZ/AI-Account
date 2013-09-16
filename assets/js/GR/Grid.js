@@ -1,4 +1,4 @@
-Ext.define('Account.Goodsreceipt.Grid', {
+Ext.define('Account.GR.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,7 +8,7 @@ Ext.define('Account.Goodsreceipt.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"goodsreceipt/loads",
+				url: __site_url+"gr/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',

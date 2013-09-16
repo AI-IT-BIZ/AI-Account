@@ -94,7 +94,7 @@ Ext.onReady(function() {
 	
 	$om.viewport.on('click_gr', function(){
 		if(!$om.grDialog)
-			$om.grDialog = Ext.create('Account.Goodsreceipt.MainWindow');
+			$om.grDialog = Ext.create('Account.GR.MainWindow');
 		$om.grDialog.show();
 	});
 	

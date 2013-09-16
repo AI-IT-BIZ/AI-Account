@@ -1,4 +1,4 @@
-Ext.define('Account.Goodsreceipt.MainWindow', {
+Ext.define('Account.GR.MainWindow', {
 	extend	: 'Ext.window.Window',
 	//requires : [
 	//	'Account.Quotation.Grid',
@@ -40,7 +40,7 @@ Ext.define('Account.Goodsreceipt.MainWindow', {
 		});
 
         this.itemDialog = Ext.create('Account.PO.Item.Window');
-		this.grid = Ext.create('Account.Goodsreceipt.Grid', {
+		this.grid = Ext.create('Account.GR.Grid', {
 			region:'center',
 			border: false
 		});
