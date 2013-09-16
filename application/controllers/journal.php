@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Journaltemp extends CI_Controller {
+class Journal extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('code_model2','',TRUE);
+		$this->load->model('code_model','',TRUE);
 	}
 
 	function index(){
@@ -18,18 +18,12 @@ class Journaltemp extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('invnr', $id);
-		$query = $this->db->get('vbrk');
+		$this->db->where('belnr', $id);
+		$query = $this->db->get('bkpf');
 		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
-			$result['id'] = $result['invnr'];
-			
-			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
-			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
-			                         $result['telfx'].
-									 PHP_EOL.'Email: '.$result['email'];
-			$result['adr11'] = $result['adr01'];
+			$result['id'] = $result['belnr'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -43,7 +37,7 @@ class Journaltemp extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbrk';
+		$tbName = 'belnr';
 		
 		// Start for report
 		function createQuery($_this){
