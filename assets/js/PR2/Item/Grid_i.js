@@ -251,8 +251,67 @@ Ext.define('Account.PR2.Item.Grid_i', {
 
 	load: function(options){
 		this.store.load({
-			params: options
+			params: options,
 		});
+	},
+	
+	load2: function(options){
+		//alert("555");
+		
+		// หา record ที่สร้างใหม่ล่าสุด
+		var newId = -1;
+		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
+			if(r.get('id')<newId)
+				newId = r.get('id'); 
+				
+		});
+		newId--;
+	
+		for ( var i = 0; i < 5; i++ ) {
+			// add new record
+			rec = { id:i, ctype:'THB' };
+			edit = this.editing;
+			edit.cancelEdit();
+			// find current record
+			var sel = this.getView().getSelectionModel().getSelection()[0];
+			var selIndex = this.store.indexOf(sel);
+			this.store.insert(selIndex+1, rec);
+			edit.startEditByPosition({
+				row: selIndex+1,
+				column: 0
+			});
+	
+			this.runNumRow();
+		}
+	},	
+
+	addDefaultRecord: function(){
+		
+		// หา record ที่สร้างใหม่ล่าสุด
+		var newId = -1;
+		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
+			if(r.get('id')<newId)
+				newId = r.get('id'); 
+				
+		});
+		newId--;
+	
+		for ( var i = 0; i < 5; i++ ) {
+			// add new record
+			rec = { id:i, ctype:'THB' };
+			edit = this.editing;
+			edit.cancelEdit();
+			// find current record
+			var sel = this.getView().getSelectionModel().getSelection()[0];
+			var selIndex = this.store.indexOf(sel);
+			this.store.insert(selIndex+1, rec);
+			edit.startEditByPosition({
+				row: selIndex+1,
+				column: 0
+			});
+	
+			this.runNumRow();
+		}
 	},
 
 	addRecord: function(){
@@ -279,7 +338,6 @@ Ext.define('Account.PR2.Item.Grid_i', {
 
 		this.runNumRow();
 	},
-
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 

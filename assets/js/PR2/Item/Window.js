@@ -38,6 +38,8 @@ Ext.define('Account.PR2.Item.Window', {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
+				// สั่ง grid load เพื่อเคลียร์ค่า
+				_this.form.gridItem.load({ purnr: 0 });
 				_this.hide();
 			}
 		}];

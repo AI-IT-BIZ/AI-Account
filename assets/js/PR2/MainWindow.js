@@ -51,7 +51,7 @@ Ext.define('Account.PR2.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
+			_this.itemDialog.form.reset();	
 			_this.itemDialog.show();
 		});
 
@@ -64,7 +64,7 @@ Ext.define('Account.PR2.MainWindow', {
 
 				// สั่ง pr_item grid load
 				_this.itemDialog.form.gridItem.load({purnr: id});
-				_this.itemDialog.form.gridPayment.load({purnr: id});
+				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});
 

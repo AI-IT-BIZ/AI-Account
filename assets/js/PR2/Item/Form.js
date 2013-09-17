@@ -491,10 +491,11 @@ Ext.define('Account.PR2.Item.Form', {
 	},
 	reset: function(){
 		this.getForm().reset();
-
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ vbeln: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
+		//this.gridItem.load({ purnr: 0 });
+		
+		// สร้างรายการเปล่า 5 รายการใน grid item
+		this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
