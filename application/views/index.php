@@ -121,6 +121,12 @@ Ext.onReady(function() {
 			$om.rgrDialog = Ext.create('Account.RGR.MainWindow');
 		$om.rgrDialog.show();
 	});
+	
+	$om.viewport.on('click_rap', function(){
+		if(!$om.rapDialog)
+			$om.rapDialog = Ext.create('Account.RAP.MainWindow');
+		$om.rapDialog.show();
+	});
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)

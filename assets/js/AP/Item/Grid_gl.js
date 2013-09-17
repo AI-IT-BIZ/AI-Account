@@ -1,4 +1,4 @@
-Ext.define('Account.PO.Item.Grid_gl', {
+Ext.define('Account.AP.Item.Grid_gl', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);

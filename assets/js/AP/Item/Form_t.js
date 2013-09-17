@@ -3,7 +3,7 @@ Ext.define('Account.AP.Item.Form_t', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/save',
+			url: __site_url+'ap/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -232,7 +232,7 @@ Ext.define('Account.AP.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/load'
+			url:__site_url+'ap/load'
 		});
 	},
 	save : function(){
@@ -254,7 +254,7 @@ Ext.define('Account.AP.Item.Form_t', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/remove',
+			url:__site_url+'ap/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

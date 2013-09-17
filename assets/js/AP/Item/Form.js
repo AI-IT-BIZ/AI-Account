@@ -22,12 +22,12 @@ Ext.define('Account.AP.Item.Form', {
 			height: 320,
 			region:'center'
 		});
-		/*
-		this.gridGL = Ext.create('Account.PO.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.AP.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
+		/*
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
 			title:'Purchase Items'
 		});
@@ -37,7 +37,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		*/
 		this.formTotal = Ext.create('Account.AP.Item.Form_t', {
-			//title:'Total Purchase Order',
+			title:'Total Account Payble',
 			border: true,
 			split: true,
 			region:'south'
@@ -215,7 +215,7 @@ Ext.define('Account.AP.Item.Form', {
 						fieldLabel: 'AP Doc.',
 						name: 'invnr',
 						//flex: 3,
-						value: 'APXXXX-XXXX',
+						value: 'TIXXXX-XXXX',
 						//labelAlign: 'left',
 						//name: 'qt',
 						width:232,
@@ -318,7 +318,6 @@ Ext.define('Account.AP.Item.Form', {
  */
 		
 		
-/*		
 		this.items = [mainFormPanel,this.gridItem,
 		{
 			xtype:'tabpanel',
@@ -332,8 +331,8 @@ Ext.define('Account.AP.Item.Form', {
 		}
 			
 		];
-*/
-
+	
+/*	
 		this.items = [
 			mainFormPanel,
 			this.gridItem,
@@ -341,6 +340,7 @@ Ext.define('Account.AP.Item.Form', {
 			
 		];		
 
+*/
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();

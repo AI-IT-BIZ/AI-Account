@@ -87,14 +87,14 @@ class Ap extends CI_Controller {
 			  $_this->db->where('mbeln <=', $mbeln2);
 			}
 
-            $ebeln1 = $_this->input->get('ebeln');
-			$ebeln2 = $_this->input->get('ebeln2');
-			if(!empty($ebeln1) && empty($ebeln2)){
-			  $_this->db->where('ebeln', $ebeln1);
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
 			}
-			elseif(!empty($ebeln1) && !empty($ebeln2)){
-			  $_this->db->where('ebeln >=', $ebeln1);
-			  $_this->db->where('ebeln <=', $ebeln2);
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -182,7 +182,7 @@ class Ap extends CI_Controller {
 			$this->db->update('ebrk', $formData);
 		}else{
 			
-			$id = $this->code_model->generate('AP', $this->input->post('bldat'));
+			$id = $this->code_model->generate('TI', $this->input->post('bldat'));
 		//echo $id; exit;
 			$this->db->set('invnr', $id);
 			$this->db->set('erdat', 'NOW()', false);

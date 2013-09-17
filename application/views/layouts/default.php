@@ -78,6 +78,7 @@ function endsWith($haystack, $needle)
 		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
 		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
 		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
+		#div-rap { position:absolute; top:620px; left:390px; width: 100px; height:100px; }
 		
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -335,6 +336,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
 									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
+									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
 								'</div>',
 								//Account Module
 								'<div id="div1-3-container">',
@@ -389,6 +391,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);
+								pEl.getById('div-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
 								//Sub Module
 								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
 								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
