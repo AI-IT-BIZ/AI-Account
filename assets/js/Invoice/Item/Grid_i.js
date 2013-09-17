@@ -253,6 +253,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.store.load({
 			params: options
 		});
+		
+		//this.addRecord();
 	},
 
 	addRecord: function(){

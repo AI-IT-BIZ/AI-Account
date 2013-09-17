@@ -1,4 +1,4 @@
-Ext.define('Account.Journaltemp.Item.Grid_gl', {
+Ext.define('Account.Journal.Item.Grid_gl', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,16 +29,16 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"journaltemp/loads_gl_item",
+				url: __site_url+"journal/loads_gl_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'tranr,trapr'
+					idProperty: 'belnr,belpr'
 				}
 			},
 			fields: [
-			    'tranr',
-				'trapr',
+			    'belnr',
+				'belpr',
 				'saknr',
 				'sgtxt',
 				'debit',
@@ -46,7 +46,7 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 				'txz01'
 			],
 			remoteSort: true,
-			sorters: ['trapr ASC']
+			sorters: ['belpr ASC']
 		});
 
 		this.columns = [
@@ -57,14 +57,14 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Template Item',
+				tooltip: 'Delete Journal Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
 		},{
 			id : 'RowNumber',
 			header : "No.",
-			dataIndex : 'trapr',
+			dataIndex : 'belpr',
 			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -106,7 +106,7 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 				decimalPrecision: 2
 			}
 			},
-			{text: "Remarks", 
+			{text: "Comment", 
 			width: 250, dataIndex: 'txz01', sortable: true,
 			field: {
 				type: 'textfield'

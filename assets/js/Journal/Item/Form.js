@@ -1,9 +1,9 @@
-Ext.define('Account.Journaltemp.Item.Form', {
+Ext.define('Account.Journal.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'journaltemp/save',
+			url: __site_url+'journal/save',
 			layout: 'border',
 			border: false
 		});
@@ -14,8 +14,9 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		var _this=this;
 		
 		// INIT Customer search popup ///////////////////////////////
+		this.journalDialog = Ext.create('Account.Journaltemp.MainWindow');
 		
-		this.gridItem = Ext.create('Account.Journaltemp.Item.Grid_gl',{
+		this.gridItem = Ext.create('Account.Journal.Item.Grid_gl',{
 			//title:'Invoice Items',
 			height: 320,
 			region:'center'
@@ -35,7 +36,7 @@ Ext.define('Account.Journaltemp.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'journaltemp/loads_jtypecombo',
+					url: __site_url+'journal/loads_jtypecombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -52,6 +53,17 @@ Ext.define('Account.Journaltemp.Item.Form', {
 			queryMode: 'remote',
 			displayField: 'typtx',
 			valueField: 'ttype'
+		});
+		
+		this.trigJournal = Ext.create('Ext.form.field.Trigger', {
+			name: 'tranr',
+			labelAlign: 'letf',
+			width:240,
+			labelWidth: 90,
+			fieldLabel: 'Template Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true//,
+			//allowBlank : false
 		});
 		
 		this.hdnTrItem = Ext.create('Ext.form.Hidden', {
@@ -89,16 +101,13 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		},this.comboType,{
 			xtype: 'displayfield',
 			width:200,
-			margins: '0 0 0 6',
-            allowBlank: true
+			margins: '0 0 0 6'
 		},{
 			xtype: 'displayfield',
-            fieldLabel: 'Template Code',
-            name: 'tranr',
-            //flex: 3,
-            value: 'XXXX',
+            fieldLabel: 'Journal Code',
+            name: 'belnr',
+            value: 'XXXXXX-XXXXX',
             labelAlign: 'right',
-			//name: 'qt',
 			width:240,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
@@ -106,27 +115,89 @@ Ext.define('Account.Journaltemp.Item.Form', {
 
 // Customer Code
 		},{
-                xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[{
+            xtype: 'container',
+            layout: 'hbox',
+            margin: '0 0 5 0',
+     items :[this.trigJournal,{
 			xtype: 'displayfield',
-            //fieldLabel: '',
-            width: 445
+            name: 'txz01',
+            margins: '0 0 0 6',
+            width: 205
 		},{
 			xtype: 'textfield',
 			fieldLabel: 'Template Name',
 			name: 'txz01',
 			//anchor:'80%',
 			labelAlign: 'right',
-			width:350,
-			allowBlank: false
+			width:350
 		}]
+// Description
+		},{
+            xtype: 'container',
+            layout: 'hbox',
+            margin: '0 0 5 0',
+     items :[ {
+     	    xtype: 'textfield',
+			fieldLabel: 'Description',
+			name: 'txz01',
+			//anchor:'80%',
+			labelAlign: 'right',
+			width:350
+		},{
+			xtype: 'displayfield',
+            margins: '0 0 0 6',
+            width: 205
+		}]		
         }]
 		}]
 		};
 		
 		this.items = [mainFormPanel,this.gridItem];
+		
+		// event trigCustomer///
+		this.trigJournal.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'journaltemp/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.tranr);
+							
+                            _this.getForm().findField('txz01').setValue(record.data.txz01);
+							
+						}else{
+							o.markInvalid('Could not find Journal Template : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer.setValue(record.data.kunnr);
+			
+             _this.getForm().findField('adr11').setValue(_addr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.customerDialog.hide();
+		});
+
+		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.show();
+		};
+		
+	// grid event
+		this.gridItem.store.on('update', this.calculateTotal, this);
+		this.gridItem.store.on('load', this.calculateTotal, this);
+		this.on('afterLoad', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},	
@@ -135,7 +206,7 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'journaltemp/load',
+			url:__site_url+'journal/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -176,7 +247,7 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'journaltemp/remove',
+			url:__site_url+'journal/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -187,7 +258,7 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ tranr: 0 });
+		this.gridItem.load({ belnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
