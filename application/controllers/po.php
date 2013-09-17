@@ -17,11 +17,19 @@ class Po extends CI_Controller {
 	function load(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ekko';
-		
 		$id = $this->input->post('id');
+		$this->db->where('ebeln', $id);
+		$query = $this->db->get('ekko');
 		
 		 
-		/*
+		/*CREATE VIEW v_ekko AS
+			SELECT ebeln,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
+			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr,
+			t1.purnr,t1.ptype,t1.netwr,t3.statx,t1.statu
+			FROM tbl_ekko AS t1 
+				inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+				inner join tbl_apov AS t3 ON t1.statu=t3.statu
+		 * 
 		$sql="SELECT ebeln,t1.lifnr,name1,adr01,distx,pstlz,telf1,telfx,email,
 			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr,
 			t1.purnr,t1.ptype
@@ -34,8 +42,6 @@ class Po extends CI_Controller {
 		
 		 */
 		
-		$this->db->where('ebeln', $id);
-		$query = $this->db->get('ekko');
 		 
 		if($query->num_rows()>0){
 			/*	
@@ -113,7 +119,7 @@ class Po extends CI_Controller {
 			$lifnr1 = $_this->input->get('lifnr');
 			$lifnr2 = $_this->input->get('lifnr2');
 			if(!empty($lifnr1) && empty($lifnr2)){
-			  $_this->db->where('kunnr', $lifnr1);
+			  $_this->db->where('lifnr', $lifnr1);
 			}
 			elseif(!empty($lifnr1) && !empty($lifnr2)){
 			  $_this->db->where('lifnr >=', $lifnr1);
@@ -275,17 +281,26 @@ class Po extends CI_Controller {
 		
 		$po_id = $this->input->get('ebeln');
 		if(!empty($grdpurnr)){
-			$sql="SELECT *,t1.meins
+			$this->db->set_dbprefix('v_');
+			$this->db->where('purnr', $grdpurnr);
+			$query = $this->db->get('ebpo');
+			
+			/*$sql="SELECT *,t1.meins
 				FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
 					inner join tbl_unit AS t3 ON t1.meins=t3.meins
 				WHERE purnr = '$grdpurnr'";
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql);*/
 		}else{
+			
+			$this->db->set_dbprefix('v_');
+			$this->db->where('ebeln', $po_id);
+			$query = $this->db->get('ekpo');
+			/*
 			$sql="SELECT *,t1.meins
 				FROM tbl_ekpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
 					inner join tbl_unit AS t3 ON t1.meins=t3.meins
 				WHERE ebeln = '$po_id'";
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql);*/
 		}
 		
 		//echo $sql;//exit;

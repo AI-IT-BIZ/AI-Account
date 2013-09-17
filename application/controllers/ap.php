@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gr extends CI_Controller {
+class Ap extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,19 +10,19 @@ class Gr extends CI_Controller {
 	}
 
 	function index(){
-		$this->phxview->RenderView('gr');
+		$this->phxview->RenderView('ap');
 		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mkpf';
+		$tbName = 'ebrk';
 		
 		$id = $this->input->post('id');
 		
 		
-		$this->db->where('mbeln', $id);
-		$query = $this->db->get('mkpf');
+		$this->db->where('invnr', $id);
+		$query = $this->db->get('ebrk');
 		 
 		if($query->num_rows()>0){
 			/*	
@@ -31,7 +31,7 @@ class Gr extends CI_Controller {
 			*/
 			
 			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['mbeln'];
+			$result_data['id'] = $result_data['invnr'];
 
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
@@ -57,7 +57,7 @@ class Gr extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mkpf';
+		$tbName = 'ebrk';
 
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -87,14 +87,14 @@ class Gr extends CI_Controller {
 			  $_this->db->where('mbeln <=', $mbeln2);
 			}
 
-            $ebeln1 = $_this->input->get('ebeln');
-			$ebeln2 = $_this->input->get('ebeln2');
-			if(!empty($ebeln1) && empty($ebeln2)){
-			  $_this->db->where('ebeln', $ebeln1);
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
 			}
-			elseif(!empty($ebeln1) && !empty($ebeln2)){
-			  $_this->db->where('ebeln >=', $ebeln1);
-			  $_this->db->where('ebeln <=', $ebeln2);
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -147,8 +147,8 @@ class Gr extends CI_Controller {
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('mbeln', $id);
-			$query = $this->db->get('mkpf');
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('ebrk');
 		}
 		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
@@ -156,10 +156,12 @@ class Gr extends CI_Controller {
 			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
+			
 			'lfdat' => $this->input->post('lfdat'),
+			
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
-			'ebeln' => $this->input->post('ebeln'),  //PO no.
+			'mbeln' => $this->input->post('mbeln'),  //GR Doc.
 			'ptype' => $this->input->post('ptype'),
 			'crdit' => $this->input->post('crdit'),
 			'dismt' => $this->input->post('dismt'),
@@ -174,33 +176,33 @@ class Gr extends CI_Controller {
 		$this->db->trans_start();
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('mbeln', $id);
+			$this->db->where('invnr', $id);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'somwang');
-			$this->db->update('mkpf', $formData);
+			$this->db->update('ebrk', $formData);
 		}else{
 			
-			$id = $this->code_model->generate('GR', $this->input->post('bldat'));
+			$id = $this->code_model->generate('TI', $this->input->post('bldat'));
 		//echo $id; exit;
-			$this->db->set('mbeln', $id);
+			$this->db->set('invnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'somwang');
-			$this->db->insert('mkpf', $formData);
+			$this->db->insert('ebrk', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('mbeln', $id);
-		$this->db->delete('mseg');
+		$this->db->where('invnr', $id);
+		$this->db->delete('ebrp');
 
 		// เตรียมข้อมูล  qt item
-		$mseg = $this->input->post('mseg');//$this->input->post('vbelp');
-		$gr_item_array = json_decode($mseg);
-		if(!empty($mseg) && !empty($gr_item_array)){
-			// loop เพื่อ insert gr_item ที่ส่งมาใหม่
+		$ebrp = $this->input->post('ebrp');//$this->input->post('vbelp');
+		$ap_item_array = json_decode($ebrp);
+		if(!empty($ebrp) && !empty($ap_item_array)){
+			// loop เพื่อ insert ap_item ที่ส่งมาใหม่
 			$item_index = 0;
-			foreach($gr_item_array AS $p){
-				$this->db->insert('mseg', array(
-					'mbeln'=>$id,
-					'mbelp'=>++$item_index,//vbelp,
+			foreach($ap_item_array AS $p){
+				$this->db->insert('ebrp', array(
+					'invnr'=>$id,
+					'vbelp'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
@@ -228,16 +230,16 @@ class Gr extends CI_Controller {
 
 
 	function remove(){
-		$mbeln = $this->input->post('mbeln'); 
+		$invnr = $this->input->post('invnr'); 
 		//echo $ebeln; exit;
-		$this->db->where('mbeln', $mbeln);
-		$query = $this->db->delete('mkpf');
+		$this->db->where('invnr', $invnr);
+		$query = $this->db->delete('ebrk');
 		
-		$this->db->where('mbeln', $mbeln);
-		$query = $this->db->delete('mseg');
+		$this->db->where('invnr', $invnr);
+		$query = $this->db->delete('ebrp');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$mbeln
+			'data'=>$invnr
 		));
 	}
 
@@ -246,14 +248,14 @@ class Gr extends CI_Controller {
 	///////////////////////////////////////////////
 
 
-	function loads_gr_item(){
-		$grdebeln = $this->input->get('grdebeln');
+	function loads_ap_item(){
+		$grdmbeln = $this->input->get('grdmbeln');
 		
-		$gr_id = $this->input->get('mbeln');
-		if(!empty($grdebeln)){
+		$ap_id = $this->input->get('invnr');
+		if(!empty($grdmbeln)){
 			$this->db->set_dbprefix('v_');
-			$this->db->where('ebeln', $grdebeln);
-			$query = $this->db->get('ekpo');
+			$this->db->where('mbeln', $grdmbeln);
+			$query = $this->db->get('mseg');
 			
 			//$id = $this->input->post('id');
 			//$sql="SELECT *,t1.meins
@@ -262,8 +264,8 @@ class Gr extends CI_Controller {
 			//$query = $this->db->query($sql);
 		}else{
 			$this->db->set_dbprefix('v_');
-			$this->db->where('mbeln', $gr_id);
-			$query = $this->db->get('mseg');
+			$this->db->where('invnr', $ap_id);
+			$query = $this->db->get('ebrp');
 		
 			/*$sql="SELECT *,t1.meins
 				FROM tbl_mseg AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr

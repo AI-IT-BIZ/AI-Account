@@ -1,9 +1,9 @@
-Ext.define('Account.GR.Item.Form', {
+Ext.define('Account.AP.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'gr/save',
+			url: __site_url+'ap/save',
 			layout: 'border',
 			border: false
 		});
@@ -16,18 +16,18 @@ Ext.define('Account.GR.Item.Form', {
 		//this.projectDialog = Ext.create('Account.Project.MainWindow');
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		this.poDialog = Ext.create('Account.PO.MainWindow');
+		this.grDialog = Ext.create('Account.GR.MainWindow');
 
-		this.gridItem = Ext.create('Account.GR.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.AP.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		/*
-		this.gridGL = Ext.create('Account.PO.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.AP.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
+		/*
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
 			title:'Purchase Items'
 		});
@@ -36,8 +36,8 @@ Ext.define('Account.GR.Item.Form', {
 			region:'center'
 		});
 		*/
-		this.formTotal = Ext.create('Account.GR.Item.Form_t', {
-			//title:'Total Purchase Order',
+		this.formTotal = Ext.create('Account.AP.Item.Form_t', {
+			title:'Total Account Payble',
 			border: true,
 			split: true,
 			region:'south'
@@ -97,7 +97,7 @@ Ext.define('Account.GR.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'gr/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'ap/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -130,7 +130,7 @@ Ext.define('Account.GR.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'gr/loads_combo/ptyp/ptype/paytx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'ap/loads_combo/ptyp/ptype/paytx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -149,8 +149,8 @@ Ext.define('Account.GR.Item.Form', {
 			valueField: 'ptype'
 		});	
 /*-------------------------------*/			
-		this.hdnGrItem = Ext.create('Ext.form.Hidden', {
-			name: 'mseg',
+		this.hdnApItem = Ext.create('Ext.form.Hidden', {
+			name: 'ebrp',
 		});
 
 		/*
@@ -167,9 +167,9 @@ Ext.define('Account.GR.Item.Form', {
 		});
 		*/
 
-        this.trigPO = Ext.create('Ext.form.field.Trigger', {
-			name: 'ebeln',
-			fieldLabel: 'PO No',
+        this.trigGR = Ext.create('Ext.form.field.Trigger', {
+			name: 'mbeln',
+			fieldLabel: 'GR No',
 			labelAlign: 'letf',
 			//width:240,
 			triggerCls: 'x-form-search-trigger',
@@ -197,7 +197,7 @@ Ext.define('Account.GR.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnGrItem, this.hdnPpItem,
+			items: [this.hdnApItem, this.hdnPpItem,
 			{
 				xtype:'fieldset',
 				title: 'Header Data',
@@ -209,13 +209,13 @@ Ext.define('Account.GR.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigPO,{
+					},this.trigGR,{
 						xtype: 'displayfield',
 						anchor:'100%',
-						fieldLabel: 'GR Doc.',
-						name: 'mbeln',
+						fieldLabel: 'AP Doc.',
+						name: 'invnr',
 						//flex: 3,
-						value: 'GRXXXX-XXXX',
+						value: 'TIXXXX-XXXX',
 						//labelAlign: 'left',
 						//name: 'qt',
 						width:232,
@@ -280,7 +280,7 @@ Ext.define('Account.GR.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'GR Date',
+							fieldLabel: 'AP Date',
 							name: 'bldat',
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
@@ -318,7 +318,6 @@ Ext.define('Account.GR.Item.Form', {
  */
 		
 		
-/*		
 		this.items = [mainFormPanel,this.gridItem,
 		{
 			xtype:'tabpanel',
@@ -332,8 +331,8 @@ Ext.define('Account.GR.Item.Form', {
 		}
 			
 		];
-*/
-
+	
+/*	
 		this.items = [
 			mainFormPanel,
 			this.gridItem,
@@ -341,6 +340,7 @@ Ext.define('Account.GR.Item.Form', {
 			
 		];		
 
+*/
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -414,13 +414,13 @@ Ext.define('Account.GR.Item.Form', {
 		};
 
 		// event trigQuotation///
-		this.trigPO.on('keyup',function(o, e){
+		this.trigGR.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'po/load',
+					url: __site_url+'gr/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -428,7 +428,7 @@ Ext.define('Account.GR.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.ebeln);
+							o.setValue(r.data.mbeln);
 							_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 							_this.getForm().findField('name1').setValue(record.data.name1);
 							//alert(_this.getForm().findField('refnr').getValue());
@@ -437,15 +437,15 @@ Ext.define('Account.GR.Item.Form', {
 							//_this.getForm().findField('name1').setValue(record.data.name1);
 							//_this.getForm().findField('salnr').setValue(record.data.salnr);				
 						}else{
-							o.markInvalid('Could not find purchase order no : '+o.getValue());
+							o.markInvalid('Could not find goods recept : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
 		
-		_this.poDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigPO.setValue(record.data.ebeln);
+		_this.grDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigGR.setValue(record.data.mbeln);
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			//_this.getForm().findField('adr01').setValue('asdf'); 
@@ -466,18 +466,18 @@ Ext.define('Account.GR.Item.Form', {
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var grdebeln = _this.trigPO.value;
+			var grdmbeln = _this.trigGR.value;
 			//alert(grdebeln);
-			_this.gridItem.load({grdebeln: grdebeln });
+			_this.gridItem.load({grdmbeln: grdmbeln });
 			//----------------------------------------
-			_this.poDialog.hide();
+			_this.grDialog.hide();
 		});
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		//this.gridItem.load({ ebeln: 0 });
 		
-		this.trigPO.onTriggerClick = function(){
-			_this.poDialog.show();
+		this.trigGR.onTriggerClick = function(){
+			_this.grDialog.show();
 		};
 		
 		/*_this.projectDialog
@@ -570,7 +570,7 @@ Ext.define('Account.GR.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'gr/load',
+			url:__site_url+'ap/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -582,7 +582,7 @@ Ext.define('Account.GR.Item.Form', {
 
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnGrItem.setValue(Ext.encode(rsItem));
+		this.hdnApItem.setValue(Ext.encode(rsItem));
 
 		//var rsPayment = _this.gridPayment.getData();
 		//this.hdnPpItem.setValue(Ext.encode(rsPayment));
@@ -606,11 +606,11 @@ Ext.define('Account.GR.Item.Form', {
 			});
 		}
 	},
-	remove : function(mbeln){
+	remove : function(invnr){
 		var _this=this;
 		this.getForm().load({
-			params: { mbeln: mbeln },
-			url:__site_url+'gr/remove',
+			params: { invnr: invnr },
+			url:__site_url+'ap/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -620,7 +620,7 @@ Ext.define('Account.GR.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ mbeln: 0 });
+		this.gridItem.load({ invnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
