@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Journaltemp extends CI_Controller {
+class Journal extends CI_Controller {
 
 	function __construct()
 	{

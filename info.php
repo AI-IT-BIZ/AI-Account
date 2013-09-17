@@ -1,3 +1,3 @@
 <?php
-phpinfo();
-?>
+phpinfo();  //test commit 2222
+?>  
