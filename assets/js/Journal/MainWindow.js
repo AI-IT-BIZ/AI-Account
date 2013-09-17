@@ -1,10 +1,10 @@
-Ext.define('Account.Journaltemp.MainWindow', {
+Ext.define('Account.Journal.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Journal Template',
+			title: 'Journal',
 			closeAction: 'hide',
 			height: 380,
 			minHeight: 380,
@@ -14,7 +14,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 			modal: true,
 			layout:'border',
 			maximizable: true//,
-			//defaultFocus: 'ttype'
+			//defaultFocus: 'code'
 		});
 
 		return this.callParent(arguments);
@@ -37,9 +37,9 @@ Ext.define('Account.Journaltemp.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 		
-		this.itemDialog = Ext.create('Account.Journaltemp.Item.Window');
+		this.itemDialog = Ext.create('Account.Journal.Item.Window');
 
-		this.grid = Ext.create('Account.Journaltemp.Grid', {
+		this.grid = Ext.create('Account.Journal.Grid', {
 			region:'center',
 			border: false
 		});
@@ -64,7 +64,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง gl_item grid load
-				_this.itemDialog.form.gridItem.load({tranr: id});
+				_this.itemDialog.form.gridItem.load({belnr: id});
 			}
 		});
 

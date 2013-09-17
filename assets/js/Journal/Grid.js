@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Journaltemp.Grid', {
+Ext.define('Account.Journal.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -11,29 +11,32 @@ Ext.define('Account.Journaltemp.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'journaltemp/loads',
+				url: __site_url+'journal/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'tranr'
+					idProperty: 'belnr'
 				}
 			},
 			fields: [
-				'typtx',
-				'tranr',
-				'txz01'
+				'belnr',
+				'bldat',
+				'txz01',
+				'typtx'
 			],
 			remoteSort: true,
-			sorters: ['tranr ASC']
+			sorters: ['belnr ASC']
 		});
 
 		this.columns = [
-	     	{text: "Journal Type", align: 'center',
-			width: 100, dataIndex: 'typtx', sortable: true},
-			{text: "Template Code", align: 'center',
+		    {text: "Journal Code", align: 'center',
 			width: 100, dataIndex: 'tranr', sortable: true},
-			{text: "Template Name", 
-			width: 290, dataIndex: 'txz01', sortable: true}
+			{text: "Journal Date", align: 'center',
+			width: 100, dataIndex: 'bldat', sortable: true},
+			{text: "Description", 
+			width: 290, dataIndex: 'txz01', sortable: true},
+	     	{text: "Journal Type", align: 'center',
+			width: 100, dataIndex: 'typtx', sortable: true}
 		];
 
 		this.bbar = {

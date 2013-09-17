@@ -22,9 +22,9 @@ class GL extends CI_Controller {
 		}
 
 		createQuery($this);
-		$this->db->select('id');
+		$this->db->select('id');*/
 		$totalCount = $this->db->count_all_results($tbName);
-*/
+
 //		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');

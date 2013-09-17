@@ -10,10 +10,17 @@ Ext.onReady(function() {
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
 	});
+	
+	$om.viewport.on('click_journaltemp', function(){
+		if(!$om.journaltempDialog)
+			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
+		$om.journaltempDialog.show();
+	});
+	
 	$om.viewport.on('click_journal', function(){
-		if(!$om.warehouseDialog)
-			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
-		$om.warehouseDialog.show();
+		if(!$om.journalDialog)
+			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
+		$om.journalDialog.show();
 	});
 //<<<<<<< HEAD
 	

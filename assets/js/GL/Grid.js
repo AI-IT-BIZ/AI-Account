@@ -18,22 +18,18 @@ Ext.define('Account.GL.Grid', {
 			fields: [
 			'saknr',
 			'sgtxt',
-			'gltyp',
-			'glgrp',
-			'gllev',
-			'under'
+			'gltyp'
 			],
 			remoteSort: true,
-			sorters: ['jobnr ASC']
+			sorters: ['saknr ASC']
 		});
 
 		this.columns = [
 		    {text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
-			{text: "GL Name", width: 150, dataIndex: 'sgtxt', sortable: true},
-		    {text: "GL Type", width: 100, dataIndex: 'gltyp', sortable: true},
-			{text: "GL Group", width: 150, dataIndex: 'glgrp', sortable: true},
-			{text: "GL Level", width: 90, dataIndex: 'gllev', sortable: true},
-			{text: "Under GL", width: 100, dataIndex: 'under', sortable: true}
+			{text: "GL Name", width: 250, dataIndex: 'sgtxt', sortable: true},
+			{xtype: 'hidden',
+			width: 0, 
+			dataIndex: 'gltyp'}
 		];
 
 		this.bbar = {
@@ -45,6 +41,7 @@ Ext.define('Account.GL.Grid', {
 
 		return this.callParent(arguments);
 	},
+	
 	load: function(options){
 		this.store.load(options);
 	}

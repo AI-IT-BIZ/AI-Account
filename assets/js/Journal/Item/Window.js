@@ -1,9 +1,9 @@
-Ext.define('Account.Journaltemp.Item.Window', {
+Ext.define('Account.Journal.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Journal Template',
+			title: 'Create/Edit Journal',
 			closeAction: 'hide',
 			height: 450,
 			width: 910,
@@ -18,7 +18,7 @@ Ext.define('Account.Journaltemp.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Journaltemp.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.Journal.Item.Form',{ region:'center' });
 
 		this.items = [
 		     this.form

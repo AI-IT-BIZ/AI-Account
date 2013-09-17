@@ -84,8 +84,8 @@ function endsWith($haystack, $needle)
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
 		#div1-3-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-income { top:30px; left:530px; width: 100px; height:100px; }
-		#div-journal { top:30px; left:640px; width: 100px; height:100px; }
-		#div-balance { top:140px; left:530px; width: 210px; height:100px; }
+		#div-journaltemp { top:30px; left:640px; width: 100px; height:100px; }
+		#div-journal { top:140px; left:530px; width: 210px; height:100px; }
 		#div-manage-budget { top:250px; left:530px; width: 100px; height:100px; }
 		#div-chart-account { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
 
@@ -341,8 +341,8 @@ function endsWith($haystack, $needle)
 								//Account Module
 								'<div id="div1-3-container">',
 									'<div id="div-income" class="box box-blue"><span>Income Statement</span></div>',
+									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
-									'<div id="div-balance" class="box box-blue"><span>Balance Sheet</span></div>',
 									'<div id="div-manage-budget" class="box box-blue"><span>Manage Budget</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
 
@@ -366,9 +366,9 @@ function endsWith($haystack, $needle)
 								pEl = c.getEl();
 
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
-								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
+								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 
-								pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
+								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
 
