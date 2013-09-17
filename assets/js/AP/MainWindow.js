@@ -1,4 +1,4 @@
-Ext.define('Account.GR.MainWindow', {
+Ext.define('Account.AP.MainWindow', {
 	extend	: 'Ext.window.Window',
 	//requires : [
 	//	'Account.Quotation.Grid',
@@ -7,7 +7,7 @@ Ext.define('Account.GR.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Goods Receipts',
+			title: 'Account Payable',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -39,8 +39,8 @@ Ext.define('Account.GR.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 
-        this.itemDialog = Ext.create('Account.GR.Item.Window');
-		this.grid = Ext.create('Account.GR.Grid', {
+        this.itemDialog = Ext.create('Account.AP.Item.Window');
+		this.grid = Ext.create('Account.AP.Grid', {
 			region:'center',
 			border: false
 		});
@@ -63,7 +63,7 @@ Ext.define('Account.GR.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง gr_item grid load
-				_this.itemDialog.form.gridItem.load({mbeln: id});
+				_this.itemDialog.form.gridItem.load({invnr: id});
 				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});

@@ -1,4 +1,4 @@
-Ext.define('Account.GR.Item.Form_t', {
+Ext.define('Account.AP.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 

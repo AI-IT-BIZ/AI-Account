@@ -74,9 +74,10 @@ function endsWith($haystack, $needle)
 		#div-po { top:160px; left:280px; width: 90px; height:90px; }
 		#div-vendor { top:160px; left:400px; width: 90px; height:90px; }
 		#div-gr { top:280px; left:280px; width: 210px; height:100px; }
-		#div-rpr { position:absolute; top:400px; left:280px; width: 100px; height:100px; }
-		#div-rpo { position:absolute; top:400px; left:390px; width: 100px; height:100px; }
-		#div-rgr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
+		#div-ap { top:400px; left:280px; width: 210px; height:100px; }
+		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
+		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
+		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
 		
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -329,6 +330,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-po" class="box box-red"><span>Purchase Orders</span></div>',
 									'<div id="div-gr" class="box box-red"><span>Create New Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
+									'<div id="div-ap" class="box box-red"><span>Create New Account Payable</span></div>',
 
 									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
@@ -383,8 +385,10 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
 								pEl.getById('div-gr').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
 								pEl.getById('div-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+								pEl.getById('div-ap').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
+								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);
 								//Sub Module
 								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
 								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);

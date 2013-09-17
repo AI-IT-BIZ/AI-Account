@@ -1,4 +1,4 @@
-Ext.define('Account.PO.Grid', {
+Ext.define('Account.RGR.Item.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,38 +8,32 @@ Ext.define('Account.PO.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"po/loads",
+				url: __site_url+"gr/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ebeln'
+					idProperty: 'mbeln'
 				}
 			},
 			fields: [
-			    'ebeln',
+			    'mbeln',
 				'bldat',
 				'lifnr',
 				'name1',
 				'netwr',
-				'statx',
-				'adr01',
-				'distx',
-				'pstlz',
-				'telf1',
-				'telfx',
-				'email'
+				'statx'
 			],
 			remoteSort: true,
-			sorters: ['ebeln ASC']
+			sorters: ['mbeln ASC']
 		});
 
 		this.columns = [
-			{text: "PO No", flex: true, dataIndex: 'ebeln', sortable: true},
-			{text: "PO Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "GR No", flex: true, dataIndex: 'mbeln', sortable: true},
+			{text: "GR Date", width: 125, dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "PO Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "GR Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {
@@ -52,6 +46,8 @@ Ext.define('Account.PO.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	}
 });

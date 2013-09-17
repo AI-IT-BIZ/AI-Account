@@ -1,4 +1,4 @@
-Ext.define('Account.GR.Item.Window', {
+Ext.define('Account.AP.Item.Window', {
 	extend	: 'Ext.window.Window',
 	//requires : ['Account.Quotation.Item.Form',
 	//            'Account.Quotation.Item.Form_t',
@@ -8,7 +8,7 @@ Ext.define('Account.GR.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Goods Receipt',
+			title: 'Create/Edit Account Payable',
 			closeAction: 'hide',
 			height: 650,
 			width: 825,
@@ -23,7 +23,7 @@ Ext.define('Account.GR.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.GR.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.AP.Item.Form',{ region:'center' });
 
 		this.items = [
 		     this.form

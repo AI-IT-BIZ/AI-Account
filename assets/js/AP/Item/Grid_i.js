@@ -1,4 +1,4 @@
-Ext.define('Account.GR.Item.Grid_i', {
+Ext.define('Account.AP.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -33,16 +33,16 @@ Ext.define('Account.GR.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"gr/loads_gr_item",
+				url: __site_url+"ap/loads_ap_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'mbeln,mbelp'
+					idProperty: 'invnr,vbelp'
 				}
 			},
 			fields: [
-			    'mbeln',
-				'mbelp',
+			    'invnr',
+				'vbelp',
 				'matnr',
 				'maktx',
 				'menge',
@@ -53,7 +53,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['mbelp ASC']
+			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
@@ -63,14 +63,14 @@ Ext.define('Account.GR.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete GR Item',
+				tooltip: 'Delete AP Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
 		},{
 			id : 'RowNumber',
 			header : "Items",
-			dataIndex : 'mbelp',
+			dataIndex : 'vbelp',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,

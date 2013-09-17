@@ -278,11 +278,15 @@ class Pr2 extends CI_Controller {
         
 		$pr_id = $this->input->get('purnr');
 		
-		$sql="SELECT *,t1.meins
+		$this->db->set_dbprefix('v_');
+		$this->db->where('purnr', $pr_id);
+		$query = $this->db->get('ebpo');
+		
+		/*$sql="SELECT *,t1.meins
 			FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
 				inner join tbl_unit AS t3 ON t1.meins=t3.meins
 			WHERE purnr = '$pr_id'";
-		$query = $this->db->query($sql);
+		$query = $this->db->query($sql);*/
 		
 		echo json_encode(array(
 			'success'=>true,

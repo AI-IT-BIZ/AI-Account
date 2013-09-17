@@ -12,28 +12,34 @@ Ext.define('Account.GR.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ebeln'
+					idProperty: 'mbeln'
 				}
 			},
 			fields: [
-			    'ebeln',
+			    'mbeln',
 				'bldat',
 				'lifnr',
 				'name1',
 				'netwr',
-				'statx'
+				'statx',
+				'adr01',
+				'distx',
+				'pstlz',
+				'telf1',
+				'telfx',
+				'email'
 			],
 			remoteSort: true,
-			sorters: ['ebeln ASC']
+			sorters: ['mbeln ASC']
 		});
 
 		this.columns = [
-			{text: "PO No", flex: true, dataIndex: 'ebeln', sortable: true},
-			{text: "PO Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "GR Doc", flex: true, dataIndex: 'mbeln', sortable: true},
+			{text: "GR Date", width: 125, dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "PO Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "GR Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

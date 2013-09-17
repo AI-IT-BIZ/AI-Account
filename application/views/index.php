@@ -98,6 +98,12 @@ Ext.onReady(function() {
 		$om.grDialog.show();
 	});
 	
+	$om.viewport.on('click_ap', function(){
+		if(!$om.apDialog)
+			$om.apDialog = Ext.create('Account.AP.MainWindow');
+		$om.apDialog.show();
+	});
+	
 	$om.viewport.on('click_rpo', function(){
 		if(!$om.rpoDialog)
 			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
@@ -108,6 +114,12 @@ Ext.onReady(function() {
 		if(!$om.rprDialog)
 			$om.rprDialog = Ext.create('Account.RPR.MainWindow');
 		$om.rprDialog.show();
+	});
+	
+	$om.viewport.on('click_rgr', function(){
+		if(!$om.rgrDialog)
+			$om.rgrDialog = Ext.create('Account.RGR.MainWindow');
+		$om.rgrDialog.show();
 	});
 //Material Module
 	$om.viewport.on('click_material', function(){
