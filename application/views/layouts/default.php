@@ -49,6 +49,8 @@ function endsWith($haystack, $needle)
 		.box-blue:hover { background-color:#418eff; }
 		.box-orange { background-color:#dd9016; }
 		.box-orange:hover { background-color:#f6a92f; }
+		.box-brown { background-color:#8b5e3b; }
+		.box-brown:hover { background-color:#a3734e; }
 		.box-green { background-color:#179c30; }
 		.box-green:hover { background-color:#2ba645; }
 		.box-red { background-color:#e04444; }
@@ -61,24 +63,29 @@ function endsWith($haystack, $needle)
 		#div-project { top:30px; left:30px; width: 210px; height:100px; }
 		#div-quotation { top:160px; left:30px; width: 90px; height:90px; }
 		#div-customer { top:160px; left:150px; width: 90px; height:90px; }
-		#div-invoice { top:280px; left:30px; width: 210px; height:100px; }
-		#div-rproject { position:absolute; top:400px; left:30px; width: 100px; height:100px; }
-		#div-rquotation { position:absolute; top:400px; left:140px; width: 100px; height:100px; }
-		#div-rinvoice { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
-		#div-rinv_payment { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
-		#div-config { position:absolute; top:620px; left:30px; width: 210px; height:100px; }
+		#div-invoice { top:280px; left:30px; width: 90px; height:90px; }
+		#div-salep { top:280px; left:150px; width: 90px; height:90px; }
+		#div-receipt { top:400px; left:30px; width: 210px; height:100px; }
+		
+		#div-rproject { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
+		#div-rquotation { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
+		#div-rinvoice { position:absolute; top:620px; left:30px; width: 100px; height:100px; }
+		#div-rreceipt { position:absolute; top:620px; left:140px; width: 100px; height:100px; }
+		#div-config { position:absolute; top:730px; left:30px; width: 210px; height:100px; }
 
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-2-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-pr { top:30px; left:280px; width: 210px; height:100px; }
 		#div-po { top:160px; left:280px; width: 90px; height:90px; }
 		#div-vendor { top:160px; left:400px; width: 90px; height:90px; }
-		#div-gr { top:280px; left:280px; width: 210px; height:100px; }
-		#div-ap { top:400px; left:280px; width: 210px; height:100px; }
+		#div-gr { top:280px; left:280px; width: 90px; height:90px; }
+		#div-ap { top:280px; left:400px; width: 90px; height:90px; }
+		#div-payment { top:400px; left:280px; width: 210px; height:100px; }
 		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
 		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
 		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
 		#div-rap { position:absolute; top:620px; left:390px; width: 100px; height:100px; }
+		#div-rpayment { position:absolute; top:730px; left:280px; width: 100px; height:100px; }
 		
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -94,14 +101,14 @@ function endsWith($haystack, $needle)
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-receipt { top:30px; left:780px; width: 100px; height:100px; }
-		#div-payment { top:30px; left:890px; width: 100px; height:100px; }
+		#div-transaction { top:30px; left:780px; width: 100px; height:100px; }
+		#div-balance { top:30px; left:890px; width: 100px; height:100px; }
 		#div-otincome { top:140px; left:780px; width: 100px; height:100px; }
-		#div-salep { top:140px; left:890px; width: 100px; height:100px; }
-		#div-otexpense { top:250px; left:780px; width: 210px; height:100px; }
+		#div-otexpense { top:140px; left:890px; width: 100px; height:100px; }
+		#div-material { top:250px; left:780px; width: 210px; height:100px; }
 
-		#div-material { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
-		#div-mat-balance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
+		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 	</style>
 </head>
 <body>
@@ -316,27 +323,31 @@ function endsWith($haystack, $needle)
 								'<div id="div1-1-container">',
 									'<div id="div-project" class="box box-green"><span>Create New Projects</span></div>',
 									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
-									'<div id="div-invoice" class="box box-green"><span>Create New Invoices</span></div>',
+									'<div id="div-invoice" class="box box-green"><span>Invoices</span></div>',
+									'<div id="div-receipt" class="box box-green"><span>Receipt</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
+									'<div id="div-salep" class="box box-green"><span>Sale Persons</span></div>',
 
 									'<div id="div-rproject" class="box box-orange"><span>Projects Report</span></div>',
 									'<div id="div-rquotation" class="box box-orange"><span>Quotations Report</span></div>',
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
-									'<div id="div-rinv_payment" class="box box-orange"><span>Invoices Payment Report</span></div>',
+									'<div id="div-rreceipt" class="box box-orange"><span>Receipt Report</span></div>',
 									'<div id="div-config" class="box box-base"><span>Configure BizNet Accounts</span></div>',
 								'</div>',
 								//Purchase Module
 								'<div id="div1-2-container">',
 									'<div id="div-pr" class="box box-red"><span>Purchase Requisitions</span></div>',
 									'<div id="div-po" class="box box-red"><span>Purchase Orders</span></div>',
-									'<div id="div-gr" class="box box-red"><span>Create New Goods Receipts</span></div>',
+									'<div id="div-gr" class="box box-red"><span>Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
-									'<div id="div-ap" class="box box-red"><span>Create New Account Payable</span></div>',
+									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
+									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
 
 									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
 									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
 									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
+									'<div id="div-rpayment" class="box box-orange"><span>Payment Report</span></div>',
 								'</div>',
 								//Account Module
 								'<div id="div1-3-container">',
@@ -349,16 +360,16 @@ function endsWith($haystack, $needle)
 									'<div id="div-reconsile" class="box box-orange"><span>Reconsile Account</span></div>',
 									'<div id="div-transfer" class="box box-orange"><span>Transfer between account</span></div>',
 								'</div>',
-								//Sub Module
+								//Material Module
 								'<div id="div1-4-container">',
-									'<div id="div-receipt" class="box box-green"><span>Receipt</span></div>',
-									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
-									'<div id="div-otincome" class="box box-blue"><span>Other Income</span></div>',
-									'<div id="div-salep" class="box box-green"><span>Sale Persons</span></div>',
-									'<div id="div-otexpense" class="box box-blue"><span>Other Expense</span></div>',
-
-									'<div id="div-material" class="box box-orange"><span>New Materials</span></div>',
-									'<div id="div-mat-balance" class="box box-orange"><span>Material Balances</span></div>',
+								    '<div id="div-transaction" class="box box-brown"><span>Material Transactions</span></div>',
+									'<div id="div-balance" class="box box-brown"><span>Material Balances</span></div>',
+									'<div id="div-otincome" class="box box-brown"><span>Other Income</span></div>',
+									'<div id="div-otexpense" class="box box-brown"><span>Other Expense</span></div>',
+									'<div id="div-material" class="box box-brown"><span>New Materials</span></div>',
+									
+									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
+									'<div id="div-rbalance" class="box box-orange"><span>Mat-Balance Report</span></div>',
 								'</div>'
 								].join(''),
 						listeners : {
@@ -367,38 +378,40 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
-
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-
-								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
 
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
 								pEl.getById('div-invoice').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
+								pEl.getById('div-salep').on('click', function(){ $om.viewport.fireEvent('click_salep', c); }, c);
 								
 								pEl.getById('div-rproject').on('click', function(){ $om.viewport.fireEvent('click_rproject', c); }, c);
 								pEl.getById('div-rquotation').on('click', function(){ $om.viewport.fireEvent('click_rquotation', c); }, c);
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
-								pEl.getById('div-rinv_payment').on('click', function(){ $om.viewport.fireEvent('click_rinv_payment', c); }, c);
+								pEl.getById('div-rreceipt').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
 								//Purchases Module
 								pEl.getById('div-pr').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
 								pEl.getById('div-gr').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
 								pEl.getById('div-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
 								pEl.getById('div-ap').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
+								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);
 								pEl.getById('div-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
-								//Sub Module
-								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
-								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
+								pEl.getById('div-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
+								//Material Module
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-otincome').on('click', function(){ $om.viewport.fireEvent('click_otincome', c); }, c);
-								pEl.getById('div-salep').on('click', function(){ $om.viewport.fireEvent('click_salep', c); }, c);
                                 pEl.getById('div-otexpense').on('click', function(){ $om.viewport.fireEvent('click_otexpense', c); }, c);
+                                pEl.getById('div-transaction').on('click', function(){ $om.viewport.fireEvent('click_transaction', c); }, c);
+                                pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
+                                pEl.getById('div-rtransaction').on('click', function(){ $om.viewport.fireEvent('click_rtransaction', c); }, c);
+                                pEl.getById('div-rbalance').on('click', function(){ $om.viewport.fireEvent('click_rbalance', c); }, c);
 							}
 						}
 					}

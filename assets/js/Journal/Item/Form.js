@@ -21,6 +21,12 @@ Ext.define('Account.Journal.Item.Form', {
 			height: 320,
 			region:'center'
 		});
+		this.formTotal = Ext.create('Account.Journal.Item.Form_t', {
+			border: true,
+			split: true,
+			//title:'Total Invoice',
+			region:'south'
+		});
 		
 		this.comboType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Journal Type',
@@ -113,7 +119,7 @@ Ext.define('Account.Journal.Item.Form', {
 			labelStyle: 'font-weight:bold'
 		}]
 
-// Customer Code
+// Journal Template
 		},{
             xtype: 'container',
             layout: 'hbox',
@@ -124,12 +130,16 @@ Ext.define('Account.Journal.Item.Form', {
             margins: '0 0 0 6',
             width: 205
 		},{
-			xtype: 'textfield',
-			fieldLabel: 'Template Name',
-			name: 'txz01',
+			xtype: 'datefield',
+			fieldLabel: 'Date',
+			name: 'bldat',
 			//anchor:'80%',
 			labelAlign: 'right',
-			width:350
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 // Description
 		},{
@@ -139,7 +149,7 @@ Ext.define('Account.Journal.Item.Form', {
      items :[ {
      	    xtype: 'textfield',
 			fieldLabel: 'Description',
-			name: 'txz01',
+			name: 'txz02',
 			//anchor:'80%',
 			labelAlign: 'right',
 			width:350
@@ -152,7 +162,7 @@ Ext.define('Account.Journal.Item.Form', {
 		}]
 		};
 		
-		this.items = [mainFormPanel,this.gridItem];
+		this.items = [mainFormPanel,this.gridItem,this.formTotal];
 		
 		// event trigCustomer///
 		this.trigJournal.on('keyup',function(o, e){
@@ -181,17 +191,17 @@ Ext.define('Account.Journal.Item.Form', {
 			}
 		}, this);
 
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
+		_this.journalDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigJournal.setValue(record.data.tranr);
 			
-             _this.getForm().findField('adr11').setValue(_addr);
+             _this.getForm().findField('txz01').setValue(record.data.txz01);
 
 			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
+			_this.journalDialog.hide();
 		});
 
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.show();
+		this.trigJournal.onTriggerClick = function(){
+			_this.journalDialog.show();
 		};
 		
 	// grid event
