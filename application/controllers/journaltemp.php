@@ -40,7 +40,7 @@ class Journaltemp extends CI_Controller {
 		$tbName = 'trko';
 		
 		$type = $this->input->get('ttype');
-		echo '111'.$type;
+		//echo '111'.$type;
 		if(!empty($type)){
 			$this->db->where('ttype', $type);
 		}
