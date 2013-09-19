@@ -115,7 +115,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
             anchor: '100%',
             //margin: '5 0 5 600',
         items: [{
-            xtype: 'hidden',
+            xtype: 'textfield',
 			fieldLabel: 'Exchange Rate',
 			name: 'exchg',
 			//labelAlign: 'right',
@@ -123,14 +123,14 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			align: 'right',
 			//margin: '0 0 0 -35'
          },{
-   	        xtype: 'hidden',
+   	        xtype: 'textfield',
 			align: 'right',
 			margin: '0 0 0 5',
 			width:60,
 			value: 'THB/USD'
 		}]
 		},{
-   	        xtype: 'hidden',
+   	        xtype: 'textfield',
    	        fieldLabel: 'Rejected Reason',
 			align: 'right',
 			margin: '3 0 0 0',

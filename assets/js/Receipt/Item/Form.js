@@ -297,6 +297,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnRcItem.setValue(Ext.encode(rsItem));
+		var rsPayment = _this.gridPM.getData();
+		this.hdnPpItem.setValue(Ext.encode(rsPayment));
 /*
 		this.getForm().getFields().each(function(f){
 			//console.log(f.name);

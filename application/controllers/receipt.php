@@ -189,7 +189,7 @@ class Receipt extends CI_Controller {
 		$this->db->delete('paym');
 
 		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('paym');
+		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
 		if(!empty($paym) && !empty($pm_item_array)){
 
@@ -199,11 +199,11 @@ class Receipt extends CI_Controller {
 				$this->db->insert('paym', array(
 					'recnr'=>$id,
 					'paypr'=>++$item_index,
+					'ptype'=>$p->ptype,
+					'bcode'=>$p->bcode,
 					'sgtxt'=>$p->sgtxt,
 					'chqid'=>$p->chqid,
 					'chqdt'=>$p->chqdt,
-					'bcode'=>$p->bcode,
-					//'ptype'=>$p->ptype,
 					'pramt'=>$p->pramt,
 					'reman'=>$p->reman,
 					'payam'=>$p->payam
