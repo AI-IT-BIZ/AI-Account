@@ -263,7 +263,7 @@ class Receipt extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_rc_item(){
-        //$this->db->set_dbprefix('v_');
+        $this->db->set_dbprefix('v_');
         
 	    $rc_id = $this->input->get('recnr');
 		$this->db->where('recnr', $rc_id);
@@ -293,6 +293,7 @@ class Receipt extends CI_Controller {
 	function loads_pm_item(){
         $this->db->set_dbprefix('v_');
 		$pm_id = $this->input->get('recnr');
+		echo $pm_id;
 		$this->db->where('recnr', $pm_id);
 
 		$query = $this->db->get('paym');

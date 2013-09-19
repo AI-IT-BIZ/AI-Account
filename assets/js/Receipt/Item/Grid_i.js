@@ -18,7 +18,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 		// INIT Invoice search popup /////////////////////////////////
 		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
-		// END Material search popup //////////////////////////////////
+		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
 
@@ -117,6 +117,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
+			readOnly: true,
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
@@ -134,6 +135,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			dataIndex: 'payrc',
 			sortable: false,
 			align: 'right',
+			readOnly: true,
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
@@ -152,6 +154,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				dataIndex: 'reman',
 				sortable: false,
 				align: 'right',
+				readOnly: true,
 				renderer: function(v,p,r){
 					var itamt = parseFloat(r.data['itamt']),
 						pay = parseFloat(r.data['payrc']);

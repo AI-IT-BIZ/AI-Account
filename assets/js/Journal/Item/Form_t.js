@@ -38,13 +38,13 @@ Ext.define('Account.Journal.Item.Form_t', {
 		this.txtNet = Ext.create('Ext.form.field.Text', {
          	xtype: 'textfield',
 			fieldLabel: 'Balance Amount',
-			name: 'netwr',
+			name: 'netwr1',
 			align: 'right',
 			width:220,
 			labelWidth: 110,
 			margin: '0 0 0 10',
-			style: 'font-weight:bold',
-			labelStyle: 'font-weight:bold;background-color: #f00;',
+			//style: 'font-weight:bold',
+			labelStyle: 'font-weight:bold;background-color: #15b52c;',
 			readOnly: true
 		});
 
@@ -64,12 +64,15 @@ Ext.define('Account.Journal.Item.Form_t', {
 		var setBold = function(o){
 			o.inputEl.setStyle('font-weight', 'bold');
 		};
-		var setColor = function(o){
-			o.inputEl.setStyle('font-color', 'red');
-		};
+		//var setColor = function(o){
+		//	o.labelEl.setStyle('font-color', '#f00');
+		//};
+
+		var tnet = this.txtNet.getValue();
 		this.txtDebit.on('render', setAlignRight);
         this.txtCredit.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
+		this.txtNet.on('render', setBold);
 
 		return this.callParent(arguments);
 	},
@@ -82,6 +85,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
+		
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {

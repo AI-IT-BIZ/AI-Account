@@ -270,5 +270,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 
 		var net = total - discountValue + taxValue;
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		
+		return net;
 	}
 });

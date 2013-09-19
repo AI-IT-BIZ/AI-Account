@@ -15,7 +15,7 @@ class Journal extends CI_Controller {
 	}
 
 	function load(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('belnr', $id);
@@ -36,7 +36,7 @@ class Journal extends CI_Controller {
 	}
 
 	function loads(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'bkpf';
 
 		$totalCount = $this->db->count_all_results($tbName);
@@ -89,10 +89,15 @@ class Journal extends CI_Controller {
 		}
 		
 		$type = $this->input->post('ttype');
-
+        $date = date('Ymd');
+		
 		$formData = array(
+		    'gjahr' => substr($date,0,4),
+		    'bldat' => $this->input->post('bldat'),
 			'txz01' => $this->input->post('txz01'),
 			'ttype' => $this->input->post('ttype'),
+			'tranr' => $this->input->post('tranr'),
+			'netwr' => $this->input->post('debit')
 		);
 		
 		// start transaction
@@ -123,11 +128,11 @@ class Journal extends CI_Controller {
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('belnr', $id);
-		$this->db->delete('bkpf');
+		$this->db->delete('bsid');
 
 		// เตรียมข้อมูล tr item
-		$trpo = $this->input->post('bsid');
-		$tr_item_array = json_decode($belpr);
+		$bsid = $this->input->post('bsid');
+		$tr_item_array = json_decode($bsid);
 		
 		if(!empty($bsid) && !empty($tr_item_array)){
 			// loop เพื่อ insert tr_item ที่ส่งมาใหม่
@@ -174,7 +179,7 @@ class Journal extends CI_Controller {
 
 	function loads_gl_item(){
         $this->db->set_dbprefix('v_');
-		$tranr = $this->input->get('tranr');
+		$tranr = $this->input->get('tranr1');
 		if(!empty($tranr)){
 	     	//$iv_id = $this->input->get('vbap');
 		    $this->db->where('tranr', $tranr);

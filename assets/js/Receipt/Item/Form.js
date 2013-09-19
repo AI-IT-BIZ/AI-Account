@@ -27,7 +27,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.gridPM = Ext.create('Account.Receipt.Item.Grid_pm',{
+		this.gridPayment = Ext.create('Account.Receipt.Item.Grid_pm',{
 			border: true,
 			region:'center',
 			title: 'Payment'
@@ -199,7 +199,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			height:170,
 			items: [
 				this.formTotal,
-				this.gridPM,
+				this.gridPayment,
 				this.gridGL
 			]
 		}
@@ -297,7 +297,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnRcItem.setValue(Ext.encode(rsItem));
-		var rsPayment = _this.gridPM.getData();
+		var rsPayment = _this.gridPayment.getData();
 		this.hdnPpItem.setValue(Ext.encode(rsPayment));
 /*
 		this.getForm().getFields().each(function(f){
@@ -338,7 +338,7 @@ Ext.define('Account.Receipt.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
-		this.gridPM.load({ recnr: 0 });
+		this.gridPayment.load({ recnr: 0 });
 
 		// default status = wait for approve
 		//this.comboQStatus.setValue('05');
@@ -360,6 +360,9 @@ Ext.define('Account.Receipt.Item.Form', {
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-		this.formTotal.calculate();
+		var net = this.formTotal.calculate();
+
+		// set value to grid payment
+		this.gridPayment.netValue = net;
 	}
 });
