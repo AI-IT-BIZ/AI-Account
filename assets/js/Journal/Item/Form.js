@@ -204,6 +204,10 @@ Ext.define('Account.Journal.Item.Form', {
              _this.getForm().findField('txz01').setValue(record.data.txz01);
 
 			grid.getSelectionModel().deselectAll();
+			//---Load PRitem to POitem Grid-----------
+			var tranr = _this.trigJournal.value;
+			//alert(qtnr);
+			_this.gridItem.load({tranr: tranr });
 			_this.journalDialog.hide();
 		});
 
@@ -283,4 +287,25 @@ Ext.define('Account.Journal.Item.Form', {
 		//this.comboCond.setValue('01');
 	},
 	
+	// calculate total functions
+	calculateTotal: function(){
+		var store = this.gridItem.store;
+		var debsum = 0;
+		var cresum = 0;
+		store.each(function(r){
+			var debit = parseFloat(r.data['debit']),
+				credit = parseFloat(r.data['credi']);
+			debit = isNaN(debit)?0:debit;
+			credit = isNaN(credit)?0:credit;
+
+			debsum += debit;
+			cresum += credit;
+			//sum += amt;
+		});
+		this.formTotal.getForm().findField('debit')
+		.setValue(Ext.util.Format.usMoney(debsum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('credi')
+		.setValue(Ext.util.Format.usMoney(cresum).replace(/\$/, ''));
+		this.formTotal.calculate();
+	}
 });

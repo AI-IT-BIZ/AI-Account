@@ -107,51 +107,11 @@ Ext.define('Account.Journal.Item.Form_t', {
 	
 	// calculate function
 	calculate: function(){
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
-			total = isNaN(total)?0:total;
 
-		//console.log(total);
+		var debit = this.txtDebit.getValue();
+		var credit = this.txtCredit.getValue();
 
-		if(total<=0) return;
-
-		var discount = this.txtDiscount.getValue(),
-			discountValue = 0;
-		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
-			if(discount.match(/%$/gi)){
-				discount = discount.replace('%','');
-				var discountPercent = parseFloat(discount);
-				discountValue = total * discountPercent / 100;
-			}else{
-				discountValue = parseFloat(discount);
-
-			}
-			discountValue = isNaN(discountValue)?0:discountValue;
-
-			this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
-
-			if(discountValue>0)
-				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
-		}else{
-			this.txtDiscountValue.setValue('');
-			this.txtDiscountSum.setValue('');
-		}
-
-		var tax = this.txtTax.getValue(),
-			taxValue = 0;
-		if(this.txtTax.isValid() && !Ext.isEmpty(tax)){
-			taxValue = parseFloat(tax);
-			taxValue = isNaN(taxValue)?0:taxValue;
-
-			if(taxValue>0){
-				taxValue = taxValue * total / 100;
-				this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
-			}
-		}else{
-			this.txtTaxValue.setValue('');
-		}
-
-		var net = total - discountValue + taxValue;
+		var net = debit - credit;
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 	}
 });

@@ -174,10 +174,18 @@ class Journal extends CI_Controller {
 
 	function loads_gl_item(){
         $this->db->set_dbprefix('v_');
-		$tr_id = $this->input->get('belnr');
-		$this->db->where('belnr', $tr_id);
+		$tranr = $this->input->get('tranr');
+		if(!empty($tranr)){
+	     	//$iv_id = $this->input->get('vbap');
+		    $this->db->where('tranr', $tranr);
 
-		$query = $this->db->get('bsid');
+		    $query = $this->db->get('trpo');
+		}else{
+		    $tr_id = $this->input->get('belnr');
+		    $this->db->where('belnr', $tr_id);
+		    $query = $this->db->get('bsid');
+		}
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
