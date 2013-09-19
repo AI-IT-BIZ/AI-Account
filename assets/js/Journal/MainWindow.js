@@ -8,7 +8,7 @@ Ext.define('Account.Journal.MainWindow', {
 			closeAction: 'hide',
 			height: 380,
 			minHeight: 380,
-			width: 500,
+			width: 600,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
