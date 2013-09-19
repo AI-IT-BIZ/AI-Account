@@ -15,7 +15,7 @@ class Journal extends CI_Controller {
 	}
 
 	function load(){
-		$this->db->set_dbprefix('v_');
+		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('belnr', $id);
@@ -36,7 +36,7 @@ class Journal extends CI_Controller {
 	}
 
 	function loads(){
-		$this->db->set_dbprefix('v_');
+		//$this->db->set_dbprefix('v_');
 		$tbName = 'bkpf';
 
 		$totalCount = $this->db->count_all_results($tbName);

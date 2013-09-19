@@ -38,6 +38,12 @@ class Journaltemp extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'trko';
+		
+		$type = $this->input->get('ttype');
+		echo '111'.$type;
+		if(!empty($type)){
+			$this->db->where('ttype', $type);
+		}
 
 		$totalCount = $this->db->count_all_results($tbName);
 
@@ -45,6 +51,10 @@ class Journaltemp extends CI_Controller {
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		
+		if(!empty($type)){
+			$this->db->where('ttype', $type);
+		}
 
 		$query = $this->db->get($tbName);
 

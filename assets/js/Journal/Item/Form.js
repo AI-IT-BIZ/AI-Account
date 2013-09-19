@@ -56,6 +56,13 @@ Ext.define('Account.Journal.Item.Form', {
 				remoteSort: true,
 				sorters: 'ttype ASC'
 			}),
+			listeners: {
+              select: function(combo, record, index){
+                //Ext.Msg.alert('Title',i);
+                var value = combo.getValue();
+                _this.trigJournal.load({ttype: value });
+              }
+            },
 			queryMode: 'remote',
 			displayField: 'typtx',
 			valueField: 'ttype'
@@ -106,7 +113,7 @@ Ext.define('Account.Journal.Item.Form', {
 			name: 'id'
 		},this.comboType,{
 			xtype: 'displayfield',
-			width:200,
+			width:255,
 			margins: '0 0 0 6'
 		},{
 			xtype: 'displayfield',
@@ -128,7 +135,7 @@ Ext.define('Account.Journal.Item.Form', {
 			xtype: 'displayfield',
             name: 'txz01',
             margins: '0 0 0 6',
-            width: 205
+            width: 255
 		},{
 			xtype: 'datefield',
 			fieldLabel: 'Date',
@@ -150,13 +157,13 @@ Ext.define('Account.Journal.Item.Form', {
      	    xtype: 'textfield',
 			fieldLabel: 'Description',
 			name: 'txz02',
-			//anchor:'80%',
-			labelAlign: 'right',
-			width:350
+			labelWidth: 90,
+			labelAlign: 'left',
+			width:450
 		},{
 			xtype: 'displayfield',
             margins: '0 0 0 6',
-            width: 205
+            width: 100
 		}]		
         }]
 		}]

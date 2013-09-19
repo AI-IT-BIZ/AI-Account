@@ -20,18 +20,18 @@ Ext.define('Account.Journal.Item.Form_t', {
 		this.txtDebit = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Total Amount',
 			name: 'debit',
-			labelWidth: 155,
-			width:240,
-			margin: '0 0 0 175',
+			labelWidth: 90,
+			width:190,
+			margin: '0 0 0 290',
+			labelStyle: 'font-weight:bold;',
 			readOnly: true
 		});
 		
 		this.txtCredit = Ext.create('Ext.form.field.Text', {
 			//fieldLabel: 'Total',
 			name: 'credi',
-			//labelWidth: 155,
-			width:240,
-			margin: '0 0 0 250',
+			width:100,
+			//margin: '0 0 0 20',
 			readOnly: true
 		});
 		
@@ -40,11 +40,11 @@ Ext.define('Account.Journal.Item.Form_t', {
 			fieldLabel: 'Balance Amount',
 			name: 'netwr',
 			align: 'right',
-			width:240,
-			labelWidth: 155,
-			margin: '4 0 0 0',
+			width:220,
+			labelWidth: 110,
+			margin: '0 0 0 10',
 			style: 'font-weight:bold',
-			labelStyle: 'font-weight:bold',
+			labelStyle: 'font-weight:bold;background-color: #f00;',
 			readOnly: true
 		});
 
@@ -60,6 +60,12 @@ Ext.define('Account.Journal.Item.Form_t', {
 		// Event /////////
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');
+		};
+		var setBold = function(o){
+			o.inputEl.setStyle('font-weight', 'bold');
+		};
+		var setColor = function(o){
+			o.inputEl.setStyle('font-color', 'red');
 		};
 		this.txtDebit.on('render', setAlignRight);
         this.txtCredit.on('render', setAlignRight);

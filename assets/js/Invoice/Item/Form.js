@@ -27,14 +27,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.Invoice.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Invoice.Item.Form_t',{
 			border: true,
 			split: true,
 			title:'Total Invoice',
 			region:'south'
 		});
 		
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+		this.comboQStatus = Ext.create('Ext.form.ComboBox',{
 			fieldLabel: 'INV Status',
 			name : 'statu',
 			labelAlign: 'right',

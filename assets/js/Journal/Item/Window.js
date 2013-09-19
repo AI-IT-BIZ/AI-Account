@@ -6,7 +6,7 @@ Ext.define('Account.Journal.Item.Window', {
 			title: 'Create/Edit Journal',
 			closeAction: 'hide',
 			height: 450,
-			width: 910,
+			width: 860,
 			layout: 'border',
 			border: false,
 			resizable: true,

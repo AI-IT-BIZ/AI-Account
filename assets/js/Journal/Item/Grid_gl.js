@@ -87,7 +87,7 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 				}
 			}
 			},
-			{text: "GL Description", width: 300, 
+			{text: "GL Description", width: 220, 
 			dataIndex: 'sgtxt', sortable: true},
 		    
 		    {text: "Debit", 

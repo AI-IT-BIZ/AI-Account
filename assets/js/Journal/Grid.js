@@ -20,9 +20,10 @@ Ext.define('Account.Journal.Grid', {
 			},
 			fields: [
 				'belnr',
+				'typtx',
 				'bldat',
-				'txz01',
-				'typtx'
+				'txz01'
+				
 			],
 			remoteSort: true,
 			sorters: ['belnr ASC']
@@ -31,12 +32,12 @@ Ext.define('Account.Journal.Grid', {
 		this.columns = [
 		    {text: "Journal Code", align: 'center',
 			width: 100, dataIndex: 'tranr', sortable: true},
+			{text: "Journal Type", align: 'center',
+			width: 100, dataIndex: 'typtx', sortable: true},
 			{text: "Journal Date", align: 'center',
 			width: 100, dataIndex: 'bldat', sortable: true},
 			{text: "Description", 
-			width: 290, dataIndex: 'txz01', sortable: true},
-	     	{text: "Journal Type", align: 'center',
-			width: 100, dataIndex: 'typtx', sortable: true}
+			width: 290, dataIndex: 'txz01', sortable: true}
 		];
 
 		this.bbar = {
