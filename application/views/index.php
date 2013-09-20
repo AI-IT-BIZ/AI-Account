@@ -176,6 +176,14 @@ Ext.onReady(function() {
 			$om.rapDialog = Ext.create('Account.RAP.MainWindow');
 		$om.rapDialog.show();
 	});
+	
+	$om.viewport.on('click_rpayment', function(){
+		if(!$om.rpaymentDialog)
+			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
+		$om.rpaymentDialog.show();
+	});
+	
+	
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)

@@ -61,9 +61,10 @@ Ext.define('Account.Payment.MainWindow', {
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
 
-				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({recnr: id});
-			    //_this.itemDialog.grid2.load({invpr: id});
+				// สั่ง py_item grid load
+				_this.itemDialog.form.gridItem.load({payno: id});
+				// สั่ง pm_item grid load
+				_this.itemDialog.form.gridPM.load({recnr: id});
 			}
 		});
 

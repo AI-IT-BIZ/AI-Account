@@ -18,15 +18,15 @@ class Payment extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('recnr', $id);
-		$query = $this->db->get('vbbk');
+		$this->db->where('payno', $id);
+		$query = $this->db->get('ebbk');
 		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
-			$result['id'] = $result['recnr'];
+			$result['id'] = $result['payno'];
 			
 			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
-			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
+			                         PHP_EOL.'Tel: '.$result['telf1'].' '.'Fax: '.
 			                         $result['telfx'].
 									 PHP_EOL.'Email: '.$result['email'];
 			$result['adr11'] = $result['adr01'];
@@ -47,17 +47,8 @@ class Payment extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
-			//$invnr1 = $_this->input->get('invnr');
-			//$invnr2 = $_this->input->get('invnr2');
-			//if(!empty($invnr1) && empty($invnr2)){
-			//  $_this->db->where('invnr', $invnr1);
-			//}
-			//elseif(!empty($invnr1) && !empty($invnr2)){
-			//  $_this->db->where('invnr >=', $invnr1);
-			//  $_this->db->where('invnr <=', $invnr2);
-			//}
 			
-			$bldat1 = $_this->input->get('bldat');
+			$bldat1 = $_this->input->get('bldat1');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -67,25 +58,36 @@ class Payment extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
+			$duedt1 = $_this->input->get('duedt1');
+			$duedt2 = $_this->input->get('duedt2');
+			if(!empty($duedt1) && empty($duedt2)){
+			  $_this->db->where('duedt', $duedt1);
 			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
+			elseif(!empty($duedt2) && !empty($duedt2)){
+			  $_this->db->where('duedt >=', $duedt2);
+			  $_this->db->where('duedt <=', $duedt2);
+			}
+			
+            $payno1 = $_this->input->get('payno');
+			$payno2 = $_this->input->get('payno2');
+			if(!empty($payno1) && empty($payno2)){
+			  $_this->db->where('payno', $payno1);
+			}
+			elseif(!empty($payno1) && !empty($payno2)){
+			  $_this->db->where('payno >=', $payno1);
+			  $_this->db->where('payno <=', $payno2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
 			}
 
-			//$statu1 = $_this->input->get('statu');
-			//$statu2 = $_this->input->get('statu2');
-			//if(!empty($statu1) && empty($statu2)){
-			//  $_this->db->where('statu', $statu1);
-			//}
-			//elseif(!empty($statu1) && !empty($statu2)){
-			//  $_this->db->where('statu >=', $statu1);
-			//  $_this->db->where('statu <=', $statu2);
-			//}
 		}
 // End for report
 
@@ -125,13 +127,13 @@ class Payment extends CI_Controller {
 			//'recnr' => $this->input->post('recnr'),
 			'bldat' => $this->input->post('bldat'),
 			//'statu' => $this->input->post('statu'),
-			//'txz01' => $this->input->post('txz01'),
 			//'refnr' => $this->input->post('refnr'),
 			
 			'lifnr' => $this->input->post('lifnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
+			'txz01' => $this->input->post('txz01'),
 			
 			//'ctype' => $curr,
 			//'exchg' => $this->input->post('exchg'),
@@ -187,13 +189,13 @@ class Payment extends CI_Controller {
 		$this->db->where('recnr', $id);
 		$this->db->delete('paym');
 		
-		// เตรียมข้อมูล pay item
+		// เตรียมข้อมูล pm item
 		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
 		if(!empty($paym) && !empty($pm_item_array)){
 
 			$item_index = 0;
-			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			// loop เพื่อ insert pm_item ที่ส่งมาใหม่
 			foreach($pm_item_array AS $p){
 				$this->db->insert('paym', array(
 					'recnr'=>$id,
@@ -202,7 +204,7 @@ class Payment extends CI_Controller {
 					'chqid'=>$p->chqid,
 					'chqdt'=>$p->chqdt,
 					'bcode'=>$p->bcode,
-					//'ptype'=>$p->ptype,
+					'ptype'=>$p->ptype,
 					'pramt'=>$p->pramt,
 					'reman'=>$p->reman,
 					'payam'=>$p->payam
@@ -241,8 +243,8 @@ class Payment extends CI_Controller {
 	function loads_py_item(){
         //$this->db->set_dbprefix('v_');
         
-	    $py_id = $this->input->get('invnr');
-		$this->db->where('invnr', $py_id);
+	    $py_id = $this->input->get('payno');
+		$this->db->where('payno', $py_id);
 
 	    $query = $this->db->get('ebbp');
        // echo $this->db->last_query();
@@ -252,6 +254,21 @@ class Payment extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
+	
+	function loads_pm_item(){
+        $this->db->set_dbprefix('v_');
+		//$pm_id = $this->input->get('recnr'); 
+		$pm_id = $this->input->get('recnr'); //payno เลขที่ payment
+		$this->db->where('recnr', $pm_id);
+
+		$query = $this->db->get('paym');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
 	
 	function loads_gl_item(){
         $this->db->set_dbprefix('v_');
@@ -265,21 +282,6 @@ class Payment extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
-	function loads_pm_item(){
-        $this->db->set_dbprefix('v_');
-		//$pm_id = $this->input->get('recnr'); 
-		$pm_id = $this->input->get('payno'); //payno เลขที่ payment
-		$this->db->where('recnr', $pm_id);
-
-		$query = $this->db->get('paym');
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-	
 	public function loads_combo($tb,$pk,$like){
     	/*
 		$tbName = 'ktyp';

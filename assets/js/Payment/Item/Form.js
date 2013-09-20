@@ -336,7 +336,7 @@ Ext.define('Account.Payment.Item.Form', {
 	},
 	
 	reset: function(){
-		this.getForm().reset();
+		//this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ payno: 0 });

@@ -29,7 +29,7 @@ var ptype = new Ext.data.ArrayStore({
     	autoLoad: true
     	});
 /*---ComboBox Payment type----------------------------*/
-		
+	/*	
 		var comboPtype = Ext.create('Ext.form.ComboBox', {
 							
 			//fieldLabel: 'Payment type',
@@ -53,7 +53,7 @@ var ptype = new Ext.data.ArrayStore({
     	
 		});	
 		
-/*
+
 var ptype = new Ext.data.ArrayStore({
     	fields: ['ptype', 'paytx'],
     	data : [['1','cash'],['2','credit cart']],
@@ -136,13 +136,34 @@ var ptype = new Ext.data.ArrayStore({
 				return rowIndex+1;
 		}
 		},
-		    {
-		    	
-		                header   : 'Payment', 
-		                width    : 100, 
-		                dataIndex: 'ptype',
-		                editor: comboPtype
-			    
+		    {text: "Payment",
+		    width: 100, 
+		    dataIndex: 'ptype', 
+		    sortable: true,
+		   // displayField: 'paytx',
+			//valueField: 'ptype',
+		    editor: new Ext.form.field.ComboBox({
+            store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'receipt/loads_pcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'ptype'
+					}
+				},
+				fields: [
+					'ptype',
+					'paytx'
+				],
+				remoteSort: true,
+				sorters: 'ptype ASC'
+				}),
+			queryMode: 'remote',
+			displayField: 'paytx',
+			valueField: 'ptype'
+                }),
 		    },
 		    
 			{text: "Bank Code", align : 'center',
@@ -179,15 +200,18 @@ var ptype = new Ext.data.ArrayStore({
 		    xtype: 'datecolumn', width: 80, 
 		    dataIndex: 'chqdt', sortable: true,
 		    format:'d/m/Y',
+				altFormats:'Y-m-d|d/m/Y',
+		    
 		    editor: {
                 xtype: 'datefield',
-                format:'d/m/Y',
-			    altFormats:'Y-m-d|d/m/Y',
-			    submitFormat:'Y-m-d'
+				format:'d/m/Y',
+				altFormats:'Y-m-d|d/m/Y',
+				submitFormat:'Y-m-d',
             }
 		    },
 		    {text: "Amount", align : 'right',
 		    width: 100, dataIndex: 'pramt', sortable: true,
+		    readOnly: true,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -290,7 +314,11 @@ var ptype = new Ext.data.ArrayStore({
 	},
 	
 	load: function(options){
-		this.store.load(options);
+		//this.store.load(options);
+		
+		this.store.load({
+			params: options
+		});
 	},
 	
 	addRecord2: function(){

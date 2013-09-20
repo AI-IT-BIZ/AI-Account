@@ -33,11 +33,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: 'payno,vbelp'
 				}
 			},
 			fields: [
-			    'invnr',
+			    'payno',
 				'vbelp',
 				'invnr',
 				'refnr',

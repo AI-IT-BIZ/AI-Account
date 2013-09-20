@@ -32,6 +32,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			labelWidth: 80,
 			width:150,
 			enableKeyEvents: true,
+			/*
 			validator: function(v){
 				if(!Ext.isEmpty(v)){
 					var regEx = /^([0-9]*)(\.[1-9]*)?$|^([0-9]|[1-9][0-9]|100)(\.[1-9]*)?(%)$/gi;
@@ -41,7 +42,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 						return 'Value can be only numbers or percent';
 				}else
 					return true;
-			}
+			}*/
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
 			name: 'aaa',
