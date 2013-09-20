@@ -1,10 +1,10 @@
-Ext.define('Account.RReceipt.Item.Window', {
+Ext.define('Account.RJournal.Item.Window', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Receipt Report',
+			title: 'Journal Report',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -22,7 +22,7 @@ Ext.define('Account.RReceipt.Item.Window', {
 		var _this=this;
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RReceipt.Item.Grid', {
+		this.grid = Ext.create('Account.RJournal.Item.Grid', {
 			region:'center',
 			border: false
 		});

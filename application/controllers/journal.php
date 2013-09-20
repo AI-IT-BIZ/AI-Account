@@ -38,10 +38,55 @@ class Journal extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'bkpf';
+		
+		// Start for report
+		function createQuery($_this){
+			$belnr1 = $_this->input->get('belnr');
+			$belnr2 = $_this->input->get('belnr2');
+			if(!empty($belnr1) && empty($belnr2)){
+			  $_this->db->where('belnr', $belnr1);
+			}
+			elseif(!empty($belnr1) && !empty($belnr2)){
+			  $_this->db->where('belnr >=', $belnr1);
+			  $_this->db->where('belnr <=', $belnr2);
+			}
+			
+	        $ttype1 = $_this->input->get('ttype');
+			$ttype2 = $_this->input->get('ttype2');
+			if(!empty($ttype1) && empty($ttype2)){
+			  $_this->db->where('ttype', $ttype1);
+			}
+			elseif(!empty($ttype1) && !empty($ttype2)){
+			  $_this->db->where('ttype >=', $ttype1);
+			  $_this->db->where('ttype <=', $ttype2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$tranr1 = $_this->input->get('tranr');
+			$tranr2 = $_this->input->get('tranr2');
+			if(!empty($tranr1) && empty($tranr2)){
+			  $_this->db->where('tranr', $tranr1);
+			}
+			elseif(!empty($tranr1) && !empty($tranr2)){
+			  $_this->db->where('tranr >=', $tranr1);
+			  $_this->db->where('tranr <=', $tranr2);
+			}
+			
+		}
+// End for report
 
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);

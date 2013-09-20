@@ -1,12 +1,12 @@
-Ext.define('Account.RReceipt.MainWindow', {
+Ext.define('Account.RJournal.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Receipt Selection',
+			title: 'Journal Selection',
 			closeAction: 'hide',
-			height: 240,
+			height: 200,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
@@ -19,9 +19,9 @@ Ext.define('Account.RReceipt.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.itemDialog = Ext.create('Account.RReceipt.Item.Window');
+		this.itemDialog = Ext.create('Account.RJournal.Item.Window');
 
-		this.form = Ext.create('Account.RReceipt.Form',{ region:'center' });
+		this.form = Ext.create('Account.RJournal.Form',{ region:'center' });
 
 		this.items = [
 		     this.form

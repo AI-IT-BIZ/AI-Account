@@ -266,15 +266,70 @@ class Receipt extends CI_Controller {
 	function loads_rc_item(){
         $this->db->set_dbprefix('v_');
         
-	    $rc_id = $this->input->get('recnr');
-		$this->db->where('recnr', $rc_id);
-
+		// Start for report
+		function createQuery($_this){
+		    $recnr1 = $_this->input->get('recnr');
+			$recnr2 = $_this->input->get('recnr2');
+			if(!empty($recnr1) && empty($recnr2)){
+			  $_this->db->where('recnr', $recnr1);
+			}
+			elseif(!empty($recnr1) && !empty($recnr2)){
+			  $_this->db->where('recnr >=', $recnr1);
+			  $_this->db->where('recnr <=', $recnr2);
+			}
+			
+		    $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+		
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$duedt1 = $_this->input->get('duedt');
+			$duedt2 = $_this->input->get('duedt2');
+			if(!empty($duedt1) && empty($duedt2)){
+			  $_this->db->where('duedt', $duedt1);
+			}
+			elseif(!empty($duedt1) && !empty($duedt2)){
+			  $_this->db->where('duedt >=', $duedt1);
+			  $_this->db->where('duedt <=', $duedt2);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+		}
+		
+	    //$rc_id = $this->input->get('recnr');
+		//$this->db->where('recnr', $rc_id);
+        $totalCount = $this->db->count_all_results('vbbp');
+		
+		createQuery($this);
 	    $query = $this->db->get('vbbp');
        // echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 	
