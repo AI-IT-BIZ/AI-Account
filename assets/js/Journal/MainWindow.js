@@ -34,6 +34,7 @@ Ext.define('Account.Journal.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'ลบ',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
 		

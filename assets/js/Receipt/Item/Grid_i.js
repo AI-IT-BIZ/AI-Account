@@ -18,7 +18,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 		// INIT Invoice search popup /////////////////////////////////
 		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
-		// END Material search popup //////////////////////////////////
+		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
 
@@ -98,11 +98,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    },
 		    {text: "Invoice Date",
 		    width: 80,
+		    xtype: 'datecolumn',
 		    dataIndex: 'invdt',
 		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
 		    width: 180,
@@ -117,34 +116,14 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
+			readOnly: true
 			},
 			{text: "Payment Amt",
 			width: 100,
 			dataIndex: 'payrc',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
+			readOnly: true
 			},
 			{
 				text: "Remain Amt",
@@ -152,6 +131,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				dataIndex: 'reman',
 				sortable: false,
 				align: 'right',
+				readOnly: true,
 				renderer: function(v,p,r){
 					var itamt = parseFloat(r.data['itamt']),
 						pay = parseFloat(r.data['payrc']);

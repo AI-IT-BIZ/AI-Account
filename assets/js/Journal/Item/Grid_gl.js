@@ -222,7 +222,7 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('trpr', row_num++);
+			r.set('belpr', row_num++);
 		});
 	},
 

@@ -147,6 +147,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    },
 		    {text: "Amount", align : 'right',
 		    width: 100, dataIndex: 'pramt', sortable: true,
+		    readOnly: true,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -175,13 +176,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			},
 		    {text: "Remain Amt", align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: true,
+		    readOnly: true,
 		    renderer: function(v,p,r){
-				//var net = _this.netValue;
-				//if(net<=0)
-					//return 0;
-                //net = isNaN(net)?0:net;
-                //alert(net);
-                //console.log(net);
 				var pamt = parseFloat(r.data['pramt']);
 				var pay = parseFloat(r.data['payam']);
 				var amt = pamt - pay;
@@ -249,7 +245,9 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 	},
 	
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	},
 	
 	addRecord2: function(){

@@ -22,13 +22,44 @@ Ext.onReady(function() {
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
 	});
-//<<<<<<< HEAD
 	
-	$om.viewport.on('click_balance', function(){
-		if(!$om.warehouseDialog)
-			$om.warehouseDialog = Ext.create('Account.Warehouse.MainWindow');
-		$om.warehouseDialog.show();
+	$om.viewport.on('click_rjournal', function(){
+		if(!$om.rjournalDialog)
+			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
+		$om.rjournalDialog.show();
 	});
+	
+	$om.viewport.on('click_rgl', function(){
+		if(!$om.rglDialog)
+			$om.rglDialog = Ext.create('Account.RGL.MainWindow');
+		$om.rglDialog.show();
+	});
+	/*
+	$om.viewport.on('click_rar-aging', function(){
+		if(!$om.rar-agingDialog)
+			$om.rar-agingDialog = Ext.create('Account.RARaging.MainWindow');
+		$om.rar-agingDialog.show();
+	});
+	
+	$om.viewport.on('click_rap-aging', function(){
+		if(!$om.rap-agingDialog)
+			$om.rap-agingDialog = Ext.create('Account.RAPaging.MainWindow');
+		$om.rap-agingDialog.show();
+	});
+	
+	$om.viewport.on('click_rmm-aging', function(){
+		if(!$om.rmm-agingDialog)
+			$om.rmm-agingDialog = Ext.create('Account.RMMaging.MainWindow');
+		$om.rmm-agingDialog.show();
+	});
+	
+	$om.viewport.on('click_rmm-stockcard', function(){
+		if(!$om.rmm-stockcardDialog)
+			$om.rmm-stockcardDialog = Ext.create('Account.RMMstockcard.MainWindow');
+		$om.rmm-stockcardDialog.show();
+	});
+	*/
+//<<<<<<< HEAD
 	
 	$om.viewport.on('click_customer', function(){
 		if(!$om.customerDialog)

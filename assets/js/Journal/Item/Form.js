@@ -60,7 +60,7 @@ Ext.define('Account.Journal.Item.Form', {
               select: function(combo, record, index){
                 //Ext.Msg.alert('Title',i);
                 var value = combo.getValue();
-                _this.trigJournal.load({ttype: value });
+                //_this.trigJournal.load({ttype: value });
               }
             },
 			queryMode: 'remote',
@@ -80,7 +80,7 @@ Ext.define('Account.Journal.Item.Form', {
 		});
 		
 		this.hdnTrItem = Ext.create('Ext.form.Hidden', {
-			name: 'trpo'
+			name: 'bsid'
 		});
 		
 // Start Write Forms
@@ -133,7 +133,7 @@ Ext.define('Account.Journal.Item.Form', {
             margin: '0 0 5 0',
      items :[this.trigJournal,{
 			xtype: 'displayfield',
-            name: 'txz01',
+            name: 'txz02',
             margins: '0 0 0 6',
             width: 255
 		},{
@@ -156,7 +156,7 @@ Ext.define('Account.Journal.Item.Form', {
      items :[ {
      	    xtype: 'textfield',
 			fieldLabel: 'Description',
-			name: 'txz02',
+			name: 'txz01',
 			labelWidth: 90,
 			labelAlign: 'left',
 			width:450
@@ -171,7 +171,7 @@ Ext.define('Account.Journal.Item.Form', {
 		
 		this.items = [mainFormPanel,this.gridItem,this.formTotal];
 		
-		// event trigCustomer///
+		// event trigJournal///
 		this.trigJournal.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -188,8 +188,13 @@ Ext.define('Account.Journal.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.tranr);
 							
-                            _this.getForm().findField('txz01').setValue(record.data.txz01);
+                            _this.getForm().findField('txz02').setValue(r.data.txz01);
 							
+						   //---Load PRitem to POitem Grid-----------
+			              var tranr = _this.trigJournal.value;
+			             // alert(tranr);
+			              _this.gridItem.load({tranr1: tranr });
+						
 						}else{
 							o.markInvalid('Could not find Journal Template : '+o.getValue());
 						}
@@ -201,13 +206,13 @@ Ext.define('Account.Journal.Item.Form', {
 		_this.journalDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigJournal.setValue(record.data.tranr);
 			
-             _this.getForm().findField('txz01').setValue(record.data.txz01);
+             _this.getForm().findField('txz02').setValue(record.data.txz01);
 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
 			var tranr = _this.trigJournal.value;
 			//alert(qtnr);
-			_this.gridItem.load({tranr: tranr });
+			_this.gridItem.load({tranr1: tranr });
 			_this.journalDialog.hide();
 		});
 
@@ -251,6 +256,9 @@ Ext.define('Account.Journal.Item.Form', {
     		 }
     	 });
 */
+        var net = _this.getForm().findField('netwr1').getValue();
+		//alert (net);
+		if (net==0){
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -261,6 +269,9 @@ Ext.define('Account.Journal.Item.Form', {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
 				}
 			});
+		}
+		}else{
+			Ext.Msg.alert('Balance result not equal');
 		}
 	},
 	

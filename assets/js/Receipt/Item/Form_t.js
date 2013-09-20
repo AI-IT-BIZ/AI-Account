@@ -115,27 +115,27 @@ Ext.define('Account.Receipt.Item.Form_t', {
             anchor: '100%',
             //margin: '5 0 5 600',
         items: [{
-            xtype: 'hidden',
-			fieldLabel: 'Exchange Rate',
-			name: 'exchg',
+            xtype: 'displayfield',
+			//fieldLabel: 'Exchange Rate',
+			//name: 'exchg',
 			//labelAlign: 'right',
 			width:240,
 			align: 'right',
 			//margin: '0 0 0 -35'
          },{
-   	        xtype: 'hidden',
+   	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
 			width:60,
-			value: 'THB/USD'
+			//value: 'THB/USD'
 		}]
 		},{
-   	        xtype: 'hidden',
-   	        fieldLabel: 'Rejected Reason',
+   	        xtype: 'displayfield',
+   	        //fieldLabel: 'Rejected Reason',
 			align: 'right',
 			margin: '3 0 0 0',
-			width:380,
-			name: 'reanr'
+			width:380//,
+			//name: 'reanr1'
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Text Note',
@@ -270,5 +270,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 
 		var net = total - discountValue + taxValue;
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		
+		return net;
 	}
 });

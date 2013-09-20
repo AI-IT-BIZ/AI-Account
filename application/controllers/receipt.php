@@ -149,7 +149,7 @@ class Receipt extends CI_Controller {
 		}else{
 			$id = $this->code_model->generate('RC', 
 			$this->input->post('bldat'));
-			echo ($id);
+			//echo ($id);
 			$this->db->set('recnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
@@ -165,6 +165,7 @@ class Receipt extends CI_Controller {
 		// เตรียมข้อมูล receipt item
 		$vbbp = $this->input->post('vbbp');
 		$rc_item_array = json_decode($vbbp);
+		//echo $this->db->last_query();
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
@@ -189,7 +190,7 @@ class Receipt extends CI_Controller {
 		$this->db->delete('paym');
 
 		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('paym');
+		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
 		if(!empty($paym) && !empty($pm_item_array)){
 
@@ -199,11 +200,11 @@ class Receipt extends CI_Controller {
 				$this->db->insert('paym', array(
 					'recnr'=>$id,
 					'paypr'=>++$item_index,
+					'ptype'=>$p->ptype,
+					'bcode'=>$p->bcode,
 					'sgtxt'=>$p->sgtxt,
 					'chqid'=>$p->chqid,
 					'chqdt'=>$p->chqdt,
-					'bcode'=>$p->bcode,
-					//'ptype'=>$p->ptype,
 					'pramt'=>$p->pramt,
 					'reman'=>$p->reman,
 					'payam'=>$p->payam
@@ -263,7 +264,7 @@ class Receipt extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_rc_item(){
-        //$this->db->set_dbprefix('v_');
+        $this->db->set_dbprefix('v_');
         
 	    $rc_id = $this->input->get('recnr');
 		$this->db->where('recnr', $rc_id);
@@ -293,6 +294,7 @@ class Receipt extends CI_Controller {
 	function loads_pm_item(){
         $this->db->set_dbprefix('v_');
 		$pm_id = $this->input->get('recnr');
+		//echo $pm_id;
 		$this->db->where('recnr', $pm_id);
 
 		$query = $this->db->get('paym');

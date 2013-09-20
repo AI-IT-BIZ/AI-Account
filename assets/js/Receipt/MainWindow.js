@@ -63,7 +63,7 @@ Ext.define('Account.Receipt.MainWindow', {
 
 				// สั่ง pr_item grid load
 				_this.itemDialog.form.gridItem.load({recnr: id});
-			    //_this.itemDialog.grid2.load({invpr: id});
+			    _this.itemDialog.form.gridPayment.load({recnr: id});
 			}
 		});
 
