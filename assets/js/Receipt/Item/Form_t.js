@@ -115,27 +115,27 @@ Ext.define('Account.Receipt.Item.Form_t', {
             anchor: '100%',
             //margin: '5 0 5 600',
         items: [{
-            xtype: 'textfield',
-			fieldLabel: 'Exchange Rate',
-			name: 'exchg',
+            xtype: 'displayfield',
+			//fieldLabel: 'Exchange Rate',
+			//name: 'exchg',
 			//labelAlign: 'right',
 			width:240,
 			align: 'right',
 			//margin: '0 0 0 -35'
          },{
-   	        xtype: 'textfield',
+   	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
 			width:60,
-			value: 'THB/USD'
+			//value: 'THB/USD'
 		}]
 		},{
-   	        xtype: 'textfield',
-   	        fieldLabel: 'Rejected Reason',
+   	        xtype: 'displayfield',
+   	        //fieldLabel: 'Rejected Reason',
 			align: 'right',
 			margin: '3 0 0 0',
-			width:380,
-			name: 'reanr'
+			width:380//,
+			//name: 'reanr1'
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Text Note',

@@ -245,7 +245,9 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 	},
 	
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	},
 	
 	addRecord2: function(){

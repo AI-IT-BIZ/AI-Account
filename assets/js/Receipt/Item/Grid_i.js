@@ -98,11 +98,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    },
 		    {text: "Invoice Date",
 		    width: 80,
+		    xtype: 'datecolumn',
 		    dataIndex: 'invdt',
 		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
 		    width: 180,
@@ -117,36 +116,14 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
-			readOnly: true,
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
+			readOnly: true
 			},
 			{text: "Payment Amt",
 			width: 100,
 			dataIndex: 'payrc',
 			sortable: false,
 			align: 'right',
-			readOnly: true,
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
+			readOnly: true
 			},
 			{
 				text: "Remain Amt",

@@ -96,8 +96,12 @@ function endsWith($haystack, $needle)
 		#div-manage-budget { top:250px; left:530px; width: 100px; height:100px; }
 		#div-chart-account { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
 
-		#div-reconsile { position:absolute; top:400px; left:530px; width: 100px; height:100px; }
-		#div-transfer { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
+		#div-rjournal { position:absolute; top:400px; left:530px; width: 100px; height:100px; }
+		#div-rgl { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
+		#div-rar-aging { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
+		#div-rap-aging { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
+		#div-rmm-aging { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
+		#div-rmm-stockcard { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
@@ -357,8 +361,12 @@ function endsWith($haystack, $needle)
 									'<div id="div-manage-budget" class="box box-blue"><span>Manage Budget</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
 
-									'<div id="div-reconsile" class="box box-orange"><span>Reconsile Account</span></div>',
-									'<div id="div-transfer" class="box box-orange"><span>Transfer between account</span></div>',
+									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
+									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
+									'<div id="div-rar-aging" class="box box-orange"><span>AR Aging Report</span></div>',
+									'<div id="div-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
+									'<div id="div-rmm-aging" class="box box-orange"><span>Inventory Aging Report</span></div>',
+									'<div id="div-rmm-stockcard" class="box box-orange"><span>Stock Card Report</span></div>',
 								'</div>',
 								//Material Module
 								'<div id="div1-4-container">',
@@ -379,7 +387,13 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-
+                                
+                                pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
+								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
+								pEl.getById('div-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rar-aging', c); }, c);
+								pEl.getById('div-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rap-aging', c); }, c);
+								pEl.getById('div-rmm-aging').on('click', function(){ $om.viewport.fireEvent('click_rmm-aging', c); }, c);
+								pEl.getById('div-rmm-stockcard').on('click', function(){ $om.viewport.fireEvent('click_rmm-stockcard', c); }, c);
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);

@@ -149,7 +149,7 @@ class Receipt extends CI_Controller {
 		}else{
 			$id = $this->code_model->generate('RC', 
 			$this->input->post('bldat'));
-			echo ($id);
+			//echo ($id);
 			$this->db->set('recnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
@@ -165,6 +165,7 @@ class Receipt extends CI_Controller {
 		// เตรียมข้อมูล receipt item
 		$vbbp = $this->input->post('vbbp');
 		$rc_item_array = json_decode($vbbp);
+		//echo $this->db->last_query();
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
@@ -293,7 +294,7 @@ class Receipt extends CI_Controller {
 	function loads_pm_item(){
         $this->db->set_dbprefix('v_');
 		$pm_id = $this->input->get('recnr');
-		echo $pm_id;
+		//echo $pm_id;
 		$this->db->where('recnr', $pm_id);
 
 		$query = $this->db->get('paym');

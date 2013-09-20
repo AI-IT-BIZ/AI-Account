@@ -338,6 +338,7 @@ Ext.define('Account.Receipt.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
+		//alert('111');
 		this.gridPayment.load({ recnr: 0 });
 
 		// default status = wait for approve
