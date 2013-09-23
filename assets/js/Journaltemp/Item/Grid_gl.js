@@ -93,6 +93,8 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 		    {text: "Debit", 
 		    width: 100, dataIndex: 'debit', sortable: true,
 		    align: 'right',
+		    xtype: 'numbercolumn',
+		    decimalPrecision: 2,
 		    field: {
 				type: 'numberfield',
 				decimalPrecision: 2
@@ -101,6 +103,8 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 			{text: "Credit", 
 			width: 100, dataIndex: 'credi', sortable: true,
 			align: 'right',
+			xtype: 'numbercolumn',
+		    decimalPrecision: 2,
 			field: {
 				type: 'numberfield',
 				decimalPrecision: 2

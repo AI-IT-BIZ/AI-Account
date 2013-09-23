@@ -50,6 +50,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
 
 			// สั่ง gl_item grid load

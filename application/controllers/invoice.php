@@ -96,6 +96,8 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
+			
+			echo '111'.$kunnr1;
 
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');

@@ -24,6 +24,7 @@ class Journal extends CI_Controller {
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			$result['id'] = $result['belnr'];
+			$result['txz00'] = $result['txz01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -139,7 +140,7 @@ class Journal extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'txz01' => $this->input->post('txz01'),
+			'txz01' => $this->input->post('txz00'),
 			'ttype' => $this->input->post('ttype'),
 			'tranr' => $this->input->post('tranr'),
 			'netwr' => $this->input->post('debit')

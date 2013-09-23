@@ -156,7 +156,7 @@ Ext.define('Account.Journal.Item.Form', {
      items :[ {
      	    xtype: 'textfield',
 			fieldLabel: 'Description',
-			name: 'txz01',
+			name: 'txz00',
 			labelWidth: 90,
 			labelAlign: 'left',
 			width:450
