@@ -328,7 +328,7 @@ Ext.define('Account.RInvoice.Form', {
 							o.setValue(r.data.invnr);
 							
 						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
+							o.markInvalid('Could not find invoice code : '+o.getValue());
 						}
 					}
 				});
@@ -352,7 +352,7 @@ Ext.define('Account.RInvoice.Form', {
 							o.setValue(r.data.invnr);
 							
 						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
+							o.markInvalid('Could not find invoice code : '+o.getValue());
 						}
 					}
 				});

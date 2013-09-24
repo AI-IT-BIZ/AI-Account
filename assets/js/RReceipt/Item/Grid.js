@@ -1,4 +1,4 @@
-Ext.define('Account.RInvoice.Item.Grid', {
+Ext.define('Account.RReceipt.Item.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,55 +8,50 @@ Ext.define('Account.RInvoice.Item.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"invoice/loads",
+				url: __site_url+"receipt/loads_rc_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr'
+					idProperty: 'recnr'
 				}
 			},
 			fields: [
+			    'recnr',
+			    'vbelp',
+			    'bldat',
+				'duedt',
 			    'invnr',
-				'bldat',
-				'vbeln',
 				'kunnr',
 				'name1',
-				'jobnr',
-				'jobtx',
-				'statx',
-				'sname',
-				'netwr',
-				'ctype'
+				'itamt',
+				'netwr'
+				//'ctype'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: ['recnr ASC']
 		});
 
 		this.columns = [
-		    {text: "Invoice No", 
-		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
-			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 70, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Quotation No", 
-		    width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
+		    {text: "Receipt No", 
+		    width: 90, align: 'center', dataIndex: 'recnr', sortable: true},
+		    {text: "Items", 
+		    width: 60, align: 'center', dataIndex: 'vbelp', sortable: true},
+			{text: "Document Date", xtype: 'datecolumn', format:'d/m/Y',
+			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
+			{text: "Receipt Date", xtype: 'datecolumn', format:'d/m/Y',
+			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
+			{text: "Invoice No", 
+		    width: 90, align: 'center', dataIndex: 'invnr', sortable: true},
 		    {text: "Customer No", 
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
-			width: 120, dataIndex: 'name1', sortable: true},
-			{text: "Quotation No", 
-			width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Project No", 
-			width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", 
-			width: 120, dataIndex: 'jobtx', sortable: true},
-			{text: "Status", 
-			width: 60, dataIndex: 'statx', sortable: true},
-			{text: "Sale Name", 
-			width: 100, dataIndex: 'sname', sortable: true},
+			width: 160, dataIndex: 'name1', sortable: true},
 			{text: "Amount", 
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 70, align: 'right', dataIndex: 'itamt', sortable: true},
+			{text: "Net Amount", 
+			width: 70, align: 'right', dataIndex: 'netwr', sortable: true}
+			//{text: "Currency", 
+			//width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

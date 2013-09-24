@@ -36,6 +36,7 @@ Ext.define('Account.Journal.Item.Window', {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
+				_this.form.gridItem.load({ belnr: 0 });
 				_this.hide();
 			}
 		}];

@@ -156,7 +156,7 @@ Ext.define('Account.Journal.Item.Form', {
      items :[ {
      	    xtype: 'textfield',
 			fieldLabel: 'Description',
-			name: 'txz01',
+			name: 'txz00',
 			labelWidth: 90,
 			labelAlign: 'left',
 			width:450
@@ -290,8 +290,11 @@ Ext.define('Account.Journal.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ belnr: 0 });
+		//this.gridItem.load({ belnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
+		
+		// สร้างรายการเปล่า 5 รายการใน grid item
+		this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		//this.comboQStatus.setValue('05');

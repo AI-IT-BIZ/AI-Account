@@ -24,6 +24,7 @@ class Journal extends CI_Controller {
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			$result['id'] = $result['belnr'];
+			$result['txz00'] = $result['txz01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -38,10 +39,55 @@ class Journal extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'bkpf';
+		
+		// Start for report
+		function createQuery($_this){
+			$belnr1 = $_this->input->get('belnr');
+			$belnr2 = $_this->input->get('belnr2');
+			if(!empty($belnr1) && empty($belnr2)){
+			  $_this->db->where('belnr', $belnr1);
+			}
+			elseif(!empty($belnr1) && !empty($belnr2)){
+			  $_this->db->where('belnr >=', $belnr1);
+			  $_this->db->where('belnr <=', $belnr2);
+			}
+			
+	        $ttype1 = $_this->input->get('ttype');
+			$ttype2 = $_this->input->get('ttype2');
+			if(!empty($ttype1) && empty($ttype2)){
+			  $_this->db->where('ttype', $ttype1);
+			}
+			elseif(!empty($ttype1) && !empty($ttype2)){
+			  $_this->db->where('ttype >=', $ttype1);
+			  $_this->db->where('ttype <=', $ttype2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$tranr1 = $_this->input->get('tranr');
+			$tranr2 = $_this->input->get('tranr2');
+			if(!empty($tranr1) && empty($tranr2)){
+			  $_this->db->where('tranr', $tranr1);
+			}
+			elseif(!empty($tranr1) && !empty($tranr2)){
+			  $_this->db->where('tranr >=', $tranr1);
+			  $_this->db->where('tranr <=', $tranr2);
+			}
+			
+		}
+// End for report
 
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -94,7 +140,7 @@ class Journal extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'txz01' => $this->input->post('txz01'),
+			'txz01' => $this->input->post('txz00'),
 			'ttype' => $this->input->post('ttype'),
 			'tranr' => $this->input->post('tranr'),
 			'netwr' => $this->input->post('debit')
@@ -138,6 +184,7 @@ class Journal extends CI_Controller {
 			// loop เพื่อ insert tr_item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($tr_item_array AS $p){
+			if(!empty($p->saknr)){
 			$this->db->insert('bsid', array(
 				'belnr'=>$id,
 				'belpr'=>++$item_index,
@@ -147,6 +194,7 @@ class Journal extends CI_Controller {
 				'txz01'=>$p->txz01
 			));
 	    	}
+		}
 		}
 
 		// end transaction

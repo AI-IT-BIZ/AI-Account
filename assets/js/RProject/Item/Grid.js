@@ -12,7 +12,7 @@ Ext.define('Account.RProject.Item.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'jobnr'
 				}
 			},
 			fields: [
@@ -28,7 +28,7 @@ Ext.define('Account.RProject.Item.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['jobnr ASC']
 		});
 
 		this.columns = [

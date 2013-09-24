@@ -8,7 +8,7 @@ Ext.define('Account.Journal.MainWindow', {
 			closeAction: 'hide',
 			height: 380,
 			minHeight: 380,
-			width: 600,
+			width: 745,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -51,6 +51,7 @@ Ext.define('Account.Journal.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
 
 			// สั่ง gl_item grid load

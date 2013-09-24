@@ -1,36 +1,49 @@
-Ext.define('Account.RReceipt.Item.Window', {
+Ext.define('Account.RGL.Item.Window', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Receipt Report',
+			title: 'General Ledger Report',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
-			width: 800,
+			width: 500,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
 			maximizable: true
 		});
+
 		return this.callParent(arguments);
 	},
 
 	initComponent : function() {
 		var _this=this;
 
+		// --- object ---
+		/*this.addAct = new Ext.Action({
+			text: 'Add',
+			iconCls: 'b-small-plus'
+		});
+		this.editAct = new Ext.Action({
+			text: 'Edit',
+			iconCls: 'b-small-pencil'
+		});
+		this.deleteAct = new Ext.Action({
+			text: 'Delete',
+			iconCls: 'b-small-minus'
+		});*/
+
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RReceipt.Item.Grid', {
+
+		this.grid = Ext.create('Account.RGL.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
-
-		// --- after ---
-		//this.grid.load();
 
 		return this.callParent(arguments);
 	}

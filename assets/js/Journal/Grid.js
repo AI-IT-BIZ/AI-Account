@@ -39,19 +39,19 @@ Ext.define('Account.Journal.Grid', {
 			width: 100, dataIndex: 'typtx', sortable: true},
 			{text: "Journal Date", 
 			align: 'center',
-			width: 100, dataIndex: 'bldat', 
+			width: 80, dataIndex: 'bldat', 
 			sortable: true,
 			xtype: 'datecolumn',
 			format:'d/m/Y'
 			},
 			{text: "Template Code", align: 'center',
-			width: 100, dataIndex: 'tranr', sortable: true},
+			width: 80, dataIndex: 'tranr', sortable: true},
 			{text: "Template Name", align: 'center',
 			width: 100, dataIndex: 'trantx', sortable: true},
 			{text: "Description", 
-			width: 290, dataIndex: 'txz01', sortable: true},
+			width: 190, dataIndex: 'txz01', sortable: true},
 			{text: "Amount", 
-			width: 290, dataIndex: 'netwr', sortable: true}
+			width: 80, dataIndex: 'netwr', sortable: true}
 		];
 
 		this.bbar = {

@@ -20,100 +20,28 @@ Ext.define('Account.RReceipt.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
+        this.receiptDialog = Ext.create('Account.Receipt.MainWindow');
         this.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
+		this.receiptDialog2 = Ext.create('Account.Receipt.MainWindow');
 		this.invoiceDialog2 = Ext.create('Account.Invoice.MainWindow');
 		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
-        
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Invoice Status',
-			name : 'statu',
+		
+		this.trigReceipt = Ext.create('Ext.form.field.Trigger', {
+			name: 'recnr',
 			labelWidth: 100,
-			editable: false,
-			triggerAction : 'all',
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Select Status --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'invoice/loads_acombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statu'
-		});
-	
-		this.comboPSale = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Saleperson',
-			name : 'salnr',
-			labelWidth: 100,
-			editable: false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Saleperson --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
+			fieldLabel: 'Receipt Code',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
 		});
 		
-		this.comboPSale2 = Ext.create('Ext.form.ComboBox', {
-			name : 'salnr',
-			editable: false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Saleperson --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
+		this.trigReceipt2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'recnr2',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
 		});
+		
 		
 		this.trigInvoice = Ext.create('Ext.form.field.Trigger', {
 			name: 'invnr',
@@ -125,34 +53,6 @@ Ext.define('Account.RReceipt.Form', {
 		
 		this.trigInvoice2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'invnr2',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
-		this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln',
-			labelWidth: 100,
-			fieldLabel: 'Quotation Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
-		this.trigQuotation2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln2',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
-		this.trigProject = Ext.create('Ext.form.field.Trigger', {
-			name: 'jobnr',
-			labelWidth: 100,
-			fieldLabel: 'Project Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true
-		});
-		
-		this.trigProject2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'jobnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -172,14 +72,13 @@ Ext.define('Account.RReceipt.Form', {
 		});
 
 		this.items = [{
-
-// Project Code
+// Doc Date
         xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
+			fieldLabel: 'Document Date',
 			name: 'bldat1',
 			labelWidth: 100,
 			format:'d/m/Y',
@@ -197,6 +96,44 @@ Ext.define('Account.RReceipt.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
+			},{
+// Receipt Date
+        xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[{
+			xtype: 'datefield',
+			fieldLabel: 'Receipt Date',
+			name: 'duedt1',
+			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			},{
+			xtype: 'displayfield',
+		    value: 'To',
+		    width:40,
+		    margins: '0 0 0 25'
+		   },{
+			xtype: 'datefield',
+			name: 'duedt2',
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			}]
+// Receipt Code			
+       },{
+	    xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigReceipt,
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigReceipt2] 
+// Invoice Code		
 		},{
 	    xtype: 'container',
                 layout: 'hbox',
@@ -208,30 +145,6 @@ Ext.define('Account.RReceipt.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigInvoice2]  
-// Quotation Code
-		},{
-     	xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.trigQuotation,
-		{xtype: 'displayfield',
-		  value: 'To',
-		  width:40,
-		  margins: '0 0 0 25'
-		},
-		this.trigQuotation2]
-// Project Code
-	    },{
-     	xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.trigProject,
-		{xtype: 'displayfield',
-		  value: 'To',
-		  width:40,
-		  margins: '0 0 0 25'
-		},
-		this.trigProject2]
 // Customer Code
 		},{
           xtype: 'container',
@@ -247,35 +160,81 @@ Ext.define('Account.RReceipt.Form', {
 		  width:40,
 		  margins: '0 0 0 25'
 		},
-		this.trigCustomer2]  
-		},{
-			
-          xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.comboPSale,
-		{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		  },
-		this.comboPSale2]  
-		},{
-			xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.comboQStatus,
-		{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		  },
-		this.comboQStatus2]    
+		this.trigCustomer2]   
 		}
 ////////////////////////////////////////////////		
 		];
+		// event trigReceipt///
+		this.trigReceipt.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'receipt/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.recnr);
+							
+						}else{
+							o.markInvalid('Could not find receipt code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		this.trigReceipt2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'receipt/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.recnr);
+							
+						}else{
+							o.markInvalid('Could not find receipt code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+
+		_this.receiptDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigReceipt.setValue(record.data.recnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.receiptDialog.hide();
+		});
+		
+		_this.receiptDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigReceipt2.setValue(record.data.recnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.receiptDialog2.hide();
+		});
+
+		this.trigReceipt.onTriggerClick = function(){
+			_this.receiptDialog.show();
+		};
+		
+		this.trigReceipt2.onTriggerClick = function(){
+			_this.receiptDialog2.show();
+		};
 		
 		// event trigInvoice///
 		this.trigInvoice.on('keyup',function(o, e){
@@ -295,7 +254,7 @@ Ext.define('Account.RReceipt.Form', {
 							o.setValue(r.data.invnr);
 							
 						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
+							o.markInvalid('Could not find invoice code : '+o.getValue());
 						}
 					}
 				});
@@ -319,13 +278,12 @@ Ext.define('Account.RReceipt.Form', {
 							o.setValue(r.data.invnr);
 							
 						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
+							o.markInvalid('Could not find invoice code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
-
 
 		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigInvoice.setValue(record.data.invnr);
@@ -349,78 +307,6 @@ Ext.define('Account.RReceipt.Form', {
 			_this.invoiceDialog2.show();
 		};
 		
-		// event trigQuotation///
-		this.trigQuotation.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.vbeln);
-							
-						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-		
-		this.trigQuotation2.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.vbeln);
-							
-						}else{
-							o.markInvalid('Could not find quotation code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-
-		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation.setValue(record.data.vbeln);
-
-			grid.getSelectionModel().deselectAll();
-			_this.quotationDialog.hide();
-		});
-		
-		_this.quotationDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation2.setValue(record.data.vbeln);
-
-			grid.getSelectionModel().deselectAll();
-			_this.quotationDialog2.hide();
-		});
-
-		this.trigQuotation.onTriggerClick = function(){
-			_this.quotationDialog.show();
-		};
-		
-		this.trigQuotation2.onTriggerClick = function(){
-			_this.quotationDialog2.show();
-		};
-
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -492,78 +378,6 @@ Ext.define('Account.RReceipt.Form', {
 		this.trigCustomer2.onTriggerClick = function(){
 			_this.customerDialog2.show();
 		};
-
-		// event trigProject///
-		this.trigProject.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'project/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.jobnr);
-
-						}else{
-							o.markInvalid('Could not find project code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigProject.setValue(record.data.jobnr);
-
-			grid.getSelectionModel().deselectAll();
-			_this.projectDialog.hide();
-		});
-
-		this.trigProject.onTriggerClick = function(){
-			_this.projectDialog.show();
-		};
-		
-		this.trigProject2.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'project/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.jobnr);
-
-						}else{
-							o.markInvalid('Could not find project code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.projectDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigProject2.setValue(record.data.jobnr);
-
-			grid.getSelectionModel().deselectAll();
-			_this.projectDialog2.hide();
-		});
-
-		this.trigProject2.onTriggerClick = function(){
-			_this.projectDialog2.show();
-		};
-
 
 		return this.callParent(arguments);
 	},
