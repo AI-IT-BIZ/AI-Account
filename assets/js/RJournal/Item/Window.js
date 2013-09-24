@@ -20,17 +20,37 @@ Ext.define('Account.RJournal.Item.Window', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		this.detailAct = new Ext.Action({
+			text: 'Journal Details',
+			iconCls: 'b-small-detail'
+		});
+		
+		this.glDialog = Ext.create('Account.Journal.GL.GLWindow');
 
-       // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
 		this.grid = Ext.create('Account.RJournal.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
+		this.tbar = [this.detailAct];
+		
+		// --- event ---
+		this.detailAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.glDialog.show();
+				//_this.itemDialog.form.load(id);
+
+				// สั่ง gl_item grid load
+				_this.glDialog.grid2.load({belnr: id});
+			}
+		});
 
 		// --- after ---
-		//this.grid.load();
+		this.grid.load();
 
 		return this.callParent(arguments);
 	}

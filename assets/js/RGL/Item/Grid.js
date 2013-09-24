@@ -29,7 +29,7 @@ Ext.define('Account.RGL.Item.Grid', {
 		    {text: "GL No", 
 		    width: 100, align: 'center', dataIndex: 'saknr', sortable: true},
 			{text: "GL Name", 
-			width: 150, dataIndex: 'sgtxt', sortable: true},
+			width: 180, dataIndex: 'sgtxt', sortable: true},
 			{text: "Debit", 
 			width: 80, align: 'right', dataIndex: 'deb1', sortable: true},
 		    {text: "Credit", 

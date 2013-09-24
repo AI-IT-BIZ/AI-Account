@@ -146,6 +146,7 @@ class Journaltemp extends CI_Controller {
 			// loop เพื่อ insert tr_item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($tr_item_array AS $p){
+			if(!empty($p->saknr)){
 			$this->db->insert('trpo', array(
 				'tranr'=>$id,
 				'trapr'=>++$item_index,
@@ -155,6 +156,7 @@ class Journaltemp extends CI_Controller {
 				'txz01'=>$p->txz01
 			));
 	    	}
+		}
 		}
 
 		// end transaction

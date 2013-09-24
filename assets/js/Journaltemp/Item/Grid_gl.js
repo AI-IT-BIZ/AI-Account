@@ -192,6 +192,35 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 		});
 	},
 	
+	addDefaultRecord: function(){
+		this.store.removeAll(); 
+		// หา record ที่สร้างใหม่ล่าสุด
+		var newId = -1;
+		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
+			if(r.get('id')<newId)
+				newId = r.get('id'); 
+				
+		});
+		newId--;
+	
+		for ( var i = 0; i < 5; i++ ) {
+			// add new record
+			rec = { id:i };
+			edit = this.editing;
+			edit.cancelEdit();
+			// find current record
+			var sel = this.getView().getSelectionModel().getSelection()[0];
+			var selIndex = this.store.indexOf(sel);
+			this.store.insert(selIndex+1, rec);
+			edit.startEditByPosition({
+				row: selIndex+1,
+				column: 0
+			});
+	
+			this.runNumRow();
+		}
+	},
+	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;

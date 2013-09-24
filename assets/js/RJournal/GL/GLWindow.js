@@ -1,49 +1,36 @@
-Ext.define('Account.RGL.Item.Window', {
+Ext.define('Account.RJournal.GL.GLWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'General Ledger Report',
+			title: 'Journal Detail',
 			closeAction: 'hide',
-			height: 700,
+			height: 600,
 			minHeight: 380,
-			width: 500,
+			width: 800,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
 			maximizable: true
 		});
-
 		return this.callParent(arguments);
 	},
 
 	initComponent : function() {
 		var _this=this;
 
-		// --- object ---
-		/*this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-		this.editAct = new Ext.Action({
-			text: 'Edit',
-			iconCls: 'b-small-pencil'
-		});
-		this.deleteAct = new Ext.Action({
-			text: 'Delete',
-			iconCls: 'b-small-minus'
-		});*/
-
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-
-		this.grid = Ext.create('Account.RGL.Item.Grid', {
+		this.grid2 = Ext.create('Account.RJournal.GL.GLGrid', {
 			region:'center',
 			border: false
 		});
 
-		this.items = [this.grid];
+		this.items = [this.grid2];
+
+		// --- after ---
+		//this.grid2.load();
 
 		return this.callParent(arguments);
 	}
