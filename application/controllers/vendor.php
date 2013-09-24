@@ -14,10 +14,14 @@ class Vendor extends CI_Controller {
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'lfa1';
+		
 		$lifnr = $this->input->post('lifnr');
+		
 		$this->db->limit(1);
 		$this->db->where('lifnr', $lifnr);
-		$query = $this->db->get('lfa1');
+		$query = $this->db->get($tbName);
 		if($query->num_rows()>0){
 			echo json_encode(array(
 				'success'=>true,

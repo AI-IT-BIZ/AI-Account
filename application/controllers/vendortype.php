@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customertype extends CI_Controller {
+class Vendortype extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,13 +10,13 @@ class Customertype extends CI_Controller {
 
 
 	function index(){
-		$this->phxview->RenderView('Customertype');
+		$this->phxview->RenderView('Vendortype');
 		$this->phxview->RenderLayout('default');
 	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'v_ktyp';
+		$tbName = 'v_vtyp';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');

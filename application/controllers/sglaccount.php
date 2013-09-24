@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customertype extends CI_Controller {
+class Sglaccount extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,13 +10,13 @@ class Customertype extends CI_Controller {
 
 
 	function index(){
-		$this->phxview->RenderView('Customertype');
+		$this->phxview->RenderView('Sglaccount');
 		$this->phxview->RenderLayout('default');
 	}
 
-	function loads(){
-		$this->db->set_dbprefix('v_');
-		$tbName = 'v_ktyp';
+	function loads($GLnoid=null){
+		$tbName = 'glno';
+		//echo $GLnoid;
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -26,8 +26,14 @@ class Customertype extends CI_Controller {
 		//$dir = $this->input->post('dir');
 		//$this->db->order_by($sort, $dir);
 
-		$query = $this->db->get($tbName);
-		//echo $this->db->last_query();
+		//$query = $this->db->get($tbName);
+		
+		
+		$sql="SELECT *
+			FROM tbl_glno WHERE saknr like '$GLnoid%'"; 
+		$query = $this->db->query($sql);
+		
+		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

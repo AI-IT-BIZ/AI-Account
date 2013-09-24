@@ -287,6 +287,9 @@ Ext.define('Account.PR2.Item.Grid_i', {
 
 	addDefaultRecord: function(){
 		
+		//สั่งเครียร์ grid
+		this.store.removeAll();
+		
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
