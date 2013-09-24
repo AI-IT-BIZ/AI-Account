@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		22/9/2013
+Modified		23/9/2013
 Project		
 Model		
 Company		
@@ -1292,10 +1292,15 @@ left join tbl_trko c
 on a.tranr = c.tranr;
 create view v_rgl as
 
-select a.*,sum(b.debit+c.debit),sum(b.credi+c.credi)
-from tbl_glno a 
-inner join tbl_bsid b on a.saknr = b.saknr
-inner join tbl_bcus c on a.saknr = c.saknr group by saknr;
+select a.saknr,a.sgtxt
+
+,IF((select sum(b.debit) from tbl_bsid as b where b.saknr = a.saknr) IS NULL, 0, (select sum(b.debit) from tbl_bsid as b where b.saknr = a.saknr))
+ +IF((select sum(c.debit) from tbl_bcus as c where c.saknr = a.saknr) IS NULL, 0, (select sum(c.debit) from tbl_bcus as c where c.saknr = a.saknr))
+ as deb1
+,IF((select sum(d.credi) from tbl_bsid as d where d.saknr = a.saknr) IS NULL, 0, (select sum(d.credi) from tbl_bsid as d where d.saknr = a.saknr))
+ +IF((select sum(e.credi) from tbl_bcus as e where e.saknr = a.saknr) IS NULL, 0, (select sum(e.credi) from tbl_bcus as e where e.saknr = a.saknr))
+as cre1
+from tbl_glno a group by a.saknr;
 CREATE view  v_mkpf AS
 
 select t1.mbeln,t1.lifnr,
