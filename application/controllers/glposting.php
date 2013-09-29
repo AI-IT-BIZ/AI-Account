@@ -13,23 +13,26 @@ class Test extends CI_Controller {
 		// *** parameter
 		$payment_type = '01';//$this->input->get('payment_type');
 		$customer_code = '10002';//$this->input->get('customer_code');
-
+        $net = 2782;  //Vat 182 บาท
+        $tax = 182;
+		$gltax = '215010';
+		$sale = '411000';
 
 		$mats = '[{"matnr":100001,"total":500},
 				{"matnr":100002,"total":600},
 				{"matnr":200001,"total":700},
 				{"matnr":200002,"total":800}]';//$this->input->get('mats');
-		$net = 0;
+		$amt = 0;
 		$mats_array = json_decode($mats);
 		foreach($mats_array AS $mat){
-			$net += floatval($mat->total);
+			$amt += floatval($mat->total);
 		}
 
-		$tax_type = '1';//$this->input->get('tax_type');
+		$tax_type = '01';//$this->input->get('tax_type');
 
 		$result = array();
 
-		// record แรก
+// record แรก
 		if($payment_type=='04'){
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$customer_code
@@ -55,21 +58,30 @@ class Test extends CI_Controller {
 			}
 		}
 
-		// record ที่สอง
-		$net_tax = 0;
-		if($tax_type=='1'){ // seperate tax
-			$net_tax = floatval($net) * 0.07;
-		}
-		else if($tax_type=='2'){ // include tax
-			$net_tax = floatval($net) * 1.07;
-		}
+// record ที่สอง
+		//$net_tax = 0;
+		//if($tax_type=='1'){ // seperate tax
+		//	$net_tax = floatval($net) * 0.07;
+		//}
+
 		$result[1] = array(
-			'saknr'=>null,
+			'saknr'=>$gltax,
 			'debit'=>0,
-			'credit'=>$net_tax
+			'credit'=>$tax
 		);
 
-		// record ที่สาม+
+// record ที่สาม+
+		$amt = $net - $tax;
+		$result[1] = array(
+			'saknr'=>$sale,
+			'debit'=>0,
+			'credit'=>$amt
+		);
+		
+		//return $result;
+
+// record ที่สี่+
+/*
 		$item_array = array();
 		foreach($mats_array AS $mat){
 			// load database get saknr
@@ -103,9 +115,10 @@ class Test extends CI_Controller {
 				}
 			}
 		}
+		
 		//echo '<hr />';
 
-		$result = array_merge($result, $item_array);
+		$result = array_merge($result, $item_array);*/
 /*
 		$this->db->select('saknr');
 		$this->db->where_in('matnr', explode(',', $mats_code_array));

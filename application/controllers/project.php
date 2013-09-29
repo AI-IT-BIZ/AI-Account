@@ -30,10 +30,14 @@ class Project extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			
-			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.$result_data['telfx'].
+			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.$result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
 			
+			$result_data['adr02'] .= ' '.$result_data['dis02'].' '.$result_data['pst02'].
+			                         PHP_EOL.'Tel: '.$result_data['tel02'].' '.'Fax: '.$result_data['telf2'].
+									 PHP_EOL.'Email: '.$result_data['emai2'];
+									 
 			$result_data['id'] = $result_data['jobnr'];
 
 			echo json_encode(array(

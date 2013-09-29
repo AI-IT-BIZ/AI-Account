@@ -55,6 +55,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.columns = [
 		    {
 			xtype: 'actioncolumn',
+			text: " ",
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
@@ -66,7 +67,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			}]
 		},{
 			id : 'RowNumber',
-			header : "No.",
+			text: "No.",
 			dataIndex : 'vbelp',
 			width : 60,
 			align : 'center',

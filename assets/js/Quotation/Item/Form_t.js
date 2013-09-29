@@ -9,9 +9,6 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			fieldDefaults: {
 				labelAlign: 'left',
 				msgTarget: 'qtip',//'side',
-				//labelWidth: 125
-				//width:300,
-				//labelStyle: 'font-weight:bold'
 			}
 		});
 
@@ -62,7 +59,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		this.txtTax = Ext.create('Ext.form.field.Text', {
+		/*this.txtTax = Ext.create('Ext.form.field.Text', {
 			xtype: 'numberfield',
 			fieldLabel: 'Tax',
 			name: 'taxpr',
@@ -75,13 +72,28 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			margin: '4 0 0 0',
 			hideTrigger: true,
 			allowDecimals: false
-		});
+		});*/
 		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
+            fieldLabel: 'Vat Total',
+			align: 'right',
+			width:270,
+			labelWidth: 155,
 			name: 'ccc',
 			align: 'right',
-			margin: '4 0 0 30',
-			width:110,
+			margin: '4 0 0 0',
+			readOnly: true
+
+         });
+        this.txtWHTValue = Ext.create('Ext.form.field.Text', {
+            xtype: 'textfield',
+            fieldLabel: 'WHT Total',
+			align: 'right',
+			width:270,
+			labelWidth: 155,
+			name: 'ddd',
+			align: 'right',
+			margin: '4 0 0 0',
 			readOnly: true
 
          });
@@ -126,7 +138,14 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			align: 'right',
 			margin: '0 0 0 5',
 			width:60,
-			value: 'THB/USD'
+			value: 'THB/'
+		},{
+   	        xtype: 'displayfield',
+   	        name: 'curr',
+			align: 'right',
+			margin: '0 0 0 0',
+			width:20
+			//value: 'THB/USD'
 		}]
 		},{
    	        xtype: 'textfield',
@@ -154,24 +173,10 @@ Ext.define('Account.Quotation.Item.Form_t', {
             layout: 'hbox',
             //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
-		},this.txtDiscountSum,{
-			xtype: 'container',
-			layout: 'hbox',
-			defaultType: 'textfield',
-			//margin: '5 0 5 600',
-	items: [
-		this.txtTax
-		,{
-			xtype: 'displayfield',
-			align: 'right',
-			width:10,
-			margin: '4 0 0 0',
-			value: '%'
-		},
-		this.txtTaxValue
-	]
-	},
-	this.txtNet]
+		},this.txtDiscountSum,
+		this.txtTaxValue,
+		this.txtWHTValue,
+	    this.txtNet]
 		}]
 		}];
 
@@ -190,7 +195,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		this.txtNet.on('render', setBold);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
-		this.txtTax.on('keyup', this.calculate, this);
+		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
 	},
@@ -227,6 +232,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 	},
 	// calculate function
 	calculate: function(){
+		var _this = this;
 		var total = this.txtTotal.getValue().replace(',',''),
 			total = parseFloat(total),
 			total = isNaN(total)?0:total;
@@ -256,20 +262,12 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			this.txtDiscountValue.setValue('');
 			this.txtDiscountSum.setValue('');
 		}
-
-		var tax = this.txtTax.getValue(),
-			taxValue = 0;
-		if(this.txtTax.isValid() && !Ext.isEmpty(tax)){
-			taxValue = parseFloat(tax);
-			taxValue = isNaN(taxValue)?0:taxValue;
-
-			if(taxValue>0){
-				taxValue = taxValue * total / 100;
-				this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
-			}
-		}else{
-			this.txtTaxValue.setValue('');
-		}
+        //alert(_this.vatValue);
+		var vat = _this.vatValue;
+		this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
+		
+		var wht = _this.whtValue;
+		this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = total - discountValue + taxValue;
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));

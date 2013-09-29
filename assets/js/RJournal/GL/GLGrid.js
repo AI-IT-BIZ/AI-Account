@@ -12,11 +12,12 @@ Ext.define('Account.RJournal.GL.GLGrid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'belnr'
+					idProperty: 'belnr,belpr'
 				}
 			},
 			fields: [
 			    'belnr',
+			    'belpr',
 			    'saknr',
 			    'sgtxt',
 				'debit',
@@ -29,6 +30,8 @@ Ext.define('Account.RJournal.GL.GLGrid', {
 		this.columns = [
 		    {text: "Journal No", 
 		    width: 100, align: 'center', dataIndex: 'belnr', sortable: true},
+		    {text: "Journal Items", 
+		    width: 100, align: 'center', dataIndex: 'belpr', sortable: true},
 		    {text: "GL No.", 
 		    width: 80, align: 'center', dataIndex: 'saknr', sortable: true},
 		    {text: "GL Name", 

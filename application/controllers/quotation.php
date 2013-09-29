@@ -385,4 +385,17 @@ class Quotation extends CI_Controller {
 		));
 	}
 
+function loads_conp_item(){
+        $this->db->set_dbprefix('v_');
+		$pc_id = $this->input->get('vbeln');
+		$this->db->where('vbeln', $pc_id);
+
+		$query = $this->db->get('conpr');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+
 }

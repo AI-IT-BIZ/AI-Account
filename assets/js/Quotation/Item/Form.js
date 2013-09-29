@@ -15,6 +15,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Quotation.Item.Grid_i',{
 			title:'Quotation Items'
@@ -26,6 +27,13 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
 			border: true,
 			split: true,
+			title:'Total->Quotation',
+			region:'south'
+		});
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+			border: true,
+			split: true,
+			title:'Item Pricing',
 			region:'south'
 		});
 		// END INIT other components ////////////////////////////////
@@ -34,14 +42,11 @@ Ext.define('Account.Quotation.Item.Form', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
 			labelAlign: 'right',
-			//labelWidth: 95,
 			width: 240,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			//disabled: true,
-			margin: '0 0 0 -17',
-			//allowBlank : false,
+			margin: '0 0 0 6',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -69,10 +74,8 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
 			name : 'salnr',
-			//labelWidth: 95,
 			width: 350,
 			editable: false,
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Please select Saleperson --',
@@ -101,10 +104,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			//labelWidth: 95,
 			width: 350,
-			//anchor:'80%',
-			//labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -133,12 +133,10 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Tax',
+			fieldLabel: 'Vat Type',
 			name : 'taxnr',
-			//labelWidth: 70,
-			//anchor:'90%',
 			width: 240,
-			margin: '0 0 0 8',
+			margin: '0 0 0 6',
 			labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
@@ -162,10 +160,31 @@ Ext.define('Account.Quotation.Item.Form', {
 				remoteSort: true,
 				sorters: 'taxnr ASC'
 			}),
+			
 			queryMode: 'remote',
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
+		
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
+            //xtype: 'numberfield',
+			fieldLabel: 'WHT Value',
+			name: 'whtpr',
+			labelAlign: 'right',
+			width:200,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
+         
+         this.numberVat = Ext.create('Ext.form.field.Number', {
+           // xtype: 'numberfield',
+			fieldLabel: 'Vat Value',
+			name: 'vatpr',
+			labelAlign: 'right',
+			width:200,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
 
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbap',
@@ -188,6 +207,17 @@ Ext.define('Account.Quotation.Item.Form', {
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
+		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
+			name: 'ctype',
+			fieldLabel: 'Currency',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			width: 240,
+			margin: '0 0 0 6',
+			labelAlign: 'right',
 			allowBlank : false
 		});
 
@@ -248,11 +278,7 @@ Ext.define('Account.Quotation.Item.Form', {
 					items :[this.trigCustomer,
 					{
 						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
 						name: 'name1',
-						//labelAlign: 'l',
 						margins: '0 0 0 6',
 						width:350,
 						//emptyText: 'Customer',
@@ -261,7 +287,6 @@ Ext.define('Account.Quotation.Item.Form', {
 						xtype: 'datefield',
 						fieldLabel: 'Date',
 						name: 'bldat',
-						//anchor:'80%',
 						labelAlign: 'right',
 						width:240,
 						format:'d/m/Y',
@@ -273,7 +298,6 @@ Ext.define('Account.Quotation.Item.Form', {
 				},{
 					xtype: 'container',
 					layout: 'hbox',
-					defaultType: 'textfield',
 					margin: '0 0 5 0',
 					items: [{
 						xtype: 'textarea',
@@ -282,32 +306,28 @@ Ext.define('Account.Quotation.Item.Form', {
 						anchor:'90%',
 						width:350,
 						rows:2,
-						labelAlign: 'top',
-						allowBlank: true
+						labelAlign: 'top'
 					},{
 						xtype: 'textarea',
 						fieldLabel: 'Ship To',
-						name: 'adr11',
+						name: 'adr02',
 						anchor:'90%',
-						width:350,
+						width:355,
 						rows:2,
 						labelAlign: 'right',
 						labelAlign: 'top',
-						margin: '0 0 0 145',
-						allowBlank: true
+						margin: '0 0 0 140'
 					 }]
 				// Sale Person
 				},{
 					xtype: 'container',
 					layout: 'hbox',
-					defaultType: 'textfield',
 					margin: '0 0 5 0',
 					items: [this.comboPSale,
 					{
 						xtype: 'numberfield',
 						fieldLabel: 'Credit Terms',
 						name: 'terms',
-						//anchor:'80%',
 						labelAlign: 'right',
 						width:200,
 						align: 'right',
@@ -317,29 +337,38 @@ Ext.define('Account.Quotation.Item.Form', {
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
 						width:10,
-						value: 'Days',
-						allowBlank: true
-					},
-					this.comboTax
+						value: 'Days'
+					},this.trigCurrency
 				]
-				// Tax&Ref no.
+             // Tax&Ref no.
 			 },{
 			 	xtype: 'container',
 				layout: 'hbox',
-				defaultType: 'textfield',
 				margin: '0 0 5 0',
-				items: [this.comboPay,{
+				items: [this.comboPay,
+				this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:10,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           },this.comboTax]
+				},{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [{
 					xtype: 'textfield',
 					fieldLabel: 'Reference No',
 					name: 'refnr',
-					//anchor:'90%',
-					width:240,
-					labelAlign: 'right',
-					margin: '0 0 0 35',
-					//width:450,
-					allowBlank: true
-				},
-				this.comboQStatus]
+					width:350
+				   },this.numberWHT,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:10,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           },this.comboQStatus]
 				}]
 
 			}]
@@ -362,7 +391,16 @@ Ext.define('Account.Quotation.Item.Form', {
 				]
 			  }]
 			},
-			this.formTotal
+			{
+			xtype:'tabpanel',
+			region:'south',
+			activeTab: 0,
+			height:200,
+			items: [
+				this.formTotal,
+				this.gridPrice
+			]
+		}
 		];
 
 		// event trigCustomer///
@@ -382,22 +420,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _addr = r.data.adr01;
-							if(!Ext.isEmpty(r.data.distx))
-			                    _addr += ' '+r.data.distx;
-							if(!Ext.isEmpty(r.data.pstlz))
-								_addr += ' '+r.data.pstlz;
-							if(!Ext.isEmpty(r.data.telf1))
-								_addr += '\n'+'Tel: '+r.data.telf1;
-							if(!Ext.isEmpty(r.data.telfx))
-								_addr += '\n'+'Fax: '+r.data.telfx;
-							if(!Ext.isEmpty(r.data.email))
-							_addr += '\n'+'Email: '+r.data.email;
-							_this.getForm().findField('adr01').setValue(_addr);
-							_this.getForm().findField('adr11').setValue(_addr);
-							//_this.getForm().findField('adr01').setValue(r.data.adr01
-							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
-							//+r.data.telfx+'\n'+'Email '+r.data.email);
+							
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -456,20 +479,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			//_this.trigCustomer.on('keyup', this.selectTax, this);
 
-			var _addr = r.data.adr01;
-			if(!Ext.isEmpty(r.data.distx))
-			  _addr += ' '+r.data.distx;
-			if(!Ext.isEmpty(r.data.pstlz))
-			  _addr += ' '+r.data.pstlz;
-			if(!Ext.isEmpty(r.data.telf1))
-				_addr += '\n'+'Tel: '+r.data.telf1;
-			 if(!Ext.isEmpty(r.data.telfx))
-				_addr += '\n'+'Fax: '+r.data.telfx;
-			 if(!Ext.isEmpty(r.data.email))
-				_addr += '\n'+'Email: '+r.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
-			 _this.getForm().findField('adr11').setValue(_addr);
 						}else{
 							o.markInvalid('Could not find project code : '+o.getValue());
 						}
@@ -485,20 +498,23 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			_this.getForm().findField('adr01').setValue(_addr);
-			_this.getForm().findField('adr11').setValue(_addr);
+			
+			Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: record.data.jobnr
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			       }else{
+							o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.projectDialog.hide();
@@ -507,11 +523,51 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigProject.onTriggerClick = function(){
 			_this.projectDialog.show();
 		};
+		
+		// event trigProject///
+		this.trigCurrency.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'currency/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.ctype);
+							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+
+						}else{
+							o.markInvalid('Could not find currency code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCurrency.setValue(record.data.ctype);
+            
+            _this.formTotal.getForm().findField('curr').setValue(record.data.ctype);
+			grid.getSelectionModel().deselectAll();
+			_this.currencyDialog.hide();
+		});
+
+		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.show();
+		};
 
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		
+		this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
@@ -574,6 +630,8 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
+		this.comboTax.setValue('01');
+		this.trigCurrency.setValue('THB');
 	},
 	// calculate total functions
 	calculateTotal: function(){
@@ -596,5 +654,23 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		// set value to grid payment
 		this.gridPayment.netValue = net;
+		// set value to total form
+		this.formTotal.taxType = this.comboTax.getValue();
+		this.formTotal.vatValue = this.numberVat.getValue();
+	},
+	
+	// select tax functions
+	selectTax: function(combo, record, index){
+		var store = this.gridItem.store;
+		var vtax = combo.getValue();
+		//alert(vtax);
+		store.each(function(r){
+			price = parseFloat(r.data['unitp']),
+			      price = isNaN(price)?0:price;
+
+			      var amt = price  / 1.07;
+			      r.set('unitp', Ext.util.Format.usMoney(amt).replace(/\$/, ''));
+		});
+	
 	}
 });

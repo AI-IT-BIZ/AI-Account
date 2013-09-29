@@ -64,7 +64,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'RowNumber5',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,
