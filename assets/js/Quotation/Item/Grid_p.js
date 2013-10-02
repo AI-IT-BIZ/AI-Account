@@ -47,6 +47,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 
 		this.columns = [{
 			xtype: 'actioncolumn',
+			text: " ",
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
@@ -57,8 +58,8 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				handler: this.removeRecord2
 			}]
 			},{
-			id : 'RowNumber2',
-			header : "Periods No.",
+			id : 'RowNumber4',
+			text : "Periods No.",
 			dataIndex : 'paypr',
 			width : 90,
 			align : 'center',

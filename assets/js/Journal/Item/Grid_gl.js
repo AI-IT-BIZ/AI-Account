@@ -147,7 +147,7 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 
 							// Materail text
 							rModel.set('sgtxt', r.data.sgtxt);
-							alert(r.data.gltyp);
+							//alert(r.data.gltyp);
 							if (r.data.gltyp=='1'){
 								rModel.set('debit', '1.00');
 							}else if(record.data.gltyp=='2'){
@@ -220,7 +220,7 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 			this.runNumRow();
 		}
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -266,4 +266,5 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 		});
 		return rs;
 	}
+
 });

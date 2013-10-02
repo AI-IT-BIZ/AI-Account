@@ -6,7 +6,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Quotation',
 			closeAction: 'hide',
-			height: 650,
+			height: 700,
 			width: 950,
 			layout: 'border',
 			border: false,

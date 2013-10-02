@@ -26,7 +26,7 @@ Ext.define('Account.RJournal.Item.Window', {
 			iconCls: 'b-small-detail'
 		});
 		
-		this.glDialog = Ext.create('Account.Journal.GL.GLWindow');
+		this.glDialog = Ext.create('Account.RJournal.GL.GLWindow');
 
 		this.grid = Ext.create('Account.RJournal.Item.Grid', {
 			region:'center',
@@ -40,12 +40,12 @@ Ext.define('Account.RJournal.Item.Window', {
 		this.detailAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
+			//alert(id);
 			if(id){
-				_this.glDialog.show();
-				//_this.itemDialog.form.load(id);
 
 				// สั่ง gl_item grid load
-				_this.glDialog.grid2.load({belnr: id});
+				_this.glDialog.grid.load({belnr: id});
+				_this.glDialog.show();
 			}
 		});
 

@@ -65,7 +65,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				handler: this.removeRecord2
 			}]
 		},{
-			id : 'RowNumber2',
+			id : 'RowNumber6',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 50,

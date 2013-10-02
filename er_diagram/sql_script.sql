@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		23/9/2013
+Modified		28/9/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_conp
+;
 
 Drop View IF EXISTS v_mseg
 ;
@@ -74,6 +77,8 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_conp;
+drop table IF EXISTS tbl_cont;
 drop table IF EXISTS tbl_bcus;
 drop table IF EXISTS tbl_trpo;
 drop table IF EXISTS tbl_trko;
@@ -248,7 +253,7 @@ Create table tbl_lfa1 (
 	name2 Varchar(40) COMMENT 'Vendor Name2',
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
-	ort01 Varchar(40) COMMENT 'City',
+	dis02 Varchar(40) COMMENT 'City',
 	distx Varchar(40) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
@@ -268,6 +273,11 @@ Create table tbl_lfa1 (
 	erdat Datetime COMMENT 'Creaate Date',
 	ernam Varchar(10) COMMENT 'Create Name',
 	email Varchar(20) COMMENT 'Email',
+	psl02 Varchar(10) COMMENT 'Post Code2',
+	tel02 Varchar(30) COMMENT 'Tel Phone2',
+	telf2 Varchar(30) COMMENT 'Fax2',
+	pson2 Varchar(30) COMMENT 'Person2',
+	emai2 Varchar(20) COMMENT 'Email2',
  Primary Key (lifnr)) ENGINE = InnoDB
 COMMENT = 'Vendor Master';
 
@@ -381,6 +391,9 @@ Create table tbl_vbak (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	whtpr Decimal(17,2) COMMENT 'WHT Value',
+	chk01 Varchar(1) COMMENT 'Vat Check',
+	chk02 Varchar(1) COMMENT 'WHT Check',
  Primary Key (vbeln)) ENGINE = InnoDB
 COMMENT = 'Quotation Header';
 
@@ -405,7 +418,7 @@ Create table tbl_kna1 (
 	name2 Varchar(40) COMMENT 'Customer Name2',
 	adr01 Varchar(40) COMMENT 'Address 1',
 	adr02 Varchar(40) COMMENT 'Address 2',
-	ort01 Varchar(40) COMMENT 'City',
+	dis02 Varchar(40) COMMENT 'Distrct1',
 	distx Varchar(40) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
@@ -426,6 +439,11 @@ Create table tbl_kna1 (
 	ernam Varchar(10) COMMENT 'Create Name',
 	email Varchar(20) COMMENT 'Email',
 	taxid Varchar(15) COMMENT 'Tax ID',
+	pst02 Varchar(10) COMMENT 'Post Code2',
+	tel02 Varchar(30) COMMENT 'Tel Phone2',
+	telf2 Varchar(30) COMMENT 'Fax2',
+	pson2 Varchar(30) COMMENT 'Person2',
+	emai2 Varchar(20) COMMENT 'Email2',
  Primary Key (kunnr)) ENGINE = InnoDB
 COMMENT = 'Customer Master';
 
@@ -1167,6 +1185,20 @@ Create table tbl_bcus (
  Primary Key (bukrs,belnr,gjahr,belpr)) ENGINE = InnoDB
 COMMENT = 'GL Item (Customer)';
 
+Create table tbl_cont (
+	conty Varchar(4) NOT NULL COMMENT 'Codition type',
+	contx Varchar(40) COMMENT 'Condition Desc',
+ Primary Key (conty)) ENGINE = InnoDB
+COMMENT = 'Condition Price';
+
+Create table tbl_conp (
+	vbeln Varchar(20) NOT NULL COMMENT 'Doc no',
+	conpr Varchar(6) NOT NULL COMMENT 'Doc item',
+	conty Varchar(4) COMMENT 'Condition type',
+	vtamt Decimal(17,2) COMMENT 'Amount',
+ Primary Key (vbeln,conpr)) ENGINE = InnoDB
+COMMENT = 'Condition Price';
+
 
 
 
@@ -1193,7 +1225,8 @@ create view v_jobk as
 
 select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx` AS `distx`,`c`.`name1` AS `sname`,d.statx 
+`b`.`email` AS `email`,`b`.`distx` AS `distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
+`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx 
 from tbl_jobk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
@@ -1242,7 +1275,7 @@ SELECT purnr,t1.lifnr,name1,t2.adr01,t2.distx,t2.pstlz,t2.telf1,t2.telfx,t2.emai
 			inner join tbl_apov AS t3 ON t1.statu=t3.statu;
 create view v_kna1 as
 
-SELECT kunnr,name1,name2,adr01,adr02,ort01,distx,pstlz,telf1,telfx,pson1,taxnr,
+SELECT kunnr,name1,name2,adr01,adr02,distx,pstlz,telf1,telfx,pson1,taxnr,
 	t1.saknr,pleve,retax,crdit,disct,apamt,begin,endin,sgtxt,t1.ktype,erdat,ernam,email,taxid,
 	t2.custx
 FROM tbl_kna1 AS t1
@@ -1327,6 +1360,11 @@ tbl_mara.matkl,tbl_mara.mtart,tbl_mara.saknr,tbl_mara.pleve,
 tbl_mara.updat,tbl_mara.upnam,tbl_mara.beqty,tbl_mara.beval
 from tbl_mseg inner join tbl_mara 
 on tbl_mseg. matnr =  tbl_mara.matnr;
+create view v_conp as
+
+select a.*,b.contx
+from tbl_conp a left join tbl_cont b 
+on a.conty = b.conty;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -1368,16 +1406,41 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under)
                ('111210','Credit Card','2013/07/02','ASD','1','2','1','111200'),
                ('111211','Current-BKK','2013/07/02','ASD','1','2','1','111200'),
                ('111212','Current-KBank','2013/07/02','ASD','1','2','1','111200'),
-               ('112000','General Customer','2013/07/02','ASD','1','2','1','110000'),
+               ('112000','Customer Debtor','2013/07/02','ASD','1','2','1','110000'),
+               ('112001','General Customer Debtor','2013/07/02','ASD','1','2','1','112000'),
+               ('112002','Debtor Company A','2013/07/02','ASD','1','2','1','112000'),
+               ('112003','Debtor Company B','2013/07/02','ASD','1','2','1','112000'),
+               ('531503','Paymented Different','2013/07/02','ASD','1','2','1','112000'),
+               
                ('113000','Cheque','2013/07/02','ASD','1','2','1','110000'),
                ('114000','Debt will lose','2013/07/02','ASD','1','2','1','110000'),
                ('115000','Other Customer','2013/07/02','ASD','1','2','1','110000'),
+               ('116000','Balance Stock','2013/07/02','ASD','1','2','1','110000'),
+               ('117000','Other Current Asset','2013/07/02','ASD','1','2','1','110000'),
+               ('117100','Other Current Asset','2013/07/02','ASD','1','2','1','117000'),
+               ('117400','Payment Tax','2013/07/02','ASD','1','2','1','117000'),
+              
                ('200000','Liabibity','2013/07/02','ASD','2','1','1','2'),
                ('210000','Current Liabibity','2013/07/02','ASD','2','1','1','200000'),
                ('211000','A/C Payable Purchase','2013/07/02','ASD','2','1','1','210000'),
-               ('211001','A/C Payable Purchase','2013/07/02','ASD','2','2','1','211000'),
+               ('211001','General A/C Payable Purchase','2013/07/02','ASD','2','2','1','211000'),
+               ('211002','A/C Payable Company A','2013/07/02','ASD','2','2','1','211000'),
+               ('211003','A/C Payable Company B','2013/07/02','ASD','2','2','1','211000'),
+               ('212000','General A/C Payable','2013/07/02','ASD','2','1','1','210000'),
+               ('213000','Balance Chaque','2013/07/02','ASD','2','1','1','210000'),
+               ('214000','Pretty Cash','2013/07/02','ASD','2','1','1','210000'),
+               ('215000','Other Current liability','2013/07/02','ASD','2','1','1','210000'),
+               ('215010','Sale Tax','2013/07/02','ASD','2','1','1','215000'),
+               ('215020','Loan Interest','2013/07/02','ASD','2','1','1','215000'),
+               ('215030','Revenue Tax','2013/07/02','ASD','2','1','1','215000'),
+               ('215040','WHT Tax','2013/07/02','ASD','2','1','1','215000'),
+               ('215050','Personal Revenue Tax','2013/07/02','ASD','2','1','1','215000'),
+               ('215060','Social Insurance','2013/07/02','ASD','2','1','1','215000'),
+               ('215070','General Payment','2013/07/02','ASD','2','1','1','215000'),
+               
                ('300000','Shareholders Equity','2013/07/02','ASD','3','1','1','3'),
                ('310000','Share Capital','2013/07/02','ASD','3','2','1','300000'),
+               
                ('400000','Revenue','2013/07/02','ASD','4','1','1','4'),
                ('410000','Revenue-Sale','2013/07/02','ASD','4','1','1','400000'),
                ('411000','Sale','2013/07/02','ASD','4','2','1','410000'),
@@ -1385,6 +1448,7 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under)
                ('420010','General Serice','2013/07/02','ASD','4','2','1','420000'),
                ('420020','Cosult Serice','2013/07/02','ASD','4','2','1','420000'),
                ('420030','Other Serice','2013/07/02','ASD','4','2','1','420000'),
+               
                ('500000','Expense','2013/07/02','ASD','5','1','1','5'),
                ('510000','Cost of Goods Sold','2013/07/02','ASD','5','1','1','500000'),
                ('511000','Cost of Sale','2013/07/02','ASD','5','2','1','510000'),
@@ -1417,6 +1481,8 @@ INSERT INTO tbl_ktyp (ktype, custx, saknr) VALUES ('01', 'Regular Customer', '41
 
 INSERT INTO tbl_mgrp (matkl, matxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
 
+INSERT INTO tbl_conp (conty, contx) VALUES ('01', 'Vat'),('02', 'WHT');
+
 INSERT INTO tbl_unit (meins, metxt) VALUES ('EA', 'Eeach'),('BOX', 'Box'),('CAN', 'Can'),('DOZ', 'Dozen'),
 ('KG', 'Kilogram'),('g', 'Gram'),('BOT', 'Bottle');
 
@@ -1436,7 +1502,7 @@ INSERT INTO tbl_apop (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'App
                                             ('05', 'Phase 1 Completed'),('06', 'Phase 2 Completed'),('07', 'Phase 3 Completed'),('08', 'Phase 4 Completed'),
                                             ('09', 'Phase 5 Completed'),('10', 'Phase 6 Completed');
 
-INSERT INTO tbl_tax1 (taxnr, taxtx) VALUES ('01', 'Include Tax'),('02', 'Separate Tax'),('03', 'Tax Zero'),('04', 'Except Tax');
+INSERT INTO tbl_tax1 (taxnr, taxtx) VALUES ('01', 'Include Vat'),('02', 'Exclude Vat');
 
 INSERT INTO tbl_doct (doctx, docty) VALUES ('QA', 'Quotation'),('VA', 'Sale Order');
 
@@ -1449,7 +1515,7 @@ INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 INSERT INTO tbl_cond (condi, contx) VALUES ('01', 'After issue Invoice'),('02', 'After reciept Invoice'),
 ('03', 'After reciept Service/Goods');
 
-INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Cheque 30 days in advance', '113000'),('02', 'Cash', '111100'),
+INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Cheque', '113000'),('02', 'Cash', '111100'),
 ('03', 'Transfer to Book Bank', '111200'),('04', 'Credit Card', '111210');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
@@ -1469,11 +1535,11 @@ INSERT INTO tbl_plev (pleve,matnr,unit,cost) VALUES ('01','100001','EA','200'),(
 ('01','200001','EA','400'),('02','200001','Dozen','2400'),('03','200001','Dozen2','4800'),
 ('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
                
-INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,pleve,crdit,disct,taxid) 
-        VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','01','30','500','330111001'),
-               ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','15','5%','330111002'),
-               ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','20','10%','330111002'),
-               ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','03','30','800','330111002');
+INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distx,pstlz,telf1,telfx,taxnr,pleve,crdit,disct,taxid,dis02,pst02,tel02) 
+        VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02-2222223','02','01','30','500','330111001','Bangkok','10150','02-2222222'),
+               ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','15','5%','330111002','Bangkok','10150','02-2222222'),
+               ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','20','10%','330111002','Bangkok','10150','02-2222222'),
+               ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','30','800','330111002','Bangkok','10150','02-2222222');
                
 INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,crdit,disct,taxid) 
         VALUES ('20001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),

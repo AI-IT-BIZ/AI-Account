@@ -44,9 +44,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				'dismt',
-				'itamt',
-				'ctype'
+				//'dismt',
+				'itamt'
+				//'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -54,6 +54,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 		this.columns = [{
 			xtype: 'actioncolumn',
+			text: " ",
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
@@ -64,8 +65,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
-			header : "Items",
+			id : 'RowNumber3',
+			text : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
 			align : 'center',
@@ -97,7 +98,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -119,7 +120,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
-			width: 100,
+			width: 80,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -134,9 +135,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					}
 				}
 			},
-			},
-			{text: "Discount",
-			width: 100,
+			},{text: "Discount",
+			width: 70,
 			dataIndex: 'dismt',
 			sortable: false,
 			align: 'right',
@@ -151,8 +151,25 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					}
 				}
 			},
-			},
-			{
+			},{
+            xtype: 'checkcolumn',
+            header: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            editor: {
+                xtype: 'checkbox',
+                cls: 'x-grid-checkheader-editor'
+            }
+            }, {
+            xtype: 'checkcolumn',
+            header: 'WHT',
+            dataIndex: 'chk02',
+            width: 30,
+            editor: {
+                xtype: 'checkbox',
+                cls: 'x-grid-checkheader-editor'
+            }
+            },{
 				text: "Amount",
 				width: 120,
 				dataIndex: 'itamt',
@@ -160,13 +177,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				align: 'right',
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
+						price = parseFloat(r.data['unitp']);
 						discount = parseFloat(r.data['dismt']);
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
 
-					var amt = (qty * price) - discount;
+					var amt = qty * price;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
@@ -261,7 +278,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctype:'THB' };
+		rec = { id:newId,ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

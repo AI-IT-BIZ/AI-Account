@@ -1,28 +1,29 @@
-Ext.define('Account.RJournal.GL.GLWindow', {
+Ext.define('Account.SCurrency.MainWindow', {
 	extend	: 'Ext.window.Window',
-
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Journal Detail',
+			title: 'Currency List',
 			closeAction: 'hide',
-			height: 300,
+			height: 600,
 			minHeight: 380,
-			width: 600,
+			width: 1090,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
 			maximizable: true
 		});
+
 		return this.callParent(arguments);
 	},
 
 	initComponent : function() {
 		var _this=this;
 
-       // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-		this.grid = Ext.create('Account.RJournal.GL.GLGrid', {
+		// --- object ---
+
+		this.grid = Ext.create('Account.SCurrency.Grid', {
 			region:'center',
 			border: false
 		});
