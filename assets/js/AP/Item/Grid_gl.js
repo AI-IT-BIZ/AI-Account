@@ -27,7 +27,7 @@ Ext.define('Account.AP.Item.Grid_gl', {
 
 		this.columns = [
 		    {
-			id : 'RowNumber2',
+			id : 'APglRowNumber2',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 90,

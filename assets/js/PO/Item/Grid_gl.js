@@ -27,7 +27,7 @@ Ext.define('Account.PO.Item.Grid_gl', {
 
 		this.columns = [
 		    {
-			id : 'RowNumber2',
+			id : 'POglRowNumber2',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 90,

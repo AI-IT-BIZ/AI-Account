@@ -1,13 +1,13 @@
-Ext.define('Account.Customertype.MainWindow', {
+Ext.define('Account.SDistrict.MainWindow', {
 	extend	: 'Ext.window.Window',
 	requires : [
-		'Account.Customertype.Grid',
+		'Account.SDistrict.Grid',
 		//'Account.PR.Item.Window'
 	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Customer Type',
+			title: 'District',
 			closeAction: 'hide',
 			height: 380,
 			minHeight: 380,
@@ -42,7 +42,7 @@ Ext.define('Account.Customertype.MainWindow', {
 		*/
 		//this.itemDialog = Ext.create('Account.PR.Item.Window');
 
-		this.grid = Ext.create('Account.Customertype.Grid', {
+		this.grid = Ext.create('Account.SDistrict.Grid', {
 			region:'center',
 			border: false
 		});

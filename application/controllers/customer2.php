@@ -18,9 +18,10 @@ class Customer2 extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'kna1';
 		
-		$kunnr = $this->input->post('kunnr');
+		//$kunnr = $this->input->post('kunnr');
+		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('kunnr', $kunnr);
+		$this->db->where('kunnr', $id);
 		
 		//$query = $this->db->get('kna1');
 		$query = $this->db->get($tbName);
@@ -69,11 +70,12 @@ class Customer2 extends CI_Controller {
 	}
 
 	function save(){
-		$kunnr = $this->input->post('kunnr');
+		//$kunnr = $this->input->post('kunnr');
+		$id = $this->input->post('id');
 		$query = null;
-		if(!empty($kunnr)){
+		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('kunnr', $kunnr);
+			$this->db->where('kunnr', $id);
 			$query = $this->db->get('kna1');
 		}
 		
@@ -107,11 +109,19 @@ class Customer2 extends CI_Controller {
 			
 			'taxnr' => $this->input->post('taxnr'),
 			
-			'sgtxt' => $this->input->post('sgtxt')
+			'sgtxt' => $this->input->post('sgtxt'),
+			
+			'adr02' => $this->input->post('adr02'),
+			'dis02' => $this->input->post('dis02'),
+			'pst02' => $this->input->post('pst02'),
+			'tel02' => $this->input->post('tel02'),
+			'telf2' => $this->input->post('telf2'),
+			'emai2' => $this->input->post('emai2'),
+			'pson2' => $this->input->post('pson2')
 			
 		);
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('kunnr', $kunnr);
+			$this->db->where('kunnr', $id);
 			$this->db->update('kna1', $formData);
 		}else{
 			$this->db->set('kunnr', $this->code_model2->generate2('CS'));

@@ -68,7 +68,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'PRiRowNumber',
 			header : "Items",
 			dataIndex : 'purpo',
 			width : 60,

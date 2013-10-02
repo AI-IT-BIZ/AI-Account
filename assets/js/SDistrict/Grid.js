@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.SGLAccount.Grid', {
+Ext.define('Account.SDistrict.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -11,24 +11,24 @@ Ext.define('Account.SGLAccount.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'sglaccount/loads',
+				url: __site_url+'sdistrict/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'saknr'
+					idProperty: 'distr'
 				}
 			},
 			fields: [
-				'saknr',
-				'sgtxt'
+				'distr',
+				'distx'
 			],
 			remoteSort: true,
-			sorters: ['saknr ASC']
+			sorters: ['distr ASC']
 		});
 
 		this.columns = [
-			{text: "GL no", width: 125, dataIndex: 'saknr', sortable: true},
-			{text: "GL Description", flex: true, dataIndex: 'sgtxt', sortable: true},
+			{text: "District no", width: 125, dataIndex: 'distr', sortable: true},
+			{text: "District Description", flex: true, dataIndex: 'distx', sortable: true},
 		];
 
 		this.bbar = {

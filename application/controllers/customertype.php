@@ -36,4 +36,35 @@ class Customertype extends CI_Controller {
 	}
 
 
+	function save(){
+		//echo "vendor type";
+		
+		// start transaction
+		//$this->db->trans_start();  
+		
+		// ลบ receipt item ภายใต้ id ทั้งหมด
+		$this->db->truncate('ktyp'); 
+
+		// เตรียมข้อมูล payment item
+		$ktyp = $this->input->post('ktyp');
+		$item_array = json_decode($ktyp);
+		
+		if(!empty($ktyp) && !empty($item_array)){
+			// loop เพื่อ insert payment item ที่ส่งมาใหม่
+			$item_index = 0;
+		foreach($item_array AS $p){
+			$this->db->insert('ktyp', array(
+				'ktype'=>$p->ktype,
+				'custx'=>$p->custx,
+				'saknr'=>$p->saknr
+			));
+	    	}
+		}
+
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$_POST
+		));
+	}
+
 }

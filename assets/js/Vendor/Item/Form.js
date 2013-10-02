@@ -19,7 +19,56 @@ Ext.define('Account.Vendor.Item.Form', {
 		var _this=this;
 
 //---Create Selection--------------------------------------------
-        this.vtypDialog = Ext.create('Account.Vendortype.MainWindow');
+        this.distrDialog = Ext.create('Account.SDistrict.MainWindow');
+		
+		this.trigDistr = Ext.create('Ext.form.field.Trigger', {
+			name: 'distx',
+			fieldLabel: 'District',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			width:290,
+		});
+//---event triger----------------------------------------------------------------	
+		// event trigDistr//
+		this.trigDistr.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'sdistrict/loads',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.ktype);
+							_this.trigDistr.setValue(record.data.distx);
+							_this.getForm().findField('distr').setValue(record.data.distr);
+
+						}else{
+							o.markInvalid('Could not find District : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.distrDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigDistr.setValue(record.data.distx);
+			_this.getForm().findField('distr').setValue(record.data.distr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.distrDialog.hide();
+		});
+
+		this.trigDistr.onTriggerClick = function(){
+			_this.distrDialog.show();
+		};	
+//---Create Selection--------------------------------------------
+        this.vtypDialog = Ext.create('Account.Vendortype.Window');
 		
 		this.trigVtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'ventx',
@@ -73,7 +122,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		};
 
 //---Create Selection--------------------------------------------
-        this.glnoDialog = Ext.create('Account.SGLAccount.MainWindow');
+        this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		
 		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
 			name: 'saknr',
@@ -324,6 +373,9 @@ Ext.define('Account.Vendor.Item.Form', {
 			xtype: 'hidden',
 			name: 'vtype'
 		},{
+			xtype: 'hidden',
+			name: 'distr'
+		},{
 			
 
 /*(3)---Start Form-------------------------------*/	
@@ -388,7 +440,7 @@ Ext.define('Account.Vendor.Item.Form', {
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboDistr,{
+                items :[this.trigDistr,{
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Post Code',
@@ -589,10 +641,12 @@ Ext.define('Account.Vendor.Item.Form', {
 	},
 
 /*(5)---Call Function-------------------------------*/	
-	load : function(lifnr){
+	load : function(id){
+		var _this=this;
 		this.getForm().load({
-			params: { lifnr: lifnr },
+			params: { id: id },
 			url:__site_url+'vendor/load'
+			
 		});
 	},
 	remove : function(lifnr){

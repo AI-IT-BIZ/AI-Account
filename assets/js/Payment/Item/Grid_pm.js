@@ -126,7 +126,7 @@ var ptype = new Ext.data.ArrayStore({
 				handler: this.removeRecord2
 			}]
 		},{
-			id : 'RowNumber2',
+			id : 'PMpmRowNumber2',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 50,

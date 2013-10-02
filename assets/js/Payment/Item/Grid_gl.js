@@ -28,7 +28,7 @@ Ext.define('Account.Payment.Item.Grid_gl', {
 
 		this.columns = [
 		    {
-			id : 'RowNumber2',
+			id : 'PMglRowNumber2',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 90,
