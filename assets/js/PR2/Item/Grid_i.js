@@ -68,7 +68,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'PRiRowNumber',
 			header : "Items",
 			dataIndex : 'purpo',
 			width : 60,
@@ -286,6 +286,9 @@ Ext.define('Account.PR2.Item.Grid_i', {
 	},	
 
 	addDefaultRecord: function(){
+		
+		//สั่งเครียร์ grid
+		this.store.removeAll();
 		
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;

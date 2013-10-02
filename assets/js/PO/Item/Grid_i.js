@@ -68,7 +68,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'POiRowNumber',
 			header : "Items",
 			dataIndex : 'ebelp',
 			width : 60,

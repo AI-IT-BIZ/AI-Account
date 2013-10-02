@@ -154,7 +154,7 @@ Ext.define('Account.PR2.Item.Form', {
 					layout: 'hbox',
 					margin: '0 0 5 0',
 		 			items :[{
-						xtype: 'hidden',
+						xtype: 'textfield',
 						name: 'id'
 					},this.trigVender,{
 						xtype: 'displayfield',

@@ -57,10 +57,12 @@ Ext.define('Account.Customer.MainWindow', {
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
+			//alert(id);
 			if(id){
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
 			}
+			
 		});
 
 		this.deleteAct.setHandler(function(){

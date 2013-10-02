@@ -14,10 +14,15 @@ class Vendor extends CI_Controller {
 	}
 
 	function load(){
-		$lifnr = $this->input->post('lifnr');
+		$this->db->set_dbprefix('v_');
+		$tbName = 'lfa1';
+		
+		//$lifnr = $this->input->post('lifnr');
+		$id = $this->input->post('id'); //exit;
+		
 		$this->db->limit(1);
-		$this->db->where('lifnr', $lifnr);
-		$query = $this->db->get('lfa1');
+		$this->db->where('lifnr', $id);
+		$query = $this->db->get($tbName);
 		if($query->num_rows()>0){
 			echo json_encode(array(
 				'success'=>true,
@@ -30,6 +35,7 @@ class Vendor extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'lfa1';
 		
 		$limit = $this->input->get('limit');
@@ -47,11 +53,12 @@ class Vendor extends CI_Controller {
 
 	function save(){
 		
-		$lifnr = $this->input->post('lifnr');
+		//$lifnr = $this->input->post('lifnr');
+		$id = $this->input->post('id');
 		$query = null;
-		if(!empty($lifnr)){
+		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('lifnr', $lifnr);
+			$this->db->where('lifnr', $id);
 			$query = $this->db->get('lfa1');
 		}
 		
@@ -89,7 +96,7 @@ class Vendor extends CI_Controller {
 			
 		);
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('lifnr', $lifnr);
+			$this->db->where('lifnr', $id);
 			$this->db->update('lfa1', $formData);
 		}else{
 			$this->db->set('lifnr', $this->code_model2->generate2('VD'));

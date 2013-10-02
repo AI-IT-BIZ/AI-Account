@@ -57,7 +57,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
+			xtype: 'APiactioncolumn',
 			width: 30,
 			sortable: false,
 			menuDisabled: true,

@@ -68,7 +68,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'GRiRowNumber',
 			header : "Items",
 			dataIndex : 'mbelp',
 			width : 60,

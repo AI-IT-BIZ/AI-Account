@@ -64,7 +64,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'PMiRowNumber',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,

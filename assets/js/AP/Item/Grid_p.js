@@ -61,7 +61,7 @@ Ext.define('Account.PR2.Item.Grid_p', {
 				handler: this.removeRecord2
 			}]
 			},{
-			id : 'RowNumber2',
+			id : 'APpRowNumber2',
 			header : "Periods No.",
 			dataIndex : 'paypr',
 			width : 90,

@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Customertype.Grid', {
+Ext.define('Account.SDistrict.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -11,26 +11,24 @@ Ext.define('Account.Customertype.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customertype/loads',
+				url: __site_url+'sdistrict/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ktype'
+					idProperty: 'distr'
 				}
 			},
 			fields: [
-				'ktype',
-				'custx',
-				'saknr'
+				'distr',
+				'distx'
 			],
 			remoteSort: true,
-			sorters: ['ktype ASC']
+			sorters: ['distr ASC']
 		});
 
 		this.columns = [
-			{text: "Type Code ", width: 120, dataIndex: 'ktype', sortable: true},
-			{text: "Type Description", flex: true, dataIndex: 'custx', sortable: true},
-			{text: "GL no", width: 125, dataIndex: 'saknr', sortable: true}
+			{text: "District no", width: 125, dataIndex: 'distr', sortable: true},
+			{text: "District Description", flex: true, dataIndex: 'distx', sortable: true},
 		];
 
 		this.bbar = {
@@ -44,6 +42,7 @@ Ext.define('Account.Customertype.Grid', {
 	},
 	load: function(options){
 		this.store.load(options);
+		//if(options){ alert(options); }
 	}
 });
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customertype extends CI_Controller {
+class Vendortype extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,13 +10,13 @@ class Customertype extends CI_Controller {
 
 
 	function index(){
-		$this->phxview->RenderView('Customertype');
+		$this->phxview->RenderView('Vendortype');
 		$this->phxview->RenderLayout('default');
 	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'v_ktyp';
+		$tbName = 'v_vtyp';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -35,7 +35,6 @@ class Customertype extends CI_Controller {
 		));
 	}
 
-
 	function save(){
 		//echo "vendor type";
 		
@@ -43,19 +42,19 @@ class Customertype extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('ktyp'); 
+		$this->db->truncate('vtyp'); 
 
 		// เตรียมข้อมูล payment item
-		$ktyp = $this->input->post('ktyp');
-		$item_array = json_decode($ktyp);
+		$vtyp = $this->input->post('vtyp');
+		$item_array = json_decode($vtyp);
 		
-		if(!empty($ktyp) && !empty($item_array)){
+		if(!empty($vtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){
-			$this->db->insert('ktyp', array(
-				'ktype'=>$p->ktype,
-				'custx'=>$p->custx,
+			$this->db->insert('vtyp', array(
+				'vtype'=>$p->vtype,
+				'ventx'=>$p->ventx,
 				'saknr'=>$p->saknr
 			));
 	    	}
