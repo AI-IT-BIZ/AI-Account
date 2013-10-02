@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		28/9/2013
+Modified		2/10/2013
 Project		
 Model		
 Company		
@@ -1188,15 +1188,19 @@ COMMENT = 'GL Item (Customer)';
 Create table tbl_cont (
 	conty Varchar(4) NOT NULL COMMENT 'Codition type',
 	contx Varchar(40) COMMENT 'Condition Desc',
+	dtamt Decimal(17,2) COMMENT 'Discount',
+	vtamt Decimal(17,2) COMMENT 'Vat amt',
+	wtamt Decimal(17,2) COMMENT 'WHT amt',
+	rmamt Decimal(17,2) COMMENT 'Amount',
  Primary Key (conty)) ENGINE = InnoDB
 COMMENT = 'Condition Price';
 
 Create table tbl_conp (
-	vbeln Varchar(20) NOT NULL COMMENT 'Doc no',
+	connr Varchar(20) NOT NULL COMMENT 'Doc no',
 	conpr Varchar(6) NOT NULL COMMENT 'Doc item',
 	conty Varchar(4) COMMENT 'Condition type',
 	vtamt Decimal(17,2) COMMENT 'Amount',
- Primary Key (vbeln,conpr)) ENGINE = InnoDB
+ Primary Key (connr,conpr)) ENGINE = InnoDB
 COMMENT = 'Condition Price';
 
 

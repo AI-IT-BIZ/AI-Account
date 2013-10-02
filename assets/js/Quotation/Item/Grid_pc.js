@@ -14,29 +14,27 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln,conpr'
+					idProperty: 'conty'
 				}
 			},
 			fields: [
-			    'vbeln',
-				'conpr',
-			    'contx',
-				'vtamt'
+				'conty',
+			    'contx'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['conty ASC']
 		});
 
 		this.columns = [{
 			id : 'RowNumber4',
 			text : "Condition No.",
-			dataIndex : 'conpr',
+			dataIndex : 'conty',
 			width : 90,
 			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-		    }
+			resizable : false, sortable : false
+			//renderer : function(value, metaData, record, rowIndex) {
+			//	return rowIndex+1;
+		    //}
 			},{
 			text: "Condition",
 			width: 200,

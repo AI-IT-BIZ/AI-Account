@@ -35,14 +35,16 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-			$result_data['adr11'] = $result_data['adr01'];
+			$result_data['adr02'] = $result_data['dis02'].' '.$result_data['pst01'].
+			                         PHP_EOL.'Tel: '.$result_data['tel02'].PHP_EOL.'Fax: '.
+			                         $result_data['telf2'].
+									 PHP_EOL.'Email: '.$result_data['emai2'];
 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
-
 
 			echo json_encode(array(
 				'success'=>true,
@@ -150,12 +152,6 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
-		
-		$exchg = $this->input->post('exchg');
-        $curr = 'THB';
-        if($exchg <> 0){
-          $curr = 'USD';
-        }
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
@@ -175,7 +171,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $curr,
+			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg')
 		);
 
@@ -385,12 +381,10 @@ class Quotation extends CI_Controller {
 		));
 	}
 
-function loads_conp_item(){
-        $this->db->set_dbprefix('v_');
-		$pc_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $pc_id);
+    function loads_conp_item(){
 
-		$query = $this->db->get('conpr');
+	    $query = $this->db->get('cont');
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
