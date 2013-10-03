@@ -390,7 +390,7 @@ class Quotation extends CI_Controller {
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
 		$amt = $menge * $unitp;
-		echo $vat.'222';
+		//echo $vat.'222';
 		$result = array();
 		
 	    $query = $this->db->get('cont');
@@ -431,7 +431,7 @@ class Quotation extends CI_Controller {
 					}
 				}
 			}}
-		echo count($result).'aaa';
+		//echo count($result).'aaa';
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,

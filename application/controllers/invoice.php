@@ -29,7 +29,7 @@ class Invoice extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
 			                         $result['telfx'].
 									 PHP_EOL.'Email: '.$result['email'];
-			$result['adr11'] = $result['adr01'];
+			//$result['adr02'] = $result['adr01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -410,5 +410,61 @@ class Invoice extends CI_Controller {
 		));
 	}
 	
-
+    function loads_conp_item(){
+        $menge = $this->input->get('menge');
+		$unitp = $this->input->get('unitp');
+		$dismt = $this->input->get('dismt');
+		$vvat = $this->input->get('vvat');
+		$vwht = $this->input->get('vwht');
+		$vat = $this->input->get('vat');
+		$wht = $this->input->get('wht');
+		$amt = $menge * $unitp;
+		//echo $vat.'222';
+		$result = array();
+		
+	    $query = $this->db->get('cont');
+        if($query->num_rows()>0){
+			$rows = $query->result_array();
+			foreach($rows AS $row){
+				    //echo $row['conty'];
+					if($row['conty']=='01'){
+						unset($result[0]);
+						if(empty($dismt)) $dismt=0;
+						$tamt = $amt - $dismt;
+						$result[0] = array(
+					    'contx'=>$row['contx'],
+				     	'vtamt'=>$dismt,
+					    'ttamt'=>$tamt
+				        );
+					}elseif($row['conty']=='02'){
+						unset($result[1]);	
+						if($vat==true){
+							$vamt = ($amt * $vvat) / 100;
+							$tamt = $amt + $vamt;
+						$result[1] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        );
+						}
+					}elseif($row['conty']=='03'){
+						unset($result[2]);
+						if($wht==true){
+							$vamt = ($amt * $vwht) / 100;
+							$tamt = $amt - $vamt;
+						$result[2] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        );
+					}
+				}
+			}}
+		//echo count($result).'aaa';
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$result,
+			'totalCount'=>count($result)
+		));
+	}
 }
