@@ -160,12 +160,12 @@ Ext.define('Account.Quotation.Item.Form', {
 				remoteSort: true,
 				sorters: 'taxnr ASC'
 			}),
-			
+
 			queryMode: 'remote',
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
 		this.numberWHT = Ext.create('Ext.form.field.Number', {
             //xtype: 'numberfield',
 			fieldLabel: 'WHT Value',
@@ -175,7 +175,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 35'
          });
-         
+
          this.numberVat = Ext.create('Ext.form.field.Number', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
@@ -209,7 +209,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
 			name: 'ctype',
 			fieldLabel: 'Currency',
@@ -498,7 +498,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
-			
+
 			Ext.Ajax.request({
 					url: __site_url+'customer/load',
 					method: 'POST',
@@ -521,7 +521,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigProject.onTriggerClick = function(){
 			_this.projectDialog.show();
 		};
-		
+
 		// event trigProject///
 		this.trigCurrency.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -547,10 +547,10 @@ Ext.define('Account.Quotation.Item.Form', {
 				});
 			}
 		}, this);
-		
+
 		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCurrency.setValue(record.data.ctype);
-            
+
             _this.formTotal.getForm().findField('curr').setValue(record.data.ctype);
 			grid.getSelectionModel().deselectAll();
 			_this.currencyDialog.hide();
@@ -570,14 +570,14 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		return this.callParent(arguments);
 	},
-	
-	//onSelectChange: function(selModel, selections){	
+
+	//onSelectChange: function(selModel, selections){
     //},
-    
+
     //onViewReady: function(grid) {
     //    grid.getSelectionModel().select(0);
     //},
-    
+
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -686,19 +686,31 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
-		
+
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
         	//alert(sel.get('chk01'));
+<<<<<<< HEAD
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({menge:sel.get('menge'),
             unitp:sel.get('unitp'),dismt:sel.get('dismt'),
             vvat:this.numberVat.getValue(),vwht:this.numberWHT.getValue(),
             vat:sel.get('chk01'),wht:sel.get('chk02')});
+=======
+        	_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({
+            	menge:sel.get('menge'),
+            	unitp:sel.get('unitp'),dismt:sel.get('dismt'),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02')
+            });
+>>>>>>> 051d24b7a3b7d430626f401d18304412dd751220
         }
 	},
-	
+
 	// select tax functions
 	/*
 	selectTax: function(combo, record, index){
