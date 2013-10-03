@@ -137,15 +137,13 @@ Ext.define('Account.Quotation.Item.Form_t', {
    	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
-			width:60,
+			width:20,
 			value: 'THB/'
 		},{
    	        xtype: 'displayfield',
-   	        name: 'curr',
-			align: 'right',
-			margin: '0 0 0 0',
-			width:20
-			//value: 'THB/USD'
+   	        name: 'curr1',
+   	        margin: '0 0 0 7',
+			width:30
 		}]
 		},{
    	        xtype: 'textfield',
@@ -269,7 +267,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		var wht = _this.whtValue;
 		this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
-		var net = total - discountValue + taxValue;
+		var net = total - discountValue + vat + wht;
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 
 		return net;

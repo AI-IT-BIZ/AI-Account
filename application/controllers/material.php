@@ -15,10 +15,26 @@ class Material extends CI_Controller {
 	function load(){
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
+		$kunnr = $this->input->post('kunnr');
 		$this->db->limit(1);
 		
+		if(!empty($kunnr)){
+			//echo $kunnr;
+			$sql="select a.*,b.maktx,b.meins from tbl_plev a inner join tbl_mara b
+                  on a.matnr = b.matnr
+                  inner join tbl_kna1 c on a.pleve = c.pleve
+		          WHERE b.matnr='$id'
+		          AND c.kunnr='$kunnr'";
+		$query = $this->db->query($sql);
+		if($query->num_rows()==0){
+			$this->db->where('matnr', $id);
+		    $query = $this->db->get('mara');
+		}
+		}else{
 		$this->db->where('matnr', $id);
 		$query = $this->db->get('mara');
+		}
+		
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			

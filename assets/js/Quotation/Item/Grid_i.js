@@ -6,7 +6,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 	initComponent : function() {
 		var _this=this;
-
+		
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
@@ -44,9 +44,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				//'dismt',
-				'itamt'
-				//'ctype'
+				'dismt',
+				'itamt',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -153,22 +153,32 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			},{
             xtype: 'checkcolumn',
-            header: 'Vat',
+            text: 'Vat',
             dataIndex: 'chk01',
             width: 30,
-            editor: {
-                xtype: 'checkbox',
-                cls: 'x-grid-checkheader-editor'
-            }
-            }, {
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },{
             xtype: 'checkcolumn',
-            header: 'WHT',
+            text: 'WHT',
             dataIndex: 'chk02',
             width: 30,
-            editor: {
-                xtype: 'checkbox',
-                cls: 'x-grid-checkheader-editor'
-            }
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
             },{
 				text: "Amount",
 				width: 120,
@@ -177,13 +187,26 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				align: 'right',
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']);
-						discount = parseFloat(r.data['dismt']);
+						price = parseFloat(r.data['unitp']),
+						discount = parseFloat(r.data['dismt']),
+						chk01 = r.data['chk01'],
+						chk02 = r.data['chk02'];
+						
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
-
+					var vat = _this.vatValue;
+					var wht = _this.whtValue;
+					var vats=0,whts=0;
+                   
 					var amt = qty * price;
+					if(chk01==true&&vat>0){
+						vats = (amt * vat) / 100;
+					}
+					if(chk02==true&&wht>0){
+						whts = (amt * wht) / 100;
+					}
+					var amt = ( amt + vats ) - whts;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
@@ -207,28 +230,28 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
-
+                var cusno = _this.customerValue;
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
 					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						kunnr: cusno
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.matnr);
-
 							// Materail text
 							rModel.set('maktx', r.data.maktx);
-
 							// Unit
 							rModel.set('meins', r.data.meins);
+							// Cost
+							rModel.set('unitp', r.data.cost);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -243,16 +266,32 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-
 				// change cell code value (use db value)
 				rModel.set('matnr', record.data.matnr);
-
 				// Materail text
 				rModel.set('maktx', record.data.maktx);
-
 				// Unit
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
+				var v = record.data.matnr;
+                var cusno = _this.customerValue;
+				if(Ext.isEmpty(v)) return;
+
+				Ext.Ajax.request({
+					url: __site_url+'material/load',
+					method: 'POST',
+					params: {
+						id: v,
+						kunnr: cusno
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success && r.data.cost){
+							// Cost
+							rModel.set('unitp', r.data.cost);
+						}
+					}
+				});
 
 			}
 			grid.getSelectionModel().deselectAll();
@@ -269,6 +308,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 	},
 
 	addRecord: function(){
+		var _this=this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -276,9 +316,10 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+		
+        var cur = _this.curValue;
 		// add new record
-		rec = { id:newId,ctype:'THB' };
+		rec = { id:newId, ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

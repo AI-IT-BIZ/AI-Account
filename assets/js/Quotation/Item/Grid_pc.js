@@ -14,31 +14,21 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln,conpr'
+					idProperty: 'conty'
 				}
 			},
 			fields: [
-			    'vbeln',
-				'conpr',
+				'conty',
 			    'contx',
-				'vtamt'
+			    'vtamt',
+			    'ttamt'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: ['conty ASC']
 		});
 
 		this.columns = [{
-			id : 'RowNumber4',
-			text : "Condition No.",
-			dataIndex : 'conpr',
-			width : 90,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-		    }
-			},{
-			text: "Condition",
+			text: "Condition type",
 			width: 200,
 			dataIndex: 'contx',
 			sortable: true
@@ -48,7 +38,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			xtype: 'numbercolumn',
 			dataIndex: 'vtamt',
 			sortable: true,
-			align: 'right',
+			align: 'right'/*,
 			field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -59,12 +49,12 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Condition Amount",
 			width: 150,
-			dataIndex: 'cond',
-			align: 'right',
+			dataIndex: 'ttamt',
+			align: 'right'/*,
 			renderer: function(v,p,r){
 				var net = _this.netValue;
 				if(net<=0)
@@ -74,7 +64,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 
-				}
+				}*/
 			}
 		];
 

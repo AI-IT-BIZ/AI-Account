@@ -420,7 +420,8 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('adr02').setValue(r.data.adr02);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -431,24 +432,23 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
-			 _this.getForm().findField('adr11').setValue(_addr);
-			//_this.getForm().findField('adr01').setValue(record.data.adr01
-			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
-			//+record.data.telfx+'\n'+'Email '+record.data.email);
+			var v = record.data.kunnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'customer/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('name1').setValue(r.data.name1);
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();
@@ -500,20 +500,18 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
 			
 			Ext.Ajax.request({
-					url: __site_url+'project/load',
+					url: __site_url+'customer/load',
 					method: 'POST',
 					params: {
-						id: record.data.jobnr
+						id: record.data.kunnr
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			       }else{
-							o.markInvalid('Could not find project code : '+o.getValue());
-						}
-					}
+			       }
+				}
 				});
 
 			grid.getSelectionModel().deselectAll();
@@ -566,11 +564,20 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		
-		this.comboTax.on('select', this.selectTax, this);
+		//this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		//this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
+		//this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
+	
+	//onSelectChange: function(selModel, selections){	
+    //},
+    
+    //onViewReady: function(grid) {
+    //    grid.getSelectionModel().select(0);
+    //},
+    
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -627,14 +634,17 @@ Ext.define('Account.Quotation.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ vbeln: 0 });
 		this.gridPayment.load({ vbeln: 0 });
+		//this.gridPrice.load();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
+		this.numberVat.setValue('7');
 	},
 	// calculate total functions
 	calculateTotal: function(){
+		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
@@ -657,9 +667,28 @@ Ext.define('Account.Quotation.Item.Form', {
 		// set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.formTotal.vatValue = this.numberVat.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
+		this.formTotal.whtValue = this.numberWHT.getValue();
+		this.gridItem.whtValue = this.numberWHT.getValue();
+		var currency = this.trigCurrency.getValue();
+		this.gridItem.curValue = currency;
+		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.gridItem.customerValue = this.trigCustomer.getValue();
+		
+        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+        	//alert(sel.get('chk01'));
+        	_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({menge:sel.get('menge'),
+            unitp:sel.get('unitp'),dismt:sel.get('dismt'),
+            vvat:this.numberVat.getValue(),vwht:this.numberWHT.getValue(),
+            vat:sel.get('chk01'),wht:sel.get('chk02')});
+        }
 	},
 	
 	// select tax functions
+	/*
 	selectTax: function(combo, record, index){
 		var store = this.gridItem.store;
 		var vtax = combo.getValue();
@@ -671,6 +700,5 @@ Ext.define('Account.Quotation.Item.Form', {
 			      var amt = price  / 1.07;
 			      r.set('unitp', Ext.util.Format.usMoney(amt).replace(/\$/, ''));
 		});
-	
-	}
+	}*/
 });

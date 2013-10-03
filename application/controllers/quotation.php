@@ -35,14 +35,16 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-			$result_data['adr11'] = $result_data['adr01'];
+			$result_data['adr02'] .= $result_data['dis02'].' '.$result_data['pst02'].
+			                         PHP_EOL.'Tel: '.$result_data['tel02'].PHP_EOL.'Fax: '.
+			                         $result_data['telf2'].
+									 PHP_EOL.'Email: '.$result_data['emai2'];
 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
-
 
 			echo json_encode(array(
 				'success'=>true,
@@ -150,12 +152,6 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
-		
-		$exchg = $this->input->post('exchg');
-        $curr = 'THB';
-        if($exchg <> 0){
-          $curr = 'USD';
-        }
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
@@ -175,7 +171,7 @@ class Quotation extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $curr,
+			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg')
 		);
 
@@ -385,16 +381,61 @@ class Quotation extends CI_Controller {
 		));
 	}
 
-function loads_conp_item(){
-        $this->db->set_dbprefix('v_');
-		$pc_id = $this->input->get('vbeln');
-		$this->db->where('vbeln', $pc_id);
-
-		$query = $this->db->get('conpr');
+    function loads_conp_item(){
+        $menge = $this->input->get('menge');
+		$unitp = $this->input->get('unitp');
+		$dismt = $this->input->get('dismt');
+		$vvat = $this->input->get('vvat');
+		$vwht = $this->input->get('vwht');
+		$vat = $this->input->get('vat');
+		$wht = $this->input->get('wht');
+		$amt = $menge * $unitp;
+		echo $vat.'222';
+		$result = array();
+		
+	    $query = $this->db->get('cont');
+        if($query->num_rows()>0){
+			$rows = $query->result_array();
+			foreach($rows AS $row){
+				    //echo $row['conty'];
+					if($row['conty']=='01'){
+						unset($result[0]);
+						if(empty($dismt)) $dismt=0;
+						$tamt = $amt - $dismt;
+						$result[0] = array(
+					    'contx'=>$row['contx'],
+				     	'vtamt'=>$dismt,
+					    'ttamt'=>$tamt
+				        );
+					}elseif($row['conty']=='02'){
+						unset($result[1]);	
+						if($vat==true){
+							$vamt = ($amt * $vvat) / 100;
+							$tamt = $amt + $vamt;
+						$result[1] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        );
+						}
+					}elseif($row['conty']=='03'){
+						unset($result[2]);
+						if($wht==true){
+							$vamt = ($amt * $vwht) / 100;
+							$tamt = $amt - $vamt;
+						$result[2] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        );
+					}
+				}
+			}}
+		echo count($result).'aaa';
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'rows'=>$result,
+			'totalCount'=>count($result)
 		));
 	}
 
