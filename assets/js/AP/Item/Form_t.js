@@ -8,10 +8,7 @@ Ext.define('Account.AP.Item.Form_t', {
 			bodyPadding: 10,
 			fieldDefaults: {
 				labelAlign: 'left',
-				msgTarget: 'qtip',//'side',
-				//labelWidth: 125
-				//width:300,
-				//labelStyle: 'font-weight:bold'
+				msgTarget: 'qtip',
 			}
 		});
 
@@ -28,15 +25,6 @@ Ext.define('Account.AP.Item.Form_t', {
 						name: 'beamt',
 						labelWidth: 150,
 						width:240,
-			//textAlign: 'right',
-			//flex: 2,
-			//anchor:'50%',
-			//style: {
-              // textAlign: 'right'
-             //     },
-			//labelWidth: 155,
-			//width:270,
-			//margin: '0 0 0 375',
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
@@ -44,12 +32,7 @@ Ext.define('Account.AP.Item.Form_t', {
 			name: 'dismt',
 			labelWidth: 80,
 			width:150,
-			//anchor:'80%',
-			//fieldWidth: 250,
 			align: 'right',
-			//margin: '0 0 0 650',
-			//labelWidth: 80,
-			//width:150,
 			enableKeyEvents: true,
 			validator: function(v){
 				if(!Ext.isEmpty(v)){
@@ -63,14 +46,10 @@ Ext.define('Account.AP.Item.Form_t', {
 			}
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
-			//fieldLabel: 'Discount',
 			name: 'aaa',
 			align: 'right',
-			//anchor:'80%',
 			width:85,
 			margin: '0 0 0 5',
-			//width:110,
-			//margin: '0 0 0 10',
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
@@ -79,11 +58,6 @@ Ext.define('Account.AP.Item.Form_t', {
 			align: 'right',
 			labelWidth: 150,
 			width:240,
-			//flex: 2,
-			//anchor:'90%',
-			//width:270,
-			//labelWidth: 155,
-			//margin: '0 0 0 600',
 			readOnly: true
 		});
 		this.txtTax = Ext.create('Ext.form.field.Text', {
@@ -93,8 +67,6 @@ Ext.define('Account.AP.Item.Form_t', {
 			align: 'right',
 			labelWidth: 80,
 			width:120,
-			//labelWidth: 80,
-			//anchor:'90%',
 			width:130,
 			enableKeyEvents: true,
 			minValue: 0,
@@ -105,14 +77,10 @@ Ext.define('Account.AP.Item.Form_t', {
 		});
 		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
-			//fieldLabel: 'Discount',
 			name: 'ccc',
 			align: 'right',
 			width:85,
 			margin: '0 0 0 15',
-			//anchor:'90%',
-			//margin: '0 0 0 20',
-			//width:110,
 			readOnly: true
 
          });
@@ -121,13 +89,8 @@ Ext.define('Account.AP.Item.Form_t', {
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
 			align: 'right',
-			//flex: 2,
-			//anchor:'90%',
 			labelWidth: 150,
 			width:240,
-			//width:270,
-			//labelWidth: 155,
-			//margin: '0 0 0 600',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
 			readOnly: true
@@ -135,7 +98,6 @@ Ext.define('Account.AP.Item.Form_t', {
 
 		this.items = [{
             xtype: 'container',
-            anchor: '100%',
             layout: 'hbox',
             margin: '5',
             defaultType: 'textfield',
@@ -149,7 +111,6 @@ Ext.define('Account.AP.Item.Form_t', {
 					xtype: 'textarea',
 					fieldLabel: 'Text Note ',
 					name: 'sgtxt',
-					anchor:'100%',
 					width: 455, 
 					rows:3,
 					allowBlank: true
@@ -161,36 +122,28 @@ Ext.define('Account.AP.Item.Form_t', {
             	margin: '0 0 0 70',
                 items: [{
 		            xtype: 'container',
-		            anchor: '100%',
 		            layout: 'hbox',
             		margin: '0 0 3 0',
                 	items: [this.txtTotal,{
                 	}]
                 },{
 		            xtype: 'container',
-		            anchor: '100%',
 		            layout: 'hbox',
             		margin: '0 0 3 0',
                 	items: [this.txtDiscount,this.txtDiscountValue]
              	},{
 		            xtype: 'container',
-		            anchor: '100%',
 		            layout: 'hbox',
             		margin: '0 0 3 0',
                 	items: [this.txtDiscountSum,{
                 	}]
              	},{
 		            xtype: 'container',
-		            anchor: '100%',
 		            layout: 'hbox',
             		margin: '0 0 3 0',
                 	items: [this.txtTax,{
 						xtype: 'displayfield',
-						//fieldLabel: '%',
-						//name: 'taxpr',
 						align: 'right',
-						//labelWidth: 5,
-						//anchor:'90%',
 						width:10,
 						value: '%',
 						allowBlank: true
@@ -199,7 +152,6 @@ Ext.define('Account.AP.Item.Form_t', {
                 	}]
              	},{
 		            xtype: 'container',
-		            anchor: '100%',
 		            layout: 'hbox',
             		margin: '0 0 3 0',
                 	items: [this.txtNet,{

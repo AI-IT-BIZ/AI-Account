@@ -22,7 +22,6 @@ Ext.define('Account.Payment.Item.Form_t', {
 			name: 'beamt',
 			labelWidth: 155,
 			width:270,
-			//margin: '0 0 0 175',
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
@@ -32,17 +31,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			labelWidth: 80,
 			width:150,
 			enableKeyEvents: true,
-			/*
-			validator: function(v){
-				if(!Ext.isEmpty(v)){
-					var regEx = /^([0-9]*)(\.[1-9]*)?$|^([0-9]|[1-9][0-9]|100)(\.[1-9]*)?(%)$/gi;
-					if(regEx.test(v))
-						return true;
-					else
-						return 'Value can be only numbers or percent';
-				}else
-					return true;
-			}*/
+			
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
 			name: 'aaa',
@@ -60,22 +49,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		/*
-		this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			margin: '4 0 0 0',
-			hideTrigger: true,
-			allowDecimals: false
-		});
-		*/
+		
 		this.txtInterest = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
@@ -154,22 +128,13 @@ Ext.define('Account.Payment.Item.Form_t', {
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
-            //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},this.txtDiscountSum,{
 			xtype: 'container',
 			layout: 'hbox',
 			defaultType: 'textfield',
-			//margin: '5 0 5 600',
 	items: [
-		//this.txtTax
-		//,{
-		//	xtype: 'displayfield',
-		//	align: 'right',
-		//	width:10,
-		//	margin: '4 0 0 0',
-		//	value: '%'
-		//},
+		
 		this.txtInterest
 	]
 	},
@@ -188,7 +153,6 @@ Ext.define('Account.Payment.Item.Form_t', {
 		this.txtNet.on('render', setAlignRight);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
-		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
 	},
@@ -229,8 +193,6 @@ Ext.define('Account.Payment.Item.Form_t', {
 			total = parseFloat(total),
 			total = isNaN(total)?0:total;
 
-		//console.log(total);
-
 		if(total<=0) return;
 
 		var discount = this.txtDiscount.getValue(),
@@ -261,10 +223,6 @@ Ext.define('Account.Payment.Item.Form_t', {
 			taxValue = parseFloat(tax);
 			taxValue = isNaN(taxValue)?0:taxValue;
     
-			//if(taxValue>0){
-				//taxValue = taxValue * total / 100;
-				//this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
-			//}
 		}else{
 			this.txtInterest.setValue('');
 		}

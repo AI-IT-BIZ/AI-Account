@@ -15,10 +15,6 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		//this.deleteAct = new Ext.Action({
-		//	text: 'Delete',
-		//	iconCls: 'b-small-minus'
-		//});
 
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
@@ -107,7 +103,6 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			align: 'right',
 			field: {
 				type: 'numberfield',
-				//decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();

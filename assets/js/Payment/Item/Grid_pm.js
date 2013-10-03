@@ -28,60 +28,7 @@ var ptype = new Ext.data.ArrayStore({
     	data : [['1','cash'],['2','credit cart']],
     	autoLoad: true
     	});
-/*---ComboBox Payment type----------------------------*/
-	/*	
-		var comboPtype = Ext.create('Ext.form.ComboBox', {
-							
-			//fieldLabel: 'Payment type',
-			name: 'paytx',
-			//width:185,
-			//labelWidth: 80,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			store: ptype,
-			queryMode: 'local',
-			displayField: 'paytx',
-			valueField: 'ptype',
-    		//value: ptype.getAt(0).get('ptype'),
-    		
-        hiddenName: 'hidptype',
-        hiddenValue: 'ptype',
-        
-    	
-		});	
-		
 
-var ptype = new Ext.data.ArrayStore({
-    	fields: ['ptype', 'paytx'],
-    	data : [['1','cash'],['2','credit cart']],
-    	autoLoad: true
-    	});
-		var comboPtype = Ext.create('Ext.form.ComboBox', {
-							
-			//fieldLabel: 'Payment type',
-			name: 'ptype',
-			//width:185,
-			//labelWidth: 80,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			store: ptype,
-			queryMode: 'local',
-			displayField: 'paytx',
-			//valueField: 'paytx',
-    		value: ptype.getAt(0).get('ptype')
-    	
-		});	*/		
-		
-/* End combo------------------------------------------------*/	
-		/*---------------------*/
-		
-		
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -140,8 +87,6 @@ var ptype = new Ext.data.ArrayStore({
 		    width: 100, 
 		    dataIndex: 'ptype', 
 		    sortable: true,
-		   // displayField: 'paytx',
-			//valueField: 'ptype',
 		    editor: new Ext.form.field.ComboBox({
             store: new Ext.data.JsonStore({
 				proxy: {
@@ -241,19 +186,10 @@ var ptype = new Ext.data.ArrayStore({
 		    {text: "Remain Amt", align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: true,
 		    renderer: function(v,p,r){
-				//var net = _this.netValue;
-				//if(net<=0)
-					//return 0;
-                //net = isNaN(net)?0:net;
-                //alert(net);
-                //console.log(net);
 				var pamt = parseFloat(r.data['pramt']);
 				var pay = parseFloat(r.data['payam']);
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-/*
-					console.log(net);
-*/
 				}
 		    }
 		];

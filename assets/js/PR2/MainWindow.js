@@ -52,8 +52,6 @@ Ext.define('Account.PR2.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.reset();	
-				// สั่ง grid load เพื่อเคลียร์ค่า
-				//_this.itemDialog.form.gridItem.addDefaultRecord();
 				
 				
 				
@@ -68,7 +66,6 @@ Ext.define('Account.PR2.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				_this.itemDialog.form.gridItem.load({purnr: id});
-				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});
 
@@ -80,7 +77,6 @@ Ext.define('Account.PR2.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();

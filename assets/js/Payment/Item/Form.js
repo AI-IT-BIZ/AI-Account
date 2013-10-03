@@ -12,13 +12,9 @@ Ext.define('Account.Payment.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		
-		// INIT Customer search popup ///////////////////////////////
-		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Payment.Item.Grid_i',{
-			//title:'Invoice Items',
 			height: 320,
 			region:'center'
 		});
@@ -38,42 +34,7 @@ Ext.define('Account.Payment.Item.Form', {
 			title:'Total PY',
 			region:'south'
 		});
-
-
-/*---ComboBox Payment type----------------------------
-		this.comboPtype = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Payment type',
-			name: 'ptype',
-			//width:185,
-			//labelWidth: 80,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'payment/loads_combo/ptyp/ptype/paytx',  //loads_tycombo($tb,$pk,$like)
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ptype'
-					}
-				},
-				fields: [
-					'ptype',
-					'paytx'
-				],
-				remoteSort: true,
-				sorters: 'ptype ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'paytx',
-			valueField: 'ptype'
-		});	
-/* End combo------------------------------------------------*/		
+	
 		this.hdnPyItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebbp'
 		});
@@ -81,10 +42,6 @@ Ext.define('Account.Payment.Item.Form', {
 		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
 			name: 'paym',
 		});
-		
-		//this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-		//	name: 'bsid',
-		//});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
@@ -115,20 +72,17 @@ Ext.define('Account.Payment.Item.Form', {
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
-                anchor: '100%'
             },
 // Vendor Code            
      items:[{
      	xtype: 'container',
                 layout: 'hbox',
-                //margin: '0 0 5 0',
      items: [{
                 xtype: 'container',
                 layout: 'anchor',
      items :[{
      	        xtype: 'container',
                 layout: 'hbox',
-               // margin: '0 0 5 0',
      items :[{
 			xtype: 'hidden',
 			name: 'id'
@@ -143,7 +97,6 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype: 'textarea',
 			fieldLabel: 'Bill To',
 			name: 'adr01',
-			anchor:'90%',
 			width:350,
 			rows:2,
 			labelAlign: 'top'
@@ -155,20 +108,15 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype: 'displayfield',
             fieldLabel: 'Payment No',
             name: 'payno',
-            //flex: 3,
             value: 'PYXXXX-XXXX',
             labelAlign: 'right',
-			//name: 'qt',
 			width:240,
-			//margins: '0 0 0 10',
-            //emptyText: 'Customer',
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
 			fieldLabel: 'Date',
 			name: 'bldat',
-			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
@@ -179,7 +127,6 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Payment Date',
 			name: 'duedt',
-			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
@@ -236,7 +183,6 @@ Ext.define('Account.Payment.Item.Form', {
                            if(!Ext.isEmpty(r.data.email))
                             _addr += '\n'+'Email: '+r.data.email;
                             _this.getForm().findField('adr01').setValue(_addr);
-                            //_this.getForm().findField('adr11').setValue(_addr);
 							
 						}else{
 							o.markInvalid('Could not find vendor code : '+o.getValue());
@@ -262,7 +208,6 @@ Ext.define('Account.Payment.Item.Form', {
              if(!Ext.isEmpty(record.data.email))
                _addr += '\n'+'Email: '+record.data.email;
              _this.getForm().findField('adr01').setValue(_addr);
-             //_this.getForm().findField('adr11').setValue(_addr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -301,16 +246,7 @@ Ext.define('Account.Payment.Item.Form', {
 		// add grid paym data to json
 		var rsItem2 = this.gridPM.getData();
 		this.hdnPpItem.setValue(Ext.encode(rsItem2));
-/*
-		this.getForm().getFields().each(function(f){
-			//console.log(f.name);
-    		 if(!f.validate()){
-    		 	var p = f.up();
-    		 	console.log(p);
-    			 console.log('invalid at : '+f.name);
-    		 }
-    	 });
-*/
+
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -342,9 +278,7 @@ Ext.define('Account.Payment.Item.Form', {
 		this.gridItem.load({ payno: 0 });
 		this.gridPM.load({ recnr: 0 });
 
-		// default status = wait for approve
-		//this.comboQStatus.setValue('05');
-		//this.comboCond.setValue('01');
+
 	},
 	
 	// calculate total functions

@@ -12,44 +12,27 @@ Ext.define('Account.PR2.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		// INIT other components ///////////////////////////////////
-		//this.projectDialog = Ext.create('Account.Project.MainWindow');
-		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
-			//title:'Purchase Items',
 			height: 320,
 			region:'center'
 		});
-		/*
-		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
-			title:'Purchase Items'
-		});
-		this.gridPayment = Ext.create('Account.PR2.Item.Grid_p',{
-			border: true,
-			region:'center'
-		});
-		*/
 		this.formTotal = Ext.create('Account.PR2.Item.Form_t', {
 			border: true,
 			split: true,
 			region:'south'
 		});
-		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'QT Status',
 			name : 'statu',
 			labelAlign: 'right',
-			//labelWidth: 95,
 			width: 240,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			//disabled: true,
 			margin: '0 0 0 -17',
-			//allowBlank : false,
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -80,8 +63,6 @@ Ext.define('Account.PR2.Item.Form', {
 							
 			fieldLabel: 'Tax Type',
 			name: 'taxnr',
-			//width:185,
-			//labelWidth: 80,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -90,7 +71,7 @@ Ext.define('Account.PR2.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'pr2/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'pr2/loads_combo/tax1/taxnr/taxtx',  
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -154,35 +135,24 @@ Ext.define('Account.PR2.Item.Form', {
 					layout: 'hbox',
 					margin: '0 0 5 0',
 		 			items :[{
-						xtype: 'textfield',
+						xtype: 'hidden',
 						name: 'id'
 					},this.trigVender,{
 						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
 						name: 'name1',
-						//labelAlign: 'l',
 						margins: '0 0 0 6',
 						width:286,
-						//emptyText: 'Customer',
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					//xtype: 'textfield',
 					fieldLabel: 'Purchase No',
 					name: 'purnr',
-					anchor:'100%',
 						fieldLabel: 'Purchase No',
 						name: 'purnr',
-						//flex: 3,
 						value: 'PRXXXX-XXXX',
-						//labelAlign: 'left',
-						//name: 'qt',
 						width:232,
 						readOnly: true,
 						labelStyle: 'font-weight:bold'
-						//disabled: true
 					}]
 				// Address Bill&Ship
 	            },{
@@ -194,11 +164,9 @@ Ext.define('Account.PR2.Item.Form', {
 		                flex: 0,
 		                layout: 'anchor',
 		                items :[ this.comboLifnr,{
-		                }, {
 							xtype: 'textarea',
 							fieldLabel: 'Address',
 							name: 'adr01',
-							anchor:'95%',
 							width: 455, 
 							rows:2,
 		                }, {
@@ -209,13 +177,10 @@ Ext.define('Account.PR2.Item.Form', {
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
 								name: 'refnr',
-								anchor:'95%',
 			                }, {
 								xtype: 'numberfield',
 								fieldLabel: 'Credit',
 								name: 'crdit',
-								anchor:'100%', 
-								//width: 20, 
 								labelWidth: 50,
 								margin: '0 0 0 40',
 			                }]
@@ -232,7 +197,6 @@ Ext.define('Account.PR2.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-							anchor:'100%',
 		                }, {
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
@@ -240,7 +204,6 @@ Ext.define('Account.PR2.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-							anchor:'100%',
                 		}, this.comboTaxnr,{
 		                }]
 		            }]
@@ -248,34 +211,6 @@ Ext.define('Account.PR2.Item.Form', {
 
 			}]
 		};
-/*
- 		this.items = [mainFormPanel,
-		{
-			xtype:'tabpanel',
-			region:'center',
-			activeTab: 0,
-			border: false,
-			items: [
-				this.gridItem
-			]
-		},
-			this.formTotal
-		];
- */
- /*
- 		this.items = [mainFormPanel,
-		{
-			xtype:'tabpanel',
-			region:'center',
-			activeTab: 0,
-			border: false,
-			items: [
-				this.gridItem
-			]
-		},
-			this.formTotal
-		];
-*/		
 		
 		this.items = [mainFormPanel,this.gridItem,this.formTotal
 			
@@ -311,11 +246,6 @@ Ext.define('Account.PR2.Item.Form', {
 							if(!Ext.isEmpty(r.data.email))
 							_addr += '\n'+'Email: '+r.data.email;
 							_this.getForm().findField('adr01').setValue(_addr);
-							//_this.getForm().findField('adr11').setValue(_addr);
-							//_this.getForm().findField('adr01').setValue(r.data.adr01
-							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
-							//+r.data.telfx+'\n'+'Email '+r.data.email);
-							//_this.getForm().findField('crdit').setValue(9);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -340,10 +270,6 @@ Ext.define('Account.PR2.Item.Form', {
 			 if(!Ext.isEmpty(record.data.email))
 				_addr += '\n'+'Email: '+record.data.email;
 			 _this.getForm().findField('adr01').setValue(_addr);
-			 //_this.getForm().findField('adr11').setValue(_addr);
-			//_this.getForm().findField('adr01').setValue(record.data.adr01
-			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
-			//+record.data.telfx+'\n'+'Email '+record.data.email);
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -352,84 +278,6 @@ Ext.define('Account.PR2.Item.Form', {
 		this.trigVender.onTriggerClick = function(){
 			_this.vendorDialog.show();
 		};
-
-		/*_this.projectDialog
-		// event trigProject///
-		this.trigProject.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'project/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.jobnr);
-							_this.getForm().findField('jobtx').setValue(r.data.jobtx);
-
-			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
-			_this.getForm().findField('name1').setValue(r.data.name1);
-			_this.getForm().findField('salnr').setValue(r.data.salnr);
-
-			var _addr = r.data.adr01;
-			if(!Ext.isEmpty(r.data.distx))
-			  _addr += ' '+r.data.distx;
-			if(!Ext.isEmpty(r.data.pstlz))
-			  _addr += ' '+r.data.pstlz;
-			if(!Ext.isEmpty(r.data.telf1))
-				_addr += '\n'+'Tel: '+r.data.telf1;
-			 if(!Ext.isEmpty(r.data.telfx))
-				_addr += '\n'+'Fax: '+r.data.telfx;
-			 if(!Ext.isEmpty(r.data.email))
-				_addr += '\n'+'Email: '+r.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
-			 _this.getForm().findField('adr11').setValue(_addr);
-						}else{
-							o.markInvalid('Could not find project code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigProject.setValue(record.data.jobnr);
-			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
-
-			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('salnr').setValue(record.data.salnr);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			_this.getForm().findField('adr01').setValue(_addr);
-			_this.getForm().findField('adr11').setValue(_addr);
-
-			grid.getSelectionModel().deselectAll();
-			_this.projectDialog.hide();
-		});
-
-		this.trigProject.onTriggerClick = function(){
-			_this.projectDialog.show();
-		};
-		*/
-//---Trigger Vendor-----------------------------------------------------------
-		// event trigVendor///
-
 		
 //---------------------------------------------------------------------
 		// grid event
@@ -456,17 +304,6 @@ Ext.define('Account.PR2.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnQtItem.setValue(Ext.encode(rsItem));
-
-		//var rsPayment = _this.gridPayment.getData();
-		//this.hdnPpItem.setValue(Ext.encode(rsPayment));
-/*
-		this.getForm().getFields().each(function(f){
-			console.log(f.name);
-    		 if(!f.validate()){
-    			 console.log(f.name);
-    		 }
-    	 });
-*/
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {

@@ -15,11 +15,6 @@ Ext.define('Account.PO.Item.Grid_i', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		//this.deleteAct = new Ext.Action({
-		//	text: 'Delete',
-		//	iconCls: 'b-small-minus'
-		//});
-
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////

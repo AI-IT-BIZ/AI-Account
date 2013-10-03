@@ -22,8 +22,7 @@ Ext.define('Account.Payment.Grid', {
 				'lifnr',
 				'name1',
 				'txz01',
-				'netwr'//,
-				//'ctype'
+				'netwr'
 			],
 			remoteSort: true,
 			sorters: ['payno ASC']
@@ -43,12 +42,8 @@ Ext.define('Account.Payment.Grid', {
 			width: 200, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 250, dataIndex: 'txz01', sortable: true},
-			//{text: "Status", 
-			//width: 100, dataIndex: 'statx', sortable: true},
 			{text: "Amount", 
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true}//,
-			//{text: "Currency", 
-			//width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 80, align: 'right', dataIndex: 'netwr', sortable: true}
 		];
 
 		this.bbar = {

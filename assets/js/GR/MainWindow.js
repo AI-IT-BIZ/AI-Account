@@ -1,9 +1,5 @@
 Ext.define('Account.GR.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-	//	'Account.Quotation.Grid',
-	//	'Account.Quotation.Item.Window'
-	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
