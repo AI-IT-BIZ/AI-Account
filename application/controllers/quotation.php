@@ -59,9 +59,9 @@ class Quotation extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbak';
-		
+
 		// Start for report
-		
+
 		function createQuery($_this){
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
@@ -72,7 +72,7 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('vbeln >=', $vbeln1);
 			  $_this->db->where('vbeln <=', $vbeln2);
 			}
-			
+
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -82,7 +82,7 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-			
+
 			$jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
 			if(!empty($jobnr1) && empty($jobnr2)){
@@ -92,7 +92,7 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('jobnr >=', $jobnr1);
 			  $_this->db->where('jobnr <=', $jobnr2);
 			}
-			
+
 			$kunnr1 = $_this->input->get('kunnr');
 			$kunnr2 = $_this->input->get('kunnr2');
 			if(!empty($kunnr1) && empty($kunnr2)){
@@ -113,7 +113,7 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('statu <=', $statu2);
 			}
 		}
-// End for report	
+// End for report
 
 		//function createQuery($_this){
 		//	$query = $_this->input->post('query');
@@ -287,7 +287,7 @@ class Quotation extends CI_Controller {
 			FROM tbl_apov
 			WHERE apgrp = '1'";
 		$query = $this->db->query($sql);
-		
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -392,42 +392,61 @@ class Quotation extends CI_Controller {
 		$amt = $menge * $unitp;
 		//echo $vat.'222';
 		$result = array();
-		
+
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
 			$rows = $query->result_array();
 			foreach($rows AS $row){
 				    //echo $row['conty'];
 					if($row['conty']=='01'){
-						unset($result[0]);
+						//unset($result[0]);
 						if(empty($dismt)) $dismt=0;
 						$tamt = $amt - $dismt;
+						/*
 						$result[0] = array(
 					    'contx'=>$row['contx'],
 				     	'vtamt'=>$dismt,
 					    'ttamt'=>$tamt
 				        );
+						*/
+						array_push($result, array(
+						    'contx'=>$row['contx'],
+					     	'vtamt'=>$dismt,
+						    'ttamt'=>$tamt
+				        ));
 					}elseif($row['conty']=='02'){
-						unset($result[1]);	
-						if($vat==true){
+						//unset($result[1]);
+						if($vat=='true'){
 							$vamt = ($amt * $vvat) / 100;
 							$tamt = $amt + $vamt;
-						$result[1] = array(
-					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vamt,
-					        'ttamt'=>$tamt
-				        );
+							/*
+							$result[1] = array(
+						        'contx'=>$row['contx'],
+					     	    'vtamt'=>$vamt,
+						        'ttamt'=>$tamt
+					        );
+							*/
+							array_push($result, array(
+						        'contx'=>$row['contx'],
+					     	    'vtamt'=>$vamt,
+						        'ttamt'=>$tamt
+					        ));
 						}
 					}elseif($row['conty']=='03'){
-						unset($result[2]);
+						//unset($result[2]);
 						if($wht==true){
 							$vamt = ($amt * $vwht) / 100;
 							$tamt = $amt - $vamt;
-						$result[2] = array(
+						/*$result[2] = array(
 					        'contx'=>$row['contx'],
 				     	    'vtamt'=>$vamt,
 					        'ttamt'=>$tamt
-				        );
+				        );*/
+						array_push($result, array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        ));
 					}
 				}
 			}}
