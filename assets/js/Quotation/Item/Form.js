@@ -690,15 +690,8 @@ Ext.define('Account.Quotation.Item.Form', {
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
-        	//alert(sel.get('chk01'));
-<<<<<<< HEAD
+
         	//_this.gridPrice.store.removeAll();
-            _this.gridPrice.load({menge:sel.get('menge'),
-            unitp:sel.get('unitp'),dismt:sel.get('dismt'),
-            vvat:this.numberVat.getValue(),vwht:this.numberWHT.getValue(),
-            vat:sel.get('chk01'),wht:sel.get('chk02')});
-=======
-        	_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
             	menge:sel.get('menge'),
             	unitp:sel.get('unitp'),dismt:sel.get('dismt'),
@@ -707,7 +700,7 @@ Ext.define('Account.Quotation.Item.Form', {
             	vat:sel.get('chk01'),
             	wht:sel.get('chk02')
             });
->>>>>>> 051d24b7a3b7d430626f401d18304412dd751220
+
         }
 	},
 
