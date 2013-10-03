@@ -35,7 +35,7 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-			$result_data['adr02'] = $result_data['dis02'].' '.$result_data['pst01'].
+			$result_data['adr02'] .= $result_data['dis02'].' '.$result_data['pst02'].
 			                         PHP_EOL.'Tel: '.$result_data['tel02'].PHP_EOL.'Fax: '.
 			                         $result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];

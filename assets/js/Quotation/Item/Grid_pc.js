@@ -19,24 +19,15 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			},
 			fields: [
 				'conty',
-			    'contx'
+			    'contx',
+			    'vtamt'
 			],
 			remoteSort: true,
 			sorters: ['conty ASC']
 		});
 
 		this.columns = [{
-			id : 'RowNumber4',
-			text : "Condition No.",
-			dataIndex : 'conty',
-			width : 90,
-			align : 'center',
-			resizable : false, sortable : false
-			//renderer : function(value, metaData, record, rowIndex) {
-			//	return rowIndex+1;
-		    //}
-			},{
-			text: "Condition",
+			text: "Condition type",
 			width: 200,
 			dataIndex: 'contx',
 			sortable: true

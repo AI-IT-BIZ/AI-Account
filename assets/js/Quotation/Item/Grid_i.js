@@ -206,7 +206,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					if(chk02==true&&wht>0){
 						whts = (amt * wht) / 100;
 					}
-					var amt = amt + vats + whts;
+					var amt = ( amt + vats ) - whts;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
@@ -286,7 +286,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
-						if(r && r.success){
+						if(r && r.success && r.data.cost){
 							// Cost
 							rModel.set('unitp', r.data.cost);
 						}

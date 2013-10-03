@@ -446,8 +446,6 @@ Ext.define('Account.Quotation.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
-						}else{
-							o.markInvalid('Could not find customer code : '+r.data.kunnr());
 						}
 					}
 				});
@@ -502,20 +500,18 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
 			
 			Ext.Ajax.request({
-					url: __site_url+'project/load',
+					url: __site_url+'customer/load',
 					method: 'POST',
 					params: {
-						id: record.data.jobnr
+						id: record.data.kunnr
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			       }else{
-							o.markInvalid('Could not find project code : '+o.getValue());
-						}
-					}
+			       }
+				}
 				});
 
 			grid.getSelectionModel().deselectAll();
@@ -569,18 +565,24 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-		
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		//this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
 	
 	onSelectChange: function(selModel, selections){
+		var _this=this;
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
+        alert(sel.get('unitp'));
         if (sel) {
             _this.gridPrice.load();
         }
+    },
+    
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
     },
     
 	load : function(id){
