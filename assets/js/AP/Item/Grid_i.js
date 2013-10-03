@@ -15,11 +15,6 @@ Ext.define('Account.AP.Item.Grid_i', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		//this.deleteAct = new Ext.Action({
-		//	text: 'Delete',
-		//	iconCls: 'b-small-minus'
-		//});
-
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.Material.MainWindow');
 		// END Material search popup ///////////////////////////////////
@@ -57,7 +52,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 		});
 
 		this.columns = [{
-			xtype: 'APiactioncolumn',
+			xtype: 'actioncolumn',
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
@@ -68,7 +63,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'APiRowNumber',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -107,7 +102,6 @@ Ext.define('Account.AP.Item.Grid_i', {
 			align: 'right',
 			field: {
 				type: 'numberfield',
-				//decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();

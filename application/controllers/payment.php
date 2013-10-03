@@ -9,9 +9,6 @@ class Payment extends CI_Controller {
 	}
 
 	function index(){
-		//$this->load->view('project');
-		//$this->phxview->RenderView('vbak');
-		//$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
@@ -100,7 +97,6 @@ class Payment extends CI_Controller {
 
 		$query = $this->db->get($tbName);
 
-		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -116,27 +112,15 @@ class Payment extends CI_Controller {
 			$this->db->where('payno', $id);
 			$query = $this->db->get('ebbk');
 		}
-		
-		//$exchg = $this->input->post('exchg');
-		//$curr = 'THB';
-		//if($exchg <> 0){
-		//	$curr = 'USD';
-		//}
 
 		$formData = array(
-			//'recnr' => $this->input->post('recnr'),
 			'bldat' => $this->input->post('bldat'),
-			//'statu' => $this->input->post('statu'),
-			//'refnr' => $this->input->post('refnr'),
-			
 			'lifnr' => $this->input->post('lifnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
 			'txz01' => $this->input->post('txz01'),
 			
-			//'ctype' => $curr,
-			//'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
@@ -150,13 +134,10 @@ class Payment extends CI_Controller {
 			$this->db->update('ebbk', $formData);
 		}else{
 			$id = $this->code_model->generate('PY', $this->input->post('bldat'));
-			//echo ($id);
 			$this->db->set('payno', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'somwang');
 			$this->db->insert('ebbk', $formData);
-			
-			//$id = $this->db->insert_id();
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด

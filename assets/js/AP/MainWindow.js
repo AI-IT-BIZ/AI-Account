@@ -1,9 +1,5 @@
 Ext.define('Account.AP.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-	//	'Account.Quotation.Grid',
-	//	'Account.Quotation.Item.Window'
-	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -64,7 +60,6 @@ Ext.define('Account.AP.MainWindow', {
 
 				// สั่ง gr_item grid load
 				_this.itemDialog.form.gridItem.load({invnr: id});
-				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});
 
@@ -76,7 +71,6 @@ Ext.define('Account.AP.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();

@@ -25,10 +25,6 @@ class Gr extends CI_Controller {
 		$query = $this->db->get('mkpf');
 		 
 		if($query->num_rows()>0){
-			/*	
-			$result = $query->first_row('array');
-			$result['bldat']=substr($result['bldat'], 0, 10);
-			*/
 			
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['mbeln'];
@@ -37,8 +33,6 @@ class Gr extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-
-			//$result['bldat']=substr($result['bldat'], 0, 10);
 
 			// unset calculated value
 			unset($result_data['beamt']);
@@ -117,19 +111,7 @@ class Gr extends CI_Controller {
 			  $_this->db->where('statu <=', $statu2);
 			}
 		}
-		// End for report		
-		
-		/*$sql="SELECT ebeln,
-				bldat,
-				t2.lifnr,
-				name1,
-				netwr,
-				statx 
-			FROM tbl_ekko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
-			inner join tbl_apov AS t3 ON t1.statu=t3.statu";
-		$query = $this->db->query($sql);*/
-		
-		//$totalCount = $this->db->count_all_results($tbName);
+		// End for report	
 		createQuery($this); 
 		$query = $this->db->get($tbName);
 		
@@ -141,9 +123,7 @@ class Gr extends CI_Controller {
 	}
 
 	function save(){
-		//$id = $this->input->post('ebeln');
 		$id = $this->input->post('id');
-		//echo $id; exit;
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
@@ -152,7 +132,6 @@ class Gr extends CI_Controller {
 		}
 		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
-			//'purnr' => $this->input->post('purnr'),
 			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -255,20 +234,11 @@ class Gr extends CI_Controller {
 			$this->db->where('ebeln', $grdebeln);
 			$query = $this->db->get('ekpo');
 			
-			//$id = $this->input->post('id');
-			//$sql="SELECT *,t1.meins
-			//	FROM tbl_ekpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
-			//	WHERE ebeln = '$grdebeln'";
-			//$query = $this->db->query($sql);
 		}else{
 			$this->db->set_dbprefix('v_');
 			$this->db->where('mbeln', $gr_id);
 			$query = $this->db->get('mseg');
 		
-			/*$sql="SELECT *,t1.meins
-				FROM tbl_mseg AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr
-				WHERE mbeln = '$gr_id'";
-			$query = $this->db->query($sql);*/
 		}
 		
 		//echo $sql;//exit;
@@ -282,12 +252,7 @@ class Gr extends CI_Controller {
 	
 	
 	public function loads_combo($tb,$pk,$like){
-    	/*
-		$tbName = 'ktyp';
-		$tbPK = 'ktype';
-		$tbLike = 'custx';
-		*/
-		
+    	
 		$tbName = $tb;
 		$tbPK = $pk;
 		$tbLike = $like;
@@ -302,7 +267,6 @@ class Gr extends CI_Controller {
 			$this->db->or_like($tbPK, $query);
 		}
 
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
 		$query = $this->db->get($tbName);
 
 		echo json_encode(array(
