@@ -79,7 +79,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			align: 'right',
 			width:270,
 			labelWidth: 155,
-			name: 'ccc',
+			name: 'vat01',
 			align: 'right',
 			margin: '4 0 0 0',
 			readOnly: true
@@ -91,7 +91,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			align: 'right',
 			width:270,
 			labelWidth: 155,
-			name: 'ddd',
+			name: 'wht01',
 			align: 'right',
 			margin: '4 0 0 0',
 			readOnly: true
@@ -191,6 +191,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		this.txtTaxValue.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
+		this.txtWHTValue.on('render', setAlignRight);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
@@ -261,13 +262,14 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			this.txtDiscountSum.setValue('');
 		}
         //alert(_this.vatValue);
-		var vat = _this.vatValue;
-		this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
+        var vat = this.txtTaxValue.getValue();
+		//var vat = _this.vatValue;
+		//this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
 		
-		var wht = _this.whtValue;
-		this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
+		var wht = this.txtTaxValue.getValue();
+		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
-		var net = total - discountValue + vat + wht;
+		var net = (total - discountValue) + (vat - wht);
 		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 
 		return net;

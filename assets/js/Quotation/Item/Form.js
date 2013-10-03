@@ -640,13 +640,14 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboQStatus.setValue('01');
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
-		this.numberVat.setValue('7');
+		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 	},
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var vats=0; var whts=0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -656,19 +657,30 @@ Ext.define('Account.Quotation.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-
 			sum += amt;
+			
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt * wht) / 100;
+				    whts += wht;
+			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('vat01').setValue(Ext.util.Format.usMoney(vats).replace(/\$/, ''));
+		this.formTotal.getForm().findField('wht01').setValue(Ext.util.Format.usMoney(whts).replace(/\$/, ''));
 		var net = this.formTotal.calculate();
 
 		// set value to grid payment
 		this.gridPayment.netValue = net;
 		// set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
-		this.formTotal.vatValue = this.numberVat.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		this.formTotal.whtValue = this.numberWHT.getValue();
+		
 		this.gridItem.whtValue = this.numberWHT.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
@@ -679,7 +691,7 @@ Ext.define('Account.Quotation.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
         	//alert(sel.get('chk01'));
-        	_this.gridPrice.store.removeAll();
+        	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({menge:sel.get('menge'),
             unitp:sel.get('unitp'),dismt:sel.get('dismt'),
             vvat:this.numberVat.getValue(),vwht:this.numberWHT.getValue(),

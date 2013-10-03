@@ -30,7 +30,7 @@ class Quotation extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['vbeln'];
-
+            
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
@@ -39,7 +39,7 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['tel02'].PHP_EOL.'Fax: '.
 			                         $result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];
-
+			 
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
 			// unset calculated value
@@ -61,7 +61,6 @@ class Quotation extends CI_Controller {
 		$tbName = 'vbak';
 		
 		// Start for report
-		
 		function createQuery($_this){
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
@@ -115,13 +114,6 @@ class Quotation extends CI_Controller {
 		}
 // End for report	
 
-		//function createQuery($_this){
-		//	$query = $_this->input->post('query');
-		//	if(isset($query) && strlen($query)>0){
-		//		$_this->db->or_like('code', $query);
-		//	}
-		//}
-
 		//createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
@@ -172,7 +164,10 @@ class Quotation extends CI_Controller {
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg')
+			'exchg' => $this->input->post('exchg'),
+			'whtpr' => $this->input->post('whtpr'),
+			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01')
 		);
 
 		// start transaction
@@ -213,7 +208,9 @@ class Quotation extends CI_Controller {
 					'dismt'=>$p->dismt,
 					'unitp'=>$p->unitp,
 					'itamt'=>$p->itamt,
-					'ctype'=>$p->ctype
+					'ctype'=>$p->ctype,
+					'chk01'=>$p->chk01,
+					'chk02'=>$p->chk02
 				));
 			}
 		}
@@ -359,8 +356,7 @@ class Quotation extends CI_Controller {
         $this->db->set_dbprefix('v_');
 		$qt_id = $this->input->get('vbeln');
 		$this->db->where('vbeln', $qt_id);
-
-		$query = $this->db->get('vbap');
+			
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -390,7 +386,6 @@ class Quotation extends CI_Controller {
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
 		$amt = $menge * $unitp;
-		//echo $vat.'222';
 		$result = array();
 		
 	    $query = $this->db->get('cont');
@@ -399,19 +394,18 @@ class Quotation extends CI_Controller {
 			foreach($rows AS $row){
 				    //echo $row['conty'];
 					if($row['conty']=='01'){
-						unset($result[0]);
 						if(empty($dismt)) $dismt=0;
 						$tamt = $amt - $dismt;
+						$amt = $amt - $dismt;
 						$result[0] = array(
 					    'contx'=>$row['contx'],
 				     	'vtamt'=>$dismt,
 					    'ttamt'=>$tamt
 				        );
 					}elseif($row['conty']=='02'){
-						unset($result[1]);	
-						if($vat==true){
-							$vamt = ($amt * $vvat) / 100;
-							$tamt = $amt + $vamt;
+						if($vat=='true'){
+							$vamt = ($tamt * $vvat) / 100;
+							$tamt = $tamt + $vamt;
 						$result[1] = array(
 					        'contx'=>$row['contx'],
 				     	    'vtamt'=>$vamt,
@@ -419,19 +413,20 @@ class Quotation extends CI_Controller {
 				        );
 						}
 					}elseif($row['conty']=='03'){
-						unset($result[2]);
-						if($wht==true){
-							$vamt = ($amt * $vwht) / 100;
-							$tamt = $amt - $vamt;
+						if($wht=='true'){
+							$wamt = ($amt * $vwht) / 100;
+							if($vamt>0){
+								$amt = $amt + $vamt;
+							}
+						$tamt = $amt - $wamt;
 						$result[2] = array(
 					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vamt,
+				     	    'vtamt'=>$wamt,
 					        'ttamt'=>$tamt
 				        );
 					}
 				}
 			}}
-		//echo count($result).'aaa';
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,

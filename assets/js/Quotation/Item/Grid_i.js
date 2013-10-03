@@ -46,7 +46,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'unitp',
 				'dismt',
 				'itamt',
-				'ctype'
+				'ctype',
+				'chk01',
+				'chk02'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -195,6 +197,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
+					/*
 					var vat = _this.vatValue;
 					var wht = _this.whtValue;
 					var vats=0,whts=0;
@@ -206,7 +209,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					if(chk02==true&&wht>0){
 						whts = (amt * wht) / 100;
 					}
-					var amt = ( amt + vats ) - whts;
+					var amt = ( amt + vats ) - whts;*/
+					var amt = (qty * price) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},

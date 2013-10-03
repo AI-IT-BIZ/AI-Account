@@ -162,7 +162,6 @@ Ext.define('Account.PR2.Item.Form', {
             		items:[{
 		                xtype: 'container',
 		                flex: 0,
-		                layout: 'anchor',
 		                items :[ this.comboLifnr,{
 							xtype: 'textarea',
 							fieldLabel: 'Address',
@@ -188,7 +187,6 @@ Ext.define('Account.PR2.Item.Form', {
 		            },{
 		                xtype: 'container',
 		                flex: 0,
-		                layout: 'anchor',
 		            	margin: '0 0 0 70',
 		                items: [{
 							xtype: 'datefield',
