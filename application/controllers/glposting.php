@@ -72,7 +72,7 @@ class Test extends CI_Controller {
 
 // record ที่สาม+
 		$amt = $net - $tax;
-		$result[1] = array(
+		$result[2] = array(
 			'saknr'=>$sale,
 			'debit'=>0,
 			'credit'=>$amt

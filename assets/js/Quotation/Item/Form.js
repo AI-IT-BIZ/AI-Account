@@ -564,26 +564,19 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
+		//this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		//this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		//this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
 	
-	onSelectChange: function(selModel, selections){
-		var _this=this;
-        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
-        //var id = sel.data[sel.idField.name];
-        alert(sel.get('unitp'));
-        if (sel) {
-            _this.gridPrice.load();
-        }
-    },
+	//onSelectChange: function(selModel, selections){	
+    //},
     
-    onViewReady: function(grid) {
-        grid.getSelectionModel().select(0);
-    },
+    //onViewReady: function(grid) {
+    //    grid.getSelectionModel().select(0);
+    //},
     
 	load : function(id){
 		var _this=this;
@@ -641,6 +634,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ vbeln: 0 });
 		this.gridPayment.load({ vbeln: 0 });
+		//this.gridPrice.load();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -650,6 +644,7 @@ Ext.define('Account.Quotation.Item.Form', {
 	},
 	// calculate total functions
 	calculateTotal: function(){
+		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
@@ -679,6 +674,17 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
+		
+        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+        	//alert(sel.get('chk01'));
+        	_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({menge:sel.get('menge'),
+            unitp:sel.get('unitp'),dismt:sel.get('dismt'),
+            vvat:this.numberVat.getValue(),vwht:this.numberWHT.getValue(),
+            vat:sel.get('chk01'),wht:sel.get('chk02')});
+        }
 	},
 	
 	// select tax functions

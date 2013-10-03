@@ -20,7 +20,8 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			fields: [
 				'conty',
 			    'contx',
-			    'vtamt'
+			    'vtamt',
+			    'ttamt'
 			],
 			remoteSort: true,
 			sorters: ['conty ASC']
@@ -37,7 +38,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			xtype: 'numbercolumn',
 			dataIndex: 'vtamt',
 			sortable: true,
-			align: 'right',
+			align: 'right'/*,
 			field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -48,12 +49,12 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Condition Amount",
 			width: 150,
-			dataIndex: 'cond',
-			align: 'right',
+			dataIndex: 'ttamt',
+			align: 'right'/*,
 			renderer: function(v,p,r){
 				var net = _this.netValue;
 				if(net<=0)
@@ -63,7 +64,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 
-				}
+				}*/
 			}
 		];
 
