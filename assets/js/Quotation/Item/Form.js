@@ -564,15 +564,29 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		//this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		//this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
 
-	//onSelectChange: function(selModel, selections){
-    //},
+	onSelectChange: function(selModel, selections){
+		var _this=this;
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+            _this.gridPrice.load({
+            	menge:sel.get('menge'),
+            	unitp:sel.get('unitp'),disit:sel.get('disit'),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02')
+            });
+
+        }
+    },
 
     onViewReady: function(grid) {
         grid.getSelectionModel().select(0);
