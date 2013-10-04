@@ -29,7 +29,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 
 		this.columns = [{
 			text: "Condition type",
-			width: 200,
+			width: 170,
 			dataIndex: 'contx',
 			sortable: true
 			},
@@ -52,7 +52,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			},*/
 			},
 			{text: "Condition Amount",
-			width: 150,
+			width: 120,
 			dataIndex: 'ttamt',
 			align: 'right'/*,
 			renderer: function(v,p,r){

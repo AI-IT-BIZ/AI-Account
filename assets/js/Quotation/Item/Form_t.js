@@ -261,12 +261,12 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			this.txtDiscountValue.setValue('');
 			this.txtDiscountSum.setValue('');
 		}
-        //alert(_this.vatValue);
+        
         var vat = this.txtTaxValue.getValue();
 		//var vat = _this.vatValue;
 		//this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
 		
-		var wht = this.txtTaxValue.getValue();
+		var wht = this.txtWHTValue.getValue();
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);

@@ -44,7 +44,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				'dismt',
+				'disit',
 				'itamt',
 				'ctype',
 				'chk01',
@@ -139,7 +139,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			},{text: "Discount",
 			width: 70,
-			dataIndex: 'dismt',
+			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -190,7 +190,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge']),
 						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['dismt']),
+						discount = parseFloat(r.data['disit']),
 						chk01 = r.data['chk01'],
 						chk02 = r.data['chk02'];
 						

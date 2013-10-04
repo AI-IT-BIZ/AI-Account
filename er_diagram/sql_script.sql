@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		2/10/2013
+Modified		4/10/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_ktyp
+;
 
 Drop View IF EXISTS v_conp
 ;
@@ -392,8 +395,8 @@ Create table tbl_vbak (
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
 	whtpr Decimal(17,2) COMMENT 'WHT Value',
-	chk01 Varchar(1) COMMENT 'Vat Check',
-	chk02 Varchar(1) COMMENT 'WHT Check',
+	vat01 Decimal(17,2) COMMENT 'Vat amt',
+	wht01 Decimal(17,2) COMMENT 'WHT amt',
  Primary Key (vbeln)) ENGINE = InnoDB
 COMMENT = 'Quotation Header';
 
@@ -409,6 +412,8 @@ Create table tbl_vbap (
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
+	chk01 Varchar(1),
+	chk02 Varchar(1),
  Primary Key (vbeln,vbelp)) ENGINE = InnoDB
 COMMENT = 'Quotation Item';
 
@@ -1188,10 +1193,8 @@ COMMENT = 'GL Item (Customer)';
 Create table tbl_cont (
 	conty Varchar(4) NOT NULL COMMENT 'Codition type',
 	contx Varchar(40) COMMENT 'Condition Desc',
-	dtamt Decimal(17,2) COMMENT 'Discount',
 	vtamt Decimal(17,2) COMMENT 'Vat amt',
-	wtamt Decimal(17,2) COMMENT 'WHT amt',
-	rmamt Decimal(17,2) COMMENT 'Amount',
+	ttamt Decimal(17,2) COMMENT 'Amount',
  Primary Key (conty)) ENGINE = InnoDB
 COMMENT = 'Condition Price';
 
@@ -1218,8 +1221,9 @@ create view v_vbak as
 
 select a.*,
 `b`.`name1` AS `name1`,
-`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
+`b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
+`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
 from tbl_vbak a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
@@ -1369,6 +1373,11 @@ create view v_conp as
 select a.*,b.contx
 from tbl_conp a left join tbl_cont b 
 on a.conty = b.conty;
+create view v_ktyp as
+
+select a.*,b.sgtxt
+from tbl_ktyp a left join tbl_glno b 
+on a.saknr = b.saknr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

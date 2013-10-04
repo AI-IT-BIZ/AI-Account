@@ -61,10 +61,6 @@ class Quotation extends CI_Controller {
 		$tbName = 'vbak';
 
 		// Start for report
-<<<<<<< HEAD
-=======
-
->>>>>>> 051d24b7a3b7d430626f401d18304412dd751220
 		function createQuery($_this){
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
@@ -209,7 +205,7 @@ class Quotation extends CI_Controller {
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
-					'dismt'=>$p->dismt,
+					'disit'=>$p->disit,
 					'unitp'=>$p->unitp,
 					'itamt'=>$p->itamt,
 					'ctype'=>$p->ctype,
@@ -360,7 +356,8 @@ class Quotation extends CI_Controller {
         $this->db->set_dbprefix('v_');
 		$qt_id = $this->input->get('vbeln');
 		$this->db->where('vbeln', $qt_id);
-			
+		
+		$query = $this->db->get('vbap');	
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -384,94 +381,60 @@ class Quotation extends CI_Controller {
     function loads_conp_item(){
         $menge = $this->input->get('menge');
 		$unitp = $this->input->get('unitp');
-		$dismt = $this->input->get('dismt');
+		$disit = $this->input->get('disit');
 		$vvat = $this->input->get('vvat');
 		$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
 		$amt = $menge * $unitp;
+		$i=0;$vamt=0;
 		$result = array();
-
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
 			$rows = $query->result_array();
 			foreach($rows AS $row){
-				    //echo $row['conty'];
+				    
 					if($row['conty']=='01'){
-<<<<<<< HEAD
 						if(empty($dismt)) $dismt=0;
-						$tamt = $amt - $dismt;
-						$amt = $amt - $dismt;
-=======
+						$tamt = $amt - $disit;
+						$amt = $amt - $disit;
 						//unset($result[0]);
-						if(empty($dismt)) $dismt=0;
-						$tamt = $amt - $dismt;
-						/*
->>>>>>> 051d24b7a3b7d430626f401d18304412dd751220
-						$result[0] = array(
+						if(empty($disit)) $disit=0;
+						$tamt = $amt - $disit;
+						
+						$result[$i] = array(
 					    'contx'=>$row['contx'],
-				     	'vtamt'=>$dismt,
+				     	'vtamt'=>$disit,
 					    'ttamt'=>$tamt
 				        );
-						*/
-						array_push($result, array(
+						$i++;
+						/*array_push($result, array(
 						    'contx'=>$row['contx'],
 					     	'vtamt'=>$dismt,
 						    'ttamt'=>$tamt
-				        ));
+				        ));*/
 					}elseif($row['conty']=='02'){
-<<<<<<< HEAD
 						if($vat=='true'){
 							$vamt = ($tamt * $vvat) / 100;
 							$tamt = $tamt + $vamt;
-						$result[1] = array(
+						$result[$i] = array(
 					        'contx'=>$row['contx'],
 				     	    'vtamt'=>$vamt,
 					        'ttamt'=>$tamt
 				        );
-						}
-					}elseif($row['conty']=='03'){
-						if($wht=='true'){
-							$wamt = ($amt * $vwht) / 100;
-							if($vamt>0){
-								$amt = $amt + $vamt;
-							}
-						$tamt = $amt - $wamt;
-						$result[2] = array(
-=======
-						//unset($result[1]);
-						if($vat=='true'){
-							$vamt = ($amt * $vvat) / 100;
-							$tamt = $amt + $vamt;
-							/*
-							$result[1] = array(
-						        'contx'=>$row['contx'],
-					     	    'vtamt'=>$vamt,
-						        'ttamt'=>$tamt
-					        );
-							*/
-							array_push($result, array(
-						        'contx'=>$row['contx'],
-					     	    'vtamt'=>$vamt,
-						        'ttamt'=>$tamt
-					        ));
+						$i++;
 						}
 					}elseif($row['conty']=='03'){
 						//unset($result[2]);
-						if($wht==true){
-							$vamt = ($amt * $vwht) / 100;
-							$tamt = $amt - $vamt;
-						/*$result[2] = array(
->>>>>>> 051d24b7a3b7d430626f401d18304412dd751220
+						if($wht=='true'){
+							$vwht = ($amt * $vwht) / 100;
+							$tamt = $amt - $vwht;
+							$tamt = $tamt + $vamt;
+						$result[$i] = array(
 					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$wamt,
+				     	    'vtamt'=>$vwht,
 					        'ttamt'=>$tamt
-				        );*/
-						array_push($result, array(
-					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vamt,
-					        'ttamt'=>$tamt
-				        ));
+				        );
 					}
 				}
 			}}

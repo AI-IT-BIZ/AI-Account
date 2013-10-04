@@ -179,7 +179,7 @@ Ext.define('Account.Quotation.Item.Form', {
          this.numberVat = Ext.create('Ext.form.field.Number', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
-			name: 'vatpr',
+			name: 'taxpr',
 			labelAlign: 'right',
 			width:200,
 			align: 'right',
@@ -500,10 +500,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
 
 			Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'project/load',
 					method: 'POST',
 					params: {
-						id: record.data.kunnr
+						id: record.data.jobnr
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -565,7 +565,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		//this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-		//this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		//this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
@@ -574,9 +574,9 @@ Ext.define('Account.Quotation.Item.Form', {
 	//onSelectChange: function(selModel, selections){
     //},
 
-    //onViewReady: function(grid) {
-    //    grid.getSelectionModel().select(0);
-    //},
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
+    },
 
 	load : function(id){
 		var _this=this;
@@ -651,12 +651,13 @@ Ext.define('Account.Quotation.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['dismt']);
+				discount = parseFloat(r.data['disit']);
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
+
 			sum += amt;
 			
 			if(r.data['chk01']==true){
@@ -694,7 +695,7 @@ Ext.define('Account.Quotation.Item.Form', {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
             	menge:sel.get('menge'),
-            	unitp:sel.get('unitp'),dismt:sel.get('dismt'),
+            	unitp:sel.get('unitp'),disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),

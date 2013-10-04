@@ -35,30 +35,30 @@ Ext.define('Account.Project.Grid', {
 
 		this.columns = [
 		    {text: "Project No", 
-		    width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
+		    width: 80, align: 'center', dataIndex: 'jobnr', sortable: false},
 			{text: "Project Name", 
-			width: 150, dataIndex: 'jobtx', sortable: true},
+			width: 150, dataIndex: 'jobtx', sortable: false},
 		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
+		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: false},
 			{text: "Customer Name", 
-			width: 150, dataIndex: 'name1', sortable: true},
+			width: 150, dataIndex: 'name1', sortable: false},
 			{text: "Project Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
+			width: 80, align: 'center', dataIndex: 'bldat', sortable: false},
 			{text: "Status", 
-			width: 120, dataIndex: 'statx', sortable: true},
+			width: 120, dataIndex: 'statx', sortable: false},
 			{text: "",
 			 xtype: 'hidden',
 			width: 0, 
 			dataIndex: 'salnr', 
-			sortable: true},
+			sortable: false},
 			{text: "Sale Person", 
-			width: 100, dataIndex: 'sname', sortable: true},
+			width: 100, dataIndex: 'sname', sortable: false},
 			{text: "Start Date", xtype: 'datecolumn', format:'d/m/Y', 
-			width: 80, align: 'center', dataIndex: 'stdat', sortable: true},
+			width: 80, align: 'center', dataIndex: 'stdat', sortable: false},
 			{text: "End Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'endat', sortable: true},
+			width: 80, align: 'center', dataIndex: 'endat', sortable: false},
 			{text: "Project Amount", 
-			width: 90, align: 'right', dataIndex: 'pramt', sortable: true}
+			width: 90, align: 'right', dataIndex: 'pramt', sortable: false}
 		];
 
 		this.bbar = {
