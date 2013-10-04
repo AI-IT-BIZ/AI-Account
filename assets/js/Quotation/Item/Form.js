@@ -303,19 +303,18 @@ Ext.define('Account.Quotation.Item.Form', {
 						xtype: 'textarea',
 						fieldLabel: 'Bill To',
 						name: 'adr01',
-						anchor:'90%',
 						width:350,
 						rows:2,
+						editable: false,
 						labelAlign: 'top'
 					},{
 						xtype: 'textarea',
 						fieldLabel: 'Ship To',
 						name: 'adr02',
-						anchor:'90%',
 						width:355,
 						rows:2,
-						labelAlign: 'right',
 						labelAlign: 'top',
+						editable: false,
 						margin: '0 0 0 140'
 					 }]
 				// Sale Person
@@ -675,12 +674,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			sum += amt;
 			
 			if(r.data['chk01']==true){
-				var vat = _this.numberVat.getValue();
+				var vat = this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
 			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
+				var wht = this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}

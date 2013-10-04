@@ -26,10 +26,13 @@ class Invoice extends CI_Controller {
 			$result['id'] = $result['invnr'];
 			
 			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
-			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
-			                         $result['telfx'].
-									 PHP_EOL.'Email: '.$result['email'];
-			//$result['adr02'] = $result['adr01'];
+			                    PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
+			                    $result['telfx'].
+							    PHP_EOL.'Email: '.$result['email'];
+			$result['adr02'] .= ' '.$result['dis02'].' '.$result['pst02'].
+			                         PHP_EOL.'Tel: '.$result['tel02'].' '.'Fax: '.
+			                         $result['telf2'].
+									 PHP_EOL.'Email: '.$result['emai2'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -96,8 +99,6 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
-			
-			echo '111'.$kunnr1;
 
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
@@ -139,12 +140,6 @@ class Invoice extends CI_Controller {
 			$query = $this->db->get('vbrk');
 		}
 		
-		$exchg = $this->input->post('exchg');
-		$curr = 'THB';
-		if($exchg <> 0){
-			$curr = 'USD';
-		}
-
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),
 			'vbeln' => $this->input->post('vbeln'),
@@ -162,13 +157,14 @@ class Invoice extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'salnr' => $this->input->post('salnr'),
-			'ctype' => $curr,
+			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
 			'vbeln' => $this->input->post('vbeln'),
-			//'paypr' => $this->input->post('paypr'),
-			//'belnr' => $this->input->post('belnr'),
-			'condi' => $this->input->post('condi')
+			'condi' => $this->input->post('condi'),
+			'whtpr' => $this->input->post('whtpr'),
+			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01')
 		);
 		
 		// start transaction
@@ -211,7 +207,9 @@ class Invoice extends CI_Controller {
 				'dismt'=>$p->dismt,
 				'unitp'=>$p->unitp,
 				'itamt'=>$p->itamt,
-				'ctype'=>$p->ctype
+				'ctype'=>$p->ctype,
+				'chk01'=>$p->chk01,
+				'chk02'=>$p->chk02
 			));
 	    	}
 		}
@@ -413,54 +411,57 @@ class Invoice extends CI_Controller {
     function loads_conp_item(){
         $menge = $this->input->get('menge');
 		$unitp = $this->input->get('unitp');
-		$dismt = $this->input->get('dismt');
+		$disit = $this->input->get('disit');
 		$vvat = $this->input->get('vvat');
 		$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
 		$amt = $menge * $unitp;
-		//echo $vat.'222';
+        $i=0;$vamt=0;
 		$result = array();
 		
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
 			$rows = $query->result_array();
 			foreach($rows AS $row){
-				    //echo $row['conty'];
+
 					if($row['conty']=='01'){
-						unset($result[0]);
 						if(empty($dismt)) $dismt=0;
-						$tamt = $amt - $dismt;
-						$result[0] = array(
+						$tamt = $amt - $disit;
+						$amt = $amt - $disit;
+						//unset($result[0]);
+						if(empty($disit)) $disit=0;
+						$tamt = $amt - $disit;
+						
+						$result[$i] = array(
 					    'contx'=>$row['contx'],
-				     	'vtamt'=>$dismt,
+				     	'vtamt'=>$disit,
 					    'ttamt'=>$tamt
 				        );
+						$i++;
 					}elseif($row['conty']=='02'){
-						unset($result[1]);	
 						if($vat==true){
 							$vamt = ($amt * $vvat) / 100;
 							$tamt = $amt + $vamt;
-						$result[1] = array(
+						$result[$i] = array(
 					        'contx'=>$row['contx'],
 				     	    'vtamt'=>$vamt,
 					        'ttamt'=>$tamt
 				        );
 						}
 					}elseif($row['conty']=='03'){
-						unset($result[2]);
 						if($wht==true){
-							$vamt = ($amt * $vwht) / 100;
-							$tamt = $amt - $vamt;
-						$result[2] = array(
+							$vwht = ($amt * $vwht) / 100;
+							$tamt = $amt - $vwht;
+							$tamt = $tamt + $vamt;
+						$result[$i] = array(
 					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vamt,
+				     	    'vtamt'=>$vwht,
 					        'ttamt'=>$tamt
-				        );
+				        );$i++;
 					}
 				}
 			}}
-		//echo count($result).'aaa';
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,
