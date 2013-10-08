@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		7/10/2013
+Modified		8/10/2013
 Project		
 Model		
 Company		
@@ -718,7 +718,7 @@ Create table tbl_bkpf (
 	saknr Varchar(10) COMMENT 'GL No',
 	vbeln Varchar(10) COMMENT 'SO no',
 	blart Varchar(2) COMMENT 'Doc type',
-	invnr Varchar(10) COMMENT 'Invoice no',
+	invnr Varchar(20) COMMENT 'Invoice no',
  Primary Key (bukrs,belnr,gjahr)) ENGINE = InnoDB
 COMMENT = 'GL Header Doc';
 
@@ -1425,7 +1425,6 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under)
                ('112001','General Customer Debtor','2013/07/02','ASD','1','2','1','112000'),
                ('112002','Debtor Company A','2013/07/02','ASD','1','2','1','112000'),
                ('112003','Debtor Company B','2013/07/02','ASD','1','2','1','112000'),
-               ('115000','Other Debtor','2013/07/02','ASD','1','2','1','115000'),
                ('531503','Paymented Different','2013/07/02','ASD','1','2','1','112000'),
                
                ('113000','Cheque','2013/07/02','ASD','1','2','1','110000'),
@@ -1561,17 +1560,17 @@ INSERT INTO tbl_plev (pleve,matnr,unit,cost) VALUES ('01','100001','EA','200'),(
 ('01','200001','EA','400'),('02','200001','Dozen','2400'),('03','200001','Dozen2','4800'),
 ('01','200002','EA','500'),('02','200002','Dozen','2000'),('03','200002','Dozen2','4000');
                
-INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distx,pstlz,telf1,telfx,taxnr,pleve,crdit,disct,taxid,dis02,pst02,tel02) 
-        VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02-2222223','02','01','30','500','330111001','Bangkok','10150','02-2222222'),
-               ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','15','5%','330111002','Bangkok','10150','02-2222222'),
-               ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','20','10%','330111002','Bangkok','10150','02-2222222'),
-               ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','30','800','330111002','Bangkok','10150','02-2222222');
+INSERT INTO tbl_kna1 (kunnr,name1,adr01,adr02,distx,pstlz,telf1,telfx,taxnr,pleve,crdit,disct,taxid,dis02,pst02,tel02,saknr) 
+        VALUES ('10001','A-Link Network Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02-2222223','02','01','30','500','330111001','Bangkok','10150','02-2222222','112002'),
+               ('10002','Prime Accounting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','15','5%','330111002','Bangkok','10150','02-2222222','112003'),
+               ('10003','Prime BizNet Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','20','10%','330111002','Bangkok','10150','02-2222222','112001'),
+               ('10004','Prime Consulting Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02-2222223','02','03','30','800','330111002','Bangkok','10150','02-2222222','112001');
                
-INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,crdit,disct,taxid) 
-        VALUES ('20001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001'),
-               ('20002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002'),
-               ('20003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002'),
-               ('20004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002');
+INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,crdit,disct,taxid,dis02,pst02,tel02,saknr) 
+        VALUES ('20001','Mana Construction Co.,Ld.','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','02','30','500','330111001','Bangkok','10150','02-2222222','211002'),
+               ('20002','Atime Media Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','15','500','330111002','Bangkok','10150','02-2222222','211003'),
+               ('20003','Grammy Entainment Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','20','500','330111002','Bangkok','10150','02-2222222','211001'),
+               ('20004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002','Bangkok','10150','02-2222222','211001');
                
 INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distx,pstlz,telf1) 
         VALUES ('30001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),
