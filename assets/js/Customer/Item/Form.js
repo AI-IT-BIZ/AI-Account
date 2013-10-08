@@ -35,56 +35,21 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 	name: 'pleve',
 	width:293,
 	labelWidth: 160,
-	editable: false,
+	//editable: false,
 	triggerAction : 'all',
 	clearFilterOnReset: true,
-	emptyText: '-- Please select data --',
+	emptyText: '-- Please select Level --',
 	labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
     store: myStorecomboPleve,
     queryMode: 'local',
     displayField: 'name',
-    valueField: 'idPleve',
-    renderTo: Ext.getBody()
+    valueField: 'idPleve'
+    //renderTo: Ext.getBody()
 });
-/*---ComboBox District----------------------------*/
-/*		
-		this.comboDistr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'District',
-			name: 'distx',
-			width:290,
-			//labelWidth: 120,
-			editable: false,
-			//allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',  
-					url: __site_url+'customer2/loads_combo/dist/distr/distx',  //loads_tycombo($tb,$pk,$like)
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'distr'
-					}
-				},
-				fields: [
-					'distx',
-					'distx'
-				],
-				remoteSort: true,
-				sorters: 'distr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'distx',
-			valueField: 'distx'
-		});
-*/	
+
 /*---ComboBox Tax Type----------------------------*/
-		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Tax Type',
+		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {		
+			fieldLabel: 'Vat Type',
 			name: 'taxnr',
 			width:290,
 			labelWidth: 105,
@@ -92,7 +57,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+		    emptyText: '-- Please select Type --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
