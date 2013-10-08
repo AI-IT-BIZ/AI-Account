@@ -81,9 +81,9 @@ Ext.define('Account.Receipt.Item.Form', {
 			name: 'paym',
 		});
 		
-		//this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-		//	name: 'bsid',
-		//});
+		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
+			name: 'bcus',
+		});
 		
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
@@ -106,7 +106,7 @@ Ext.define('Account.Receipt.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnRcItem,this.hdnPpItem,
+			items: [this.hdnRcItem,this.hdnPpItem,this.hdnGlItem,
 			{
 			xtype:'fieldset',
             title: 'Header Data',
@@ -223,19 +223,7 @@ Ext.define('Account.Receipt.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _addr = r.data.adr01;
-						   if(!Ext.isEmpty(r.data.distx))
-                             _addr += ' '+r.data.distx;
-                           if(!Ext.isEmpty(r.data.pstlz))
-                             _addr += ' '+r.data.pstlz;
-                           if(!Ext.isEmpty(r.data.telf1))
-                            _addr += '\n'+'Tel: '+r.data.telf1;
-                           if(!Ext.isEmpty(r.data.telfx))
-                             _addr += ' '+'Fax: '+r.data.telfx;
-                           if(!Ext.isEmpty(r.data.email))
-                            _addr += '\n'+'Email: '+r.data.email;
-                            _this.getForm().findField('adr01').setValue(_addr);
-                            //_this.getForm().findField('adr11').setValue(_addr);
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
 							
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
@@ -275,6 +263,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
 	},	
@@ -299,6 +288,9 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.hdnRcItem.setValue(Ext.encode(rsItem));
 		var rsPayment = _this.gridPayment.getData();
 		this.hdnPpItem.setValue(Ext.encode(rsPayment));
+		
+		var rsGL = _this.gridGL.getData();
+		this.hdnGlItem.setValue(Ext.encode(rsGL));
 /*
 		this.getForm().getFields().each(function(f){
 			//console.log(f.name);
@@ -362,8 +354,33 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 		var net = this.formTotal.calculate();
-
 		// set value to grid payment
 		this.gridPayment.netValue = net;
+		
+		var store_pay = this.gridPayment.store;
+		var sum2 = 0;
+		store.each(function(r){
+			var ittype = r.data['ptype'],
+				payamt = parseFloat(r.data['payam']),
+				remamt = parseFloat(r.data['reman']);
+			payamt = isNaN(payamt)?0:payamt;
+			remamt = isNaN(remamt)?0:remamt;
+
+			//var amt = itamt - pay;
+			sum += amt;
+		});
+		
+		// Set value to GL Posting grid    
+        if(sum>0){
+            _this.gridGL.load({
+            	netpr:sum,
+            	vvat:vats,
+            	vwht:whts,
+            	kunnr:this.trigCustomer.getValue(),
+            	ptype:this.comboPay.getValue(),
+            	dtype:'01'
+            }); 
+           }
 	}
+	
 });

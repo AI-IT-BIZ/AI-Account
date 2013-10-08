@@ -1,12 +1,136 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Test extends CI_Controller {
+class Glposting extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model('code_model','',TRUE);
+	}
+	
+	function loads_gl_item(){
+        
+		$iv_id = $this->input->get('belnr');
+		$result = array();
+		$i=0;$n=0;$vamt=0;
+
+		if(empty($iv_id)){
+		   //$matnr = array();
+		   $netpr = $this->input->get('netpr');  //Net amt
+	       $vvat = $this->input->get('vvat');    //VAT amt
+		   $vwht = $this->input->get('vwht');    //WHT amt
+		   //$matnr = $this->input->get('matnr');  //Mat Code
+		   $kunnr = $this->input->get('kunnr');  //Customer Code
+		   $ptype = $this->input->get('ptype');  //Pay Type
+		   $dtype = $this->input->get('dtype');  //Doc Type
+           
+		   if(empty($vvat)) $vvat=0;
+		   if(empty($vwht)) $vwht=0;
+		   
+		   $net = ($netpr + $vvat) - $vwht;
+		   
+// record แรก
+		if($ptype=='01'){
+			$query = $this->db->get_where('kna1', array(
+				'kunnr'=>$kunnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$net,
+					'credi'=>0
+				);
+				$i++;
+			}
+		}else{
+			$query = $this->db->get_where('ptyp', array(
+			'ptype'=>$ptype));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$net,
+					'credi'=>0
+				);
+				$i++;
+			}
+		}
+// record ที่สอง
+        if($netpr>0){
+        if($dtype=='01'){
+           $doct = '411000';
+        }
+        
+		$qdoc = $this->db->get_where('glno', array(
+				'saknr'=>$doct));
+		$q_doc = $qdoc->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$doct,
+			'sgtxt'=>$q_doc['sgtxt'],
+			'debit'=>0,
+			'credi'=>$netpr
+		);
+		$i++;
+		}
+// record ที่สาม
+		if($vvat>'1'){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glvat = '215010';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vvat
+		);
+		$i++;	
+		}
+        if($vwht>'1'){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glwht = '215040';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glwht));
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glwht,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$vwht,
+			'credi'=>0
+		);
+		$i++;	
+		}
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$result,
+			'totalCount'=>count($result)
+		));
+//In Case Edit and Display		   
+		}else{
+		   $this->db->set_dbprefix('v_');
+		   $this->db->where('belnr', $iv_id);
+		   $query = $this->db->get('bsid');
+		   echo json_encode(array(
+			  'success'=>true,
+			  'rows'=>$query->result_array(),
+			  'totalCount'=>$query->num_rows()
+		));
+	  }
 	}
 
 	function get_gl_item(){

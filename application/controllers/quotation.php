@@ -31,7 +31,7 @@ class Quotation extends CI_Controller {
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['vbeln'];
             
-			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];

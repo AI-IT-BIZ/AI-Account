@@ -47,7 +47,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			//labelWidth: 95,
 			width: 240,
-			editable: false,
 			margin: '0 0 0 6',
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -111,7 +110,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
 			width: 350,
-			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -660,6 +658,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.comboQStatus.setValue('05');
 		this.comboCond.setValue('01');
 		this.trigCurrency.setValue('THB');
+		this.comboPay.setValue('01');
+		//this.comboPay.setDisabled(true);
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
 	},
@@ -669,7 +669,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;var i=0;
-		var matData= new Array();
+		//var matData= new Array();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -761,11 +761,12 @@ Ext.define('Account.Invoice.Item.Form', {
             });     
         }
 	},
-	
+// Payments Method	
 	selectPay: function(combo, record, index){
+		var _this=this;
 		var store = this.gridItem.store;
 		var vtax = combo.getValue();
-		//alert(vtax);
+		var sum = 0;var vats=0; var whts=0;var i=0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -779,7 +780,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			var amt = (qty * price) - discount;
             
 			sum += amt;
-			
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -798,7 +798,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:vats,
             	vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
-            	ptype:this.comboPay.getValue(),
+            	ptype:combo.getValue(),
             	dtype:'01'
             }); 
            }

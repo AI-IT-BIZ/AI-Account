@@ -25,7 +25,7 @@ class Invoice extends CI_Controller {
 			$result = $query->first_row('array');
 			$result['id'] = $result['invnr'];
 			
-			$result['adr01'] .= $result['distx'].' '.$result['pstlz'].
+			$result['adr01'] .= ' '.$result['distx'].' '.$result['pstlz'].
 			                    PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
 			                    $result['telfx'].
 							    PHP_EOL.'Email: '.$result['email'];
