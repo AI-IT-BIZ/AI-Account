@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		4/10/2013
+Modified		7/10/2013
 Project		
 Model		
 Company		
@@ -300,6 +300,7 @@ COMMENT = 'District Master';
 Create table tbl_mtyp (
 	mtart Varchar(4) NOT NULL COMMENT 'Material Type',
 	matxt Varchar(40) COMMENT 'Mat Type Desc',
+	saknr Varchar(10),
  Primary Key (mtart)) ENGINE = InnoDB
 COMMENT = 'Material Type';
 
@@ -1258,7 +1259,7 @@ left join tbl_vbak f on a.vbeln = f.vbeln
 inner join tbl_jobk g on f.jobnr = g.jobnr;
 create view v_vbrp as
 
-select a.*,b.maktx
+select a.*,b.maktx,b.mtart
 from tbl_vbrp a left join tbl_mara b 
 on a.matnr = b.matnr;
 create view v_bsid as
@@ -1287,7 +1288,8 @@ SELECT kunnr,name1,name2,adr01,adr02,distx,pstlz,telf1,telfx,pson1,taxnr,
 	t1.saknr,pleve,retax,crdit,disct,apamt,begin,endin,sgtxt,t1.ktype,erdat,ernam,email,taxid,
 	t2.custx
 FROM tbl_kna1 AS t1
-LEFT JOIN tbl_ktyp AS t2 ON t1.ktype = t2.ktype;
+LEFT JOIN tbl_ktyp AS t2 
+ON t1.ktype = t2.ktype;
 create view v_ekpo as
 
 SELECT t1.*,t2.maktx
@@ -1423,12 +1425,18 @@ INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under)
                ('112001','General Customer Debtor','2013/07/02','ASD','1','2','1','112000'),
                ('112002','Debtor Company A','2013/07/02','ASD','1','2','1','112000'),
                ('112003','Debtor Company B','2013/07/02','ASD','1','2','1','112000'),
+               ('115000','Other Debtor','2013/07/02','ASD','1','2','1','115000'),
                ('531503','Paymented Different','2013/07/02','ASD','1','2','1','112000'),
                
                ('113000','Cheque','2013/07/02','ASD','1','2','1','110000'),
                ('114000','Debt will lose','2013/07/02','ASD','1','2','1','110000'),
                ('115000','Other Customer','2013/07/02','ASD','1','2','1','110000'),
-               ('116000','Balance Stock','2013/07/02','ASD','1','2','1','110000'),
+               ('116000','Material','2013/07/02','ASD','1','2','1','110000'),
+               ('116100','Raw Material','2013/07/02','ASD','1','2','1','116000'),
+               ('116200','General Material','2013/07/02','ASD','1','2','1','116000'),
+               ('116300','Finish Goods','2013/07/02','ASD','1','2','1','116000'),
+               ('116400','Process Material','2013/07/02','ASD','1','2','1','116000'),
+               ('116500','Service Material','2013/07/02','ASD','1','2','1','116000'),
                ('117000','Other Current Asset','2013/07/02','ASD','1','2','1','110000'),
                ('117100','Other Current Asset','2013/07/02','ASD','1','2','1','117000'),
                ('117400','Payment Tax','2013/07/02','ASD','1','2','1','117000'),
@@ -1486,7 +1494,12 @@ INSERT INTO tbl_doct (docty, doctx) VALUES ('QT', 'Quotation'),('SO', 'Sale Orde
 
 INSERT INTO tbl_mwar (warnr, watxt) VALUES ('RM', 'Raw Mat'),('FG', 'Finish Goods'),('GM', 'General Mat');
 
-INSERT INTO tbl_mtyp (mtart, matxt) VALUES ('EX', 'Expense'),('IN', 'Income');
+INSERT INTO tbl_mtyp (mtart, matxt, saknr) VALUES 
+('RM', 'Raw Material', '116100'),
+('FG', 'Finish Goods', '116200'),
+('PM', 'Process Material', '116300'),
+('GM', 'Gernaral Material', '116400'),
+('SV', 'Service Material', '116500');
 
 INSERT INTO tbl_ttyp (ttype, typtx, modul) VALUES ('01','Genaral','GN'),('02','Payment','PV'),('03','Receive','RV'),('04','Sale','RC'),('05','Purchase','PY'),('06','Petty Cash','PC');
 
@@ -1528,8 +1541,8 @@ INSERT INTO tbl_jtyp (jtype, jobtx) VALUES ('01', 'Website'),('02', 'Printing'),
 INSERT INTO tbl_cond (condi, contx) VALUES ('01', 'After issue Invoice'),('02', 'After reciept Invoice'),
 ('03', 'After reciept Service/Goods');
 
-INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Cheque', '113000'),('02', 'Cash', '111100'),
-('03', 'Transfer to Book Bank', '111200'),('04', 'Credit Card', '111210');
+INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Credit', '112001'),('02', 'Cash', '111100'),
+('03', 'Transfer to Book Bank', '111200'),('04', 'Credit Card', '111210'),('05', 'Cheque', '113000');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),

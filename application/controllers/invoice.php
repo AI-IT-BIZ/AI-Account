@@ -142,10 +142,10 @@ class Invoice extends CI_Controller {
 		
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),
-			'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
+			'vbeln' => $this->input->post('vbeln'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -204,7 +204,7 @@ class Invoice extends CI_Controller {
 				'matnr'=>$p->matnr,
 				'menge'=>$p->menge,
 				'meins'=>$p->meins,
-				'dismt'=>$p->dismt,
+				'disit'=>$p->disit,
 				'unitp'=>$p->unitp,
 				'itamt'=>$p->itamt,
 				'ctype'=>$p->ctype,
@@ -212,6 +212,70 @@ class Invoice extends CI_Controller {
 				'chk02'=>$p->chk02
 			));
 	    	}
+		}
+// Save GL Posting	
+        $ids = $id;	
+		$id = $this->input->post('id');
+		$query = null;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('bkpf');
+		}
+		$date = date('Ymd');
+		$formData = array(
+		    'gjahr' => substr($date,0,4),
+		    'bldat' => $this->input->post('bldat'),
+			'invnr' => $ids,
+			'txz01' => $this->input->post('txz01'),
+			'auart' => 'AR',
+			'netwr' => $this->input->post('netwr')
+		);
+		
+		// start transaction
+		$this->db->trans_start();  
+		
+		if (!empty($query) && $query->num_rows() > 0){
+			$q_gl = $query->first_row('array');
+			$id = $q_gl['belnr'];
+			$this->db->where('belnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
+			$this->db->update('bkpf', $formData);
+		}else{
+			$id = $this->code_model->generate('AR', 
+			$this->input->post('bldat'));
+			$this->db->set('belnr', $id);
+			$this->db->set('erdat', 'NOW()', false);
+		    $this->db->set('ernam', 'test');
+			$this->db->insert('bkpf', $formData);
+			
+			//$id = $this->db->insert_id();
+		}
+		
+		// ลบ gl_item ภายใต้ id ทั้งหมด
+		
+		$this->db->where('belnr', $id);
+		$this->db->delete('bcus');
+
+		// เตรียมข้อมูล pay item
+		$bcus = $this->input->post('belpr');//$this->input->post('vbelp');
+		$gl_item_array = json_decode($bcus);
+		if(!empty($bcus) && !empty($gl_item_array)){
+
+			$item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($gl_item_array AS $p){
+				$this->db->insert('bcus', array(
+					'belnr'=>$id,
+					'belpr'=>++$item_index,
+					'gjahr' => substr($date,0,4),
+					'saknr'=>$p->saknr,
+					'debit'=>$p->debit,
+					'credi'=>$p->credi,
+					'txz01'=>$p->txz01
+				));
+			}
 		}
 
 		// end transaction
@@ -396,16 +460,127 @@ class Invoice extends CI_Controller {
 	}
 	
 	function loads_gl_item(){
-        $this->db->set_dbprefix('v_');
+        
 		$iv_id = $this->input->get('belnr');
-		$this->db->where('belnr', $iv_id);
 
-		$query = $this->db->get('bsid');
+		if(empty($iv_id)){
+		   //$matnr = array();
+		   $netpr = $this->input->get('netpr');  //Net amt
+	       $vvat = $this->input->get('vvat');    //VAT amt
+		   $vwht = $this->input->get('vwht');    //WHT amt
+		   //$matnr = $this->input->get('matnr');  //Mat Code
+		   $kunnr = $this->input->get('kunnr');  //Customer Code
+		   $ptype = $this->input->get('ptype');  //Pay Type
+		   $dtype = $this->input->get('dtype');  //Doc Type
+           
+		   if(empty($vvat)) $vvat=0;
+		   if(empty($vwht)) $vwht=0;
+		   
+		   $net = ($netpr + $vvat) - $vwht;
+		   
+           $i=0;$n=0;$vamt=0;
+		   $result = array();
+// record แรก
+		if($ptype=='01'){
+			$query = $this->db->get_where('kna1', array(
+				'kunnr'=>$kunnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$net,
+					'credi'=>0
+				);
+				$i++;
+			}
+		}else{
+			$query = $this->db->get_where('ptyp', array(
+			'ptype'=>$ptype));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$net,
+					'credi'=>0
+				);
+				$i++;
+			}
+		}
+// record ที่สอง
+        if($netpr>0){
+        if($dtype=='01'){
+           $doct = '411000';
+        }
+        
+		$qdoc = $this->db->get_where('glno', array(
+				'saknr'=>$doct));
+		$q_doc = $qdoc->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$doct,
+			'sgtxt'=>$q_doc['sgtxt'],
+			'debit'=>0,
+			'credi'=>$netpr
+		);
+		$i++;
+		}
+// record ที่สาม
+		if($vvat>'1'){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glvat = '215010';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vvat
+		);
+		$i++;	
+		}
+        if($vwht>'1'){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glwht = '215040';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glwht));
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glwht,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$vwht,
+			'credi'=>0
+		);
+		$i++;	
+		}
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'rows'=>$result,
+			'totalCount'=>count($result)
 		));
+//In Case Edit and Display		   
+		}else{
+		   $this->db->set_dbprefix('v_');
+		   $this->db->where('belnr', $iv_id);
+		   $query = $this->db->get('bsid');
+		   echo json_encode(array(
+			  'success'=>true,
+			  'rows'=>$query->result_array(),
+			  'totalCount'=>$query->num_rows()
+		));
+	  }
 	}
 	
     function loads_conp_item(){
@@ -426,7 +601,7 @@ class Invoice extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($dismt)) $dismt=0;
+						if(empty($disit)) $disit=0;
 						$tamt = $amt - $disit;
 						$amt = $amt - $disit;
 						//unset($result[0]);
@@ -440,7 +615,7 @@ class Invoice extends CI_Controller {
 				        );
 						$i++;
 					}elseif($row['conty']=='02'){
-						if($vat==true){
+						if($vat=='true' || $vat=='1'){
 							$vamt = ($amt * $vvat) / 100;
 							$tamt = $amt + $vamt;
 						$result[$i] = array(
@@ -448,9 +623,10 @@ class Invoice extends CI_Controller {
 				     	    'vtamt'=>$vamt,
 					        'ttamt'=>$tamt
 				        );
+						$i++;
 						}
 					}elseif($row['conty']=='03'){
-						if($wht==true){
+						if($wht=='true' || $wht=='1'){
 							$vwht = ($amt * $vwht) / 100;
 							$tamt = $amt - $vwht;
 							$tamt = $tamt + $vamt;

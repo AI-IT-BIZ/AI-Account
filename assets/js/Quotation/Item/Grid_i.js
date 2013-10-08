@@ -235,6 +235,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
                 var cusno = _this.customerValue;
+                //var vatt = _this.vattValue;
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
@@ -255,7 +256,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 							// Unit
 							rModel.set('meins', r.data.meins);
 							// Cost
-							rModel.set('unitp', r.data.cost);
+							var cost = r.data.cost;
+							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -279,6 +281,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				//rModel.set('amount', 100+Math.random());
 				var v = record.data.matnr;
                 var cusno = _this.customerValue;
+                //var vatt = _this.vattValue;
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
@@ -292,7 +295,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success && r.data.cost){
 							// Cost
-							rModel.set('unitp', r.data.cost);
+							var cost = r.data.cost;
+							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
 						}
 					}
 				});

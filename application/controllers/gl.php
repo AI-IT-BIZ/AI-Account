@@ -10,6 +10,27 @@ class GL extends CI_Controller {
 	function index(){
 		$this->load->view('gl');
 	}
+	
+	function load(){
+		//$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('saknr', $id);
+		$query = $this->db->get('glno');
+		
+		if($query->num_rows()>0){
+			$result = $query->first_row('array');
+			$result['id'] = $result['saknr'];
+
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
 
 	function loads(){
 		$tbName = 'glno';

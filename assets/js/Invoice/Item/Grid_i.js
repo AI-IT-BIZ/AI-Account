@@ -44,11 +44,12 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				'dismt',
+				'disit',
 				'itamt',
 				'ctype',
 				'chk01',
-				'chk02'
+				'chk02',
+				'mtart'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -144,7 +145,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 			{text: "Discount",
 			width: 70,
-			dataIndex: 'dismt',
+			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -200,7 +201,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
-
+                    
 					var amt = (qty * price) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}

@@ -674,12 +674,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			sum += amt;
 			
 			if(r.data['chk01']==true){
-				var vat = this.numberVat.getValue();
+				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
 			if(r.data['chk02']==true){
-				var wht = this.numberWHT.getValue();
+				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
@@ -692,7 +692,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// set value to grid payment
 		this.gridPayment.netValue = net;
 		// set value to total form
-		this.formTotal.taxType = this.comboTax.getValue();
+		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		
 		this.gridItem.whtValue = this.numberWHT.getValue();
@@ -700,7 +700,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
-
+        
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {

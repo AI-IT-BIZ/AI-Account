@@ -414,7 +414,7 @@ class Quotation extends CI_Controller {
 						    'ttamt'=>$tamt
 				        ));*/
 					}elseif($row['conty']=='02'){
-						if($vat=='true'){
+						if($vat=='true' || $vat=='1'){
 							$vamt = ($tamt * $vvat) / 100;
 							$tamt = $tamt + $vamt;
 						$result[$i] = array(
@@ -426,7 +426,7 @@ class Quotation extends CI_Controller {
 						}
 					}elseif($row['conty']=='03'){
 						//unset($result[2]);
-						if($wht=='true'){
+						if($wht=='true' || $wht=='1'){
 							$vwht = ($amt * $vwht) / 100;
 							$tamt = $amt - $vwht;
 							$tamt = $tamt + $vamt;

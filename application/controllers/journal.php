@@ -136,6 +136,13 @@ class Journal extends CI_Controller {
 		
 		$type = $this->input->post('ttype');
         $date = date('Ymd');
+		$this->db->where('ttype', $type);
+		$query_type = $this->db->get('ttyp');
+			
+	    if($query_type->num_rows()>0){
+			$result_type = $query_type->first_row('array');
+		    $modul = $result_type['modul'];
+		}
 		
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
@@ -143,6 +150,7 @@ class Journal extends CI_Controller {
 			'txz01' => $this->input->post('txz00'),
 			'ttype' => $this->input->post('ttype'),
 			'tranr' => $this->input->post('tranr'),
+			'auart' => $modul,
 			'netwr' => $this->input->post('debit')
 		);
 		
@@ -155,13 +163,6 @@ class Journal extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$this->db->where('ttype', $type);
-		    $query_type = $this->db->get('ttyp');
-			
-			if($query_type->num_rows()>0){
-			$result_type = $query_type->first_row('array');
-		    $modul = $result_type['modul'];
-			}
 			$id = $this->code_model->generate($modul,
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $id);
@@ -188,6 +189,7 @@ class Journal extends CI_Controller {
 			$this->db->insert('bsid', array(
 				'belnr'=>$id,
 				'belpr'=>++$item_index,
+				'gjahr' => substr($date,0,4),
 				'saknr'=>$p->saknr,
 				'debit'=>$p->debit,
 				'credi'=>$p->credi,

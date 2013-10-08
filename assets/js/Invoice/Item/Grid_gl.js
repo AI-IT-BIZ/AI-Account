@@ -42,7 +42,8 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 				'saknr',
 				'sgtxt',
 				'debit',
-				'credi'
+				'credi',
+				'txz01'
 			],
 			remoteSort: true,
 			sorters: ['belpr ASC']
@@ -70,7 +71,7 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
-		}
+		    }
 		},
 		    {text: "GL No.", 
 		    width: 100, 
@@ -253,10 +254,9 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-	
-	glposting: function(){
-		
-		//this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 	}
+	
+	//glposting: function(){
+		//this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+	//}
 });
