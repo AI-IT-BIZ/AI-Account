@@ -49,9 +49,9 @@ function endsWith($haystack, $needle)
 		.box-blue:hover { background-color:#418eff; }
 		.box-orange { background-color:#dd9016; }
 		.box-orange:hover { background-color:#f6a92f; }
-		.box-brown { background-color:#8b5e3b; }
-		.box-brown:hover { background-color:#a3734e; }
-		.box-green { background-color:#179c30; }
+		.box-brown { background-color:#5435ad; }
+		.box-brown:hover { background-color:#6242be; }
+		.box-green { background-color:#008b16; }
 		.box-green:hover { background-color:#2ba645; }
 		.box-red { background-color:#e04444; }
 		.box-red:hover { background-color:#de5151; }

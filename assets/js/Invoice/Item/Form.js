@@ -575,7 +575,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
-		this.comboPay.on('select', this.selectPay, this);
+		//this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
 	},	
@@ -702,7 +702,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 		this.formTotal.getForm().findField('vat01').setValue(Ext.util.Format.usMoney(vats).replace(/\$/, ''));
 		this.formTotal.getForm().findField('wht01').setValue(Ext.util.Format.usMoney(whts).replace(/\$/, ''));
-
+        var net = this.formTotal.calculate();
 // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
@@ -720,7 +720,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:vats,
             	vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
-            	ptype:this.comboPay.getValue(),
+            	ptype:'01',
             	dtype:'01'
             }); 
            }

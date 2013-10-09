@@ -26,7 +26,7 @@ class Receipt extends CI_Controller {
 			$result['id'] = $result['recnr'];
 			
 			$result['adr01'] .= ' '.$result['distx'].' '.$result['pstlz'].
-			                         PHP_EOL.'Tel: '.$result['telf1'].PHP_EOL.'Fax: '.
+			                         PHP_EOL.'Tel: '.$result['telf1'].' '.'Fax: '.
 			                         $result['telfx'].
 									 PHP_EOL.'Email: '.$result['email'];
 
@@ -387,19 +387,6 @@ class Receipt extends CI_Controller {
 		));
 	}
 	
-	function loads_gl_item(){
-        $this->db->set_dbprefix('v_');
-		$gl_id = $this->input->get('belnr');
-		$this->db->where('belnr', $gl_id);
-
-		$query = $this->db->get('bsid');
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-	
 	function loads_pm_item(){
         $this->db->set_dbprefix('v_');
 		$pm_id = $this->input->get('recnr');
@@ -418,11 +405,7 @@ class Receipt extends CI_Controller {
 		$iv_id = $this->input->get('belnr');
 
 		if(empty($iv_id)){
-		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
-	       $vvat = $this->input->get('vvat');    //VAT amt
-		   $vwht = $this->input->get('vwht');    //WHT amt
-		   //$matnr = $this->input->get('matnr');  //Mat Code
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
@@ -434,8 +417,43 @@ class Receipt extends CI_Controller {
 		   
            $i=0;$n=0;$vamt=0;
 		   $result = array();
-// record แรก
-		if($ptype=='01'){
+		   
+		   // เตรียมข้อมูล pay item
+		$paym = $this->input->post('pay');
+		$pm_item_array = json_decode($paym);
+		if(!empty($paym) && !empty($pm_item_array)){
+
+			$item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($pm_item_array AS $p){
+					$ptype = $p->ptype;
+				    $payam = $p->payam;
+					$reman = $p->reman;
+					$net = $net + $payam;
+/*
+					'pramt'=>$p->pramt,
+ */
+ // record แรก
+            $query = $this->db->get_where('ptyp', array(
+			'ptype'=>$ptype));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$payam,
+					'credi'=>0
+				);
+				$i++;
+			}
+			
+			}
+		}
+// record ที่สอง
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
 			if($query->num_rows()>0){
@@ -452,73 +470,7 @@ class Receipt extends CI_Controller {
 				);
 				$i++;
 			}
-		}else{
-			$query = $this->db->get_where('ptyp', array(
-			'ptype'=>$ptype));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
-					'credi'=>0
-				);
-				$i++;
-			}
-		}
-// record ที่สอง
-        if($netpr>0){
-        if($dtype=='01'){
-           $doct = '411000';
-        }
-        
-		$qdoc = $this->db->get_where('glno', array(
-				'saknr'=>$doct));
-		$q_doc = $qdoc->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$doct,
-			'sgtxt'=>$q_doc['sgtxt'],
-			'debit'=>0,
-			'credi'=>$netpr
-		);
-		$i++;
-		}
-// record ที่สาม
-		if($vvat>'1'){ 
-		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '215010';
-		$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$glvat));
-		$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glvat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vvat
-		);
-		$i++;	
-		}
-        if($vwht>'1'){ 
-		//	$net_tax = floatval($net) * 0.07;}
-		$glwht = '215040';
-		$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$glwht));
-		$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glwht,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$vwht,
-			'credi'=>0
-		);
-		$i++;	
-		}
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,

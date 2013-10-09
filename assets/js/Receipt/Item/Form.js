@@ -340,6 +340,7 @@ Ext.define('Account.Receipt.Item.Form', {
 	
 	// calculate total functions
 	calculateTotal: function(){
+		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
@@ -357,25 +358,11 @@ Ext.define('Account.Receipt.Item.Form', {
 		// set value to grid payment
 		this.gridPayment.netValue = net;
 		
-		var store_pay = this.gridPayment.store;
-		var sum2 = 0;
-		store.each(function(r){
-			var ittype = r.data['ptype'],
-				payamt = parseFloat(r.data['payam']),
-				remamt = parseFloat(r.data['reman']);
-			payamt = isNaN(payamt)?0:payamt;
-			remamt = isNaN(remamt)?0:remamt;
-
-			//var amt = itamt - pay;
-			sum += amt;
-		});
-		
 		// Set value to GL Posting grid    
         if(sum>0){
             _this.gridGL.load({
+            	pay:_this.gridPayment.getData(),
             	netpr:sum,
-            	vvat:vats,
-            	vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
             	ptype:this.comboPay.getValue(),
             	dtype:'01'

@@ -45,7 +45,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'texts',
 				'itamt',
 				'payrc',
-				'reman'
+				'reman',
+				'belnr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
