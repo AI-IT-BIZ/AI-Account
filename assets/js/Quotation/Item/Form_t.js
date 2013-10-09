@@ -258,8 +258,9 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			if(discountValue>0)
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
-			this.txtDiscountValue.setValue('');
-			this.txtDiscountSum.setValue('');
+			this.txtDiscountValue.setValue('0.00');
+			this.txtDiscountSum.setValue('0.00');
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
         
         var vat = this.txtTaxValue.getValue();

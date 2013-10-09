@@ -247,7 +247,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
 							// Cost
-							rModel.set('unitp', r.data.cost);
+							var cost = r.data.cost;
+							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -284,7 +285,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success && r.data.cost){
 							// Cost
-							rModel.set('unitp', r.data.cost);
+							var cost = r.data.cost;
+							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
 						}
 					}
 				});

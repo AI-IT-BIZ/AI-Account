@@ -27,7 +27,7 @@ Ext.define('Account.SCurrency.Grid', {
 		    {text: "Currency Code", 
 		    width: 80, align: 'center', dataIndex: 'ctype', sortable: true},
 			{text: "Currency Name", 
-			width: 150, dataIndex: 'curtx', sortable: true}
+			width: 250, dataIndex: 'curtx', sortable: true}
 		];
 
 		this.bbar = {

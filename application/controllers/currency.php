@@ -27,8 +27,9 @@ class Currency extends CI_Controller {
 		$totalCount = $this->db->count_all_results($tbName);
 
 		//createQuery($this);
-		$limit = $this->input->get('limit');
+		$limit = $totalCount;//$this->input->get('limit');
 		$start = $this->input->get('start');
+		$page = $totalCount / $limit;
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		//$sort = $this->input->post('sort');
@@ -41,7 +42,10 @@ class Currency extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
+			'totalCount'=>$totalCount,
+			'limit'=>$limit,
+			'start'=>$start,
+			'page'=>$page
 		));
 	}
 

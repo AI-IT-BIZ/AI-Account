@@ -196,7 +196,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		this.trigProject = Ext.create('Ext.form.field.Trigger', {
 			name: 'jobnr',
-			fieldLabel: 'Project Code',
+			fieldLabel: 'Project No.',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
@@ -234,7 +234,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			items: [this.hdnQtItem, this.hdnPpItem,
 			{
 				xtype:'fieldset',
-				title: 'Header Data',
+				title: 'Heading Data',
 				collapsible: true,
 				defaultType: 'textfield',
 				layout: 'anchor',
@@ -550,7 +550,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCurrency.setValue(record.data.ctype);
 
-            _this.formTotal.getForm().findField('curr').setValue(record.data.ctype);
+            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
 			grid.getSelectionModel().deselectAll();
 			_this.currencyDialog.hide();
 		});
@@ -655,6 +655,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
+		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// calculate total functions
 	calculateTotal: function(){

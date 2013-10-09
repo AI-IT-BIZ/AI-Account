@@ -139,8 +139,10 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.comboCond = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Condition',
 			name : 'condi',
-			width: 350,
+			width: 240,
+			margin: '0 0 0 20',
 			editable: false,
+			labelAlign: 'right',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Please Select Condition --',
@@ -170,7 +172,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Vat type',
 			name : 'taxnr',
 			width: 240,
-			margin: '0 0 0 20',
+			margin: '0 0 0 5',
 			labelAlign: 'right',
 			editable: false,
 			triggerAction : 'all',
@@ -384,29 +386,34 @@ Ext.define('Account.Invoice.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
-		},this.comboTax
+		},this.comboCond
          ]
          },{
          xtype: 'container',
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.comboCond,this.numberVat,{
+   items: [{
+					xtype: 'textfield',
+					fieldLabel: 'Reference No',
+					name: 'refnr',
+					width:350
+				   },this.numberVat,{
 			       xtype: 'displayfield',
 			       align: 'right',
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           },this.comboQStatus
+		          },this.comboTax
          ]
-       },{
+       },{  
 			 	xtype: 'container',
 				layout: 'hbox',
 				margin: '0 0 5 0',
 				items: [{
-					xtype: 'textfield',
-					fieldLabel: 'Reference No',
-					name: 'refnr',
+					xtype: 'displayfield',
+					//fieldLabel: 'Reference No',
+					//name: 'refnr',
 					width:350
 				   },this.numberWHT,{
 			       xtype: 'displayfield',
@@ -414,7 +421,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           }]
+		           },this.comboQStatus]
 			}]
 		}]
 		};
@@ -569,6 +576,18 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.customerDialog.show();
 		};
 		
+		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCurrency.setValue(record.data.ctype);
+
+            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+			grid.getSelectionModel().deselectAll();
+			_this.currencyDialog.hide();
+		});
+
+		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.show();
+		};
+		
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
@@ -662,6 +681,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		//this.comboPay.setDisabled(true);
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
+		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
 	// calculate total functions

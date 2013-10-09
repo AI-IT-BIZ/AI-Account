@@ -11,7 +11,7 @@ Ext.define('Account.Customer.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customer2/loads',
+				url: __site_url+'customer/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',

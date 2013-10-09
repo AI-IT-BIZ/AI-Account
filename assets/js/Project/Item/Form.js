@@ -233,7 +233,7 @@ Ext.define('Account.Project.Item.Form', {
                     layout: 'hbox',
                     margin: '0 0 5 0',
      items: [{
-			xtype: 'numberfield',
+			xtype: 'textfield',
 			fieldLabel: 'Project Amount',
 			name: 'pramt',
 			anchor:'100%',
@@ -241,7 +241,7 @@ Ext.define('Account.Project.Item.Form', {
 			align: 'right',
 			allowBlank: true
 	    },{
-			xtype: 'numberfield',
+			xtype: 'textfield',
 			fieldLabel: 'Estimate Cost',
 			name: 'esamt',
 			anchor:'100%',
@@ -265,7 +265,7 @@ Ext.define('Account.Project.Item.Form', {
 			allowBlank: true
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'End Date',
+			fieldLabel: 'Finish Date',
 			name: 'endat',
 			anchor:'100%',
 			labelWidth: 100,
@@ -273,14 +273,14 @@ Ext.define('Account.Project.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: true
-	    },{
+	    },/*{
 			xtype: 'displayfield',
 			fieldLabel: '',
 			name: 'datam',
 			anchor:'100%',
 			Width: 30,
 			allowBlank: true
-	    }]
+	    }*/]
 		}]
 		//}]
 		}];

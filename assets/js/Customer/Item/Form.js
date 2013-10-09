@@ -3,7 +3,7 @@ Ext.define('Account.Customer.Item.Form', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'customer2/save',
+			url: __site_url+'customer/save',
 			border: false,
 			//bodyPadding: 10,
 			fieldDefaults: {
@@ -33,7 +33,7 @@ var myStorecomboPleve = Ext.create('Ext.data.Store', {
 this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
     fieldLabel: 'Price Level',
 	name: 'pleve',
-	width:293,
+	//width:293,
 	labelWidth: 160,
 	//editable: false,
 	triggerAction : 'all',
@@ -61,7 +61,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer2/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'customer/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -85,9 +85,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		
 		this.trigDistr = Ext.create('Ext.form.field.Trigger', {
 			name: 'distx',
-			fieldLabel: 'District',
+			fieldLabel: 'Province',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			labelWidth:93,
 			width:290,
 		});
 //---event triger----------------------------------------------------------------	
@@ -135,9 +136,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		
 		this.trigDistr2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'dis02',
-			fieldLabel: 'District',
+			fieldLabel: 'Province',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			labelWidth:93,
 			width:290,
 		});
 //---event triger----------------------------------------------------------------	
@@ -184,7 +186,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		
 		this.trigKtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'custx',
-			fieldLabel: 'Type',
+			fieldLabel: 'Customer Type',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width:290,
@@ -278,9 +280,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGlno.setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
-			//_this.getForm().findField('ktype').setValue(record.data.ktype);
-			//_this.getForm().findField('saknr').setValue(record.data.saknr);
-
+			
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
 		});
@@ -324,9 +324,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 					labelAlign: 'right',
 					readOnly: true,
 					//disabled: true,
-					anchor:'95%',
 					width:150,
-            		margin: '0 0 0 90',
+            		margin: '0 0 0 60',
 					value: 'XXXXX',
 					labelStyle: 'font-weight:bold',
                 }]
@@ -340,28 +339,22 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 					fieldLabel: 'Customer Name',
 					name: 'name1',
 					allowBlank: false,
-					anchor:'100%',
-					width:583,
+					width:460,
                 }]
             },{
 xtype:'fieldset',
-title: 'Address Bill',
+title: 'Address Bill To',
 items:[{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
                 items: [{
-					xtype: 'textarea',
+					xtype: 'textfield',
 					fieldLabel: 'Address',
 					name: 'adr01',
-					//anchor:'95%',
-					rows:1,
-					allowBlank: true,
-					width:583,
+					labelWidth: 93,
+					width:450,
                 }]
             },{
                 xtype: 'container',
@@ -377,7 +370,7 @@ items:[{
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
-            		margin: '0 0 0 54',
+            		margin: '0 0 0 50',
                 }]
                 
             },{
@@ -389,6 +382,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Phone Number',
 		            name: 'telf1',
+		            labelWidth: 93,
 		            width: 290,
 		            emptyText: 'xxx-xxx-xxxx',
 		            maskRe: /[\d\-]/,
@@ -396,11 +390,9 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
-		            //emptyText: 'xx-xxxxxx',
 		            maskRe: /[\d\-]/,
-		            //regex: /^\d{2}-\d{6}$/,
 		            regexText: 'Must be in the format xxx-xxxxxx',
-            		margin: '0 0 0 56',
+            		margin: '0 0 0 50',
                 }]
                 
             },{
@@ -413,33 +405,29 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'email',
+					labelWidth: 93,
 		            width: 290,
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Contact Person',
 					name: 'pson1',
-            		margin: '0 0 0 56',
+            		margin: '0 0 0 50',
                 }]
 }],                
             },{
 xtype:'fieldset',
-title: 'Address Ship',
+title: 'Address Ship To',
 items:[{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
                 items: [{
-					xtype: 'textarea',
+					xtype: 'textfield',
 					fieldLabel: 'Address',
 					name: 'adr02',
-					//anchor:'95%',
-					rows:1,
-					allowBlank: true,
-					width:583,
+					labelWidth: 93,
+					width:450,
                 }]
             },{
                 xtype: 'container',
@@ -449,15 +437,33 @@ items:[{
                 items :[this.trigDistr2,{
                 }, {
 					xtype: 'textfield',
+					fieldLabel: 'Country',
+		            name: 'pst02',
+            		margin: '0 0 0 50',
+                }]
+                
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+				margin: '0 0 5 0',
+                items :[{
+                	xtype: 'textfield',
 					fieldLabel: 'Post Code',
 		            name: 'pst02',
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
-            		margin: '0 0 0 54',
-                }]
-                
+					labelWidth: 93,
+		            width: 290,
+                }, {
+					xtype: 'textfield',
+					fieldLabel: 'Email',
+					name: 'emai2',
+            		margin: '0 0 0 50',
+                }]                
             },{
                 xtype: 'container',
                 flex: 1,
@@ -467,6 +473,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Phone Number',
 		            name: 'tel02',
+		            labelWidth: 93,
 		            width: 290,
 		            emptyText: 'xxx-xxx-xxxx',
 		            maskRe: /[\d\-]/,
@@ -478,7 +485,7 @@ items:[{
 		            maskRe: /[\d\-]/,
 		            //regex: /^\d{2}-\d{6}$/,
 		            regexText: 'Must be in the format xxx-xxxxxx',
-            		margin: '0 0 0 56',
+            		margin: '0 0 0 50',
                 }]
                 
             },{
@@ -489,16 +496,15 @@ items:[{
 				margin: '0 0 5 0',
                 items :[{
 					xtype: 'textfield',
-					fieldLabel: 'Email',
-					name: 'emai2',
-		            width: 290,
-                }, {
-					xtype: 'textfield',
 					fieldLabel: 'Contact Person',
 					name: 'pson2',
-            		margin: '0 0 0 56',
-                }]
-}],                
+					labelWidth: 93,
+		            width: 450,
+                }, {
+					xtype: 'displayfield',
+            		margin: '0 0 0 5',
+            }]  
+            }]             
             },{
                 xtype: 'container',
                 flex: 1,
@@ -507,14 +513,14 @@ items:[{
                 items :[{
                 	
 					xtype: 'textfield',
-					fieldLabel: 'Discount',
+					fieldLabel: 'Payment Condition',
 		            name: 'disct',
 		            width: 290,
 		            maskRe: /[\d\-]/,
 		            regexText: 'Must be in the format Number',
                 }, {
 					xtype: 'numberfield',
-					fieldLabel: 'Crdit',
+					fieldLabel: 'Crdit Term',
 		            name: 'crdit',
 		            maskRe: /[\d\-]/,
             		margin: '0 0 0 56',
@@ -539,7 +545,7 @@ items:[{
                 padding:2,
                 items :[this.comboTaxnr,{
 					xtype: 'textfield',
-					fieldLabel: 'Approve Amount',
+					fieldLabel: 'Credit Limit Amt',
 		            name: 'apamt',
 		            maskRe: /[\d\.]/,
             		margin: '0 0 0 56',
@@ -551,13 +557,13 @@ items:[{
                 padding:2,
                 items :[{
 					xtype: 'textfield',
-					fieldLabel: 'Beginning Amount',
+					fieldLabel: 'Minimum Amount',
 		            name: 'begin',
 		            maskRe: /[\d\.]/,
 		            width: 290,
                 }, {
 					xtype: 'textfield',
-					fieldLabel: 'Ending Amount',
+					fieldLabel: 'Maximum Amount',
 		            name: 'endin',
 		            maskRe: /[\d\.]/,
             		margin: '0 0 0 56',
@@ -592,7 +598,7 @@ items:[{
 					rows:1,
 					anchor:'95%',
 					allowBlank: true,
-					width:583,
+					width:600,
                 }]
             }]
         }]
@@ -641,7 +647,7 @@ items:[{
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'customer2/load'
+			url:__site_url+'customer/load'
 			
 		});
 	},
@@ -649,7 +655,7 @@ items:[{
 		var _this=this;
 		this.getForm().load({
 			params: { kunnr: kunnr },
-			url:__site_url+'customer2/remove',
+			url:__site_url+'customer/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
