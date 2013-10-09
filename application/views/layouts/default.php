@@ -330,11 +330,12 @@ function endsWith($haystack, $needle)
 			var centerPanel = new Ext.Panel({
 				region:'center',
 				layout: 'border',
+				border: false,
 				items: [
 					tree,
 					{
 						id:'center-wrap', region:'center',
-						layout:'fit', border:false,
+						layout:'fit', border:true,
 						autoScroll: true,
 						html : [//Sale Module
 								'<div id="div1-1-container">',

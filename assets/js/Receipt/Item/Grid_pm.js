@@ -6,7 +6,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 
 	initComponent : function() {
 		var _this=this;
-		
+
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
@@ -15,17 +15,37 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			text: 'Copy',
 			iconCls: 'b-small-copy'
 		});
-		
+
 		// INIT Bank search popup /////////////////////////////////
 		this.bankDialog = Ext.create('Account.Bankname.MainWindow');
 		// END Bank search popup //////////////////////////////////
-		
+
 		this.tbar = [this.addAct, this.copyAct];
-		
+
+		// Defined combo store
+		this.ptypeStore = new Ext.data.JsonStore({
+			proxy: {
+				type: 'ajax',
+				url: __site_url+'receipt/loads_pcombo',
+				reader: {
+					type: 'json',
+					root: 'rows',
+					idProperty: 'ptype'
+				}
+			},
+			fields: [
+				'ptype',
+				'paytx'
+			],
+			remoteSort: true,
+			sorters: 'ptype ASC'
+		});
+
+
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
@@ -73,38 +93,34 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
-		}
-		},
-		    {text: "Payment",
-		    width: 100, 
-		    dataIndex: 'ptype', 
+			}
+		}, {text: "Payment",
+		    width: 100,
+		    dataIndex: 'ptype',
 		    sortable: true,
 		   // displayField: 'paytx',
 			//valueField: 'ptype',
 		    editor: new Ext.form.field.ComboBox({
-            store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'receipt/loads_pcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ptype'
-					}
-				},
-				fields: [
-					'ptype',
-					'paytx'
-				],
-				remoteSort: true,
-				sorters: 'ptype ASC'
-				}),
-			queryMode: 'remote',
-			displayField: 'paytx',
-			valueField: 'ptype'
-                }),
-		    },
-			{text: "Bank Code", align : 'center',
+	            store: this.ptypeStore,
+				queryMode: 'remote',
+				displayField: 'paytx',
+				valueField: 'ptype'
+			}),
+			renderer: function(value) {
+				if (!isNaN(value)){
+					if (_this.ptypeStore.findRecord('ptype', value) != null)
+						return _this.ptypeStore.findRecord('ptype', value).get('paytx');
+					else
+						return value;
+				} else if (typeof value != 'undefined') {
+					if (value.paytx != null)
+						return value.paytx;
+					else
+						return "";
+				} else
+					return "";
+			}
+		}, {text: "Bank Code", align : 'center',
 			width:80, dataIndex: 'bcode', sortable: true,
 			field: {
 				xtype: 'triggerfield',
@@ -116,13 +132,13 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				}
 			},
 			},
-		    {text: "Bank Name", 
+		    {text: "Bank Name",
 		    width: 120, dataIndex: 'bname', sortable: true,
 		    field: {
 				type: 'textfield'
 			},
 		    },
-			{text: "Branch", 
+			{text: "Branch",
 			width: 100, dataIndex: 'sgtxt', sortable: true,
 			field: {
 				type: 'textfield'
@@ -135,7 +151,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			},
 			},
 		    {text: "Cheque Dat", align : 'center',
-		    xtype: 'datecolumn', width: 80, 
+		    xtype: 'datecolumn', width: 80,
 		    dataIndex: 'chqdt', sortable: true,
 		    format:'d/m/Y',
 		    editor: {
@@ -188,14 +204,14 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				}
 		    }
 		];
-		
+
 		this.plugins = [this.editing];
 
 		// init event
 		this.addAct.setHandler(function(){
 			_this.addRecord2();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='bcode'){
 				var v = e.value;
@@ -243,13 +259,13 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
 		this.store.load({
 			params: options
 		});
 	},
-	
+
 	addRecord2: function(){
 		var _this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
@@ -289,7 +305,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			r.set('paypr', row_num++);
 		});
 	},
-	
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
