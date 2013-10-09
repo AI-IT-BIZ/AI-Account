@@ -66,7 +66,7 @@ function endsWith($haystack, $needle)
 		#div-invoice { top:280px; left:30px; width: 90px; height:90px; }
 		#div-salep { top:280px; left:150px; width: 90px; height:90px; }
 		#div-receipt { top:400px; left:30px; width: 210px; height:100px; }
-		
+
 		#div-rproject { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
 		#div-rquotation { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
 		#div-rinvoice { position:absolute; top:620px; left:30px; width: 100px; height:100px; }
@@ -86,7 +86,7 @@ function endsWith($haystack, $needle)
 		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
 		#div-rap { position:absolute; top:620px; left:390px; width: 100px; height:100px; }
 		#div-rpayment { position:absolute; top:730px; left:280px; width: 100px; height:100px; }
-		
+
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
 		#div1-3-container div span { position:absolute; bottom:10px; left:10px; }
@@ -113,6 +113,16 @@ function endsWith($haystack, $needle)
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+
+		/* Toolbar */
+		.h-invoice { background-image: url('assets/images/tb-icons/document_add.png') !important; }
+		.h-reciept { background-image: url('assets/images/tb-icons/document_into.png') !important; }
+		.h-journal { background-image: url('assets/images/tb-icons/document_notebook.png') !important; }
+		.h-report { background-image: url('assets/images/tb-icons/document_chart.png') !important; }
+
+		.s-quot { background-image: url('assets/images/tb-icons/document_connection.png') !important; }
+		.s-sale { background-image: url('assets/images/tb-icons/document_certificate.png') !important; }
+		.b-pay { background-image: url('assets/images/tb-icons/money_envelope.png') !important; }
 	</style>
 </head>
 <body>
@@ -375,7 +385,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-otincome" class="box box-brown"><span>Other Income</span></div>',
 									'<div id="div-otexpense" class="box box-brown"><span>Other Expense</span></div>',
 									'<div id="div-material" class="box box-brown"><span>New Materials</span></div>',
-									
+
 									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
 									'<div id="div-rbalance" class="box box-orange"><span>Mat-Balance Report</span></div>',
 								'</div>'
@@ -387,7 +397,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-                                
+
                                 pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
 								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
 								pEl.getById('div-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rar-aging', c); }, c);
@@ -401,7 +411,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-receipt').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
 								pEl.getById('div-salep').on('click', function(){ $om.viewport.fireEvent('click_salep', c); }, c);
-								
+
 								pEl.getById('div-rproject').on('click', function(){ $om.viewport.fireEvent('click_rproject', c); }, c);
 								pEl.getById('div-rquotation').on('click', function(){ $om.viewport.fireEvent('click_rquotation', c); }, c);
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
@@ -432,6 +442,183 @@ function endsWith($haystack, $needle)
 				]
 			});
 
+			// NORTH PANEL
+			var tabs = Ext.widget('tabpanel', {
+				region:'north',
+		        activeTab: 0,
+		        border:false,
+		        //width: 600,
+		        //: 250,
+		        plain: true,
+		        items: [{
+		                title: 'Home',
+		                tbar: [{
+				            text: 'Invoice',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reciept',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-journal',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Sales',
+		                tbar: [{
+				            text: 'Invoice',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reciept',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Quot',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-quot',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Sales',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-sale',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Purchases',
+		                tbar: [{
+				            text: 'Payment',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Enter Payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Pay payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'b-pay',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-journal',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Materials',
+		                tbar: [{
+				            text: 'Payment',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Enter Payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Pay payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'b-pay',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-journal',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Reports',
+		                tbar: [{
+				            text: 'Invoice',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Payment',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-invoice',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Enter Payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Pay payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'b-pay',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-journal',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            }
+		        ]
+		    });
+
 			////////////////////////////////////////////
 			// VIEWPORT
 			$om.viewport = Ext.create('Ext.Viewport', {
@@ -444,7 +631,8 @@ function endsWith($haystack, $needle)
 				},
 				items: [
 					centerPanel,
-					{
+					tabs
+					/*{
 						region: 'north',
 						collapsible: true,
 						title: 'North',
@@ -452,7 +640,7 @@ function endsWith($haystack, $needle)
 						height: 100,
 						minHeight: 60,
 						html: 'north'
-					}
+					}*/
 				]
 			});
 		});
