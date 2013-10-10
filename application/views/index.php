@@ -73,12 +73,6 @@ Ext.onReady(function() {
 		$om.vendorDialog.show();
 	});
 	
-	$om.viewport.on('click_salep', function(){
-		if(!$om.salepersonDialog)
-			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
-		$om.salepersonDialog.show();
-	});
-	
 //=======
 	//Sale Module
 	$om.viewport.on('click_project', function(){
@@ -110,6 +104,11 @@ Ext.onReady(function() {
 		if(!$om.rquotationDialog)
 			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
 		$om.rquotationDialog.show();
+	});
+	$om.viewport.on('click_saleorder', function(){
+		if(!$om.saleorderDialog)
+			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
+		$om.saleorderDialog.show();
 	});
 	$om.viewport.on('click_rinvoice', function(){
 		if(!$om.rinvoiceDialog)

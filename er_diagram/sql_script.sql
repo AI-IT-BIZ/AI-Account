@@ -11,6 +11,12 @@ Database		mySQL 5
 
 
 
+Drop View IF EXISTS v_vbop
+;
+
+Drop View IF EXISTS v_vbok
+;
+
 Drop View IF EXISTS v_ktyp
 ;
 
@@ -787,11 +793,13 @@ Create table tbl_vbop (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	dismt Decimal(17,2) COMMENT 'Discount amt',
+	disit Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
+	chk01 Varchar(5),
+	chk02 Varchar(5),
  Primary Key (ordnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'SO Item';
 
@@ -803,7 +811,7 @@ Create table tbl_vbok (
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
 	txz01 Varchar(40) COMMENT 'Text Note',
-	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
+	vbeln Varchar(20) COMMENT 'Quotation No (tbl_vbak)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
@@ -823,6 +831,9 @@ Create table tbl_vbok (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
+	whtpr Decimal(17,2),
+	vat01 Decimal(17,2),
+	wht01 Decimal(17,2),
  Primary Key (ordnr)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -946,7 +957,6 @@ Create table tbl_vbbp (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	dismt Decimal(17,2) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
@@ -986,7 +996,7 @@ Create table tbl_bnam (
 	saknr Varchar(10) COMMENT 'gl no',
 	addrs Varchar(100) COMMENT 'Address',
  Primary Key (bcode)) ENGINE = InnoDB
-COMMENT = 'Vendor Type';
+COMMENT = 'Bank Name';
 
 Create table tbl_ebrk (
 	invnr Varchar(20) NOT NULL COMMENT 'Invoice no',
@@ -1328,7 +1338,7 @@ left join tbl_vbbp AS t3 ON t1.recnr=t3.recnr;
 create view v_paym as
 
 SELECT a.*,b.bname
-FROM tbl_paym AS a inner join tbl_bnam AS b ON a.bcode=b.bcode;
+FROM tbl_paym AS a left join tbl_bnam AS b ON a.bcode=b.bcode;
 create view v_trpo as
 
 SELECT t1.*,t2.sgtxt
@@ -1391,6 +1401,22 @@ create view v_ktyp as
 select a.*,b.sgtxt
 from tbl_ktyp a left join tbl_glno b 
 on a.saknr = b.saknr;
+create view v_vbok as
+
+select a.*,
+`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
+`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx
+from tbl_vbok a left join tbl_kna1 b 
+on a.kunnr = b.kunnr
+left join tbl_psal c on a.salnr = c.salnr
+left join tbl_apov d on a.statu = d.statu;
+create view v_vbop as
+
+select a.*,b.maktx
+from tbl_vbop a left join tbl_mara b 
+on a.matnr = b.matnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -1411,13 +1437,16 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0011','CS','SD','Customer','1','0001','99999','1308','10000','tbl_kna1','kunnr'),
                       ('0012','VD','MM','Vendor','2','0001','99999','1308','20000','tbl_lfa1','lifnr'),
                       ('0013','SP','SD','Sale Person','3','0001','99999','1308','30000','tbl_psal','salnr'),
-                      ('0014','RC','AC','Reciept Doc','RC','1000','9999','1308','30000','tbl_vbbk','recnr'),
-                      ('0015','PY','AC','Payment Doc','PY','1000','9999','1308','30000','tbl_ebbk','payno'),
+                      ('0014','RD','AC','Reciept Doc','RD','1000','9999','1308','30000','tbl_vbbk','recnr'),
+                      ('0015','PD','AC','Payment Doc','PD','1000','9999','1308','30000','tbl_ebbk','payno'),
                       ('0016','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0017','AP','AC','Account Payable','AP','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0018','PV','AC','Account Payabled','PV','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0019','RV','AC','Account Receipted','RV','10000','99999','1308','30000','tbl_bkpf','belnr'),
-                      ('0020','TI','AC','AP Doc','TI','1000','9999','1308','30000','tbl_ebrk','invnr');
+                      ('0020','PC','AC','Cheque Payment','PC','10000','99999','1308','30000','tbl_bkpf','belnr'),
+                      ('0021','RC','AC','Cheque Receipt','RC','10000','99999','1308','30000','tbl_bkpf','belnr'),
+                      ('0022','AD','AC','AP Doc','AD','1000','9999','1308','30000','tbl_ebrk','invnr'),
+                      ('0023','SO','SD','Sale Order','SO','1000','9999','1308','2000','tbl_vbok','ordnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
@@ -1426,67 +1455,68 @@ INSERT INTO tbl_gjou (jounr, joutx) VALUES ('01', 'General'),('02', 'Payment'),(
 INSERT INTO tbl_glno (saknr,sgtxt,erdat,ernam,glgrp,gllev,gltyp,under) 
         VALUES ('100000','Asset','2013/07/02','ASD','1','1','1','1'),
                ('110000','Current Asset','2013/07/02','ASD','1','1','1','100000'),
-               ('111000','Cash&Bank','2013/07/02','ASD','1','1','1','110000'),
-               ('111100','Cash','2013/07/02','ASD','1','2','1','111000'),
-               ('111200','Transfer to Bank','2013/07/02','ASD','1','1','1','111000'),
-               ('111210','Credit Card','2013/07/02','ASD','1','2','1','111200'),
-               ('111211','Current-BKK','2013/07/02','ASD','1','2','1','111200'),
-               ('111212','Current-KBank','2013/07/02','ASD','1','2','1','111200'),
-               ('112000','Customer Debtor','2013/07/02','ASD','1','2','1','110000'),
-               ('112001','General Customer Debtor','2013/07/02','ASD','1','2','1','112000'),
-               ('112002','Debtor Company A','2013/07/02','ASD','1','2','1','112000'),
-               ('112003','Debtor Company B','2013/07/02','ASD','1','2','1','112000'),
-               ('531503','Paymented Different','2013/07/02','ASD','1','2','1','112000'),
+               ('111000','Cash on hand','2013/07/02','ASD','1','1','1','110000'),
+               ('111100','Petty Cash','2013/07/02','ASD','1','2','1','111000'),
+               ('111200','Cash in Bank - Saving Account','2013/07/02','ASD','1','1','1','111000'),
+               ('111210','Cheque Receipt','2013/07/02','ASD','1','2','1','111200'),
+               ('111211','Cash in Bank - Current Account','2013/07/02','ASD','1','2','1','111200'),
+               ('111212','Cash in Bank - Current Account (OD)','2013/07/02','ASD','1','2','1','111200'),
+               ('112000','Account Receivable - Domestic','2013/07/02','ASD','1','2','1','110000'),
+               ('112001','Account Receivable - Export','2013/07/02','ASD','1','2','1','112000'),
+               ('112002','Account Receivable - Advertisement ','2013/07/02','ASD','1','2','1','112000'),
+               ('112003','Account Receivable - Renting the Drama','2013/07/02','ASD','1','2','1','112000'),
+               ('531503','Accounting Receivable - Rights','2013/07/02','ASD','1','2','1','112000'),
                
-               ('113000','Cheque','2013/07/02','ASD','1','2','1','110000'),
-               ('114000','Debt will lose','2013/07/02','ASD','1','2','1','110000'),
-               ('115000','Other Customer','2013/07/02','ASD','1','2','1','110000'),
-               ('116000','Material','2013/07/02','ASD','1','2','1','110000'),
+               ('113000','Accounting Receivable - FG','2013/07/02','ASD','1','2','1','110000'),
+               ('114000','Allowance of Doubtful','2013/07/02','ASD','1','2','1','110000'),
+               ('115000','Other Account Receivable','2013/07/02','ASD','1','2','1','110000'),
+               ('116000','Finished Goods and Inventory','2013/07/02','ASD','1','2','1','110000'),
                ('116100','Raw Material','2013/07/02','ASD','1','2','1','116000'),
-               ('116200','General Material','2013/07/02','ASD','1','2','1','116000'),
-               ('116300','Finish Goods','2013/07/02','ASD','1','2','1','116000'),
-               ('116400','Process Material','2013/07/02','ASD','1','2','1','116000'),
-               ('116500','Service Material','2013/07/02','ASD','1','2','1','116000'),
+               ('116200','Work in Process','2013/07/02','ASD','1','2','1','116000'),
+               ('116300','Finished Goods','2013/07/02','ASD','1','2','1','116000'),
+               ('116400','Office Supply and Stationary','2013/07/02','ASD','1','2','1','116000'),
+               ('116500','Bi - Finished Goods Product','2013/07/02','ASD','1','2','1','116000'),
                ('117000','Other Current Asset','2013/07/02','ASD','1','2','1','110000'),
-               ('117100','Other Current Asset','2013/07/02','ASD','1','2','1','117000'),
-               ('117400','Payment Tax','2013/07/02','ASD','1','2','1','117000'),
+               ('117100','Prepaid Payment','2013/07/02','ASD','1','2','1','117000'),
+               ('117400','Accrue Revenue','2013/07/02','ASD','1','2','1','117000'),
               
-               ('200000','Liabibity','2013/07/02','ASD','2','1','1','2'),
-               ('210000','Current Liabibity','2013/07/02','ASD','2','1','1','200000'),
-               ('211000','A/C Payable Purchase','2013/07/02','ASD','2','1','1','210000'),
-               ('211001','General A/C Payable Purchase','2013/07/02','ASD','2','2','1','211000'),
-               ('211002','A/C Payable Company A','2013/07/02','ASD','2','2','1','211000'),
-               ('211003','A/C Payable Company B','2013/07/02','ASD','2','2','1','211000'),
-               ('212000','General A/C Payable','2013/07/02','ASD','2','1','1','210000'),
-               ('213000','Balance Chaque','2013/07/02','ASD','2','1','1','210000'),
-               ('214000','Pretty Cash','2013/07/02','ASD','2','1','1','210000'),
-               ('215000','Other Current liability','2013/07/02','ASD','2','1','1','210000'),
-               ('215010','Sale Tax','2013/07/02','ASD','2','1','1','215000'),
-               ('215020','Loan Interest','2013/07/02','ASD','2','1','1','215000'),
-               ('215030','Revenue Tax','2013/07/02','ASD','2','1','1','215000'),
-               ('215040','WHT Tax','2013/07/02','ASD','2','1','1','215000'),
-               ('215050','Personal Revenue Tax','2013/07/02','ASD','2','1','1','215000'),
-               ('215060','Social Insurance','2013/07/02','ASD','2','1','1','215000'),
-               ('215070','General Payment','2013/07/02','ASD','2','1','1','215000'),
+               ('200000','Liability','2013/07/02','ASD','2','1','1','2'),
+               ('210000','Current Liability','2013/07/02','ASD','2','1','1','200000'),
+               ('211000','Account Payable - Domestic','2013/07/02','ASD','2','1','1','210000'),
+               ('211001','Account Payable - Export','2013/07/02','ASD','2','2','1','211000'),
+               ('211002','Account Payable - Renting the Drama','2013/07/02','ASD','2','2','1','211000'),
+               ('211003','Account Payable - Rights','2013/07/02','ASD','2','2','1','211000'),
+               ('212000','Account Payable - RM','2013/07/02','ASD','2','1','1','210000'),
+               ('213000','Other Account Payable','2013/07/02','ASD','2','1','1','210000'),
+               ('214000','Accrue Expense','2013/07/02','ASD','2','1','1','210000'),
+               ('215000','Down Payment','2013/07/02','ASD','2','1','1','210000'),
+               ('215010','Input - Output Vat','2013/07/02','ASD','2','1','1','215000'),
+               ('215020','Accrue Interest Expense','2013/07/02','ASD','2','1','1','215000'),
+               ('215030','Corporate Income Tax (PND51, PND50)','2013/07/02','ASD','2','1','1','215000'),
+               ('215040','Witholding tax (PND53)','2013/07/02','ASD','2','1','1','215000'),
+               ('215050','Witholding tax (PND3)','2013/07/02','ASD','2','1','1','215000'),
+               ('215060','Witholding tax (PND1)','2013/07/02','ASD','2','1','1','215000'),
+               ('215070','Social Security Fund (SSF)','2013/07/02','ASD','2','1','1','215000'),
                
                ('300000','Shareholders Equity','2013/07/02','ASD','3','1','1','3'),
-               ('310000','Share Capital','2013/07/02','ASD','3','2','1','300000'),
+               ('310000','Common Stock','2013/07/02','ASD','3','2','1','300000'),
                
-               ('400000','Revenue','2013/07/02','ASD','4','1','1','4'),
-               ('410000','Revenue-Sale','2013/07/02','ASD','4','1','1','400000'),
+               ('400000','Income and Revenue','2013/07/02','ASD','4','1','1','4'),
+               ('410000','Revenue from Sale','2013/07/02','ASD','4','1','1','400000'),
                ('411000','Sale','2013/07/02','ASD','4','2','1','410000'),
-               ('420000','Revenue-Serice','2013/07/02','ASD','4','1','1','400000'),
-               ('420010','General Serice','2013/07/02','ASD','4','2','1','420000'),
-               ('420020','Cosult Serice','2013/07/02','ASD','4','2','1','420000'),
-               ('420030','Other Serice','2013/07/02','ASD','4','2','1','420000'),
+               ('420000','Revenue from Service','2013/07/02','ASD','4','1','1','400000'),
+               ('420010','Revenue from Service','2013/07/02','ASD','4','2','1','420000'),
+               ('420020','Revenue from Renting','2013/07/02','ASD','4','2','1','420000'),
+               ('420030','Revenue from Rights','2013/07/02','ASD','4','2','1','420000'),
                
                ('500000','Expense','2013/07/02','ASD','5','1','1','5'),
                ('510000','Cost of Goods Sold','2013/07/02','ASD','5','1','1','500000'),
-               ('511000','Cost of Sale','2013/07/02','ASD','5','2','1','510000'),
-               ('512000','Net Purchasing','2013/07/02','ASD','5','1','1','511000'),
-               ('512010','Purchasing','2013/07/02','ASD','5','2','1','512000'),
-               ('512020','Receive Decrease','2013/07/02','ASD','5','2','1','512000'),
-               ('512030','Return Goods','2013/07/02','ASD','5','2','1','512000');
+               ('511000','Cost of Goods Sold','2013/07/02','ASD','5','2','1','510000'),
+               ('512000','Purchasing','2013/07/02','ASD','5','1','1','511000'),
+               ('512010','Discount, Claim and Return','2013/07/02','ASD','5','2','1','512000'),
+               ('512020','Discount','2013/07/02','ASD','5','2','1','512000'),
+               ('512030','Claim and Return','2013/07/02','ASD','5','2','1','512000');
+
                
 INSERT INTO tbl_bnam (bcode, bname, addrs) VALUES 
 ('BOT', 'Bank of Thailand','273 Samsan Rd., Bangkhunprom Bangkok 10200 Tel.0-2283-5353 Fax 0-2280-0449,0-280-0626'),
@@ -1511,7 +1541,8 @@ INSERT INTO tbl_mtyp (mtart, matxt, saknr) VALUES
 ('GM', 'Gernaral Material', '116400'),
 ('SV', 'Service Material', '116500');
 
-INSERT INTO tbl_ttyp (ttype, typtx, modul) VALUES ('01','Genaral','GN'),('02','Payment','PV'),('03','Receive','RV'),('04','Sale','RC'),('05','Purchase','PY'),('06','Petty Cash','PC');
+INSERT INTO tbl_ttyp (ttype, typtx, modul) VALUES ('01','Genaral Journal','JV'),('02','Payment Journal','PV'),('03','Receipt Journal','RV'),('04','Sale Journal','AR'),
+('05','Purchase Journal','AP'),('06','Petty Cash Journal','PE'),('07','Cheque Receipt Journal','RC'),('08','Cheque Payment Journal','PC');
 
 INSERT INTO tbl_ktyp (ktype, custx, saknr) VALUES ('01', 'Regular Customer', '410000'),('02', 'Temporary Customer', '411000');
 
@@ -1552,7 +1583,7 @@ INSERT INTO tbl_cond (condi, contx) VALUES ('01', 'After issue Invoice'),('02', 
 ('03', 'After reciept Service/Goods');
 
 INSERT INTO tbl_ptyp (ptype, paytx, saknr) VALUES ('01', 'Credit', '112001'),('02', 'Cash', '111100'),
-('03', 'Transfer to Book Bank', '111200'),('04', 'Credit Card', '111210'),('05', 'Cheque', '113000');
+('03', 'Transfers', '111200'),('04', 'Credit Card', '111200'),('05', 'Cheque', '111210');
 
 INSERT INTO tbl_reson (reanr,rtype, typtx, reatx) 
         VALUES ('01', '01', 'Transaction Mat', 'Balance'),

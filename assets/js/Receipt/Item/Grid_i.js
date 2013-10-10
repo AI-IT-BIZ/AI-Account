@@ -142,7 +142,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			}/*,
+			},{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},/*,
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',

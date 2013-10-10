@@ -62,7 +62,7 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
+			id : 'RowNumber31',
 			header : "No.",
 			dataIndex : 'trapr',
 			width : 50,

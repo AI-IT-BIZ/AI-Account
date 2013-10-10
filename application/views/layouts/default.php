@@ -98,23 +98,27 @@ function endsWith($haystack, $needle)
 		#div-income { top:30px; left:530px; width: 100px; height:100px; }
 		#div-journaltemp { top:30px; left:640px; width: 100px; height:100px; }
 		#div-journal { top:140px; left:530px; width: 210px; height:100px; }
-		#div-manage-budget { top:250px; left:530px; width: 100px; height:100px; }
+		#div-manage-costcenter { top:250px; left:530px; width: 100px; height:100px; }
 		#div-chart-account { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
+		#div-asset-regist { top:360px; left:530px; width: 100px; height:100px; }
+		#div-dep-amort { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
 
-		#div-rjournal { position:absolute; top:400px; left:530px; width: 100px; height:100px; }
-		#div-rgl { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
-		#div-rar-aging { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
-		#div-rap-aging { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
-		#div-rmm-aging { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
-		#div-rmm-stockcard { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
+		#div-rjournal { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
+		#div-rgl { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
+		#div-rar-aging { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
+		#div-rap-aging { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
+		#div-rmm-aging { position:absolute; top:730px; left:530px; width: 100px; height:100px; }
+		#div-rmm-stockcard { position:absolute; top:730px; left:640px; width: 100px; height:100px; }
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-transaction { top:30px; left:780px; width: 100px; height:100px; }
 		#div-balance { top:30px; left:890px; width: 100px; height:100px; }
-		#div-otincome { top:140px; left:780px; width: 100px; height:100px; }
-		#div-otexpense { top:140px; left:890px; width: 100px; height:100px; }
-		#div-material { top:250px; left:780px; width: 210px; height:100px; }
+		#div-material { top:140px; left:780px; width: 100px; height:100px; }
+		#div-service { top:140px; left:890px; width: 100px; height:100px; }
+		#div-otincome { top:250px; left:780px; width: 100px; height:100px; }
+		#div-otexpense { top:250px; left:890px; width: 100px; height:100px; }
+		
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
@@ -185,8 +189,16 @@ function endsWith($haystack, $needle)
 				text: 'Create New Quotations',
 				leaf: true
 			};
+			var nodeSaleOrder = {
+				text: 'Create New Sale Orders',
+				leaf: true
+			};
 			var nodeInvoice = {
 				text: 'Create New Invoices',
+				leaf: true
+			};
+			var nodeReceipt = {
+				text: 'Create New Receipts',
 				leaf: true
 			};
 			var nodeCustomer = {
@@ -203,7 +215,9 @@ function endsWith($haystack, $needle)
 				children: [
 					nodeProject,
 					nodeQuotation,
+					nodeSaleOrder,
 					nodeInvoice,
+					nodeReceipt,
 					nodeCustomer
 				]
 			};
@@ -220,6 +234,14 @@ function endsWith($haystack, $needle)
 				text: 'Create New Goods Recieves',
 				leaf: true
 			};
+			var nodeAP = {
+				text: 'Create New Account Payables',
+				leaf: true
+			};
+			var nodePayment = {
+				text: 'Create New Payments',
+				leaf: true
+			};
 			var nodeVendor = {
 				text: 'Create New Vendors',
 				leaf: true
@@ -234,7 +256,44 @@ function endsWith($haystack, $needle)
 					nodePR,
 					nodePO,
 					nodeGR,
+					nodeAP,
+					nodePayment,
 					nodeVendor
+				]
+			};
+			
+			var nodeIncome = {
+				text: 'Create New Income Statements',
+				leaf: true
+			};
+			var nodeJTemplate = {
+				text: 'Create New Journal Templates',
+				leaf: true
+			};
+			var nodeJournal = {
+				text: 'Create New Journals',
+				leaf: true
+			};
+			var nodeBudget = {
+				text: 'Create New Manage Bugets',
+				leaf: true
+			};
+			var nodeAccChart = {
+				text: 'Chart of Accounts',
+				leaf: true
+			};
+
+			var groupAccount = {
+				text: 'Accounts',
+				leaf: false,
+				expanded: true,
+				singleClickExpand : true,
+				children: [
+					nodeIncome,
+					nodeJTemplate,
+					nodeJournal,
+					nodeBudget,
+					nodeAccChart
 				]
 			};
 
@@ -246,19 +305,29 @@ function endsWith($haystack, $needle)
 				text: 'Create New Material Balances',
 				leaf: true
 			};
+			var nodeOtherIn = {
+				text: 'Create New Other Incomes',
+				leaf: true
+			};
+			var nodeOtherEx = {
+				text: 'Create New Other Expenses',
+				leaf: true
+			};
 			var nodeMaterial = {
 				text: 'Create New Materials',
 				leaf: true
 			};
 
 			var groupMaterial = {
-				text: 'Material Master',
+				text: 'Material Management',
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
 				children: [
 					nodeTrans,
 					nodeBalances,
+					nodeOtherIn,
+					nodeOtherEx,
 					nodeMaterial
 				]
 			};
@@ -318,9 +387,9 @@ function endsWith($haystack, $needle)
 					expanded: true,
 					children: [
 						groupNodeTodo,
-						//groupTransaction,
 						groupSale,
 						groupPurchase,
+						groupAccount,
 						groupMaterial,
 						groupReport,
 						groupConfig
@@ -376,8 +445,10 @@ function endsWith($haystack, $needle)
 									'<div id="div-income" class="box box-blue"><span>Income Statement</span></div>',
 									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
-									'<div id="div-manage-budget" class="box box-blue"><span>Manage Budget</span></div>',
+									'<div id="div-manage-costcenter" class="box box-blue"><span>Manage Cost Center</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
+									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
+									'<div id="div-dep-amort" class="box box-blue"><span>Depreciation& Amortization</span></div>',
 
 									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
@@ -388,14 +459,15 @@ function endsWith($haystack, $needle)
 								'</div>',
 								//Material Module
 								'<div id="div1-4-container">',
-								    '<div id="div-transaction" class="box box-purple"><span>Material Transactions</span></div>',
-									'<div id="div-balance" class="box box-purple"><span>Material Balances</span></div>',
-									'<div id="div-otincome" class="box box-purple"><span>Other Income</span></div>',
-									'<div id="div-otexpense" class="box box-purple"><span>Other Expense</span></div>',
-									'<div id="div-material" class="box box-purple"><span>New Materials</span></div>',
+								    '<div id="div-transaction" class="box box-purple"><span>Inventory Transactions</span></div>',
+									'<div id="div-balance" class="box box-purple"><span>Inventory Balances</span></div>',
+									'<div id="div-otincome" class="box box-purple"><span>Other Incomes</span></div>',
+									'<div id="div-otexpense" class="box box-purple"><span>Other Expenses</span></div>',
+									'<div id="div-material" class="box box-purple"><span>Inventories Master</span></div>',
+									'<div id="div-service" class="box box-purple"><span>Services Master</span></div>',
 
 									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
-									'<div id="div-rbalance" class="box box-orange"><span>Mat-Balance Report</span></div>',
+									'<div id="div-rbalance" class="box box-orange"><span>Balance Report</span></div>',
 								'</div>'
 								].join(''),
 						listeners : {

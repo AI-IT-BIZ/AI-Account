@@ -43,7 +43,8 @@ Ext.define('Account.Receipt.Item.Grid_gl', {
 				'sgtxt',
 				'debit',
 				'credi',
-				'txz01'
+				'txz01',
+				'statu'
 			],
 			remoteSort: true,
 			sorters: ['belpr ASC']
