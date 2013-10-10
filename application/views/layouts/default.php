@@ -141,8 +141,30 @@ function endsWith($haystack, $needle)
 		.arrow-up span { display:block; width:11px; height:6px; position:absolute; top:0px;
 			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-up.gif') ?>') repeat-y center center;
 		}
-		#arrow-01 { height:30px; top:130px; left:71px; }
-		#arrow-02 { height:30px; top:130px; left:190px; }
+		.arrow-right,
+		.arrow-left { height:11px;background:#014051 url('<?= base_url('assets/images/arrow/arrow-line-h.gif') ?>') repeat-x center center; }
+		.arrow-left span { display:block; width:6px; height:11px; position:absolute; left:0px;
+			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-left.gif') ?>') repeat-y center center;
+		}
+		.arrow-right span {
+			display:block; width:6px; height:11px; position:absolute; right:0px;
+			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-right.gif') ?>') repeat-y center center;
+		}
+		#arrow-home-01 { height:30px; top:130px; left:71px; }
+		#arrow-home-02 { height:30px; top:130px; left:190px; }
+		#arrow-home-03 { width:30px; top:200px; left:120px; }
+		#arrow-home-04 { height:30px; top:250px; left:71px; }
+		#arrow-home-05 { width:30px; top:321px; left:120px; }
+		#arrow-home-06 { height:30px; top:370px; left:190px; }
+		#arrow-home-07 { width:30px; top:441px; left:120px; }
+
+		#arrow-home-08 { height:30px; top:130px; left:320px; }
+		#arrow-home-09 { height:30px; top:130px; left:440px; }
+		#arrow-home-10 { width:30px; top:199px; left:370px; }
+		#arrow-home-11 { height:30px; top:250px; left:320px; }
+		#arrow-home-12 { width:30px; top:321px; left:370px; }
+		#arrow-home-13 { height:30px; top:370px; left:440px; }
+		#arrow-home-14 { width:30px; top:440px; left:370px; }
 	</style>
 </head>
 <body>
@@ -481,8 +503,21 @@ function endsWith($haystack, $needle)
 									'<div id="div-rbalance" class="box box-orange"><span>Balance Report</span></div>',
 								'</div>',
 								// arrow
-								'<div id="arrow-01" class="arrow arrow-down"><span></span></div>',
-								'<div id="arrow-02" class="arrow arrow-up"><span></span></div>'
+								'<div id="arrow-home-01" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-02" class="arrow arrow-up"><span></span></div>',
+								'<div id="arrow-home-03" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-home-04" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-05" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-home-06" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-07" class="arrow arrow-left"><span></span></div>',
+
+								'<div id="arrow-home-08" class="arrow arrow-up"><span></span></div>',
+								'<div id="arrow-home-09" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-10" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-home-11" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-12" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-home-13" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>'
 								].join(''),
 						listeners : {
 							render : function(c) {
