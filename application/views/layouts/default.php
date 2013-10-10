@@ -119,7 +119,6 @@ function endsWith($haystack, $needle)
 		#div-otincome { top:250px; left:780px; width: 100px; height:100px; }
 		#div-otexpense { top:250px; left:890px; width: 100px; height:100px; }
 		
-
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 

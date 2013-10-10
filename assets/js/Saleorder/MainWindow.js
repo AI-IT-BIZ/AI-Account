@@ -11,7 +11,7 @@ Ext.define('Account.Saleorder.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1020,
+			width: 930,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
