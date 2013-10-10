@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		8/10/2013
+Modified		10/10/2013
 Project		
 Model		
 Company		
@@ -281,6 +281,9 @@ Create table tbl_lfa1 (
 	telf2 Varchar(30) COMMENT 'Fax2',
 	pson2 Varchar(30) COMMENT 'Person2',
 	emai2 Varchar(20) COMMENT 'Email2',
+	cunt1 Varchar(20),
+	cunt2 Varchar(20),
+	statu Varchar(4),
  Primary Key (lifnr)) ENGINE = InnoDB
 COMMENT = 'Vendor Master';
 
@@ -394,7 +397,7 @@ Create table tbl_vbak (
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
-	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	whtpr Decimal(17,2) COMMENT 'WHT Value',
 	vat01 Decimal(17,2) COMMENT 'Vat amt',
 	wht01 Decimal(17,2) COMMENT 'WHT amt',
@@ -450,6 +453,9 @@ Create table tbl_kna1 (
 	telf2 Varchar(30) COMMENT 'Fax2',
 	pson2 Varchar(30) COMMENT 'Person2',
 	emai2 Varchar(20) COMMENT 'Email2',
+	cunt1 Varchar(20),
+	cunt2 Varchar(20),
+	statu Varchar(4),
  Primary Key (kunnr)) ENGINE = InnoDB
 COMMENT = 'Customer Master';
 
@@ -676,11 +682,13 @@ Create table tbl_vbrk (
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
-	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	vbeln Varchar(20) COMMENT 'QT no (tbl_vbak)',
 	condi Varchar(4) COMMENT 'Payment Condition',
 	paypr Varchar(4) COMMENT 'Partial Payment',
-	belnr Varchar(20) COMMENT 'GL Doc',
+	whtpr Decimal(17,2),
+	vat01 Decimal(17,2),
+	wht01 Decimal(17,2),
  Primary Key (invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
@@ -714,7 +722,7 @@ Create table tbl_bkpf (
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
-	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	saknr Varchar(10) COMMENT 'GL No',
 	vbeln Varchar(10) COMMENT 'SO no',
 	blart Varchar(2) COMMENT 'Doc type',
@@ -814,7 +822,7 @@ Create table tbl_vbok (
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
-	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
  Primary Key (ordnr)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -926,7 +934,7 @@ Create table tbl_vbbk (
 	taxpr Decimal(17,2) COMMENT 'Percent Tax',
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
-	exchg Decimal(15,3) COMMENT 'Exchange rate',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
  Primary Key (recnr)) ENGINE = InnoDB
 COMMENT = 'Receipt Header';
 
@@ -1249,14 +1257,17 @@ create view v_vbrk as
 
 select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,c.name1 as sname,d.statx,e.paytx,e.saknr,f.jobnr, g.jobtx
+`b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
+`b`.`emai2`,`b`.`dis02`,`b`.`saknr` as cusgl,c.name1 as sname,d.statx,
+e.paytx,e.saknr,f.jobnr, g.jobtx, h.belnr
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
 left join tbl_vbak f on a.vbeln = f.vbeln
-inner join tbl_jobk g on f.jobnr = g.jobnr;
+inner join tbl_jobk g on f.jobnr = g.jobnr
+left join tbl_bkpf h on a.invnr = h.invnr;
 create view v_vbrp as
 
 select a.*,b.maktx,b.mtart
@@ -1402,7 +1413,7 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0013','SP','SD','Sale Person','3','0001','99999','1308','30000','tbl_psal','salnr'),
                       ('0014','RC','AC','Reciept Doc','RC','1000','9999','1308','30000','tbl_vbbk','recnr'),
                       ('0015','PY','AC','Payment Doc','PY','1000','9999','1308','30000','tbl_ebbk','payno'),
-                      ('0016','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr'),
+                      ('0016','AR','AC','Account Recieveable','AR','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0017','AP','AC','Account Payable','AP','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0018','PV','AC','Account Payabled','PV','10000','99999','1308','30000','tbl_bkpf','belnr'),
                       ('0019','RV','AC','Account Receipted','RV','10000','99999','1308','30000','tbl_bkpf','belnr'),
@@ -1520,10 +1531,10 @@ INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr)
                ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002'),
                ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002');
                
-INSERT INTO tbl_apov (statu, statx, apgrp) VALUES ('01', 'Waiting Approve', '1'),('02', 'Approved', '1'),('03', 'Unapproved', '1'),('04', 'Rejected', '1'),
+INSERT INTO tbl_apov (statu, statx, apgrp) VALUES ('01', 'Waiting for Approval', '1'),('02', 'Approved', '1'),('03', 'Unapproved', '1'),('04', 'Rejected', '1'),
                                             ('05', 'Active', '2'),('06', 'Parking', '2'),('07', 'Rejected', '2');
 
-INSERT INTO tbl_apop (statu, statx) VALUES ('01', 'Waiting Approve'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected'),
+INSERT INTO tbl_apop (statu, statx) VALUES ('01', 'Waiting for Approval'),('02', 'Approved'),('03', 'Unapproved'),('04', 'Rejected'),
                                             ('05', 'Phase 1 Completed'),('06', 'Phase 2 Completed'),('07', 'Phase 3 Completed'),('08', 'Phase 4 Completed'),
                                             ('09', 'Phase 5 Completed'),('10', 'Phase 6 Completed');
 
