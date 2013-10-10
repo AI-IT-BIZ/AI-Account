@@ -138,6 +138,7 @@ function endsWith($haystack, $needle)
 			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-up.gif') ?>') repeat-y center center;
 		}
 		#arrow-01 { height:30px; top:130px; left:71px; }
+		#arrow-02 { height:30px; top:130px; left:190px; }
 	</style>
 </head>
 <body>
@@ -408,7 +409,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-rbalance" class="box box-orange"><span>Mat-Balance Report</span></div>',
 								'</div>',
 								// arrow
-								'<div id="arrow-01" class="arrow arrow-down"><span></span></div>'
+								'<div id="arrow-01" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-02" class="arrow arrow-up"><span></span></div>'
 								].join(''),
 						listeners : {
 							render : function(c) {
