@@ -1,13 +1,17 @@
-Ext.define('Account.Invoice.MainWindow', {
+Ext.define('Account.Saleorder.MainWindow', {
 	extend	: 'Ext.window.Window',
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Invoice',
+			title: 'Sale Order',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 950,
+			width: 930,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -36,9 +40,8 @@ Ext.define('Account.Invoice.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 
-		this.itemDialog = Ext.create('Account.Invoice.Item.Window');
-
-		this.grid = Ext.create('Account.Invoice.Grid', {
+        this.itemDialog = Ext.create('Account.Saleorder.Item.Window');
+		this.grid = Ext.create('Account.Saleorder.Grid', {
 			region:'center',
 			border: false
 		});
@@ -51,10 +54,6 @@ Ext.define('Account.Invoice.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
-
-			// สั่ง pr_item grid load
-			//_this.itemDialog.grid.load({invpr: 0});
-			//_this.itemDialog.grid2.load({invpr: 0});
 		});
 
 		this.editAct.setHandler(function(){
@@ -65,8 +64,8 @@ Ext.define('Account.Invoice.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({invnr: id});
-			    //_this.itemDialog.grid2.load({invnr: id});
+				_this.itemDialog.form.gridItem.load({ordnr: id});
+				//_this.itemDialog.form.gridPayment.load({vbeln: id});
 			}
 		});
 
@@ -77,6 +76,7 @@ Ext.define('Account.Invoice.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();

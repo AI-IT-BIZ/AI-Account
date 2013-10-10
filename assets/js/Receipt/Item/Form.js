@@ -155,7 +155,7 @@ Ext.define('Account.Receipt.Item.Form', {
             fieldLabel: 'Receipt No',
             name: 'recnr',
             //flex: 3,
-            value: 'RCXXXX-XXXX',
+            value: 'RDXXXX-XXXX',
             labelAlign: 'right',
 			//name: 'qt',
 			width:240,
@@ -263,6 +263,11 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		
+		this.gridPayment.store.on('update', this.loadGL, this);
+		this.gridPayment.store.on('load', this.loadGL, this);
+		//this.on('afterLoad', this.calculateTotal, this);
+		
 		this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
@@ -330,17 +335,12 @@ Ext.define('Account.Receipt.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
-		//alert('111');
 		this.gridPayment.load({ recnr: 0 });
-
-		// default status = wait for approve
-		//this.comboQStatus.setValue('05');
-		//this.comboCond.setValue('01');
 	},
 	
 	// calculate total functions
 	calculateTotal: function(){
-		var _this=this;
+		//var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
@@ -355,11 +355,30 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 		var net = this.formTotal.calculate();
-		// set value to grid payment
 		this.gridPayment.netValue = net;
+	},
+	
+	// Load GL functions
+	loadGL: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var sum = 0;
+		store.each(function(r){
+			var itamt = parseFloat(r.data['itamt']),
+				pay = parseFloat(r.data['payrc']);
+			itamt = isNaN(itamt)?0:itamt;
+			pay = isNaN(pay)?0:pay;
+
+			var amt = itamt - pay;
+
+			sum += amt;
+		});
+
+		// set value to grid payment
 		var rsPM = _this.gridPayment.getData();
 		// Set value to GL Posting grid    
         if(sum>0){
+        	//console.log(rsPM);
             _this.gridGL.load({
             	paym:Ext.encode(rsPM),
             	netpr:sum,

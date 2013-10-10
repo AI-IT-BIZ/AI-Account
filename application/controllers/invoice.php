@@ -60,14 +60,14 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
-	        $vbeln1 = $_this->input->get('vbeln');
-			$vbeln2 = $_this->input->get('vbeln2');
-			if(!empty($vbeln1) && empty($vbeln2)){
-			  $_this->db->where('vbeln', $vbeln1);
+	        $ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
 			}
-			elseif(!empty($vbeln1) && !empty($vbeln2)){
-			  $_this->db->where('vbeln >=', $vbeln1);
-			  $_this->db->where('vbeln <=', $vbeln2);
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -145,7 +145,7 @@ class Invoice extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'vbeln' => $this->input->post('vbeln'),
+			'ordnr' => $this->input->post('ordnr'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -160,7 +160,6 @@ class Invoice extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
-			'vbeln' => $this->input->post('vbeln'),
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
@@ -333,7 +332,7 @@ class Invoice extends CI_Controller {
 
    public function loads_percombo(){
 		$tbName = 'payp';
-		$tbPK = 'vbeln';
+		$tbPK = 'ordnr';
 
 		$query = $this->input->post('query');
 
@@ -431,13 +430,13 @@ class Invoice extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_iv_item(){
-		$qtnr = $this->input->get('qtnr');
-		if(!empty($qtnr)){
+		$sonr = $this->input->get('sonr');
+		if(!empty($sonr)){
 			$this->db->set_dbprefix('v_');
 	     	//$iv_id = $this->input->get('vbap');
-		    $this->db->where('vbeln', $qtnr);
+		    $this->db->where('ordnr', $sonr);
 
-		    $query = $this->db->get('vbap');
+		    $query = $this->db->get('vbop');
 		}else{
             $this->db->set_dbprefix('v_');
 	     	$iv_id = $this->input->get('invnr');

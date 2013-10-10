@@ -20,8 +20,8 @@ Ext.define('Account.Invoice.Grid', {
 				'bldat',
 				'kunnr',
 				'name1',
-				'vbeln',
-				'jobtx',
+				'ordnr',
+				//'jobtx',
 				'sname',
 				'statx',
 				'paytx',
@@ -33,7 +33,7 @@ Ext.define('Account.Invoice.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Invoice No", 
+		    {text: "Invoice No.", 
 		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
 			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
@@ -42,10 +42,8 @@ Ext.define('Account.Invoice.Grid', {
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
 			width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Quotation No", 
-			width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Project Name", 
-			width: 150, dataIndex: 'jobtx', sortable: true},
+			{text: "Sale Order No.", 
+			width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
 			{text: "Sale Person", 
 			width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Status", 
