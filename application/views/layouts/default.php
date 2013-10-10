@@ -521,10 +521,10 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>',
 							'</div>',
 							'<div id="sales-container" style="display:none;">',
-								'<img src="'+__base_url+'assets/images/temp/bg-sales.gif" />',
+								'<img src="'+__base_url+'assets/images/temp/bg-sales.gif?v=1" />',
 							'</div>',
 							'<div id="reports-container" style="display:none;">',
-								'<img src="'+__base_url+'assets/images/temp/bg-reports.gif" />',
+								'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
 							'</div>'
 						].join(''),
 						listeners : {
