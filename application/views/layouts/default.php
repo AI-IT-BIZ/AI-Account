@@ -372,7 +372,9 @@ function endsWith($haystack, $needle)
 						id:'center-wrap', region:'center',
 						layout:'fit', border:true,
 						autoScroll: true,
-						html : [//Sale Module
+						html : [
+							'<div id="home-container">',
+								//Sale Module
 								'<div id="div1-1-container">',
 									'<div id="div-project" class="box box-green"><span>Create New Projects</span></div>',
 									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
@@ -445,8 +447,9 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-11" class="arrow arrow-down"><span></span></div>',
 								'<div id="arrow-home-12" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-home-13" class="arrow arrow-down"><span></span></div>',
-								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>'
-								].join(''),
+								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>',
+							'</div>'
+						].join(''),
 						listeners : {
 							render : function(c) {
 								pEl = c.getEl();
@@ -502,6 +505,17 @@ function endsWith($haystack, $needle)
 				]
 			});
 
+			var changeCenterView = function(tab){
+				var cEl = centerPanel.getEl(),
+					homeCtnr = cEl.getById('home-container');
+
+				homeCtnr.setVisibilityMode('DISPLAY');
+				if(tab.title=='Home'){
+				console.log(homeCtnr);
+					homeCtnr.hide();
+				}
+			};
+
 			// NORTH PANEL
 			var tabs = Ext.widget('tabpanel', {
 				region:'north',
@@ -512,6 +526,9 @@ function endsWith($haystack, $needle)
 		        plain: true,
 		        items: [{
 		                title: 'Home',
+		                listeners: {
+							activate: changeCenterView
+						},
 		                tbar: [{
 				            text: 'Invoice',
 				            scale: 'large',
