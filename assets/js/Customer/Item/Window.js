@@ -5,8 +5,8 @@ Ext.define('Account.Customer.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Customer',
 			closeAction: 'hide',
-			height: 630,
-			width: 650,
+			height: 670,
+			width: 660,
 			layout: 'border',
 			resizable: true,
 			modal: true
