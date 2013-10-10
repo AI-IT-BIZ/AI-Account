@@ -67,8 +67,8 @@ function endsWith($haystack, $needle)
 		#div-customer { top:160px; left:150px; width: 90px; height:90px; }
 		#div-saleorder { top:280px; left:30px; width: 90px; height:90px; }
 		#div-invoice { top:280px; left:150px; width: 90px; height:90px; }
-		#div-billto { top:400px; left:30px; width: 90px; height:90px; }
-		#div-receipt { top:400px; left:150px; width: 90px; height:90px; }
+		#div-receipt { top:400px; left:30px; width: 90px; height:90px; }
+		#div-billto { top:400px; left:150px; width: 90px; height:90px; }
 
 		#div-rproject { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
 		#div-rquotation { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
@@ -83,7 +83,9 @@ function endsWith($haystack, $needle)
 		#div-vendor { top:160px; left:400px; width: 90px; height:90px; }
 		#div-gr { top:280px; left:280px; width: 90px; height:90px; }
 		#div-ap { top:280px; left:400px; width: 90px; height:90px; }
-		#div-payment { top:400px; left:280px; width: 210px; height:100px; }
+		#div-payment { top:400px; left:280px; width: 90px; height:90px; }
+		#div-billfrom { top:400px; left:400px; width: 90px; height:90px; }
+		
 		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
 		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
 		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
@@ -361,6 +363,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
 									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
 									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
+									'<div id="div-billfrom" class="box box-red"><span>Bill from Vendors</span></div>',
 
 									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
 									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
@@ -429,6 +432,8 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
 								pEl.getById('div-ap').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
 								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
+								pEl.getById('div-billfrom').on('click', function(){ $om.viewport.fireEvent('click_billfrom', c); }, c);
+								
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);

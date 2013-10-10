@@ -357,14 +357,14 @@ Ext.define('Account.Receipt.Item.Form', {
 		var net = this.formTotal.calculate();
 		// set value to grid payment
 		this.gridPayment.netValue = net;
-		
+		var rsPM = _this.gridPayment.getData();
 		// Set value to GL Posting grid    
         if(sum>0){
             _this.gridGL.load({
-            	pay:_this.gridPayment.getData(),
+            	paym:Ext.encode(rsPM),
             	netpr:sum,
             	kunnr:this.trigCustomer.getValue(),
-            	ptype:this.comboPay.getValue(),
+            	//ptype:this.comboPay.getValue(),
             	dtype:'01'
             }); 
            }

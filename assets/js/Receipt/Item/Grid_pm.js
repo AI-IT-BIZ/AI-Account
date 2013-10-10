@@ -98,8 +98,6 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    width: 100,
 		    dataIndex: 'ptype',
 		    sortable: true,
-		   // displayField: 'paytx',
-			//valueField: 'ptype',
 		    editor: new Ext.form.field.ComboBox({
 	            store: this.ptypeStore,
 				queryMode: 'remote',

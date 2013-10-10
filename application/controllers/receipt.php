@@ -407,7 +407,7 @@ class Receipt extends CI_Controller {
 		if(empty($iv_id)){
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   $ptype = $this->input->get('ptype');  //Pay Type
+		   //$ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
            
 		   if(empty($vvat)) $vvat=0;
@@ -419,10 +419,11 @@ class Receipt extends CI_Controller {
 		   $result = array();
 		   
 		   // เตรียมข้อมูล pay item
-		$paym = $this->input->post('pay');
+		$paym = $this->input->get('paym');
 		$pm_item_array = json_decode($paym);
+		
 		if(!empty($paym) && !empty($pm_item_array)){
-
+        //echo '111'.$pm_item_array.'222';
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pm_item_array AS $p){
@@ -430,9 +431,7 @@ class Receipt extends CI_Controller {
 				    $payam = $p->payam;
 					$reman = $p->reman;
 					$net = $net + $payam;
-/*
-					'pramt'=>$p->pramt,
- */
+
  // record แรก
             $query = $this->db->get_where('ptyp', array(
 			'ptype'=>$ptype));

@@ -34,12 +34,13 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
     fieldLabel: 'Price Level',
 	name: 'pleve',
 	//width:293,
-	labelWidth: 160,
+	//labelWidth: 160,
 	//editable: false,
 	triggerAction : 'all',
 	clearFilterOnReset: true,
 	emptyText: '-- Please select Level --',
-	labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
+	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
+    margin: '0 0 0 56',
     store: myStorecomboPleve,
     queryMode: 'local',
     displayField: 'name',
@@ -325,7 +326,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 					readOnly: true,
 					//disabled: true,
 					width:150,
-            		margin: '0 0 0 60',
+            		margin: '0 0 0 64',
 					value: 'XXXXX',
 					labelStyle: 'font-weight:bold',
                 }]
@@ -364,15 +365,32 @@ items:[{
                 items :[this.trigDistr,{
                 }, {
 					xtype: 'textfield',
+					fieldLabel: 'Country',
+		            name: 'cunt1',
+            		margin: '0 0 0 48',
+                }]
+                
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
+                	xtype: 'textfield',
 					fieldLabel: 'Post Code',
-		            name: 'pstlz',
+		            name: 'pst01',
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
+					labelWidth: 93,
+		            width: 290,
+                }, {
+					xtype: 'textfield',
+					fieldLabel: 'Email',
+					name: 'emai2',
             		margin: '0 0 0 50',
-                }]
-                
+                }]                
             },{
                 xtype: 'container',
                 flex: 1,
@@ -400,19 +418,16 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-				margin: '0 0 5 0',
                 items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Email',
-					name: 'email',
-					labelWidth: 93,
-		            width: 290,
-                }, {
 					xtype: 'textfield',
 					fieldLabel: 'Contact Person',
 					name: 'pson1',
-            		margin: '0 0 0 50',
-                }]
+					labelWidth: 93,
+		            width: 450,
+                }, {
+					xtype: 'displayfield',
+            		margin: '0 0 0 5',
+            }]
 }],                
             },{
 xtype:'fieldset',
@@ -438,8 +453,8 @@ items:[{
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Country',
-		            name: 'pst02',
-            		margin: '0 0 0 50',
+		            name: 'cunt2',
+            		margin: '0 0 0 48',
                 }]
                 
             },{
@@ -447,7 +462,6 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-				margin: '0 0 5 0',
                 items :[{
                 	xtype: 'textfield',
 					fieldLabel: 'Post Code',
@@ -575,16 +589,10 @@ items:[{
                 padding:2,
                 items :[this.trigGlno,{
 						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
 						name: 'sgtxt_gl',
-						//labelAlign: 'l',
 						margins: '0 0 0 6',
 						width:286,
-						//emptyText: 'Customer',
-						allowBlank: true,
-						//value:'test'
+						allowBlank: false
                 }]
             },{
                 xtype: 'container',
@@ -595,9 +603,7 @@ items:[{
 					xtype: 'textarea',
 					fieldLabel: 'Text Note',
 					name: 'sgtxt',
-					rows:1,
-					anchor:'95%',
-					allowBlank: true,
+					rows:2,
 					width:600,
                 }]
             }]
