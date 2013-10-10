@@ -118,7 +118,7 @@ function endsWith($haystack, $needle)
 		#div-service { top:140px; left:890px; width: 100px; height:100px; }
 		#div-otincome { top:250px; left:780px; width: 100px; height:100px; }
 		#div-otexpense { top:250px; left:890px; width: 100px; height:100px; }
-		
+
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 
@@ -293,7 +293,7 @@ function endsWith($haystack, $needle)
 					nodeVendor
 				]
 			};
-			
+
 			var nodeIncome = {
 				text: 'Create New Income Statements',
 				leaf: true
@@ -519,6 +519,12 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-12" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-home-13" class="arrow arrow-down"><span></span></div>',
 								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>',
+							'</div>',
+							'<div id="sales-container" style="display:none;">',
+								'<img src="'+__base_url+'assets/images/temp/bg-sales.gif" />',
+							'</div>',
+							'<div id="reports-container" style="display:none;">',
+								'<img src="'+__base_url+'assets/images/temp/bg-reports.gif" />',
 							'</div>'
 						].join(''),
 						listeners : {
@@ -578,12 +584,23 @@ function endsWith($haystack, $needle)
 
 			var changeCenterView = function(tab){
 				var cEl = centerPanel.getEl(),
-					homeCtnr = cEl.getById('home-container');
+					homeCtnr = cEl.getById('home-container'),
+					salesCtnr = cEl.getById('sales-container'),
+					reportsCtnr = cEl.getById('reports-container');
 
-				homeCtnr.setVisibilityMode('DISPLAY');
-				if(tab.title=='Home'){
-				console.log(homeCtnr);
-					homeCtnr.hide();
+				homeCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				salesCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				reportsCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+
+				homeCtnr.hide();
+				salesCtnr.hide();
+				reportsCtnr.hide();
+
+				switch(tab.title){
+					case 'Home': homeCtnr.show(); break;
+					case 'Sales': salesCtnr.show(); break;
+					case 'Reports': reportsCtnr.show(); break;
+					default: homeCtnr.show();
 				}
 			};
 
@@ -627,6 +644,9 @@ function endsWith($haystack, $needle)
 				        }]
 		            },{
 		                title: 'Sales',
+		                listeners: {
+							activate: changeCenterView
+						},
 		                tbar: [{
 				            text: 'Invoice',
 				            scale: 'large',
@@ -660,6 +680,9 @@ function endsWith($haystack, $needle)
 				        }]
 		            },{
 		                title: 'Purchases',
+		                listeners: {
+							activate: changeCenterView
+						},
 		                tbar: [{
 				            text: 'Payment',
 				            scale: 'large',
@@ -693,6 +716,9 @@ function endsWith($haystack, $needle)
 				        }]
 		            },{
 		                title: 'Materials',
+		                listeners: {
+							activate: changeCenterView
+						},
 		                tbar: [{
 				            text: 'Payment',
 				            scale: 'large',
@@ -726,6 +752,9 @@ function endsWith($haystack, $needle)
 				        }]
 		            },{
 		                title: 'Reports',
+		                listeners: {
+							activate: changeCenterView
+						},
 		                tbar: [{
 				            text: 'Invoice',
 				            scale: 'large',
