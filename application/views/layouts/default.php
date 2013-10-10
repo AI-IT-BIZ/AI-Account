@@ -85,7 +85,7 @@ function endsWith($haystack, $needle)
 		#div-ap { top:280px; left:400px; width: 90px; height:90px; }
 		#div-payment { top:400px; left:280px; width: 90px; height:90px; }
 		#div-billfrom { top:400px; left:400px; width: 90px; height:90px; }
-		
+
 		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
 		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
 		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
@@ -128,6 +128,16 @@ function endsWith($haystack, $needle)
 		.s-quot { background-image: url('assets/images/tb-icons/document_connection.png') !important; }
 		.s-sale { background-image: url('assets/images/tb-icons/document_certificate.png') !important; }
 		.b-pay { background-image: url('assets/images/tb-icons/money_envelope.png') !important; }
+
+		/* Arrow */
+		.arrow { width:11px; border:0px solid #f00; position:absolute; background:#014051 url('<?= base_url('assets/images/arrow/arrow-line.gif') ?>') repeat-y center center; }
+		.arrow-down span { display:block; width:11px; height:6px; position:absolute; bottom:0px;
+			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-down.gif') ?>') repeat-y center center;
+		}
+		.arrow-up span { display:block; width:11px; height:6px; position:absolute; top:0px;
+			background:#014051 url('<?= base_url('assets/images/arrow/arrow-head-up.gif') ?>') repeat-y center center;
+		}
+		#arrow-01 { height:30px; top:130px; left:71px; }
 	</style>
 </head>
 <body>
@@ -396,7 +406,9 @@ function endsWith($haystack, $needle)
 
 									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
 									'<div id="div-rbalance" class="box box-orange"><span>Mat-Balance Report</span></div>',
-								'</div>'
+								'</div>',
+								// arrow
+								'<div id="arrow-01" class="arrow arrow-down"><span></span></div>'
 								].join(''),
 						listeners : {
 							render : function(c) {
@@ -433,7 +445,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-ap').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
 								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
 								pEl.getById('div-billfrom').on('click', function(){ $om.viewport.fireEvent('click_billfrom', c); }, c);
-								
+
 								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
 								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
 								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);
