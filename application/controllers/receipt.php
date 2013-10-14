@@ -171,7 +171,7 @@ class Receipt extends CI_Controller {
 		// เตรียมข้อมูล pay item
 		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
-		$cheque='';$noncheque='';
+		$cheque='';$noncheque='';$amt1=0;$amt2=0;
 		if(!empty($paym) && !empty($pm_item_array)){
 
 			$item_index = 0;
@@ -179,7 +179,11 @@ class Receipt extends CI_Controller {
 			foreach($pm_item_array AS $p){
 				if($p->ptype=='05'){
 					$cheque = '1';
-				}else{if(!empty($p->ptype))$noncheque = '1';}
+					$amt1 += $p->payam;
+				}else{if(!empty($p->ptype)){
+					$noncheque = '1';
+					$amt2 += $p->payam;
+				}}
 				$this->db->insert('paym', array(
 					'recnr'=>$id,
 					'paypr'=>++$item_index,
@@ -213,7 +217,7 @@ class Receipt extends CI_Controller {
 			'invnr' => $ids,
 			'txz01' => $this->input->post('txz01'),
 			'auart' => 'RV',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => $amt2
 		);
 		
 		// start transaction
@@ -247,7 +251,7 @@ class Receipt extends CI_Controller {
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
-				if($p->statu=='1'){
+				if($p->statu=='1' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
 					'belnr'=>$id,
 					'belpr'=>++$item_index,
@@ -269,7 +273,7 @@ class Receipt extends CI_Controller {
 			'invnr' => $ids,
 			'txz01' => $this->input->post('txz01'),
 			'auart' => 'RC',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => $amt1
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
@@ -299,7 +303,7 @@ class Receipt extends CI_Controller {
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
-				if($p->statu=='2'){
+				if($p->statu=='2' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
 					'belnr'=>$id,
 					'belpr'=>++$item_index,
@@ -459,7 +463,7 @@ class Receipt extends CI_Controller {
 		   //$ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
 		   
-           $i=0;$n=0;$vamt=0;
+           $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
 		   
 		   // เตรียมข้อมูล pay item
@@ -467,7 +471,6 @@ class Receipt extends CI_Controller {
 		$pm_item_array = json_decode($paym);
 //Check payment grid	
 		if(!empty($paym) && !empty($pm_item_array)){
-        //echo '111'.$pm_item_array.'222';
 			$item_index = 0;
 // loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pm_item_array AS $p){
@@ -494,6 +497,7 @@ class Receipt extends CI_Controller {
 					'statu'=>$statu
 				);
 				$i++;
+				$debit+=$payam;
 //Case cheque payment				
 				if($ptype=='05'){
 					$query = $this->db->get_where('kna1', array(
@@ -513,6 +517,7 @@ class Receipt extends CI_Controller {
 				);
 				$net=$net-$payam;
 				$i++;
+				$credit+=$payam;
 				}
 			  }//Case cheque payment
 				
@@ -538,7 +543,17 @@ class Receipt extends CI_Controller {
 					'statu'=>'1'
 				);
 				$i++;
+				$credit+=$net;
 			}
+		}
+        if(!empty($debit)){
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>$debit,
+			'credi'=>$credit
+		);
 		}
 		echo json_encode(array(
 			'success'=>true,

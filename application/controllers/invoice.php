@@ -265,6 +265,7 @@ class Invoice extends CI_Controller {
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
+				if(!empty($p->saknr)){
 				$this->db->insert('bcus', array(
 					'belnr'=>$id,
 					'belpr'=>++$item_index,
@@ -274,6 +275,7 @@ class Invoice extends CI_Controller {
 					'credi'=>$p->credi,
 					'txz01'=>$p->txz01
 				));
+			  }
 			}
 		}
 
@@ -470,7 +472,7 @@ class Invoice extends CI_Controller {
 		   
 		   $net = ($netpr + $vvat) - $vwht;
 		   
-           $i=0;$n=0;$vamt=0;
+           $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
 // record แรก
 		if($ptype=='01'){
@@ -489,6 +491,7 @@ class Invoice extends CI_Controller {
 					'credi'=>0
 				);
 				$i++;
+				$debit=$net;
 			}
 		}else{
 			$query = $this->db->get_where('ptyp', array(
@@ -507,6 +510,7 @@ class Invoice extends CI_Controller {
 				);
 				$i++;
 			}
+			$debit=$net;
 		}
 // record ที่สอง
         if($netpr>0){
@@ -525,6 +529,7 @@ class Invoice extends CI_Controller {
 			'credi'=>$netpr
 		);
 		$i++;
+		$credit=$netpr;
 		}
 // record ที่สาม
 		if($vvat>'1'){ 
@@ -540,7 +545,8 @@ class Invoice extends CI_Controller {
 			'debit'=>0,
 			'credi'=>$vvat
 		);
-		$i++;	
+		$i++;
+		$credit = $credit + $vvat;	
 		}
         if($vwht>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}
@@ -555,7 +561,18 @@ class Invoice extends CI_Controller {
 			'debit'=>$vwht,
 			'credi'=>0
 		);
-		$i++;	
+		$i++;
+        $debit = $debit + $vwht;
+		}
+		
+		if(!empty($debit)){
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>$debit,
+			'credi'=>$credit
+		);
 		}
 		echo json_encode(array(
 			'success'=>true,

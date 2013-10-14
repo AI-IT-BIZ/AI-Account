@@ -157,7 +157,14 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
                 format:'d/m/Y',
 			    altFormats:'Y-m-d|d/m/Y',
 			    submitFormat:'Y-m-d'
-            }
+           },
+           renderer: function(value) {
+           	if (!isNaN(value)){
+           		return Ext.Date.format(value, 'd/m/Y')
+           	}else{
+           		return "";
+           	}
+           }
 		    },
 		    {text: "Amount", align : 'right',
 		    width: 100, dataIndex: 'pramt', sortable: true,
@@ -194,6 +201,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    renderer: function(v,p,r){
 				var pamt = parseFloat(r.data['pramt']);
 				var pay = parseFloat(r.data['payam']);
+				pamt = isNaN(pamt)?0:pamt;
+				pay = isNaN(pay)?0:pay;
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 /*
@@ -269,18 +278,23 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		// หา record ที่สร้างใหม่ล่าสุด
 		var net = _this.netValue;
 		var newId = -1;
+		var i=0;
 		this.store.each(function(r){
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
 		newId--;
-
+        var sel = _this.getView().getSelectionModel().getSelection()[0];
+        if (sel){
+         i = parseFloat(sel.get('payam'));
+         net = net - i;
+        }
 		// add new record
 		rec = { id:newId, pramt:net };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
-		var sel = this.getView().getSelectionModel().getSelection()[0];
+		//var sel = this.getView().getSelectionModel().getSelection()[0];
 		var selIndex = this.store.indexOf(sel);
 		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({

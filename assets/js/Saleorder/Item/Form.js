@@ -637,7 +637,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ vbeln: 0 });
+		this.gridItem.load({ ordnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 		//this.gridPrice.load();
 

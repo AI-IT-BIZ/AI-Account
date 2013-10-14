@@ -239,8 +239,22 @@ class Journal extends CI_Controller {
 		}else{
 		    $tr_id = $this->input->get('belnr');
 		    $this->db->where('belnr', $tr_id);
-		    $query = $this->db->get('bsid');
+		    $query = $this->db->get('bcus');
 		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	function loads_jv_item(){
+        $this->db->set_dbprefix('v_');
+
+		    $tr_id = $this->input->get('belnr');
+		    $this->db->where('belnr', $tr_id);
+		    $query = $this->db->get('bcus');
 		
 		echo json_encode(array(
 			'success'=>true,

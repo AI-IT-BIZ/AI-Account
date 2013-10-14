@@ -131,12 +131,7 @@ Ext.define('Account.Project.Item.Form', {
 		this.items = [{
 			xtype:'fieldset',
             title: 'Customer Data',
-            //collapsible: true,
             defaultType: 'textfield',
-            layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
      items:[{
                 xtype: 'container',
                 layout: 'hbox',
@@ -147,11 +142,8 @@ Ext.define('Account.Project.Item.Form', {
 		},this.trigCustomer,{
 			xtype: 'displayfield',
             fieldLabel: '',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
 			name: 'name1',
 			margins: '0 0 0 6',
-            //emptyText: 'Customer
             width: 400,
             allowBlank: true
 		}]
@@ -159,7 +151,6 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'textarea',
 			fieldLabel: 'Address',
 			name: 'adr01',
-			anchor:'90%',
 			width:500,
 			allowBlank: true
          }]
@@ -167,10 +158,6 @@ Ext.define('Account.Project.Item.Form', {
          xtype: 'fieldset',
          title: 'Project Detail',
          defaultType: 'textfield',
-         layout: 'anchor',
-         defaults: {
-                  anchor: '100%'
-                },
      items: [{
      	xtype: 'container',
         layout: 'hbox',
@@ -180,13 +167,10 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project No',
 			name: 'jobnr',
 			width: 248,
-			anchor:'100%',
 			labelWidth: 100,
 			value:'PJXXXX-XXXX',
 			readOnly: true,
 			labelStyle: 'font-weight:bold'
-			//disabled: true
-			//allowBlank: false
 		},this.comboJStatus]
 	   },{
      	xtype: 'container',
@@ -196,7 +180,6 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Project Date',
 			name: 'bldat',
-			anchor:'100%',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
@@ -218,12 +201,8 @@ Ext.define('Account.Project.Item.Form', {
      items :[this.comboPOwner,{
 			xtype: 'displayfield',
             fieldLabel: '',
-            //flex: 3,
-            //value: '<span style="color:green;"></span>'
 			name: 'name1',
 			margins: '0 0 0 6',
-            //emptyText: 'Customer',
-            allowBlank: true
 		},{xtype: 'hidden',
 			name: 'ctype',
 			value: 'THB'}]
@@ -236,7 +215,6 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Project Amount',
 			name: 'pramt',
-			anchor:'100%',
 			labelWidth: 100,
 			align: 'right',
 			allowBlank: true
@@ -244,7 +222,6 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Estimate Cost',
 			name: 'esamt',
-			anchor:'100%',
 			labelWidth: 100,
 			align: 'right',
 			allowBlank: true
@@ -257,7 +234,6 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Start Date',
 			name: 'stdat',
-			anchor:'100%',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
@@ -267,20 +243,12 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Finish Date',
 			name: 'endat',
-			anchor:'100%',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: true
-	    },/*{
-			xtype: 'displayfield',
-			fieldLabel: '',
-			name: 'datam',
-			anchor:'100%',
-			Width: 30,
-			allowBlank: true
-	    }*/]
+	    }]
 		}]
 		//}]
 		}];

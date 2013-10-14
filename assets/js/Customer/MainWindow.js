@@ -38,6 +38,22 @@ Ext.define('Account.Customer.MainWindow', {
 			text: 'ลบ',
 			iconCls: 'b-small-minus'
 		});
+		this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel'
+		});
+		this.pdfAct = new Ext.Action({
+			text: 'PDF',
+			iconCls: 'b-small-pdf'
+		});
+		this.importAct = new Ext.Action({
+			text: 'Import',
+			iconCls: 'b-small-import'
+		});
+		this.exportAct = new Ext.Action({
+			text: 'Export',
+			iconCls: 'b-small-export'
+		});
 
 		this.itemDialog = Ext.create('Account.Customer.Item.Window');
 
@@ -47,10 +63,12 @@ Ext.define('Account.Customer.MainWindow', {
 
 		this.items = [this.grid];
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
 		});
 

@@ -8,7 +8,7 @@ Ext.define('Account.RJournal.GL.GLGrid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"journal/loads_gl_item",
+				url: __site_url+"journal/loads_jv_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -35,12 +35,12 @@ Ext.define('Account.RJournal.GL.GLGrid', {
 		    {text: "GL No.", 
 		    width: 80, align: 'center', dataIndex: 'saknr', sortable: true},
 		    {text: "GL Name", 
-		    width: 160, dataIndex: 'sgtxt', sortable: true},
+		    width: 200, dataIndex: 'sgtxt', sortable: true},
 
 			{text: "Debit", 
-			width: 70, align: 'right', dataIndex: 'debit', sortable: true},
+			width: 90, align: 'right', dataIndex: 'debit', sortable: true},
 			{text: "Credit", 
-			width: 70, align: 'right', dataIndex: 'credi', sortable: true}
+			width: 90, align: 'right', dataIndex: 'credi', sortable: true}
 		];
 
 		this.bbar = {

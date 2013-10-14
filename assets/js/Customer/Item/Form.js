@@ -289,7 +289,40 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		this.trigGlno.onTriggerClick = function(){
 			//alert(_this.comboVtype.getValue());
 			_this.glnoDialog.show();
-		};		
+		};	
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Customer Status',
+			name : 'statu',
+			//labelAlign: 'right',
+			//width: 286,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			margin: '0 0 0 54',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'customer/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});	
 				
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
@@ -604,8 +637,8 @@ items:[{
 					fieldLabel: 'Text Note',
 					name: 'sgtxt',
 					rows:2,
-					width:600,
-                }]
+					width:290
+                },this.comboQStatus]
             }]
         }]
 //---address01 02
@@ -656,6 +689,17 @@ items:[{
 			url:__site_url+'customer/load'
 			
 		});
+	},
+	reset: function(){
+		this.getForm().reset();
+
+		// สั่ง grid load เพื่อเคลียร์ค่า
+		//this.gridItem.load({ vbeln: 0 });
+		//this.gridPayment.load({ vbeln: 0 });
+		//this.gridPrice.load();
+
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
 	},
 	remove : function(kunnr){
 		var _this=this;

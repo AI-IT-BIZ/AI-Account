@@ -19,3 +19,18 @@
 .b-small-detail {
 	background-image: url(../images/icons/detail.png) !important;
 }
+.b-small-print {
+	background-image: url(../images/icons/print.png) !important;
+}
+.b-small-excel {
+	background-image: url(../images/icons/excel.png) !important;
+}
+.b-small-pdf {
+	background-image: url(../images/icons/pdf.png) !important;
+}
+.b-small-import {
+	background-image: url(../images/icons/import.png) !important;
+}
+.b-small-export {
+	background-image: url(../images/icons/export.png) !important;
+}

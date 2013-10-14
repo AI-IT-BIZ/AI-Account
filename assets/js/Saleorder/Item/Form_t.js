@@ -201,7 +201,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/load'
+			url:__site_url+'saleorder/load'
 		});
 	},
 	save : function(){

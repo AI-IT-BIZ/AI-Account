@@ -35,8 +35,29 @@ Ext.define('Account.Project.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
+		this.printAct = new Ext.Action({
+			text: 'Print',
+			iconCls: 'b-small-print'
+		});
+		this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel'
+		});
+		this.pdfAct = new Ext.Action({
+			text: 'PDF',
+			iconCls: 'b-small-pdf'
+		});
+		this.importAct = new Ext.Action({
+			text: 'Import',
+			iconCls: 'b-small-import'
+		});
+		this.exportAct = new Ext.Action({
+			text: 'Export',
+			iconCls: 'b-small-export'
+		});
 		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
 
 		this.grid = Ext.create('Account.Project.Grid', {
 			region:'center'

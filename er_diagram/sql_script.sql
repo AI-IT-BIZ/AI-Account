@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		10/10/2013
+Modified		11/10/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_bcus
+;
 
 Drop View IF EXISTS v_vbop
 ;
@@ -689,7 +692,7 @@ Create table tbl_vbrk (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
-	vbeln Varchar(20) COMMENT 'QT no (tbl_vbak)',
+	ordnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
 	condi Varchar(4) COMMENT 'Payment Condition',
 	paypr Varchar(4) COMMENT 'Partial Payment',
 	whtpr Decimal(17,2),
@@ -1269,14 +1272,12 @@ select a.*,`b`.`name1` AS `name1`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
 `b`.`emai2`,`b`.`dis02`,`b`.`saknr` as cusgl,c.name1 as sname,d.statx,
-e.paytx,e.saknr,f.jobnr, g.jobtx, h.belnr
+e.paytx,e.saknr, h.belnr
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
-left join tbl_vbak f on a.vbeln = f.vbeln
-inner join tbl_jobk g on f.jobnr = g.jobnr
 left join tbl_bkpf h on a.invnr = h.invnr;
 create view v_vbrp as
 
@@ -1417,6 +1418,12 @@ create view v_vbop as
 select a.*,b.maktx
 from tbl_vbop a left join tbl_mara b 
 on a.matnr = b.matnr;
+create view v_bcus as
+
+select a.*,b.sgtxt
+from tbl_bcus a left join tbl_glno b 
+on a.saknr = b.saknr;
+
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -1557,10 +1564,10 @@ INSERT INTO tbl_dist (distr, distx) VALUES ('01', 'Bangkok'),('02', 'Ayutaya'),(
 ('05', 'Nakronrachasima'),('06', 'Saraburi'),('07', 'Supan');
 
 INSERT INTO tbl_mara (matnr,maktx,mtart,matkl,erdat,ernam,meins,saknr) 
-        VALUES ('100001','RM Mat test1','EX','RM','2013/07/02','ASD','EA','100001'),
-               ('100002','RM Mat test2','EX','RM','2013/07/02','ASD','EA','100001'),
-               ('200001','FG Mat test1','IN','FG','2013/07/02','ASD','BOX','100002'),
-               ('200002','FG Mat test2','IN','FG','2013/07/02','ASD','BOX','100002');
+        VALUES ('100001','Advertising Newspaper','EX','SV','2013/07/02','ASD','EA','100001'),
+               ('100002','Advertising Agency','EX','SV','2013/07/02','ASD','EA','100001'),
+               ('200001','Website Development','IN','SV','2013/07/02','ASD','BOX','100002'),
+               ('200002','Maintenance Service','IN','SV','2013/07/02','ASD','BOX','100002');
                
 INSERT INTO tbl_apov (statu, statx, apgrp) VALUES ('01', 'Waiting for Approval', '1'),('02', 'Approved', '1'),('03', 'Unapproved', '1'),('04', 'Rejected', '1'),
                                             ('05', 'Active', '2'),('06', 'Parking', '2'),('07', 'Rejected', '2');

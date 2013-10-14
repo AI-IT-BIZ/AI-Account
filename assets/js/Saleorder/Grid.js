@@ -42,7 +42,7 @@ Ext.define('Account.Saleorder.Grid', {
 			dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No", 
 		    width: 100, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", width: 100, dataIndex: 'name1', sortable: true},
+			{text: "Customer Name", width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Quotation No.", 
 			width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},

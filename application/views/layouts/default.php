@@ -123,14 +123,24 @@ function endsWith($haystack, $needle)
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 
 		/* Toolbar */
-		.h-invoice { background-image: url('assets/images/tb-icons/document_add.png') !important; }
-		.h-reciept { background-image: url('assets/images/tb-icons/document_into.png') !important; }
-		.h-journal { background-image: url('assets/images/tb-icons/document_notebook.png') !important; }
-		.h-report { background-image: url('assets/images/tb-icons/document_chart.png') !important; }
+		.h-invoice { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
+		.h-reciept { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
+		.h-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
+		.h-report { background-image: url('assets/images/tb-icons/doc_report3.png') !important; }
 
-		.s-quot { background-image: url('assets/images/tb-icons/document_connection.png') !important; }
-		.s-sale { background-image: url('assets/images/tb-icons/document_certificate.png') !important; }
-		.b-pay { background-image: url('assets/images/tb-icons/money_envelope.png') !important; }
+		.s-proj { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
+		.s-quot { background-image: url('assets/images/tb-icons/doc_new2.png') !important; }
+		.s-sale { background-image: url('assets/images/tb-icons/doc_new.png') !important; }
+		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
+		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
+		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
+		
+		.p-pr { background-image: url('assets/images/tb-icons/doc_pr.png') !important; }
+		.p-po { background-image: url('assets/images/tb-icons/doc_order.png') !important; }
+		.p-gr { background-image: url('assets/images/tb-icons/doc_gr.png') !important; }
+		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
+		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
+		.p-pay { background-image: url('assets/images/tb-icons/doc_pay.png') !important; }
 
 		/* Arrow */
 		.arrow { width:11px; border:0px solid #f00; position:absolute; background:#014051 url('<?= base_url('assets/images/arrow/arrow-line.gif') ?>') repeat-y center center; }
@@ -512,8 +522,8 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-06" class="arrow arrow-down"><span></span></div>',
 								'<div id="arrow-home-07" class="arrow arrow-left"><span></span></div>',
 
-								'<div id="arrow-home-08" class="arrow arrow-up"><span></span></div>',
-								'<div id="arrow-home-09" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-08" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-09" class="arrow arrow-up"><span></span></div>',
 								'<div id="arrow-home-10" class="arrow arrow-left"><span></span></div>',
 								'<div id="arrow-home-11" class="arrow arrow-down"><span></span></div>',
 								'<div id="arrow-home-12" class="arrow arrow-right"><span></span></div>',
@@ -618,16 +628,46 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Invoice',
+				            text: 'Sale Orders',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-sale',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Invoices',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-invoice',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reciept',
+				            text: 'Reciepts',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-reciept',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Purchase Orders',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-po',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Goods Receipts',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-gr',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Acc-Payable',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-ap',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Payments',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Journal',
@@ -647,29 +687,42 @@ function endsWith($haystack, $needle)
 		                listeners: {
 							activate: changeCenterView
 						},
-		                tbar: [{
-				            text: 'Invoice',
+		                tbar: [
+		                {
+				            text: 'Projects',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-invoice',
+				            iconCls: 's-proj',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reciept',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'h-reciept',
-                			cls: 'x-btn-as-arrow'
-				        },{
-				            text: 'Quot',
+				            text: 'Quotations',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 's-quot',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Sales',
+				            text: 'Sale Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 's-sale',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Invoices',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-inv',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Bill to Cust',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-billto',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reciepts',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-recp',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Reports',
@@ -684,28 +737,40 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Payment',
+				            text: 'Purchase Req',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-invoice',
+				            iconCls: 'p-pr',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Enter Payable',
+				            text: 'Purchase Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-reciept',
+				            iconCls: 'p-po',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Pay payable',
+				            text: 'Goods Receipts',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'b-pay',
+				            iconCls: 'p-gr',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Journal',
+				            text: 'Acc-Payable',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-journal',
+				            iconCls: 'p-ap',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Bill from Vendor',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-billfr',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Payments',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Reports',
@@ -735,7 +800,7 @@ function endsWith($haystack, $needle)
 				            text: 'Pay payable',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'b-pay',
+				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Journal',
@@ -777,7 +842,7 @@ function endsWith($haystack, $needle)
 				            text: 'Pay payable',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'b-pay',
+				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Journal',

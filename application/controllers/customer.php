@@ -54,6 +54,22 @@ class Customer extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+	
+	public function loads_acombo(){
+		//$tbName = 'apov';
+		//$tbPK = 'statu';
+
+		$sql="SELECT *
+			FROM tbl_apov
+			WHERE apgrp = '1'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
 
 	function save(){
 		//$kunnr = $this->input->post('kunnr');
@@ -103,7 +119,10 @@ class Customer extends CI_Controller {
 			'tel02' => $this->input->post('tel02'),
 			'telf2' => $this->input->post('telf2'),
 			'emai2' => $this->input->post('emai2'),
-			'pson2' => $this->input->post('pson2')
+			'pson2' => $this->input->post('pson2'),
+			'cunt1' => $this->input->post('cunt1'),
+			'cunt2' => $this->input->post('cunt2'),
+			'statu' => $this->input->post('statu')
 			
 		);
 		if (!empty($query) && $query->num_rows() > 0){
