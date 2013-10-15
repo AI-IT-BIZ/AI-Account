@@ -100,23 +100,19 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
+			xtype: 'numbercolumn',
 			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
 			field: {
 				type: 'numberfield',
-				//decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				},
-				renderer: function(v,p,r){
-					var a = v.getValue();
-					return Ext.util.Format.usMoney(a).replace(/\$/, '');
 				}
 			},
 			},
@@ -126,6 +122,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
+			xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'unitp',
 			sortable: false,
@@ -142,6 +139,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},{text: "Discount",
+			xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
@@ -192,28 +190,17 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['disit']),
+					//alert(parseFloat(r.data['disit']));
+					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
+						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 						chk01 = r.data['chk01'],
 						chk02 = r.data['chk02'];
 						
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
-					/*
-					var vat = _this.vatValue;
-					var wht = _this.whtValue;
-					var vats=0,whts=0;
-                   
-					var amt = qty * price;
-					if(chk01==true&&vat>0){
-						vats = (amt * vat) / 100;
-					}
-					if(chk02==true&&wht>0){
-						whts = (amt * wht) / 100;
-					}
-					var amt = ( amt + vats ) - whts;*/
+					
 					var amt = (qty * price) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
@@ -276,6 +263,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
+				//alert(record.data.matnr)
 				// change cell code value (use db value)
 				rModel.set('matnr', record.data.matnr);
 				// Materail text
@@ -300,7 +288,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 						if(r && r.success && r.data.cost){
 							// Cost
 							var cost = r.data.cost;
-							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
+							rModel.set('unitp', cost);//Ext.util.Format.usMoney(cost).replace(/\$/, ''));
 						}
 					}
 				});

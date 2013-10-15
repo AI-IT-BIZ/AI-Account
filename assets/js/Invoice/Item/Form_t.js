@@ -59,20 +59,6 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		/*this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			margin: '4 0 0 0',
-			hideTrigger: true,
-			allowDecimals: false
-		});*/
 		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
             fieldLabel: 'Vat Total',
@@ -97,7 +83,12 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			readOnly: true
 
          });
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+        this.txtNet = Ext.create('Ext.form.field.Hidden', {
+         	xtype: 'hidden',
+			name: 'netwr'//,
+			//readOnly: true
+		});
+		this.txtNet2 = Ext.create('Ext.form.field.Text', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
@@ -174,7 +165,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		},this.txtDiscountSum,
 		this.txtTaxValue,
 		this.txtWHTValue,
-	    this.txtNet]
+	    this.txtNet2,this.txtNet]
 		}]
 		}];
 
@@ -189,8 +180,8 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
 		this.txtTaxValue.on('render', setAlignRight);
-		this.txtNet.on('render', setAlignRight);
-		this.txtNet.on('render', setBold);
+		this.txtNet2.on('render', setAlignRight);
+		this.txtNet2.on('render', setBold);
 		this.txtWHTValue.on('render', setAlignRight);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
@@ -271,8 +262,9 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
-		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
-
+		//alert(net);
+		this.txtNet.setValue(net);
+        this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		return net;
 	}
 });

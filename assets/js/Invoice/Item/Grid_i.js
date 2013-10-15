@@ -102,6 +102,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
+			xtype: 'numbercolumn',
 			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
@@ -127,6 +128,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
+			xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'unitp',
 			sortable: false,
@@ -144,6 +146,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
+			xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
@@ -195,9 +198,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['disit']);
+					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
+						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;

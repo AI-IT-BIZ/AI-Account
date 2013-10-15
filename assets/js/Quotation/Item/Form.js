@@ -304,7 +304,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						fieldLabel: 'Bill To',
 						name: 'adr01',
 						width:350,
-						rows:2,
+						rows:3,
 						editable: false,
 						labelAlign: 'top'
 					},{
@@ -312,7 +312,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						fieldLabel: 'Ship To',
 						name: 'adr02',
 						width:355,
-						rows:2,
+						rows:3,
 						labelAlign: 'top',
 						editable: false,
 						margin: '0 0 0 140'
@@ -576,8 +576,9 @@ Ext.define('Account.Quotation.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
             _this.gridPrice.load({
-            	menge:sel.get('menge'),
-            	unitp:sel.get('unitp'),disit:sel.get('disit'),
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
@@ -663,9 +664,9 @@ Ext.define('Account.Quotation.Item.Form', {
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;
 		store.each(function(r){
-			var qty = parseFloat(r.data['menge']),
-				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['disit']);
+			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
+				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
@@ -705,11 +706,11 @@ Ext.define('Account.Quotation.Item.Form', {
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
-
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
-            	menge:sel.get('menge'),
-            	unitp:sel.get('unitp'),disit:sel.get('disit'),
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),

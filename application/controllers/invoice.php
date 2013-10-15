@@ -612,10 +612,7 @@ class Invoice extends CI_Controller {
 					if($row['conty']=='01'){
 						if(empty($disit)) $disit=0;
 						$tamt = $amt - $disit;
-						$amt = $amt - $disit;
-						//unset($result[0]);
-						if(empty($disit)) $disit=0;
-						$tamt = $amt - $disit;
+						$amt = $tamt;
 						
 						$result[$i] = array(
 					    'contx'=>$row['contx'],

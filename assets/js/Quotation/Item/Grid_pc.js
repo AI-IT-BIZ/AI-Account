@@ -41,6 +41,7 @@ Ext.define('Account.Quotation.Item.Grid_pc', {
 			align: 'right'
 			},
 			{text: "Condition Amount",
+			xtype: 'numbercolumn',
 			width: 120,
 			dataIndex: 'ttamt',
 			align: 'right'

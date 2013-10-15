@@ -34,6 +34,7 @@ Ext.define('Account.Invoice.Item.Grid_pc', {
 			sortable: true
 			},
 			{text: "Amount",
+			xtype: 'numbercolumn',
 			width: 100,
 			xtype: 'numbercolumn',
 			dataIndex: 'vtamt',
@@ -41,6 +42,7 @@ Ext.define('Account.Invoice.Item.Grid_pc', {
 			align: 'right'
 			},
 			{text: "Condition Amount",
+			xtype: 'numbercolumn',
 			width: 120,
 			dataIndex: 'ttamt',
 			align: 'right'
