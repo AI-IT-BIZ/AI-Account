@@ -6,7 +6,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 	initComponent : function() {
 		var _this=this;
-		
+
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
@@ -196,11 +196,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 						chk01 = r.data['chk01'],
 						chk02 = r.data['chk02'];
-						
+
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					discount = isNaN(discount)?0:discount;
-					
+
 					var amt = (qty * price) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
@@ -240,28 +240,33 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
-							// Unit
-							rModel.set('meins', r.data.meins);
-							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''))
-							//rModel.set('amount', 100+Math.random());
-
+							if(rModel){
+								// change cell code value (use db value)
+								rModel.set(e.field, r.data.matnr);
+								// Materail text
+								rModel.set('maktx', r.data.maktx);
+								// Unit
+								rModel.set('meins', r.data.meins);
+								// Cost
+								var cost = r.data.cost;
+								rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
+								//rModel.set('amount', 100+Math.random());
+							}
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});
+
 			}
 		});
 
 		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
+			console.log(rModels);
 			if(rModels.length>0){
+				console.log(record);
+				//console.log(rModels);
 				rModel = rModels[0];
 				//alert(record.data.matnr)
 				// change cell code value (use db value)
@@ -316,7 +321,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-		
+
         var cur = _this.curValue;
 		// add new record
 		rec = { id:newId, ctype:cur };
@@ -332,12 +337,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+
+		this.getSelectionModel().deselectAll();
 	},
 
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+
+		grid.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){
