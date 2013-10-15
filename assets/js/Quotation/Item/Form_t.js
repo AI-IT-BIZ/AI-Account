@@ -59,7 +59,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
+		this.txtTaxValue = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Vat Total',
 			align: 'right',
@@ -71,7 +71,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			readOnly: true
 
          });
-        this.txtWHTValue = Ext.create('Ext.form.field.Text', {
+        this.txtWHTValue = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'WHT Total',
 			align: 'right',
@@ -254,11 +254,11 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			this.txtDiscountSum.setValue('0.00');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
-        
+
         var vat = this.txtTaxValue.getValue();
 		//var vat = _this.vatValue;
 		//this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
-		
+
 		var wht = this.txtWHTValue.getValue();
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 

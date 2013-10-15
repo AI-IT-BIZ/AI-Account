@@ -172,11 +172,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'whtpr',
 			labelAlign: 'right',
 			width:200,
+			hideTrigger:false,
 			align: 'right',
 			margin: '0 0 0 35'
          });
 
-         this.numberVat = Ext.create('Ext.form.field.Number', {
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
@@ -674,7 +675,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			var amt = (qty * price) - discount;
 
 			sum += amt;
-			
+
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -696,13 +697,13 @@ Ext.define('Account.Quotation.Item.Form', {
 		// set value to total form
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		
+
 		this.gridItem.whtValue = this.numberWHT.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
-        
+
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {

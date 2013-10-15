@@ -16,6 +16,7 @@ function endsWith($haystack, $needle)
 
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/ext/ux/NumericField.js') ?>"></script>
 	<script type="text/javascript">
 		Ext.form.field.ComboBox.override({
 			setValue: function(v) {
@@ -134,7 +135,7 @@ function endsWith($haystack, $needle)
 		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
 		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
-		
+
 		.p-pr { background-image: url('assets/images/tb-icons/doc_pr.png') !important; }
 		.p-po { background-image: url('assets/images/tb-icons/doc_order.png') !important; }
 		.p-gr { background-image: url('assets/images/tb-icons/doc_gr.png') !important; }
