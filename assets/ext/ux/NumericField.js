@@ -1,132 +1,123 @@
-/**
- * Copyright(c) 2011
+/*
+ * GNU General Public License Usage
+ * This file may be used under the terms of the GNU General Public  License version 3.0 as published by the Free Software Foundation and  appearing in the file LICENSE included in the packaging of this file.   Please review the following information to ensure the GNU General Public  License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
  *
- * Licensed under the terms of the Open Source LGPL 3.0
  * http://www.gnu.org/licenses/lgpl.html
- * @author Greivin Britton, brittongr@gmail.com
- *     
- * @changes
- * No currency symbol by default    
- * No decimalPrecision in config
- * Supporting any character as thousand separator
- * Improved getFormattedValue
- * Removed unnecessary code to create format template, now using float.toFixed(this.decimalPrecission)    
+ *
+ * @description: This class provide aditional format to numbers by extending Ext.form.field.Number
+ *
+ * @author: Greivin Britton
+ * @email: brittongr@gmail.com
+ * @version: 2 compatible with ExtJS 4
  */
-	
-Ext.ux.NumericField = function(config){
-	var defaultConfig = 
-    {
-		style: 'text-align:right;'
-    };
-    
-    Ext.ux.NumericField.superclass.constructor.call(this, Ext.apply(defaultConfig, config));
+Ext.define('Ext.ux.form.NumericField', {
+    extend: 'Ext.form.field.Number',//Extending the NumberField
+    alias: 'widget.numericfield',//Defining the xtype,
 
-    //Only if thousandSeparator doesn't exists is assigned when using decimalSeparator as the same as thousandSeparator
-	if(this.useThousandSeparator && this.decimalSeparator == ',' && Ext.isEmpty(config.thousandSeparator))
-		this.thousandSeparator = '.';
-	else
-		if(this.allowDecimals && this.thousandSeparator == '.' && Ext.isEmpty(config.decimalSeparator))
-			this.decimalSeparator = ',';
-		
-    this.onFocus = this.onFocus.createSequence(this.onFocus);
-};
-
-Ext.extend(Ext.ux.NumericField, Ext.form.NumberField, 
-{
     currencySymbol: null,
-	useThousandSeparator: true,
-	thousandSeparator: ',',
-	alwaysDisplayDecimals: false,
-	setValue: function(v){
-	   Ext.ux.NumericField.superclass.setValue.call(this, v);
-       
-	   this.setRawValue(this.getFormattedValue(this.getValue()));
+    currencySymbolPos : 'right', // left , right
+    useThousandSeparator: true,
+    thousandSeparator: ',',
+    alwaysDisplayDecimals: false,
+    fieldStyle: 'text-align: right;',
+    //hideTrigger:true,
+
+    initComponent: function(){
+        if (this.useThousandSeparator && this.decimalSeparator == ',' && this.thousandSeparator == ',')
+            this.thousandSeparator = '.';
+        else
+            if (this.allowDecimals && this.thousandSeparator == '.' && this.decimalSeparator == '.')
+                this.decimalSeparator = ',';
+
+        this.callParent(arguments);
     },
-	/**
-	 * No more using Ext.util.Format.number, Ext.util.Format.number in ExtJS versions
-	 * less thant 4.0 doesn't allow to use a different thousand separator than "," or "."
-	 * @param {Number} v
-	 */
-    getFormattedValue: function(v){
-       
-		if (Ext.isEmpty(v) || !this.hasFormat()) 
-            return v;
-	    else 
+    setValue: function(value){
+        Ext.ux.form.NumericField.superclass.setValue.call(this, value !=  null ? value.toString().replace('.', this.decimalSeparator) : value);
+
+        this.setRawValue(this.getFormattedValue(this.getValue()));
+    },
+    getFormattedValue: function(value){
+        if (Ext.isEmpty(value) || !this.hasFormat())
+            return value;
+        else
         {
-			var neg = null;
-			
-			v = (neg = v < 0) ? v * -1 : v;	
-			v = this.allowDecimals && this.alwaysDisplayDecimals ? v.toFixed(this.decimalPrecision) : v;
-			
-			if(this.useThousandSeparator)
-			{
-				if(this.useThousandSeparator && Ext.isEmpty(this.thousandSeparator))
-					throw ('NumberFormatException: invalid thousandSeparator, property must has a valid character.');
-				
-				if(this.thousandSeparator == this.decimalSeparator)
-					throw ('NumberFormatException: invalid thousandSeparator, thousand separator must be different from decimalSeparator.');
-				
-				var v = String(v);
-		
-				var ps = v.split('.');
+            var neg = null;
+
+            value = (neg = value < 0) ? value * -1 : value;
+            value = this.allowDecimals && this.alwaysDisplayDecimals ? value.toFixed(this.decimalPrecision) : value;
+
+            if (this.useThousandSeparator)
+            {
+                if (this.useThousandSeparator && Ext.isEmpty(this.thousandSeparator))
+                    throw ('NumberFormatException: invalid thousandSeparator, property must has a valid character.');
+
+                if (this.thousandSeparator == this.decimalSeparator)
+                    throw ('NumberFormatException: invalid  thousandSeparator, thousand separator must be different from  decimalSeparator.');
+
+                value = value.toString();
+
+                var ps = value.split('.');
                 ps[1] = ps[1] ? ps[1] : null;
-                
+
                 var whole = ps[0];
-                
+
                 var r = /(\d+)(\d{3})/;
 
-				var ts = this.thousandSeparator;
-				
-                while (r.test(whole)) 
+                var ts = this.thousandSeparator;
+
+                while (r.test(whole))
                     whole = whole.replace(r, '$1' + ts + '$2');
-            
-			    v = whole + (ps[1] ? this.decimalSeparator + ps[1] : '');
-			}
-			
-			return String.format('{0}{1}{2}', (neg ? '-' : ''), (Ext.isEmpty(this.currencySymbol) ? '' : this.currencySymbol + ' '), v);
+
+                value = whole + (ps[1] ? this.decimalSeparator + ps[1] : '');
+            }
+
+            if (this.currencySymbolPos == 'right') {                 return Ext.String.format('{0}{1}{2}', (neg ? '-' : ''),  value, (Ext.isEmpty(this.currencySymbol) ? '' : ' ' +  this.currencySymbol));             } else {
+                return Ext.String.format('{0}{1}{2}', (neg ? '-'  : ''), (Ext.isEmpty(this.currencySymbol) ? '' : this.currencySymbol + '  '), value);             }
         }
     },
     /**
      * overrides parseValue to remove the format applied by this class
      */
-    parseValue: function(v){
-		//Replace the currency symbol and thousand separator
-        return Ext.ux.NumericField.superclass.parseValue.call(this, this.removeFormat(v));
+    parseValue: function(value){
+        //Replace the currency symbol and thousand separator
+        return Ext.ux.form.NumericField.superclass.parseValue.call(this, this.removeFormat(value));
     },
     /**
      * Remove only the format added by this class to let the superclass validate with it's rules.
-     * @param {Object} v
+     * @param {Object} value
      */
-    removeFormat: function(v){
-        if (Ext.isEmpty(v) || !this.hasFormat()) 
-            return v;
-        else 
+    removeFormat: function(value){
+        if (Ext.isEmpty(value) || !this.hasFormat())
+            return value;
+        else
         {
-			v = v.replace(this.currencySymbol + ' ', '');
-			
-			v = this.useThousandSeparator ? v.replace(new RegExp('[' + this.thousandSeparator + ']', 'g'), '') : v;
-			//v = this.allowDecimals && this.decimalPrecision > 0 ? v.replace(this.decimalSeparator, '.') : v;
-			
-            return v;
+            if (this.currencySymbolPos == 'right') {                 value = value.toString().replace(' ' + this.currencySymbol, '');             } else {                 value = value.toString().replace(this.currencySymbol + ' ', '');             }
+
+            value = this.useThousandSeparator ? value.replace(new RegExp('[' + this.thousandSeparator + ']', 'g'), '') : value;
+
+            return value;
         }
     },
     /**
      * Remove the format before validating the the value.
-     * @param {Number} v
+     * @param {Number} value
      */
-    getErrors: function(v){
-        return Ext.ux.NumericField.superclass.getErrors.call(this, this.removeFormat(v));
+    getErrors: function(value){
+        return Ext.ux.form.NumericField.superclass.getErrors.call(this, this.removeFormat(value));
     },
-	hasFormat: function()
-	{
-		return this.decimalSeparator != '.' || this.useThousandSeparator == true || !Ext.isEmpty(this.currencySymbol) || this.alwaysDisplayDecimals;	
-	},
+    hasFormat: function(){
+        return this.decimalSeparator != '.' ||  (this.useThousandSeparator == true && this.getRawValue() !=  null) || !Ext.isEmpty(this.currencySymbol) ||  this.alwaysDisplayDecimals;
+    },
     /**
-     * Display the numeric value with the fixed decimal precision and without the format using the setRawValue, don't need to do a setValue because we don't want a double
+     * Display the numeric value with the fixed decimal precision and  without the format using the setRawValue, don't need to do a setValue  because we don't want a double
      * formatting and process of the value because beforeBlur perform a getRawValue and then a setValue.
      */
     onFocus: function(){
-		this.setRawValue(this.removeFormat(this.getRawValue()));
+        this.setRawValue(this.removeFormat(this.getRawValue()));
+
+        this.callParent(arguments);
+    },
+    processRawValue: function(value) {
+        return this.removeFormat(value);
     }
 });
-Ext.reg('numericfield', Ext.ux.NumericField);
