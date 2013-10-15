@@ -61,7 +61,7 @@ Ext.define('Account.Project.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			//margin: '0 0 0 40',
+			margin: '0 0 0 10',
 			//disabled: true,
 			clearFilterOnReset: true,
 			emptyText: '-- Please Status --',
@@ -184,6 +184,7 @@ Ext.define('Account.Project.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
+			margin: '0 0 0 20',
 			allowBlank: false
 	    }]
 	   },{
@@ -216,15 +217,14 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Amount',
 			name: 'pramt',
 			labelWidth: 100,
-			align: 'right',
-			allowBlank: true
+			align: 'right'
 	    },{
 			xtype: 'textfield',
 			fieldLabel: 'Estimate Cost',
 			name: 'esamt',
 			labelWidth: 100,
-			align: 'right',
-			allowBlank: true
+			margins: '0 0 0 20',
+			align: 'right'
 	    }]
 	   },{
 	   	xtype: 'container',
@@ -237,8 +237,7 @@ Ext.define('Account.Project.Item.Form', {
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: true
+			submitFormat:'Y-m-d'
 	    },{
 			xtype: 'datefield',
 			fieldLabel: 'Finish Date',
@@ -247,7 +246,7 @@ Ext.define('Account.Project.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
-			allowBlank: true
+			margins: '0 0 0 20'
 	    }]
 		}]
 		//}]

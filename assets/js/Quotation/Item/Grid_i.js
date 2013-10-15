@@ -113,6 +113,10 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
+				},
+				renderer: function(v,p,r){
+					var a = v.getValue();
+					return Ext.util.Format.usMoney(a).replace(/\$/, '');
 				}
 			},
 			},
