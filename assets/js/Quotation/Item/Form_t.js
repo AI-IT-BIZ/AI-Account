@@ -261,7 +261,6 @@ Ext.define('Account.Quotation.Item.Form_t', {
 
 		var wht = this.txtWHTValue.getValue();
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
-		console.log(wht);
 
 		var net = (total - discountValue) + (vat - wht);
 		this.txtNet.setValue(net);
