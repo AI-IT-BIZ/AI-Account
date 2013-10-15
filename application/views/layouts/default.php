@@ -129,9 +129,9 @@ function endsWith($haystack, $needle)
 		.h-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
 		.h-report { background-image: url('assets/images/tb-icons/doc_report3.png') !important; }
 
-		.s-proj { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
+		.s-proj { background-image: url('assets/images/tb-icons/doc_excel.png') !important; }
 		.s-quot { background-image: url('assets/images/tb-icons/doc_new2.png') !important; }
-		.s-sale { background-image: url('assets/images/tb-icons/doc_new.png') !important; }
+		.s-sale { background-image: url('assets/images/tb-icons/doc_new3.png') !important; }
 		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
 		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
@@ -142,6 +142,14 @@ function endsWith($haystack, $needle)
 		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
 		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
 		.p-pay { background-image: url('assets/images/tb-icons/doc_pay.png') !important; }
+		
+		.a-income { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
+		.a-journalt { background-image: url('assets/images/tb-icons/doc_blue3.png') !important; }
+		.a-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
+		.a-managec { background-image: url('assets/images/tb-icons/doc_blue2.png') !important; }
+		.a-charta { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
+		.a-fixasset { background-image: url('assets/images/tb-icons/doc_blue1.png') !important; }
+		.a-deprec { background-image: url('assets/images/tb-icons/doc_blue5.png') !important; }
 
 		/* Arrow */
 		.arrow { width:11px; border:0px solid #f00; position:absolute; background:#014051 url('<?= base_url('assets/images/arrow/arrow-line.gif') ?>') repeat-y center center; }
@@ -775,6 +783,60 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Reports',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Account',
+		                listeners: {
+							activate: changeCenterView
+						},
+		                tbar: [{
+				            text: 'Income Statement',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-income',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal Template',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-journalt',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journals',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-journal',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Manage Cost Center',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-managec',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Chart of Account',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-charta',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Fixed Asset Register',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-fixasset',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Depreciation&Amortization',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-deprec',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Report',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
