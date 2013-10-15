@@ -113,20 +113,18 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			{text: "Amount",
 			width: 150,
 			dataIndex: 'pramt',
-			//xtype: 'numbercolumn',
+			xtype: 'numbercolumn',
 			//sortable: true,
 			align: 'right',
 			renderer: function(v,p,r){
 				var net = _this.netValue;
-				if(net<=0)
-					return 0;
-                //net = isNaN(net)?0:net;
 				var perc = parseFloat(r.data['perct']);
+				perc = isNaN(perc)?0:perc;
+				if(perc>0){
+                //net = isNaN(net)?0:net;
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-/*
-					console.log(net);
-*/
+				}
 				}
 			},
 			{text: "Currency",
@@ -167,7 +165,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, pramt:0, ctyp1:'THB' };
+		rec = { id:newId, pramt:'0.00', ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
