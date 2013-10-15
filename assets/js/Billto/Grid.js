@@ -22,6 +22,7 @@ Ext.define('Account.Billto.Grid', {
 				'kunnr',
 				'name1',
 				'txz01',
+				'statu',
 				'netwr'//,
 				//'ctype'
 			],
@@ -44,8 +45,8 @@ Ext.define('Account.Billto.Grid', {
 			width: 200, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 250, dataIndex: 'txz01', sortable: true},
-			//{text: "Status", 
-			//width: 100, dataIndex: 'statx', sortable: true},
+			{text: "Status", 
+			width: 100, dataIndex: 'statx', sortable: true},
 			{text: "Amount", 
 			xtype: 'numbercolumn',
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true}//,
