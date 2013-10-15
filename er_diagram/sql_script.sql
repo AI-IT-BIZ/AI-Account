@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		11/10/2013
+Modified		15/10/2013
 Project		
 Model		
 Company		
@@ -89,6 +89,8 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_vbkp;
+drop table IF EXISTS tbl_vbkk;
 drop table IF EXISTS tbl_conp;
 drop table IF EXISTS tbl_cont;
 drop table IF EXISTS tbl_bcus;
@@ -1227,6 +1229,58 @@ Create table tbl_conp (
 	vtamt Decimal(17,2) COMMENT 'Amount',
  Primary Key (connr,conpr)) ENGINE = InnoDB
 COMMENT = 'Condition Price';
+
+Create table tbl_vbkk (
+	bilnr Varchar(20) NOT NULL COMMENT 'Billto no',
+	bldat Date NOT NULL COMMENT 'SO Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Varchar(40) COMMENT 'Text Note',
+	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
+	revnr Varchar(10) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	auart Varchar(4) COMMENT 'SO type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	terms Int COMMENT 'Terms Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(10,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
+ Primary Key (bilnr)) ENGINE = InnoDB
+COMMENT = 'Billto Header';
+
+Create table tbl_vbkp (
+	bilnr Varchar(20) NOT NULL COMMENT 'Billto no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'Billto Item',
+	invnr Varchar(20) COMMENT 'Invoice no.',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	recbl Varchar(20) COMMENT 'Receipt billing  ',
+	invdt Date COMMENT 'Invoice Date',
+	texts Varchar(40) COMMENT 'Text Note',
+	reman Decimal(17,2) COMMENT 'Remain Amt',
+	payrc Decimal(17,2) COMMENT 'Payment receipt',
+	refnr Varchar(40) COMMENT 'Ref no.',
+ Primary Key (bilnr,vbelp)) ENGINE = InnoDB
+COMMENT = 'Receipt Item';
 
 
 

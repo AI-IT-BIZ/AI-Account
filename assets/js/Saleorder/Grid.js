@@ -49,6 +49,7 @@ Ext.define('Account.Saleorder.Grid', {
 			{text: "",xtype: 'hidden',width: 0, dataIndex: 'salnr'},
 			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Amount", 
+			xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},

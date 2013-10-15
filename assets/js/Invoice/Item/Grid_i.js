@@ -193,6 +193,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
             },
 			{
 				text: "Amount",
+				//xtype: 'numbercolumn',
 				width: 120,
 				dataIndex: 'itamt',
 				sortable: false,
@@ -251,7 +252,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							//rModel.set('amount', 100+Math.random());
 							// Cost
 							var cost = r.data.cost;
-							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
+							rModel.set('unitp', cost);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -289,7 +290,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						if(r && r.success && r.data.cost){
 							// Cost
 							var cost = r.data.cost;
-							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
+							rModel.set('unitp', cost);
 						}
 					}
 				});

@@ -85,10 +85,20 @@ Ext.onReady(function() {
 			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		$om.quotationDialog.show();
 	});
+	$om.viewport.on('click_saleorder', function(){
+		if(!$om.saleorderDialog)
+			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
+		$om.saleorderDialog.show();
+	});
 	$om.viewport.on('click_invoice', function(){
 		if(!$om.invoiceDialog)
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
+	});
+	$om.viewport.on('click_billto', function(){
+		if(!$om.billtoDialog)
+			$om.billtoDialog = Ext.create('Account.Billto.MainWindow');
+		$om.billtoDialog.show();
 	});
 	$om.viewport.on('click_receipt', function(){
 		if(!$om.receiptDialog)
@@ -105,17 +115,11 @@ Ext.onReady(function() {
 			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
 		$om.rquotationDialog.show();
 	});
-	$om.viewport.on('click_saleorder', function(){
-		if(!$om.saleorderDialog)
-			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
-		$om.saleorderDialog.show();
-	});
 	$om.viewport.on('click_rinvoice', function(){
 		if(!$om.rinvoiceDialog)
 			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
 		$om.rinvoiceDialog.show();
 	});
-	
 	$om.viewport.on('click_rreceipt', function(){
 		if(!$om.rreceiptDialog)
 			$om.rreceiptDialog = Ext.create('Account.RReceipt.MainWindow');
@@ -127,61 +131,56 @@ Ext.onReady(function() {
 			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
 		$om.pr2Dialog.show();
 	});
-	
 	$om.viewport.on('click_po', function(){
 		if(!$om.poDialog)
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
 	});
-	
 	$om.viewport.on('click_gr', function(){
 		if(!$om.grDialog)
 			$om.grDialog = Ext.create('Account.GR.MainWindow');
 		$om.grDialog.show();
 	});
-	
 	$om.viewport.on('click_ap', function(){
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
 		$om.apDialog.show();
 	});
-	
+	$om.viewport.on('click_billfrom', function(){
+		if(!$om.billfromDialog)
+			$om.billfromDialog = Ext.create('Account.Billfrom.MainWindow');
+		$om.billfromDialog.show();
+	});
 	$om.viewport.on('click_payment', function(){
 		if(!$om.paymentDialog)
 			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		$om.paymentDialog.show();
 	});
-	
 	$om.viewport.on('click_rpo', function(){
 		if(!$om.rpoDialog)
 			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
 		$om.rpoDialog.show();
 	});
-	
 	$om.viewport.on('click_rpr', function(){
 		if(!$om.rprDialog)
 			$om.rprDialog = Ext.create('Account.RPR.MainWindow');
 		$om.rprDialog.show();
 	});
-	
 	$om.viewport.on('click_rgr', function(){
 		if(!$om.rgrDialog)
 			$om.rgrDialog = Ext.create('Account.RGR.MainWindow');
 		$om.rgrDialog.show();
 	});
-	
 	$om.viewport.on('click_rap', function(){
 		if(!$om.rapDialog)
 			$om.rapDialog = Ext.create('Account.RAP.MainWindow');
 		$om.rapDialog.show();
 	});
-	
 	$om.viewport.on('click_rpayment', function(){
 		if(!$om.rpaymentDialog)
 			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
 		$om.rpaymentDialog.show();
 	});
-	
 	
 //Material Module
 	$om.viewport.on('click_material', function(){

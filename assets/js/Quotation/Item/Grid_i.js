@@ -248,7 +248,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 							rModel.set('meins', r.data.meins);
 							// Cost
 							var cost = r.data.cost;
-							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''));
+							rModel.set('unitp', Ext.util.Format.usMoney(cost).replace(/\$/, ''))
 							//rModel.set('amount', 100+Math.random());
 
 						}else{

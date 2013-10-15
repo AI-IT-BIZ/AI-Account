@@ -51,6 +51,7 @@ Ext.define('Account.Invoice.Grid', {
 			{text: "Payment Method", 
 			width: 100, dataIndex: 'paytx', sortable: true},
 			{text: "Amount", 
+			xtype: 'numbercolumn',
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
