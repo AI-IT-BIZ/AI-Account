@@ -165,8 +165,19 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
+		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
 
-		this.numberWHT = Ext.create('Ext.form.field.Number', {
+		this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'WHT Value',
 			name: 'whtpr',
@@ -324,16 +335,7 @@ Ext.define('Account.Quotation.Item.Form', {
 					layout: 'hbox',
 					margin: '0 0 5 0',
 					items: [this.comboPSale,
-					{
-						xtype: 'numberfield',
-						fieldLabel: 'Credit Terms',
-						name: 'terms',
-						labelAlign: 'right',
-						width:200,
-						align: 'right',
-						margin: '0 0 0 35',
-						allowBlank: true
-					},{
+					this.numberCredit,{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
 						width:10,

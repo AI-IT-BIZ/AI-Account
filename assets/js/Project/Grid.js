@@ -58,6 +58,7 @@ Ext.define('Account.Project.Grid', {
 			{text: "End Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'endat', sortable: false},
 			{text: "Project Amount", 
+			xtype: 'numbercolumn',
 			width: 90, align: 'right', dataIndex: 'pramt', sortable: false}
 		];
 

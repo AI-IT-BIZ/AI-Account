@@ -26,11 +26,13 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
+			xtype: 'textfield',
 			fieldLabel: 'Discount',
 			name: 'dismt',
 			align: 'right',
 			labelWidth: 80,
 			width:150,
+			//hideTrigger:true,
 			enableKeyEvents: true,
 			validator: function(v){
 				if(!Ext.isEmpty(v)){
@@ -83,18 +85,25 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			readOnly: true
 
          });
-		this.txtNet = Ext.create('Ext.form.field.Hidden', {
-         	xtype: 'hidden',
-			name: 'netwr'//,
-			//readOnly: true
-		});
-		this.txtNet2 = Ext.create('Ext.form.field.Text', {
+         
+         this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:240,
+			hideTrigger:true,
+			name: 'exchg',
+			align: 'right'
+         });
+
+		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
-			name: 'nnn',
+			name: 'netwr',
 			align: 'right',
 			width:270,
 			labelWidth: 155,
+			alwaysDisplayDecimals: true,
 			margin: '4 0 0 0',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
@@ -116,15 +125,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
             layout: 'hbox',
             anchor: '100%',
             //margin: '5 0 5 600',
-        items: [{
-            xtype: 'textfield',
-			fieldLabel: 'Exchange Rate',
-			name: 'exchg',
-			//labelAlign: 'right',
-			width:240,
-			align: 'right',
-			//margin: '0 0 0 -35'
-         },{
+        items: [this.txtRate,{
    	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
@@ -165,7 +166,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		},this.txtDiscountSum,
 		this.txtTaxValue,
 		this.txtWHTValue,
-	    this.txtNet2,this.txtNet]
+	    this.txtNet]
 		}]
 		}];
 
@@ -181,8 +182,8 @@ Ext.define('Account.Quotation.Item.Form_t', {
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
 		this.txtTaxValue.on('render', setAlignRight);
-		this.txtNet2.on('render', setAlignRight);
-		this.txtNet2.on('render', setBold);
+		this.txtNet.on('render', setAlignRight);
+		this.txtNet.on('render', setBold);
 		this.txtWHTValue.on('render', setAlignRight);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
@@ -264,7 +265,7 @@ Ext.define('Account.Quotation.Item.Form_t', {
 
 		var net = (total - discountValue) + (vat - wht);
 		this.txtNet.setValue(net);
-        this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+        //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		return net;
 	}
 });

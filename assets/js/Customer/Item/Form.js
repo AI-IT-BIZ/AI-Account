@@ -33,19 +33,16 @@ var myStorecomboPleve = Ext.create('Ext.data.Store', {
 this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
     fieldLabel: 'Price Level',
 	name: 'pleve',
-	//width:293,
-	//labelWidth: 160,
-	//editable: false,
 	triggerAction : 'all',
 	clearFilterOnReset: true,
 	emptyText: '-- Please select Level --',
 	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
     margin: '0 0 0 56',
     store: myStorecomboPleve,
+    labelAlign: 'right',
     queryMode: 'local',
     displayField: 'name',
     valueField: 'idPleve'
-    //renderTo: Ext.getBody()
 });
 
 /*---ComboBox Tax Type----------------------------*/
@@ -235,7 +232,39 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		this.trigKtyp.onTriggerClick = function(){
 			_this.ktypDialog.show();
 		};	
-
+		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'crdit',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
+                
+        this.numberMin = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Minimum Amount',
+			name: 'begin',
+			labelAlign: 'right',
+			//width:200,
+			hideTrigger:false//,
+			//align: 'right'//,
+			//margin: '0 0 0 56'
+         });
+         
+         this.numberMax = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Maximum Amount',
+			name: 'endin',
+			labelAlign: 'right',
+			//width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
 //---Create Selection--------------------------------------------
         this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		
@@ -294,7 +323,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Customer Status',
 			name : 'statu',
-			//labelAlign: 'right',
+			labelAlign: 'right',
 			//width: 286,
 			editable: false,
 			allowBlank : false,
@@ -323,6 +352,37 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});	
+		
+		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payments',
+			name : 'ptype',
+			width: 290,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please Select Payments --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'project/loads_tcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'ptype'
+					}
+				},
+				fields: [
+					'ptype',
+					'paytx'
+				],
+				remoteSort: true,
+				sorters: 'ptype ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'paytx',
+			valueField: 'ptype'
+		});
 				
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
@@ -400,6 +460,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Country',
 		            name: 'cunt1',
+		            labelAlign: 'right',
             		margin: '0 0 0 48',
                 }]
                 
@@ -422,6 +483,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'emai2',
+					labelAlign: 'right',
             		margin: '0 0 0 50',
                 }]                
             },{
@@ -441,6 +503,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
+		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
 		            regexText: 'Must be in the format xxx-xxxxxx',
             		margin: '0 0 0 50',
@@ -487,6 +550,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Country',
 		            name: 'cunt2',
+		            labelAlign: 'right',
             		margin: '0 0 0 48',
                 }]
                 
@@ -509,6 +573,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'emai2',
+					labelAlign: 'right',
             		margin: '0 0 0 50',
                 }]                
             },{
@@ -528,7 +593,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telf02',
-		            //emptyText: 'xx-xxxxxx',
+		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
 		            //regex: /^\d{2}-\d{6}$/,
 		            regexText: 'Must be in the format xxx-xxxxxx',
@@ -557,21 +622,12 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[{
-                	
-					xtype: 'textfield',
-					fieldLabel: 'Payment Condition',
-		            name: 'disct',
-		            width: 290,
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-                }, {
-					xtype: 'numberfield',
-					fieldLabel: 'Crdit Term',
-		            name: 'crdit',
-		            maskRe: /[\d\-]/,
-            		margin: '0 0 0 56',
-                }]
+                items :[this.comboPay, this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+					}]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -594,6 +650,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Credit Limit Amt',
 		            name: 'apamt',
+		            labelAlign: 'right',
 		            maskRe: /[\d\.]/,
             		margin: '0 0 0 56',
                 }]
@@ -602,19 +659,7 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Minimum Amount',
-		            name: 'begin',
-		            maskRe: /[\d\.]/,
-		            width: 290,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Maximum Amount',
-		            name: 'endin',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
-                }]
+                items :[this.numberMin,this.numberMax]
             },{
                 xtype: 'container',
                 flex: 1,

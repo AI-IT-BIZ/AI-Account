@@ -164,17 +164,29 @@ Ext.define('Account.Saleorder.Item.Form', {
 			valueField: 'taxnr'
 		});
 
-		this.numberWHT = Ext.create('Ext.form.field.Number', {
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
+
+		this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'WHT Value',
 			name: 'whtpr',
 			labelAlign: 'right',
 			width:200,
+			hideTrigger:false,
 			align: 'right',
 			margin: '0 0 0 35'
          });
 
-         this.numberVat = Ext.create('Ext.form.field.Number', {
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
@@ -299,7 +311,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 						fieldLabel: 'Bill To',
 						name: 'adr01',
 						width:350,
-						rows:2,
+						rows:3,
 						editable: false,
 						labelAlign: 'top'
 					},{
@@ -307,7 +319,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 						fieldLabel: 'Ship To',
 						name: 'adr02',
 						width:355,
-						rows:2,
+						rows:3,
 						labelAlign: 'top',
 						editable: false,
 						margin: '0 0 0 140'
@@ -318,16 +330,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 					layout: 'hbox',
 					margin: '0 0 5 0',
 					items: [this.comboPSale,
-					{
-						xtype: 'numberfield',
-						fieldLabel: 'Credit Terms',
-						name: 'terms',
-						labelAlign: 'right',
-						width:200,
-						align: 'right',
-						margin: '0 0 0 35',
-						allowBlank: true
-					},{
+					this.numberCredit,{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
 						width:10,

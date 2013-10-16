@@ -231,6 +231,22 @@ class Project extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+	
+	public function loads_tcombo(){
+		//$tbName = 'ptyp';
+		//$tbPK = 'ptype';
+
+		$sql="SELECT *
+			FROM tbl_ptyp
+			WHERE ptype <> '02'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
 
 	function remove(){
 		$id = $this->input->post('id');

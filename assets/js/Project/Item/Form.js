@@ -26,7 +26,8 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Type',
 			name : 'jtype',
 			labelWidth: 100,
-			//width: 300,
+			labelAlign: 'left',
+			width: 250,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -61,8 +62,7 @@ Ext.define('Account.Project.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 10',
-			//disabled: true,
+			width: 250,
 			clearFilterOnReset: true,
 			emptyText: '-- Please Status --',
 			store: new Ext.data.JsonStore({
@@ -84,8 +84,8 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu'//,
-			//value: '01'
+			valueField: 'statu',
+			margins: '0 0 0 2'
 		});
 		
 		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
@@ -93,6 +93,7 @@ Ext.define('Account.Project.Item.Form', {
 			name : 'salnr',
 			labelWidth: 100,
 			width: 300,
+			labelAlign: 'left',
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -124,14 +125,34 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
+			labelAlign: 'left',
 			enableKeyEvents: true,
 			allowBlank : false
 		});
 		
-		this.items = [{
+		this.txtAmt = Ext.create('Ext.ux.form.NumericField', {
+         	xtype: 'textfield',
+			fieldLabel: 'Project Amount',
+			name: 'pramt',
+			labelAlign: 'left',
+			width:250,
+			labelWidth: 100
+		});
+		
+		this.txtCost = Ext.create('Ext.ux.form.NumericField', {
+         	xtype: 'textfield',
+			fieldLabel: 'Estimate Cost',
+			name: 'esamt',
+			align: 'right',
+			width:250,
+			labelWidth: 100//,
+			//margins: '0 0 0 10'
+		});
+		
+     this.items = [{
 			xtype:'fieldset',
             title: 'Customer Data',
-            defaultType: 'textfield',
+            //defaultType: 'textfield',
      items:[{
                 xtype: 'container',
                 layout: 'hbox',
@@ -150,6 +171,7 @@ Ext.define('Account.Project.Item.Form', {
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Address',
+			labelAlign: 'left',
 			name: 'adr01',
 			width:500,
 			allowBlank: true
@@ -166,6 +188,7 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'displayfield',
 			fieldLabel: 'Project No',
 			name: 'jobnr',
+			labelAlign: 'left',
 			width: 248,
 			labelWidth: 100,
 			value:'PJXXXX-XXXX',
@@ -181,17 +204,19 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Date',
 			name: 'bldat',
 			labelWidth: 100,
+			width: 250,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
-			margin: '0 0 0 20',
+			//margin: '0 0 0 20',
 			allowBlank: false
 	    }]
 	   },{
 			xtype: 'textfield',
 			fieldLabel: 'Project Name',
 			name: 'jobtx',
-			width: 495,
+			labelAlign: 'left',
+			width: 500,
 			labelWidth: 100,
 			allowBlank: false
 	
@@ -212,20 +237,7 @@ Ext.define('Account.Project.Item.Form', {
 	    	xtype: 'container',
                     layout: 'hbox',
                     margin: '0 0 5 0',
-     items: [{
-			xtype: 'textfield',
-			fieldLabel: 'Project Amount',
-			name: 'pramt',
-			labelWidth: 100,
-			align: 'right'
-	    },{
-			xtype: 'textfield',
-			fieldLabel: 'Estimate Cost',
-			name: 'esamt',
-			labelWidth: 100,
-			margins: '0 0 0 20',
-			align: 'right'
-	    }]
+     items: [this.txtAmt,this.txtCost]
 	   },{
 	   	xtype: 'container',
                     layout: 'hbox',
@@ -234,7 +246,9 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Start Date',
 			name: 'stdat',
+			labelAlign: 'left',
 			labelWidth: 100,
+			width: 250,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -243,10 +257,10 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Finish Date',
 			name: 'endat',
 			labelWidth: 100,
+			width: 250,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			margins: '0 0 0 20'
+			submitFormat:'Y-m-d'
 	    }]
 		}]
 		//}]

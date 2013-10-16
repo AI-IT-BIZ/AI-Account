@@ -122,7 +122,8 @@ class Customer extends CI_Controller {
 			'pson2' => $this->input->post('pson2'),
 			'cunt1' => $this->input->post('cunt1'),
 			'cunt2' => $this->input->post('cunt2'),
-			'statu' => $this->input->post('statu')
+			'statu' => $this->input->post('statu'),
+			'ptype' => $this->input->post('ptype')
 			
 		);
 		if (!empty($query) && $query->num_rows() > 0){

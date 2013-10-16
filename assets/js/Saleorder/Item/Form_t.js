@@ -59,21 +59,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		/*this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			margin: '4 0 0 0',
-			hideTrigger: true,
-			allowDecimals: false
-		});*/
-		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
+		this.txtTaxValue = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Vat Total',
 			align: 'right',
@@ -85,7 +71,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			readOnly: true
 
          });
-        this.txtWHTValue = Ext.create('Ext.form.field.Text', {
+        this.txtWHTValue = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'WHT Total',
 			align: 'right',
@@ -97,6 +83,17 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			readOnly: true
 
          });
+         
+         this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:240,
+			hideTrigger:true,
+			name: 'exchg',
+			align: 'right'
+         });
+         
 		this.txtNet = Ext.create('Ext.form.field.Text', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
@@ -125,15 +122,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
             layout: 'hbox',
             anchor: '100%',
             //margin: '5 0 5 600',
-        items: [{
-            xtype: 'textfield',
-			fieldLabel: 'Exchange Rate',
-			name: 'exchg',
-			//labelAlign: 'right',
-			width:240,
-			align: 'right',
-			//margin: '0 0 0 -35'
-         },{
+        items: [this.txtRate,{
    	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',

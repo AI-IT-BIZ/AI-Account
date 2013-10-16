@@ -141,15 +141,30 @@ function endsWith($haystack, $needle)
 		.p-gr { background-image: url('assets/images/tb-icons/doc_gr.png') !important; }
 		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
 		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
-		.p-pay { background-image: url('assets/images/tb-icons/doc_pay.png') !important; }
+		.p-pay { background-image: url('assets/images/tb-icons/doc_payment.png') !important; }
 		
 		.a-income { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
-		.a-journalt { background-image: url('assets/images/tb-icons/doc_blue3.png') !important; }
+		.a-journalt { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
 		.a-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
 		.a-managec { background-image: url('assets/images/tb-icons/doc_blue2.png') !important; }
-		.a-charta { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
+		.a-charta { background-image: url('assets/images/tb-icons/doc_blue3.png') !important; }
 		.a-fixasset { background-image: url('assets/images/tb-icons/doc_blue1.png') !important; }
 		.a-deprec { background-image: url('assets/images/tb-icons/doc_blue5.png') !important; }
+		
+		.m-inv-trans { background-image: url('assets/images/tb-icons/doc_purple2.png') !important; }
+		.m-inv-balance { background-image: url('assets/images/tb-icons/doc_purple1.png') !important; }
+		.m-inv-master { background-image: url('assets/images/tb-icons/doc_purple5.png') !important; }
+		.m-ser-master { background-image: url('assets/images/tb-icons/doc_purple10.png') !important; }
+		.m-oth-expense { background-image: url('assets/images/tb-icons/doc_purple4.png') !important; }
+		.m-oth-income { background-image: url('assets/images/tb-icons/doc_purple3.png') !important; }
+		
+		.r-report1 { background-image: url('assets/images/tb-icons/report2.png') !important; }
+		.r-report2 { background-image: url('assets/images/tb-icons/report3.png') !important; }
+		.r-report3 { background-image: url('assets/images/tb-icons/report6.png') !important; }
+		.r-report4 { background-image: url('assets/images/tb-icons/doc_reports.png') !important; }
+		.r-report5 { background-image: url('assets/images/tb-icons/report5.png') !important; }
+		.r-report6 { background-image: url('assets/images/tb-icons/report4.png') !important; }
+		.r-report7 { background-image: url('assets/images/tb-icons/report7.png') !important; }
 
 		/* Arrow */
 		.arrow { width:11px; border:0px solid #f00; position:absolute; background:#014051 url('<?= base_url('assets/images/arrow/arrow-line.gif') ?>') repeat-y center center; }
@@ -848,28 +863,40 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Payment',
+				            text: 'Inventory Transactions',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-invoice',
+				            iconCls: 'm-inv-trans',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Enter Payable',
+				            text: 'Inventory Balances',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-reciept',
+				            iconCls: 'm-inv-balance',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Pay payable',
+				            text: 'Inventories Master',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'p-pay',
+				            iconCls: 'm-inv-master',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Journal',
+				            text: 'Services Master',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-journal',
+				            iconCls: 'm-ser-master',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Other Incomes',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'm-oth-income',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Other Expenses',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'm-oth-expense',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Reports',
@@ -884,40 +911,46 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Invoice',
+				            text: 'Reports1',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-invoice',
+				            iconCls: 'r-report1',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Payment',
+				            text: 'Reports2',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-invoice',
+				            iconCls: 'r-report2',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Enter Payable',
+				            text: 'Reports3',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-reciept',
+				            iconCls: 'r-report3',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Pay payable',
+				            text: 'Reports4',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'p-pay',
+				            iconCls: 'r-report4',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Journal',
+				            text: 'Reports5',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-journal',
+				            iconCls: 'r-report5',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reports',
+				            text: 'Reports6',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-report',
+				            iconCls: 'r-report6',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Reports7',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report7',
                 			cls: 'x-btn-as-arrow'
 				        }]
 		            }
