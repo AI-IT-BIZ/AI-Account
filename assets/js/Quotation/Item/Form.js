@@ -541,7 +541,12 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.ctype);
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-
+							var store = _this.gridItem.store;
+		                    store.each(function(rc){
+			                //price = parseFloat(rc.data['unitp']),
+			                rc.set('ctype', r.data.ctype);
+		                    });
+		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
@@ -554,6 +559,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.trigCurrency.setValue(record.data.ctype);
 
             _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+            var store = _this.gridItem.store;
+		    store.each(function(rc){
+			//price = parseFloat(rc.data['unitp']),
+			rc.set('ctype', record.data.ctype);
+		    });
+		    _this.gridItem.curValue = record.data.ctype;
 			grid.getSelectionModel().deselectAll();
 			_this.currencyDialog.hide();
 		});
@@ -615,14 +626,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		var rsPayment = _this.gridPayment.getData();
 		this.hdnPpItem.setValue(Ext.encode(rsPayment));
-/*
-		this.getForm().getFields().each(function(f){
-			console.log(f.name);
-    		 if(!f.validate()){
-    			 console.log(f.name);
-    		 }
-    	 });
-*/
+
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {

@@ -197,7 +197,8 @@ class Invoice extends CI_Controller {
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($iv_item_array AS $p){
-			echo '111'.$p->itamt;
+			$itamt = $p->menge * $p->unitp;
+		    $itamt = $itamt - $p->disit;
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
 				'vbelp'=>++$item_index,
@@ -463,7 +464,6 @@ class Invoice extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt
 		   $vwht = $this->input->get('vwht');    //WHT amt
-		   //$matnr = $this->input->get('matnr');  //Mat Code
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type

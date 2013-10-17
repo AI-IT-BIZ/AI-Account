@@ -46,7 +46,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'itamt',
 				'payrc',
 				'reman',
-				'belnr'
+				'belnr',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -75,8 +76,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Invoice Code",
-		width: 120,
+		{text: "Invoice No",
+		width: 100,
 		dataIndex: 'invnr',
 		sortable: false,
 			field: {
@@ -131,7 +132,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			{
 				text: "Remain Amt",
 				xtype: 'numbercolumn',
-				width: 120,
+				width: 100,
 				dataIndex: 'reman',
 				sortable: false,
 				align: 'right',
@@ -145,7 +146,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},/*,
+			},{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -154,7 +155,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
-		}*/];
+		}];
 
 		this.plugins = [this.editing];
 

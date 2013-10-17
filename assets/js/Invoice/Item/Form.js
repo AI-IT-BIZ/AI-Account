@@ -55,7 +55,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_acombo',
+					url: __site_url+'quotation/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -87,7 +87,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_scombo',
+					url: __site_url+'quotation/loads_scombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -117,7 +117,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_tcombo',
+					url: __site_url+'quotation/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -149,7 +149,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_condcombo',
+					url: __site_url+'quotation/loads_condcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -181,7 +181,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_taxcombo',
+					url: __site_url+'quotation/loads_taxcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -336,7 +336,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Bill To',
 			name: 'adr01',
 			width:350,
-			rows:2,
+			rows:3,
 			editable: false,
 			labelAlign: 'top'
 		},{
@@ -344,7 +344,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Ship To',
 			name: 'adr02',
 			width:355,
-			rows:2,
+			rows:3,
 			labelAlign: 'top',
 			editable: false,
 			margin: '0 0 0 130'
@@ -464,6 +464,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('terms').setValue(r.data.terms);	
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -499,6 +500,7 @@ Ext.define('Account.Invoice.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			       }
 				}
 				});           
@@ -571,10 +573,47 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.customerDialog.show();
 		};
 		
+		// event trigCurrency///
+		this.trigCurrency.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'currency/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.ctype);
+							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							var store = _this.gridItem.store;
+		                    store.each(function(rc){
+			                //price = parseFloat(rc.data['unitp']),
+			                rc.set('ctype', r.data.ctype);
+		                    });
+		                    _this.gridItem.curValue = r.data.ctype;
+						}else{
+							o.markInvalid('Could not find currency code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
 		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCurrency.setValue(record.data.ctype);
 
             _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+            var store = _this.gridItem.store;
+		    store.each(function(rc){
+			//price = parseFloat(rc.data['unitp']),
+			rc.set('ctype', record.data.ctype);
+		    });
+		    _this.gridItem.curValue = record.data.ctype;
 			grid.getSelectionModel().deselectAll();
 			_this.currencyDialog.hide();
 		});
@@ -600,8 +639,9 @@ Ext.define('Account.Invoice.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
             _this.gridPrice.load({
-            	menge:sel.get('menge'),
-            	unitp:sel.get('unitp'),disit:sel.get('disit'),
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
@@ -696,12 +736,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-            
 			sum += amt;
-			    //matData = {
-                //'matnr': matnr,
-                //'itamt': amt,
-                //};
 			
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -728,7 +763,13 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		//alert(this.comboPay.getValue());
-// Set value to GL Posting grid    
+// Set value to GL Posting grid 
+		if(currency != 'THB'){
+	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+		  sum = sum * rate;
+		  vats = vats * rate;
+		  whts = whts * rate;
+		}   
         if(sum>0){
             _this.gridGL.load({
             	netpr:sum,
@@ -739,27 +780,6 @@ Ext.define('Account.Invoice.Item.Form', {
             	dtype:'01'
             }); 
            }
-           /* var v = record.data.kunnr;
-			if(Ext.isEmpty(v)) return;
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_gl_item',
-					method: 'POST',
-					params: {
-						//JSON.stringify( matData ),
-						netpr:sum,
-            	        kunnr:this.trigCustomer.getValue(),
-            	        ptype:this.comboPay.getValue,
-            	        dtype:'01',
-            	        vvat:vats,
-            	        vwht:whts
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-						}
-					}
-				});*/ 
 
 // Set value to Condition Price grid
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
@@ -776,6 +796,7 @@ Ext.define('Account.Invoice.Item.Form', {
             });     
         }
 	},
+	
 // Payments Method	
 	selectPay: function(combo, record, index){
 		var _this=this;
@@ -807,6 +828,12 @@ Ext.define('Account.Invoice.Item.Form', {
 			}			
 		});
 		
+		if(currency != 'THB'){
+	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+		  sum = sum * rate;
+		  vats = vats * rate;
+		  whts = whts * rate;
+		} 
 		if(sum>0){
             _this.gridGL.load({
             	netpr:sum,

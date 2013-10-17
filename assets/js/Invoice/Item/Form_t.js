@@ -90,6 +90,8 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			align: 'right',
 			width:240,
 			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
 			name: 'exchg',
 			align: 'right'
          });

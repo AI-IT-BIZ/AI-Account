@@ -199,6 +199,8 @@ class Quotation extends CI_Controller {
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 			foreach($qt_item_array AS $p){
+				$itamt = $p->menge * $p->unitp;
+				$itamt = $itamt - $p->disit;
 				$this->db->insert('vbap', array(
 					'vbeln'=>$id,
 					'vbelp'=>++$item_index,//vbelp,

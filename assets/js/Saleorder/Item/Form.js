@@ -50,7 +50,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'saleorder/loads_acombo',
+					url: __site_url+'quotation/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -80,7 +80,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'saleorder/loads_scombo',
+					url: __site_url+'quotation/loads_scombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -111,7 +111,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'saleorder/loads_tcombo',
+					url: __site_url+'quotation/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -144,7 +144,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'saleorder/loads_taxcombo',
+					url: __site_url+'quotation/loads_taxcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -464,6 +464,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('terms').setValue(r.data.terms);	
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -500,6 +501,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			       }
 				}
 				});           
@@ -535,6 +537,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.ctype);
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							var store = _this.gridItem.store;
+		                    store.each(function(rc){
+			                //price = parseFloat(rc.data['unitp']),
+			                rc.set('ctype', r.data.ctype);
+		                    });
+		                    _this.gridItem.curValue = r.data.ctype;
 
 						}else{
 							o.markInvalid('Could not find currency code : '+o.getValue());
@@ -548,6 +556,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.trigCurrency.setValue(record.data.ctype);
 
             _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+            var store = _this.gridItem.store;
+		    store.each(function(rc){
+			//price = parseFloat(rc.data['unitp']),
+			rc.set('ctype', record.data.ctype);
+		    });
+		    _this.gridItem.curValue = record.data.ctype;
 			grid.getSelectionModel().deselectAll();
 			_this.currencyDialog.hide();
 		});

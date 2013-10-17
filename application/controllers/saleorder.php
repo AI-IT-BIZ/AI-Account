@@ -122,10 +122,6 @@ class Saleorder extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();
@@ -199,6 +195,8 @@ class Saleorder extends CI_Controller {
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 			foreach($so_item_array AS $p){
+				$itamt = $p->menge * $p->unitp;
+				$itamt = $itamt - $p->disit;
 				$this->db->insert('vbop', array(
 					'ordnr'=>$id,
 					'vbelp'=>++$item_index,//vbelp,

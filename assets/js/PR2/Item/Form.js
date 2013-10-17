@@ -90,20 +90,12 @@ Ext.define('Account.PR2.Item.Form', {
 			valueField: 'taxnr'
 		});	
 		
-		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
+		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebpo',
 		});
 
 		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
 			name: 'payp',
-		});
-
-		this.trigProject = Ext.create('Ext.form.field.Trigger', {
-			name: 'jobnr',
-			fieldLabel: 'Project Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
 		});
 
 		this.trigVender = Ext.create('Ext.form.field.Trigger', {
@@ -125,7 +117,7 @@ Ext.define('Account.PR2.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnQtItem, this.hdnPpItem,
+			items: [this.hdnPrItem, this.hdnPpItem,
 			{
 				xtype:'fieldset',
 				title: 'Header Data',
@@ -178,7 +170,7 @@ Ext.define('Account.PR2.Item.Form', {
 								name: 'refnr',
 			                }, {
 								xtype: 'numberfield',
-								fieldLabel: 'Credit',
+								fieldLabel: 'Credit Terms',
 								name: 'crdit',
 								labelWidth: 50,
 								margin: '0 0 0 40',
@@ -232,18 +224,7 @@ Ext.define('Account.PR2.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							var _crdit = r.data.crdit;
-							var _addr = r.data.adr01;
-							if(!Ext.isEmpty(r.data.distx))
-			                    _addr += ' '+r.data.distx;
-							if(!Ext.isEmpty(r.data.pstlz))
-								_addr += ' '+r.data.pstlz;
-							if(!Ext.isEmpty(r.data.telf1))
-								_addr += '\n'+'Tel: '+r.data.telf1;
-							if(!Ext.isEmpty(r.data.telfx))
-								_addr += '\n'+'Fax: '+r.data.telfx;
-							if(!Ext.isEmpty(r.data.email))
-							_addr += '\n'+'Email: '+r.data.email;
-							_this.getForm().findField('adr01').setValue(_addr);
+							_this.getForm().findField('adr01').setValue(r.data.adr0);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -255,19 +236,7 @@ Ext.define('Account.PR2.Item.Form', {
 		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigVender.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
+			_this.getForm().findField('adr01').setValue(record.data.adr01);
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -301,7 +270,7 @@ Ext.define('Account.PR2.Item.Form', {
 
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnQtItem.setValue(Ext.encode(rsItem));
+		this.hdnPrItem.setValue(Ext.encode(rsItem));
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -327,10 +296,10 @@ Ext.define('Account.PR2.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ purnr: 0 });
+		this.gridItem.load({ purnr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		this.gridItem.addDefaultRecord();
+		//this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');

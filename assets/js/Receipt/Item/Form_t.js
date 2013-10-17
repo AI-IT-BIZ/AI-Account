@@ -72,6 +72,18 @@ Ext.define('Account.Receipt.Item.Form_t', {
 
          });
          
+        this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:240,
+			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
+			name: 'exchg',
+			align: 'right'
+         });
+         
 		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
@@ -90,7 +102,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		this.items = [{
 			xtype: 'container',
             layout: 'hbox',
-            anchor: '100%',
+            //anchor: '100%',
             defaultType: 'textfield',
             //margin: '5 0 5 600',
         items: [{
@@ -99,27 +111,27 @@ Ext.define('Account.Receipt.Item.Form_t', {
      items :[{
 			xtype: 'container',
             layout: 'hbox',
-            anchor: '100%',
+            //anchor: '100%',
             //margin: '5 0 5 600',
-        items: [{
-            xtype: 'displayfield',
-			width:240,
-			align: 'right',
-			//margin: '0 0 0 -35'
-         },{
+        items: [this.txtRate,{
    	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
-			width:60,
-			//value: 'THB/USD'
-		}]
+			width:20,
+			value: 'THB/'
 		},{
    	        xtype: 'displayfield',
-   	        //fieldLabel: 'Rejected Reason',
+   	        name: 'curr1',
+   	        margin: '0 0 0 7',
+			width:30
+		}]
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Rejected Reason',
 			align: 'right',
 			margin: '3 0 0 0',
-			width:380//,
-			//name: 'reanr1'
+			width:380,
+			name: 'reanr1'
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Text Note',

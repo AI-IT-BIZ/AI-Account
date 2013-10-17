@@ -14,8 +14,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		
 		// INIT Customer search popup ///////////////////////////////
-		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Receipt.Item.Grid_i',{
 			//title:'Invoice Items',
@@ -73,6 +73,39 @@ Ext.define('Account.Receipt.Item.Form', {
 			valueField: 'ptype'
 		});
 		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'QT Status',
+			name : 'statu',
+			labelAlign: 'right',
+			width: 240,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			//margin: '0 0 0 6',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
+		
 		this.hdnRcItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbbp'
 		});
@@ -92,6 +125,17 @@ Ext.define('Account.Receipt.Item.Form', {
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
+		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
+			name: 'ctype',
+			fieldLabel: 'Currency',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			width: 200,
+			//margin: '0 0 0 6',
+			labelAlign: 'right',
 			allowBlank : false
 		});
 		
@@ -142,10 +186,9 @@ Ext.define('Account.Receipt.Item.Form', {
 			xtype: 'textarea',
 			fieldLabel: 'Bill To',
 			name: 'adr01',
-			anchor:'90%',
-			width:350,
-			rows:2,
-			labelAlign: 'top'
+			width:400,
+			rows:3//,
+			//labelAlign: 'top'
 		}]
 		},{
 			xtype: 'container',
@@ -159,15 +202,12 @@ Ext.define('Account.Receipt.Item.Form', {
             labelAlign: 'right',
 			//name: 'qt',
 			width:240,
-			//margins: '0 0 0 10',
-            //emptyText: 'Customer',
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
+			fieldLabel: 'Document Date',
 			name: 'bldat',
-			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
@@ -178,14 +218,18 @@ Ext.define('Account.Receipt.Item.Form', {
 			xtype: 'datefield',
 			fieldLabel: 'Receipt Date',
 			name: 'duedt',
-			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-		}]
+		},{
+					xtype: 'container',
+					layout: 'hbox',
+					margin: '0 0 5 -200',
+					items :[this.trigCurrency,this.comboQStatus]}
+		 ]
 		}]
 		}]
 		}]
@@ -259,6 +303,53 @@ Ext.define('Account.Receipt.Item.Form', {
 			_this.customerDialog.show();
 		};
 		
+		this.trigCurrency.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'currency/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.ctype);
+							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+                            var store = _this.gridItem.store;
+		                    store.each(function(rc){
+			                //price = parseFloat(rc.data['unitp']),
+			                rc.set('ctype', r.data.ctype);
+		                    });
+		                    _this.gridItem.curValue = r.data.ctype;
+						}else{
+							o.markInvalid('Could not find currency code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCurrency.setValue(record.data.ctype);
+
+            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+            var store = _this.gridItem.store;
+		    store.each(function(rc){
+			//price = parseFloat(rc.data['unitp']),
+			rc.set('ctype', record.data.ctype);
+		    });
+		    _this.gridItem.curValue = record.data.ctype;
+			grid.getSelectionModel().deselectAll();
+			_this.currencyDialog.hide();
+		});
+
+		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.show();
+		};
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
@@ -266,7 +357,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		
 		this.gridPayment.store.on('update', this.loadGL, this);
 		this.gridPayment.store.on('load', this.loadGL, this);
-		//this.on('afterLoad', this.calculateTotal, this);
+		this.on('afterLoad', this.loadGL, this);
+		_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
 		
 		this.comboPay.on('select', this.selectPay, this);
 
@@ -336,9 +428,15 @@ Ext.define('Account.Receipt.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
 		this.gridPayment.load({ recnr: 0 });
+		
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
+		//this.comboTax.setValue('01');
+		this.trigCurrency.setValue('THB');
+		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
-	// calculate total functions
+	// Calculate total functions
 	calculateTotal: function(){
 		//var _this=this;
 		var store = this.gridItem.store;
@@ -350,10 +448,13 @@ Ext.define('Account.Receipt.Item.Form', {
 			pay = isNaN(pay)?0:pay;
 
 			var amt = itamt - pay;
-
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		var currency = this.trigCurrency.getValue();
+		this.gridItem.curValue = currency;
+		this.formTotal.getForm().findField('curr1').setValue(currency);
+		
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
 	},
@@ -376,14 +477,19 @@ Ext.define('Account.Receipt.Item.Form', {
 
 		// set value to grid payment
 		var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid    
+		// Set value to GL Posting grid  
+		var currency = this.trigCurrency.getValue();
+		if(currency != 'THB'){
+	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+		  sum = sum * rate;
+		}   
         if(sum>0){
         	//console.log(rsPM);
             _this.gridGL.load({
             	paym:Ext.encode(rsPM),
             	netpr:sum,
             	kunnr:this.trigCustomer.getValue(),
-            	//ptype:this.comboPay.getValue(),
+            	rate:rate,
             	dtype:'01'
             }); 
            }

@@ -112,8 +112,10 @@ class Receipt extends CI_Controller {
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
-			//'ctype' => $curr,
-			//'exchg' => $this->input->post('exchg'),
+			'ctype' => $this->input->post('ctype'),
+			'exchg' => $this->input->post('exchg'),
+			'reanr' => $this->input->post('reanr'),
+			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
@@ -460,7 +462,7 @@ class Receipt extends CI_Controller {
 		if(empty($iv_id)){
 		   $net = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   $rate = $this->input->get('rate');  //Currency Rate
 		   $dtype = $this->input->get('dtype');  //Doc Type
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
@@ -477,7 +479,8 @@ class Receipt extends CI_Controller {
 					$ptype = $p->ptype;
 				    $payam = $p->payam;
 					$reman = $p->reman;
-					//$net = $net + $payam;
+					if(!empty($rate))
+					$payam = $payam * $rate;
 
  // record แรก
             $query = $this->db->get_where('ptyp', array(

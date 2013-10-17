@@ -39,7 +39,7 @@ Ext.define('Account.Quotation.Grid', {
 		    {text: "Quotation No", 
 		    width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Quotation Date", xtype: 'datecolumn',
-			width: 80, align: 'center', format:'d/m/Y',
+			width: 85, align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No", 
 		    width: 100, align: 'center', dataIndex: 'kunnr', sortable: true},

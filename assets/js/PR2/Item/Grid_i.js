@@ -33,12 +33,12 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'purnr,purpo'
+					idProperty: 'purnr,purpr'
 				}
 			},
 			fields: [
 			    'purnr',
-				'purpo',
+				'purpr',
 				'matnr',
 				'maktx',
 				'menge',
@@ -49,7 +49,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['purpo ASC']
+			sorters: ['purpr ASC']
 		});
 
 		this.columns = [{
@@ -66,7 +66,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		},{
 			id : 'PRiRowNumber',
 			header : "Items",
-			dataIndex : 'purpo',
+			dataIndex : 'purpr',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -97,6 +97,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
+			xtype: 'numbercolumn',
 			width: 50,
 			dataIndex: 'menge',
 			sortable: false,
@@ -118,6 +119,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
+			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'unitp',
 			sortable: false,
@@ -135,6 +137,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
+			xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'dismt',
 			sortable: false,
@@ -249,7 +252,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			params: options,
 		});
 	},
-	
+	/*
 	load2: function(options){
 		//alert("555");
 		
@@ -279,7 +282,6 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			this.runNumRow();
 		}
 	},	
-
 	addDefaultRecord: function(){
 		
 		//สั่งเครียร์ grid
@@ -311,7 +313,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			this.runNumRow();
 		}
 	},
-
+    */
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
@@ -335,17 +337,19 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('purpo', row_num++);
+			r.set('purpr', row_num++);
 		});
 	},
 

@@ -15,14 +15,12 @@ class Pr2 extends CI_Controller {
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
-		
-		$sql="SELECT purnr,t1.lifnr,name1,t2.adr01,t2.distx,t2.pstlz,t2.telf1,t2.telfx,t2.email,
-			refnr,bldat,lfdat,t1.crdit,t1.taxnr,t1.sgtxt,t1.dismt,t1.taxpr
-			FROM tbl_ebko AS t1 inner join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
-			inner join tbl_apov AS t3 ON t1.statu=t3.statu
-			WHERE purnr='$id'";
-		$query = $this->db->query($sql);
+		$this->db->limit(1);
+
+		$this->db->where('purnr', $id);
+		$query = $this->db->get('ebko');
 		
 		if($query->num_rows()>0){
 			
@@ -132,6 +130,7 @@ class Pr2 extends CI_Controller {
 			'totalCount'=>2//$totalCount
 		));
 	}
+	
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
@@ -187,7 +186,7 @@ class Pr2 extends CI_Controller {
 			foreach($qt_item_array AS $p){
 				$this->db->insert('ebpo', array(
 					'purnr'=>$id,
-					'purpo'=>++$item_index,//vbelp,
+					'purpr'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,

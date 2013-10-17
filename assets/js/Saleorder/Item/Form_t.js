@@ -90,6 +90,8 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			align: 'right',
 			width:240,
 			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
 			name: 'exchg',
 			align: 'right'
          });
@@ -101,6 +103,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			align: 'right',
 			width:270,
 			labelWidth: 155,
+			alwaysDisplayDecimals: true,
 			margin: '4 0 0 0',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',

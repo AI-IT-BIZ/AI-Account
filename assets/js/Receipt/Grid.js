@@ -22,8 +22,9 @@ Ext.define('Account.Receipt.Grid', {
 				'kunnr',
 				'name1',
 				'txz01',
-				'netwr'//,
-				//'ctype'
+				'statu',
+				'netwr',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['recnr ASC']
@@ -31,7 +32,7 @@ Ext.define('Account.Receipt.Grid', {
 
 		this.columns = [
 		    {text: "Receipt No", 
-		    width: 120, align: 'center', dataIndex: 'recnr', sortable: true},
+		    width: 100, align: 'center', dataIndex: 'recnr', sortable: true},
 			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'bldat', sortable: true},
@@ -41,16 +42,16 @@ Ext.define('Account.Receipt.Grid', {
 		    {text: "Customer No", 
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
-			width: 200, dataIndex: 'name1', sortable: true},
+			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
-			width: 250, dataIndex: 'txz01', sortable: true},
-			//{text: "Status", 
-			//width: 100, dataIndex: 'statx', sortable: true},
+			width: 200, dataIndex: 'txz01', sortable: true},
+			{text: "Status", 
+			width: 100, dataIndex: 'statx', sortable: true},
 			{text: "Amount", 
 			xtype: 'numbercolumn',
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true}//,
-			//{text: "Currency", 
-			//width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "Currency", 
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {
