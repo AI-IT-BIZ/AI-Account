@@ -334,12 +334,14 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){

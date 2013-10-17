@@ -94,7 +94,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			align: 'right'
          });
          
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
@@ -260,7 +260,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
-		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		this.txtNet.setValue(net);
 
 		return net;
 	}

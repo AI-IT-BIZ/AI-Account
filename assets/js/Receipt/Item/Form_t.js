@@ -59,23 +59,8 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		/*
-		this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			margin: '4 0 0 0',
-			hideTrigger: true,
-			allowDecimals: false
-		});
-		*/
-		this.txtInterest = Ext.create('Ext.form.field.Text', {
+		
+		this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
 			name: 'ccc',
@@ -86,13 +71,15 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			readOnly: true
 
          });
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+         
+		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
 			align: 'right',
 			width:270,
 			labelWidth: 155,
+			alwaysDisplayDecimals: true,
 			margin: '4 0 0 0',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
@@ -116,9 +103,6 @@ Ext.define('Account.Receipt.Item.Form_t', {
             //margin: '5 0 5 600',
         items: [{
             xtype: 'displayfield',
-			//fieldLabel: 'Exchange Rate',
-			//name: 'exchg',
-			//labelAlign: 'right',
 			width:240,
 			align: 'right',
 			//margin: '0 0 0 -35'
@@ -180,11 +164,15 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');
 		};
+		var setBold = function(o){
+			o.inputEl.setStyle('font-weight', 'bold');
+		};
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
 		this.txtInterest.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
+		this.txtNet.on('render', setBold);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
@@ -270,7 +258,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		}
 
 		var net = total - discountValue + taxValue;
-		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		this.txtNet.setValue(net);
 		
 		return net;
 	}
