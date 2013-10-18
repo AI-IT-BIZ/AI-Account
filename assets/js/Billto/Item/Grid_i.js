@@ -1,4 +1,4 @@
-Ext.define('Account.Receipt.Item.Grid_i', {
+Ext.define('Account.Billto.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,15 +29,15 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"receipt/loads_rc_item",
+				url: __site_url+"billto/loads_bt_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'recnr,vbelp'
+					idProperty: 'bilnr,vbelp'
 				}
 			},
 			fields: [
-			    'recnr',
+			    'bilnr',
 				'vbelp',
 				'invnr',
 				'refnr',
@@ -46,7 +46,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'itamt',
 				'payrc',
 				'reman',
-				'belnr'
+				//'belnr',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -65,7 +66,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber5',
+			id : 'RowNumber25',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -76,7 +77,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			}
 		},
 		{text: "Invoice Code",
-		width: 120,
+		width: 100,
 		dataIndex: 'invnr',
 		sortable: false,
 			field: {
@@ -131,7 +132,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			{
 				text: "Remain Amt",
 				xtype: 'numbercolumn',
-				width: 120,
+				width: 100,
 				dataIndex: 'reman',
 				sortable: false,
 				align: 'right',
@@ -145,7 +146,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},/*,
+			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -154,7 +155,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
-		}*/];
+		}];
 
 		this.plugins = [this.editing];
 
@@ -182,18 +183,16 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
-
 							// Ref no
 							rModel.set('refnr', r.data.refnr);
-
 							// Invoice date
 							rModel.set('invdt', r.data.bldat);
-							
 							// Text Note
 							rModel.set('texts', r.data.txz01);
-							
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
+							// Currency
+							rModel.set('ctype', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -211,18 +210,16 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
-
 				// Ref no
 				rModel.set('refnr', record.data.refnr);
-
 				// Invoice date
 				rModel.set('invdt', record.data.bldat);
-				
 				// Text note
 				rModel.set('texts', record.data.txz01);
-
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
+				// Currency
+				rModel.set('ctype', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
 
 			}
@@ -262,12 +259,14 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){

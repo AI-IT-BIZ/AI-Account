@@ -1,9 +1,9 @@
-Ext.define('Account.Receipt.Item.Window', {
+Ext.define('Account.Billto.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Receipt',
+			title: 'Create/Edit Bill To Customer',
 			closeAction: 'hide',
 			height: 650,
 			width: 950,
@@ -18,7 +18,7 @@ Ext.define('Account.Receipt.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Receipt.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.Billto.Item.Form',{ region:'center' });
 
 		this.items = [
 		     this.form

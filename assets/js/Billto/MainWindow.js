@@ -3,11 +3,11 @@ Ext.define('Account.Billto.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Bill to Customer',
+			title: 'Bill To Customer',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 920,
+			width: 950,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -83,8 +83,8 @@ Ext.define('Account.Billto.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({recnr: id});
-			    _this.itemDialog.form.gridPayment.load({recnr: id});
+				_this.itemDialog.form.gridItem.load({bilnr: id});
+			    //_this.itemDialog.form.gridPayment.load({recnr: id});
 			}
 		});
 

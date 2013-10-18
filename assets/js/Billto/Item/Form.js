@@ -1,9 +1,9 @@
-Ext.define('Account.Receipt.Item.Form', {
+Ext.define('Account.Billto.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'receipt/save',
+			url: __site_url+'billto/save',
 			layout: 'border',
 			border: false
 		});
@@ -17,22 +17,12 @@ Ext.define('Account.Receipt.Item.Form', {
 		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.gridItem = Ext.create('Account.Receipt.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.Billto.Item.Grid_i',{
 			//title:'Invoice Items',
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.Receipt.Item.Grid_gl',{
-			border: true,
-			region:'center',
-			title: 'GL Posting'
-		});
-		this.gridPayment = Ext.create('Account.Receipt.Item.Grid_pm',{
-			border: true,
-			region:'center',
-			title: 'Payment'
-		});
-		this.formTotal = Ext.create('Account.Receipt.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Billto.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total Invoice',
@@ -44,8 +34,6 @@ Ext.define('Account.Receipt.Item.Form', {
 			name : 'ptype',
 			//labelWidth: 95,
 			width: 350,
-			//anchor:'80%',
-			//labelAlign: 'right',
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -73,16 +61,41 @@ Ext.define('Account.Receipt.Item.Form', {
 			valueField: 'ptype'
 		});
 		
-		this.hdnRcItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbbp'
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Bill To Status',
+			name : 'statu',
+			labelAlign: 'right',
+			width: 240,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			//margin: '0 0 0 6',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
 		});
 		
-		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
-			name: 'paym',
-		});
-		
-		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bcus',
+		this.hdnBtItem = Ext.create('Ext.form.Hidden', {
+			name: 'vbkp'
 		});
 		
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
@@ -106,7 +119,7 @@ Ext.define('Account.Receipt.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnRcItem,this.hdnPpItem,this.hdnGlItem,
+			items: [this.hdnBtItem,
 			{
 			xtype:'fieldset',
             title: 'Header Data',
@@ -142,20 +155,18 @@ Ext.define('Account.Receipt.Item.Form', {
 			xtype: 'textarea',
 			fieldLabel: 'Bill To',
 			name: 'adr01',
-			anchor:'90%',
-			width:350,
-			rows:2,
-			labelAlign: 'top'
+			width:400,
+			rows:3
 		}]
 		},{
 			xtype: 'container',
                 layout: 'anchor',
      items :[{
 			xtype: 'displayfield',
-            fieldLabel: 'Receipt No',
+            fieldLabel: 'Bill To No',
             name: 'recnr',
             //flex: 3,
-            value: 'RDXXXX-XXXX',
+            value: 'BTXXXX-XXXX',
             labelAlign: 'right',
 			//name: 'qt',
 			width:240,
@@ -165,7 +176,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
+			fieldLabel: 'Document Date',
 			name: 'bldat',
 			//anchor:'80%',
 			labelAlign: 'right',
@@ -176,7 +187,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			allowBlank: false
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Receipt Date',
+			fieldLabel: 'Bill To Date',
 			name: 'duedt',
 			//anchor:'80%',
 			labelAlign: 'right',
@@ -185,7 +196,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-		}]
+		},this.comboQStatus]
 		}]
 		}]
 		}]
@@ -263,12 +274,6 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		
-		this.gridPayment.store.on('update', this.loadGL, this);
-		this.gridPayment.store.on('load', this.loadGL, this);
-		//this.on('afterLoad', this.calculateTotal, this);
-		
-		this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
 	},	
@@ -277,7 +282,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'receipt/load',
+			url:__site_url+'billto/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -290,22 +295,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnRcItem.setValue(Ext.encode(rsItem));
-		var rsPayment = _this.gridPayment.getData();
-		this.hdnPpItem.setValue(Ext.encode(rsPayment));
-		
-		var rsGL = _this.gridGL.getData();
-		this.hdnGlItem.setValue(Ext.encode(rsGL));
-/*
-		this.getForm().getFields().each(function(f){
-			//console.log(f.name);
-    		 if(!f.validate()){
-    		 	var p = f.up();
-    		 	console.log(p);
-    			 console.log('invalid at : '+f.name);
-    		 }
-    	 });
-*/
+		this.hdnBtItem.setValue(Ext.encode(rsItem));
+
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -323,7 +314,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'receipt/remove',
+			url:__site_url+'billto/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -334,8 +325,10 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ recnr: 0 });
-		this.gridPayment.load({ recnr: 0 });
+		this.gridItem.load({ bilnr: 0 });
+		//this.gridPayment.load({ recnr: 0 });
+		
+		this.comboQStatus.setValue('01');
 	},
 	
 	// calculate total functions
@@ -350,43 +343,11 @@ Ext.define('Account.Receipt.Item.Form', {
 			pay = isNaN(pay)?0:pay;
 
 			var amt = itamt - pay;
-
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 		var net = this.formTotal.calculate();
-		this.gridPayment.netValue = net;
-	},
-	
-	// Load GL functions
-	loadGL: function(){
-		var _this=this;
-		var store = this.gridItem.store;
-		var sum = 0;
-		store.each(function(r){
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
-				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			itamt = isNaN(itamt)?0:itamt;
-			pay = isNaN(pay)?0:pay;
-
-			var amt = itamt - pay;
-
-			sum += amt;
-		});
-
-		// set value to grid payment
-		var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid    
-        if(sum>0){
-        	//console.log(rsPM);
-            _this.gridGL.load({
-            	paym:Ext.encode(rsPM),
-            	netpr:sum,
-            	kunnr:this.trigCustomer.getValue(),
-            	//ptype:this.comboPay.getValue(),
-            	dtype:'01'
-            }); 
-           }
+		//this.gridPayment.netValue = net;
 	}
 	
 });

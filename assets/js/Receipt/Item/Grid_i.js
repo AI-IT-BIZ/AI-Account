@@ -146,7 +146,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
+			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -183,18 +183,16 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
-
 							// Ref no
 							rModel.set('refnr', r.data.refnr);
-
 							// Invoice date
 							rModel.set('invdt', r.data.bldat);
-							
 							// Text Note
 							rModel.set('texts', r.data.txz01);
-							
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
+							// Currency
+							rModel.set('ctype', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -212,20 +210,18 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
-
 				// Ref no
 				rModel.set('refnr', record.data.refnr);
-
 				// Invoice date
 				rModel.set('invdt', record.data.bldat);
-				
 				// Text note
 				rModel.set('texts', record.data.txz01);
-
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
+				// Currency
+				rModel.set('ctype', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
-
+                
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.invoiceDialog.hide();

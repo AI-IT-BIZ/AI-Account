@@ -797,6 +797,11 @@ Ext.define('Account.Invoice.Item.Form', {
         }
 	},
 	
+	// Due Date Calculation	
+	//changeCredit: function(v, record, index){
+		//var _this=this;
+	//},
+	
 // Payments Method	
 	selectPay: function(combo, record, index){
 		var _this=this;

@@ -46,15 +46,6 @@ class Receipt extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
-			//$invnr1 = $_this->input->get('invnr');
-			//$invnr2 = $_this->input->get('invnr2');
-			//if(!empty($invnr1) && empty($invnr2)){
-			//  $_this->db->where('invnr', $invnr1);
-			//}
-			//elseif(!empty($invnr1) && !empty($invnr2)){
-			//  $_this->db->where('invnr >=', $invnr1);
-			//  $_this->db->where('invnr <=', $invnr2);
-			//}
 			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
@@ -161,7 +152,8 @@ class Receipt extends CI_Controller {
 				'itamt'=>$p->itamt,
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,
-				'refnr'=>$p->refnr
+				'refnr'=>$p->refnr,
+				'ctype'=>$p->ctype
 			));
 	    	}
 		}

@@ -134,7 +134,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width: 200,
-			//margin: '0 0 0 6',
+			editable: false,
 			labelAlign: 'right',
 			allowBlank : false
 		});
@@ -302,54 +302,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
-		
-		this.trigCurrency.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
 
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'currency/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.ctype);
-							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-                            var store = _this.gridItem.store;
-		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
-			                rc.set('ctype', r.data.ctype);
-		                    });
-		                    _this.gridItem.curValue = r.data.ctype;
-						}else{
-							o.markInvalid('Could not find currency code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCurrency.setValue(record.data.ctype);
-
-            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
-            var store = _this.gridItem.store;
-		    store.each(function(rc){
-			//price = parseFloat(rc.data['unitp']),
-			rc.set('ctype', record.data.ctype);
-		    });
-		    _this.gridItem.curValue = record.data.ctype;
-			grid.getSelectionModel().deselectAll();
-			_this.currencyDialog.hide();
-		});
-
-		this.trigCurrency.onTriggerClick = function(){
-			_this.currencyDialog.show();
-		};
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
@@ -359,8 +312,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridPayment.store.on('load', this.loadGL, this);
 		this.on('afterLoad', this.loadGL, this);
 		_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
-		
-		this.comboPay.on('select', this.selectPay, this);
+
+		//this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
 	},	

@@ -1,4 +1,4 @@
-Ext.define('Account.Receipt.Item.Form_t', {
+Ext.define('Account.Billto.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -59,22 +59,6 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		/*
-		this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			margin: '4 0 0 0',
-			hideTrigger: true,
-			allowDecimals: false
-		});
-		*/
 		this.txtInterest = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
@@ -86,13 +70,14 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			readOnly: true
 
          });
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
 			align: 'right',
 			width:270,
 			labelWidth: 155,
+			alwaysDisplayDecimals: true,
 			margin: '4 0 0 0',
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
@@ -103,7 +88,6 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		this.items = [{
 			xtype: 'container',
             layout: 'hbox',
-            anchor: '100%',
             defaultType: 'textfield',
             //margin: '5 0 5 600',
         items: [{
@@ -112,7 +96,6 @@ Ext.define('Account.Receipt.Item.Form_t', {
      items :[{
 			xtype: 'container',
             layout: 'hbox',
-            anchor: '100%',
             //margin: '5 0 5 600',
         items: [{
             xtype: 'displayfield',
@@ -130,12 +113,12 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			//value: 'THB/USD'
 		}]
 		},{
-   	        xtype: 'displayfield',
-   	        //fieldLabel: 'Rejected Reason',
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Rejected Reason',
 			align: 'right',
 			margin: '3 0 0 0',
-			width:380//,
-			//name: 'reanr1'
+			width:380,
+			name: 'reanr1'
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Text Note',
@@ -161,14 +144,6 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			defaultType: 'textfield',
 			//margin: '5 0 5 600',
 	items: [
-		//this.txtTax
-		//,{
-		//	xtype: 'displayfield',
-		//	align: 'right',
-		//	width:10,
-		//	margin: '4 0 0 0',
-		//	value: '%'
-		//},
 		this.txtInterest
 	]
 	},
@@ -180,11 +155,15 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');
 		};
+		var setBold = function(o){
+			o.inputEl.setStyle('font-weight', 'bold');
+		};
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
 		this.txtInterest.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
+		this.txtNet.on('render', setBold);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
@@ -194,7 +173,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'receipt/load'
+			url:__site_url+'billto/load'
 		});
 	},
 	save : function(){
@@ -216,7 +195,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'invoice/remove',
+			url:__site_url+'billto/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -260,17 +239,12 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
 			taxValue = isNaN(taxValue)?0:taxValue;
-    
-			//if(taxValue>0){
-				//taxValue = taxValue * total / 100;
-				//this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
-			//}
 		}else{
 			this.txtInterest.setValue('');
 		}
 
 		var net = total - discountValue + taxValue;
-		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		this.txtNet.setValue(net);
 		
 		return net;
 	}
