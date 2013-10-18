@@ -145,10 +145,8 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.saknr);
-
 							// Materail text
 							rModel.set('sgtxt', r.data.sgtxt);
-
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -164,10 +162,8 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 
 				// change cell code value (use db value)
 				rModel.set('saknr', record.data.saknr);
-
 				// Materail text
 				rModel.set('sgtxt', record.data.sgtxt);
-
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.glDialog.hide();
@@ -187,8 +183,7 @@ Ext.define('Account.Invoice.Item.Grid_gl', {
 		var newId = -1;
 		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
 			if(r.get('id')<newId)
-				newId = r.get('id'); 
-				
+				newId = r.get('id'); 	
 		});
 		newId--;
 	

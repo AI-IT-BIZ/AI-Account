@@ -6,7 +6,7 @@ Ext.define('Account.PR2.Item.Window', {
 			title: 'Create/Edit Purchase Request',
 			closeAction: 'hide',
 			height: 600,
-			width: 825,
+			width: 880,
 			layout: 'border',
 			border: false,
 			resizable: true,

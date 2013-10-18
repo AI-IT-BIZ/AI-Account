@@ -74,7 +74,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'QT Status',
+			fieldLabel: 'Receipt Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -403,7 +403,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 		});
-		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
@@ -424,7 +424,6 @@ Ext.define('Account.Receipt.Item.Form', {
 			pay = isNaN(pay)?0:pay;
 
 			var amt = itamt - pay;
-
 			sum += amt;
 		});
 

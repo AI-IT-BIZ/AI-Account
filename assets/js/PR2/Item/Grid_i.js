@@ -89,7 +89,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			},
 			},
 		    {text: "Description",
-		    width: 200,
+		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    field: {
@@ -98,7 +98,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 50,
+			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',

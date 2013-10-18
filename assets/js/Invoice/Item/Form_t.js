@@ -17,10 +17,11 @@ Ext.define('Account.Invoice.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtTotal = Ext.create('Ext.form.field.Text', {
+		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
 			labelWidth: 155,
+			alwaysDisplayDecimals: true,
 			width:270,
 			//margin: '0 0 0 175',
 			readOnly: true
@@ -63,6 +64,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
             xtype: 'textfield',
             fieldLabel: 'Vat Total',
 			align: 'right',
+			alwaysDisplayDecimals: true,
 			width:270,
 			labelWidth: 155,
 			name: 'vat01',
@@ -75,6 +77,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
             xtype: 'textfield',
             fieldLabel: 'WHT Total',
 			align: 'right',
+			alwaysDisplayDecimals: true,
 			width:270,
 			labelWidth: 155,
 			name: 'wht01',
@@ -186,14 +189,14 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		this.txtWHTValue.on('render', setAlignRight);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
-		//this.txtTax.on('keyup', this.calculate, this);
+		//this.txtRate.on('keyup', this.ex_rate, this);
 
 		return this.callParent(arguments);
 	},
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/load'
+			url:__site_url+'invoice/load'
 		});
 	},
 	save : function(){
@@ -211,21 +214,15 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			});
 		}
 	},
-	remove : function(id){
+	ex_rate : function(id){
 		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
-			}
-		});
+		_this.getForm().calculateTotal();
 	},
 	// calculate function
 	calculate: function(){
 		var _this = this;
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
+		var total = this.txtTotal.getValue();//.replace(',',''),
+			total = parseFloat(total);
 			total = isNaN(total)?0:total;
 
 		//console.log(total);

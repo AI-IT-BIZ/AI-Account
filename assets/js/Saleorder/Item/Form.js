@@ -70,13 +70,13 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 
 		this.comboPSale = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Saleperson',
+			fieldLabel: 'Salesperson',
 			name : 'salnr',
 			width: 350,
 			editable: false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please select Saleperson --',
+			emptyText: '-- Please select Salesperson --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -140,7 +140,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Select Tax --',
+			emptyText: '-- Select Vat --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -695,9 +695,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 				    whts += wht;
 			}
 		});
-		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-		this.formTotal.getForm().findField('vat01').setValue(Ext.util.Format.usMoney(vats).replace(/\$/, ''));
-		this.formTotal.getForm().findField('wht01').setValue(Ext.util.Format.usMoney(whts).replace(/\$/, ''));
+		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('wht01').setValue(whts);
 		var net = this.formTotal.calculate();
 
 		// set value to grid payment

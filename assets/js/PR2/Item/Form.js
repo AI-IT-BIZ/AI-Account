@@ -13,6 +13,7 @@ Ext.define('Account.PR2.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR2.Item.Grid_i',{
 			height: 320,
@@ -25,14 +26,14 @@ Ext.define('Account.PR2.Item.Form', {
 		});
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'QT Status',
+			fieldLabel: 'PR Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 -17',
+			//margin: '0 0 0 -17',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -57,21 +58,21 @@ Ext.define('Account.PR2.Item.Form', {
 			valueField: 'statu'
 		});
 
-
 /*---ComboBox Tax Type----------------------------*/
-		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Tax Type',
+		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {		
+			fieldLabel: 'Vat Type',
 			name: 'taxnr',
+			width: 240,
 			editable: false,
 			allowBlank : false,
+			labelAlign: 'right',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+		    emptyText: '-- Select Vat --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'pr2/loads_combo/tax1/taxnr/taxtx',  
+					url: __site_url+'quotation/loads_taxcombo', 
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -90,12 +91,39 @@ Ext.define('Account.PR2.Item.Form', {
 			valueField: 'taxnr'
 		});	
 		
+		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payments',
+			name : 'ptype',
+			width: 350,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please Select Payments --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_tcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'ptype'
+					}
+				},
+				fields: [
+					'ptype',
+					'paytx'
+				],
+				remoteSort: true,
+				sorters: 'ptype ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'paytx',
+			valueField: 'ptype'
+		});
+		
 		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebpo',
-		});
-
-		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
-			name: 'payp',
 		});
 
 		this.trigVender = Ext.create('Ext.form.field.Trigger', {
@@ -105,6 +133,49 @@ Ext.define('Account.PR2.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'crdit',
+			labelAlign: 'right',
+			width:170,
+			hideTrigger:false,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
+         
+         this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
+			name: 'ctype',
+			fieldLabel: 'Currency',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			width: 240,
+			//margin: '0 0 0 6',
+			labelAlign: 'right',
+			allowBlank : false
+		});
+		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
+
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'Vat Value',
+			name: 'taxpr',
+			labelAlign: 'right',
+			width:200,
+			align: 'right',
+			margin: '0 0 0 35'
+         });
 
 		
 		var mainFormPanel = {
@@ -117,12 +188,12 @@ Ext.define('Account.PR2.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnPrItem, this.hdnPpItem,
+			items: [this.hdnPrItem, 
 			{
 				xtype:'fieldset',
 				title: 'Header Data',
 				items:[{
-					// Project Code
+		    // Project Code
 	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
@@ -133,16 +204,17 @@ Ext.define('Account.PR2.Item.Form', {
 						xtype: 'displayfield',
 						name: 'name1',
 						margins: '0 0 0 6',
-						width:286,
+						width:295,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					fieldLabel: 'Purchase No',
-					name: 'purnr',
+					    fieldLabel: 'Purchase No',
+					    name: 'purnr',
 						fieldLabel: 'Purchase No',
 						name: 'purnr',
 						value: 'PRXXXX-XXXX',
-						width:232,
+						labelAlign: 'right',
+						width:240,
 						readOnly: true,
 						labelStyle: 'font-weight:bold'
 					}]
@@ -155,26 +227,30 @@ Ext.define('Account.PR2.Item.Form', {
 		                xtype: 'container',
 		                flex: 0,
 		                items :[ this.comboLifnr,{
-							xtype: 'textarea',
-							fieldLabel: 'Address',
-							name: 'adr01',
-							width: 455, 
-							rows:2,
-		                }, {
+						    xtype: 'textarea',
+						    fieldLabel: 'Vendor Address',
+						    name: 'adr01',
+						    width: 450, 
+						    rows:3,
+		                },{xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.comboPay,this.numberVat]
+				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
+								width: 280, 
 								name: 'refnr',
-			                }, {
-								xtype: 'numberfield',
-								fieldLabel: 'Credit Terms',
-								name: 'crdit',
-								labelWidth: 50,
-								margin: '0 0 0 40',
-			                }]
+			                },this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -184,6 +260,8 @@ Ext.define('Account.PR2.Item.Form', {
 							xtype: 'datefield',
 							fieldLabel: 'PR Date',
 							name: 'bldat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
@@ -191,14 +269,16 @@ Ext.define('Account.PR2.Item.Form', {
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
 							name: 'lfdat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-                		}, this.comboTaxnr,{
-		                }]
-		            }]
-				}]
-
+                		}, this.comboTaxnr,
+                		this.trigCurrency,
+					    this.comboQStatus]
+		          }]
+			   }]
 			}]
 		};
 		
@@ -320,7 +400,7 @@ Ext.define('Account.PR2.Item.Form', {
 
 			sum += amt;
 		});
-		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.calculate();
 	}
 });

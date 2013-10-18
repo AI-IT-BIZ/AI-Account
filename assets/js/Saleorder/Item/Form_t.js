@@ -17,9 +17,10 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtTotal = Ext.create('Ext.form.field.Text', {
+		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
+			alwaysDisplayDecimals: true,
 			labelWidth: 155,
 			width:270,
 			//margin: '0 0 0 175',
@@ -63,6 +64,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
             xtype: 'textfield',
             fieldLabel: 'Vat Total',
 			align: 'right',
+			alwaysDisplayDecimals: true,
 			width:270,
 			labelWidth: 155,
 			name: 'vat01',
@@ -75,6 +77,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
             xtype: 'textfield',
             fieldLabel: 'WHT Total',
 			align: 'right',
+			alwaysDisplayDecimals: true,
 			width:270,
 			labelWidth: 155,
 			name: 'wht01',
@@ -224,8 +227,8 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 	// calculate function
 	calculate: function(){
 		var _this = this;
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
+		var total = this.txtTotal.getValue();//.replace(',',''),
+			total = parseFloat(total);
 			total = isNaN(total)?0:total;
 
 		//console.log(total);

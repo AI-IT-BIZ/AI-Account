@@ -245,22 +245,52 @@ class Pr2 extends CI_Controller {
 	}
 	
 	
-	public function loads_combo($tb,$pk,$like){
-		
-		$tbName = $tb;
-		$tbPK = $pk;
-		$tbLike = $like;
+	public function loads_acombo(){
+		//$tbName = 'apov';
+		//$tbPK = 'statu';
+
+		$sql="SELECT *
+			FROM tbl_apov
+			WHERE apgrp = '1'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+
+	public function loads_tcombo(){
+		//$tbName = 'ptyp';
+		//$tbPK = 'ptype';
+
+		$sql="SELECT *
+			FROM tbl_ptyp
+			WHERE ptype <> '02'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+
+    public function loads_taxcombo(){
+		$tbName = 'tax1';
+		$tbPK = 'taxnr';
 
 		$query = $this->input->post('query');
 
 		$totalCount = $this->db->count_all_results($tbName);
 
-
 		if(!empty($query) && $query!=''){
-			$this->db->or_like($tbLike, $query);
+			$this->db->or_like('taxtx', $query);
 			$this->db->or_like($tbPK, $query);
 		}
 
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
 		$query = $this->db->get($tbName);
 
 		echo json_encode(array(
