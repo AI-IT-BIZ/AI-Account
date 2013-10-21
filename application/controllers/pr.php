@@ -9,27 +9,36 @@ class Pr extends CI_Controller {
 		$this->load->model('code_model','',TRUE);
 	}
 
-	function test_get_code(){
-		echo $this->code_model->generate('QT', '2013-08-13');
-	}
-
 	function index(){
-		$this->phxview->RenderView('pr');
+		$this->phxview->RenderView('pr2');
 		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('id', $id);
-		$query = $this->db->get('pr');
-		if($query->num_rows()>0){
-			$result = $query->first_row('array');
-			$result['create_date']=substr($result['create_date'], 0, 10);
 
+		$this->db->where('purnr', $id);
+		$query = $this->db->get('ebko');
+		
+		if($query->num_rows()>0){
+			
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['purnr'];
+
+			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         $result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+
+			// unset calculated value
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
+			
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$result
+				'data'=>$result_data
 			));
 		}else
 			echo json_encode(array(
@@ -38,88 +47,137 @@ class Pr extends CI_Controller {
 	}
 
 	function loads(){
-		//$this->db->set_dbprefix('v_');
-
-		$tbName = 'pr';
-/*
-		function createQuery($_this){
-			$query = $_this->input->post('query');
-			if(isset($query) && strlen($query)>0){
-				$_this->db->or_like('code', $query);
-			}
-		}
-
-		createQuery($this);
-		$this->db->select('id');
-		$totalCount = $this->db->count_all_results($tbName);
-*/
-//		createQuery($this);
+		$this->db->set_dbprefix('v_');
+		$tbName = 'ebko';
+		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		// Start for report
+		function createQuery($_this){
+			
+			$bldat1 = $_this->input->get('bldat1');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
 
+            $purnr1 = $_this->input->get('purnr');
+			$purnr2 = $_this->input->get('purnr2');
+			if(!empty($purnr1) && empty($purnr2)){
+			  $_this->db->where('purnr', $purnr1);
+			}
+			elseif(!empty($purnr1) && !empty($purnr2)){
+			  $_this->db->where('purnr >=', $purnr1);
+			  $_this->db->where('purnr <=', $purnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('kunnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report	
+		createQuery($this); 
 		$query = $this->db->get($tbName);
-		//echo $this->db->last_query();
+		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>2//$totalCount
 		));
 	}
-
+	
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('id', $id);
-			$query = $this->db->get('pr');
+			$this->db->where('purnr', $id);
+			$query = $this->db->get('ebko');
 		}
-
+		//$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
-			//'code' => $this->input->post('code'),
-			'mtart' => $this->input->post('mtart'),
-			'create_date' => $this->input->post('create_date')
+			'bldat' => $this->input->post('bldat'),
+			'lifnr' => $this->input->post('lifnr'),
+			'lfdat' => $this->input->post('lfdat'),
+			'taxnr' => $this->input->post('taxnr'),
+			'refnr' => $this->input->post('refnr'),
+			'terms' => $this->input->post('terms'),
+			'dismt' => $this->input->post('dismt'),
+			'taxpr' => $this->input->post('taxpr'),
+			'sgtxt' => $this->input->post('sgtxt'),
+			'vat01' => $this->input->post('vat01'),
+			'netwr' => $this->input->post('netwr'),
+			'ptype' => $this->input->post('ptype'),
+			'exchg' => $this->input->post('exchg'),
+			'statu' => $this->input->post('statu'),
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
 		$this->db->trans_start();
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('id', $id);
-			$this->db->set('update_date', 'NOW()', false);
-			$this->db->set('update_by', 'test');
-			$this->db->update('pr', $formData);
+			$this->db->where('purnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'somwang');
+			$this->db->update('ebko', $formData);
 		}else{
-			$this->db->set('code', $this->code_model->generate('PR', $this->input->post('create_date')));
-			$this->db->set('create_by', 'test');
-			$this->db->insert('pr', $formData);
-
-			$id = $this->db->insert_id();
+			
+			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
+			$this->db->set('purnr', $id);
+			$this->db->set('erdat', 'NOW()', false);
+			$this->db->set('ernam', 'somwang');
+			$this->db->insert('ebko', $formData);
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('pr_id', $id);
-		$this->db->delete('pr_item');
+		$this->db->where('purnr', $id);
+		$this->db->delete('ebpo');
 
-		// เตรียมข้อมูล pr item
-		$pr_item = $this->input->post('pr_item');
-		$pr_item_array = json_decode($pr_item);
-
-		// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-		foreach($pr_item_array AS $p){
-			$this->db->insert('pr_item', array(
-				'pr_id'=>$id,
-				'code'=>$p->code,
-				'price'=>$p->price,
-				'amount'=>$p->amount
-			));
+		// เตรียมข้อมูล  qt item
+		$ebpo = $this->input->post('ebpo');//$this->input->post('vbelp');
+		$qt_item_array = json_decode($ebpo);
+		if(!empty($ebpo) && !empty($qt_item_array)){
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			$item_index = 0;
+			foreach($qt_item_array AS $p){
+				$this->db->insert('ebpo', array(
+					'purnr'=>$id,
+					'purpr'=>++$item_index,//vbelp,
+					'matnr'=>$p->matnr,
+					'menge'=>$p->menge,
+					'meins'=>$p->meins,
+					'disit'=>$p->disit,
+					'unitp'=>$p->unitp,
+					'itamt'=>$p->itamt,
+					'chk01'=>$p->chk01,
+					'ctype'=>$p->ctype
+				));
+			}
 		}
-
+		
 		// end transaction
 		$this->db->trans_complete();
 
@@ -135,12 +193,15 @@ class Pr extends CI_Controller {
 	}
 
 	function remove(){
-		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$query = $this->db->delete('pr');
+		$purnr = $this->input->post('purnr'); 
+		$this->db->where('purnr', $purnr);
+		$query = $this->db->delete('ebko');
+		
+		$this->db->where('purnr', $purnr);
+		$query = $this->db->delete('ebpo');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$id
+			'data'=>$purnr
 		));
 	}
 
@@ -150,11 +211,27 @@ class Pr extends CI_Controller {
 
 
 	function loads_pr_item(){
+		$pr_id = $this->input->get('purnr');
+		
+		$this->db->set_dbprefix('v_');
+		$this->db->where('purnr', $pr_id);
+		$query = $this->db->get('ebpo');
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	public function loads_acombo(){
+		//$tbName = 'apov';
+		//$tbPK = 'statu';
 
-		$pr_id = $this->input->get('pr_id');
-		$this->db->where('pr_id', $pr_id);
+		$sql="SELECT *
+			FROM tbl_apov
+			WHERE apgrp = '1'";
+		$query = $this->db->query($sql);
 
-		$query = $this->db->get('pr_item');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -162,4 +239,101 @@ class Pr extends CI_Controller {
 		));
 	}
 
+	public function loads_tcombo(){
+		//$tbName = 'ptyp';
+		//$tbPK = 'ptype';
+
+		$sql="SELECT *
+			FROM tbl_ptyp
+			WHERE ptype <> '02'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+
+    public function loads_taxcombo(){
+		$tbName = 'tax1';
+		$tbPK = 'taxnr';
+
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('taxtx', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		//$this->db->order_by($_POST['sort'], $_POST['dir']);
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+	
+	function loads_conp_item(){
+        $menge = $this->input->get('menge');
+		$unitp = $this->input->get('unitp');
+		$disit = $this->input->get('disit');
+		$vvat = $this->input->get('vvat');
+		//$vwht = $this->input->get('vwht');
+		$vat = $this->input->get('vat');
+		//$wht = $this->input->get('wht');
+		$amt = $menge * $unitp;
+        $i=0;$vamt=0;
+		$result = array();
+		
+	    $query = $this->db->get('cont');
+        if($query->num_rows()>0){
+			$rows = $query->result_array();
+			foreach($rows AS $row){
+
+					if($row['conty']=='01'){
+						if(empty($disit)) $disit=0;
+						$tamt = $amt - $disit;
+						$amt = $tamt;
+						
+						$result[$i] = array(
+					    'contx'=>$row['contx'],
+				     	'vtamt'=>$disit,
+					    'ttamt'=>$tamt
+				        );
+						$i++;
+					}elseif($row['conty']=='02'){
+						if($vat=='true' || $vat=='1'){
+							$vamt = ($amt * $vvat) / 100;
+							$tamt = $amt + $vamt;
+						$result[$i] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vamt,
+					        'ttamt'=>$tamt
+				        );
+						$i++;
+						}
+					/*}elseif($row['conty']=='03'){
+						if($wht=='true' || $wht=='1'){
+							$vwht = ($amt * $vwht) / 100;
+							$tamt = $amt - $vwht;
+							$tamt = $tamt + $vamt;
+						$result[$i] = array(
+					        'contx'=>$row['contx'],
+				     	    'vtamt'=>$vwht,
+					        'ttamt'=>$tamt
+				        );$i++;
+					}*/
+				}
+			}}
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$result,
+			'totalCount'=>count($result)
+		));
+	}
 }

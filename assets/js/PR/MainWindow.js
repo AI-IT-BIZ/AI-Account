@@ -1,46 +1,46 @@
 Ext.define('Account.PR.MainWindow', {
 	extend	: 'Ext.window.Window',
-	requires : [
-		'Account.PR.Grid',
-		'Account.PR.Item.Window'
-	],
+	//requires : [
+	//	'Account.Quotation.Grid',
+	//	'Account.Quotation.Item.Window'
+	//],
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Purchase Request',
+			title: 'Purchase Requisitions',
 			closeAction: 'hide',
-			height: 380,
+			height: 600,
 			minHeight: 380,
-			width: 500,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true,
-			defaultFocus: 'code'
+			maximizable: true
 		});
 
 		return this.callParent(arguments);
 	},
+
 	initComponent : function() {
 		var _this=this;
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
+			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
+			text: 'Edit',
 			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
+			text: 'Delete',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
 
-		this.itemDialog = Ext.create('Account.PR.Item.Window');
-
+        this.itemDialog = Ext.create('Account.PR.Item.Window');
 		this.grid = Ext.create('Account.PR.Grid', {
 			region:'center',
 			border: false
@@ -52,10 +52,11 @@ Ext.define('Account.PR.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
+			_this.itemDialog.form.reset();	
+				
+				
+				
 			_this.itemDialog.show();
-
-			// สั่ง pr_item grid load
-			_this.itemDialog.grid.load({pr_id: 0});
 		});
 
 		this.editAct.setHandler(function(){
@@ -65,8 +66,7 @@ Ext.define('Account.PR.MainWindow', {
 				_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
 
-				// สั่ง pr_item grid load
-				_this.itemDialog.grid.load({pr_id: id});
+				_this.itemDialog.form.gridItem.load({purnr: id});
 			}
 		});
 
@@ -74,19 +74,20 @@ Ext.define('Account.PR.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(form){
+		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
-
 			_this.grid.load();
 		});
 
-		this.itemDialog.form.on('afterDelete', function(form){
+		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
+
 
 		// --- after ---
 		this.grid.load();

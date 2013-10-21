@@ -127,9 +127,9 @@ Ext.onReady(function() {
 	});
 //Purchase Module
 	$om.viewport.on('click_pr', function(){
-		if(!$om.pr2Dialog)
-			$om.pr2Dialog = Ext.create('Account.PR2.MainWindow');
-		$om.pr2Dialog.show();
+		if(!$om.prDialog)
+			$om.prDialog = Ext.create('Account.PR.MainWindow');
+		$om.prDialog.show();
 	});
 	$om.viewport.on('click_po', function(){
 		if(!$om.poDialog)

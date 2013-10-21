@@ -24,9 +24,15 @@ class Vendor extends CI_Controller {
 		$this->db->where('lifnr', $id);
 		$query = $this->db->get($tbName);
 		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			
+			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.$result_data['telfx'].
+									 PHP_EOL.'Email: '.$result_data['email'];
+			
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$query->first_row('array')
+				'data'=>$result_data
 			));
 		}else
 			echo json_encode(array(

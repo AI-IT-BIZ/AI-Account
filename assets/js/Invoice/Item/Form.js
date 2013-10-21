@@ -31,7 +31,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal = Ext.create('Account.Invoice.Item.Form_t',{
 			border: true,
 			split: true,
-			title:'Total Invoice',
+			title:'Total->Invoice',
 			region:'south'
 		});
 		this.gridPrice = Ext.create('Account.Invoice.Item.Grid_pc', {

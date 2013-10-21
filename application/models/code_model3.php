@@ -6,7 +6,6 @@ Class Code_model3 extends CI_Model
 		$this->db->where('modul', $modul);
 
 		$query_init = $this->db->get('init');
-
 		$result_code = '';
 
 		if($query_init->num_rows()>0){

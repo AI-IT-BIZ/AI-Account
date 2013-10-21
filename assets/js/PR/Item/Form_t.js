@@ -1,9 +1,9 @@
-Ext.define('Account.PR2.Item.Form_t', {
+Ext.define('Account.PR.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/save',
+			url: __site_url+'pr/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -25,7 +25,7 @@ Ext.define('Account.PR2.Item.Form_t', {
 			name: 'beamt',
 			alwaysDisplayDecimals: true,
 			labelWidth: 150,
-			width:240,
+			width:270,
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
@@ -49,7 +49,7 @@ Ext.define('Account.PR2.Item.Form_t', {
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
 			name: 'aaa',
 			align: 'right',
-			width:85,
+			width:115,
 			margin: '0 0 0 5',
 			readOnly: true
          });
@@ -58,7 +58,8 @@ Ext.define('Account.PR2.Item.Form_t', {
 			name: 'bbb',
 			align: 'right',
 			labelWidth: 150,
-			width:240,
+			width:270,
+			margin: '4 0 0 0',
 			readOnly: true
 		});
 		this.txtTaxValue = Ext.create('Ext.ux.form.NumericField', {
@@ -67,9 +68,21 @@ Ext.define('Account.PR2.Item.Form_t', {
 			name: 'vat01',
 			align: 'right',
 			alwaysDisplayDecimals: true,
-			width:240,
+			width:270,
 			labelWidth: 150,
+			margin: '4 0 0 0',
 			readOnly: true
+         });
+         this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:270,
+			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
+			name: 'exchg',
+			align: 'right'
          });
 		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
@@ -77,72 +90,70 @@ Ext.define('Account.PR2.Item.Form_t', {
 			name: 'netwr',
 			align: 'right',
 			labelWidth: 150,
-			width:240,
+			width:270,
+			margin: '4 0 0 0',
 			alwaysDisplayDecimals: true,
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
 			readOnly: true
 		});
-
+// Start Write Forms
 		this.items = [{
-            xtype: 'container',
+			xtype: 'container',
             layout: 'hbox',
-            margin: '5',
+            anchor: '100%',
             defaultType: 'textfield',
-            
-            items:[{
+            //margin: '5 0 5 600',
+        items: [{
                 xtype: 'container',
-                flex: 0,
                 layout: 'anchor',
-            	margin: '0 0 0 0',
-                items: [{
-					xtype: 'textarea',
-					fieldLabel: 'Text Note',
-					name: 'sgtxt',
-					width: 455, 
-					rows:3,
-					allowBlank: true
-                }]
+     items :[{
+			xtype: 'container',
+            layout: 'hbox',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [this.txtRate,{
+   	        xtype: 'displayfield',
+			align: 'right',
+			margin: '0 0 0 5',
+			width:20,
+			value: 'THB/'
+		},{
+   	        xtype: 'displayfield',
+   	        name: 'curr1',
+   	        margin: '0 0 0 7',
+			width:30
+		}]
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Rejected Reason',
+			align: 'right',
+			margin: '3 0 0 0',
+			width:380,
+			name: 'reanr'
+		},{
+			xtype: 'textarea',
+			fieldLabel: 'Text Note',
+			margin: '3 0 0 0',
+			rows:2,
+			width:380,
+			name: 'txz01'
+		}]
             },{
                 xtype: 'container',
-                flex: 0,
                 layout: 'anchor',
-            	margin: '0 0 0 70',
-                items: [{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 5 0',
-                	items: [this.txtTotal,{
-                	}]
-                },{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 5 0',
-                	items: [this.txtDiscount,this.txtDiscountValue]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 5 0',
-                	items: [this.txtDiscountSum,{
-                	}]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 5 0',
-                	items: [
-						this.txtTaxValue ,{
-                	}]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 5 0',
-                	items: [this.txtNet,{
-                	}]
-                }]
-		
-			},
-		]},
-	];
+                margins: '0 0 0 145',
+        items: [this.txtTotal,{
+			xtype: 'container',
+            layout: 'hbox',
+            //margin: '5 0 5 600',
+			items: [this.txtDiscount,this.txtDiscountValue]
+		},this.txtDiscountSum,
+		this.txtTaxValue,
+		this.txtWHTValue,
+	    this.txtNet]
+		}]
+		}];
 
 		// Event /////////
 		var setAlignRight = function(o){
@@ -211,13 +222,15 @@ Ext.define('Account.PR2.Item.Form_t', {
 			if(discountValue>0)
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
-			this.txtDiscountValue.setValue('');
-			this.txtDiscountSum.setValue('');
+			this.txtDiscountValue.setValue('0.00');
+			//this.txtDiscountSum.setValue('0.00');
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
 		var vat = this.txtTaxValue.getValue();
 
 		var net = (total - discountValue) + vat;
 		this.txtNet.setValue(net);
+		//return net;
 	}
 });

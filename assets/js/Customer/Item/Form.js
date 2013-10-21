@@ -107,7 +107,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 						if(r && r.success){
 							//o.setValue(r.data.ktype);
 							_this.trigDistr.setValue(record.data.distx);
-							_this.getForm().findField('distr').setValue(record.data.distr);
+							//_this.getForm().findField('distr').setValue(record.data.distr);
 
 						}else{
 							o.markInvalid('Could not find District : '+o.getValue());
@@ -119,7 +119,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 		_this.distrDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigDistr.setValue(record.data.distx);
-			_this.getForm().findField('distr').setValue(record.data.distr);
+			//_this.getForm().findField('distr').setValue(record.data.distr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.distrDialog.hide();
@@ -236,7 +236,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
-			name: 'crdit',
+			name: 'terms',
 			labelAlign: 'right',
 			width:200,
 			hideTrigger:false,
@@ -248,11 +248,9 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
             //xtype: 'numberfield',
 			fieldLabel: 'Minimum Amount',
 			name: 'begin',
-			labelAlign: 'right',
-			//width:200,
-			hideTrigger:false//,
-			//align: 'right'//,
-			//margin: '0 0 0 56'
+			labelAlign: 'left',
+			width:290,
+			hideTrigger:false
          });
          
          this.numberMax = Ext.create('Ext.ux.form.NumericField', {
@@ -365,7 +363,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'project/loads_tcombo',
+					url: __site_url+'customer/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -392,9 +390,9 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			xtype: 'hidden',
 			name: 'ktype'
 		},{
-			xtype: 'hidden',
-			name: 'distr'
-		},{
+			//xtype: 'hidden',
+			//name: 'distr'
+		//},{
 			
 /*(3)---Start Form-------------------------------*/	
 /*---Customer Head fieldset 1 --------------------------*/
@@ -402,7 +400,6 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 		items: [{
             xtype: 'container',
-            anchor: '100%',
             layout: 'anchor',
             margin: '15',
             items:[{
@@ -472,7 +469,7 @@ items:[{
                 items :[{
                 	xtype: 'textfield',
 					fieldLabel: 'Post Code',
-		            name: 'pst01',
+		            name: 'pstlz',
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
@@ -482,7 +479,7 @@ items:[{
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Email',
-					name: 'emai2',
+					name: 'email',
 					labelAlign: 'right',
             		margin: '0 0 0 50',
                 }]                

@@ -679,7 +679,6 @@ Ext.define('Account.Quotation.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-
 			sum += amt;
 
 			if(r.data['chk01']==true){

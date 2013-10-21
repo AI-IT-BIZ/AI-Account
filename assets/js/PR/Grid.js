@@ -1,39 +1,52 @@
-//http://www.sencha.com/blog/using-ext-loader-for-your-application
-
 Ext.define('Account.PR.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-
 		return this.callParent(arguments);
 	},
+
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
-			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'pr/loads',
+				url: __site_url+"pr/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id'
+					idProperty: 'purnr'
 				}
 			},
 			fields: [
-				{name:'id', type: 'int'},
-				'code',
-				{name:'create_date'},
-				'create_by',
-				{name:'update_date'},
-				'update_by'
+			    'purnr',
+				'bldat',
+				'lifnr',
+				'name1',
+				'netwr',
+				'statx',
+				'adr01',
+				'distx',
+				'pstlz',
+				'telf1',
+				'telfx',
+				'email'
 			],
 			remoteSort: true,
-			sorters: ['id ASC']
+			sorters: ['purnr ASC']
 		});
 
 		this.columns = [
-			{text: "Id", width: 120, dataIndex: 'id', sortable: true},
-			{text: "รหัส", flex: true, dataIndex: 'code', sortable: true},
-			{text: "create_date", width: 125, dataIndex: 'create_date', sortable: true}
+			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
+			{text: "PR Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
+			{text: "Net Amount", xtype: 'numbercolumn',
+			flex: true, dataIndex: 'netwr', sortable: true},
+			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "", width: 0, dataIndex: 'adr01', sortable: true},
+			{text: "", width: 0, dataIndex: 'distx', sortable: true},
+			{text: "", width: 0, dataIndex: 'pstlz', sortable: true},
+			{text: "", width: 0, dataIndex: 'telf1', sortable: true},
+			{text: "", width: 0, dataIndex: 'telfx', sortable: true},
+			{text: "", width: 0, dataIndex: 'email', sortable: true}
 		];
 
 		this.bbar = {
@@ -49,51 +62,3 @@ Ext.define('Account.PR.Grid', {
 		this.store.load(options);
 	}
 });
-
-/*
-var store = new Ext.data.JsonStore({
-		// store configs
-		proxy: {
-			type: 'ajax',
-			url: '<?= site_url("pr/loads") ?>',
-			reader: {
-				type: 'json',
-				root: 'rows',
-				idProperty: 'id'
-			}
-		},
-		fields: [
-			{name:'id', type: 'int'},
-			'code',
-			{name:'create_date'},
-			'create_by',
-			{name:'update_date'},
-			'update_by'
-		],
-		remoteSort: true,
-		sorters: ['id ASC']
-	});
-
-	// create the grid
-	var grid = Ext.create('Ext.grid.Panel', {
-		store: store,
-		columns: [
-			{text: "Id", width: 120, dataIndex: 'id', sortable: true},
-			{text: "รหัส", flex: true, dataIndex: 'code', sortable: true},
-			{text: "create_date", width: 125, dataIndex: 'create_date', sortable: true}
-		],
-		forceFit: true,
-		height:210,
-		split: true,
-		region: 'center',
-		tbar : [
-			addAct
-		],
-		bbar: {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: store,
-			displayInfo: true
-		}
-	});
-*/

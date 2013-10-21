@@ -27,7 +27,7 @@ class Po extends CI_Controller {
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['ebeln'];
 
-			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
+			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
@@ -131,9 +131,7 @@ class Po extends CI_Controller {
 			$this->db->where('ebeln', $id);
 			$query = $this->db->get('ekko');
 		}
-		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
-			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
 			'lfdat' => $this->input->post('lfdat'),
@@ -145,9 +143,8 @@ class Po extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
-			'netwr' => $netwr,
-			
-			
+			'statu' => $this->input->post('statu'),
+			'netwr' => $this->input->post('netwr')
 		);
 
 		// start transaction
@@ -250,29 +247,4 @@ class Po extends CI_Controller {
 		));
 	}
 	
-	
-	public function loads_combo($tb,$pk,$like){
-		
-		$tbName = $tb;
-		$tbPK = $pk;
-		$tbLike = $like;
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like($tbLike, $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
 }

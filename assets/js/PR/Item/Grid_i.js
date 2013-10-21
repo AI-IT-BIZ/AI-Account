@@ -1,4 +1,4 @@
-Ext.define('Account.PR2.Item.Grid_i', {
+Ext.define('Account.PR.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,7 +29,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"pr2/loads_pr_item",
+				url: __site_url+"pr/loads_pr_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -44,9 +44,10 @@ Ext.define('Account.PR2.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				'dismt',
+				'disit',
 				'itamt',
-				'ctype'
+				'ctype',
+				'chk01'
 			],
 			remoteSort: true,
 			sorters: ['purpr ASC']
@@ -139,7 +140,7 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			{text: "Discount",
 			xtype: 'numbercolumn',
 			width: 80,
-			dataIndex: 'dismt',
+			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -153,7 +154,21 @@ Ext.define('Account.PR2.Item.Grid_i', {
 					}
 				}
 			},
-			},
+			},{
+            xtype: 'checkcolumn',
+            text: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
 			{
 				text: "Amount",
 				width: 90,
@@ -208,10 +223,8 @@ Ext.define('Account.PR2.Item.Grid_i', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.matnr);
-
 							// Materail text
 							rModel.set('maktx', r.data.maktx);
-
 							// Unit
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
@@ -231,10 +244,8 @@ Ext.define('Account.PR2.Item.Grid_i', {
 
 				// change cell code value (use db value)
 				rModel.set('matnr', record.data.matnr);
-
 				// Materail text
 				rModel.set('maktx', record.data.maktx);
-
 				// Unit
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
@@ -252,69 +263,9 @@ Ext.define('Account.PR2.Item.Grid_i', {
 			params: options,
 		});
 	},
-	/*
-	load2: function(options){
-		//alert("555");
-		
-		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
-		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
-			if(r.get('id')<newId)
-				newId = r.get('id'); 
-				
-		});
-		newId--;
 	
-		for ( var i = 0; i < 5; i++ ) {
-			// add new record
-			rec = { id:i, ctype:'THB' };
-			edit = this.editing;
-			edit.cancelEdit();
-			// find current record
-			var sel = this.getView().getSelectionModel().getSelection()[0];
-			var selIndex = this.store.indexOf(sel);
-			this.store.insert(selIndex+1, rec);
-			edit.startEditByPosition({
-				row: selIndex+1,
-				column: 0
-			});
-	
-			this.runNumRow();
-		}
-	},	
-	addDefaultRecord: function(){
-		
-		//สั่งเครียร์ grid
-		this.store.removeAll();
-		
-		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
-		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
-			if(r.get('id')<newId)
-				newId = r.get('id'); 
-				
-		});
-		newId--;
-	
-		for ( var i = 0; i < 5; i++ ) {
-			// add new record
-			rec = { id:i, ctype:'THB' };
-			edit = this.editing;
-			edit.cancelEdit();
-			// find current record
-			var sel = this.getView().getSelectionModel().getSelection()[0];
-			var selIndex = this.store.indexOf(sel);
-			this.store.insert(selIndex+1, rec);
-			edit.startEditByPosition({
-				row: selIndex+1,
-				column: 0
-			});
-	
-			this.runNumRow();
-		}
-	},
-    */
 	addRecord: function(){
+		var _this=this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -323,8 +274,9 @@ Ext.define('Account.PR2.Item.Grid_i', {
 		});
 		newId--;
 
+		var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, ctype:'THB' };
+		rec = { id:newId, ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
