@@ -43,9 +43,10 @@ Ext.define('Account.PO.Item.Grid_i', {
 				'menge',
 				'meins',
 				'unitp',
-				'dismt',
+				'disit',
 				'itamt',
-				'ctype'
+				'ctype',
+				'chk01'
 			],
 			remoteSort: true,
 			sorters: ['ebelp ASC']
@@ -88,7 +89,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			},
 			},
 		    {text: "Description",
-		    width: 200,
+		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    field: {
@@ -96,7 +97,8 @@ Ext.define('Account.PO.Item.Grid_i', {
 			},
 		    },
 			{text: "Qty",
-			width: 50,
+			xtype: 'numbercolumn',
+			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -118,6 +120,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			},
 			},
 			{text: "Price/Unit",
+			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'unitp',
 			sortable: false,
@@ -135,8 +138,9 @@ Ext.define('Account.PO.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
+			xtype: 'numbercolumn',
 			width: 80,
-			dataIndex: 'dismt',
+			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
 			field: {
@@ -150,7 +154,21 @@ Ext.define('Account.PO.Item.Grid_i', {
 					}
 				}
 			},
-			},
+			},{
+            xtype: 'checkcolumn',
+            text: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
 			{
 				text: "Amount",
 				width: 90,
@@ -202,13 +220,10 @@ Ext.define('Account.PO.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.matnr);
-
 							// Materail text
 							rModel.set('maktx', r.data.maktx);
-
 							// Unit
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
@@ -225,13 +240,10 @@ Ext.define('Account.PO.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-
 				// change cell code value (use db value)
 				rModel.set('matnr', record.data.matnr);
-
 				// Materail text
 				rModel.set('maktx', record.data.maktx);
-
 				// Unit
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());

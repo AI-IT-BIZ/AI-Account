@@ -391,7 +391,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -403,6 +403,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -416,7 +419,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			var v = record.data.kunnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -427,6 +430,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}
 					}
 				});
@@ -465,6 +471,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -502,6 +510,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			       }
 				}
 				});           
@@ -621,14 +631,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var rsItem = this.gridItem.getData();
 		this.hdnSOItem.setValue(Ext.encode(rsItem));
 
-/*
-		this.getForm().getFields().each(function(f){
-			console.log(f.name);
-    		 if(!f.validate()){
-    			 console.log(f.name);
-    		 }
-    	 });
-*/
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {

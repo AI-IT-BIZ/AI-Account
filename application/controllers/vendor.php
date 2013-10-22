@@ -17,7 +17,29 @@ class Vendor extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'lfa1';
 		
-		//$lifnr = $this->input->post('lifnr');
+		$id = $this->input->post('id'); //exit;
+		
+		$this->db->limit(1);
+		$this->db->where('lifnr', $id);
+		$query = $this->db->get($tbName);
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['lifnr'];
+			
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+	
+	function load2(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'lfa1';
+		
 		$id = $this->input->post('id'); //exit;
 		
 		$this->db->limit(1);
@@ -26,6 +48,7 @@ class Vendor extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			
+			$result_data['id'] = $result_data['lifnr'];
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.$result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];

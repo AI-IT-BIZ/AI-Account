@@ -25,7 +25,7 @@ Ext.define('Account.Billto.Item.Form', {
 		this.formTotal = Ext.create('Account.Billto.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'Total Invoice',
+			title:'Total Bill To',
 			region:'south'
 		});
 		
@@ -153,7 +153,7 @@ Ext.define('Account.Billto.Item.Form', {
 		}]
 		},{
 			xtype: 'textarea',
-			fieldLabel: 'Bill To',
+			fieldLabel: 'Address',
 			name: 'adr01',
 			width:400,
 			rows:3
@@ -164,14 +164,10 @@ Ext.define('Account.Billto.Item.Form', {
      items :[{
 			xtype: 'displayfield',
             fieldLabel: 'Bill To No',
-            name: 'recnr',
-            //flex: 3,
+            name: 'bilnr',
             value: 'BTXXXX-XXXX',
             labelAlign: 'right',
-			//name: 'qt',
 			width:240,
-			//margins: '0 0 0 10',
-            //emptyText: 'Customer',
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 	    },{
@@ -210,8 +206,7 @@ Ext.define('Account.Billto.Item.Form', {
 			height:170,
 			items: [
 				this.formTotal,
-				this.gridPayment,
-				this.gridGL
+				this.gridPayment
 			]
 		}
 			

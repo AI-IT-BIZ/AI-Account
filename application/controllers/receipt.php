@@ -107,6 +107,7 @@ class Receipt extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
+			'txz01' => $this->input->post('txz01'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
@@ -327,25 +328,18 @@ class Receipt extends CI_Controller {
 	}
 	
 	public function loads_pcombo(){
-		$tbName = 'ptyp';
-		$tbPK = 'ptype';
+		//$tbName = 'ptyp';
+		//$tbPK = 'ptype';
 
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('paytx', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
+		$sql="SELECT *
+			FROM tbl_ptyp
+			WHERE ptype <> '01'";
+		$query = $this->db->query($sql);
 
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
+			'totalCount'=>$query->num_rows()
 		));
 	}
     

@@ -36,10 +36,10 @@ Ext.define('Account.PO.Item.Form', {
 
 /*---ComboBox Tax Type----------------------------*/
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Tax Type',
+			fieldLabel: 'Vat Type',
 			name: 'taxnr',
-			//width:185,
-			//labelWidth: 80,
+			labelAlign: 'right',
+			width: 240,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -66,6 +66,7 @@ Ext.define('Account.PO.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});	
+		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'PR Status',
 			name : 'statu',
@@ -130,7 +131,7 @@ Ext.define('Account.PO.Item.Form', {
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
-		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
+		this.hdnPoItem = Ext.create('Ext.form.Hidden', {
 			name: 'ekpo',
 		});
 
@@ -155,7 +156,7 @@ Ext.define('Account.PO.Item.Form', {
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
-			name: 'crdit',
+			name: 'terms',
 			labelAlign: 'right',
 			width:170,
 			hideTrigger:false,
@@ -194,7 +195,7 @@ Ext.define('Account.PO.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnPrItem,
+			items: [this.hdnPoItem,
 			{
 				xtype:'fieldset',
 				title: 'Header Data',
@@ -205,7 +206,7 @@ Ext.define('Account.PO.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigQuotation,{
+					},this.trigPR,{
 						xtype: 'displayfield',
 						fieldLabel: 'Purchase Order',
 						name: 'ebeln',
@@ -238,27 +239,29 @@ Ext.define('Account.PO.Item.Form', {
 			                }]
 						}, {
 							xtype: 'textarea',
-							fieldLabel: 'Address',
+							fieldLabel: 'Vendor Address',
 							name: 'adr01',
-							width: 455, 
-							rows:2,
-		                }, {
+							width: 450, 
+							rows:3,
+		                }, {xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.comboPay,this.numberVat]
+				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
+								width: 280, 
 								name: 'refnr',
-								//margin: '0 0 5 0',
-			                }, {
-								xtype: 'numberfield',
-								fieldLabel: 'Credit',
-								name: 'crdit',
-								//width: 20, 
-								labelWidth: 50,
-								margin: '0 0 0 40',
-			                }]
+			                },this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -270,6 +273,8 @@ Ext.define('Account.PO.Item.Form', {
 							xtype: 'datefield',
 							fieldLabel: 'PO Date',
 							name: 'bldat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
@@ -277,11 +282,14 @@ Ext.define('Account.PO.Item.Form', {
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
 							name: 'lfdat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-                		}, this.comboTaxnr,{
-		                }]
+                		}, this.comboTax,
+                		this.trigCurrency,
+					    this.comboQStatus]
 		            }]
 				}]
 
@@ -291,7 +299,16 @@ Ext.define('Account.PO.Item.Form', {
 		this.items = [
 			mainFormPanel,
 			this.gridItem,
-			this.formTotal
+			{
+			xtype:'tabpanel',
+			region:'south',
+			activeTab: 0,
+			height:200,
+			items: [
+				this.formTotal,
+				this.gridPrice
+			]
+		}
 			
 		];		
 
@@ -302,7 +319,7 @@ Ext.define('Account.PO.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'vendor/load',
+					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -310,9 +327,12 @@ Ext.define('Account.PO.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.kunnr);
+							o.setValue(r.data.lifnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
 							o.markInvalid('Could not find Vendor code : '+o.getValue());
 						}
@@ -324,19 +344,25 @@ Ext.define('Account.PO.Item.Form', {
 		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigVender.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
+            
+            var v = record.data.lifnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'vendor/load2',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			 			}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -362,10 +388,16 @@ Ext.define('Account.PO.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.purnr);
-							_this.getForm().findField('lifnr').setValue(record.data.lifnr);
-							_this.getForm().findField('name1').setValue(record.data.name1);			
+							_this.getForm().findField('lifnr').setValue(r.data.lifnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);			
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 						}else{
-							o.markInvalid('Could not find purchase no : '+o.getValue());
+							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
 					}
 				});
@@ -377,22 +409,30 @@ Ext.define('Account.PO.Item.Form', {
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
+			var v = record.data.purnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'pr/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+						}
+					}
+				});
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var grdpurnr = _this.trigQuotation.value;
+			var grdpurnr = _this.trigPR.value;
 			//alert(grdpurnr);
 			_this.gridItem.load({grdpurnr: grdpurnr });
 			//----------------------------------------
@@ -409,9 +449,32 @@ Ext.define('Account.PO.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 
 		return this.callParent(arguments);
 	},
+	
+	onSelectChange: function(selModel, selections){
+		var _this=this;
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	vvat:this.numberVat.getValue(),
+            	vat:sel.get('chk01')
+            });
+
+        }
+    },
+
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
+    },
+    
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -422,13 +485,14 @@ Ext.define('Account.PO.Item.Form', {
 			}
 		});
 	},
+	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
 
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnQtItem.setValue(Ext.encode(rsItem));
+		this.hdnPoItem.setValue(Ext.encode(rsItem));
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -441,6 +505,7 @@ Ext.define('Account.PO.Item.Form', {
 			});
 		}
 	},
+	
 	remove : function(ebeln){
 		var _this=this;
 		this.getForm().load({
@@ -451,6 +516,7 @@ Ext.define('Account.PO.Item.Form', {
 			}
 		});
 	},
+	
 	reset: function(){
 		this.getForm().reset();
 
@@ -459,12 +525,18 @@ Ext.define('Account.PO.Item.Form', {
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
-		//this.comboQStatus.setValue('01');
+		this.comboQStatus.setValue('01');
+		this.comboTax.setValue('01');
+		this.trigCurrency.setValue('THB');
+		this.numberVat.setValue(7);
+		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
+	
 	// calculate total functions
 	calculateTotal: function(){
+		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var vats=0;var i=0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -474,10 +546,35 @@ Ext.define('Account.PO.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-
 			sum += amt;
+		if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
 		});
-		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.calculate();
+		
+		this.gridItem.vattValue = this.comboTax.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
+		var currency = this.trigCurrency.getValue();
+		this.gridItem.curValue = currency;
+		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
+	  
+	  // Set value to Condition Price grid
+        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        if (sel) {
+        	//_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	vvat:this.numberVat.getValue(),
+            	vat:sel.get('chk01')
+            });     
+        }
 	}
 });

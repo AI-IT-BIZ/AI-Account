@@ -35,42 +35,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.formTotal = Ext.create('Account.Receipt.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'Total Invoice',
+			title:'Total->Receipt',
 			region:'south'
-		});
-		
-		this.comboPay = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payments',
-			name : 'ptype',
-			//labelWidth: 95,
-			width: 350,
-			//anchor:'80%',
-			//labelAlign: 'right',
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'invoice/loads_tcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ptype'
-					}
-				},
-				fields: [
-					'ptype',
-					'paytx'
-				],
-				remoteSort: true,
-				sorters: 'ptype ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'paytx',
-			valueField: 'ptype'
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
@@ -187,8 +153,8 @@ Ext.define('Account.Receipt.Item.Form', {
 			fieldLabel: 'Bill To',
 			name: 'adr01',
 			width:400,
-			rows:3//,
-			//labelAlign: 'top'
+			rows:3,
+			labelAlign: 'top'
 		}]
 		},{
 			xtype: 'container',
@@ -257,7 +223,7 @@ Ext.define('Account.Receipt.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -268,8 +234,7 @@ Ext.define('Account.Receipt.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
-							
-						}else{
+			 			}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}

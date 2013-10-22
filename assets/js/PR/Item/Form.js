@@ -144,7 +144,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
-			name: 'crdit',
+			name: 'terms',
 			labelAlign: 'right',
 			width:170,
 			hideTrigger:false,
@@ -173,7 +173,6 @@ Ext.define('Account.PR.Item.Form', {
 			//margin: '0 0 0 35'
          });
 
-		
 		var mainFormPanel = {
 			xtype: 'panel',
 			border: true,
@@ -297,7 +296,7 @@ Ext.define('Account.PR.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'vendor/load',
+					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -307,8 +306,10 @@ Ext.define('Account.PR.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _crdit = r.data.crdit;
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
+							_this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -320,7 +321,25 @@ Ext.define('Account.PR.Item.Form', {
 		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigVender.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('adr01').setValue(record.data.adr01);
+			
+			var v = record.data.lifnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'vendor/load2',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+						}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -487,6 +506,7 @@ Ext.define('Account.PR.Item.Form', {
 			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.calculate();
 		
 		this.gridItem.vattValue = this.comboTax.getValue();

@@ -6,7 +6,7 @@ Ext.define('Account.GR.Item.Window', {
 			title: 'Create/Edit Goods Receipt',
 			closeAction: 'hide',
 			height: 650,
-			width: 825,
+			width: 880,
 			layout: 'border',
 			border: false,
 			resizable: true,

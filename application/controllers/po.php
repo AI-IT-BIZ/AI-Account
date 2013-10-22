@@ -13,7 +13,7 @@ class Po extends CI_Controller {
 		$this->phxview->RenderView('po');
 		$this->phxview->RenderLayout('default');
 	}
-
+	
 	function load(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ekko';
@@ -21,17 +21,15 @@ class Po extends CI_Controller {
 		$this->db->where('ebeln', $id);
 		$query = $this->db->get('ekko');
 		
-		 
 		if($query->num_rows()>0){
 			
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['ebeln'];
 
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
 			                         $result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-
 
 			// unset calculated value
 			unset($result_data['beamt']);
@@ -46,7 +44,6 @@ class Po extends CI_Controller {
 				'success'=>false
 			));
 	}
-	
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
@@ -139,12 +136,16 @@ class Po extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'purnr' => $this->input->post('purnr'),
 			'ptype' => $this->input->post('ptype'),
-			'crdit' => $this->input->post('crdit'),
+			'terms' => $this->input->post('terms'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
 			'statu' => $this->input->post('statu'),
-			'netwr' => $this->input->post('netwr')
+			'netwr' => $this->input->post('netwr'),
+			'ptype' => $this->input->post('ptype'),
+			'exchg' => $this->input->post('exchg'),
+			'statu' => $this->input->post('statu'),
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
@@ -153,15 +154,14 @@ class Po extends CI_Controller {
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('ebeln', $id);
 			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'somwang');
+			$this->db->set('upnam', 'test');
 			$this->db->update('ekko', $formData);
 		}else{
 			
 			$id = $this->code_model->generate('PO', $this->input->post('bldat'));
-		//echo $id; exit;
 			$this->db->set('ebeln', $id);
 			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'somwang');
+			$this->db->set('ernam', 'test');
 			$this->db->insert('ekko', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -181,9 +181,10 @@ class Po extends CI_Controller {
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
-					'dismt'=>$p->dismt,
+					'disit'=>$p->disit,
 					'unitp'=>$p->unitp,
 					'itamt'=>$p->itamt,
+					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype
 				));
 			}

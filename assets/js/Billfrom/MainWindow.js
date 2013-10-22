@@ -1,13 +1,13 @@
-Ext.define('Account.PO.MainWindow', {
+Ext.define('Account.Billfrom.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Purchase Orders',
+			title: 'Bill From Vendor',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1000,
+			width: 950,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -35,13 +35,7 @@ Ext.define('Account.PO.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-
-        this.itemDialog = Ext.create('Account.PO.Item.Window');
-		this.grid = Ext.create('Account.PO.Grid', {
-			region:'center',
-			border: false
-		});
-        this.printAct = new Ext.Action({
+		this.printAct = new Ext.Action({
 			text: 'Print',
 			iconCls: 'b-small-print'
 		});
@@ -62,6 +56,13 @@ Ext.define('Account.PO.MainWindow', {
 			iconCls: 'b-small-export'
 		});
 		
+		this.itemDialog = Ext.create('Account.Billfrom.Item.Window');
+
+		this.grid = Ext.create('Account.Billfrom.Grid', {
+			region:'center',
+			border: false
+		});
+
 		this.items = [this.grid];
 
 		this.tbar = [this.addAct, this.editAct, this.deleteAct,
@@ -71,6 +72,7 @@ Ext.define('Account.PO.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
+
 		});
 
 		this.editAct.setHandler(function(){
@@ -81,7 +83,8 @@ Ext.define('Account.PO.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({ebeln: id});
+				_this.itemDialog.form.gridItem.load({bilnr: id});
+			    //_this.itemDialog.form.gridPayment.load({recnr: id});
 			}
 		});
 
@@ -89,7 +92,6 @@ Ext.define('Account.PO.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				
 				_this.itemDialog.form.remove(id);
 			}
 		});
@@ -97,7 +99,7 @@ Ext.define('Account.PO.MainWindow', {
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
-		});
+		});//
 
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();

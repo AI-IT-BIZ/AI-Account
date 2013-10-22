@@ -3,7 +3,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'receipt/save',
+			url: __site_url+'billto/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {

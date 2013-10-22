@@ -1,4 +1,4 @@
-Ext.define('Account.Payment.Item.Grid_i', {
+Ext.define('Account.Billfrom.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -16,9 +16,9 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 
-		// INIT PY search popup /////////////////////////////////
-		this.paymentDialog = Ext.create('Account.SAp.MainWindow');
-		// END Material search popup //////////////////////////////////
+		// INIT Invoice search popup /////////////////////////////////
+		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
 
@@ -29,15 +29,15 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"payment/loads_py_item",
+				url: __site_url+"billfrom/loads_bt_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'payno,vbelp'
+					idProperty: 'bilnr,vbelp'
 				}
 			},
 			fields: [
-			    'payno',
+			    'bilnr',
 				'vbelp',
 				'invnr',
 				'refnr',
@@ -46,7 +46,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				'itamt',
 				'payrc',
 				'reman',
-				'belnr',
+				//'belnr',
 				'ctype'
 			],
 			remoteSort: true,
@@ -61,12 +61,12 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Payment Item',
+				tooltip: 'Delete Receipt Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber',
+			id : 'RowNumber25',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -76,8 +76,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Acc-Payable No",
-		width: 110,
+		{text: "Invoice Code",
+		width: 100,
 		dataIndex: 'invnr',
 		sortable: false,
 			field: {
@@ -86,7 +86,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
-					_this.paymentDialog.show();
+					_this.invoiceDialog.show();
 				}
 			},
 			},
@@ -98,7 +98,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-		    {text: "Payment Date",
+		    {text: "Invoice Date",
 		    width: 80,
 		    xtype: 'datecolumn',
 		    dataIndex: 'invdt',
@@ -113,7 +113,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-			{text: "Acc-Payable Amt",
+			{text: "Invoice Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'itamt',
@@ -171,7 +171,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'ap/load',
+					url: __site_url+'invoice/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -180,6 +180,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
+
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
 							// Ref no
@@ -187,12 +188,13 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							// Invoice date
 							rModel.set('invdt', r.data.bldat);
 							// Text Note
-							rModel.set('texts', r.data.sgtxt);
+							rModel.set('texts', r.data.txz01);
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
 							// Currency
 							rModel.set('ctype', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
+
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -201,10 +203,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			}
 		});
 
-		_this.paymentDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
+
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no
@@ -212,15 +215,16 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				// Invoice date
 				rModel.set('invdt', record.data.bldat);
 				// Text note
-				rModel.set('texts', record.data.sgtxt);
+				rModel.set('texts', record.data.txz01);
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
 				rModel.set('ctype', record.data.ctype);
+				//rModel.set('amount', 100+Math.random());
 
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.paymentDialog.hide();
+			_this.invoiceDialog.hide();
 		});
 
 		return this.callParent(arguments);
@@ -255,18 +259,20 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('vbelp', row_num++);
+			r.set('ebelp', row_num++);
 		});
 	},
 

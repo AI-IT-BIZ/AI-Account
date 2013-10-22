@@ -465,6 +465,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -501,6 +503,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			       }
 				}
 				});           
@@ -524,7 +528,7 @@ Ext.define('Account.Invoice.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -536,6 +540,9 @@ Ext.define('Account.Invoice.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -551,7 +558,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			var v = record.data.kunnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -561,6 +568,9 @@ Ext.define('Account.Invoice.Item.Form', {
 						if(r && r.success){
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}
 					}
 				});

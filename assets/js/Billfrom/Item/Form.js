@@ -1,9 +1,9 @@
-Ext.define('Account.Payment.Item.Form', {
+Ext.define('Account.Billfrom.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'payment/save',
+			url: __site_url+'billfrom/save',
 			layout: 'border',
 			border: false
 		});
@@ -12,32 +12,57 @@ Ext.define('Account.Payment.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
-		this.gridItem = Ext.create('Account.Payment.Item.Grid_i',{
+		// INIT Customer search popup ///////////////////////////////
+		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		
+		this.gridItem = Ext.create('Account.Billfrom.Item.Grid_i',{
+			//title:'Invoice Items',
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.Payment.Item.Grid_gl',{
-			border: true,
-			region:'center',
-			title: 'GL Posting'
-		});
-		this.gridPayment = Ext.create('Account.Payment.Item.Grid_pm',{
-			border: true,
-			region:'center',
-			title: 'Payment'
-		});
-		this.formTotal = Ext.create('Account.Payment.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Billfrom.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'Total->Payment',
+			title:'Total Bill From',
 			region:'south'
 		});
 		
+		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payments',
+			name : 'ptype',
+			//labelWidth: 95,
+			width: 350,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please Select Payments --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_tcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'ptype'
+					}
+				},
+				fields: [
+					'ptype',
+					'paytx'
+				],
+				remoteSort: true,
+				sorters: 'ptype ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'paytx',
+			valueField: 'ptype'
+		});
+		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payment Status',
+			fieldLabel: 'Bill From Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -69,27 +94,8 @@ Ext.define('Account.Payment.Item.Form', {
 			valueField: 'statu'
 		});
 		
-		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
-			name: 'ctype',
-			fieldLabel: 'Currency',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			width: 200,
-			editable: false,
-			labelAlign: 'right',
-			allowBlank : false
-		});
-	
-		this.hdnPyItem = Ext.create('Ext.form.Hidden', {
-			name: 'ebbp'
-		});
-		
-		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
-			name: 'paym',
-		});
-		
-		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bcus',
+		this.hdnBtItem = Ext.create('Ext.form.Hidden', {
+			name: 'ebkp'
 		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
@@ -113,23 +119,28 @@ Ext.define('Account.Payment.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnPyItem,this.hdnPpItem,this.hdnGlItem,
+			items: [this.hdnBtItem,
 			{
 			xtype:'fieldset',
             title: 'Header Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-// Vendor Code            
+            defaults: {
+                anchor: '100%'
+            },
+// Customer Code            
      items:[{
      	xtype: 'container',
                 layout: 'hbox',
+                //margin: '0 0 5 0',
      items: [{
                 xtype: 'container',
                 layout: 'anchor',
      items :[{
      	        xtype: 'container',
                 layout: 'hbox',
+               // margin: '0 0 5 0',
      items :[{
 			xtype: 'hidden',
 			name: 'id'
@@ -144,26 +155,26 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype: 'textarea',
 			fieldLabel: 'Address',
 			name: 'adr01',
-			width:350,
-			rows:2,
-			labelAlign: 'top'
+			width:400,
+			rows:3
 		}]
 		},{
 			xtype: 'container',
                 layout: 'anchor',
      items :[{
 			xtype: 'displayfield',
-            fieldLabel: 'Payment No',
-            name: 'payno',
-            value: 'PYXXXX-XXXX',
+            fieldLabel: 'Bill To No',
+            name: 'bilnr',
+            value: 'BFXXXX-XXXX',
             labelAlign: 'right',
 			width:240,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
+			fieldLabel: 'Document Date',
 			name: 'bldat',
+			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
@@ -172,20 +183,16 @@ Ext.define('Account.Payment.Item.Form', {
 			allowBlank: false
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Payment Date',
+			fieldLabel: 'Bill To Date',
 			name: 'duedt',
+			//anchor:'80%',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-		},{
-					xtype: 'container',
-					layout: 'hbox',
-					margin: '0 0 5 -200',
-					items :[this.trigCurrency,this.comboQStatus]
-		}]
+		},this.comboQStatus]
 		}]
 		}]
 		}]
@@ -199,14 +206,13 @@ Ext.define('Account.Payment.Item.Form', {
 			height:170,
 			items: [
 				this.formTotal,
-				this.gridPayment,
-				this.gridGL
+				this.gridPayment
 			]
 		}
 			
 		];
 		
-		// event trigVendor///
+		// event trigCustomer///
 		this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -226,7 +232,7 @@ Ext.define('Account.Payment.Item.Form', {
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 							
 						}else{
-							o.markInvalid('Could not find vendor code : '+o.getValue());
+							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -249,6 +255,7 @@ Ext.define('Account.Payment.Item.Form', {
              if(!Ext.isEmpty(record.data.email))
                _addr += '\n'+'Email: '+record.data.email;
              _this.getForm().findField('adr01').setValue(_addr);
+             //_this.getForm().findField('adr11').setValue(_addr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -262,11 +269,6 @@ Ext.define('Account.Payment.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		
-		this.gridPayment.store.on('update', this.loadGL, this);
-		this.gridPayment.store.on('load', this.loadGL, this);
-		this.on('afterLoad', this.loadGL, this);
-		_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
 
 		return this.callParent(arguments);
 	},	
@@ -275,7 +277,7 @@ Ext.define('Account.Payment.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'payment/load',
+			url:__site_url+'billfrom/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -288,13 +290,7 @@ Ext.define('Account.Payment.Item.Form', {
 		
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnPyItem.setValue(Ext.encode(rsItem));
-		// add grid paym data to json
-		var rsPayment = _this.gridPayment.getData();
-		this.hdnPpItem.setValue(Ext.encode(rsPayment));
-		
-		var rsGL = _this.gridGL.getData();
-		this.hdnGlItem.setValue(Ext.encode(rsGL));
+		this.hdnBtItem.setValue(Ext.encode(rsItem));
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
@@ -313,7 +309,7 @@ Ext.define('Account.Payment.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'payment/remove',
+			url:__site_url+'billfrom/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -321,23 +317,17 @@ Ext.define('Account.Payment.Item.Form', {
 	},
 	
 	reset: function(){
-		//this.getForm().reset();
-
+		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ payno: 0 });
-		this.gridPayment.load({ recnr: 0 });
-
-        // default status = wait for approve
+		this.gridItem.load({ bilnr: 0 });
+		//this.gridPayment.load({ recnr: 0 });
 		this.comboQStatus.setValue('01');
-		//this.comboTax.setValue('01');
-		this.trigCurrency.setValue('THB');
-		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
-	// Calculate total functions
+	// calculate total functions
 	calculateTotal: function(){
-		var _this=this;
-		var store = _this.gridItem.store;
+		//var _this=this;
+		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
@@ -348,48 +338,9 @@ Ext.define('Account.Payment.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 		});
-		this.formTotal.getForm().findField('beamt').setValue(sum);
-		var currency = this.trigCurrency.getValue();
-		this.gridItem.curValue = currency;
-		this.formTotal.getForm().findField('curr1').setValue(currency);
-		
+		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
 		var net = this.formTotal.calculate();
-		this.gridPayment.netValue = net;
-	},
-	
-	// Load GL functions
-	loadGL: function(){
-		var _this=this;
-		var store = _this.gridItem.store;
-		var sum = 0;
-		store.each(function(r){
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
-				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			itamt = isNaN(itamt)?0:itamt;
-			pay = isNaN(pay)?0:pay;
-
-			var amt = itamt - pay;
-			sum += amt;
-		});
-
-		// set value to grid payment
-		var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid  
-		var currency = this.trigCurrency.getValue();
-		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
-		  sum = sum * rate;
-		}   
-        if(sum>0){
-        	//console.log(rsPM);
-            _this.gridGL.load({
-            	paym:Ext.encode(rsPM),
-            	netpr:sum,
-            	lifnr:this.trigVendor.getValue(),
-            	rate:rate,
-            	dtype:'02'
-            }); 
-           }
+		//this.gridPayment.netValue = net;
 	}
 	
 });

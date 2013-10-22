@@ -244,7 +244,6 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.bcode);
-
 							// Materail text
 							rModel.set('bname', r.data.bname);
 						}else{
@@ -262,7 +261,6 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 
 				// change cell code value (use db value)
 				rModel.set('bcode', record.data.bcode);
-
 				// Materail text
 				rModel.set('bname', record.data.bname);
 			}

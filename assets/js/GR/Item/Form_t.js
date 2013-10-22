@@ -17,14 +17,15 @@ Ext.define('Account.GR.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtTotal = Ext.create('Ext.form.field.Text', {
+		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
-						xtype: 'textfield',
-						fieldLabel: 'Total',
-						name: 'beamt',
-						labelWidth: 150,
-						width:240,
+			xtype: 'textfield',
+		    fieldLabel: 'Total',
+			name: 'beamt',
+			alwaysDisplayDecimals: true,
+			labelWidth: 150,
+			width:270,
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
@@ -48,7 +49,7 @@ Ext.define('Account.GR.Item.Form_t', {
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
 			name: 'aaa',
 			align: 'right',
-			width:85,
+			width:115,
 			margin: '0 0 0 5',
 			readOnly: true
          });
@@ -57,110 +58,102 @@ Ext.define('Account.GR.Item.Form_t', {
 			name: 'bbb',
 			align: 'right',
 			labelWidth: 150,
-			width:240,
+			width:270,
+			margin: '4 0 0 0',
 			readOnly: true
 		});
-		this.txtTax = Ext.create('Ext.form.field.Text', {
-			xtype: 'numberfield',
-			fieldLabel: 'Tax',
-			name: 'taxpr',
-			align: 'right',
-			labelWidth: 80,
-			width:120,
-			width:130,
-			enableKeyEvents: true,
-			minValue: 0,
-			maxValue: 100,
-			hideTrigger: true,
-			allowDecimals: false,
-			allowBlank: true
-		});
-		this.txtTaxValue = Ext.create('Ext.form.field.Text', {
+		this.txtTaxValue = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
-			name: 'ccc',
+            fieldLabel: 'Vat Total',
+			name: 'vat01',
 			align: 'right',
-			width:85,
-			margin: '0 0 0 15',
+			alwaysDisplayDecimals: true,
+			width:270,
+			labelWidth: 150,
+			margin: '4 0 0 0',
 			readOnly: true
-
          });
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+         this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:270,
+			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
+			name: 'exchg',
+			align: 'right'
+         });
+		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
 			name: 'netwr',
 			align: 'right',
 			labelWidth: 150,
-			width:240,
+			width:270,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
 			style: 'font-weight:bold',
 			labelStyle: 'font-weight:bold',
 			readOnly: true
 		});
-
+// Start Write Forms
 		this.items = [{
-            xtype: 'container',
+			xtype: 'container',
             layout: 'hbox',
-            margin: '5',
+            anchor: '100%',
             defaultType: 'textfield',
-            
-            items:[{
+            //margin: '5 0 5 600',
+        items: [{
                 xtype: 'container',
-                flex: 0,
                 layout: 'anchor',
-            	margin: '0 0 0 0',
-                items: [{
-					xtype: 'textarea',
-					fieldLabel: 'Text Note ',
-					name: 'sgtxt',
-					width: 455, 
-					rows:3,
-					allowBlank: true
-                }]
+     items :[{
+			xtype: 'container',
+            layout: 'hbox',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [this.txtRate,{
+   	        xtype: 'displayfield',
+			align: 'right',
+			margin: '0 0 0 5',
+			width:20,
+			value: 'THB/'
+		},{
+   	        xtype: 'displayfield',
+   	        name: 'curr1',
+   	        margin: '0 0 0 7',
+			width:30
+		}]
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Rejected Reason',
+			align: 'right',
+			margin: '3 0 0 0',
+			width:380,
+			name: 'reanr'
+		},{
+			xtype: 'textarea',
+			fieldLabel: 'Text Note',
+			margin: '3 0 0 0',
+			rows:2,
+			width:380,
+			name: 'txz01'
+		}]
             },{
                 xtype: 'container',
-                flex: 0,
                 layout: 'anchor',
-            	margin: '0 0 0 70',
-                items: [{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 3 0',
-                	items: [this.txtTotal,{
-                	}]
-                },{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 3 0',
-                	items: [this.txtDiscount,this.txtDiscountValue]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 3 0',
-                	items: [this.txtDiscountSum,{
-                	}]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 3 0',
-                	items: [this.txtTax,{
-						xtype: 'displayfield',
-						align: 'right',
-						width:10,
-						value: '%',
-						allowBlank: true
-						},
-						this.txtTaxValue ,{
-                	}]
-             	},{
-		            xtype: 'container',
-		            layout: 'hbox',
-            		margin: '0 0 3 0',
-                	items: [this.txtNet,{
-                	}]
-                }]
-		
-			},
-		]},
-	];
+                margins: '0 0 0 145',
+        items: [this.txtTotal,{
+			xtype: 'container',
+            layout: 'hbox',
+            //margin: '5 0 5 600',
+			items: [this.txtDiscount,this.txtDiscountValue]
+		},this.txtDiscountSum,
+		this.txtTaxValue,
+		this.txtWHTValue,
+	    this.txtNet]
+		}]
+		}];
 
 		// Event /////////
 		var setAlignRight = function(o){
@@ -177,14 +170,14 @@ Ext.define('Account.GR.Item.Form_t', {
 		this.txtNet.on('render', setBold);
 
 		this.txtDiscount.on('keyup', this.calculate, this);
-		this.txtTax.on('keyup', this.calculate, this);
+		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
 	},
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'quotation/load'
+			url:__site_url+'pr2/load'
 		});
 	},
 	save : function(){
@@ -202,23 +195,12 @@ Ext.define('Account.GR.Item.Form_t', {
 			});
 		}
 	},
-	remove : function(id){
-		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
-			}
-		});
-	},
+
 	// calculate function
 	calculate: function(){
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
+		var total = this.txtTotal.getValue();//.replace(',',''),
+			total = parseFloat(total);
 			total = isNaN(total)?0:total;
-
-		//console.log(total);
 
 		if(total<=0) return;
 
@@ -240,25 +222,15 @@ Ext.define('Account.GR.Item.Form_t', {
 			if(discountValue>0)
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
-			this.txtDiscountValue.setValue('');
-			this.txtDiscountSum.setValue('');
+			this.txtDiscountValue.setValue('0.00');
+			//this.txtDiscountSum.setValue('0.00');
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		var tax = this.txtTax.getValue(),
-			taxValue = 0;
-		if(this.txtTax.isValid() && !Ext.isEmpty(tax)){
-			taxValue = parseFloat(tax);
-			taxValue = isNaN(taxValue)?0:taxValue;
+		var vat = this.txtTaxValue.getValue();
 
-			if(taxValue>0){
-				taxValue = taxValue * total / 100;
-				this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
-			}
-		}else{
-			this.txtTaxValue.setValue('');
-		}
-
-		var net = total - discountValue + taxValue;
-		this.txtNet.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		var net = (total - discountValue) + vat;
+		this.txtNet.setValue(net);
+		//return net;
 	}
 });

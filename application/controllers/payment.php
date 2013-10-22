@@ -26,7 +26,6 @@ class Payment extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result['telf1'].' '.'Fax: '.
 			                         $result['telfx'].
 									 PHP_EOL.'Email: '.$result['email'];
-			$result['adr11'] = $result['adr01'];
 
 			echo json_encode(array(
 				'success'=>true,
@@ -120,7 +119,10 @@ class Payment extends CI_Controller {
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
 			'txz01' => $this->input->post('txz01'),
-			
+			'ctype' => $this->input->post('ctype'),
+			'exchg' => $this->input->post('exchg'),
+			'reanr' => $this->input->post('reanr'),
+			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
@@ -161,7 +163,8 @@ class Payment extends CI_Controller {
 				'itamt'=>$p->itamt,
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,
-				'refnr'=>$p->refnr
+				'refnr'=>$p->refnr,
+				'ctype'=>$p->ctype
 			));
 	    	}
 		}
@@ -193,6 +196,125 @@ class Payment extends CI_Controller {
 			}
 		}
 
+//*** Save GL Posting	
+        $ids = $id;	
+		$id = $this->input->post('id');
+		$query = null;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('bkpf');
+		}
+		$date = date('Ymd');
+//Non Cheque Payment
+	if($noncheque=='1'){
+		$formData = array(
+		    'gjahr' => substr($date,0,4),
+		    'bldat' => $this->input->post('bldat'),
+			'invnr' => $ids,
+			'txz01' => $this->input->post('txz01'),
+			'auart' => 'PV',
+			'netwr' => $amt2
+		);
+		
+		// start transaction
+		$this->db->trans_start();  
+		
+		if (!empty($query) && $query->num_rows() > 0){
+			$q_gl = $query->first_row('array');
+			$id = $q_gl['belnr'];
+			$this->db->where('belnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
+			$this->db->update('bkpf', $formData);
+		}else{
+			$id = $this->code_model->generate('PV', 
+			$this->input->post('bldat'));
+			$this->db->set('belnr', $id);
+			$this->db->set('erdat', 'NOW()', false);
+		    $this->db->set('ernam', 'test');
+			$this->db->insert('bkpf', $formData);
+		}
+		
+		// ลบ gl_item ภายใต้ id ทั้งหมด
+		$this->db->where('belnr', $id);
+		$this->db->delete('bven');
+
+		// เตรียมข้อมูล pay item
+		$bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		if(!empty($bven) && !empty($gl_item_array)){
+
+			$item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($gl_item_array AS $p){
+				if($p->statu=='1' && !empty($p->saknr)){
+				$this->db->insert('bven', array(
+					'belnr'=>$id,
+					'belpr'=>++$item_index,
+					'gjahr'=>substr($date,0,4),
+					'saknr'=>$p->saknr,
+					'debit'=>$p->debit,
+					'credi'=>$p->credi,
+					'txz01'=>$p->txz01
+				));
+				}
+			}
+		  }
+		}
+//Have Cheque Payment		
+		if($cheque=='1'){
+			$formData = array(
+		    'gjahr' => substr($date,0,4),
+		    'bldat' => $this->input->post('bldat'),
+			'invnr' => $ids,
+			'txz01' => $this->input->post('txz01'),
+			'auart' => 'PC',
+			'netwr' => $amt1
+		);
+		if (!empty($query) && $query->num_rows() > 0){
+			$q_gl = $query->first_row('array');
+			$id = $q_gl['belnr'];
+			$this->db->where('belnr', $id);
+			$this->db->set('updat', 'NOW()', false);
+			$this->db->set('upnam', 'test');
+			$this->db->update('bkpf', $formData);
+		}else{
+			$id = $this->code_model->generate('PC', 
+			$this->input->post('bldat'));
+			$this->db->set('belnr', $id);
+			$this->db->set('erdat', 'NOW()', false);
+		    $this->db->set('ernam', 'test');
+			$this->db->insert('bkpf', $formData);
+		}
+		
+		// ลบ gl_item ภายใต้ id ทั้งหมด
+		$this->db->where('belnr', $id);
+		$this->db->delete('bven');
+
+		// เตรียมข้อมูล pay item
+		$bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		if(!empty($bven) && !empty($gl_item_array)){
+
+			$item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($gl_item_array AS $p){
+				if($p->statu=='2' && !empty($p->saknr)){
+				$this->db->insert('bven', array(
+					'belnr'=>$id,
+					'belpr'=>++$item_index,
+					'gjahr'=>substr($date,0,4),
+					'saknr'=>$p->saknr,
+					'debit'=>$p->debit,
+					'credi'=>$p->credi,
+					'txz01'=>$p->txz01
+				));
+				}
+			}
+		  }
+		}
+		
 		// end transaction
 		$this->db->trans_complete();
 
@@ -222,7 +344,7 @@ class Payment extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_py_item(){
-        //$this->db->set_dbprefix('v_');
+        $this->db->set_dbprefix('v_');
         
 	    $py_id = $this->input->get('payno');
 		$this->db->where('payno', $py_id);
@@ -249,49 +371,125 @@ class Payment extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
-	
+
+// GL Posting
 	function loads_gl_item(){
-        $this->db->set_dbprefix('v_');
-		$gl_id = $this->input->get('belnr');
-		$this->db->where('belnr', $gl_id);
+		$iv_id = $this->input->get('belnr');
 
-		$query = $this->db->get('bsid');
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-	public function loads_combo($tb,$pk,$like){
-    	/*
-		$tbName = 'ktyp';
-		$tbPK = 'ktype';
-		$tbLike = 'custx';
-		*/
+		if(empty($iv_id)){
+		   $net = $this->input->get('netpr');  //Net amt
+		   $lifnr = $this->input->get('lifnr');  //Vendor Code
+		   $rate = $this->input->get('rate');  //Currency Rate
+		   $dtype = $this->input->get('dtype');  //Doc Type
+		   
+           $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
+		   $result = array();
+		   
+		   // เตรียมข้อมูล pay item
+		$paym = $this->input->get('paym');
+		$pm_item_array = json_decode($paym);
+//Check payment grid	
+		if(!empty($paym) && !empty($pm_item_array)){
+			$item_index = 0;
+// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			foreach($pm_item_array AS $p){
+					$ptype = $p->ptype;
+				    $payam = $p->payam;
+					$reman = $p->reman;
+					if(!empty($rate))
+					$payam = $payam * $rate;
+
+ // record แรก
+            $query = $this->db->get_where('ptyp', array(
+			'ptype'=>$ptype));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				if($ptype=='05'){$statu='2';}else{$statu='1';}
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$payam,
+					'credi'=>0,
+					'statu'=>$statu
+				);
+				$i++;
+				$debit+=$payam;
+//Case cheque payment				
+				if($ptype=='05'){
+					$query = $this->db->get_where('lfa1', array(
+				'lifnr'=>$lifnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>0,
+					'credi'=>$payam,
+					'statu'=>'2'
+				);
+				$net=$net-$payam;
+				$i++;
+				$credit+=$payam;
+				}
+			  }//Case cheque payment
+				
+			} // record แรก
+          }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
+		}//Check payment grid
 		
-		$tbName = $tb;
-		$tbPK = $pk;
-		$tbLike = $like;
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like($tbLike, $query);
-			$this->db->or_like($tbPK, $query);
+		if($net>0){
+// record ที่สอง
+			$query = $this->db->get_where('lfa1', array(
+				'lifnr'=>$lifnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>0,
+					'credi'=>$net,
+					'statu'=>'1'
+				);
+				$i++;
+				$credit+=$net;
+			}
 		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
+        if(!empty($debit)){
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>$debit,
+			'credi'=>$credit
+		);
+		}
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
+			'rows'=>$result,
+			'totalCount'=>count($result)
 		));
+//In Case Edit and Display		   
+		}else{
+		   $this->db->set_dbprefix('v_');
+		   $this->db->where('belnr', $iv_id);
+		   $query = $this->db->get('bsid');
+		   echo json_encode(array(
+			  'success'=>true,
+			  'rows'=>$query->result_array(),
+			  'totalCount'=>$query->num_rows()
+		));
+	  }
 	}
-
 }

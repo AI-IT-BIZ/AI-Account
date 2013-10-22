@@ -7,7 +7,7 @@ Ext.define('Account.Payment.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1090,
+			width: 950,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -35,6 +35,26 @@ Ext.define('Account.Payment.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
+		this.printAct = new Ext.Action({
+			text: 'Print',
+			iconCls: 'b-small-print'
+		});
+        this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel'
+		});
+		this.pdfAct = new Ext.Action({
+			text: 'PDF',
+			iconCls: 'b-small-pdf'
+		});
+		this.importAct = new Ext.Action({
+			text: 'Import',
+			iconCls: 'b-small-import'
+		});
+		this.exportAct = new Ext.Action({
+			text: 'Export',
+			iconCls: 'b-small-export'
+		});
 
 		this.itemDialog = Ext.create('Account.Payment.Item.Window');
 
@@ -45,7 +65,8 @@ Ext.define('Account.Payment.MainWindow', {
 
 		this.items = [this.grid];
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
@@ -64,7 +85,7 @@ Ext.define('Account.Payment.MainWindow', {
 				// สั่ง py_item grid load
 				_this.itemDialog.form.gridItem.load({payno: id});
 				// สั่ง pm_item grid load
-				_this.itemDialog.form.gridPM.load({recnr: id});
+				_this.itemDialog.form.gridPayment.load({recnr: id});
 			}
 		});
 

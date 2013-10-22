@@ -23,17 +23,29 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		this.tbar = [this.addAct, this.copyAct];
 		/*--------------------*/
 
-var ptype = new Ext.data.ArrayStore({
-    	fields: ['ptype', 'paytx'],
-    	data : [['1','cash'],['2','credit cart']],
-    	autoLoad: true
-    	});
+// Defined combo store
+		this.ptypeStore = new Ext.data.JsonStore({
+			proxy: {
+				type: 'ajax',
+				url: __site_url+'receipt/loads_pcombo',
+				reader: {
+					type: 'json',
+					root: 'rows',
+					idProperty: 'ptype'
+				}
+			},
+			fields: [
+				'ptype',
+				'paytx'
+			],
+			remoteSort: true,
+			sorters: 'ptype ASC'
+		});
 
-		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
@@ -73,7 +85,7 @@ var ptype = new Ext.data.ArrayStore({
 				handler: this.removeRecord2
 			}]
 		},{
-			id : 'PMpmRowNumber2',
+			id : 'RowNumber60',
 			header : "No.",
 			dataIndex : 'paypr',
 			width : 50,
@@ -81,37 +93,32 @@ var ptype = new Ext.data.ArrayStore({
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
-		}
-		},
-		    {text: "Payment",
-		    width: 100, 
-		    dataIndex: 'ptype', 
+			}
+		}, {text: "Payment",
+		    width: 100,
+		    dataIndex: 'ptype',
 		    sortable: true,
 		    editor: new Ext.form.field.ComboBox({
-            store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'receipt/loads_pcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ptype'
-					}
-				},
-				fields: [
-					'ptype',
-					'paytx'
-				],
-				remoteSort: true,
-				sorters: 'ptype ASC'
-				}),
-			queryMode: 'remote',
-			displayField: 'paytx',
-			valueField: 'ptype'
-                }),
-		    },
-		    
-			{text: "Bank Code", align : 'center',
+	            store: this.ptypeStore,
+				queryMode: 'remote',
+				displayField: 'paytx',
+				valueField: 'ptype'
+			}),
+			renderer: function(value) {
+				if (!isNaN(value)){
+					if (_this.ptypeStore.findRecord('ptype', value) != null)
+						return _this.ptypeStore.findRecord('ptype', value).get('paytx');
+					else
+						return value;
+				} else if (typeof value != 'undefined') {
+					if (value.paytx != null)
+						return value.paytx;
+					else
+						return "";
+				} else
+					return "";
+			}
+		}, {text: "Bank Code", align : 'center',
 			width:80, dataIndex: 'bcode', sortable: true,
 			field: {
 				xtype: 'triggerfield',
@@ -123,13 +130,13 @@ var ptype = new Ext.data.ArrayStore({
 				}
 			},
 			},
-		    {text: "Bank Name", 
+		    {text: "Bank Name",
 		    width: 120, dataIndex: 'bname', sortable: true,
 		    field: {
 				type: 'textfield'
 			},
 		    },
-			{text: "Branch", 
+			{text: "Branch",
 			width: 100, dataIndex: 'sgtxt', sortable: true,
 			field: {
 				type: 'textfield'
@@ -142,19 +149,26 @@ var ptype = new Ext.data.ArrayStore({
 			},
 			},
 		    {text: "Cheque Dat", align : 'center',
-		    xtype: 'datecolumn', width: 80, 
+		    xtype: 'datecolumn', width: 80,
 		    dataIndex: 'chqdt', sortable: true,
 		    format:'d/m/Y',
-				altFormats:'Y-m-d|d/m/Y',
-		    
 		    editor: {
                 xtype: 'datefield',
-				format:'d/m/Y',
-				altFormats:'Y-m-d|d/m/Y',
-				submitFormat:'Y-m-d',
-            }
+                format:'d/m/Y',
+			    altFormats:'Y-m-d|d/m/Y',
+			    submitFormat:'Y-m-d'
+           },
+           renderer: function(value) {
+           	if (!isNaN(value)){
+           		return Ext.Date.format(value, 'd/m/Y')
+           	}else{
+           		return "";
+           	}
+           }
 		    },
-		    {text: "Amount", align : 'right',
+		    {text: "Amount", 
+		    xtype: 'numbercolumn',
+		    align : 'right',
 		    width: 100, dataIndex: 'pramt', sortable: true,
 		    readOnly: true,
 		    field: {
@@ -169,7 +183,9 @@ var ptype = new Ext.data.ArrayStore({
 				}
 			}
 		    },
-		    {text: "Pay Amt", align : 'right',
+		    {text: "Pay Amt", 
+		    xtype: 'numbercolumn',
+		    align : 'right',
 		    width: 100, dataIndex: 'payam', sortable: true,
 		    field: {
                 type: 'numberfield',
@@ -183,24 +199,29 @@ var ptype = new Ext.data.ArrayStore({
 				}
 			}
 			},
-		    {text: "Remain Amt", align : 'right',
+		    {text: "Remain Amt", 
+		     xtype: 'numbercolumn',
+		    align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: true,
+		    readOnly: true,
 		    renderer: function(v,p,r){
-				var pamt = parseFloat(r.data['pramt']);
-				var pay = parseFloat(r.data['payam']);
+				var pamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
+				var pay = parseFloat(r.data['payam'].replace(/[^0-9.]/g, ''));
+				pamt = isNaN(pamt)?0:pamt;
+				pay = isNaN(pay)?0:pay;
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 		    }
 		];
-		
+
 		this.plugins = [this.editing];
 
 		// init event
 		this.addAct.setHandler(function(){
 			_this.addRecord2();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='bcode'){
 				var v = e.value;
@@ -220,7 +241,6 @@ var ptype = new Ext.data.ArrayStore({
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.bcode);
-
 							// Materail text
 							rModel.set('bname', r.data.bname);
 						}else{
@@ -238,7 +258,6 @@ var ptype = new Ext.data.ArrayStore({
 
 				// change cell code value (use db value)
 				rModel.set('bcode', record.data.bcode);
-
 				// Materail text
 				rModel.set('bname', record.data.bname);
 			}
@@ -248,32 +267,35 @@ var ptype = new Ext.data.ArrayStore({
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
-		//this.store.load(options);
-		
 		this.store.load({
 			params: options
 		});
 	},
-	
+
 	addRecord2: function(){
 		var _this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var net = _this.netValue;
 		var newId = -1;
+		var i=0;
 		this.store.each(function(r){
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
 		newId--;
-
+        var sel = _this.getView().getSelectionModel().getSelection()[0];
+        if (sel){
+         i = parseFloat(sel.get('payam'));
+         net = net - i;
+        }
 		// add new record
 		rec = { id:newId, pramt:net };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
-		var sel = this.getView().getSelectionModel().getSelection()[0];
+		//var sel = this.getView().getSelectionModel().getSelection()[0];
 		var selIndex = this.store.indexOf(sel);
 		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({
@@ -296,7 +318,7 @@ var ptype = new Ext.data.ArrayStore({
 			r.set('paypr', row_num++);
 		});
 	},
-	
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){

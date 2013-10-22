@@ -30,14 +30,13 @@ class Gr extends CI_Controller {
 			$result_data['id'] = $result_data['mbeln'];
 
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
+			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
 			                         $result_data['telfx'].
-									 PHP_EOL.'Email: '.$result_data['email'];
+			                         PHP_EOL.'Email: '.$result_data['email'];
 
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
-			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -48,7 +47,6 @@ class Gr extends CI_Controller {
 			));
 	}
 	
-
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'mkpf';
@@ -130,9 +128,8 @@ class Gr extends CI_Controller {
 			$this->db->where('mbeln', $id);
 			$query = $this->db->get('mkpf');
 		}
-		$netwr = str_replace(",","",$this->input->post('netwr'));
+
 		$formData = array(
-			'statu' => '01',
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
 			'lfdat' => $this->input->post('lfdat'),
@@ -140,13 +137,16 @@ class Gr extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ebeln' => $this->input->post('ebeln'),  //PO no.
 			'ptype' => $this->input->post('ptype'),
-			'crdit' => $this->input->post('crdit'),
+			'terms' => $this->input->post('terms'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
-			'netwr' => $netwr,
-			
-			
+			'vat01' => $this->input->post('vat01'),
+			'netwr' => $this->input->post('netwr'),
+			'ptype' => $this->input->post('ptype'),
+			'exchg' => $this->input->post('exchg'),
+			'statu' => $this->input->post('statu'),
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
@@ -183,9 +183,10 @@ class Gr extends CI_Controller {
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
 					'meins'=>$p->meins,
-					'dismt'=>$p->dismt,
+					'disit'=>$p->disit,
 					'unitp'=>$p->unitp,
 					'itamt'=>$p->itamt,
+					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype
 				));
 			}
@@ -250,29 +251,4 @@ class Gr extends CI_Controller {
 		));
 	}
 	
-	
-	public function loads_combo($tb,$pk,$like){
-    	
-		$tbName = $tb;
-		$tbPK = $pk;
-		$tbLike = $like;
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like($tbLike, $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
 }

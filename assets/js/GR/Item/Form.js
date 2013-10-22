@@ -15,28 +15,63 @@ Ext.define('Account.GR.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.poDialog = Ext.create('Account.PO.MainWindow');
+		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.GR.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
 		this.formTotal = Ext.create('Account.GR.Item.Form_t', {
-			//title:'Total Purchase Order',
 			border: true,
 			split: true,
+			title:'GR Total',
 			region:'south'
 		});
-		// END INIT other components ////////////////////////////////
-
+		this.gridPrice = Ext.create('Account.GR.Item.Grid_pc', {
+			border: true,
+			split: true,
+			title:'Item Pricing',
+			region:'south'
+		});
+		// END INIT other components ////////////////////////////////	
 		
-
+        this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'PR Status',
+			name : 'statu',
+			labelAlign: 'right',
+			width: 240,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			//margin: '0 0 0 -17',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
 /*---ComboBox Tax Type----------------------------*/
-		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Tax Type',
+		this.comboTax = Ext.create('Ext.form.ComboBox', {			
+			fieldLabel: 'Vat Type',
 			name: 'taxnr',
-			//width:185,
-			//labelWidth: 80,
+			width: 240,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -45,7 +80,7 @@ Ext.define('Account.GR.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'gr/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'quotation/loads_taxcombo',  //loads_tycombo($tb,$pk,$like)
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -64,21 +99,19 @@ Ext.define('Account.GR.Item.Form', {
 			valueField: 'taxnr'
 		});	
 /*---ComboBox Payment type----------------------------*/
-		this.comboPtype = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Payment type',
-			name: 'ptype',
-			//width:185,
-			//labelWidth: 80,
+		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payments',
+			name : 'ptype',
+			width: 280,
 			editable: false,
-			allowBlank : false,
+			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+			emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'gr/loads_combo/ptyp/ptype/paytx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'quotation/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -95,12 +128,11 @@ Ext.define('Account.GR.Item.Form', {
 			queryMode: 'remote',
 			displayField: 'paytx',
 			valueField: 'ptype'
-		});	
+		});
 /*-------------------------------*/			
 		this.hdnGrItem = Ext.create('Ext.form.Hidden', {
 			name: 'mseg',
 		});
-
 
         this.trigPO = Ext.create('Ext.form.field.Trigger', {
 			name: 'ebeln',
@@ -119,7 +151,37 @@ Ext.define('Account.GR.Item.Form', {
 			allowBlank : false
 		});
 		
-	
+	    this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:170,
+			hideTrigger:false,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
+         
+         this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
+			name: 'ctype',
+			fieldLabel: 'Currency',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			width: 240,
+			//margin: '0 0 0 6',
+			labelAlign: 'right',
+			allowBlank : false
+		});
+
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'Vat Value',
+			name: 'taxpr',
+			labelAlign: 'right',
+			width:170,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -131,27 +193,35 @@ Ext.define('Account.GR.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnGrItem, this.hdnPpItem,
+			items: [this.hdnPrItem, 
 			{
 				xtype:'fieldset',
 				title: 'Header Data',
 				items:[{
-					// Project Code
+		    // Project Code
 	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigPO,{
+					},this.trigVender,{
 						xtype: 'displayfield',
-						fieldLabel: 'GR Doc.',
-						name: 'mbeln',
-						value: 'GRXXXX-XXXX',
-						width:232,
+						name: 'name1',
+						margins: '0 0 0 6',
+						width:307,
+						allowBlank: true
+					},{
+						xtype: 'displayfield',
+					    fieldLabel: 'Purchase No',
+					    name: 'purnr',
+						fieldLabel: 'Purchase No',
+						name: 'purnr',
+						value: 'PRXXXX-XXXX',
+						labelAlign: 'right',
+						width:240,
 						readOnly: true,
-						labelStyle: 'font-weight:bold',
-						margin: '0 0 0 292',
+						labelStyle: 'font-weight:bold'
 					}]
 				// Address Bill&Ship
 	            },{
@@ -161,53 +231,41 @@ Ext.define('Account.GR.Item.Form', {
             		items:[{
 		                xtype: 'container',
 		                flex: 0,
-		                layout: 'anchor',
-		                
-		                items :[{
-			 				xtype: 'container',
+		                items :[ this.comboLifnr,{
+						    xtype: 'textarea',
+						    fieldLabel: 'Vendor Address',
+						    name: 'adr01',
+						    width: 450, 
+						    rows:3,
+		                },{xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.trigVender,{
-								xtype: 'displayfield',
-								name: 'name1',
-								margins: '0 0 0 6',
-								width:160,
-								allowBlank: true 
-			                }]
-						}, {
-							xtype: 'textarea',
-							fieldLabel: 'Address',
-							name: 'adr01',
-							width: 455, 
-							rows:2,
-		                }, {
+				 			items :[this.comboPay,this.numberVat]
+				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
+								width: 280, 
 								name: 'refnr',
-								//margin: '0 0 5 0',
-			                }, {
-								xtype: 'numberfield',
-								fieldLabel: 'Credit',
-								name: 'crdit',
-								//width: 20, 
-								labelWidth: 50,
-								margin: '0 0 0 40',
-			                }]
+			                },this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
 		                }]
 		            },{
 		                xtype: 'container',
-		                flex: 0,
-		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [this.comboPtype,{
-		                //}, {
+		                items: [{
 							xtype: 'datefield',
-							fieldLabel: 'GR Date',
+							fieldLabel: 'PR Date',
 							name: 'bldat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
@@ -215,23 +273,31 @@ Ext.define('Account.GR.Item.Form', {
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
 							name: 'lfdat',
+							labelAlign: 'right',
+							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-                		}, this.comboTaxnr,{
-		                }]
-		            }]
-				}]
-
+                		}, this.comboTax,
+                		this.trigCurrency,
+					    this.comboQStatus]
+		          }]
+			   }]
 			}]
 		};
-
-		this.items = [
-			mainFormPanel,
-			this.gridItem,
-			this.formTotal
-			
-		];		
+		
+		this.items = [mainFormPanel,this.gridItem,
+			{
+			xtype:'tabpanel',
+			region:'south',
+			activeTab: 0,
+			height:200,
+			items: [
+				this.formTotal,
+				this.gridPrice
+			]
+		}
+		];	
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){
@@ -240,7 +306,7 @@ Ext.define('Account.GR.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'vendor/load',
+					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -248,23 +314,14 @@ Ext.define('Account.GR.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.ebeln);
+							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _crdit = r.data.crdit;
-							var _addr = r.data.adr01;
-							if(!Ext.isEmpty(r.data.distx))
-			                    _addr += ' '+r.data.distx;
-							if(!Ext.isEmpty(r.data.pstlz))
-								_addr += ' '+r.data.pstlz;
-							if(!Ext.isEmpty(r.data.telf1))
-								_addr += '\n'+'Tel: '+r.data.telf1;
-							if(!Ext.isEmpty(r.data.telfx))
-								_addr += '\n'+'Fax: '+r.data.telfx;
-							if(!Ext.isEmpty(r.data.email))
-							_addr += '\n'+'Email: '+r.data.email;
-							_this.getForm().findField('adr01').setValue(_addr);
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+							_this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
-							o.markInvalid('Could not find Vendor code : '+o.getValue());
+							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -274,19 +331,25 @@ Ext.define('Account.GR.Item.Form', {
 		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigVender.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
+			
+			var v = record.data.lifnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'vendor/load2',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+						}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
@@ -295,15 +358,15 @@ Ext.define('Account.GR.Item.Form', {
 		this.trigVender.onTriggerClick = function(){
 			_this.vendorDialog.show();
 		};
-
-		// event trigQuotation///
-		this.trigPO.on('keyup',function(o, e){
+		
+		// event trigProject///
+		this.trigCurrency.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'po/load',
+					url: __site_url+'currency/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -311,59 +374,71 @@ Ext.define('Account.GR.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.ebeln);
-							_this.getForm().findField('lifnr').setValue(record.data.lifnr);
-							_this.getForm().findField('name1').setValue(record.data.name1);			
+							o.setValue(r.data.ctype);
+							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							var store = _this.gridItem.store;
+		                    store.each(function(rc){
+			                //price = parseFloat(rc.data['unitp']),
+			                rc.set('ctype', r.data.ctype);
+		                    });
+		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
-							o.markInvalid('Could not find purchase order no : '+o.getValue());
+							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
-		
-		_this.poDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigPO.setValue(record.data.ebeln);
-			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-			  _addr += ' '+record.data.distx;
-			if(!Ext.isEmpty(record.data.pstlz))
-			  _addr += ' '+record.data.pstlz;
-			if(!Ext.isEmpty(record.data.telf1))
-				_addr += '\n'+'Tel: '+record.data.telf1;
-			 if(!Ext.isEmpty(record.data.telfx))
-				_addr += '\n'+'Fax: '+record.data.telfx;
-			 if(!Ext.isEmpty(record.data.email))
-				_addr += '\n'+'Email: '+record.data.email;
-			 _this.getForm().findField('adr01').setValue(_addr);
-			 
+
+		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCurrency.setValue(record.data.ctype);
+
+            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
+            var store = _this.gridItem.store;
+		    store.each(function(rc){
+			//price = parseFloat(rc.data['unitp']),
+			rc.set('ctype', record.data.ctype);
+		    });
+		    _this.gridItem.curValue = record.data.ctype;
 			grid.getSelectionModel().deselectAll();
-			//---Load PRitem to POitem Grid-----------
-			var grdebeln = _this.trigPO.value;
-			//alert(grdebeln);
-			_this.gridItem.load({grdebeln: grdebeln });
-			//----------------------------------------
-			_this.poDialog.hide();
+			_this.currencyDialog.hide();
 		});
 
-		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ ebeln: 0 });
-		
-		this.trigPO.onTriggerClick = function(){
-			_this.poDialog.show();
+		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.show();
 		};
-	
+		
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 
 		return this.callParent(arguments);
 	},
+	
+	onSelectChange: function(selModel, selections){
+		var _this=this;
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	vvat:this.numberVat.getValue(),
+            	vat:sel.get('chk01')
+            });
+
+        }
+    },
+
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
+    },
+    
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -406,18 +481,24 @@ Ext.define('Account.GR.Item.Form', {
 	},
 	reset: function(){
 		this.getForm().reset();
-
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ mbeln: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
+		this.gridItem.load({ purnr: 0 });
+		
+		// สร้างรายการเปล่า 5 รายการใน grid item
+		//this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
-		//this.comboQStatus.setValue('01');
+		this.comboQStatus.setValue('01');
+		this.comboTax.setValue('01');
+		this.trigCurrency.setValue('THB');
+		this.numberVat.setValue(7);
+		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// calculate total functions
 	calculateTotal: function(){
+		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var vats=0; var i=0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -427,10 +508,36 @@ Ext.define('Account.GR.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-
 			sum += amt;
+			
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
 		});
-		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
+		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.calculate();
+		
+		this.gridItem.vattValue = this.comboTax.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
+		var currency = this.trigCurrency.getValue();
+		this.gridItem.curValue = currency;
+		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
+	  
+	  // Set value to Condition Price grid
+        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        if (sel) {
+        	//_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	vvat:this.numberVat.getValue(),
+            	vat:sel.get('chk01')
+            });     
+        }
 	}
 });

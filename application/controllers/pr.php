@@ -28,9 +28,9 @@ class Pr extends CI_Controller {
 			$result_data['id'] = $result_data['purnr'];
 
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
-			                         PHP_EOL.'Tel: '.$result_data['telf1'].PHP_EOL.'Fax: '.
-			                         $result_data['telfx'].
-									 PHP_EOL.'Email: '.$result_data['email'];
+			PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
+			$result_data['telfx'].
+			PHP_EOL.'Email: '.$result_data['email'];
 
 			// unset calculated value
 			unset($result_data['beamt']);

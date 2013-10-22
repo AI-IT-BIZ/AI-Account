@@ -412,7 +412,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -424,6 +424,9 @@ Ext.define('Account.Quotation.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
@@ -437,7 +440,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			var v = record.data.kunnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -448,6 +451,9 @@ Ext.define('Account.Quotation.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+			                _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}
 					}
 				});
@@ -483,6 +489,9 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			//_this.trigCustomer.on('keyup', this.selectTax, this);
 
 						}else{
@@ -512,6 +521,9 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			       }
 				}
 				});
