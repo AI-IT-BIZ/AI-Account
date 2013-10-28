@@ -287,7 +287,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		newId--;
         var sel = _this.getView().getSelectionModel().getSelection()[0];
         if (sel){
-         i = parseFloat(sel.get('payam'));
+         i = parseFloat(sel.get('payam').replace(/[^0-9.]/g, ''));
          net = net - i;
         }
 		// add new record

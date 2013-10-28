@@ -56,14 +56,14 @@ class Billfrom extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
 			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
 			}
 		}
 // End for report
@@ -97,12 +97,10 @@ class Billfrom extends CI_Controller {
 		$formData = array(
 			//'recnr' => $this->input->post('recnr'),
 			'bldat' => $this->input->post('bldat'),
-			'kunnr' => $this->input->post('kunnr'),
+			'lifnr' => $this->input->post('lifnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
-			//'ctype' => $curr,
-			//'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt')
 		);

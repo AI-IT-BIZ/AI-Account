@@ -145,7 +145,7 @@ Ext.define('Account.Payment.Item.Form', {
 			fieldLabel: 'Address',
 			name: 'adr01',
 			width:350,
-			rows:2,
+			rows:3,
 			labelAlign: 'top'
 		}]
 		},{
