@@ -33,7 +33,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln,vbelp'
+					idProperty: function(o){ return o.vbeln+o.vbelp; }//'vbeln,vbelp'
 				}
 			},
 			fields: [
@@ -239,8 +239,12 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
+
+							var rModel = _this.store.getById(e.record.getId());
+							console.log(e.record);
 							if(rModel){
+								/*
+								rModel.beginEdit();
 								// change cell code value (use db value)
 								rModel.set(e.field, r.data.matnr);
 								// Materail text
@@ -250,7 +254,17 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 								// Cost
 								var cost = r.data.cost;
 								rModel.set('unitp', cost);
-								//rModel.set('amount', 100+Math.random());
+
+									console.log(cost);
+								rModel.endEdit();
+								*/
+								rModel.beginEdit();
+								var result = rModel.set({
+									'maktx': r.data.maktx,
+									'meins': r.data.meins,
+									'unitp': r.data.cost
+								});
+								rModel.endEdit();
 							}
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -265,7 +279,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			console.log(rModels);
 			if(rModels.length>0){
-				console.log(record);
+				//console.log(record);
 				//console.log(rModels);
 				rModel = rModels[0];
 				//alert(record.data.matnr)
