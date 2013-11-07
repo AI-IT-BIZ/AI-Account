@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vendortype extends CI_Controller {
+class Initdoc extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,19 +10,19 @@ class Vendortype extends CI_Controller {
 
 
 	function index(){
-		$this->phxview->RenderView('Vendortype');
-		$this->phxview->RenderLayout('default');
+		//$this->phxview->RenderView('Customertype');
+		//$this->phxview->RenderLayout('default');
 	}
 	
 	function load(){
-		$this->db->set_dbprefix('v_');
+		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		$this->db->where('vtype', $id);
-		$query = $this->db->get('vtyp');
+		$this->db->where('modul', $id);
+		$query = $this->db->get('init');
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['vtype'];
+			$result_data['id'] = $result_data[''];
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -34,8 +34,8 @@ class Vendortype extends CI_Controller {
 	}
 
 	function loads(){
-		$this->db->set_dbprefix('v_');
-		$tbName = 'vtyp';
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'init';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -61,20 +61,24 @@ class Vendortype extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('vtyp'); 
+		$this->db->truncate('init'); 
 
 		// เตรียมข้อมูล payment item
-		$vtyp = $this->input->post('vtyp');
-		$item_array = json_decode($vtyp);
+		$init = $this->input->post('init');
+		$item_array = json_decode($init);
 		
-		if(!empty($vtyp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
+		if(!empty($init) && !empty($item_array)){
+		// loop เพื่อ insert payment item ที่ส่งมาใหม่
+	    $item_index = 0;
 		foreach($item_array AS $p){
-			$this->db->insert('vtyp', array(
-				'vtype'=>$p->vtype,
-				'ventx'=>$p->ventx,
-				'saknr'=>$p->saknr
+			$this->db->insert('init', array(
+			    'objnr'=>$p->objnr,
+				'modul'=>$p->modul,
+				'grpmo'=>$p->grpmo,
+				'sgtxt'=>$p->sgtxt,
+				'short'=>$p->short,
+				'minnr'=>$p->minnr,
+				'perio'=>$p->perio
 			));
 	    	}
 		}

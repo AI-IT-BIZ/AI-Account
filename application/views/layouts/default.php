@@ -588,6 +588,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rquotation').on('click', function(){ $om.viewport.fireEvent('click_rquotation', c); }, c);
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
 								pEl.getById('div-rreceipt').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
+								pEl.getById('div-config').on('click', function(){ $om.viewport.fireEvent('click_config', c); }, c);
 								//Purchases Module
 								pEl.getById('div-pr').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);

@@ -5,6 +5,12 @@ Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
     
+    $om.viewport.on('click_config', function(){
+		if(!$om.configDialog)
+			$om.configDialog = Ext.create('Account.Company.MainWindow');
+		$om.configDialog.show();
+	});
+    
 	$om.viewport.on('click_income', function(){
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');

@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		22/10/2013
+Modified		29/10/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,21 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_vtyp
+;
+
+Drop View IF EXISTS v_ebbk
+;
+
+Drop View IF EXISTS v_ebbp
+;
+
+Drop View IF EXISTS v_ebkp
+;
+
+Drop View IF EXISTS v_ebkk
+;
 
 Drop View IF EXISTS v_ebrp
 ;
@@ -104,6 +119,7 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_comp;
 drop table IF EXISTS tbl_ebkp;
 drop table IF EXISTS tbl_ebkk;
 drop table IF EXISTS tbl_vbkp;
@@ -303,7 +319,7 @@ Create table tbl_lfa1 (
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
-	sgtxt Varchar(40) COMMENT 'Text Note',
+	note1 Varchar(40) COMMENT 'Text Note',
 	vtype Varchar(4) COMMENT 'Vendor Type (tbl_vtyp)',
 	erdat Datetime COMMENT 'Creaate Date',
 	ernam Varchar(10) COMMENT 'Create Name',
@@ -317,6 +333,7 @@ Create table tbl_lfa1 (
 	cunt2 Varchar(20),
 	statu Varchar(4),
 	ptype Varchar(4) COMMENT 'payment type',
+	vat01 Decimal(15,2) COMMENT 'Vat Value',
  Primary Key (lifnr)) ENGINE = InnoDB
 COMMENT = 'Vendor Master';
 
@@ -475,7 +492,7 @@ Create table tbl_kna1 (
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
 	begin Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
-	sgtxt Varchar(40) COMMENT 'Text Note',
+	note1 Varchar(40) COMMENT 'Text Note',
 	ktype Varchar(4) COMMENT 'Customer Type (tbl_ktyp)',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
@@ -490,6 +507,7 @@ Create table tbl_kna1 (
 	cunt2 Varchar(20),
 	statu Varchar(4),
 	ptype Varchar(4) COMMENT 'payment type',
+	vat01 Decimal(15,2) COMMENT 'Vat value',
  Primary Key (kunnr)) ENGINE = InnoDB
 COMMENT = 'Customer Master';
 
@@ -1336,7 +1354,7 @@ Create table tbl_ebkk (
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
 	terms Int COMMENT 'Terms Date',
-	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	lifnr Varchar(10) COMMENT 'Vendor no (tbl_lifnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
@@ -1368,6 +1386,46 @@ Create table tbl_ebkp (
 	refnr Varchar(40) COMMENT 'Ref no.',
  Primary Key (bilnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'Bill from Item';
+
+Create table tbl_comp (
+	bukrs Varchar(10) NOT NULL COMMENT 'Customer Code',
+	name1 Varchar(40) COMMENT 'Company Name1',
+	name2 Varchar(40) COMMENT 'Company Name2',
+	adr01 Varchar(40) COMMENT 'Address 1',
+	adr02 Varchar(40) COMMENT 'Address 2',
+	dis02 Varchar(40) COMMENT 'Distrct1',
+	distx Varchar(40) COMMENT 'District (tbl_dist)',
+	pstlz Varchar(10) COMMENT 'Post Code',
+	telf1 Varchar(30) COMMENT 'Telephon',
+	telfx Varchar(30) COMMENT 'Fax No',
+	pson1 Varchar(30) COMMENT 'Contact Person',
+	taxnr Varchar(4) COMMENT 'Tax type (tbl_tax1)',
+	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
+	pleve Varchar(4) COMMENT 'Price Level (tbl_plev)',
+	retax Varchar(1) COMMENT 'Tax Return',
+	terms Int COMMENT 'Long-term',
+	disct Decimal(17,2) COMMENT 'Discount Amount',
+	apamt Decimal(17,2) COMMENT 'Approve Amount',
+	begin Decimal(17,2) COMMENT 'Beginning Amount',
+	endin Decimal(17,2) COMMENT 'Ending Amount',
+	note1 Varchar(40) COMMENT 'Text Note',
+	ktype Varchar(4) COMMENT 'Customer Type (tbl_ktyp)',
+	erdat Datetime COMMENT 'Create Date',
+	ernam Varchar(10) COMMENT 'Create Name',
+	email Varchar(20) COMMENT 'Email',
+	taxid Varchar(15) COMMENT 'Tax ID',
+	pst02 Varchar(10) COMMENT 'Post Code2',
+	tel02 Varchar(30) COMMENT 'Tel Phone2',
+	telf2 Varchar(30) COMMENT 'Fax2',
+	pson2 Varchar(30) COMMENT 'Person2',
+	emai2 Varchar(20) COMMENT 'Email2',
+	cunt1 Varchar(20),
+	cunt2 Varchar(20),
+	statu Varchar(4),
+	ptype Varchar(4) COMMENT 'payment type',
+	vat01 Decimal(15,2) COMMENT 'Vat value',
+ Primary Key (bukrs)) ENGINE = InnoDB
+COMMENT = 'Company Master';
 
 
 
@@ -1446,10 +1504,12 @@ SELECT t1.*,name1,t2.adr01,t2.distx,t2.pstlz,t2.telf1,t2.telfx,t2.email,t3.statx
 create view v_kna1 as
 
 SELECT t1.*,
-	t2.custx
+	t2.custx,t3.sgtxt
 FROM tbl_kna1 AS t1
 LEFT JOIN tbl_ktyp AS t2 
-ON t1.ktype = t2.ktype;
+ON t1.ktype = t2.ktype
+left join tbl_glno as t3
+on t1.saknr = t3.saknr;
 create view v_ekpo as
 
 SELECT t1.*,t2.maktx
@@ -1571,10 +1631,12 @@ left join tbl_vbkp AS t3 ON t1.bilnr=t3.bilnr;
 create view v_lfa1 as
 
 SELECT t1.*,
-	t2.ventx
+	t2.ventx,t3.sgtxt
 FROM tbl_lfa1 AS t1
 LEFT JOIN tbl_vtyp AS t2 
-ON t1.vtype = t2.vtype;
+ON t1.vtype = t2.vtype
+left join tbl_glno as t3
+on t1.saknr = t3.saknr;
 create view v_ebrk as
 
 select a.*,`b`.`name1` AS `name1`,
@@ -1593,6 +1655,42 @@ create view v_ebrp as
 select a.*,b.maktx,b.mtart
 from tbl_ebrp a left join tbl_mara b 
 on a.matnr = b.matnr;
+create view v_ebkk as
+
+select a.*,`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx
+from tbl_ebkk a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu;
+create view v_ebkp as
+
+SELECT t1.*,t2.name1,
+t3.vbelp,t3.invnr,t3.invdt,t3.itamt,t3.texts
+FROM tbl_ebkk AS t1 
+left join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+left join tbl_ebkp AS t3 ON t1.bilnr=t3.bilnr;
+create view v_ebbp as
+
+SELECT t1.*,t2.name1,
+t3.vbelp,t3.invnr,t3.invdt,t3.itamt,t3.texts
+FROM tbl_ebbk AS t1 
+left join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
+left join tbl_ebbp AS t3 ON t1.payno=t3.payno;
+create view v_ebbk as
+
+select a.*,`b`.`name1` AS `name1`,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,e.paytx,e.saknr 
+from tbl_ebbk a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_ptyp e on a.ptype = e.ptype;
+create view v_vtyp as
+
+select a.*,b.sgtxt
+from tbl_vtyp a left join tbl_glno b 
+on a.saknr = b.saknr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

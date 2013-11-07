@@ -23,9 +23,10 @@ Ext.define('Account.Vendor.Item.Form', {
 		
 		this.trigDistr = Ext.create('Ext.form.field.Trigger', {
 			name: 'distx',
-			fieldLabel: 'District',
+			fieldLabel: 'Province',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			labelWidth:110,
 			width:290,
 		});
 //---event triger----------------------------------------------------------------	
@@ -44,12 +45,10 @@ Ext.define('Account.Vendor.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.ktype);
 							_this.trigDistr.setValue(record.data.distx);
-							_this.getForm().findField('distr').setValue(record.data.distr);
 
 						}else{
-							o.markInvalid('Could not find District : '+o.getValue());
+							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
 				});
@@ -58,7 +57,6 @@ Ext.define('Account.Vendor.Item.Form', {
 
 		_this.distrDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigDistr.setValue(record.data.distx);
-			_this.getForm().findField('distr').setValue(record.data.distr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.distrDialog.hide();
@@ -72,7 +70,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		
 		this.trigVtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'ventx',
-			fieldLabel: 'Type',
+			fieldLabel: 'Vendor Type',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width:290,
@@ -93,11 +91,10 @@ Ext.define('Account.Vendor.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.ktype);
 							_this.trigVtyp.setValue(record.data.ventx);
 							_this.getForm().findField('vtype').setValue(record.data.vtype);
 							_this.getForm().findField('saknr').setValue(record.data.saknr);
-							_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
 							o.markInvalid('Could not find vendor type : '+o.getValue());
@@ -111,7 +108,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			_this.trigVtyp.setValue(record.data.ventx);
 			_this.getForm().findField('vtype').setValue(record.data.vtype);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
-			_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 			grid.getSelectionModel().deselectAll();
 			_this.vtypDialog.hide();
@@ -129,212 +126,75 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			width:290,
+			width:290
 		});
-//---event triger----------------------------------------------------------------	
-		// event trigGlno//
-		this.trigGlno.on('keyup',function(o, e){
-			
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							//o.setValue(r.data.ktype);
-							//glno/saknr/sgtxt'
-							_this.trigGlno.setValue(record.data.sgtxt);
-							//_this.getForm().findField('ktype').setValue(record.data.ktype);
-							_this.getForm().findField('saknr').setValue(record.data.saknr);
-							_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
-
-						}else{
-							o.markInvalid('Could not find GL Account : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigGlno.setValue(record.data.saknr);
-			_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
-			//_this.getForm().findField('ktype').setValue(record.data.ktype);
-			//_this.getForm().findField('saknr').setValue(record.data.saknr);
-
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});
-
-		this.trigGlno.onTriggerClick = function(){
-			//alert(_this.comboVtype.getValue());
-			_this.glnoDialog.show();
-		};				
-/*(1)---ComboBox-------------------------------*/
-/*---ComboBox Type-------------------------------*/
-/*
-		this.comboVtype = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Type',
-			name: 'vtype',
-			width:290,
-			//labelWidth: 120,
+	
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Customer Status',
+			name : 'statu',
+			labelAlign: 'right',
 			editable: false,
-			//allowBlank : false,
+			allowBlank : false,
 			triggerAction : 'all',
+			margin: '0 0 0 56',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'vendor/loads_combo/vtyp/vtype/ventx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'customer/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
-						idProperty: 'vtype'
+						idProperty: 'statu'
 					}
 				},
 				fields: [
-					'vtype',
-					'ventx'
+					'statu',
+					'statx'
 				],
 				remoteSort: true,
-				sorters: 'vtype ASC'
-			}),
-			listeners: {
-				
-			    select: function(combo, record, index) {
-			      //alert(combo.getValue()); // Return Unitad States and no USA
-			      var glno = _this.comboVtype.getValue();
-			      if(glno){
-						//_this.itemDialog.show();
-						//_this.itemDialog.form.load(id);
-			      		alert(_this.comboVtype.getValue());
-						//_this.glnoDialog.show(glno);
-						//this.itemDialog.form.load(glno);
-						
-				  }
-              }
-            },
-			queryMode: 'remote',
-			displayField: 'ventx',
-			valueField: 'vtype'
-		});
-*/
-/*---ComboBox Price Level----------------------------*/
-		this.comboPleve = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Price Level',
-			name: 'pleve',
-			width:307,
-			labelWidth: 176,
-			editable: false,
-			//allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',				    
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'vendor/loads_combo/plev/pleve/cost',  //loads_tycombo($tb,$pk,$like)
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'pleve'
-					}
-				},
-				fields: [
-					'pleve',
-					'cost'
-				],
-				remoteSort: true,
-				sorters: 'pleve ASC'
+				sorters: 'statu ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'cost',
-			valueField: 'pleve'
-		});
-/*---ComboBox District----------------------------*/
+			displayField: 'statx',
+			valueField: 'statu'
+		});	
 		
-		this.comboDistr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'District',
-			name: 'distx',
-			width:290,
-			labelWidth: 120,
+		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payments',
+			name : 'ptype',
+			width: 290,
 			editable: false,
-			//allowBlank : false,
+			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',  
-					url: __site_url+'vendor/loads_combo/dist/distr/distx',  //loads_tycombo($tb,$pk,$like)
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'distr'
-					}
-				},
-				fields: [
-					'distr',
-					'distx'
-				],
-				remoteSort: true,
-				sorters: 'distr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'distx',
-			valueField: 'distx'
-		});
-
-/*---ComboBox GL Account----------------------------*/
-/*	this.comboSaknr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'GL Account',
-			name: 'saknr',
-			width:290,
-			labelWidth: 120,
-			editable: false,
-			//allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+			emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'vendor/loads_combo/glno/saknr/sgtxt',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'customer/loads_tcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
-						idProperty: 'saknr'
+						idProperty: 'ptype'
 					}
 				},
 				fields: [
-					'saknr',
-					'sgtxt'
+					'ptype',
+					'paytx'
 				],
 				remoteSort: true,
-				sorters: 'saknr ASC'
+				sorters: 'ptype ASC'
 			}),
 			queryMode: 'remote',
-			displayField: 'sgtxt',
-			valueField: 'saknr'
+			displayField: 'paytx',
+			valueField: 'ptype'
 		});
 
-/*---ComboBox Tax Type----------------------------*/
-		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Tax Type',
+/*---ComboBox Vat Type----------------------------*/
+		this.comboTax = Ext.create('Ext.form.ComboBox', {			
+			fieldLabel: 'Vat Type',
 			name: 'taxnr',
 			width:290,
 			labelWidth: 120,
@@ -342,7 +202,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+		    emptyText: '-- Please select Type --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -364,6 +224,66 @@ Ext.define('Account.Vendor.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});	
+		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
+         
+         this.numberDiscount = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Discount Amount',
+			name: 'disct',
+			labelAlign: 'left',
+			width:290,
+			hideTrigger:false
+         });
+         
+         this.numberLimit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Limit Amt',
+			name: 'apamt',
+			labelAlign: 'right',
+			//width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
+         
+         this.numberMin = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Minimum Amount',
+			name: 'begin',
+			labelAlign: 'left',
+			width:290,
+			hideTrigger:false
+         });
+         
+         this.numberMax = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Maximum Amount',
+			name: 'endin',
+			labelAlign: 'right',
+			//width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
+         
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Vat Value',
+			name: 'vat01',
+			labelAlign: 'right',
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
 
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
@@ -373,19 +293,12 @@ Ext.define('Account.Vendor.Item.Form', {
 			xtype: 'hidden',
 			name: 'vtype'
 		},{
-			xtype: 'hidden',
-			name: 'distr'
-		},{
 			
-
 /*(3)---Start Form-------------------------------*/	
 /*---Vendor Head fieldset 1 --------------------------*/
 /*------------------------------------------------------*/
-
-
 		items: [{
             xtype: 'container',
-            anchor: '100%',
             layout: 'anchor',
             margin: '10',
             items:[{
@@ -401,13 +314,10 @@ Ext.define('Account.Vendor.Item.Form', {
                     emptyText: 'XXXXX',
 					labelAlign: 'right',
 					readOnly: true,
-					//disabled: true,
-					anchor:'95%',
 					width:160,
-            		margin: '0 0 0 107',
+            		margin: '0 0 0 60',
 					value: 'XXXXX',
-					labelStyle: 'font-weight:bold',
-            		
+					labelStyle: 'font-weight:bold'
                 }]
             },{
                 xtype: 'container',
@@ -419,10 +329,12 @@ Ext.define('Account.Vendor.Item.Form', {
 					fieldLabel: 'Vendor Name',
 					name: 'name1',
 					allowBlank: false,
-					anchor:'100%',
-					width:600,
+					width:470
                 }]
             },{
+            xtype:'fieldset',
+            title: 'Address',
+            items:[{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
@@ -431,9 +343,8 @@ Ext.define('Account.Vendor.Item.Form', {
 					xtype: 'textarea',
 					fieldLabel: 'Address',
 					name: 'adr01',
-					anchor:'95%',
-					allowBlank: true,
-					width:600,
+					labelWidth:110,
+					width:460
                 }]
             },{
                 xtype: 'container',
@@ -446,10 +357,11 @@ Ext.define('Account.Vendor.Item.Form', {
 					fieldLabel: 'Post Code',
 		            name: 'pstlz',
 		            emptyText: 'xxxxx',
+		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
-            		margin: '0 0 0 54',
+            		margin: '0 0 0 43'
                 }]
             },{
                 xtype: 'container',
@@ -460,38 +372,16 @@ Ext.define('Account.Vendor.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Phone Number',
 		            name: 'telf1',
+		            labelWidth:110,
 		            width: 290,
-		            emptyText: 'xxx-xxx-xxxx',
+		            emptyText: 'xxx-xxxxxxx',
 		            maskRe: /[\d\-]/,
                 }, {
-					xtype: 'numberfield',
-					fieldLabel: 'Crdit',
-		            name: 'crdit',
-		            maskRe: /[\d\-]/,
-            		margin: '0 0 0 56',
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
-		            width: 290,
-		            emptyText: 'xxx-xxxxxx',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{3}-\d{6}$/,
-		            regexText: 'Must be in the format xxx-xxxxxx'
-                }, {
-                	
-					xtype: 'textfield',
-					fieldLabel: 'Discount',
-		            name: 'disct',
-		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format Number',
-            		margin: '0 0 0 56',
+		            labelAlign: 'right',
+		            margin: '0 0 0 46'
                 }]
             },{
                 xtype: 'container',
@@ -499,16 +389,12 @@ Ext.define('Account.Vendor.Item.Form', {
                 layout: 'hbox',
                 padding:2,
                 items :[{
-					xtype: 'textfield',
+                		xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'email',
-		            width: 290,
+					labelWidth:110,
+		            width: 460
                 }, {
-					xtype: 'textfield',
-					fieldLabel: 'Approve Amount',
-		            name: 'apamt',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
                 }]
             },{
                 xtype: 'container',
@@ -516,35 +402,56 @@ Ext.define('Account.Vendor.Item.Form', {
                 layout: 'hbox',
                 padding:2,
                 items :[{
-					xtype: 'textfield',
+                	xtype: 'textfield',
 					fieldLabel: 'Contact Person',
 					name: 'pson1',
-		            width: 290,
+					labelWidth:110,
+		            width: 460
                 }, {
-					xtype: 'textfield',
-					fieldLabel: 'Beginning Amount',
-		            name: 'begin',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
+					
                 }]
+                }],
             },{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[{
+                items :[this.numberDiscount, this.numberLimit]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.numberMin, this.numberMax]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboPay, this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+					}]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[this.comboTax,this.numberVat]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{    	
 					xtype: 'textfield',
 					fieldLabel: 'Tax ID',
 					name: 'taxid',
 		            maskRe: /[\d]/,
-		            width: 290,
-                }, {
-					xtype: 'textfield',
-					fieldLabel: 'Ending Amount',
-		            name: 'endin',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 54',
-                }]
+		            width: 290
+                }, this.comboQStatus]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -552,46 +459,9 @@ Ext.define('Account.Vendor.Item.Form', {
                 padding:2,
                 items :[this.trigGlno,{
 						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
-						name: 'sgtxt_gl',
-						//labelAlign: 'l',
+						name: 'sgtxt',
 						margins: '0 0 0 6',
-						width:286,
-						//emptyText: 'Customer',
-						allowBlank: true,
-						//value:'test'd
-						
-                }, {
-						/*
-						xtype: 'displayfield',
-						//fieldLabel: '',
-						//flex: 3,
-						//value: '<span style="color:green;"></span>'
-						name: 'vtype',
-						//labelAlign: 'l',
-						margins: '0 0 0 6',
-						width:286,
-						//emptyText: 'Customer',
-						allowBlank: true,
-						//value:'test'd
-						*/
-                }]
-            },{
-                xtype: 'container',
-                flex: 1,
-                layout: 'hbox',
-                padding:2,
-                items :[this.comboTaxnr,{
-				},{
-		            xtype: 'checkboxfield',
-		            name: 'retax',
-		            fieldLabel: '',
-                	inputValue: '1',
-                	//checked: true,
-		            boxLabel: 'ขอคืนภาษี',	
-            		margin: '0 0 0 6',
+						width:286
                 }]
             },{
                 xtype: 'container',
@@ -601,41 +471,53 @@ Ext.define('Account.Vendor.Item.Form', {
                 items: [{
 					xtype: 'textarea',
 					fieldLabel: 'Text Note',
-					name: 'sgtxt',
-					anchor:'95%',
+					name: 'note1',
 					allowBlank: true,
-					width:600,
+					width:470
                 }]
             }]
         }]
               
-
 /*---End Form--------------------------*/	
-}]
-/*(4)---Buttons-------------------------------*/
-		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				this.up('form').getForm().reset();
-				this.up('window').hide();
-			}
-		}, {
-			text: 'Save',
-			handler: function() {
-				var _form_basic = this.up('form').getForm();
-				if (_form_basic.isValid()) {
-					_form_basic.submit({
-						success: function(form_basic, action) {
-							form_basic.reset();
-							_this.fireEvent('afterSave', _this);
-						},
-						failure: function(form_basic, action) {
-							Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+}];
+
+//---event triger----------------------------------------------------------------	
+		// event trigGlno//
+		this.trigGlno.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'gl/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.saknr);
+							_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+						}else{
+							o.markInvalid('Could not find GL Account : '+o.getValue());
 						}
-					});
-				}
+					}
+				});
 			}
-		}];
+		}, this);
+
+		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigGlno.setValue(record.data.saknr);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.glnoDialog.hide();
+		});
+
+		this.trigGlno.onTriggerClick = function(){
+			_this.glnoDialog.show();
+		};	
 
 		return this.callParent(arguments);
 	},
@@ -646,9 +528,33 @@ Ext.define('Account.Vendor.Item.Form', {
 		this.getForm().load({
 			params: { id: id },
 			url:__site_url+'vendor/load'
-			
 		});
 	},
+	
+	// save //
+	save : function(){
+		var _this=this;
+		var _form_basic = this.getForm();
+		if (_form_basic.isValid()) {
+			_form_basic.submit({
+				success: function(form_basic, action) {
+					form_basic.reset();
+					_this.fireEvent('afterSave', _this);
+				},
+				failure: function(form_basic, action) {
+					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+				}
+			});
+		}
+	},
+	
+	reset: function(){
+		this.getForm().reset();
+
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
+	},
+	
 	remove : function(lifnr){
 		var _this=this;
 		this.getForm().load({

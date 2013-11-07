@@ -1,12 +1,12 @@
-Ext.define('Account.Vendor.Item.Window', {
+Ext.define('Account.Company.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Vendor',
+			title: 'Create/Edit Company',
 			closeAction: 'hide',
-			height: 600,
-			width: 660,
+			height: 650,
+			width: 530,
 			layout: 'border',
 			resizable: true,
 			modal: true
@@ -17,13 +17,7 @@ Ext.define('Account.Vendor.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Vendor.Item.Form');//, { region:'north' });
-
-		/*this.grid = new Ext.Panel({
-			title:'this is item grid',
-			html:'item grid',
-			region: 'center'
-		});*/
+		this.form = Ext.create('Account.Company.Item.Form');//, { region:'north' });
 
 		this.items = //[
 			this.form;

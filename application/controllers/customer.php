@@ -122,7 +122,7 @@ class Customer extends CI_Controller {
 			'saknr' => $this->input->post('saknr'),
 			'endin' => $this->input->post('endin'),
 			'taxnr' => $this->input->post('taxnr'),
-			'sgtxt' => $this->input->post('sgtxt'),
+			'note1' => $this->input->post('note1'),
 			'adr02' => $this->input->post('adr02'),
 			'dis02' => $this->input->post('dis02'),
 			'pst02' => $this->input->post('pst02'),
@@ -133,6 +133,7 @@ class Customer extends CI_Controller {
 			'cunt1' => $this->input->post('cunt1'),
 			'cunt2' => $this->input->post('cunt2'),
 			'statu' => $this->input->post('statu'),
+			'vat01' => $this->input->post('vat01'),
 			'ptype' => $this->input->post('ptype')
 			
 		);

@@ -13,10 +13,29 @@ class Customertype extends CI_Controller {
 		$this->phxview->RenderView('Customertype');
 		$this->phxview->RenderLayout('default');
 	}
+	
+	function load(){
+		$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('ktype', $id);
+		$query = $this->db->get('ktyp');
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['ktype'];
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'v_ktyp';
+		$tbName = 'ktyp';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -43,7 +62,8 @@ class Customertype extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('ktyp'); 
+		//$this->db->truncate('ktyp'); 
+		$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
 		$ktyp = $this->input->post('ktyp');

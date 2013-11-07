@@ -59,7 +59,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer/loads_combo/tax1/taxnr/taxtx',  //loads_tycombo($tb,$pk,$like)
+					url: __site_url+'customer/loads_combo/tax1/taxnr/taxtx',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -110,7 +110,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 							//_this.getForm().findField('distr').setValue(record.data.distr);
 
 						}else{
-							o.markInvalid('Could not find District : '+o.getValue());
+							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
 				});
@@ -158,10 +158,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 						if(r && r.success){
 							//o.setValue(r.data.ktype);
 							_this.trigDistr2.setValue(record.data.distx);
-							_this.getForm().findField('dis02').setValue(record.data.distx);
+							//_this.getForm().findField('dis02').setValue(record.data.distx);
 
 						}else{
-							o.markInvalid('Could not find District : '+o.getValue());
+							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
 				});
@@ -170,7 +170,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 		_this.distrDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigDistr2.setValue(record.data.distx);
-			_this.getForm().findField('dis02').setValue(record.data.distx);
+			//_this.getForm().findField('dis02').setValue(record.data.distx);
 
 			grid.getSelectionModel().deselectAll();
 			_this.distrDialog2.hide();
@@ -197,7 +197,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'Ktyp/load',
+					url: __site_url+'customertype/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -209,7 +209,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 							_this.trigKtyp.setValue(record.data.custx);
 							_this.getForm().findField('ktype').setValue(record.data.ktype);
 							_this.getForm().findField('saknr').setValue(record.data.saknr);
-							_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
 							o.markInvalid('Could not find customer type : '+o.getValue());
@@ -223,7 +223,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			_this.trigKtyp.setValue(record.data.custx);
 			_this.getForm().findField('ktype').setValue(record.data.ktype);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
-			_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 			grid.getSelectionModel().deselectAll();
 			_this.ktypDialog.hide();
@@ -263,6 +263,25 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			align: 'right',
 			margin: '0 0 0 56'
          });
+         
+         this.numberLimit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Limit Amt',
+			name: 'apamt',
+			labelAlign: 'right',
+			hideTrigger:false,
+			//align: 'right',
+			width:290
+         });
+         
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Vat Value',
+			name: 'vat01',
+			labelAlign: 'right',
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 56'
+         });
 //---Create Selection--------------------------------------------
         this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		
@@ -282,7 +301,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
+					url: __site_url+'gl/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -290,12 +309,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.ktype);
-							//glno/saknr/sgtxt'
-							_this.trigGlno.setValue(record.data.sgtxt);
-							//_this.getForm().findField('ktype').setValue(record.data.ktype);
-							_this.getForm().findField('saknr').setValue(record.data.saknr);
-							_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+							o.setValue(r.data.saknr);
+							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
 							o.markInvalid('Could not find GL Account : '+o.getValue());
@@ -307,14 +322,13 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGlno.setValue(record.data.saknr);
-			_this.getForm().findField('sgtxt_gl').setValue(record.data.sgtxt);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
 		});
 
 		this.trigGlno.onTriggerClick = function(){
-			//alert(_this.comboVtype.getValue());
 			_this.glnoDialog.show();
 		};	
 		
@@ -494,7 +508,7 @@ items:[{
 		            name: 'telf1',
 		            labelWidth: 93,
 		            width: 290,
-		            emptyText: 'xxx-xxx-xxxx',
+		            emptyText: 'xxx-xxxxxxx',
 		            maskRe: /[\d\-]/,
                 }, {
 					xtype: 'textfield',
@@ -502,7 +516,7 @@ items:[{
 		            name: 'telfx',
 		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
-		            regexText: 'Must be in the format xxx-xxxxxx',
+		            //regexText: 'Must be in the format xxx-xxxxxx',
             		margin: '0 0 0 50',
                 }]
                 
@@ -584,7 +598,7 @@ items:[{
 		            name: 'tel02',
 		            labelWidth: 93,
 		            width: 290,
-		            emptyText: 'xxx-xxx-xxxx',
+		            emptyText: 'xxx-xxxxxxx',
 		            maskRe: /[\d\-]/,
                 }, {
 					xtype: 'textfield',
@@ -593,7 +607,7 @@ items:[{
 		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
 		            //regex: /^\d{2}-\d{6}$/,
-		            regexText: 'Must be in the format xxx-xxxxxx',
+		            //regexText: 'Must be in the format xxx-xxxxxx',
             		margin: '0 0 0 50',
                 }]
                 
@@ -619,7 +633,9 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboPay, this.numberCredit,{
+                items :[this.comboPay, 
+					    this.numberCredit,
+					{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
 						width:25,
@@ -630,27 +646,13 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Tax ID',
-					name: 'taxid',
-		            maskRe: /[\d]/,
-		            width: 290,
-               	},this.comboPleve2,{
-                }],
+                items :[this.numberLimit,this.comboPleve2]
             },{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboTaxnr,{
-					xtype: 'textfield',
-					fieldLabel: 'Credit Limit Amt',
-		            name: 'apamt',
-		            labelAlign: 'right',
-		            maskRe: /[\d\.]/,
-            		margin: '0 0 0 56',
-                }]
+                items :[this.comboTaxnr,this.numberVat]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -662,9 +664,22 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
+                items :[{
+					xtype: 'textfield',
+					fieldLabel: 'Tax ID',
+					name: 'taxid',
+		            maskRe: /[\d]/,
+		            width: 290,
+               	},{
+                }],
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
                 items :[this.trigGlno,{
 						xtype: 'displayfield',
-						name: 'sgtxt_gl',
+						name: 'sgtxt',
 						margins: '0 0 0 6',
 						width:286,
 						allowBlank: false
@@ -677,7 +692,7 @@ items:[{
                 items: [{
 					xtype: 'textarea',
 					fieldLabel: 'Text Note',
-					name: 'sgtxt',
+					name: 'note1',
 					rows:2,
 					width:290
                 },this.comboQStatus]

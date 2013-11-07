@@ -1,7 +1,18 @@
 Ext.define('Account.Customertype.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-
+        /*Ext.apply(this, {
+			url: __site_url+'customertype/save',
+			border: false,
+			//bodyPadding: 10,
+			fieldDefaults: {
+				labelAlign: 'right',
+				//labelWidth: 130,
+				//width:300,
+				labelStyle: 'font-weight:bold'
+			}
+		});*/
+		
 		return this.callParent(arguments);
 	},
 
@@ -82,7 +93,10 @@ Ext.define('Account.Customertype.GridItem', {
 				type: 'textfield'
 			},
 		},{
-			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,
+			text: "GL no", 
+			width: 100,
+			dataIndex: 'saknr', 
+			sortable: true,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -95,7 +109,10 @@ Ext.define('Account.Customertype.GridItem', {
 			},
 			sortable: false
 		},{
-			text: "GL Description", width: 100, dataIndex: 'sgtxt', sortable: true
+			text: "GL Description", 
+			width: 150, 
+			dataIndex: 'sgtxt', 
+			sortable: true
 		}];
 
 		this.plugins = [this.editing];
@@ -106,7 +123,6 @@ Ext.define('Account.Customertype.GridItem', {
 			_this.addRecord();
 		});
 
-
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){
 				var v = e.value;
@@ -114,7 +130,7 @@ Ext.define('Account.Customertype.GridItem', {
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
+					url: __site_url+'gl/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -126,14 +142,8 @@ Ext.define('Account.Customertype.GridItem', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.saknr);
-							rModel.set(e.field, r.data.sgtxt);
-							
+							rModel.set('sgtxt', r.data.sgtxt);
 
-							// change cell price value
-							//rModel.set('price', 100+Math.random());
-
-							// change cell amount value
-							//rModel.set('amount', 100+Math.random());
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -151,11 +161,6 @@ Ext.define('Account.Customertype.GridItem', {
 				rModel.set('saknr', record.data.saknr);
 				rModel.set('sgtxt', record.data.sgtxt);
 
-				// change cell price value
-				//rModel.set('price', 100+Math.random());
-
-				// change cell amount value
-				//rModel.set('amount', 100+Math.random());
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
@@ -163,6 +168,7 @@ Ext.define('Account.Customertype.GridItem', {
 
 		return this.callParent(arguments);
 	},
+	
 	load: function(options){
 		//alert("1234");
 		this.store.load({
@@ -187,29 +193,6 @@ Ext.define('Account.Customertype.GridItem', {
 			sorters: ['id_ktype ASC']
 		});
 	},
-	
-
-	/*
-	addRecord: function(){
-		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
-		this.store.each(function(r){
-			if(r.get('id_vtype')<newId)
-				newId = r.get('id_vtype');
-		});
-			alert(r.get('id_vtype'));
-		newId--;
-
-		// add new record
-		rec = { id_vtype:newId, vtype:'', ventx:'', saknr:'', sgtxt:''       };
-		edit = this.editing;
-		edit.cancelEdit();
-		this.store.insert(0, rec);
-		edit.startEditByPosition({
-			row: 0,
-			column: 0
-		});
-	},*/
 	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
@@ -238,9 +221,38 @@ Ext.define('Account.Customertype.GridItem', {
 		this.runNumRow();
 	},
 	
+	save : function(){
+		var _this=this;
+		
+		var r_data = this.getData();
+		Ext.Ajax.request({
+			url: __site_url+'customertype/save',
+			method: 'POST',
+			params: {
+				ktyp: Ext.encode(r_data)
+			},
+			success: function(response){
+				var r = Ext.decode(response.responseText);
+				if(r && r.success){
+					Ext.Msg.alert('SUCCESS');
+		       }else{
+		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+		       }
+			}
+		});
+	},
+	
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
+		this.runNumRow();
 	},
+	
+	reset: function(){
+		//this.getForm().reset();
+		// สั่ง grid load เพื่อเคลียร์ค่า
+		this.grid.load({ ktype: 0 });
+	},
+	
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
@@ -252,7 +264,7 @@ Ext.define('Account.Customertype.GridItem', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('id_vtype', row_num++);
+			r.set('id_ktype', row_num++);
 		});
-	},
+	}
 });
