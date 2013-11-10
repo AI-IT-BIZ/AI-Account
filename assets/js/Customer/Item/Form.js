@@ -268,7 +268,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Limit Amt',
 			name: 'apamt',
-			labelAlign: 'right',
+			//labelAlign: 'right',
 			hideTrigger:false,
 			//align: 'right',
 			width:290

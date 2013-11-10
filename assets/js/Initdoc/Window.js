@@ -1,9 +1,9 @@
-Ext.define('Account.Vendortype.Window', {
+Ext.define('Account.Initdoc.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Vendor type Request',
+			title: 'Create/Edit Initdoc Type',
 			closeAction: 'hide',
 			height: 420,
 			width: 450,
@@ -17,27 +17,26 @@ Ext.define('Account.Vendortype.Window', {
 	},
 	initComponent : function() {
 		var _this=this;
-
-		this.grid = Ext.create('Account.Vendortype.GridItem', {
+		
+		this.grid = Ext.create('Account.Initdoc.GridItem', {
 			region:'center'
 		});
 
-		this.items = [this.form, this.grid];
+		this.items = [this.grid];
 
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
 				//var rs = _this.grid.getData();
-				//_this.form.hdnItem.setValue(Ext.encode(rs));
+				//_this.grid.hdnItem.setValue(Ext.encode(rs));
 
-				//_this.form.save();
 				_this.grid.save();
-				//_this.hide();
+				//_this.grid.load();
 			}
 		},{
 			text: 'Cancel',
 			handler: function() {
-				//_this.form.getForm().reset();
+				//_this.grid.getForm().reset();
 				_this.hide();
 			}
 		}];
