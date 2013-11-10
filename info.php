@@ -1,3 +1,4 @@
 <?php
-phpinfo();  //test commit Kitipong
+echo 'test commit';
+phpinfo();  //test commit Charoen77
 ?>  
