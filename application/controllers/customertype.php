@@ -58,12 +58,12 @@ class Customertype extends CI_Controller {
 	function save(){
 		//echo "vendor type";
 		
-		// start transaction
+		//start transaction
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		//$this->db->truncate('ktyp'); 
-		$this->db->delete('ktyp');
+		$this->db->truncate('ktyp');
+		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
 		$ktyp = $this->input->post('ktyp');

@@ -36,7 +36,7 @@ Ext.define('Account.Customertype.Window', {
 		},{
 			text: 'Cancel',
 			handler: function() {
-				_this.grid.getForm().reset();
+				//_this.grid.getForm().reset();
 				_this.hide();
 			}
 		}];

@@ -1,7 +1,18 @@
-Ext.define('Account.Vendortype.GridItem', {
+Ext.define('Account.Customertype.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-
+        /*Ext.apply(this, {
+			url: __site_url+'customertype/save',
+			border: false,
+			//bodyPadding: 10,
+			fieldDefaults: {
+				labelAlign: 'right',
+				//labelWidth: 130,
+				//width:300,
+				labelStyle: 'font-weight:bold'
+			}
+		});*/
+		
 		return this.callParent(arguments);
 	},
 
@@ -26,22 +37,25 @@ Ext.define('Account.Vendortype.GridItem', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'vendortype/loads',
+				url: __site_url+'initdoc/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_vtype'
+					idProperty: 'id'
 				}
 			},
 			fields: [
-				{ name:'id_vtype', type:'int' },
-				'vtype',
-				'ventx',
-				'saknr',
-				'sgtxt'
+				{ name:'id', type:'int' },
+				'objnr',
+				'modul',
+				'grpmo',
+				'sgtxt',
+				'short',
+				'minnr',
+				'perio'
 			],
 			remoteSort: false,
-			sorters: ['id_vtype ASC']
+			sorters: ['id ASC']
 		});
 
 		this.columns = [{
@@ -57,8 +71,8 @@ Ext.define('Account.Vendortype.GridItem', {
 			}]
 		},{
 			id : 'PMiRowNumber',
-			header : "Type ID",
-			dataIndex : 'id_vtype',
+			header : "Object ID",
+			dataIndex : 'id',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -66,36 +80,50 @@ Ext.define('Account.Vendortype.GridItem', {
 				return rowIndex+1;
 			}
 		},{
-			text: "Type Code ",
+			text: "Object Code ",
 		    width: 80,
-		    dataIndex: 'vtype',
+		    dataIndex: 'objnr',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
 			},
 		},{
-			text: "Type Description",
+			text: "Object Desc.",
 		    width: 100,
-		    dataIndex: 'ventx',
+		    dataIndex: 'sgtxt',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
 			},
 		},{
-			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
+			text: "Group No.", 
+			width: 100,
+			dataIndex: 'grpmo', 
+			sortable: true
 		},{
-			text: "GL Description", width: 100, dataIndex: 'sgtxt', sortable: true
+			text: "Short", 
+			width: 100,
+			dataIndex: 'grpmo', 
+			sortable: true,
+			field: {
+				type: 'textfield'
+				}
+		},{
+			text: "Start No.", 
+			width: 100,
+			dataIndex: 'minnr', 
+			sortable: true,
+			field: {
+				type: 'textfield'
+				}
+		},{
+			text: "Period No.", 
+			width: 100,
+			dataIndex: 'perio', 
+			sortable: true,
+			field: {
+				type: 'textfield'
+				}
 		}];
 
 		this.plugins = [this.editing];
@@ -106,7 +134,6 @@ Ext.define('Account.Vendortype.GridItem', {
 			_this.addRecord();
 		});
 
-
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){
 				var v = e.value;
@@ -114,7 +141,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
+					url: __site_url+'gl/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -127,6 +154,7 @@ Ext.define('Account.Vendortype.GridItem', {
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.saknr);
 							rModel.set('sgtxt', r.data.sgtxt);
+
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -143,6 +171,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				// change cell code value (use db value)
 				rModel.set('saknr', record.data.saknr);
 				rModel.set('sgtxt', record.data.sgtxt);
+
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
@@ -152,29 +181,27 @@ Ext.define('Account.Vendortype.GridItem', {
 	},
 	
 	load: function(options){
+		//alert("1234");
 		this.store.load({
-			params: options
-		});
-	},
-	
-	save : function(){
-		var _this=this;
-		
-		var r_data = this.getData();
-		Ext.Ajax.request({
-			url: __site_url+'vendortype/save',
-			method: 'POST',
-			params: {
-				ktyp: Ext.encode(r_data)
+			params: options,
+			proxy: {
+				type: 'ajax',
+				url: __site_url+'customertype/loads',
+				reader: {
+					type: 'json',
+					root: 'rows',
+					idProperty: 'id_ktype'
+				}
 			},
-			success: function(response){
-				var r = Ext.decode(response.responseText);
-				if(r && r.success){
-					Ext.Msg.alert('SUCCESS');
-		       }else{
-		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-		       }
-			}
+			fields: [
+				{ name:'id_ktype', type:'int' },
+				'ktype',
+				'custx',
+				'saknr',
+				'sgtxt'
+			],
+			remoteSort: false,
+			sorters: ['id_ktype ASC']
 		});
 	},
 	
@@ -205,9 +232,38 @@ Ext.define('Account.Vendortype.GridItem', {
 		this.runNumRow();
 	},
 	
+	save : function(){
+		var _this=this;
+		
+		var r_data = this.getData();
+		Ext.Ajax.request({
+			url: __site_url+'customertype/save',
+			method: 'POST',
+			params: {
+				ktyp: Ext.encode(r_data)
+			},
+			success: function(response){
+				var r = Ext.decode(response.responseText);
+				if(r && r.success){
+					Ext.Msg.alert('SUCCESS');
+		       }else{
+		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+		       }
+			}
+		});
+	},
+	
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
+		this.runNumRow();
 	},
+	
+	reset: function(){
+		//this.getForm().reset();
+		// สั่ง grid load เพื่อเคลียร์ค่า
+		this.grid.load({ ktype: 0 });
+	},
+	
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
@@ -219,7 +275,7 @@ Ext.define('Account.Vendortype.GridItem', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('id_vtype', row_num++);
+			r.set('id_ktype', row_num++);
 		});
-	},
+	}
 });
