@@ -67,6 +67,11 @@ Ext.onReady(function() {
 			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		$om.quotationDialog.show();
 	});
+	$om.viewport.on('click_deposit1', function(){
+		if(!$om.deposit1Dialog)
+			$om.deposit1Dialog = Ext.create('Account.DepositIn.MainWindow');
+		$om.deposit1Dialog.show();
+	});
 	$om.viewport.on('click_saleorder', function(){
 		if(!$om.saleorderDialog)
 			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
@@ -87,7 +92,7 @@ Ext.onReady(function() {
 			$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 		$om.receiptDialog.show();
 	});
-	$om.viewport.on('click_rproject', function(){
+	/*$om.viewport.on('click_rproject', function(){
 		if(!$om.rprojectDialog)
 			$om.rprojectDialog = Ext.create('Account.RProject.MainWindow');
 		$om.rprojectDialog.show();
@@ -96,7 +101,7 @@ Ext.onReady(function() {
 		if(!$om.rquotationDialog)
 			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
 		$om.rquotationDialog.show();
-	});
+	});*/
 	$om.viewport.on('click_rinvoice', function(){
 		if(!$om.rinvoiceDialog)
 			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
@@ -118,11 +123,12 @@ Ext.onReady(function() {
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
 	});
-	$om.viewport.on('click_gr', function(){
-		if(!$om.grDialog)
-			$om.grDialog = Ext.create('Account.GR.MainWindow');
-		$om.grDialog.show();
+	$om.viewport.on('click_deposit2', function(){
+		if(!$om.deposit2Dialog)
+			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
+		$om.deposit2Dialog.show();
 	});
+	
 	$om.viewport.on('click_ap', function(){
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
@@ -138,7 +144,12 @@ Ext.onReady(function() {
 			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		$om.paymentDialog.show();
 	});
-	$om.viewport.on('click_rpo', function(){
+	$om.viewport.on('click_employee', function(){
+		if(!$om.employeeDialog)
+			$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
+		$om.employeeDialog.show();
+	});
+	/*$om.viewport.on('click_rpo', function(){
 		if(!$om.rpoDialog)
 			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
 		$om.rpoDialog.show();
@@ -147,7 +158,7 @@ Ext.onReady(function() {
 		if(!$om.rprDialog)
 			$om.rprDialog = Ext.create('Account.RPR.MainWindow');
 		$om.rprDialog.show();
-	});
+	});*/
 	$om.viewport.on('click_rgr', function(){
 		if(!$om.rgrDialog)
 			$om.rgrDialog = Ext.create('Account.RGR.MainWindow');

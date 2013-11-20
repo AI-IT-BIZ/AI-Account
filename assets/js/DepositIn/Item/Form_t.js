@@ -1,9 +1,9 @@
-Ext.define('Account.Billto.Item.Form_t', {
+Ext.define('Account.DepositIn.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'billto/save',
+			url: __site_url+'depositin/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -17,9 +17,10 @@ Ext.define('Account.Billto.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtTotal = Ext.create('Ext.form.field.Text', {
+		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
+			alwaysDisplayDecimals: true,
 			labelWidth: 155,
 			width:270,
 			//margin: '0 0 0 175',
@@ -59,9 +60,11 @@ Ext.define('Account.Billto.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		this.txtInterest = Ext.create('Ext.form.field.Text', {
+		
+		this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
+            alwaysDisplayDecimals: true,
 			name: 'ccc',
 			align: 'right',
 			margin: '4 0 0 0',
@@ -70,6 +73,20 @@ Ext.define('Account.Billto.Item.Form_t', {
 			readOnly: true
 
          });
+         
+        this.txtRate = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Exchange Rate',
+			align: 'right',
+			width:240,
+			editable: false,
+			hideTrigger:true,
+			alwaysDisplayDecimals: true,
+			decimalPrecision : 4,
+			name: 'exchg',
+			align: 'right'
+         });
+         
 		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
@@ -88,6 +105,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 		this.items = [{
 			xtype: 'container',
             layout: 'hbox',
+            //anchor: '100%',
             defaultType: 'textfield',
             //margin: '5 0 5 600',
         items: [{
@@ -96,21 +114,19 @@ Ext.define('Account.Billto.Item.Form_t', {
      items :[{
 			xtype: 'container',
             layout: 'hbox',
+            //anchor: '100%',
             //margin: '5 0 5 600',
-        items: [{
-            xtype: 'displayfield',
-			//fieldLabel: 'Exchange Rate',
-			//name: 'exchg',
-			//labelAlign: 'right',
-			width:240,
-			align: 'right',
-			//margin: '0 0 0 -35'
-         },{
+        items: [this.txtRate,{
    	        xtype: 'displayfield',
 			align: 'right',
 			margin: '0 0 0 5',
-			width:60,
-			//value: 'THB/USD'
+			width:20,
+			value: 'THB/'
+		},{
+   	        xtype: 'displayfield',
+   	        name: 'curr1',
+   	        margin: '0 0 0 7',
+			width:30
 		}]
 		},{
    	        xtype: 'textfield',
@@ -144,6 +160,14 @@ Ext.define('Account.Billto.Item.Form_t', {
 			defaultType: 'textfield',
 			//margin: '5 0 5 600',
 	items: [
+		//this.txtTax
+		//,{
+		//	xtype: 'displayfield',
+		//	align: 'right',
+		//	width:10,
+		//	margin: '4 0 0 0',
+		//	value: '%'
+		//},
 		this.txtInterest
 	]
 	},
@@ -170,12 +194,14 @@ Ext.define('Account.Billto.Item.Form_t', {
 
 		return this.callParent(arguments);
 	},
+	
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'billto/load'
+			url:__site_url+'depositin/load'
 		});
 	},
+	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
@@ -191,20 +217,22 @@ Ext.define('Account.Billto.Item.Form_t', {
 			});
 		}
 	},
+	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'billto/remove',
+			url:__site_url+'invoice/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
 	},
+	
 	// calculate function
 	calculate: function(){
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
+		var total = this.txtTotal.getValue();//.replace(',',''),
+			total = parseFloat(total);
 			total = isNaN(total)?0:total;
 
 		//console.log(total);
@@ -230,7 +258,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			this.txtDiscount.setValue('0.00');
+			this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
@@ -239,6 +267,11 @@ Ext.define('Account.Billto.Item.Form_t', {
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
 			taxValue = isNaN(taxValue)?0:taxValue;
+    
+			//if(taxValue>0){
+				//taxValue = taxValue * total / 100;
+				//this.txtTaxValue.setValue(Ext.util.Format.usMoney(taxValue).replace(/\$/, ''));
+			//}
 		}else{
 			this.txtInterest.setValue('');
 		}

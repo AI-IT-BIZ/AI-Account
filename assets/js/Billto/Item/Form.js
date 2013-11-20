@@ -341,7 +341,7 @@ Ext.define('Account.Billto.Item.Form', {
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-		var net = this.formTotal.calculate();
+		//var net = this.formTotal.calculate();
 		//this.gridPayment.netValue = net;
 	}
 	

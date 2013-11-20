@@ -66,32 +66,30 @@ function endsWith($haystack, $needle)
 		#div-project { top:30px; left:30px; width: 210px; height:100px; }
 		#div-quotation { top:160px; left:30px; width: 90px; height:90px; }
 		#div-customer { top:160px; left:150px; width: 90px; height:90px; }
-		#div-saleorder { top:280px; left:30px; width: 90px; height:90px; }
-		#div-invoice { top:280px; left:150px; width: 90px; height:90px; }
-		#div-receipt { top:400px; left:30px; width: 90px; height:90px; }
-		#div-billto { top:400px; left:150px; width: 90px; height:90px; }
+		#div-deposit1 { top:280px; left:30px; width: 90px; height:90px; }
+		#div-saleorder { top:280px; left:150px; width: 90px; height:90px; }
+		#div-invoice { top:400px; left:150px; width: 90px; height:90px; }
+		#div-billto { top:400px; left:30px; width: 90px; height:90px; }
+		#div-receipt { top:520px; left:30px; width: 210px; height:100px; }
 
-		#div-rproject { position:absolute; top:510px; left:30px; width: 100px; height:100px; }
-		#div-rquotation { position:absolute; top:510px; left:140px; width: 100px; height:100px; }
-		#div-rinvoice { position:absolute; top:620px; left:30px; width: 100px; height:100px; }
-		#div-rreceipt { position:absolute; top:620px; left:140px; width: 100px; height:100px; }
-		#div-config { position:absolute; top:730px; left:30px; width: 210px; height:100px; }
+		#div-rinvoice { position:absolute; top:630px; left:30px; width: 100px; height:100px; }
+		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
+		#div-config { position:absolute; top:740px; left:30px; width: 210px; height:100px; }
 
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-2-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-pr { top:30px; left:280px; width: 210px; height:100px; }
 		#div-po { top:160px; left:280px; width: 90px; height:90px; }
 		#div-vendor { top:160px; left:400px; width: 90px; height:90px; }
-		#div-gr { top:280px; left:280px; width: 90px; height:90px; }
-		#div-ap { top:280px; left:400px; width: 90px; height:90px; }
-		#div-payment { top:400px; left:280px; width: 90px; height:90px; }
-		#div-billfrom { top:400px; left:400px; width: 90px; height:90px; }
+		#div-deposit2 { top:280px; left:280px; width: 90px; height:90px; }
+		#div-gr { top:280px; left:400px; width: 90px; height:90px; }
+		#div-ap { top:400px; left:400px; width: 90px; height:90px; }
+		#div-billfrom { top:400px; left:280px; width: 90px; height:90px; }
+		#div-payment { top:520px; left:280px; width: 210px; height:100px; }
 
-		#div-rpr { position:absolute; top:510px; left:280px; width: 100px; height:100px; }
-		#div-rpo { position:absolute; top:510px; left:390px; width: 100px; height:100px; }
-		#div-rgr { position:absolute; top:620px; left:280px; width: 100px; height:100px; }
-		#div-rap { position:absolute; top:620px; left:390px; width: 100px; height:100px; }
-		#div-rpayment { position:absolute; top:730px; left:280px; width: 100px; height:100px; }
+		#div-rap { position:absolute; top:630px; left:280px; width: 100px; height:100px; }
+		#div-rpayment { position:absolute; top:630px; left:390px; width: 100px; height:100px; }
+		#div-employee { position:absolute; top:740px; left:280px; width: 100px; height:100px; }
 
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -131,6 +129,7 @@ function endsWith($haystack, $needle)
 
 		.s-proj { background-image: url('assets/images/tb-icons/doc_excel.png') !important; }
 		.s-quot { background-image: url('assets/images/tb-icons/doc_new2.png') !important; }
+		.s-dep { background-image: url('assets/images/tb-icons/doc_depin.png') !important; }
 		.s-sale { background-image: url('assets/images/tb-icons/doc_new3.png') !important; }
 		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
@@ -138,6 +137,7 @@ function endsWith($haystack, $needle)
 
 		.p-pr { background-image: url('assets/images/tb-icons/doc_pr.png') !important; }
 		.p-po { background-image: url('assets/images/tb-icons/doc_order.png') !important; }
+		.p-dep { background-image: url('assets/images/tb-icons/doc_depout.png') !important; }
 		.p-gr { background-image: url('assets/images/tb-icons/doc_gr.png') !important; }
 		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
 		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
@@ -190,6 +190,8 @@ function endsWith($haystack, $needle)
 		#arrow-home-05 { width:30px; top:321px; left:120px; }
 		#arrow-home-06 { height:30px; top:370px; left:190px; }
 		#arrow-home-07 { width:30px; top:441px; left:120px; }
+		#arrow-home-15 { height:30px; top:490px; left:71px; }
+		#arrow-home-17 { height:30px; top:490px; left:190px; }
 
 		#arrow-home-08 { height:30px; top:130px; left:320px; }
 		#arrow-home-09 { height:30px; top:130px; left:440px; }
@@ -198,6 +200,8 @@ function endsWith($haystack, $needle)
 		#arrow-home-12 { width:30px; top:321px; left:370px; }
 		#arrow-home-13 { height:30px; top:370px; left:440px; }
 		#arrow-home-14 { width:30px; top:440px; left:370px; }
+		#arrow-home-16 { height:30px; top:490px; left:320px; }
+		#arrow-home-18 { height:30px; top:490px; left:440px; }
 	</style>
 </head>
 <body>
@@ -271,7 +275,6 @@ function endsWith($haystack, $needle)
 				text: 'Create New Customers',
 				leaf: true
 			};
-
 
 			var groupSale = {
 				text: 'Sales',
@@ -484,10 +487,9 @@ function endsWith($haystack, $needle)
 									'<div id="div-invoice" class="box box-green"><span>Invoices</span></div>',
 									'<div id="div-billto" class="box box-green"><span>Bill to Customers</span></div>',
 									'<div id="div-receipt" class="box box-green"><span>Receipt</span></div>',
+									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipt</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
 
-									'<div id="div-rproject" class="box box-orange"><span>Projects Report</span></div>',
-									'<div id="div-rquotation" class="box box-orange"><span>Quotations Report</span></div>',
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
 									'<div id="div-rreceipt" class="box box-orange"><span>Receipt Report</span></div>',
 									'<div id="div-config" class="box box-base"><span>Configure BizNet Accounts</span></div>',
@@ -500,13 +502,12 @@ function endsWith($haystack, $needle)
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
 									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
 									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
+									'<div id="div-deposit2" class="box box-red"><span>Deposit Payment</span></div>',
 									'<div id="div-billfrom" class="box box-red"><span>Bill from Vendors</span></div>',
 
-									'<div id="div-rpr" class="box box-orange"><span>PR Report</span></div>',
-									'<div id="div-rpo" class="box box-orange"><span>PO Report</span></div>',
-									'<div id="div-rgr" class="box box-orange"><span>GR Report</span></div>',
 									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
 									'<div id="div-rpayment" class="box box-orange"><span>Payment Report</span></div>',
+									'<div id="div-employee" class="box box-orange"><span>Employee</span></div>',
 								'</div>',
 								//Account Module
 								'<div id="div1-3-container">',
@@ -553,6 +554,10 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-12" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-home-13" class="arrow arrow-down"><span></span></div>',
 								'<div id="arrow-home-14" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-home-15" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-16" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-17" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-18" class="arrow arrow-down"><span></span></div>',
 							'</div>',
 							'<div id="sales-container" style="display:none;">',
 								'<img src="'+__base_url+'assets/images/temp/bg-sales.gif?v=1" />',
@@ -583,9 +588,8 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
 								pEl.getById('div-saleorder').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
 								pEl.getById('div-billto').on('click', function(){ $om.viewport.fireEvent('click_billto', c); }, c);
+								pEl.getById('div-deposit1').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
 
-								pEl.getById('div-rproject').on('click', function(){ $om.viewport.fireEvent('click_rproject', c); }, c);
-								pEl.getById('div-rquotation').on('click', function(){ $om.viewport.fireEvent('click_rquotation', c); }, c);
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
 								pEl.getById('div-rreceipt').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
 								pEl.getById('div-config').on('click', function(){ $om.viewport.fireEvent('click_config', c); }, c);
@@ -597,12 +601,11 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-ap').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
 								pEl.getById('div-payment').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
 								pEl.getById('div-billfrom').on('click', function(){ $om.viewport.fireEvent('click_billfrom', c); }, c);
+								pEl.getById('div-deposit2').on('click', function(){ $om.viewport.fireEvent('click_deposit2', c); }, c);
 
-								pEl.getById('div-rpo').on('click', function(){ $om.viewport.fireEvent('click_rpo', c); }, c);
-								pEl.getById('div-rpr').on('click', function(){ $om.viewport.fireEvent('click_rpr', c); }, c);
-								pEl.getById('div-rgr').on('click', function(){ $om.viewport.fireEvent('click_rgr', c); }, c);
 								pEl.getById('div-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
 								pEl.getById('div-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
+								pEl.getById('div-employee').on('click', function(){ $om.viewport.fireEvent('click_employee', c); }, c);
 								//Material Module
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-otincome').on('click', function(){ $om.viewport.fireEvent('click_otincome', c); }, c);
@@ -726,6 +729,12 @@ function endsWith($haystack, $needle)
 				            iconCls: 's-quot',
                 			cls: 'x-btn-as-arrow'
 				        },{
+				            text: 'Deposit In',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-dep',
+                			cls: 'x-btn-as-arrow'
+				        },{
 				            text: 'Sale Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -772,6 +781,12 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-po',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Deposit Out',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-dep',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Goods Receipts',

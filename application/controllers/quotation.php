@@ -144,7 +144,7 @@ class Quotation extends CI_Controller {
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 		}
-
+        $net = $this->input->post('netwr');
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -225,18 +225,22 @@ class Quotation extends CI_Controller {
 		$payp = $this->input->post('payp');//$this->input->post('vbelp');
 		$pp_item_array = json_decode($payp);
 		if(!empty($payp) && !empty($pp_item_array)){
-
-			$item_index = 0;
+            $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pp_item_array AS $p){
+				$perct = $p->perct;	
+                $perct = $perct / 100;
+                $pramt = $perct * $net;
+			    
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,
 					'paypr'=>++$item_index,
 					'sgtxt'=>$p->sgtxt,
 					'duedt'=>$p->duedt,
 					'perct'=>$p->perct,
-					'pramt'=>$p->pramt,
-					'ctyp1'=>$p->ctyp1
+					'pramt'=>$pramt,
+					'ctyp1'=>$p->ctyp1,
+					'payty'=>$p->payty
 				));
 			}
 		}

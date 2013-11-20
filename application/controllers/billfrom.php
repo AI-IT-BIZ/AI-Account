@@ -94,6 +94,18 @@ class Billfrom extends CI_Controller {
 			$query = $this->db->get('ebkk');
 		}
 		
+		// start transaction
+		$this->db->trans_start();
+		// เตรียมข้อมูล receipt item
+		$ebkp = $this->input->post('ebkp');
+		$bt_item_array = json_decode($ebkp);
+		
+		if(!empty($bt_item_array)){
+			//$result = $bt_item_array->first_row('array');
+			//print_r($bt_item_array);
+		    $ctype = $bt_item_array[0]->ctyp1;
+		}
+		
 		$formData = array(
 			//'recnr' => $this->input->post('recnr'),
 			'bldat' => $this->input->post('bldat'),
@@ -101,12 +113,13 @@ class Billfrom extends CI_Controller {
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
+			'ctype' => $ctype,
 			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
 		// start transaction
-		$this->db->trans_start();  
+		//$this->db->trans_start();  
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('bilnr', $id);
@@ -116,7 +129,6 @@ class Billfrom extends CI_Controller {
 		}else{
 			$id = $this->code_model->generate('BF', 
 			$this->input->post('bldat'));
-			//echo ($id);
 			$this->db->set('bilnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
@@ -129,8 +141,8 @@ class Billfrom extends CI_Controller {
 		$this->db->delete('ebkp');
 
 		// เตรียมข้อมูล receipt item
-		$ebkp = $this->input->post('ebkp');
-		$bt_item_array = json_decode($ebkp);
+		//$ebkp = $this->input->post('ebkp');
+		//$bt_item_array = json_decode($ebkp);
 		//echo $this->db->last_query();
 		
 		if(!empty($ebkp) && !empty($bt_item_array)){
@@ -147,7 +159,7 @@ class Billfrom extends CI_Controller {
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
-				'ctype'=>$p->ctype
+				'ctyp1'=>$p->ctyp1
 			));
 	    	}
 		}

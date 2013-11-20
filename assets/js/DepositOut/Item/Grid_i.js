@@ -1,4 +1,4 @@
-Ext.define('Account.Quotation.Item.Grid_p', {
+Ext.define('Account.DepositOut.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -16,6 +16,10 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			iconCls: 'b-small-copy'
 		});
 
+		// INIT Invoice search popup /////////////////////////////////
+		// this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		// END Invoice search popup //////////////////////////////////
+
 		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -25,22 +29,21 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"quotation/loads_pay_item",
+				url: __site_url+"depositout/loads_dp_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln,paypr'
+					idProperty: 'depnr,paypr'
 				}
 			},
 			fields: [
-			    'vbeln',
+			    //'vbeln',
 				'paypr',
 				'sgtxt',
 				'duedt',
 				'perct',
 				'pramt',
-				'ctyp1',
-				'payty'
+				'ctyp1'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -54,12 +57,12 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete QT Payment',
+				tooltip: 'Delete Deposit Payment',
 				scope: this,
 				handler: this.removeRecord2
 			}]
 			},{
-			id : 'RowNumber41',
+			id : 'RowNumber4',
 			text : "Periods No.",
 			dataIndex : 'paypr',
 			width : 90,
@@ -92,21 +95,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
                 //minText: 'Cannot have a start date before the company existed!',
                 //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
             }
-			},{
-            xtype: 'checkcolumn',
-            text: 'Deposit',
-            dataIndex: 'payty',
-            width: 70,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },
+			},
 			{text: "Percent",
 			width: 70,
 			xtype: 'numbercolumn',
@@ -130,7 +119,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			dataIndex: 'pramt',
 			xtype: 'numbercolumn',
 			//sortable: true,
-			align: 'right',
+			align: 'right'/*,
 			renderer: function(v,p,r){
 				var net = _this.netValue;
 				var perc = parseFloat(r.data['perct']);
@@ -140,7 +129,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				var amt = (perc * net) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-				}
+				}*/
 			},
 			{text: "Currency",
 			width: 70,
@@ -158,7 +147,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 
 		// init event
 		this.addAct.setHandler(function(){
-			_this.addRecord2();
+			_this.addRecord();
 		});
 
 		return this.callParent(arguments);
@@ -170,7 +159,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		});
 	},
 
-	addRecord2: function(){
+	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -180,7 +169,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, pramt:'0.00', ctyp1:'THB' };
+		rec = { id:newId };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -192,16 +181,16 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			column: 0
 		});
 
-		this.runNumRow2();
+		this.runNumRow();
 	},
 
-	removeRecord2: function(grid, rowIndex){
+	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 
-		this.runNumRow2();
+		this.runNumRow();
 	},
 
-	runNumRow2: function(){
+	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
 			r.set('paypr', row_num++);
@@ -214,6 +203,5 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-	netValue : 0
+	}
 });

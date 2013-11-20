@@ -1,13 +1,13 @@
-Ext.define('Account.Billto.MainWindow', {
+Ext.define('Account.DepositOut.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Bill To Customer',
+			title: 'Deposit Payment',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 960,
+			width: 950,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -56,9 +56,9 @@ Ext.define('Account.Billto.MainWindow', {
 			iconCls: 'b-small-export'
 		});
 		
-		this.itemDialog = Ext.create('Account.Billto.Item.Window');
+		this.itemDialog = Ext.create('Account.DepositOut.Item.Window');
 
-		this.grid = Ext.create('Account.Billto.Grid', {
+		this.grid = Ext.create('Account.DepositOut.Grid', {
 			region:'center',
 			border: false
 		});
@@ -83,7 +83,7 @@ Ext.define('Account.Billto.MainWindow', {
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({bilnr: id});
+				_this.itemDialog.form.gridItem.load({depnr: id});
 			    //_this.itemDialog.form.gridPayment.load({recnr: id});
 			}
 		});

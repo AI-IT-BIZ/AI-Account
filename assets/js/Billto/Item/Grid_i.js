@@ -47,7 +47,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				'payrc',
 				'reman',
 				//'belnr',
-				'ctype'
+				'ctyp1'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -149,7 +149,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
-			dataIndex: 'ctype',
+			dataIndex: 'ctyp1',
 			sortable: false,
 			align: 'center',
 			field: {
@@ -192,7 +192,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
 							// Currency
-							rModel.set('ctype', r.data.ctype);
+							rModel.set('ctyp1', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -219,7 +219,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
-				rModel.set('ctype', record.data.ctype);
+				rModel.set('ctyp1', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
 
 			}

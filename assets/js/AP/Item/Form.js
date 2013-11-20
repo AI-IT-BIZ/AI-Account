@@ -75,6 +75,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.comboTax = Ext.create('Ext.form.ComboBox', {			
 			fieldLabel: 'Vat Type',
 			name: 'taxnr',
+			labelAlign: 'right',
 			width:240,
 			editable: false,
 			allowBlank : false,

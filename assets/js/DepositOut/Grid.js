@@ -1,4 +1,4 @@
-Ext.define('Account.Receipt.Grid', {
+Ext.define('Account.DepositOut.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,17 +8,17 @@ Ext.define('Account.Receipt.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"receipt/loads",
+				url: __site_url+"depositout/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'recnr'
+					idProperty: 'depnr'
 				}
 			},
 			fields: [
-			    'recnr',
+			    'depnr',
 				'bldat',
-				'duedt',
+				'vbeln',
 				'kunnr',
 				'name1',
 				'txz01',
@@ -27,21 +27,20 @@ Ext.define('Account.Receipt.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['recnr ASC']
+			sorters: ['depnr ASC']
 		});
 
 		this.columns = [
-		    {text: "Receipt No", 
-		    width: 100, align: 'center', dataIndex: 'recnr', sortable: true},
+		    {text: "Deposit No", 
+		    width: 100, align: 'center', dataIndex: 'depnr', sortable: true},
 			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'bldat', sortable: true},
-			{text: "Receipt Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', 
-			dataIndex: 'duedt', sortable: true},
-		    {text: "Customer No", 
+            {text: "PO No", 
+		    width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
+		    {text: "Vendor No", 
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
+			{text: "Vendor Name", 
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 200, dataIndex: 'txz01', sortable: true},
