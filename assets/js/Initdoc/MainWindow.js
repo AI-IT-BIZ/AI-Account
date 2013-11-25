@@ -1,12 +1,12 @@
-Ext.define('Account.Initdoc.Window', {
+Ext.define('Account.Initdoc.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
 			title: 'Create/Edit Initdoc Type',
 			closeAction: 'hide',
-			height: 420,
-			width: 450,
+			height: 580,
+			width: 850,
 			layout: 'border',
 			resizable: true,
 			modal: true,

@@ -2,6 +2,17 @@ Ext.define('Account.PO.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
+        /*************************************/
+        var btnPOPrint =  Ext.create('Ext.Button', {
+            id:'btnPOPrint-PO-Window',
+        	iconCls: 'b-small-print',
+            text: 'Print',
+            width: 50,
+            handler: function() {
+                      window.open("application/form/report.php");
+            }
+        });
+        /************************************/
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Order',
 			closeAction: 'hide',
@@ -10,7 +21,8 @@ Ext.define('Account.PO.Item.Window', {
 			layout: 'border',
 			border: false,
 			resizable: true,
-			modal: true
+			modal: true,
+            tbar:[btnPOPrint]
 		});
 
 		return this.callParent(arguments);
@@ -23,6 +35,8 @@ Ext.define('Account.PO.Item.Window', {
 		this.items = [
 		     this.form
 		];
+        
+        
 
 		this.buttons = [{
 			text: 'Save',

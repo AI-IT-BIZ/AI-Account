@@ -60,7 +60,7 @@ class Initdoc extends CI_Controller {
 		// start transaction
 		//$this->db->trans_start();  
 		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
+		// ลบ Init doc ภายใต้ id ทั้งหมด
 		$this->db->truncate('init'); 
 
 		// เตรียมข้อมูล payment item
@@ -78,7 +78,10 @@ class Initdoc extends CI_Controller {
 				'sgtxt'=>$p->sgtxt,
 				'short'=>$p->short,
 				'minnr'=>$p->minnr,
-				'perio'=>$p->perio
+				'perio'=>$p->perio,
+				'tname'=>$p->tname,
+				'tcode'=>$p->tcode
+				
 			));
 	    	}
 		}

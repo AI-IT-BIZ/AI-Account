@@ -75,6 +75,17 @@ function endsWith($haystack, $needle)
 		#div-rinvoice { position:absolute; top:630px; left:30px; width: 100px; height:100px; }
 		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
 		#div-config { position:absolute; top:740px; left:30px; width: 210px; height:100px; }
+		
+		#div-saleorder2 { top:160px; left:150px; width: 130px; height:210px; }
+		#div-saleorder3 { top:160px; left:310px; width: 90px; height: 90px; }
+		
+		#div-invoice2 { top:280px; left:310px; width: 90px; height: 90px; }
+		#div-invoice3 { top:160px; left:430px; width: 130px; height:210px; }
+		
+		#div-billto2 { top:160px; left:590px; width: 90px; height: 90px; }
+		
+		#div-receipt2 { top:280px; left:590px; width: 90px; height: 90px; }
+		#div-receipt3 { top:160px; left:710px; width: 130px; height:210px; }
 
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-2-container div span { position:absolute; bottom:10px; left:10px; }
@@ -90,6 +101,21 @@ function endsWith($haystack, $needle)
 		#div-rap { position:absolute; top:630px; left:280px; width: 100px; height:100px; }
 		#div-rpayment { position:absolute; top:630px; left:390px; width: 100px; height:100px; }
 		#div-employee { position:absolute; top:740px; left:280px; width: 100px; height:100px; }
+		
+		#div-pr2 { top:30px; left:30px; width: 210px; height:100px; }
+		#div-po2 { top:160px; left:30px; width: 90px; height:90px; }
+		#div-deposit21 { top:280px; left:30px; width: 90px; height:90px; }
+		
+		#div-gr2 { top:160px; left:150px; width: 130px; height:210px; }
+		#div-gr3 { top:160px; left:310px; width: 90px; height: 90px; }
+		
+		#div-ap2 { top:280px; left:310px; width: 90px; height: 90px; }
+		#div-ap3 { top:160px; left:430px; width: 130px; height:210px; }
+		
+		#div-billfrom2 { top:160px; left:590px; width: 90px; height: 90px; }
+		
+		#div-payment2 { top:280px; left:590px; width: 90px; height: 90px; }
+		#div-payment3 { top:160px; left:710px; width: 130px; height:210px; }
 
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -108,6 +134,19 @@ function endsWith($haystack, $needle)
 		#div-rap-aging { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
 		#div-rmm-aging { position:absolute; top:730px; left:530px; width: 100px; height:100px; }
 		#div-rmm-stockcard { position:absolute; top:730px; left:640px; width: 100px; height:100px; }
+		
+		#div-income2 { top:30px; left:150px; width: 100px; height:100px; }
+		#div-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
+		#div-journal2 { top:140px; left:150px; width: 210px; height:100px; }
+		#div-manage-costcenter2 { top:250px; left:150px; width: 100px; height:100px; }
+		#div-chart-account2 { position:absolute; top:250px; left:260px; width: 100px; height:100px; }
+		#div-asset-regist2 { top:360px; left:150px; width: 100px; height:100px; }
+		#div-dep-amort2 { position:absolute; top:360px; left:260px; width: 100px; height:100px; }
+
+		#div-rjournal2 { position:absolute; top:510px; left:150px; width: 100px; height:100px; }
+		#div-rgl2 { position:absolute; top:510px; left:260px; width: 100px; height:100px; }
+		#div-rar-aging2 { position:absolute; top:620px; left:150px; width: 100px; height:100px; }
+		#div-rap-aging2 { position:absolute; top:620px; left:260px; width: 100px; height:100px; }
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
@@ -120,12 +159,28 @@ function endsWith($haystack, $needle)
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+		
+		#div-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
+		#div-balance2 { top:30px; left:260px; width: 100px; height:100px; }
+		#div-material2 { top:140px; left:150px; width: 100px; height:100px; }
+		#div-service2 { top:140px; left:260px; width: 100px; height:100px; }
+		#div-otincome2 { top:250px; left:150px; width: 100px; height:100px; }
+		#div-otexpense2 { top:250px; left:260px; width: 100px; height:100px; }
+
+		#div-rtransaction2 { position:absolute; top:400px; left:150px; width: 100px; height:100px; }
+		#div-rbalance2 { position:absolute; top:400px; left:260px; width: 100px; height:100px; }
 
 		/* Toolbar */
 		.h-invoice { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.h-reciept { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
 		.h-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
 		.h-report { background-image: url('assets/images/tb-icons/doc_report3.png') !important; }
+		
+		.ms-comp { background-image: url('assets/images/tb-icons/doc_comp.png') !important; }
+		.ms-init { background-image: url('assets/images/tb-icons/doc_information.png') !important; }
+		.ms-user { background-image: url('assets/images/tb-icons/doc_user.png') !important; }
+		.ms-auth { background-image: url('assets/images/tb-icons/doc_auth.png') !important; }
+		.ms-empl { background-image: url('assets/images/tb-icons/doc_user2.png') !important; }
 
 		.s-proj { background-image: url('assets/images/tb-icons/doc_excel.png') !important; }
 		.s-quot { background-image: url('assets/images/tb-icons/doc_new2.png') !important; }
@@ -134,6 +189,9 @@ function endsWith($haystack, $needle)
 		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
 		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
+		
+		.s-cust { background-image: url('assets/images/tb-icons/doc_user1.png') !important; }
+		.s-sman { background-image: url('assets/images/tb-icons/doc_user7.png') !important; }
 
 		.p-pr { background-image: url('assets/images/tb-icons/doc_pr.png') !important; }
 		.p-po { background-image: url('assets/images/tb-icons/doc_order.png') !important; }
@@ -142,6 +200,8 @@ function endsWith($haystack, $needle)
 		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
 		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
 		.p-pay { background-image: url('assets/images/tb-icons/doc_payment.png') !important; }
+		
+		.p-vend { background-image: url('assets/images/tb-icons/doc_user6.png') !important; }
 		
 		.a-income { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
 		.a-journalt { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
@@ -202,6 +262,34 @@ function endsWith($haystack, $needle)
 		#arrow-home-14 { width:30px; top:440px; left:370px; }
 		#arrow-home-16 { height:30px; top:490px; left:320px; }
 		#arrow-home-18 { height:30px; top:490px; left:440px; }
+		
+		#arrow-sale-01 { width:30px; top:200px; left:280px; }
+		#arrow-sale-02 { width:150px; top:260px; left:280px; }
+		#arrow-sale-03 { width:30px; top:321px; left:280px; }
+		
+		#arrow-sale-04 { width:30px; top:200px; left:400px; }
+		#arrow-sale-05 { width:30px; top:321px; left:400px; }
+		
+		#arrow-sale-06 { width:30px; top:200px; left:560px; }
+		#arrow-sale-07 { width:150px; top:260px; left:560px; }
+		#arrow-sale-08 { width:30px; top:321px; left:560px; }
+		
+		#arrow-sale-09 { width:30px; top:200px; left:680px; }
+		#arrow-sale-10 { width:30px; top:321px; left:680px; }
+		
+		#arrow-purc-01 { width:30px; top:200px; left:280px; }
+		#arrow-purc-02 { width:150px; top:260px; left:280px; }
+		#arrow-purc-03 { width:30px; top:321px; left:280px; }
+		
+		#arrow-purc-04 { width:30px; top:200px; left:400px; }
+		#arrow-purc-05 { width:30px; top:321px; left:400px; }
+		
+		#arrow-purc-06 { width:30px; top:200px; left:560px; }
+		#arrow-purc-07 { width:150px; top:260px; left:560px; }
+		#arrow-purc-08 { width:30px; top:321px; left:560px; }
+		
+		#arrow-purc-09 { width:30px; top:200px; left:680px; }
+		#arrow-purc-10 { width:30px; top:321px; left:680px; }
 	</style>
 </head>
 <body>
@@ -230,26 +318,6 @@ function endsWith($haystack, $needle)
 					nodeSetup
 				]
 			};
-
-			/*var nodeMakePayment = {
-				text: 'Make a Payment',
-				leaf: true
-			};
-			var nodeRecievePayment = {
-				text: 'Recieve a Payment',
-				leaf: true
-			};
-
-			var groupTransaction = {
-				text: 'Transactions',
-				leaf: false,
-				expanded: true,
-				singleClickExpand : true,
-				children: [
-					nodeMakePayment,
-					nodeRecievePayment
-				]
-			};*/
 
 			var nodeProject = {
 				text: 'Create New Projects',
@@ -424,23 +492,44 @@ function endsWith($haystack, $needle)
 					nodeReport3
 				]
 			};
-
+            
+            var nodeCompany = {
+				text: 'Company Define',
+				leaf: true
+			};
+			var nodeInit = {
+				text: 'Initail Doc No.',
+				leaf: true
+			};
+			var nodeUser = {
+				text: 'User Define',
+				leaf: true
+			};
+			var nodeAuth = {
+				text: 'Authorize Setting',
+				leaf: true
+			};
 			var nodeChart = {
 				text: 'Chart of Accounts',
 				leaf: true
 			};
-			var nodeOption = {
-				text: 'Options',
+			var nodeEmployee = {
+				text: 'Employee',
 				leaf: true
 			};
+			
 			var groupConfig = {
 				text: 'Configuration',
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
 				children: [
+				    nodeCompany,
+				    nodeInit,
+				    nodeUser,
+				    nodeAuth,
 					nodeChart,
-					nodeOption
+					nodeEmployee
 				]
 			};
 
@@ -486,8 +575,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-saleorder" class="box box-green"><span>Sale Orders</span></div>',
 									'<div id="div-invoice" class="box box-green"><span>Invoices</span></div>',
 									'<div id="div-billto" class="box box-green"><span>Bill to Customers</span></div>',
-									'<div id="div-receipt" class="box box-green"><span>Receipt</span></div>',
-									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipt</span></div>',
+									'<div id="div-receipt" class="box box-green"><span>Receipts</span></div>',
+									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
 
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
@@ -501,8 +590,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-gr" class="box box-red"><span>Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
 									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
-									'<div id="div-payment" class="box box-red"><span>Payment</span></div>',
-									'<div id="div-deposit2" class="box box-red"><span>Deposit Payment</span></div>',
+									'<div id="div-payment" class="box box-red"><span>Payments</span></div>',
+									'<div id="div-deposit2" class="box box-red"><span>Deposit Payments</span></div>',
 									'<div id="div-billfrom" class="box box-red"><span>Bill from Vendors</span></div>',
 
 									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
@@ -560,10 +649,106 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-home-18" class="arrow arrow-down"><span></span></div>',
 							'</div>',
 							'<div id="sales-container" style="display:none;">',
-								'<img src="'+__base_url+'assets/images/temp/bg-sales.gif?v=1" />',
+								'<div id="div1-1-container">',
+									'<div id="div-project" class="box box-green"><span>Create New Projects</span></div>',
+									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
+									'<div id="div-saleorder2" class="box box-green"><span>Create New Sale Order</span></div>',
+									'<div id="div-saleorder3" class="box box-green"><span>Sale Orders</span></div>',
+									'<div id="div-invoice2" class="box box-green"><span>invoices</span></div>',
+									'<div id="div-invoice3" class="box box-green"><span>Create New Invoice</span></div>',
+									'<div id="div-billto2" class="box box-green"><span>Bill to Customers</span></div>',
+									'<div id="div-receipt2" class="box box-green"><span>Receipts</span></div>',
+									'<div id="div-receipt3" class="box box-green"><span>Create New Receipt</span></div>',
+									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
+
+								'</div>',
+								// arrow
+								'<div id="arrow-home-01" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-03" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-home-04" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-05" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-01" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-02" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-03" class="arrow arrow-right"><span></span></div>',
+								
+								'<div id="arrow-sale-04" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-05" class="arrow arrow-left"><span></span></div>',
+								
+								'<div id="arrow-sale-06" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-07" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-08" class="arrow arrow-right"><span></span></div>',
+								
+								'<div id="arrow-sale-09" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-sale-10" class="arrow arrow-left"><span></span></div>',
+							'</div>',
+							'<div id="purchase-container" style="display:none;">',
+								'<div id="div1-2-container">',
+									'<div id="div-pr2" class="box box-red"><span>Create New Purchase Requisitions</span></div>',
+									'<div id="div-po2" class="box box-red"><span>Purchase Orders</span></div>',
+									'<div id="div-gr2" class="box box-red"><span>Create New Goods Receipt</span></div>',
+									'<div id="div-gr3" class="box box-red"><span>Goods Receipts</span></div>',
+									'<div id="div-ap2" class="box box-red"><span>Account Payables</span></div>',
+									'<div id="div-ap3" class="box box-red"><span>Create New Account Payable</span></div>',
+									'<div id="div-billfrom2" class="box box-red"><span>Bill from Vendors</span></div>',
+									'<div id="div-payment2" class="box box-red"><span>Payments</span></div>',
+									'<div id="div-payment3" class="box box-red"><span>Create New Payment</span></div>',
+									'<div id="div-deposit21" class="box box-red"><span>Deposit Payments</span></div>',
+
+								'</div>',
+								// arrow
+								'<div id="arrow-home-01" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-03" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-home-04" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-home-05" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-01" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-02" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-03" class="arrow arrow-right"><span></span></div>',
+								
+								'<div id="arrow-purc-04" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-05" class="arrow arrow-left"><span></span></div>',
+								
+								'<div id="arrow-purc-06" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-07" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-08" class="arrow arrow-right"><span></span></div>',
+								
+								'<div id="arrow-purc-09" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-purc-10" class="arrow arrow-left"><span></span></div>',
+							'</div>',
+							'</div>',
+							'<div id="account-container" style="display:none;">',
+								'<div id="div1-3-container">',
+									'<div id="div-income2" class="box box-blue"><span>Income Statement</span></div>',
+									'<div id="div-journaltemp2" class="box box-blue"><span>Journal Template</span></div>',
+									'<div id="div-journal2" class="box box-blue"><span>Journal</span></div>',
+									'<div id="div-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
+									'<div id="div-chart-account2" class="box box-blue"><span>Chart of Account</span></div>',
+									'<div id="div-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
+									'<div id="div-dep-amort2" class="box box-blue"><span>Depreciation& Amortization</span></div>',
+
+									'<div id="div-rjournal2" class="box box-orange"><span>Journal Report</span></div>',
+									'<div id="div-rgl2" class="box box-orange"><span>GL Report</span></div>',
+									'<div id="div-rar-aging2" class="box box-orange"><span>AR Aging Report</span></div>',
+									'<div id="div-rap-aging2" class="box box-orange"><span>AP Aging Report</span></div>',
+								'</div>',
+							'</div>',
+							'<div id="material-container" style="display:none;">',
+								'<div id="div1-4-container">',
+								    '<div id="div-transaction2" class="box box-purple"><span>Inventory Transactions</span></div>',
+									'<div id="div-balance2" class="box box-purple"><span>Inventory Balances</span></div>',
+									'<div id="div-otincome2" class="box box-purple"><span>Other Incomes</span></div>',
+									'<div id="div-otexpense2" class="box box-purple"><span>Other Expenses</span></div>',
+									'<div id="div-material2" class="box box-purple"><span>Inventories Master</span></div>',
+									'<div id="div-service2" class="box box-purple"><span>Services Master</span></div>',
+
+									'<div id="div-rtransaction2" class="box box-orange"><span>Transaction Report</span></div>',
+									'<div id="div-rbalance2" class="box box-orange"><span>Balance Report</span></div>',
+								'</div>',
+							'</div>',
+							'<div id="config-container" style="display:none;">',
+								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
 							'</div>',
 							'<div id="reports-container" style="display:none;">',
-								'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
+								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
 							'</div>'
 						].join(''),
 						listeners : {
@@ -624,25 +809,41 @@ function endsWith($haystack, $needle)
 				var cEl = centerPanel.getEl(),
 					homeCtnr = cEl.getById('home-container'),
 					salesCtnr = cEl.getById('sales-container'),
+					purchCtnr = cEl.getById('purchase-container'),
+					accountCtnr = cEl.getById('account-container'),
+					matCtnr = cEl.getById('material-container'),
+					configCtnr = cEl.getById('config-container'),
 					reportsCtnr = cEl.getById('reports-container');
 
 				homeCtnr.setVisibilityMode(Ext.Element.DISPLAY);
 				salesCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				purchCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				accountCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				matCtnr.setVisibilityMode(Ext.Element.DISPLAY);
+				configCtnr.setVisibilityMode(Ext.Element.DISPLAY);
 				reportsCtnr.setVisibilityMode(Ext.Element.DISPLAY);
 
 				homeCtnr.hide();
 				salesCtnr.hide();
+				purchCtnr.hide();
+				accountCtnr.hide();
+				matCtnr.hide();
+				configCtnr.hide();
 				reportsCtnr.hide();
 
 				switch(tab.title){
 					case 'Home': homeCtnr.show(); break;
 					case 'Sales': salesCtnr.show(); break;
+					case 'Purchases': purchCtnr.show(); break;
+					case 'Accounts': accountCtnr.show(); break;
+					case 'Materials': matCtnr.show(); break;
+					case 'Configuration': configCtnr.show(); break;
 					case 'Reports': reportsCtnr.show(); break;
 					default: homeCtnr.show();
 				}
 			};
 
-			// NORTH PANEL
+// NORTH PANEL Menu
 			var tabs = Ext.widget('tabpanel', {
 				region:'north',
 		        activeTab: 0,
@@ -764,6 +965,18 @@ function endsWith($haystack, $needle)
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
                 			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Customer',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-cust',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Sale Person',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-sman',
+                			cls: 'x-btn-as-arrow'
 				        }]
 		            },{
 		                title: 'Purchases',
@@ -818,9 +1031,15 @@ function endsWith($haystack, $needle)
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
                 			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Vendor',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-vend',
+                			cls: 'x-btn-as-arrow'
 				        }]
 		            },{
-		                title: 'Account',
+		                title: 'Accounts',
 		                listeners: {
 							activate: changeCenterView
 						},
@@ -919,6 +1138,42 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow'
+				        }]
+		            },{
+		                title: 'Configuration',
+		                listeners: {
+							activate: changeCenterView
+						},
+		                tbar: [{
+				            text: 'Company Define',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-comp',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Initial Doc No',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-init',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'User Define',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-user',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Autorize Setting',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-auth',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Employee',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-empl',
                 			cls: 'x-btn-as-arrow'
 				        }]
 		            },{

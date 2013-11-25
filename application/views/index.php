@@ -6,9 +6,9 @@ Ext.onReady(function() {
 		//$om.invoiceDialog.show();
     
     $om.viewport.on('click_config', function(){
-		if(!$om.configDialog)
-			$om.configDialog = Ext.create('Account.Company.MainWindow');
-		$om.configDialog.show();
+		if(!$om.initdocDialog)
+			$om.initdocDialog = Ext.create('Account.Initdoc.MainWindow');
+		$om.initdocDialog.show();
 	});
     
 	$om.viewport.on('click_income', function(){
