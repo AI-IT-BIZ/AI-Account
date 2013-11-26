@@ -9,7 +9,7 @@ Ext.define('Account.PO.Item.Window', {
             text: 'Print',
             width: 50,
             handler: function() {
-                      window.open("application/form/report.php");
+                     window.open("index.php/form_po");
             }
         });
         /************************************/
