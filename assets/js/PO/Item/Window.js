@@ -10,6 +10,7 @@ Ext.define('Account.PO.Item.Window', {
             width: 50,
             handler: function() {
                      window.open("index.php/form_po");
+                     
             }
         });
         /************************************/

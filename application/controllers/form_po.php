@@ -346,28 +346,7 @@ class Form_PO extends CI_Controller {
        
     </form>
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+    
      
         </body>
    
