@@ -223,11 +223,9 @@ Ext.define('Account.AP.Item.Form', {
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'Purchase No',
-					    name: 'purnr',
-						fieldLabel: 'Purchase No',
-						name: 'purnr',
-						value: 'PRXXXX-XXXX',
+					    fieldLabel: 'AP No',
+					    name: 'invnr',
+						value: 'TIXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						readOnly: true,

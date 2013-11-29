@@ -137,6 +137,7 @@ class Po extends CI_Controller {
 			'purnr' => $this->input->post('purnr'),
 			'ptype' => $this->input->post('ptype'),
 			'terms' => $this->input->post('terms'),
+			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
@@ -175,6 +176,8 @@ class Po extends CI_Controller {
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 			foreach($qt_item_array AS $p){
+				$itamt = $p->menge * $p->unitp;
+				$itamt = $itamt - $p->disit;
 				$this->db->insert('ekpo', array(
 					'ebeln'=>$id,
 					'ebelp'=>++$item_index,//vbelp,
@@ -183,7 +186,7 @@ class Po extends CI_Controller {
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
 					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'itamt'=>$itamt,
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype
 				));

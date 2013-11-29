@@ -37,6 +37,11 @@ Ext.define('Account.PR.Item.Window', {
 				_this.form.gridItem.load({ purnr: 0 });
 				_this.hide();
 			}
+		}, {
+			text: 'Preview',
+			handler: function() {
+				window.open("index.php/form/pr");
+			}
 		}];
 		return this.callParent(arguments);
 	}

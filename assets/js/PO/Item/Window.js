@@ -3,7 +3,7 @@ Ext.define('Account.PO.Item.Window', {
 	constructor:function(config) {
 
         /*************************************/
-        var btnPOPrint =  Ext.create('Ext.Button', {
+        /*var btnPOPrint =  Ext.create('Ext.Button', {
             id:'btnPOPrint-PO-Window',
         	iconCls: 'b-small-print',
             text: 'Print',
@@ -22,8 +22,8 @@ Ext.define('Account.PO.Item.Window', {
 			layout: 'border',
 			border: false,
 			resizable: true,
-			modal: true,
-            tbar:[btnPOPrint]
+			modal: true//,
+            //tbar:[btnPOPrint]
 		});
 
 		return this.callParent(arguments);
@@ -49,6 +49,11 @@ Ext.define('Account.PO.Item.Window', {
 			handler: function() {
 				_this.form.getForm().reset();
 				_this.hide();
+			}
+		}, {
+			text: 'Preview',
+			handler: function() {
+				window.open("index.php/form/po");
 			}
 		}];
 		return this.callParent(arguments);

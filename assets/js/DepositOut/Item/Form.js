@@ -244,7 +244,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
-			
+			_this.gridItem.curValue = r.data.ctype;
+			_this.gridItem.amtValue = r.data.netwr;
 			//---Load PRitem to POitem Grid-----------
 			//var qtnr = _this.trigQuotation.value;
 			//alert(qtnr);
@@ -264,6 +265,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.gridItem.amtValue = record.data.netwr;
             
             Ext.Ajax.request({
 					url: __site_url+'po/load',
@@ -276,6 +278,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.gridItem.curValue = r.data.ctype;
+			//_this.gridItem.netValue = r.data.netwr;
 			       }
 				}
 				});           
@@ -480,12 +484,16 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
-			var itamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+			var itamt = 0;
+			var perct = parseFloat(r.data['perct'].replace(/[^0-9.]/g, ''));
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			itamt = isNaN(itamt)?0:itamt;
+			var nets = _this.amtValue;
+			perct = isNaN(perct)?0:perct;
 			//pay = isNaN(pay)?0:pay;
 
 			//var amt = itamt - pay;
+			itamt = nets * perct;
+			itamt = itamt / 100;
 			sum += itamt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);

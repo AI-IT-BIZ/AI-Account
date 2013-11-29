@@ -209,7 +209,7 @@ class Quotation extends CI_Controller {
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
 					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'itamt'=>$itamt,
 					'ctype'=>$p->ctype,
 					'chk01'=>$p->chk01,
 					'chk02'=>$p->chk02

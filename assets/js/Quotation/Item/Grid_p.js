@@ -115,7 +115,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			align: 'right',
 			field: {
                 type: 'numberfield',
-                decimalPrecision: 2,
+                //decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();

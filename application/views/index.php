@@ -128,7 +128,11 @@ Ext.onReady(function() {
 			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
 		$om.deposit2Dialog.show();
 	});
-	
+	$om.viewport.on('click_gr', function(){
+		if(!$om.grDialog)
+			$om.grDialog = Ext.create('Account.GR.MainWindow');
+		$om.grDialog.show();
+	});
 	$om.viewport.on('click_ap', function(){
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');

@@ -104,7 +104,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			align: 'right',
 			field: {
                 type: 'numberfield',
-                decimalPrecision: 2,
+                //decimalPrecision: 2,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
@@ -119,17 +119,17 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			dataIndex: 'pramt',
 			xtype: 'numbercolumn',
 			//sortable: true,
-			align: 'right'/*,
+			align: 'right',
 			renderer: function(v,p,r){
-				var net = _this.netValue;
+				var nets = _this.amtValue;
 				var perc = parseFloat(r.data['perct']);
 				perc = isNaN(perc)?0:perc;
-				if(perc>0){
+				//if(perc>0){
                 //net = isNaN(net)?0:net;
-				var amt = (perc * net) / 100;
+				var amt = (perc * nets) / 100;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+				//}
 				}
-				}*/
 			},
 			{text: "Currency",
 			width: 70,
@@ -160,6 +160,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 	},
 
 	addRecord: function(){
+		_this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -167,9 +168,11 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+        
+        var cur = _this.curValue;
+        var amts = _this.amtValue;
 		// add new record
-		rec = { id:newId };
+		rec = { id:newId, ctyp1:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
