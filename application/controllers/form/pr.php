@@ -32,6 +32,12 @@ class PR extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+
+<script type="text/javascript">
+	function do_print() {
+		window.print()
+	}
+</script>
 <STYLE>
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}

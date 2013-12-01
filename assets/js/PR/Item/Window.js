@@ -20,6 +20,8 @@ Ext.define('Account.PR.Item.Window', {
 
 		this.form = Ext.create('Account.PR.Item.Form',{ region:'center' });
 
+		this.previewDialog = Ext.create('Account.PR.Item.PreviewWindow');
+
 		this.items = [
 		     this.form
 		];
@@ -27,7 +29,7 @@ Ext.define('Account.PR.Item.Window', {
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
 			handler: function() {
-				window.open("index.php/form/pr");
+				_this.previewDialog.openDialog(_this.dialogId);
 			}
 		});
 
@@ -49,14 +51,17 @@ Ext.define('Account.PR.Item.Window', {
 
 		return this.callParent(arguments);
 	},
+	dialogId: null,
 	openDialog: function(id){
 		if(id){
+			this.dialogId = id;
 			this.show(false);
 			this.form.load(id);
 			this.form.gridItem.load({purnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{
+			this.dialogId = null;
 			this.form.reset();
 			this.show(false);
 
