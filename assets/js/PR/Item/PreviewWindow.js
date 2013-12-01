@@ -21,28 +21,6 @@ Ext.define('Account.PR.Item.PreviewWindow', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.PR.Item.Form',{ region:'center' });
-/*
-		this.items = [new Ext.Panel({
-			bodyCfg: {
-	        	tag: 'div',
-				cls: 'x-panel-body',
-				children: [{
-					tag: 'iframe',
-					name: 'preview_frame',
-					id: 'preview_frame',
-					src: 'about:blank',
-					frameBorder: 0,
-					width: '100%',
-					height: '100%',
-					style: {
-						overflow: 'auto'
-					}
-				}]
-			},
-			region:'center'}
-		)];
-*/
 		this.items = [new Ext.Panel({
 			region:'center',
 			border: true,
@@ -62,21 +40,49 @@ Ext.define('Account.PR.Item.PreviewWindow', {
 			}]
         })];
 
-		this.buttons = [{
+        this.copies = new Ext.form.NumberField({
+        	name:'copies',
+        	allowBlank: false,
+        	allowDecimals : false,
+        	allowNegative : false,
+        	fieldLabel: 'Copies',
+        	labelAlign: 'right',
+        	labelWidth: 60,
+        	value: 1,
+        	minValue: 1, maxValue:500,
+        	width: 130
+        });
+
+		this.btnPrint = Ext.create('Ext.Button', {
 			text: 'Print',
 			handler: function() {
 				var id = 'preview_frame';
-
 				var iframe = document.frames ? document.frames[id] : document.getElementById(id);
 				var ifWin = iframe.contentWindow || iframe;
 				iframe.focus();
 				ifWin.do_print();
 			}
-		}];
+		});
+
+		this.buttons = [
+			this.copies,
+			this.btnPrint
+		];
 
 		this.on('hide', function(){
 			Ext.get('preview_frame').set({
 				src:'about:blank'
+			});
+			this.copies.setValue(1);
+		});
+
+		this.copies.on('change', function(copies, newVal, oldVal){
+			_this.showFrameLoad();
+			Ext.get('preview_frame').set({
+				src:_this.getFrameUrl(_this.dialogId, newVal)
+			});
+			_this.checkFrameReady(function(){
+				_this.hideFrameLoad();
 			});
 		});
 
@@ -89,9 +95,33 @@ Ext.define('Account.PR.Item.PreviewWindow', {
 			this.dialogId = id;
 			this.show(false, function(){
 				Ext.get('preview_frame').set({
-					src:__site_url+'form/pr/index/'+id
+					src:_this.getFrameUrl(id, _this.copies.getValue())
+				});
+				_this.showFrameLoad();
+				_this.checkFrameReady(function(){
+					_this.hideFrameLoad();
 				});
 			});
 		}
+	},
+	getFrameUrl: function(id, copies){
+		copies = copies || 1;
+		return __site_url+'form/pr/index/'+id+'/'+copies;
+	},
+	checkFrameReady: function(cb){
+		document.getElementById('preview_frame').onload = cb;
+	},
+	showFrameLoad: function(){
+        Ext.MessageBox.show({
+           msg: 'Populating preview...',
+           progressText: 'Loading...',
+           width:300,
+           wait:true,
+           waitConfig: {interval:200},
+           animateTarget: this
+       });
+	},
+	hideFrameLoad: function(){
+		Ext.MessageBox.hide();
 	}
 });

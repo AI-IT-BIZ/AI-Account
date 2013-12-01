@@ -12,16 +12,34 @@ class PR extends CI_Controller {
 
 	function index()
 	{
+		$no = $type = $this->uri->segment(4);
+		$copies = intval($type = $this->uri->segment(5));
+		if($copies<=0) $copies = 1;
+
 	    $strSQL = " select v_ebko.*,v_ebpo.* ,(v_ebpo.menge * v_ebpo.unitp) total_per_menge";
         $strSQL = $strSQL . " from v_ebko ";
         $strSQL = $strSQL . " left join v_ebpo on v_ebko.purnr = v_ebpo.purnr ";
-        $strSQL = $strSQL . " Where v_ebko.purnr = 'PR1309-1000' ";
+        $strSQL = $strSQL . " Where v_ebko.purnr = '$no' ";
+		$strSQL .= "ORDER BY purpr ASC";
 
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 
+		// calculate sum
+		$rows = $query->result_array();
+		foreach ($rows as $key => $item) {
+			$v_amt=0;$v=0;
+			if(!empty($r_data['chk01']))
+			{
+			   $v = $itamt * $r_data['taxpr'];
+			   $v = $v / 100;
+			   $v_amt += $v;
+			}
+		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 
  ie4up=nav4up=false;
@@ -64,11 +82,31 @@ class PR extends CI_Controller {
 .ad1-6 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
 .ad1-7 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
 .ad1-8 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
-</STYLE>
 
+.break { page-break-before: always; }
+
+</STYLE>
 <!--<TITLE>Crystal Report Viewer</TITLE>-->
+</head>
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<?php
+$current_copy_index = 0;
+for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
+
+	// check total page
+	$page_size = 10;
+	$total_count = count($rows);
+	$total_page = ceil($total_count / $page_size);
+	$real_current_page = 0;
+	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
+		echo '<div';
+		if($real_current_page>0)
+			echo ' class="break"';
+		echo ' style="position:relative; height:1100px;">';
+		$real_current_page++;
+?>
+
 <DIV style="z-index:0"> &nbsp; </div>
 
 <div style="left:460PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
@@ -182,12 +220,17 @@ class PR extends CI_Controller {
 <table border=0 cellpadding=0 cellspacing=0 width=285px height=93px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
+<!--Copies-->
+<?php if($current_copy_index>0): ?>
+<DIV style="left:571PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">สำเนา</span></DIV>
+<DIV style="left:605PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
+<?php else: ?>
+<DIV style="left:571PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
+<?php endif; ?>
+
 <!--Page No-->
-<?php
-   $t_page = $query->num_rows();
-?>
 <DIV style="left:635PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">Page</span></DIV>
-<DIV style="left:665PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?='1/'.$t_page;?></span></DIV>
+<DIV style="left:665PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
 <DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">PURCHASE REQUISITION</span></DIV>
@@ -210,7 +253,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
-<img  WIDTH=106 HEIGHT=100 SRC="../../../assets/images/icons/bmblogo.jpg">
+<img  WIDTH=106 HEIGHT=100 SRC="<?= base_url('assets/images/icons/bmblogo.jpg') ?>">
 </DIV>
 
 <!--Company Text-->
@@ -310,6 +353,7 @@ $lfdat_str = util_helper_format_date($r_data['lfdat']);
 <DIV style="left:660PX;top:373PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
 
 <?php
+/*
 $rows = $query->result_array();
 $i=397;$b_amt = 0;
 foreach ($rows as $key => $item) {
@@ -340,7 +384,35 @@ if(!empty($r_data['chk01']))
 }
 $i=397+20;
 }
+*/
 ?>
+<DIV style="left:49PX;top:397px">
+<table cellpadding="0" cellspacing="0" border="0">
+<?php
+$rows = $query->result_array();
+for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
+	$item = $rows[$i];
+	$b_amt = 0; $itamt = 0;
+	$itamt = $item['menge'] * $item['unitp'];
+	$itamt = $itamt - $item['disit'];
+	$b_amt += $itamt;
+?>
+	<tr>
+		<td class="fc1-8" align="center" style="width:32px;"><?=$item['purpr'];?></td>
+		<td class="fc1-8" align="center" style="width:77px;"><?=$item['matnr'];?></td>
+		<td class="fc1-8" align="center" style="width:218px;"><?=$item['maktx'];?></td>
+		<td class="fc1-8" align="center" style="width:71px;"><?=number_format($item['menge'],2,'.',',');?></td>
+		<td class="fc1-8" align="center" style="width:78px;"><?=number_format($item['unitp'],2,'.',',');?></td>
+		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
+		<td class="fc1-8" align="center" style="width:78px;"><?=number_format($item['disit'],2,'.',',');?></td>
+		<td class="fc1-8" align="center" style="width:88px;"><?=number_format($itamt,2,'.',',');?></td>
+	</tr>
+
+<?php
+endfor;
+?>
+</table>
+</DIV>
 
 <!--Footer Text-->
 <DIV style="left:465PX;top:664PX;width:194PX;height:23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
@@ -419,6 +491,13 @@ $i=397+20;
 
 <DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Collector</span></DIV>
 <BR>
+<?php
+		echo '</div>';
+	endfor; // end page for
+endfor; // end copy for
+?>
+
+
 </BODY></HTML>
 
 
