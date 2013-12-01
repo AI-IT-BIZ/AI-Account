@@ -30,7 +30,7 @@ class Quotation extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['vbeln'];
-            
+
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
 			                         $result_data['telfx'].
@@ -39,7 +39,7 @@ class Quotation extends CI_Controller {
 			                         PHP_EOL.'Tel: '.$result_data['tel02'].' '.'Fax: '.
 			                         $result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];
-			 
+
 			//$result['bldat']=substr($result['bldat'], 0, 10);
 
 			// unset calculated value
@@ -122,9 +122,9 @@ class Quotation extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -228,10 +228,10 @@ class Quotation extends CI_Controller {
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pp_item_array AS $p){
-				$perct = $p->perct;	
+				$perct = $p->perct;
                 $perct = $perct / 100;
                 $pramt = $perct * $net;
-			    
+
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,
 					'paypr'=>++$item_index,
@@ -355,8 +355,8 @@ class Quotation extends CI_Controller {
         $this->db->set_dbprefix('v_');
 		$qt_id = $this->input->get('vbeln');
 		$this->db->where('vbeln', $qt_id);
-		
-		$query = $this->db->get('vbap');	
+
+		$query = $this->db->get('vbap');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -392,13 +392,13 @@ class Quotation extends CI_Controller {
         if($query->num_rows()>0){
 			$rows = $query->result_array();
 			foreach($rows AS $row){
-				    
+
 					if($row['conty']=='01'){
 						if(empty($dismt)) $dismt=0;
 
 						$tamt = $amt - $disit;
 						$amt = $tamt;
-						
+
 						$result[$i] = array(
 					    'contx'=>$row['contx'],
 				     	'vtamt'=>$disit,

@@ -1,6 +1,10 @@
 Ext.define('Account.Quotation.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
+		Ext.apply(this, {
+			stateful: false
+		});
+
 		return this.callParent(arguments);
 	},
 
@@ -13,7 +17,8 @@ Ext.define('Account.Quotation.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'vbeln'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'vbeln',
@@ -32,31 +37,30 @@ Ext.define('Account.Quotation.Grid', {
 				'terms'
 			],
 			remoteSort: true,
-			sorters: ['vbeln ASC']
+			sorters: [{property: 'vbeln', direction: 'ASC'}]//,
+			//sorters: ['vbeln ASC']
+
 		});
 
 		this.columns = [
-		    {text: "Quotation No", 
+		    {text: "Quotation No",
 		    width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Quotation Date", xtype: 'datecolumn',
+			{text: "Quotation Date",// xtype: 'datecolumn',
 			width: 85, align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
-		    {text: "Customer No", 
+		    {text: "Customer No",
 		    width: 100, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 100, dataIndex: 'name1', sortable: true},
-			{text: "Project No", 
+			{text: "Project No",
 			width: 100, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'salnr'},
+			{text: "",/*xtype: 'hidden',*/width: 0, dataIndex: 'salnr'},
 			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
-			{text: "Amount", xtype: 'numbercolumn',
+			{text: "Amount", /*xtype: 'numbercolumn',*/
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'ptype'},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'taxnr'},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'terms'}
+			{text: "Currency",
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {
