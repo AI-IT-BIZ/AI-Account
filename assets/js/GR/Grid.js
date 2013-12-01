@@ -35,10 +35,15 @@ Ext.define('Account.GR.Grid', {
 
 		this.columns = [
 			{text: "GR Doc", flex: true, dataIndex: 'mbeln', sortable: true},
-			{text: "GR Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "GR Date", width: 125, 
+			xtype: 'datecolumn',
+			align: 'center', format:'d/m/Y',
+			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
+			{text: "Net Amount", flex: true, 
+			xtype: 'numbercolumn',
+			dataIndex: 'netwr', sortable: true},
 			{text: "GR Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 

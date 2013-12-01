@@ -35,7 +35,10 @@ Ext.define('Account.PO.Grid', {
 
 		this.columns = [
 			{text: "PO No", flex: true, dataIndex: 'ebeln', sortable: true},
-			{text: "PO Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "PO Date", width: 125, 
+			xtype: 'datecolumn',
+			align: 'center', format:'d/m/Y',
+			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true,xtype: 'numbercolumn', dataIndex: 'netwr', sortable: true},

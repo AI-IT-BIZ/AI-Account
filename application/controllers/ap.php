@@ -159,8 +159,7 @@ class Ap extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('ebrk', $formData);
 		}else{
-			
-			$id = $this->code_model->generate('TI', 
+			$id = $this->code_model->generate('IP', 
 			$this->input->post('bldat'));
 			$this->db->set('invnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
@@ -297,7 +296,7 @@ class Ap extends CI_Controller {
 
 
 	function loads_ap_item(){
-		$grdmbeln = $this->input->get('grdmbeln');
+		$grdmbeln = $this->input->get('grdgrnr');
 		
 		$ap_id = $this->input->get('invnr');
 		if(!empty($grdmbeln)){

@@ -40,7 +40,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'PR Status',
+			fieldLabel: 'AP Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -140,7 +140,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'belpr',
+			name: 'bven',
 		});
 
         this.trigGR = Ext.create('Ext.form.field.Trigger', {
@@ -215,17 +215,17 @@ Ext.define('Account.AP.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigVendor,{
+					},this.trigGR,{
 						xtype: 'displayfield',
-						name: 'name1',
-						margins: '0 0 0 6',
-						width:307,
+						//name: 'name1',
+						//margins: '0 0 0 6',
+						width:290,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'AP No',
+					    fieldLabel: 'AP Doc',
 					    name: 'invnr',
-						value: 'TIXXXX-XXXX',
+						value: 'IPXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						readOnly: true,
@@ -239,13 +239,26 @@ Ext.define('Account.AP.Item.Form', {
             		items:[{
 		                xtype: 'container',
 		                flex: 0,
-		                items :[ this.comboLifnr,{
-						    xtype: 'textarea',
-						    fieldLabel: 'Vendor Address',
-						    name: 'adr01',
-						    width: 450, 
-						    rows:3,
-		                },{xtype: 'container',
+		                layout: 'anchor',
+		                
+		                items :[{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.trigVendor,{
+								xtype: 'displayfield',
+								name: 'name1',
+								margins: '0 0 0 6',
+								width:160,
+								allowBlank: true 
+			                }]
+						}, {
+							xtype: 'textarea',
+							fieldLabel: 'Vendor Address',
+							name: 'adr01',
+							width: 450, 
+							rows:3,
+		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
 				 			items :[this.comboPay,this.numberVat]
@@ -256,41 +269,42 @@ Ext.define('Account.AP.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
-			                },this.numberCredit,{
-						xtype: 'displayfield',
-						margin: '0 0 0 5',
-						width:25,
-						value: 'Days'
-						}]
+			                },{}]
 		                }]
 		            },{
 		                xtype: 'container',
+		                flex: 0,
+		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [{
+		                items: [this.comboPtype,{
+		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'PR Date',
+							fieldLabel: 'AP Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-		                }, {
-							xtype: 'datefield',
-							fieldLabel: 'Delivery Date',
-							name: 'lfdat',
-							labelAlign: 'right',
-							width:240,
-							format:'d/m/Y',
-							altFormats:'Y-m-d|d/m/Y',
-							submitFormat:'Y-m-d',
-                		}, this.comboTax,
+		                }, this.comboTax,
                 		this.trigCurrency,
+                		{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[
+                		this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]},
 					    this.comboQStatus]
-		          }]
-			   }]
+		            }]
+				}]
+
 			}]
 		};
 		
@@ -307,6 +321,77 @@ Ext.define('Account.AP.Item.Form', {
 			]
 		}	
 		];
+		
+		// event trigGR///
+		this.trigGR.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'gr/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.mbeln);
+							_this.getForm().findField('lifnr').setValue(r.data.lifnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);			
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('adr01').setValue(r.data.adr01);
+						}else{
+							o.markInvalid('Could not find GR no : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		_this.grDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigGR.setValue(record.data.mbeln);
+			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			
+			var v = record.data.mbeln;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'gr/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+						}
+					}
+				});
+			 
+			grid.getSelectionModel().deselectAll();
+			//---Load PRitem to POitem Grid-----------
+			var grdgrnr = _this.trigGR.value;
+			//alert(grdpurnr);
+			_this.gridItem.load({grdgrnr: grdgrnr });
+			//----------------------------------------
+			_this.grDialog.hide();
+		});
+		
+		this.trigGR.onTriggerClick = function(){
+			_this.grDialog.show();
+		};
 		
 		// event trigVender///
 		this.trigVendor.on('keyup',function(o, e){

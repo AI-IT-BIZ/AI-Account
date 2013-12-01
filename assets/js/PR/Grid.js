@@ -35,7 +35,10 @@ Ext.define('Account.PR.Grid', {
 
 		this.columns = [
 			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
-			{text: "PR Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "PR Date", width: 125, 
+			xtype: 'datecolumn',
+			align: 'center', format:'d/m/Y',
+			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", xtype: 'numbercolumn',

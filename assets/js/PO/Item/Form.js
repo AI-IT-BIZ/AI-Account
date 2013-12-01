@@ -68,7 +68,7 @@ Ext.define('Account.PO.Item.Form', {
 		});	
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'PR Status',
+			fieldLabel: 'PO Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,

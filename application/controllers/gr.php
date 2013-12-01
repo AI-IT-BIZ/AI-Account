@@ -155,7 +155,7 @@ class Gr extends CI_Controller {
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('mbeln', $id);
 			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'somwang');
+			$this->db->set('upnam', 'test');
 			$this->db->update('mkpf', $formData);
 		}else{
 			
@@ -163,7 +163,7 @@ class Gr extends CI_Controller {
 		//echo $id; exit;
 			$this->db->set('mbeln', $id);
 			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'somwang');
+			$this->db->set('ernam', 'test');
 			$this->db->insert('mkpf', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -227,7 +227,7 @@ class Gr extends CI_Controller {
 
 
 	function loads_gr_item(){
-		$grdebeln = $this->input->get('grdebeln');
+		$grdebeln = $this->input->get('grdponr');
 		
 		$gr_id = $this->input->get('mbeln');
 		if(!empty($grdebeln)){

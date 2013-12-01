@@ -29,10 +29,15 @@ Ext.define('Account.AP.Grid', {
 
 		this.columns = [
 			{text: "AP Doc", flex: true, dataIndex: 'invnr', sortable: true},
-			{text: "AP Date", width: 125, dataIndex: 'bldat', sortable: true},
+			{text: "AP Date", width: 125, 
+			xtype: 'datecolumn',
+			align: 'center', format:'d/m/Y',
+			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
+			{text: "Net Amount", flex: true, 
+			xtype: 'numbercolumn',
+			dataIndex: 'netwr', sortable: true},
 			{text: "AP Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
