@@ -9,17 +9,17 @@ class PR extends CI_Controller {
 
 		$this->load->model('convert_amount','',TRUE);
 	}
-	
+
 	function index()
 	{
 	    $strSQL = " select v_ebko.*,v_ebpo.* ,(v_ebpo.menge * v_ebpo.unitp) total_per_menge";
         $strSQL = $strSQL . " from v_ebko ";
         $strSQL = $strSQL . " left join v_ebpo on v_ebko.purnr = v_ebpo.purnr ";
         $strSQL = $strSQL . " Where v_ebko.purnr = 'PR1309-1000' ";
-        
+
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
-        
+
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <script>
@@ -177,7 +177,7 @@ class PR extends CI_Controller {
 </DIV>
 
 <!--Page No-->
-<?php 
+<?php
    $t_page = $query->num_rows();
 ?>
 <DIV style="left:635PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">Page</span></DIV>
@@ -197,10 +197,10 @@ class PR extends CI_Controller {
 <DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['purnr'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
-<?php 
-list($y, $m, $d) = split('[/.-]', $r_data['bldat']); 
+<?php
+$bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:635PX;top:128PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$d.'-'.$m.'-'.$y?></span></DIV>
+<DIV style="left:635PX;top:128PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
@@ -272,10 +272,10 @@ list($y, $m, $d) = split('[/.-]', $r_data['bldat']);
 <DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันที่ส่งของ</span></DIV>
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Delivery Date</span></DIV>
-<?php 
-list($y, $m, $d) = split('[/.-]', $r_data['lfdat']); 
+<?php
+$lfdat_str = util_helper_format_date($r_data['lfdat']);
 ?>
-<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$d.'-'.$m.'-'.$y;?></span></DIV>
+<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?= $lfdat_str ?></span></DIV>
 
 
 <!--Item Table-->
@@ -316,7 +316,7 @@ foreach ($rows as $key => $item) {
 <DIV style="left:520PX;top:<?=$i?>PX;width:78PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=number_format($item['unitp'],2,'.',',');?></span></DIV>
 <DIV style="left:460PX;top:<?=$i?>PX;width:60PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=$item['meins'];?></span></DIV>
 <DIV style="left:578PX;top:<?=$i?>PX;width:78PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=number_format($item['disit'],2,'.',',');?></span></DIV>
-<?php 
+<?php
   $itamt = 0;
   $itamt = $item['menge'] * $item['unitp'];
   $itamt = $itamt - $item['disit'];
@@ -329,7 +329,7 @@ $v_amt=0;$v=0;
 if(!empty($r_data['chk01']))
 {
    $v = $itamt * $r_data['taxpr'];
-   $v = $v / 100; 
+   $v = $v / 100;
    $v_amt += $v;
 }
 $i=397+20;
@@ -374,7 +374,7 @@ $i=397+20;
 
 <DIV style="left:660PX;top:865PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">จำนวนเงิน&nbsp;&nbsp;Amount</span></DIV>
 
-<?php 
+<?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text-->
@@ -418,7 +418,7 @@ $i=397+20;
 
 <?php
 	}
-   
+
 }
 
 ?>
