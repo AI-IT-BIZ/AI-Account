@@ -1,9 +1,6 @@
 Ext.define('Account.Quotation.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-		Ext.apply(this, {
-			stateful: false
-		});
 
 		return this.callParent(arguments);
 	},
@@ -37,15 +34,14 @@ Ext.define('Account.Quotation.Grid', {
 				'terms'
 			],
 			remoteSort: true,
-			sorters: [{property: 'vbeln', direction: 'ASC'}]//,
-			//sorters: ['vbeln ASC']
+			sorters: [{property: 'vbeln', direction: 'ASC'}]
 
 		});
 
 		this.columns = [
 		    {text: "Quotation No",
 		    width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
-			{text: "Quotation Date",// xtype: 'datecolumn',
+			{text: "Quotation Date", xtype: 'datecolumn',
 			width: 85, align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
 		    {text: "Customer No",
@@ -55,12 +51,15 @@ Ext.define('Account.Quotation.Grid', {
 			width: 100, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "",/*xtype: 'hidden',*/width: 0, dataIndex: 'salnr'},
+			{text: "",hidden: true, width: 0, dataIndex: 'salnr'},
 			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
-			{text: "Amount", /*xtype: 'numbercolumn',*/
+			{text: "Amount", xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency",
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "1",hidden: true,width: 0, sortable: false, dataIndex: 'ptype'},
+			{text: "2",hidden: true,width: 0, sortable: false, dataIndex: 'taxnr'},
+			{text: "3",hidden: true,width: 0, sortable: false, dataIndex: 'terms'}
 		];
 
 		this.bbar = {
