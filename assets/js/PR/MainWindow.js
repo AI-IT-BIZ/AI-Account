@@ -25,26 +25,26 @@ Ext.define('Account.PR.MainWindow', {
 	initComponent : function() {
 		var _this=this;
         /*****************************************************/
-       
+
        var fibasic = Ext.create('Ext.form.field.File', {
         width: 200,
         x: 50,
         y: 50,
         hideLabel: true
     });
-       
+
        var form_import_file =  Ext.create('Ext.form.Panel', {
         id: 'form_panel-PR-MainWindow',
         layout: 'absolute',
-        frame: true,    
+        frame: true,
         width: 300,
         height: 200,
         items:[fibasic],
         tbar :[],
         bbar :[]
       });
-       
-       
+
+
         var win_import_file = Ext.create('Ext.Window', {
            id: 'win_import_file-PR-MainWindow',
            title: 'Left Header, plain: true',
@@ -89,7 +89,7 @@ Ext.define('Account.PR.MainWindow', {
 			text: 'Import',
 			iconCls: 'b-small-import',
 			handler: function () {
-               
+
                 win_import_file.show();
             }
 		});
@@ -111,21 +111,14 @@ Ext.define('Account.PR.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();	
-				
-				
-				
-			_this.itemDialog.show();
+			_this.itemDialog.openDialog();
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				_this.itemDialog.show();
-				_this.itemDialog.form.load(id);
-
-				_this.itemDialog.form.gridItem.load({purnr: id});
+				_this.itemDialog.openDialog(id);
 			}
 		});
 
@@ -133,7 +126,7 @@ Ext.define('Account.PR.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				
+
 				_this.itemDialog.form.remove(id);
 			}
 		});
@@ -151,9 +144,9 @@ Ext.define('Account.PR.MainWindow', {
 		// --- after ---
 		this.grid.load();
         /*****************************************************/
-       
-       
-       
+
+
+
         /*****************************************************/
 		return this.callParent(arguments);
 	}

@@ -24,6 +24,13 @@ Ext.define('Account.PR.Item.Window', {
 		     this.form
 		];
 
+		this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				window.open("index.php/form/pr");
+			}
+		});
+
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
@@ -37,12 +44,23 @@ Ext.define('Account.PR.Item.Window', {
 				_this.form.gridItem.load({ purnr: 0 });
 				_this.hide();
 			}
-		}, {
-			text: 'Preview',
-			handler: function() {
-				window.open("index.php/form/pr");
-			}
-		}];
+		},
+		this.btnPreview];
+
 		return this.callParent(arguments);
+	},
+	openDialog: function(id){
+		if(id){
+			this.show(false);
+			this.form.load(id);
+			this.form.gridItem.load({purnr: id});
+
+			this.btnPreview.setDisabled(false);
+		}else{
+			this.form.reset();
+			this.show(false);
+
+			this.btnPreview.setDisabled(true);
+		}
 	}
 });
