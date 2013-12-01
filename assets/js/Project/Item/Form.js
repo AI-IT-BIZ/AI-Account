@@ -386,5 +386,6 @@ Ext.define('Account.Project.Item.Form', {
 
 		// default status = wait for approve
 		this.comboJStatus.setValue('01');
+		this.getForm().findField('bldat').setValue(new Date());
 	}
 });

@@ -16,7 +16,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR.Item.Grid_i',{
-			height: 320,
+			//height: 350,
 			region:'center'
 		});
 		this.formTotal = Ext.create('Account.PR.Item.Form_t', {
@@ -186,7 +186,8 @@ Ext.define('Account.PR.Item.Form', {
 			items: [this.hdnPrItem, 
 			{
 				xtype:'fieldset',
-				title: 'Header Data',
+				title: 'Heading Data',
+				collapsible: true,
 				items:[{
 		    // Project Code
 	 				xtype: 'container',
@@ -281,7 +282,7 @@ Ext.define('Account.PR.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:170,
 			items: [
 				this.formTotal,
 				this.gridPrice
@@ -481,6 +482,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// calculate total functions

@@ -198,7 +198,8 @@ Ext.define('Account.PO.Item.Form', {
 			items: [this.hdnPoItem,
 			{
 				xtype:'fieldset',
-				title: 'Header Data',
+				title: 'Heading Data',
+				collapsible: true,
 				items:[{
 	 				xtype: 'container',
 					layout: 'hbox',
@@ -303,7 +304,7 @@ Ext.define('Account.PO.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:170,
 			items: [
 				this.formTotal,
 				this.gridPrice
@@ -529,6 +530,7 @@ Ext.define('Account.PO.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	

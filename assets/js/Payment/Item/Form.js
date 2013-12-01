@@ -116,7 +116,7 @@ Ext.define('Account.Payment.Item.Form', {
 			items: [this.hdnPyItem,this.hdnPpItem,this.hdnGlItem,
 			{
 			xtype:'fieldset',
-            title: 'Header Data',
+            title: 'Heading Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -331,6 +331,7 @@ Ext.define('Account.Payment.Item.Form', {
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	

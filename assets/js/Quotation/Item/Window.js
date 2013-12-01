@@ -36,6 +36,11 @@ Ext.define('Account.Quotation.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
+		}, {
+			text: 'Preview',
+			handler: function() {
+				window.open("index.php/form/quotation");
+			}
 		}];
 /*
 		// event

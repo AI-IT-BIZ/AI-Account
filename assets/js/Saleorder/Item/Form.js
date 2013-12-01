@@ -667,6 +667,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// calculate total functions

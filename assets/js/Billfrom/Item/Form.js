@@ -321,6 +321,7 @@ Ext.define('Account.Billfrom.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ bilnr: 0 });
 		//this.gridPayment.load({ recnr: 0 });
+		this.getForm().findField('bldat').setValue(new Date());
 		this.comboQStatus.setValue('01');
 	},
 	

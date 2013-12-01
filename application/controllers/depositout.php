@@ -107,8 +107,8 @@ class Depositout extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'txz01' => $this->input->post('txz01')//,
-			//'duedt' => $this->input->post('duedt')
+			'txz01' => $this->input->post('txz01'),
+			'poamt' => $this->input->post('poamt')
 		);
 		
 		// start transaction
@@ -296,8 +296,9 @@ class Depositout extends CI_Controller {
 
 		if(empty($iv_id)){
 		   $netpr = $this->input->get('netpr');  //Net amt
+		   $vvat = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
-		   $rate = $this->input->get('rate');  //Currency Rate
+		   $rate = $this->input->get('rate');    //Currency Rate
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
 		   
@@ -364,7 +365,6 @@ class Depositout extends CI_Controller {
 		$credit=$netpr;
 		}
 // record ที่สาม
-/*
 		if($vvat>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}
 		$glvat = '215010';
@@ -381,7 +381,7 @@ class Depositout extends CI_Controller {
 		$i++;
 		$credit = $credit + $vvat;	
 		}
-        if($vwht>'1'){ 
+        /*if($vwht>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}
 		$glwht = '215040';
 		$qgl = $this->db->get_where('glno', array(

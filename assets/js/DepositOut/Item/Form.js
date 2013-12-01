@@ -39,7 +39,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			fieldLabel: 'Deposit Status',
 			name : 'statu',
 			labelAlign: 'right',
-			width: 240,
+			width: 250,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -106,6 +106,17 @@ Ext.define('Account.DepositOut.Item.Form', {
 			allowBlank : false
 		});
 		
+		this.numberPOamt = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'PO Amount',
+			name: 'poamt',
+			labelAlign: 'right',
+			width:250,
+			hideTrigger:false,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
+		
 // Start Write Forms
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -120,7 +131,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			items: [this.hdnDpItem,this.hdnGlItem,
 			{
 			xtype:'fieldset',
-            title: 'Header Data',
+            title: 'Heading Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -179,7 +190,7 @@ Ext.define('Account.DepositOut.Item.Form', {
             name: 'depnr',
             value: 'DPXXXX-XXXX',
             labelAlign: 'right',
-			width:240,
+			width:250,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 	    },{
@@ -187,22 +198,12 @@ Ext.define('Account.DepositOut.Item.Form', {
 			fieldLabel: 'Document Date',
 			name: 'bldat',
 			labelAlign: 'right',
-			width:240,
+			width:250,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-	    },/*{
-			xtype: 'datefield',
-			fieldLabel: 'Receipt Date',
-			name: 'duedt',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-		},*/this.trigCurrency,this.comboQStatus
+	    },this.numberPOamt,this.trigCurrency,this.comboQStatus
 		 ]
 		}]
 		}]
@@ -245,7 +246,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.gridItem.curValue = r.data.ctype;
-			_this.gridItem.amtValue = r.data.netwr;
+			//_this.gridItem.amtValue = r.data.netwr;
+			_this.getForm().findField('poamt').setValue(r.data.netwr);
+			
 			//---Load PRitem to POitem Grid-----------
 			//var qtnr = _this.trigQuotation.value;
 			//alert(qtnr);
@@ -265,7 +268,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 			
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.gridItem.amtValue = record.data.netwr;
+			_this.getForm().findField('poamt').setValue(record.data.netwr);
+			//_this.gridItem.amtValue = record.data.netwr;
             
             Ext.Ajax.request({
 					url: __site_url+'po/load',
@@ -475,6 +479,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
@@ -483,11 +488,12 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
+		var nets = this.numberPOamt.getValue();
 		store.each(function(r){
 			var itamt = 0;
 			var perct = parseFloat(r.data['perct'].replace(/[^0-9.]/g, ''));
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			var nets = _this.amtValue;
+			//var nets = _this.amtValue;
 			perct = isNaN(perct)?0:perct;
 			//pay = isNaN(pay)?0:pay;
 
@@ -497,6 +503,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			sum += itamt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.gridItem.poValue = nets;
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
@@ -512,7 +519,8 @@ Ext.define('Account.DepositOut.Item.Form', {
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),
             	netpr:sum,
-            	kunnr:this.trigVendor.getValue(),
+            	vvat:vats,
+            	lifnr:this.trigVendor.getValue(),
             	rate:rate,
             	ptype:'01',
             	dtype:'01'

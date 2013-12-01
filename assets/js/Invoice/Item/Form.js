@@ -270,7 +270,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			},
 			items: [this.hdnIvItem,this.hdnGlItem,{
 			xtype:'fieldset',
-            title: 'Header Data',
+            title: 'Heading Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -726,6 +726,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		//this.comboPay.setDisabled(true);
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
+		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	

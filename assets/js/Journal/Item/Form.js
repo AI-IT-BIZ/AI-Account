@@ -295,6 +295,7 @@ Ext.define('Account.Journal.Item.Form', {
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		this.gridItem.addDefaultRecord();
+		this.getForm().findField('bldat').setValue(new Date());
 
 		// default status = wait for approve
 		//this.comboQStatus.setValue('05');

@@ -197,7 +197,8 @@ Ext.define('Account.GR.Item.Form', {
 			items: [this.hdnGrItem, 
 			{
 				xtype:'fieldset',
-				title: 'Header Data',
+				title: 'Heading Data',
+				collapsible: true,
 				items:[{
 		    // Project Code
 	 				xtype: 'container',

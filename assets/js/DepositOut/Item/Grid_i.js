@@ -62,8 +62,8 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				handler: this.removeRecord2
 			}]
 			},{
-			id : 'RowNumber4',
-			text : "Periods No.",
+			id : 'RowNumber44',
+			text : "Deposit No.",
 			dataIndex : 'paypr',
 			width : 90,
 			align : 'center',
@@ -72,7 +72,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				return rowIndex+1;
 		}
 			},{
-			text: "Period Desc.",
+			text: "Deposit Desc.",
 			width: 340,
 			dataIndex: 'sgtxt',
 			sortable: true,
@@ -80,7 +80,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				type: 'textfield'
 			}
 			},
-		    {text: "Period Date",
+		    {text: "Deposit Date",
 		    width: 100,
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
@@ -121,7 +121,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			//sortable: true,
 			align: 'right',
 			renderer: function(v,p,r){
-				var nets = _this.amtValue;
+				var nets = _this.poValue;
 				var perc = parseFloat(r.data['perct']);
 				perc = isNaN(perc)?0:perc;
 				//if(perc>0){
@@ -172,7 +172,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
         var cur = _this.curValue;
         var amts = _this.amtValue;
 		// add new record
-		rec = { id:newId, ctyp1:cur };
+		rec = { id:newId, ctyp1:cur, duedt:new Date() };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
