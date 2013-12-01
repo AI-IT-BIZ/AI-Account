@@ -27,14 +27,24 @@ class PR extends CI_Controller {
 
 		// calculate sum
 		$rows = $query->result_array();
+		$b_amt = 0;
+		$v_amt = 0;
 		foreach ($rows as $key => $item) {
-			$v_amt=0;$v=0;
+			$itamt = 0;
+			$itamt = $item['menge'] * $item['unitp'];
+			$itamt = $itamt - $item['disit'];
+			$b_amt += $itamt;
+			$v=0;
 			if(!empty($r_data['chk01']))
 			{
 			   $v = $itamt * $r_data['taxpr'];
 			   $v = $v / 100;
 			   $v_amt += $v;
 			}
+		}
+
+		function check_page($page_index, $value){
+			return ($page_index==0)?"":$value;
 		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -392,10 +402,9 @@ $i=397+20;
 $rows = $query->result_array();
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$b_amt = 0; $itamt = 0;
+	$itamt = 0;
 	$itamt = $item['menge'] * $item['unitp'];
 	$itamt = $itamt - $item['disit'];
-	$b_amt += $itamt;
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['purpr'];?></td>
@@ -416,14 +425,17 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left:465PX;top:664PX;width:194PX;height:23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left:660PX;top:664PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?=number_format($b_amt,2,'.',',');?></span></DIV>
+<DIV style="left:660PX;top:664PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, number_format($b_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
-<DIV style="left:660PX;top:684PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?=number_format($r_data['dismt'],2,'.',',');?></span></DIV>
+<DIV style="left:660PX;top:684PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
 <?php $d_amt = $b_amt - $r_data['dismt'] ?>
-<DIV style="left:660PX;top:709PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?=number_format($d_amt,2,'.',',');?></span></DIV>
+<DIV style="left:660PX;top:709PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 
@@ -433,11 +445,23 @@ endfor;
 
 <DIV style="left:465PX;top:776PX;width:136PX;height:23PX;"><span class="fc1-4">ภาษีมูลค่าเพิ่ม&nbsp;&nbsp;VAT Amount</span></DIV>
 
-<DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?=number_format($v_amt,2,'.',',');?></span></DIV>
+<?php
+$tax_str = "";
+if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
+	$tax_str = $r_data['taxpr'].'%';
+else
+	$tax_str = '';
+?>
+<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= $tax_str ?></span></DIV>
+
+<DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 
-<DIV style="left:660PX;top:821PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?=number_format($r_data['netwr'],2,'.',',');?></span></DIV>
+<DIV style="left:660PX;top:821PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
 <DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เงินสด&nbsp;&nbsp;Cash</span></DIV>
@@ -456,7 +480,7 @@ endfor;
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text-->
-<DIV style="left:70PX;top:929PX;width:678PX;height:22PX;"><span class="fc1-8">( <?=$text_amt;?> )</span></DIV>
+<DIV style="left:70PX;top:929PX;width:678PX;height:22PX;"><span class="fc1-8"><?= check_page($current_page_index, "( $text_amt )") ?></span></DIV>
 
 <!--Signature Text-->
 <DIV style="left:57PX;top:955PX;width:177PX;height:34PX;">
@@ -480,8 +504,6 @@ endfor;
 <DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Authorized Signature</span></DIV>
 
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
-
-<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">7%</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
 
