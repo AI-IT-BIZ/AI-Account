@@ -86,6 +86,15 @@ Ext.define('Account.DepositOut.Item.Form', {
 			allowBlank : false
 		});
 		
+		this.trigPO = Ext.create('Ext.form.field.Trigger', {
+			name: 'ebeln',
+			fieldLabel: 'PO No.',
+			width:240,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
 		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
 			name: 'ctype',
 			fieldLabel: 'Currency',
@@ -96,26 +105,6 @@ Ext.define('Account.DepositOut.Item.Form', {
 			labelAlign: 'right',
 			allowBlank : false
 		});
-		
-		this.trigPO = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln',
-			fieldLabel: 'PO No.',
-			width:240,
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
-		});
-		
-		this.numberPOamt = Ext.create('Ext.ux.form.NumericField', {
-            //xtype: 'numberfield',
-			fieldLabel: 'PO Amount',
-			name: 'poamt',
-			labelAlign: 'right',
-			width:250,
-			hideTrigger:false,
-			align: 'right'//,
-			//margin: '0 0 0 35'
-         });
 		
 // Start Write Forms
 		var mainFormPanel = {
@@ -203,7 +192,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-	    },this.numberPOamt,this.trigCurrency,this.comboQStatus
+	    },this.trigCurrency,this.comboQStatus
 		 ]
 		}]
 		}]
@@ -247,12 +236,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.gridItem.curValue = r.data.ctype;
 			//_this.gridItem.amtValue = r.data.netwr;
-			_this.getForm().findField('poamt').setValue(r.data.netwr);
+			//_this.getForm().findField('poamt').setValue(r.data.netwr);
 			
 			//---Load PRitem to POitem Grid-----------
-			//var qtnr = _this.trigQuotation.value;
+			var ponr = _this.trigPO.value;
+			//console.log(qtnr);
 			//alert(qtnr);
-			//_this.gridItem.load({qtnr: qtnr });
+			_this.gridItem.load({ponr: ponr });
 			//----------------------------------------			
 						}else{
 							o.markInvalid('Could not find po no : '+o.getValue());
@@ -268,7 +258,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('poamt').setValue(record.data.netwr);
+			//_this.getForm().findField('poamt').setValue(record.data.netwr);
 			//_this.gridItem.amtValue = record.data.netwr;
             
             Ext.Ajax.request({
@@ -290,10 +280,10 @@ Ext.define('Account.DepositOut.Item.Form', {
  
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			//var qtnr = _this.trigPO.value;
+			var ponr = _this.trigPO.value;
 			//console.log(qtnr);
-			//alert(qtnr);
-			//_this.gridItem.load({qtnr: qtnr });
+			//alert(ponr);
+			_this.gridItem.load({ponr: ponr });
 			//----------------------------------------
 			_this.poDialog.hide();
 		});
@@ -354,7 +344,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.vendorDialog.show();
 		};
 		
-    // event trigCurrency///
+		// event trigCurrency///
 		this.trigCurrency.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -478,7 +468,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
-		this.trigCurrency.setValue('THB');
+		//this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
@@ -488,28 +478,28 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
-		var nets = this.numberPOamt.getValue();
+		//var nets = this.numberPOamt.getValue();
 		store.each(function(r){
 			var itamt = 0;
-			var perct = parseFloat(r.data['perct'].replace(/[^0-9.]/g, ''));
+			//var perct = parseFloat(r.data['perct'].replace(/[^0-9.]/g, ''));
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			//var nets = _this.amtValue;
-			perct = isNaN(perct)?0:perct;
+			//perct = isNaN(perct)?0:perct;
 			//pay = isNaN(pay)?0:pay;
-
+            var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
 			//var amt = itamt - pay;
-			itamt = nets * perct;
-			itamt = itamt / 100;
+			//itamt = nets * perct;
+			//itamt = itamt / 100;
 			sum += itamt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
-		this.gridItem.poValue = nets;
+		//this.gridItem.poValue = nets;
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		var net = this.formTotal.calculate();
 		
-		var currency = this.trigCurrency.getValue();
+		//var currency = this.trigCurrency.getValue();
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
@@ -519,7 +509,7 @@ Ext.define('Account.DepositOut.Item.Form', {
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),
             	netpr:sum,
-            	vvat:vats,
+            	//vvat:vats,
             	lifnr:this.trigVendor.getValue(),
             	rate:rate,
             	ptype:'01',
@@ -534,11 +524,12 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
-			var itamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+			//var itamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			itamt = isNaN(itamt)?0:itamt;
+			//itamt = isNaN(itamt)?0:itamt;
 			//pay = isNaN(pay)?0:pay;
 			//var amt = itamt - pay;
+			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
 			sum += itamt;
 		});
 

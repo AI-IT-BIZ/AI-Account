@@ -1,9 +1,9 @@
-Ext.define('Account.Material.Item.Window', {
+Ext.define('Account.Service.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Material',
+			title: 'Create/Edit Service',
 			closeAction: 'hide',
 			height: 550,
 			width: 550,
@@ -17,7 +17,7 @@ Ext.define('Account.Material.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Material.Item.Form');//, { region:'north' });
+		this.form = Ext.create('Account.Service.Item.Form');//, { region:'north' });
 
 		/*this.grid = new Ext.Panel({
 			title:'this is item grid',

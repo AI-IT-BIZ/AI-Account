@@ -1,9 +1,9 @@
-Ext.define('Account.Material.Item.Form', {
+Ext.define('Account.Service.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'material/save',
+			url: __site_url+'service/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -23,7 +23,7 @@ Ext.define('Account.Material.Item.Form', {
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
 		this.comboMGrp = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Material Grp',
+			fieldLabel: 'Service Grp',
 			name : 'matkl',
 			//labelWidth: 100,
 			//width: 300,
@@ -55,7 +55,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 		
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Material Type',
+			fieldLabel: 'Service Type',
 			name : 'mtart',
 			//labelWidth: 100,
 			//width: 300,
@@ -63,7 +63,7 @@ Ext.define('Account.Material.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Select Type --',
+			emptyText: '-- Please select Type --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -88,11 +88,8 @@ Ext.define('Account.Material.Item.Form', {
 
 
 		this.items = [{
-						xtype: 'hidden',
-						name: 'id'
-					},{
             xtype:'fieldset',
-            title: 'Material Data',
+            title: 'Service Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
@@ -101,12 +98,12 @@ Ext.define('Account.Material.Item.Form', {
             },
 		items: [{
 			xtype: 'textfield',
-			fieldLabel: 'Material Code',
+			fieldLabel: 'Service Code',
 			name: 'matnr',
 			allowBlank: false
 		}, {
 			xtype: 'textfield',
-			fieldLabel: 'Material Name',
+			fieldLabel: 'Service Name',
 			name: 'maktx',
 			width: 400,
 			allowBlank: true
@@ -140,6 +137,7 @@ Ext.define('Account.Material.Item.Form', {
                 anchor: '100%'
             },
      items :[{
+		
 		xtype: 'numberfield',
 			fieldLabel: 'Beginning Qty',
 			name: 'beqty',
@@ -247,7 +245,7 @@ Ext.define('Account.Material.Item.Form', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'material/load'
+			url:__site_url+'service/load'
 		});
 	},
 	
@@ -272,7 +270,7 @@ Ext.define('Account.Material.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'material/remove',
+			url:__site_url+'service/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}

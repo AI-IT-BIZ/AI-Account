@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Depout extends CI_Controller {
+class Depin extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -12,10 +12,10 @@ class Depout extends CI_Controller {
 	
 	function index()
 	{
-	    $strSQL = " select v_ebdk.*,v_ebdp.* ";
-        $strSQL = $strSQL . " from v_ebdk ";
-        $strSQL = $strSQL . " left join v_ebdp on v_ebdk.depnr = v_ebdp.depnr ";
-        $strSQL = $strSQL . " Where v_ebdk.depnr = 'DP1309-1000' ";
+	    $strSQL = " select v_vbak.*,v_vbap.*";
+        $strSQL = $strSQL . " from v_vbak ";
+        $strSQL = $strSQL . " left join v_vbap on v_vbak.vbeln = v_vbap.vbeln ";
+        $strSQL = $strSQL . " Where v_vbak.vbeln = 'PO1309-1000' ";
         
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
@@ -184,9 +184,9 @@ class Depout extends CI_Controller {
 <DIV style="left:665PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?='1/'.$t_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบจ่ายเงินมัดจำ</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบรับเงินมัดจำ</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">DEPOSIT PAYMENT</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">DEPOSIT RECEIPT</span></DIV>
 
 <DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
@@ -194,7 +194,7 @@ class Depout extends CI_Controller {
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['depnr'];?></span></DIV>
+<DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php 
@@ -217,9 +217,9 @@ list($y, $m, $d) = split('[/.-]', $r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อเจ้าหนี้</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกหนี้</span></DIV>
 
-<DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
+<DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
 <DIV style="left:109PX;top:173PX;width:347PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
@@ -241,11 +241,11 @@ list($y, $m, $d) = split('[/.-]', $r_data['bldat']);
 <DIV style="left:467PX;top:247PX;width:102PX;height:22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
 <!--Reference Table-->
-<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบสั่งซื้อ</span></DIV>
+<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบเสนอราคา</span></DIV>
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">PO no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Quotation no.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
 <!--2 Reference-->
 <DIV style="left:157PX;top:280PX;width:302PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">อ้างถึง</span></DIV>
@@ -255,9 +255,9 @@ list($y, $m, $d) = split('[/.-]', $r_data['bldat']);
 <DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
 
 <!--3 Vendor code-->
-<DIV style="left:460PX;top:280PX;width:142PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">รหัสเจ้าหนี้</span></DIV>
+<DIV style="left:460PX;top:280PX;width:142PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">รหัสลูกหนี้</span></DIV>
 
-<DIV style="left:456PX;top:298PX;width:142PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Supplier Code</span></DIV>
+<DIV style="left:456PX;top:298PX;width:142PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Customer Code</span></DIV>
 
 <DIV style="left:460PX;top:322PX;width:142PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['lifnr'];?></span></DIV>
 
@@ -269,9 +269,9 @@ list($y, $m, $d) = split('[/.-]', $r_data['bldat']);
 <DIV style="left:602PX;top:322PX;width:58PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$r_data['terms'];?></span></DIV>
 
 <!--5 Delivery date-->
-<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันที่ส่งของ</span></DIV>
+<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เงื่อนไขการชำระเงิน</span></DIV>
 
-<DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Delivery Date</span></DIV>
+<DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Payment method</span></DIV>
 <?php 
 list($y, $m, $d) = split('[/.-]', $r_data['lfdat']); 
 ?>

@@ -186,6 +186,12 @@ Ext.onReady(function() {
 		$om.materialDialog.show();
 	});
 	
+	$om.viewport.on('click_service', function(){
+		if(!$om.serviceDialog)
+			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
+		$om.serviceDialog.show();
+	});
+	
 	$om.viewport.on('click_transaction', function(){
 		if(!$om.transactionDialog)
 			$om.transactionDialog = Ext.create('Account.Transaction.MainWindow');

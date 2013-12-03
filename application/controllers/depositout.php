@@ -97,9 +97,10 @@ class Depositout extends CI_Controller {
 		}
 		
 		$formData = array(
-			'vbeln' => $this->input->post('vbeln'),
+			//'depnr' => $this->input->post('depnr'),
 			'bldat' => $this->input->post('bldat'),
-			'kunnr' => $this->input->post('kunnr'),
+			'ebeln' => $this->input->post('ebeln'),
+			'lifnr' => $this->input->post('lifnr'),
 			'netwr' => $this->input->post('netwr'),
 			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
@@ -107,8 +108,7 @@ class Depositout extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'txz01' => $this->input->post('txz01'),
-			'poamt' => $this->input->post('poamt')
+			'txz01' => $this->input->post('txz01')
 		);
 		
 		// start transaction
@@ -146,12 +146,15 @@ class Depositout extends CI_Controller {
 		foreach($dp_item_array AS $p){
 			$this->db->insert('ebdp', array(
 				'depnr'=>$id,
-				'paypr'=>++$item_index,
-				'sgtxt'=>$p->sgtxt,
-				'pramt'=>$p->pramt,
-				'perct'=>$p->perct,
-				'duedt'=>$p->duedt,
-				'ctyp1'=>$p->ctyp1
+				'vbelp'=>++$item_index,
+				'matnr'=>$p->matnr,
+			    'menge'=>$p->menge,
+				'meins'=>$p->meins,
+				'disit'=>$p->disit,
+				'unitp'=>$p->unitp,
+				'itamt'=>$p->$itamt,
+				'chk01'=>$p->chk01,
+				'ctype'=>$p->ctype
 			));
 	    	}
 		}
@@ -186,7 +189,7 @@ class Depositout extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('AR', 
+			$id = $this->code_model->generate('AP', 
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
@@ -266,14 +269,15 @@ class Depositout extends CI_Controller {
 	// Deposit ITEM
 	///////////////////////////////////////////////
 	function loads_dp_item(){
-		/*$qtnr = $this->input->get('qtnr');
-		if(!empty($qtnr)){
-			//$this->db->set_dbprefix('v_');
-		    $this->db->where('vbeln', $qtnr);
-			$this->db->where('payty', '1');
+		$ponr = $this->input->get('ponr');
+		if(!empty($ponr)){
+			$this->db->set_dbprefix('v_');
+		    $this->db->where('ebeln', $ponr);
+			$this->db->where('matnr', '200003');
 
-		    $query = $this->db->get('payp');
-		}else{*/
+		    $query = $this->db->get('ekpo');
+
+		}else{
             $this->db->set_dbprefix('v_');
 	        $dp_id = $this->input->get('depnr');
 		    $this->db->where('depnr', $dp_id);
@@ -282,7 +286,7 @@ class Depositout extends CI_Controller {
 		//createQuery($this);
 	       $query = $this->db->get('ebdp');
       //  echo $this->db->last_query();
-		//}
+		}
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

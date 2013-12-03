@@ -33,20 +33,24 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr,paypr'
+					idProperty: 'depnr,vbelp'
 				}
 			},
 			fields: [
 			    //'vbeln',
-				'paypr',
-				'sgtxt',
-				'duedt',
-				'perct',
-				'pramt',
-				'ctyp1'
+			    'vbelp',
+				'matnr',
+				'maktx',
+				'menge',
+				'meins',
+				'unitp',
+				'disit',
+				'itamt',
+				'ctype',
+				'chk01'
 			],
 			remoteSort: true,
-			sorters: ['paypr ASC']
+			sorters: ['ebelp ASC']
 		});
 
 		this.columns = [{
@@ -63,8 +67,8 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			}]
 			},{
 			id : 'RowNumber44',
-			text : "Deposit No.",
-			dataIndex : 'paypr',
+			text : "No.",
+			dataIndex : 'vbelp',
 			width : 90,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -72,68 +76,86 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				return rowIndex+1;
 		}
 			},{
-			text: "Deposit Desc.",
-			width: 340,
-			dataIndex: 'sgtxt',
+			text: "Material Code",
+			width: 80,
+			dataIndex: 'matnr',
+			align : 'center',
+			sortable: true,
+			field: {
+				type: 'textfield'
+			}
+			},{
+			text: "Material Desc.",
+			width: 220,
+			dataIndex: 'maktx',
 			sortable: true,
 			field: {
 				type: 'textfield'
 			}
 			},
-		    {text: "Deposit Date",
-		    width: 100,
-		    xtype: 'datecolumn',
-		    dataIndex: 'duedt',
-		    format:'d/m/Y',
-		    sortable: true,
-		    editor: {
-                xtype: 'datefield',
-                //allowBlank: false,
-                format:'d/m/Y',
-			    altFormats:'Y-m-d|d/m/Y',
-			    submitFormat:'Y-m-d'
-                //minText: 'Cannot have a start date before the company existed!',
-                //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
-            }
-			},
-			{text: "Percent",
-			width: 70,
+			{text: "Qty",
 			xtype: 'numbercolumn',
-			dataIndex: 'perct',
-			sortable: true,
+			width: 70,
+			dataIndex: 'menge',
+			sortable: false,
+			align: 'right',
+			editor: {
+				xtype: 'textfield'
+			}
+			},
+			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			field: {
+				type: 'textfield'
+			}
+			},
+			{text: "Price/Unit",
+			xtype: 'numbercolumn',
+			width: 100,
+			dataIndex: 'unitp',
+			sortable: false,
 			align: 'right',
 			field: {
-                type: 'numberfield',
-                //decimalPrecision: 2,
-				listeners: {
+				type: 'textfield'
+			}
+			},
+			{text: "Discount",
+			xtype: 'numbercolumn',
+			width: 80,
+			dataIndex: 'disit',
+			sortable: false,
+			align: 'right',
+			field: {
+				type: 'textfield'
+			}
+			},{
+            xtype: 'checkcolumn',
+            text: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				}
-			},
-			},
-			{text: "Amount",
-			width: 150,
-			dataIndex: 'pramt',
-			xtype: 'numbercolumn',
-			//sortable: true,
-			align: 'right',
-			renderer: function(v,p,r){
-				var nets = _this.poValue;
-				var perc = parseFloat(r.data['perct']);
-				perc = isNaN(perc)?0:perc;
-				//if(perc>0){
-                //net = isNaN(net)?0:net;
-				var amt = (perc * nets) / 100;
-				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-				//}
-				}
+				}}
+            },
+			{
+				text: "Amount",
+				width: 90,
+				xtype: 'numbercolumn',
+				dataIndex: 'itamt',
+				sortable: false,
+				align: 'right',
+				field: {
+				type: 'textfield'
+			}
 			},
 			{text: "Currency",
 			width: 70,
-			dataIndex: 'ctyp1',
+			dataIndex: 'ctype',
 			//xtype: 'textcolumn',
 			sortable: true,
 			align: 'center',
@@ -170,9 +192,9 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		newId--;
         
         var cur = _this.curValue;
-        var amts = _this.amtValue;
+        //var amts = _this.amtValue;
 		// add new record
-		rec = { id:newId, ctyp1:cur, duedt:new Date() };
+		rec = { id:newId, ctype:cur, duedt:new Date() };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

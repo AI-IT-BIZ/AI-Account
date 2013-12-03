@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Material extends CI_Controller {
+class Service extends CI_Controller {
 
 	function __construct()
 	{
@@ -35,7 +35,7 @@ class Material extends CI_Controller {
 		    $sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
                   on a.matnr = b.matnr
 		          WHERE a.matnr='$id'
-		          and a.mtart <> 'SV'";
+		          and a.mtart = 'SV'";
 		    $query = $this->db->query($sql);
 			
 			if($query->num_rows()>0){
@@ -70,7 +70,7 @@ class Material extends CI_Controller {
 		
 		$sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
                   on a.matnr = b.matnr
-		          WHERE a.mtart <> 'SV'";
+		          WHERE a.mtart = 'SV'";
 		$query = $this->db->query($sql);
 		//$tbName = 'mara';
 
@@ -167,7 +167,7 @@ class Material extends CI_Controller {
 			$this->db->set('upnam', 'test');
 			$this->db->update('mara', $formData);
 		}else{
-			$id = $this->code_model2->generate2('MM');
+			$id = $this->code_model2->generate2('SM');
 			$this->db->set('matnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 			$this->db->set('ernam', 'test');

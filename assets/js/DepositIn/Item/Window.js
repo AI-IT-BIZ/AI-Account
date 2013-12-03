@@ -38,6 +38,11 @@ Ext.define('Account.DepositIn.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
+		}, {
+			text: 'Preview',
+			handler: function() {
+				window.open("index.php/form/depin");
+			}
 		}];
 /*		
 		// event

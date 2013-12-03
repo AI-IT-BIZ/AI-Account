@@ -621,7 +621,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-balance" class="box box-purple"><span>Inventory Balances</span></div>',
 									'<div id="div-otincome" class="box box-purple"><span>Other Incomes</span></div>',
 									'<div id="div-otexpense" class="box box-purple"><span>Other Expenses</span></div>',
-									'<div id="div-material" class="box box-purple"><span>Inventories Master</span></div>',
+									'<div id="div-material" class="box box-purple"><span>Materials Master</span></div>',
 									'<div id="div-service" class="box box-purple"><span>Services Master</span></div>',
 
 									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
@@ -793,6 +793,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-employee').on('click', function(){ $om.viewport.fireEvent('click_employee', c); }, c);
 								//Material Module
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
+								pEl.getById('div-service').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
 								pEl.getById('div-otincome').on('click', function(){ $om.viewport.fireEvent('click_otincome', c); }, c);
                                 pEl.getById('div-otexpense').on('click', function(){ $om.viewport.fireEvent('click_otexpense', c); }, c);
                                 pEl.getById('div-transaction').on('click', function(){ $om.viewport.fireEvent('click_transaction', c); }, c);
