@@ -18,7 +18,7 @@ Ext.define('Account.Quotation.Grid', {
 				simpleSortMode: true
 			},
 			fields: [
-			    'vbeln',
+				'vbeln',
 				'bldat',
 				'kunnr',
 				'name1',
@@ -39,13 +39,13 @@ Ext.define('Account.Quotation.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Quotation No",
-		    width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
+			{text: "Quotation No",
+			width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Quotation Date", xtype: 'datecolumn',
 			width: 85, align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
-		    {text: "Customer No",
-		    width: 100, align: 'center', dataIndex: 'kunnr', sortable: true},
+			{text: "Customer No",
+			width: 100, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 100, dataIndex: 'name1', sortable: true},
 			{text: "Project No",
 			width: 100, align: 'center', dataIndex: 'jobnr', sortable: true},
@@ -73,5 +73,10 @@ Ext.define('Account.Quotation.Grid', {
 	},
 	load: function(options){
 		this.store.load(options);
+	},
+	getFilter: function(){
+		Ext.each(this.tbar.items, function(o,i){
+
+		});
 	}
 });

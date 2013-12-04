@@ -75,7 +75,7 @@ class Quotation extends CI_Controller {
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat', $bldat1);
+			  $_this->db->where('bldat >=', $bldat1);
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
@@ -114,7 +114,7 @@ class Quotation extends CI_Controller {
 		}
 // End for report
 
-		//createQuery($this);
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);

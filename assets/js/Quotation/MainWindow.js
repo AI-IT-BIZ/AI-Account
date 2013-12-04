@@ -24,6 +24,12 @@ Ext.define('Account.Quotation.MainWindow', {
 
 	initComponent : function() {
 		var _this=this;
+		// --- Init external component ---
+		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
+			region: 'north',
+			height:100
+		});
+		// --- End Init external component ---
 
 		// --- object ---
 		this.addAct = new Ext.Action({
@@ -66,7 +72,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			border: false
 		});
 
-		this.items = [this.grid];
+		this.items = [this.searchForm, this.grid];
 
 		this.tbar = [this.addAct, this.editAct, this.deleteAct,
 		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
@@ -107,6 +113,21 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
+
+		this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
+
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
 
 
 		// --- after ---
