@@ -337,6 +337,13 @@ var store_edit_authen = Ext.create('Ext.data.ArrayStore', {
         var uname = txtUserName.getRawValue();
         var passw = txtPassword.getRawValue();
         
+        if(uname == "" || passw == "")
+        {
+        	Ext.MessageBox.show({title: '', msg: 'Please enter name and password !!!'});
+        	return;
+        }
+        
+        
         for(i = 0;i< store_edit_authen.getCount() ; i++)
         {
             rt = store_edit_authen.getAt(i);
