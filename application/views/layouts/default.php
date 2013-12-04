@@ -554,7 +554,21 @@ function endsWith($haystack, $needle)
 					]
 				}
 			});
-
+			
+			 tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
+         
+               if(tr.innerHTML.indexOf('Authorize Setting') > -1)
+               {
+                
+                  $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+                  $om.configDialog.show();
+               }
+         
+               // $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+		       // $om.configDialog.show();
+             
+            });
+			 
 			// CENTER PANEL
 			var centerPanel = new Ext.Panel({
 				region:'center',
