@@ -101,7 +101,6 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
@@ -125,6 +124,10 @@ Ext.define('Account.Quotation.MainWindow', {
 				var formValues = _this.searchForm.getValues();
 				Ext.apply(opts.params, formValues);
 			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
 	    });
 
 
