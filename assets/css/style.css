@@ -34,3 +34,9 @@
 .b-small-export {
 	background-image: url(../images/icons/export.png) !important;
 }
+.b-small-search {
+	background-image: url(../images/icons/magnifier-left.gif) !important;
+}
+.b-small-cross {
+	background-image: url(../images/icons/cross.png) !important;
+}

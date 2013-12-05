@@ -55,21 +55,25 @@ Ext.define('Account.Quotation.MainWindow', {
 			text: 'Import',
 			iconCls: 'b-small-import'
 		});
-		this.exportAct = new Ext.Action({
-			text: 'Export',
-			iconCls: 'b-small-export'
-		});
 
         this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+
 		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
-			border: false
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct,
+				this.printAct, this.excelAct, this.pdfAct,this.importAct]
 		});
 
-		this.items = [this.grid];
+		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
+			region: 'north',
+			height:100
+		});
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct, this.pdfAct,this.importAct];
+
+		this.items = [this.searchForm, this.grid];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
@@ -97,7 +101,6 @@ Ext.define('Account.Quotation.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		//console.log(this.itemDialog.form);
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
@@ -107,6 +110,25 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
+
+		this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
+
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 
 
 		// --- after ---

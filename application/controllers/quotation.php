@@ -62,6 +62,16 @@ class Quotation extends CI_Controller {
 
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`vbeln` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `jobnr` LIKE '%$query%'
+				OR `jobtx` LIKE '%$query%')", NULL, FALSE);
+			}
+
+
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
 			if(!empty($vbeln1) && empty($vbeln2)){
@@ -75,7 +85,7 @@ class Quotation extends CI_Controller {
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat', $bldat1);
+			  $_this->db->where('bldat >=', $bldat1);
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
@@ -114,7 +124,7 @@ class Quotation extends CI_Controller {
 		}
 // End for report
 
-		//createQuery($this);
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
