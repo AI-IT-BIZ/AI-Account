@@ -20,10 +20,18 @@ Ext.define('Account.Billfrom.Item.Window', {
 
 		this.form = Ext.create('Account.Billfrom.Item.Form',{ region:'center' });
 
+		this.previewDialog = Ext.create('Account.Billfrom.Item.PreviewWindow');
 		this.items = [
 		     this.form
 		   ];
-
+        
+        this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				_this.previewDialog.openDialog(_this.dialogId);
+			}
+		});
+        
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
@@ -39,26 +47,28 @@ Ext.define('Account.Billfrom.Item.Window', {
 				_this.hide();
 			}
 		}];
-/*		
-		// event
-		this.grid1.store.on('update', function(store, record){
-			var sum = 0;
-			store.each(function(r){
-				var qty = parseFloat(r.data['menge']),
-					price = parseFloat(r.data['unitp']),
-					discount = parseFloat(r.data['dismt']);
-				qty = isNaN(qty)?0:qty;
-				price = isNaN(price)?0:price;
-				discount = isNaN(discount)?0:discount;
 
-				var amt = (qty * price) - discount;
-
-				sum += amt;
-			});
-			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-			_this.formTotal.calculate();
-		});
-*/
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			this.form.gridItem.load({bilnr: id});
+
+			this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			this.btnPreview.setDisabled(true);
+		}
 	}
 });

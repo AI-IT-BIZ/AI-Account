@@ -1,6 +1,6 @@
 Ext.define('Account.Quotation.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
+    //requires : [
 	//	'Account.Quotation.Grid',
 	//	'Account.Quotation.Item.Window'
 	//],

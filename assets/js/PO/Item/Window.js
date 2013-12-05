@@ -2,17 +2,6 @@ Ext.define('Account.PO.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
-        /*************************************/
-        /*var btnPOPrint =  Ext.create('Ext.Button', {
-            id:'btnPOPrint-PO-Window',
-        	iconCls: 'b-small-print',
-            text: 'Print',
-            width: 50,
-            handler: function() {
-                     window.open("index.php/form_po");
-                     
-            }
-        });
         /************************************/
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Order',
@@ -32,13 +21,20 @@ Ext.define('Account.PO.Item.Window', {
 		var _this=this;
 
 		this.form = Ext.create('Account.PO.Item.Form',{ region:'center' });
+		
+		this.previewDialog = Ext.create('Account.PO.Item.PreviewWindow');
 
 		this.items = [
 		     this.form
 		];
+		
+		this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				_this.previewDialog.openDialog(_this.dialogId);
+			}
+		});
         
-        
-
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
@@ -48,14 +44,33 @@ Ext.define('Account.PO.Item.Window', {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
+				
+				_this.form.gridItem.load({ ebeln: 0 });
 				_this.hide();
 			}
-		}, {
-			text: 'Preview',
-			handler: function() {
-				window.open("index.php/form/po");
-			}
-		}];
+		}, this.btnPreview];
+		
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			this.form.gridItem.load({ebeln: id});
+
+			this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			this.btnPreview.setDisabled(true);
+		}
 	}
 });
