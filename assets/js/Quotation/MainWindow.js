@@ -102,6 +102,17 @@ Ext.define('Account.Quotation.MainWindow', {
 			}
 		});
 
+		this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/quotation/index?'+query;
+		});
+
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
@@ -122,7 +133,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			opts.params = opts.params || {};
 			if(opts.params){
 				var formValues = _this.searchForm.getValues();
-				Ext.apply(opts.params, formValues);
+				opts.params = Ext.apply(opts.params, formValues);
 			}
 	    });
 
