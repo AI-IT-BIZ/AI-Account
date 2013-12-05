@@ -68,7 +68,7 @@ class Quotation extends CI_Controller {
 				OR `kunnr` LIKE '%$query%'
 				OR `name1` LIKE '%$query%'
 				OR `jobnr` LIKE '%$query%'
-				OR `jobtx` LIKE '%$query%')", NULL, FALSE);
+				OR `sname` LIKE '%$query%')", NULL, FALSE);
 			}
 
 

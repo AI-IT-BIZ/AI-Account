@@ -57,6 +57,14 @@ class Po extends CI_Controller {
 		// Start for report
 		function createQuery($_this){
 			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`ebeln` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `purnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 			$bldat1 = $_this->input->get('bldat1');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -109,13 +117,24 @@ class Po extends CI_Controller {
 		}
 		// End for report		
 		
-		createQuery($this); 
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 

@@ -66,7 +66,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber25',
+			id : 'RowNumber26',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,

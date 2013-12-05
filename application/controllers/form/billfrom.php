@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class PO extends CI_Controller {
+class Billfrom extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -12,16 +12,13 @@ class PO extends CI_Controller {
 	
 	function index()
 	{
-		$no = $type = $this->uri->segment(4);
-		$copies = intval($type = $this->uri->segment(5));
-		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_ekko.*,v_ekpo.*";
-        $strSQL = $strSQL . " from v_ekko ";
-        $strSQL = $strSQL . " left join v_ekpo on v_ekko.ebeln = v_ekpo.ebeln ";
-        $strSQL = $strSQL . " Where v_ekko.ebeln = '$no'  ";
-        $strSQL .= "ORDER BY ebelp ASC";
-		
+	    $strSQL = " select v_ebkk.*,v_ebkp.*";
+        $strSQL = $strSQL . " from v_ebkk ";
+        $strSQL = $strSQL . " left join v_ebkp on v_ebkk.bilnr = v_ebkp.bilnr ";
+        $strSQL = $strSQL . " Where v_ebkk. = '$no' ";
+		$strSQL .= "ORDER BY ebelp ASC";
+       
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		// calculate sum
@@ -225,10 +222,6 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:461PX;top:170PX;width:292PX;height:100PX;">
-<table border=0 cellpadding=0 cellspacing=0 width=285px height=93px><TD>&nbsp;</TD></TABLE>
-</DIV>
-
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
 <DIV style="left:571PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">สำเนา</span></DIV>
@@ -242,23 +235,29 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left:665PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">PURCHASE ORDER</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">BILLING RECEIVED</span></DIV>
 
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสั่งซื้อ</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบรับวางบิล</span></DIV>
 
 <DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
 <DIV style="left:57PX;top:150PX;width:149PX;height:20PX;"><span class="fc1-2">3131231313132</span></DIV>
 
-<DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
+<DIV style="left:519PX;top:176PX;width:75PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
+<DIV style="left:615PX;top:174PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
 
-<DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
-<?php
+<DIV style="left:519PX;top:198PX;width:76PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
+<?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:635PX;top:128PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
+<DIV style="left:615PX;top:196PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$bldat_str?></span></DIV>
+
+<DIV style="left: 519PX; top: 220PX; width: 75px; height: 20PX;"><span class="fc1-2">วันที่วางบิล<br>(Billing Date) </span></DIV>
+<?php 
+$duedt_str = util_helper_format_date($r_data['duedt']);
+?>
+<DIV style="left:615PX;top:218PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$duedt_str?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
@@ -292,11 +291,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <DIV style="left:143PX;top:247PX;width:140PX;height:21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 <!--Delivery Place-->
-<DIV style="left:467PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">สถานที่ส่ง</span></DIV>
 
-<DIV style="left:467PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Location</span></DIV>
-
-<DIV style="left:467PX;top:247PX;width:102PX;height:22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
 <!--Reference Table-->
 <DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่สั่งซื้อ</span></DIV>
