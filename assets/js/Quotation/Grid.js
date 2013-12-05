@@ -73,10 +73,5 @@ Ext.define('Account.Quotation.Grid', {
 	},
 	load: function(options){
 		this.store.load(options);
-	},
-	getFilter: function(){
-		Ext.each(this.tbar.items, function(o,i){
-
-		});
 	}
 });

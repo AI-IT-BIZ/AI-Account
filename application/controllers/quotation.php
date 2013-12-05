@@ -62,6 +62,16 @@ class Quotation extends CI_Controller {
 
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`vbeln` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `jobnr` LIKE '%$query%'
+				OR `jobtx` LIKE '%$query%')", NULL, FALSE);
+			}
+
+
 	        $vbeln1 = $_this->input->get('vbeln');
 			$vbeln2 = $_this->input->get('vbeln2');
 			if(!empty($vbeln1) && empty($vbeln2)){

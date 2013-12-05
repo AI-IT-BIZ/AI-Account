@@ -24,12 +24,6 @@ Ext.define('Account.Quotation.MainWindow', {
 
 	initComponent : function() {
 		var _this=this;
-		// --- Init external component ---
-		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
-			region: 'north',
-			height:100
-		});
-		// --- End Init external component ---
 
 		// --- object ---
 		this.addAct = new Ext.Action({
@@ -61,21 +55,25 @@ Ext.define('Account.Quotation.MainWindow', {
 			text: 'Import',
 			iconCls: 'b-small-import'
 		});
-		this.exportAct = new Ext.Action({
-			text: 'Export',
-			iconCls: 'b-small-export'
-		});
 
         this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+
 		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
-			border: false
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct,
+				this.printAct, this.excelAct, this.pdfAct,this.importAct]
 		});
 
-		this.items = [this.searchForm, this.grid];
+		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
+			region: 'north',
+			height:100
+		});
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct, this.pdfAct,this.importAct];
+
+		this.items = [this.searchForm, this.grid];
 
 		// --- event ---
 		this.addAct.setHandler(function(){

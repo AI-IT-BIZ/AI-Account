@@ -34,9 +34,8 @@ Ext.define('Account.Quotation.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from keywords',
+			emptyText: 'Find from Quotation, Customer, Project or Sale',
 			labelAlign: 'right',
-			anchor:'-18',
 			listeners : {
 				specialkey : function(o, e) {
 					if (e.getKey() == e.ENTER)
@@ -45,7 +44,39 @@ Ext.define('Account.Quotation.FormSearch', {
 			}
 		});
 
-		this.items = [this.txtQuery, {
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Status',
+			name : 'statu',
+			labelAlign: 'right',
+			width: 240,
+			editable: false,
+			triggerAction : 'all',
+			margin: '0 0 0 6',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
+
+		this.items = [{
 			// column layout with 2 columns
 			layout:'column',
 			border:false,
@@ -61,7 +92,7 @@ Ext.define('Account.Quotation.FormSearch', {
 				// left column
 				// defaults for fields
 				defaults:{anchor:'100%'},
-				items:[{
+				items:[this.txtQuery, {
 					xtype: 'datefield',
 					name: 'bldat',
 					hideLabel: false,
@@ -75,7 +106,7 @@ Ext.define('Account.Quotation.FormSearch', {
 				// right column
 				// defaults for fields
 				defaults:{anchor:'100%'},
-				items:[{
+				items:[this.comboQStatus, {
 					xtype: 'datefield',
 					name: 'bldat2',
 					hideLabel: false,
