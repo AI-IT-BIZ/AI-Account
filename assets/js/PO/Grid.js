@@ -13,7 +13,8 @@ Ext.define('Account.PO.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'ebeln'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'ebeln',
@@ -30,7 +31,7 @@ Ext.define('Account.PO.Grid', {
 				'email'
 			],
 			remoteSort: true,
-			sorters: ['ebeln ASC']
+			sorters: [{property: 'ebeln', direction: 'ASC'}]
 		});
 
 		this.columns = [

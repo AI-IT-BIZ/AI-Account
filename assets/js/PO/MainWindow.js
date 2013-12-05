@@ -69,37 +69,36 @@ Ext.define('Account.PO.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-
-        this.itemDialog = Ext.create('Account.PO.Item.Window');
-		this.grid = Ext.create('Account.PO.Grid', {
-			region:'center',
-			border: false
-		});
-        this.printAct = new Ext.Action({
-			text: 'Print',
-			iconCls: 'b-small-print'
-		});
+        //this.printAct = new Ext.Action({
+		//	text: 'Print',
+		//	iconCls: 'b-small-print'
+		//});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel'
-		});
-		this.pdfAct = new Ext.Action({
-			text: 'PDF',
-			iconCls: 'b-small-pdf'
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
 			iconCls: 'b-small-import'
 		});
-		this.exportAct = new Ext.Action({
-			text: 'Export',
-			iconCls: 'b-small-export'
+		
+		this.itemDialog = Ext.create('Account.PO.Item.Window');
+		
+		this.grid = Ext.create('Account.PO.Grid', {
+			region:'center',
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.items = [this.grid];
+		this.searchForm = Ext.create('Account.PO.FormSearch', {
+			region: 'north',
+			height:100
+		});
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
+		this.items = [this.searchForm, this.grid];
+
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
@@ -142,7 +141,25 @@ Ext.define('Account.PO.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
+        
+        this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
 
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 
 		// --- after ---
 		this.grid.load();
