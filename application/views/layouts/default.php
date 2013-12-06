@@ -588,7 +588,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
 									'<div id="div-saleorder" class="box box-green"><span>Sale Orders</span></div>',
 									'<div id="div-invoice" class="box box-green"><span>Invoices</span></div>',
-									'<div id="div-billto" class="box box-green"><span>Bill to Customers</span></div>',
+									'<div id="div-billto" class="box box-green"><span>Billing Note</span></div>',
 									'<div id="div-receipt" class="box box-green"><span>Receipts</span></div>',
 									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
@@ -606,7 +606,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
 									'<div id="div-payment" class="box box-red"><span>Payments</span></div>',
 									'<div id="div-deposit2" class="box box-red"><span>Deposit Payments</span></div>',
-									'<div id="div-billfrom" class="box box-red"><span>Bill from Vendors</span></div>',
+									'<div id="div-billfrom" class="box box-red"><span>Billing Receipts</span></div>',
 
 									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
 									'<div id="div-rpayment" class="box box-orange"><span>Payment Report</span></div>',

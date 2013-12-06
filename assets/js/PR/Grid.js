@@ -13,7 +13,8 @@ Ext.define('Account.PR.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'purnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'purnr',
@@ -30,7 +31,7 @@ Ext.define('Account.PR.Grid', {
 				'email'
 			],
 			remoteSort: true,
-			sorters: ['purnr ASC']
+			sorters: [{property: 'purnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -44,12 +45,12 @@ Ext.define('Account.PR.Grid', {
 			{text: "Net Amount", xtype: 'numbercolumn',
 			flex: true, dataIndex: 'netwr', sortable: true},
 			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
-			{text: "", width: 0, dataIndex: 'adr01', sortable: true},
-			{text: "", width: 0, dataIndex: 'distx', sortable: true},
-			{text: "", width: 0, dataIndex: 'pstlz', sortable: true},
-			{text: "", width: 0, dataIndex: 'telf1', sortable: true},
-			{text: "", width: 0, dataIndex: 'telfx', sortable: true},
-			{text: "", width: 0, dataIndex: 'email', sortable: true}
+			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},
+			{text: "2",hidden: true, width: 0, dataIndex: 'distx', sortable: false},
+			{text: "3",hidden: true, width: 0, dataIndex: 'pstlz', sortable: false},
+			{text: "4",hidden: true, width: 0, dataIndex: 'telf1', sortable: false},
+			{text: "5",hidden: true, width: 0, dataIndex: 'telfx', sortable: false},
+			{text: "6",hidden: true, width: 0, dataIndex: 'email', sortable: false}
 		];
 
 		this.bbar = {

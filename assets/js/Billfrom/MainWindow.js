@@ -3,7 +3,7 @@ Ext.define('Account.Billfrom.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Bill From Vendor',
+			title: 'Billing Received',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -78,51 +78,55 @@ Ext.define('Account.Billfrom.MainWindow', {
 			text: 'Excel',
 			iconCls: 'b-small-excel'
 		});
-		this.pdfAct = new Ext.Action({
-			text: 'PDF',
-			iconCls: 'b-small-pdf'
-		});
+		//this.pdfAct = new Ext.Action({
+		//	text: 'PDF',
+		//	iconCls: 'b-small-pdf'
+		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
 			iconCls: 'b-small-import'
 		});
-		this.exportAct = new Ext.Action({
-			text: 'Export',
-			iconCls: 'b-small-export'
-		});
-		
+
 		this.itemDialog = Ext.create('Account.Billfrom.Item.Window');
 
 		this.grid = Ext.create('Account.Billfrom.Grid', {
 			region:'center',
-			border: false
+			border: false//,
+			//tbar: [this.addAct, this.editAct, this.deleteAct,
+			//	this.printAct, this.excelAct,this.importAct]
 		});
 
-		this.items = [this.grid];
+		this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
+			region: 'north',
+			height:100
+		});
 
 		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
+		this.printAct, this.excelAct,this.importAct];
+
+		this.items = [this.searchForm, this.grid];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
+			_this.itemDialog.openDialog();
 
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
-			_this.itemDialog.openDialog(id);
-			/*
 			if(id){
-				_this.itemDialog.show();
+			_this.itemDialog.openDialog(id);
+			
+				/*_this.itemDialog.show();
 				_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				_this.itemDialog.form.gridItem.load({bilnr: id});
-			    //_this.itemDialog.form.gridPayment.load({recnr: id});
-			}*/
+			    //_this.itemDialog.form.gridPayment.load({recnr: id});*/
+			}
 		});
 
 		this.deleteAct.setHandler(function(){
@@ -131,6 +135,17 @@ Ext.define('Account.Billfrom.MainWindow', {
 			if(id){
 				_this.itemDialog.form.remove(id);
 			}
+		});
+		
+		this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/po/index?'+query;
 		});
 
 		this.itemDialog.form.on('afterSave', function(){
@@ -142,7 +157,24 @@ Ext.define('Account.Billfrom.MainWindow', {
 			_this.grid.load();
 		});
 
+        this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
 
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 		// --- after ---
 		this.grid.load();
 

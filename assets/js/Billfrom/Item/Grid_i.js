@@ -76,7 +76,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Invoice Code",
+		{text: "Billing Code",
 		width: 100,
 		dataIndex: 'invnr',
 		sortable: false,
@@ -98,7 +98,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-		    {text: "Invoice Date",
+		    {text: "Billing Date",
 		    width: 80,
 		    xtype: 'datecolumn',
 		    dataIndex: 'invdt',
@@ -113,7 +113,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-			{text: "Invoice Amt",
+			{text: "Billing Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'itamt',

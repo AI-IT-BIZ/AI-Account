@@ -232,10 +232,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
-<DIV style="left:571PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">สำเนา</span></DIV>
+<DIV style="left:571PX;top:26PX;width:40PX;height:20PX;"><span class="fc1-2">สำเนา</span></DIV>
 <DIV style="left:605PX;top:24PX;width:112PX;height:25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
 <?php else: ?>
-<DIV style="left:571PX;top:26PX;width:30PX;height:20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
+<DIV style="left:571PX;top:26PX;width:40PX;height:20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
 <?php endif; ?>
 
 <!--Page No-->
@@ -288,7 +288,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:109PX;top:247PX;width:31PX;height:21PX;"><span class="fc1-8">Tel.</span></DIV>
 
-<DIV style="left:287PX;top:247PX;width:28PX;height:21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
+<DIV style="left: 287PX; top: 247PX; width: 162px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
 
 <DIV style="left:143PX;top:247PX;width:140PX;height:21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
@@ -408,13 +408,13 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['purpr'];?></td>
-		<td class="fc1-8" align="center" style="width:77px;"><?=$item['matnr'];?></td>
-		<td class="fc1-8" align="center" style="width:218px;"><?=$item['maktx'];?></td>
-		<td class="fc1-8" align="center" style="width:71px;"><?=number_format($item['menge'],2,'.',',');?></td>
-		<td class="fc1-8" align="center" style="width:78px;"><?=number_format($item['unitp'],2,'.',',');?></td>
-		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
-		<td class="fc1-8" align="center" style="width:78px;"><?=number_format($item['disit'],2,'.',',');?></td>
-		<td class="fc1-8" align="center" style="width:88px;"><?=number_format($itamt,2,'.',',');?></td>
+		<td class="fc1-8" align="center" style="width:79px;"><?=$item['matnr'];?></td>
+		<td class="fc1-8" align="left" style="width:224px;"><?=$item['maktx'];?></td>
+		<td class="fc1-8" align="right" style="width:75px;"><?=number_format($item['menge'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:60px;"><?=number_format($item['unitp'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:82px;"><?=$item['meins'];?></td>
+		<td class="fc1-8" align="right" style="width:58px;"><?=number_format($item['disit'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
 <?php

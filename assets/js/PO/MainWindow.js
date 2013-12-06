@@ -97,8 +97,8 @@ Ext.define('Account.PO.MainWindow', {
 
 		this.items = [this.searchForm, this.grid];
 
-		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		//this.printAct, this.excelAct, this.pdfAct,this.importAct, this.exportAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		this.excelAct,this.importAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){

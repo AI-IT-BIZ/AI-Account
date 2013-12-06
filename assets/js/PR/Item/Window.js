@@ -3,7 +3,7 @@ Ext.define('Account.PR.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Purchase Request',
+			title: 'Create/Edit Purchase Requisition',
 			closeAction: 'hide',
 			height: 600,
 			width: 880,

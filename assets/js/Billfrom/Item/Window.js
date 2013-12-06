@@ -3,7 +3,7 @@ Ext.define('Account.Billfrom.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Bill From Vendor',
+			title: 'Create/Edit Billing Received',
 			closeAction: 'hide',
 			height: 650,
 			width: 950,
@@ -21,6 +21,7 @@ Ext.define('Account.Billfrom.Item.Window', {
 		this.form = Ext.create('Account.Billfrom.Item.Form',{ region:'center' });
 
 		this.previewDialog = Ext.create('Account.Billfrom.Item.PreviewWindow');
+		
 		this.items = [
 		     this.form
 		   ];
@@ -46,7 +47,8 @@ Ext.define('Account.Billfrom.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
-		}];
+		},
+		this.btnPreview];
 
 		return this.callParent(arguments);
 	},
