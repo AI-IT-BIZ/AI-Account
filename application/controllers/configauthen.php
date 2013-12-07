@@ -13,7 +13,7 @@
      	       $strSQL = " Select tbl_doct.doctx ,tbl_doct.docty,tbl_autx.autex  ";
                $strSQL = $strSQL . " From tbl_doct ";
                $strSQL = $strSQL . " Left Join tbl_autx on tbl_doct.docty = tbl_autx.docty and tbl_autx.empnr = '" . $empnr . "'  ";
-               
+               $strSQL = $strSQL . " Order by tbl_doct.doctx ASC ";
 	 	       $query = $this->db->query($strSQL);
                foreach ($query->result() as $row)
                {
@@ -96,8 +96,211 @@
                 echo $strResult;
                 return;
             }
-     	   
+            /*AuthenDoc******************************************************/
+     	    if($func == "GET_TBL_DOCT")
+            {
+                $strResult = "";
+                
+                $strSQL = " SELECT TRIM(grptx) grptx,TRIM(doctx) doctx,TRIM(docty) docty,TRIM(grpmo) grpmo  ";
+                $strSQL = $strSQL . " FROM tbl_doct order by TRIM(grptx) , TRIM(docty) asc; ";
+                $query = $this->db->query($strSQL);
+                foreach ($query->result() as $row)
+                {
+                    
+                    $strResult = $strResult . $row->grptx . "+" . $row->docty . "+" . $row->doctx . "+" . $row->grpmo  . "|";
+                
+                }
+                if( $strResult != "" )
+                {
+                  $strResult  = substr($strResult,0 ,strlen($strResult) -1)  ;
+                }
+                echo $strResult;
+                return;
+            }
+            if($func == "GET_TBL_AMOU")
+            {
+                $strResult = "";
+                
+                $docty = $_GET['docty'];
+                $strSQL = " Select tbl_amou.*,tbl_doct.grptx ";
+                $strSQL = $strSQL . " From tbl_amou ";
+                $strSQL = $strSQL . " Left Join tbl_doct on tbl_amou.docty = tbl_doct.docty ";
+                $strSQL = $strSQL . " Where tbl_amou.docty = '" . $docty . "' ";
+                $CountRow = 0;
+                $query = $this->db->query($strSQL);
+                foreach ($query->result() as $row)
+                {
+                    $CountRow = $CountRow +1;
+                    $strResult = $strResult . $CountRow . "+" . $row->amoid . "+" . $row->rowid . "+" . $row->grptx . "+" . $row->docty . "+" . $row->liamo  . "|";
+                }
+                if( $strResult != "" )
+                {
+                  $strResult  = substr($strResult,0 ,strlen($strResult) -1)  ;
+                }
+                echo $strResult;
+                return;
+            }
+            if($func == "GET_TBL_AUAM")
+            {
+                $strResult = "";
+                $CountRow = 0;
+                $amoid = $_GET['amoid'];
+                $strSQL = " Select tbl_auam.*,tbl_empl.name1,tbl_empl.postx,tbl_empl.deptx ";
+                $strSQL = $strSQL . " from tbl_auam ";
+                $strSQL = $strSQL . " left join tbl_empl on tbl_auam.empnr = tbl_empl.empnr ";
+                $strSQL = $strSQL . " Where tbl_auam.amoid = '" . $amoid . "' ";
+                $strSQL = $strSQL . " Order By tbl_auam.levid asc ";
+               
+                $query = $this->db->query($strSQL);
+                foreach ($query->result() as $row)
+                {
+                    $CountRow = $CountRow + 1;
+                    $strResult = $strResult . $CountRow  . "+" . $row->levid . "+" . $row->amoid . "+" . $row->empnr . "+" . $row->name1 . "+" . $row->postx . "+" . $row->deptx  . "|";
+                }
+                if( $strResult != "" )
+                {
+                  $strResult  = substr($strResult,0 ,strlen($strResult) -1)  ;
+                }
+                echo $strResult;
+                return;
+            }
+            
+            if($func == "GET_EMPL_APPROVE")
+            {
+                 $strResult = "";
+                 $docty = $_GET['docty'];
+          
+                 
+                 $strSQL = " Select distinct tbl_empl.* ";
+                 $strSQL = $strSQL . " From tbl_empl ";
+                 $strSQL = $strSQL . " Inner Join tbl_autx On tbl_empl.empnr = tbl_autx.empnr ";
+                 $strSQL = $strSQL . " Where tbl_autx.docty = '" . $docty . "' ";
+                 $strSQL = $strSQL . " And RIGHT(tbl_autx.autex,1) = '1' ";
+                 
+                 $query = $this->db->query($strSQL);
+                 foreach ($query->result() as $row)
+                 {
+              
+                    $strResult = $strResult .  $row->empnr . "+" . $row->name1 . "+" . $row->postx . "+" . $row->deptx . "|";
+                 }
+                 if( $strResult != "" )
+                 {
+                   $strResult  = substr($strResult,0 ,strlen($strResult) -1)  ;
+                 }
+                 echo $strResult;
+                 return;
+            }
+            if($func == "GetSaveEmplAuthen")
+            {
+                 $levid = $_GET['levid'];
+                 $amoid = $_GET['amoid'];
+                 $empnr = $_GET['empnr'];
+                 $strSQL = "Delete From tbl_auam Where amoid = '" .$amoid . "' and empnr = '" . $empnr . "';";
+                 $query = $this->db->query($strSQL);
+                 $strSQL = " Insert into tbl_auam(levid,amoid,empnr) Values('" . $levid . "','" . $amoid. "','" . $empnr . "');";
+                 $query = $this->db->query($strSQL);
+                 echo "Save Complete";
+                 return;
+            }
+            
+            if($func == "GetSaveAmount")
+            {
+               //  $MaxKey = GetMaxKey("tbl_amou","amoid","AM","00000","");
+                 $strTable = "tbl_amou";
+                 $strField = "amoid";
+                 $strTypeID = "AM";
+                 $numID = 0;
+                 $myID = "";
+                 $strSQL = "Select MAX(" . $strField . ") MaxKEY From " . $strTable . " Where " . $strField . " Like '" . $strTypeID . "-%'";
+                 $query = $this->db->query($strSQL);
+                 foreach ($query->result() as $row) 
+                 {
+                   if($row->MaxKEY == "")
+                   {
+                      $numID = 0;
+                   } 
+                   else
+                   {
+                      $numID = str_replace($strTypeID . "-","" ,$row->MaxKEY);
+                   }
+                  
+                 }
+                 $numID = $numID + 1;
+                 $MaxKey = $strTypeID . "-" . sprintf("%05s",$numID);
+                 /******************************************************/
+                 $rowid =  $_GET['rowid'];
+                 $docty =  $_GET['docty'];
+                 $liamo =  $_GET['liamo'];
+                 $strSQL = " Insert into tbl_amou(amoid,rowid,docty,liamo) Values('" . $MaxKey . "'," . $rowid . ",'" . $docty . "'," . $liamo . ");";
+                 $query = $this->db->query($strSQL);
+                 
+                 /****************************************************************/
+                 
+                 $strResult = "";
+                
+                 $docty = $_GET['docty'];
+                 $strSQL = " Select tbl_amou.*,tbl_doct.grptx ";
+                 $strSQL = $strSQL . " From tbl_amou ";
+                 $strSQL = $strSQL . " Left Join tbl_doct on tbl_amou.docty = tbl_doct.docty ";
+                 $strSQL = $strSQL . " Where tbl_amou.docty = '" . $docty . "' ";
+                 $CountRow = 0;
+                 $query = $this->db->query($strSQL);
+                 foreach ($query->result() as $row)
+                 {
+                     $CountRow = $CountRow +1;
+                     $strResult = $strResult . $CountRow . "+" . $row->amoid . "+" . $row->rowid . "+" . $row->grptx . "+" . $row->docty . "+" . $row->liamo  . "|";
+                 }
+                 if( $strResult != "" )
+                 {
+                   $strResult  = substr($strResult,0 ,strlen($strResult) -1)  ;
+                 }
+                 echo $strResult;
+                 return;
+                
+            }
+            if($func == "DeleteAmount")
+            {
+                 $amoid = $_GET['amoid'];
+                 $strSQL = "Delete from tbl_amou Where amoid = '" .$amoid . "';";
+                 $query = $this->db->query($strSQL);
+                 $strSQL = "Delete from tbl_auam Where amoid = '" .$amoid . "';";
+                 $query = $this->db->query($strSQL);
+                 echo "Delete Complete";
+                 return;
+            }
+            if($func == "DeleteEmplAuthen")
+            {
+                 $amoid = $_GET['amoid'];
+                 $empnr= $_GET['empnr'];
+                 $strSQL = "Delete from tbl_auam Where amoid = '" .$amoid . "' And empnr = '" . $empnr . "';";
+                 $query = $this->db->query($strSQL);
+                 echo "Delete Complete";
+                 return;
+            }
+            
 	    }
-
+        function GetMaxKey( $strTable,  $strField,  $strTypeID,  $strFormat,  $strWhere)
+        {
+             
+            $numID = 0;
+            $myID = "";
+            $strSQL = "Select MAX(" . $strField . ") MaxKEY From " . $strTable . " Where " . $strField . " Like '" . $strTypeID . "-%'";
+            $query = $this->db->query($strSQL);
+            foreach ($query->result() as $row) 
+            {
+                  if($row->MaxKEY == "")
+                  {
+                     $numID = 0;
+                  } 
+                  else
+                  {
+                     $numID = str_replace($strTypeID . "-","" ,$row->MaxKEY);
+                  }
+                  
+            }
+            $numID = $numID + 1;
+            $myID = $strTypeID . "-" . sprintf("%05s",$numID);
+            return $myID;
+        }
      }
 ?>
