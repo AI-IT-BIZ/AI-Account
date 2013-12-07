@@ -3,7 +3,7 @@ Ext.define('Account.Billto.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Bill To Customer',
+			title: 'Create/Edit Billing Note',
 			closeAction: 'hide',
 			height: 650,
 			width: 950,
@@ -20,9 +20,18 @@ Ext.define('Account.Billto.Item.Window', {
 
 		this.form = Ext.create('Account.Billto.Item.Form',{ region:'center' });
 
+		this.previewDialog = Ext.create('Account.Billto.Item.PreviewWindow');
+
 		this.items = [
 		     this.form
-		   ];
+		];
+		
+		this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				_this.previewDialog.openDialog(_this.dialogId);
+			}
+		});
 
 		this.buttons = [{
 			text: 'Save',
@@ -38,32 +47,29 @@ Ext.define('Account.Billto.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
-		}, {
-			text: 'Preview',
-			handler: function() {
-				window.open("index.php/form/billto");
-			}
-		}];
-/*		
-		// event
-		this.grid1.store.on('update', function(store, record){
-			var sum = 0;
-			store.each(function(r){
-				var qty = parseFloat(r.data['menge']),
-					price = parseFloat(r.data['unitp']),
-					discount = parseFloat(r.data['dismt']);
-				qty = isNaN(qty)?0:qty;
-				price = isNaN(price)?0:price;
-				discount = isNaN(discount)?0:discount;
+		}, this.btnPreview];
 
-				var amt = (qty * price) - discount;
-
-				sum += amt;
-			});
-			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-			_this.formTotal.calculate();
-		});
-*/
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			this.form.gridItem.load({bilnr: id});
+
+			this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			this.btnPreview.setDisabled(true);
+		}
 	}
 });

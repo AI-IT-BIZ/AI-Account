@@ -46,6 +46,14 @@ class Billto extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`bilnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -68,6 +76,7 @@ class Billto extends CI_Controller {
 		}
 // End for report
 
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
@@ -75,6 +84,10 @@ class Billto extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();

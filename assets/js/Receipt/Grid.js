@@ -13,7 +13,8 @@ Ext.define('Account.Receipt.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'recnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'recnr',
@@ -27,7 +28,7 @@ Ext.define('Account.Receipt.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['recnr ASC']
+			sorters: [{property: 'recnr', direction: 'ASC'}]
 		});
 
 		this.columns = [

@@ -59,15 +59,42 @@ class Customer extends CI_Controller {
 
 	function loads(){
 		$tbName = 'kna1';
+		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
 
+		}
+		// End for report		
+		
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-//		createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
+
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,

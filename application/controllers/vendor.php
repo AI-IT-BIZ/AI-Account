@@ -67,10 +67,37 @@ class Vendor extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'lfa1';
 		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+		}
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 		
 		echo json_encode(array(

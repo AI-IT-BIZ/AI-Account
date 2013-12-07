@@ -20,9 +20,18 @@ Ext.define('Account.GR.Item.Window', {
 
 		this.form = Ext.create('Account.GR.Item.Form',{ region:'center' });
 
+		this.previewDialog = Ext.create('Account.GR.Item.PreviewWindow');
+
 		this.items = [
 		     this.form
 		];
+		
+		this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				_this.previewDialog.openDialog(_this.dialogId);
+			}
+		});
 
 		this.buttons = [{
 			text: 'Save',
@@ -35,12 +44,29 @@ Ext.define('Account.GR.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
-		}, {
-			text: 'Preview',
-			handler: function() {
-				window.open("index.php/form/gr");
-			}
-		}];
+		}, this.btnPreview];
+		
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			this.form.gridItem.load({mbeln: id});
+
+			this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			this.btnPreview.setDisabled(true);
+		}
 	}
 });

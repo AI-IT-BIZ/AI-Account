@@ -89,6 +89,22 @@ class Billto extends CI_Controller {
 <!--<TITLE>Crystal Report Viewer</TITLE>-->
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<?php
+$current_copy_index = 0;
+for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
+
+	// check total page
+	$page_size = 10;
+	$total_count = count($rows);
+	$total_page = ceil($total_count / $page_size);
+	$real_current_page = 0;
+	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
+		echo '<div';
+		if($real_current_page>0)
+			echo ' class="break"';
+		echo ' style="position:relative; height:1100px;">';
+		$real_current_page++;
+?>
 <DIV style="z-index:0"> &nbsp; </div>
 <div style="left: 520PX; top: 278px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 383px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
@@ -187,7 +203,7 @@ class Billto extends CI_Controller {
 <!--Header Text-->
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบวางบิล</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">BILL TO CUSTOMER</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">BILLING NOTE</span></DIV>
 
 <DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
@@ -195,23 +211,23 @@ class Billto extends CI_Controller {
 
 <DIV style="left:519PX;top:176PX;width:75PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:174PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
+<DIV style="left:615PX;top:174PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['bilnr'];?></span></DIV>
 
 <DIV style="left:519PX;top:198PX;width:76PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:635PX;top:196PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$bldat_str?></span></DIV>
+<DIV style="left:615PX;top:196PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$bldat_str?></span></DIV>
 
-<DIV style="left: 519PX; top: 220PX; width: 114px; height: 20PX;"><span class="fc1-2">วันที่นัดชำระ(Due Date) </span></DIV>
+<DIV style="left: 519PX; top: 220PX; width: 84px; height: 20PX;"><span class="fc1-2">วันที่นัดชำระ (Due Date) </span></DIV>
 <?php 
 $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
-<DIV style="left:635PX;top:218PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$duedt_str?></span></DIV>
+<DIV style="left:615PX;top:218PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$duedt_str?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
-<img  WIDTH=106 HEIGHT=100 SRC="../../../assets/images/icons/bmblogo.jpg">
+<img  WIDTH=106 HEIGHT=100 SRC="<?= base_url('assets/images/icons/bmblogo.jpg') ?>">
 </DIV>
 
 <!--Company Text-->
@@ -250,7 +266,7 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 <DIV style="left: 385PX; top: 280PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
 <DIV style="left: 385PX; top: 298PX; width: 136px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
 <DIV style="left: 520PX; top: 280PX; width: 141px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่ครบกำหนด</span></DIV>
-<DIV style="left: 520PX; top: 298PX; width: 141px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Collection Date</span></DIV>
+<DIV style="left: 520PX; top: 298PX; width: 141px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <DIV style="left:660PX;top:280PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
 <DIV style="left:660PX;top:298PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
 
@@ -284,12 +300,14 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$itamt = $item['itamt'];
 	//$itamt = $item['menge'] * $item['unitp'];
 	//$itamt = $itamt - $item['disit'];
+	$b_amt += $itamt;
+	$invdt_str = util_helper_format_date($r_data['invdt']);
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:109px;"><?=$item['vbelp'];?></td>
 	  <td class="fc1-8" align="center" style="width:228px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="center" style="width:136px;"><?=$item['invdt'];?></td>
-	  <td class="fc1-8" align="center" style="width:141px;"><?=$item['sgtxt'];?></td>
+	  <td class="fc1-8" align="center" style="width:136px;"><?=$invdt_str;?></td>
+	  <td class="fc1-8" align="center" style="width:137px;"><?=$item['txz01'];?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
@@ -305,17 +323,17 @@ endfor;
 <?= check_page($current_page_index, $total_page, number_format($b_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
-<DIV style="left:660PX;top:684PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
 <?php $d_amt = $b_amt - $r_data['dismt'] ?>
-<DIV style="left:660PX;top:709PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left:660PX;top:709PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 
-<DIV style="left:660PX;top:753PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
+<DIV style="left:660PX;top:753PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
 
 <DIV style="left:465PX;top:753PX;width:194PX;height:19PX;"><span class="fc1-4">หลังหักมัดจำ&nbsp;&nbsp;After Advance payment</span></DIV>
 
@@ -332,11 +350,11 @@ else
 <?= $tax_str ?></span></DIV>
 
 <DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+</span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 
-<DIV style="left:660PX;top:821PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left:660PX;top:821PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->

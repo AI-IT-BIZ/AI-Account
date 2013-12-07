@@ -252,13 +252,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
+<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ebeln'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:635PX;top:128PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
+<DIV style="left:635PX;top:130PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
@@ -299,7 +299,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <DIV style="left:467PX;top:247PX;width:102PX;height:22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
 <!--Reference Table-->
-<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่สั่งซื้อ</span></DIV>
+<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ขอซื้อ</span></DIV>
 
 <DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">PR no.</span></DIV>
 

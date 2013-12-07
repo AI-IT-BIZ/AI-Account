@@ -62,7 +62,7 @@ Ext.define('Account.Billto.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Bill To Status',
+			fieldLabel: 'Billing Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -163,7 +163,7 @@ Ext.define('Account.Billto.Item.Form', {
                 layout: 'anchor',
      items :[{
 			xtype: 'displayfield',
-            fieldLabel: 'Bill To No',
+            fieldLabel: 'Billing No',
             name: 'bilnr',
             value: 'BTXXXX-XXXX',
             labelAlign: 'right',
@@ -183,7 +183,7 @@ Ext.define('Account.Billto.Item.Form', {
 			allowBlank: false
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Bill To Date',
+			fieldLabel: 'Billing Date',
 			name: 'duedt',
 			//anchor:'80%',
 			labelAlign: 'right',

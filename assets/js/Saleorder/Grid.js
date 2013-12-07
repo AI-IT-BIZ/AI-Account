@@ -13,7 +13,8 @@ Ext.define('Account.Saleorder.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'ordnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'ordnr',
@@ -31,7 +32,7 @@ Ext.define('Account.Saleorder.Grid', {
 				'terms'
 			],
 			remoteSort: true,
-			sorters: ['ordnr ASC']
+			sorters: [{property: 'ordnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -46,16 +47,16 @@ Ext.define('Account.Saleorder.Grid', {
 			{text: "Quotation No.", 
 			width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'salnr'},
+			{text: "1",hidden: true,width: 0, dataIndex: 'salnr', sortable: false},
 			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Amount", 
 			xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'ptype'},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'taxnr'},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'terms'}
+			{text: "2",hidden: true,width: 0, dataIndex: 'ptype', sortable: false},
+			{text: "3",hidden: true,width: 0, dataIndex: 'taxnr', sortable: false},
+			{text: "4",hidden: true,width: 0, dataIndex: 'terms', sortable: false}
 		];
 
 		this.bbar = {

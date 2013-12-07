@@ -13,7 +13,8 @@ Ext.define('Account.Billto.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'bilnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'bilnr',
@@ -27,7 +28,7 @@ Ext.define('Account.Billto.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['bilnr ASC']
+			sorters: [{property: 'bilnr', direction: 'ASC'}]
 		});
 
 		this.columns = [

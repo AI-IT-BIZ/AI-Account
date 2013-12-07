@@ -13,7 +13,8 @@ Ext.define('Account.Invoice.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'invnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'invnr',
@@ -29,7 +30,7 @@ Ext.define('Account.Invoice.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
 
 		this.columns = [

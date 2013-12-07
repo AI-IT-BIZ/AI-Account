@@ -62,6 +62,15 @@ class Saleorder extends CI_Controller {
 
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`ordnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `vbeln` LIKE '%$query%'
+				OR `salnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 	        $ordnr1 = $_this->input->get('ordnr');
 			$ordnr2 = $_this->input->get('ordnr2');
 			if(!empty($ordnr1) && empty($ordnr2)){
@@ -114,7 +123,7 @@ class Saleorder extends CI_Controller {
 		}
 // End for report
 
-		//createQuery($this);
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
@@ -122,6 +131,10 @@ class Saleorder extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();

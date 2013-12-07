@@ -31,5 +31,26 @@ Ext.define('Account.Customer.Item.Window', {
 		//];
 
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			//this.form.gridItem.load({ebeln: id});
+
+			//this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			//this.btnPreview.setDisabled(true);
+		}
 	}
 });

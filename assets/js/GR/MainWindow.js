@@ -67,10 +67,6 @@ Ext.define('Account.GR.MainWindow', {
 			text: 'Delete',
 			iconCls: 'b-small-minus'
 		});
-		this.printAct = new Ext.Action({
-			text: 'Print',
-			iconCls: 'b-small-print'
-		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel'
@@ -85,7 +81,7 @@ Ext.define('Account.GR.MainWindow', {
 			region:'center',
 			border: false,
 			tbar : [this.addAct, this.editAct, this.deleteAct,
-		            this.excelAct, this.pdfAct,this.importAct]
+		            this.excelAct,this.importAct]
 		});
 
 	    this.searchForm = Ext.create('Account.GR.FormSearch', {
@@ -107,7 +103,7 @@ Ext.define('Account.GR.MainWindow', {
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
-			//if(id){
+			if(id){
 				_this.itemDialog.openDialog(id);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
@@ -115,7 +111,7 @@ Ext.define('Account.GR.MainWindow', {
 				// สั่ง gr_item grid load
 				//_this.itemDialog.form.gridItem.load({mbeln: id});
 				//_this.itemDialog.form.gridPayment.load({purnr: id});
-			//}
+			}
 		});
 
 		this.deleteAct.setHandler(function(){
@@ -128,17 +124,6 @@ Ext.define('Account.GR.MainWindow', {
 		});
 		//console.log(this.itemDialog.form);
 		
-		this.excelAct.setHandler(function(){
-			var params = _this.searchForm.getValues(),
-				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
-			params = Ext.apply({
-				sort: sorters.property,
-				dir: sorters.direction
-			}, params);
-			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/gr/index?'+query;
-		});
-
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
@@ -166,6 +151,18 @@ Ext.define('Account.GR.MainWindow', {
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    
+	    		this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/gr/index?'+query;
+		});
+
 		// --- after ---
 		this.grid.load();
 

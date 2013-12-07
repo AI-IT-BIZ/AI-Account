@@ -16,7 +16,8 @@ Ext.define('Account.Customer.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'kunnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 				'kunnr',
@@ -30,15 +31,15 @@ Ext.define('Account.Customer.Grid', {
 				'pson1'
 			],
 			remoteSort: true,
-			sorters: ['kunnr ASC']
+			sorters: [{property: 'kunnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
-			{text: "Code", width: 50, dataIndex: 'kunnr', sortable: true},
+			{text: "Customer Code", width: 100, dataIndex: 'kunnr', sortable: true},
 			{text: "Name", width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Address", width: 200, dataIndex: 'adr01', sortable: true},
 			{text: "District", flex: true, dataIndex: 'distx', sortable: true},
-			{text: "Postcode", width: 50, dataIndex: 'pstlz', sortable: true},
+			{text: "Post Code", width: 60, dataIndex: 'pstlz', sortable: true},
 			{text: "Telephon", flex: true, dataIndex: 'telf1', sortable: true},
 			{text: "Fax No", flex: true, dataIndex: 'telfx', sortable: true},
 			{text: "Email", width: 120, dataIndex: 'email', sortable: true},

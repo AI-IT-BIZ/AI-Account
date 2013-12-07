@@ -253,13 +253,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:109PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['purnr'];?></span></DIV>
+<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['purnr'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:635PX;top:128PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
+<DIV style="left:635PX;top:130PX;width:108PX;height:21PX;"><span class="fc1-3"><?= $bldat_str ?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
