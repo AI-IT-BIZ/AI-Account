@@ -56,6 +56,14 @@ class Project extends CI_Controller {
 		
 // Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`jobnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `salnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
             $jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
 			if(!empty($jobnr1) && empty($jobnr2)){
@@ -98,6 +106,7 @@ class Project extends CI_Controller {
 		}
 // End for report
 
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
@@ -105,10 +114,10 @@ class Project extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();

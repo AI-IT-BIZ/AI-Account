@@ -50,7 +50,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				'chk01'
 			],
 			remoteSort: true,
-			sorters: ['ebelp ASC']
+			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
@@ -80,53 +80,54 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			width: 80,
 			dataIndex: 'matnr',
 			align : 'center',
-			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			sortable: true//,
+			//field: {
+			//	type: 'textfield'
+			//}
 			},{
 			text: "Material Desc.",
 			width: 220,
 			dataIndex: 'maktx',
-			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			sortable: true//,
+			//field: {
+			//	type: 'textfield'
+			//}
 			},
 			{text: "Qty",
 			xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
-			align: 'right',
-			editor: {
-				xtype: 'textfield'
-			}
+			align: 'right'//,
+			//editor: {
+			//	xtype: 'textfield'
+			//}
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
-			field: {
-				type: 'textfield'
-			}
+			{text: "Unit", width: 50, 
+			dataIndex: 'meins', sortable: false//,
+			//field: {
+			//	type: 'textfield'
+			//}
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'unitp',
 			sortable: false,
-			align: 'right',
-			field: {
-				type: 'textfield'
-			}
+			align: 'right'//,
+			//field: {
+				//type: 'textfield'
+			//}
 			},
 			{text: "Discount",
 			xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'disit',
 			sortable: false,
-			align: 'right',
-			field: {
-				type: 'textfield'
-			}
+			align: 'right'//,
+			//field: {
+			//	type: 'textfield'
+			//}
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
@@ -148,20 +149,20 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				xtype: 'numbercolumn',
 				dataIndex: 'itamt',
 				sortable: false,
-				align: 'right',
-				field: {
-				type: 'textfield'
-			}
+				align: 'right'//,
+				//field: {
+				//type: 'textfield'
+			//}
 			},
 			{text: "Currency",
 			width: 70,
 			dataIndex: 'ctype',
 			//xtype: 'textcolumn',
 			sortable: true,
-			align: 'center',
-			editor: {
-				xtype: 'textfield'
-			},
+			align: 'center'//,
+			//editor: {
+				//xtype: 'textfield'
+			//},
 			}
 		];
 
@@ -191,10 +192,10 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		});
 		newId--;
         
-        var cur = _this.curValue;
+        //var cur = _this.curValue;
         //var amts = _this.amtValue;
 		// add new record
-		rec = { id:newId, ctype:cur, duedt:new Date() };
+		rec = { id:newId };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

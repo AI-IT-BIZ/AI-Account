@@ -69,11 +69,11 @@ Ext.define('Account.DepositOut.Item.Form', {
 		});
 		
 		this.hdnDpItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbdp'
+			name: 'ebdp'
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bcus',
+			name: 'bven',
 		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
@@ -462,7 +462,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ recnr: 0 });
+		this.gridItem.load({ depnr: 0 });
 		//this.gridPayment.load({ recnr: 0 });
 		
 		// default status = wait for approve
@@ -486,11 +486,11 @@ Ext.define('Account.DepositOut.Item.Form', {
 			//var nets = _this.amtValue;
 			//perct = isNaN(perct)?0:perct;
 			//pay = isNaN(pay)?0:pay;
-            var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+            //var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
 			//var amt = itamt - pay;
 			//itamt = nets * perct;
 			//itamt = itamt / 100;
-			sum += itamt;
+			sum += r.data['itamt'];
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		//this.gridItem.poValue = nets;
@@ -517,40 +517,5 @@ Ext.define('Account.DepositOut.Item.Form', {
             }); 
            }
 	},
-	
-	// Load GL functions
-	loadGL: function(){
-		var _this=this;
-		var store = this.gridItem.store;
-		var sum = 0;
-		store.each(function(r){
-			//var itamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
-				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			//itamt = isNaN(itamt)?0:itamt;
-			//pay = isNaN(pay)?0:pay;
-			//var amt = itamt - pay;
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
-			sum += itamt;
-		});
-
-		// set value to grid payment
-		//var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid  
-		var currency = this.trigCurrency.getValue();
-		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
-		  sum = sum * rate;
-		}   
-        if(sum>0){
-        	//console.log(rsPM);
-            _this.gridGL.load({
-            	//paym:Ext.encode(rsPM),
-            	netpr:sum,
-            	kunnr:this.trigVendor.getValue(),
-            	rate:rate,
-            	dtype:'01'
-            }); 
-           }
-	}
 	
 });

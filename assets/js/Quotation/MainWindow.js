@@ -39,18 +39,18 @@ Ext.define('Account.Quotation.MainWindow', {
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-		this.printAct = new Ext.Action({
-			text: 'Print',
-			iconCls: 'b-small-print'
-		});
+		//this.printAct = new Ext.Action({
+		//	text: 'Print',
+		//	iconCls: 'b-small-print'
+		//});
 		this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel'
 		});
-		this.pdfAct = new Ext.Action({
-			text: 'PDF',
-			iconCls: 'b-small-pdf'
-		});
+		//this.pdfAct = new Ext.Action({
+		//	text: 'PDF',
+		//	iconCls: 'b-small-pdf'
+		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
 			iconCls: 'b-small-import'
@@ -62,7 +62,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			region:'center',
 			border: false,
 			tbar: [this.addAct, this.editAct, this.deleteAct,
-				this.printAct, this.excelAct, this.pdfAct,this.importAct]
+				 this.excelAct,this.importAct]
 		});
 
 		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
@@ -77,20 +77,22 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
+			_this.itemDialog.openDialog();
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				_this.itemDialog.show();
-				_this.itemDialog.form.load(id);
+				_this.itemDialog.openDialog(id);
+				//_this.itemDialog.show();
+				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
-				_this.itemDialog.form.gridItem.load({vbeln: id});
-				_this.itemDialog.form.gridPayment.load({vbeln: id});
+				//_this.itemDialog.form.gridItem.load({vbeln: id});
+				//_this.itemDialog.form.gridPayment.load({vbeln: id});
 			}
 		});
 

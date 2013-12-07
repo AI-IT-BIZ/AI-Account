@@ -13,7 +13,8 @@ Ext.define('Account.GR.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'mbeln'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'mbeln',
@@ -30,7 +31,7 @@ Ext.define('Account.GR.Grid', {
 				'email'
 			],
 			remoteSort: true,
-			sorters: ['mbeln ASC']
+			sorters: [{property: 'mbeln', direction: 'ASC'}]
 		});
 
 		this.columns = [

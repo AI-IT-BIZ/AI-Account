@@ -47,6 +47,14 @@ class Depositout extends CI_Controller {
 		// Start for report
 		function createQuery($_this){
 			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`depnr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `ebeln` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -70,12 +78,17 @@ class Depositout extends CI_Controller {
 		}
 // End for report
 
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -270,23 +283,19 @@ class Depositout extends CI_Controller {
 	///////////////////////////////////////////////
 	function loads_dp_item(){
 		$ponr = $this->input->get('ponr');
+		
+		$dp_id = $this->input->get('depnr');
 		if(!empty($ponr)){
 			$this->db->set_dbprefix('v_');
 		    $this->db->where('ebeln', $ponr);
 			$this->db->where('matnr', '200003');
 
 		    $query = $this->db->get('ekpo');
-
 		}else{
             $this->db->set_dbprefix('v_');
-	        $dp_id = $this->input->get('depnr');
 		    $this->db->where('depnr', $dp_id);
-        //$totalCount = $this->db->count_all_results('vbbp');
-		
-		//createQuery($this);
-	       $query = $this->db->get('ebdp');
-      //  echo $this->db->last_query();
-		}
+	        $query = $this->db->get('ebdp');
+      	}
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

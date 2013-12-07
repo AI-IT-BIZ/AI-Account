@@ -13,7 +13,8 @@ Ext.define('Account.Project.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'jobnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'jobnr',
@@ -30,36 +31,36 @@ Ext.define('Account.Project.Grid', {
 				'pramt'
 			],
 			remoteSort: true,
-			sorters: ['jobnr ASC']
+			sorters: [{property: 'jobnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
 		    {text: "Project No", 
-		    width: 80, align: 'center', dataIndex: 'jobnr', sortable: false},
+		    width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", 
-			width: 150, dataIndex: 'jobtx', sortable: false},
+			width: 150, dataIndex: 'jobtx', sortable: true},
 		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: false},
+		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
-			width: 150, dataIndex: 'name1', sortable: false},
+			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Project Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'bldat', sortable: false},
+			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
 			{text: "Status", 
-			width: 120, dataIndex: 'statx', sortable: false},
-			{text: "",
-			 xtype: 'hidden',
-			width: 0, 
+			width: 120, dataIndex: 'statx', sortable: true},
+			{text: "1",
+			 hidden: true,
+			 width: 0, 
 			dataIndex: 'salnr', 
-			sortable: false},
+			sortable: true},
 			{text: "Sale Person", 
-			width: 100, dataIndex: 'sname', sortable: false},
+			width: 100, dataIndex: 'sname', sortable: true},
 			{text: "Start Date", xtype: 'datecolumn', format:'d/m/Y', 
-			width: 80, align: 'center', dataIndex: 'stdat', sortable: false},
+			width: 80, align: 'center', dataIndex: 'stdat', sortable: true},
 			{text: "End Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'endat', sortable: false},
+			width: 80, align: 'center', dataIndex: 'endat', sortable: true},
 			{text: "Project Amount", 
 			xtype: 'numbercolumn',
-			width: 90, align: 'right', dataIndex: 'pramt', sortable: false}
+			width: 90, align: 'right', dataIndex: 'pramt', sortable: true}
 		];
 
 		this.bbar = {

@@ -13,7 +13,8 @@ Ext.define('Account.DepositOut.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'depnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'depnr',
@@ -27,7 +28,7 @@ Ext.define('Account.DepositOut.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['depnr ASC']
+			sorters: [{property: 'depnr', direction: 'ASC'}]
 		});
 
 		this.columns = [

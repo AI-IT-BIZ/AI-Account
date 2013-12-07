@@ -65,7 +65,8 @@ for($i=0;$i<=strlen($num1)-1;$i++){
   
   $didit2_chk=$didit2_chk-1;
 }
-if($didit2_chk<>-1)
+if($num1<>'00')
+//echo $num1;
  $bathtext1.='สตางค์';
 //return $didit2_chk;
 return $bathtext1;
