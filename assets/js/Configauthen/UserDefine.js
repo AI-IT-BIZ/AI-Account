@@ -8,6 +8,7 @@ Ext.define('Account.Configauthen.UserDefine', {
        var store_edit_authen = Ext.create('Ext.data.ArrayStore', {
         fields: [{ name: 'doctx', type: 'string' },
                  { name: 'docty', type: 'string' },
+                 { name: 'display', type: 'string' },
                  { name: 'create', type: 'string' },
                  { name: 'edit', type: 'string' },
                  { name: 'delete', type: 'string' },
@@ -23,7 +24,8 @@ Ext.define('Account.Configauthen.UserDefine', {
         title:'',
         store: store_edit_authen,
         columns: [
-            {id:'doctx', text: "Doc Type", align: 'left', width: 180, dataIndex: 'doctx', sortable: true },
+            {id:'doctx', text: "Doc Type", align: 'left', width: 160, dataIndex: 'doctx', sortable: true },
+            { text: "Display", align: 'center', width: 100,renderer:SetFieldAuthen, dataIndex: 'display', sortable: true },
             { text: "Create", align: 'center', width: 100,renderer:SetFieldAuthen, dataIndex: 'create', sortable: true },
             { text: "Edit", align: 'center', width: 100, renderer:SetFieldAuthen,  dataIndex: 'edit', sortable: true },
             { text: "Delete", align: 'center', width: 100, renderer:SetFieldAuthen,  dataIndex: 'delete', sortable: true },
@@ -191,7 +193,7 @@ Ext.define('Account.Configauthen.UserDefine', {
          text: 'Cancel',
          width:80,
          handler: function() {
-                             
+                    
         }
      }); 
      
@@ -326,6 +328,8 @@ Ext.define('Account.Configauthen.UserDefine', {
                   data[4] = strTemp[4];
                   data[5] = strTemp[5];
                   data[6] = strTemp[6];
+                  data[7] = strTemp[7];
+                  data[8] = strTemp[8];
                   myData[i] = data;
                   }
               }
@@ -345,7 +349,7 @@ Ext.define('Account.Configauthen.UserDefine', {
         for(i = 0;i< store_edit_authen.getCount() ; i++)
         {
             rt = store_edit_authen.getAt(i);
-            sSql = sSql + rt.get('docty') + "+" +  rt.get('create') + rt.get('edit')  + rt.get('delete')  + rt.get('export')  + rt.get('approve')  + "|"; 
+            sSql = sSql + rt.get('docty') + "+" + rt.get('display') +  rt.get('create') + rt.get('edit')  + rt.get('delete')  + rt.get('export')  + rt.get('approve')  + "|"; 
             
         }
       
@@ -362,6 +366,17 @@ Ext.define('Account.Configauthen.UserDefine', {
         
         if(cellIndex == 1)
         {
+            if(record.get('display') == "0")
+            {
+                 record.set('display', 1); 
+            }
+            else{
+                record.set('display', "0"); 
+            }
+           return;
+        }
+        if(cellIndex == 2)
+        {
             if(record.get('create') == "0")
             {
                  record.set('create', 1); 
@@ -371,7 +386,7 @@ Ext.define('Account.Configauthen.UserDefine', {
             }
            return;
         }
-        if(cellIndex == 2)
+        if(cellIndex == 3)
         {
             if(record.get('edit') == "0")
             {
@@ -382,7 +397,7 @@ Ext.define('Account.Configauthen.UserDefine', {
             }
            return;
         }
-        if(cellIndex == 3)
+        if(cellIndex == 4)
         {
             if(record.get('delete') == "0")
             {
@@ -393,7 +408,7 @@ Ext.define('Account.Configauthen.UserDefine', {
             }
            return;
         }
-        if(cellIndex == 4)
+        if(cellIndex == 5)
         {
             if(record.get('export') == "0")
             {
@@ -404,7 +419,7 @@ Ext.define('Account.Configauthen.UserDefine', {
             }
            return;
         }
-        if(cellIndex == 5)
+        if(cellIndex == 6)
         {
             if(record.get('approve') == "0")
             {

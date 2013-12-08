@@ -10,21 +10,23 @@
                $strAutx = "";
                $strResult = "";
      	       $empnr = $_GET['empnr'];
+               $comid = "1000";
      	       $strSQL = " Select tbl_doct.doctx ,tbl_doct.docty,tbl_autx.autex  ";
                $strSQL = $strSQL . " From tbl_doct ";
                $strSQL = $strSQL . " Left Join tbl_autx on tbl_doct.docty = tbl_autx.docty and tbl_autx.empnr = '" . $empnr . "'  ";
+              // $strSQL = $strSQL . " Where "
                $strSQL = $strSQL . " Order by tbl_doct.doctx ASC ";
 	 	       $query = $this->db->query($strSQL);
                foreach ($query->result() as $row)
                {
                   if($row->autex == "") 
                   {
-                     $strAutx = "0" . "+" . "0" . "+" . "0" . "+" . "0" . "+" . "0";  
+                     $strAutx =  "0" . "+" . "0" . "+" . "0" . "+" . "0" . "+" . "0" . "+" . "0";  
                 
                   }
                   else
                   {
-                     $strAutx =  substr($row->autex , -5,1) . "+" . substr($row->autex , -4,1) . "+" . substr($row->autex , -3 ,1) . "+" . substr($row->autex, -2 ,1) . "+" . substr($row->autex , -1 ,1) ;
+                     $strAutx =  substr($row->autex , -6,1) . "+" . substr($row->autex , -5,1) . "+" . substr($row->autex , -4,1) . "+" . substr($row->autex , -3 ,1) . "+" . substr($row->autex, -2 ,1) . "+" . substr($row->autex , -1 ,1) ;
                   }
 
                   $strResult = $strResult . $row->doctx . "+" . $row->docty . "+" . $strAutx . "|";
