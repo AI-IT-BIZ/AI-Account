@@ -17,7 +17,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.Material.MainWindow');
+		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
 		// END Material search popup ///////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];

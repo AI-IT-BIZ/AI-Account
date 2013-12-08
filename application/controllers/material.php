@@ -34,8 +34,7 @@ class Material extends CI_Controller {
 		}else{
 		    $sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
                   on a.matnr = b.matnr
-		          WHERE a.matnr='$id'
-		          and a.mtart <> 'SV'";
+		          WHERE a.matnr='$id'";
 		    $query = $this->db->query($sql);
 			
 			if($query->num_rows()>0){
@@ -79,6 +78,52 @@ class Material extends CI_Controller {
 		//$this->db->order_by($sort, $dir);
 
 		//$query = $this->db->get($tbName);
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	function load2(){
+		$tbName = 'mara';
+		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`matnr` LIKE '%$query%'
+				OR `maktx` LIKE '%$query%'
+				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
+			}
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
+			}
+
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,

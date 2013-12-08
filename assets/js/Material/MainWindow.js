@@ -8,7 +8,7 @@ Ext.define('Account.Material.MainWindow', {
 			height: 600,
 			minHeight: 380,
 			width: 600,
-			minWidth: 1000,
+			minWidth: 100,
 			resizable: true,
 			modal: true,
 			layout:'border',

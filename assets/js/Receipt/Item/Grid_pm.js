@@ -291,11 +291,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				newId = r.get('id');
 		});
 		newId--;
-        //var sel = _this.getView().getSelectionModel().getSelection()[0];
-        //if (sel){
-        // i = parseFloat(sel.get('payam'));
-        // net = net - i;
-        //}
+        var sel = _this.getView().getSelectionModel().getSelection()[0];
+        if (sel){
+         i = parseFloat(sel.get('payam'));
+         net = net - i;
+        }
 
 		// add new record
 		rec = { id:newId, pramt:net };
