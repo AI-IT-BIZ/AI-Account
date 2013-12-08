@@ -57,15 +57,16 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				}
 			},
 			fields: [
+	
 			    'recnr',
-			    'paypr',
+				'paypr',
 				'ptype',
 				'bcode',
 				'bname',
 				'sgtxt',
 				'chqid',
 				'chqdt',
-				'pramt',
+				{name:'pramt', type: 'string'},
 				'payam',
 				'reman'
 			],
@@ -309,7 +310,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			column: 0
 		});
 
-	//	this.runNumRow2();
+		this.runNumRow2();
 	},
 
 	removeRecord2: function(grid, rowIndex){
