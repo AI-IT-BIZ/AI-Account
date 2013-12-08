@@ -25,10 +25,35 @@ Ext.define('Account.SInvoice.MainWindow', {
 
 		this.grid = Ext.create('Account.SInvoice.Grid', {
 			region:'center',
-			border: false
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+		});
+		
+		this.searchForm = Ext.create('Account.SInvoice.FormSearch', {
+			region: 'north',
+			height:100
 		});
 
-		this.items = [this.grid];
+		this.items = [this.searchForm, this.grid];
+		
+		this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
+
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 
 		// --- after ---
 		this.grid.load();

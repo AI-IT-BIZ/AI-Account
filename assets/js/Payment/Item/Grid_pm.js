@@ -97,7 +97,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		}, {text: "Payment",
 		    width: 100,
 		    dataIndex: 'ptype',
-		    sortable: true,
+		    sortable: false,
 		    editor: new Ext.form.field.ComboBox({
 	            store: this.ptypeStore,
 				queryMode: 'remote',
@@ -119,7 +119,9 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 					return "";
 			}
 		}, {text: "Bank Code", align : 'center',
-			width:80, dataIndex: 'bcode', sortable: true,
+			width:80, 
+			dataIndex: 'bcode', 
+			sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -131,26 +133,26 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			},
 			},
 		    {text: "Bank Name",
-		    width: 120, dataIndex: 'bname', sortable: true,
+		    width: 120, dataIndex: 'bname', sortable: false,
 		    field: {
 				type: 'textfield'
 			},
 		    },
 			{text: "Branch",
-			width: 100, dataIndex: 'sgtxt', sortable: true,
+			width: 100, dataIndex: 'sgtxt', sortable: false,
 			field: {
 				type: 'textfield'
 			},
 			},
 			{text: "Cheque No", align : 'center',
-			width: 80, dataIndex: 'chqid', sortable: true,
+			width: 80, dataIndex: 'chqid', sortable: false,
 			field: {
 				type: 'textfield'
 			},
 			},
 		    {text: "Cheque Dat", align : 'center',
 		    xtype: 'datecolumn', width: 80,
-		    dataIndex: 'chqdt', sortable: true,
+		    dataIndex: 'chqdt', sortable: false,
 		    format:'d/m/Y',
 		    editor: {
                 xtype: 'datefield',
@@ -169,7 +171,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		    {text: "Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'pramt', sortable: true,
+		    width: 100, dataIndex: 'pramt', sortable: false,
 		    readOnly: true,
 		    field: {
                 type: 'numberfield',
@@ -186,7 +188,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		    {text: "Pay Amt", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'payam', sortable: true,
+		    width: 100, dataIndex: 'payam', sortable: false,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -202,7 +204,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		    {text: "Remain Amt", 
 		     xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'reman', sortable: true,
+		    width: 100, dataIndex: 'reman', sortable: false,
 		    readOnly: true,
 		    renderer: function(v,p,r){
 				var pamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));

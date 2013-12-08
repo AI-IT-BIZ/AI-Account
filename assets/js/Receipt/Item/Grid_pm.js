@@ -97,7 +97,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		}, {text: "Payment",
 		    width: 100,
 		    dataIndex: 'ptype',
-		    sortable: true,
+		    sortable: false,
 		    editor: new Ext.form.field.ComboBox({
 	            store: this.ptypeStore,
 				queryMode: 'remote',
@@ -119,7 +119,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 					return "";
 			}
 		}, {text: "Bank Code", align : 'center',
-			width:80, dataIndex: 'bcode', sortable: true,
+			width:80, dataIndex: 'bcode', sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -131,26 +131,26 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			},
 			},
 		    {text: "Bank Name",
-		    width: 120, dataIndex: 'bname', sortable: true,
+		    width: 120, dataIndex: 'bname', sortable: false,
 		    field: {
 				type: 'textfield'
 			},
 		    },
 			{text: "Branch",
-			width: 100, dataIndex: 'sgtxt', sortable: true,
+			width: 100, dataIndex: 'sgtxt', sortable: false,
 			field: {
 				type: 'textfield'
 			},
 			},
 			{text: "Cheque No", align : 'center',
-			width: 80, dataIndex: 'chqid', sortable: true,
+			width: 80, dataIndex: 'chqid', sortable: false,
 			field: {
 				type: 'textfield'
 			},
 			},
 		    {text: "Cheque Dat", align : 'center',
 		    xtype: 'datecolumn', width: 80,
-		    dataIndex: 'chqdt', sortable: true,
+		    dataIndex: 'chqdt', sortable: false,
 		    format:'d/m/Y',
 		    editor: {
                 xtype: 'datefield',
@@ -169,9 +169,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    {text: "Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'pramt', sortable: true,
-		    readOnly: true,
-		    field: {
+		    width: 100, 
+		    dataIndex: 'pramt', 
+		    sortable: false//,
+		    //readOnly: true,
+		    /*field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
 				listeners: {
@@ -181,12 +183,12 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 							field.selectText();
 					}
 				}
-			}
+			}*/
 		    },
 		    {text: "Pay Amt", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'payam', sortable: true,
+		    width: 100, dataIndex: 'payam', sortable: false,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -202,7 +204,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    {text: "Remain Amt", 
 		     xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'reman', sortable: true,
+		    width: 100, dataIndex: 'reman', sortable: false,
 		    readOnly: true,
 		    renderer: function(v,p,r){
 				var pamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
@@ -288,17 +290,18 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				newId = r.get('id');
 		});
 		newId--;
-        var sel = _this.getView().getSelectionModel().getSelection()[0];
-        if (sel){
-         i = parseFloat(sel.get('payam'));
-         net = net - i;
-        }
+        //var sel = _this.getView().getSelectionModel().getSelection()[0];
+        //if (sel){
+        // i = parseFloat(sel.get('payam'));
+        // net = net - i;
+       // }
+
 		// add new record
 		rec = { id:newId, pramt:net };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
-		//var sel = this.getView().getSelectionModel().getSelection()[0];
+		var sel = this.getView().getSelectionModel().getSelection()[0];
 		var selIndex = this.store.indexOf(sel);
 		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({

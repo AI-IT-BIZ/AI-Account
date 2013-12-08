@@ -8,12 +8,13 @@ Ext.define('Account.SInvoice.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"invoice/loads",
+				url: __site_url+"invoice/load2",
 				reader: {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'invnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'invnr',
@@ -31,7 +32,7 @@ Ext.define('Account.SInvoice.Grid', {
 				'txz01'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -58,8 +59,8 @@ Ext.define('Account.SInvoice.Grid', {
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'refnr'},
-			{text: "",xtype: 'hidden',width: 0, dataIndex: 'txz01'}
+			{text: "1",hidden: true,width: 0, dataIndex: 'refnr', sortable: false},
+			{text: "2",hidden: true,width: 0, dataIndex: 'txz01', sortable: false}
 		];
 
 		this.bbar = {

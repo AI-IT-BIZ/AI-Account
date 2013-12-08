@@ -13,7 +13,8 @@ Ext.define('Account.AP.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'invnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'invnr',
@@ -24,7 +25,7 @@ Ext.define('Account.AP.Grid', {
 				'statx'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
 
 		this.columns = [

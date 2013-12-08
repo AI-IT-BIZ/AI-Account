@@ -43,6 +43,31 @@ class Invoice extends CI_Controller {
 				'success'=>false
 			));
 	}
+	
+	function load2(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'vbrk';
+		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
+		//$limit = $this->input->get('limit');
+		//$start = $this->input->get('start');
+		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');

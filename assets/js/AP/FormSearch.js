@@ -1,4 +1,4 @@
-Ext.define('Account.Billfrom.FormSearch', {
+Ext.define('Account.AP.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -34,7 +34,7 @@ Ext.define('Account.Billfrom.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Billing No, Vendor code or Vendor Name',
+			emptyText: 'Find from AP No., Vendor or GR No.',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

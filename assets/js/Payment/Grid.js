@@ -13,7 +13,8 @@ Ext.define('Account.Payment.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'payno'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'payno',
@@ -22,10 +23,11 @@ Ext.define('Account.Payment.Grid', {
 				'lifnr',
 				'name1',
 				'txz01',
-				'netwr'
+				'netwr',
+				'statx'
 			],
 			remoteSort: true,
-			sorters: ['payno ASC']
+			sorters: [{property: 'payno', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -43,7 +45,8 @@ Ext.define('Account.Payment.Grid', {
 			{text: "Text Note", 
 			width: 250, dataIndex: 'txz01', sortable: true},
 			{text: "Amount", 
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true}
+			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "Payment Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {
