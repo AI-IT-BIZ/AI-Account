@@ -60,6 +60,7 @@ Ext.define('Account.Quotation.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({vbeln: id});
+			this.form.gridPayment.load({vbeln: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

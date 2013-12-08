@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Depin extends CI_Controller {
+class Depositin extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()

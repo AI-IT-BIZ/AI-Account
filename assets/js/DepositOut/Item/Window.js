@@ -20,7 +20,7 @@ Ext.define('Account.DepositOut.Item.Window', {
 
 		this.form = Ext.create('Account.DepositOut.Item.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.PO.Item.PreviewWindow');
+		this.previewDialog = Ext.create('Account.DepositOut.Item.PreviewWindow');
 		
 		this.items = [
 		     this.form

@@ -62,6 +62,7 @@ Ext.define('Account.Receipt.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({recnr: id});
+			this.form.gridPayment.load({recnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

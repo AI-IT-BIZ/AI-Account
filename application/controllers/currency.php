@@ -34,13 +34,19 @@ class Currency extends CI_Controller {
 
 		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
-
+		//echo $this->db->last_query();
+/*
 		createQuery($this);
 		$limit = $this->input->get('limit');
 		//$limit=$totalCount;
 		$start = $this->input->get('start');
-		$page=$totalCount / 25;
+		//$page=$totalCount / 25;
 		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+*/
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
@@ -52,10 +58,10 @@ class Currency extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount,
-			'limit'=>$limit,
-			'start'=>$start,
-			'page'=>$page
+			'totalCount'=>$totalCount//,
+			//'limit'=>$limit,
+			//'start'=>$start//,
+			//'page'=>$page
 		));
 	}
 
