@@ -568,6 +568,12 @@ function endsWith($haystack, $needle)
                   $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
                   $om.configDialog.show();
                }
+               if(tr.innerHTML.indexOf('User Define') > -1)
+               {
+                
+                  $om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
+                  $om.configDialog.show();
+               }
                if(tr.innerHTML.indexOf('Login') > -1)
                {
                 
