@@ -1,4 +1,4 @@
-Ext.define('Account.SMaterial.FormSearch', {
+Ext.define('Account.DepositIn.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -22,7 +22,6 @@ Ext.define('Account.SMaterial.FormSearch', {
 				_this.fireEvent('search_click', formValues);
 			}
 		});
-		
 		this.resetAct = new Ext.Action({
 			text: 'Reset',
 			iconCls: 'b-small-cross',
@@ -35,7 +34,7 @@ Ext.define('Account.SMaterial.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Material Code, Name or Type',
+			emptyText: 'Find from Deposit No, Customer or Quotation',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -44,7 +43,7 @@ Ext.define('Account.SMaterial.FormSearch', {
 				}
 			}
 		});
-		
+
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Status',
 			name : 'statu',
@@ -94,10 +93,10 @@ Ext.define('Account.SMaterial.FormSearch', {
 				// defaults for fields
 				defaults:{anchor:'100%'},
 				items:[this.txtQuery, {
-					xtype: 'textfield',
-					name: 'matnr',
+					xtype: 'datefield',
+					name: 'bldat',
 					hideLabel: false,
-					fieldLabel: 'Material Code',
+					fieldLabel: 'Start Date',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',
@@ -108,10 +107,10 @@ Ext.define('Account.SMaterial.FormSearch', {
 				// defaults for fields
 				defaults:{anchor:'100%'},
 				items:[this.comboQStatus, {
-					xtype: 'textfield',
-					name: 'matnr2',
+					xtype: 'datefield',
+					name: 'bldat2',
 					hideLabel: false,
-					fieldLabel: 'To',
+					fieldLabel: 'End Date',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',

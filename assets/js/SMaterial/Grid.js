@@ -19,9 +19,9 @@ Ext.define('Account.SMaterial.Grid', {
 			fields: [
 			    'matnr',
 				'maktx',
-			    'matkl',
+			    'matx2',
 				'mtart',
-				
+				'matx1',
 				'meins',
 				'saknr',
 				'erdat'
@@ -33,8 +33,9 @@ Ext.define('Account.SMaterial.Grid', {
 		this.columns = [
 		    {text: "Material No", width: 100, dataIndex: 'matnr', sortable: true},
 			{text: "Material Name", width: 150, dataIndex: 'maktx', sortable: true},
-		    {text: "Material Grp", width: 100, dataIndex: 'matkl', sortable: true},
-			{text: "Material Type", width: 150, dataIndex: 'mtart', sortable: true},
+		    {text: "Material Grp", width: 150, dataIndex: 'matx2', sortable: true},
+			{text: "Material Type", width: 80, dataIndex: 'mtart', sortable: true},
+			{text: "Mat Type Description", width: 150, dataIndex: 'matx1', sortable: true},
 			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
 			{text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
 			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true}

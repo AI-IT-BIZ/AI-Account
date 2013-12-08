@@ -32,7 +32,9 @@ class Material extends CI_Controller {
 		//    $query = $this->db->get('mara');
 		//}
 		}else{
-		    $sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
+		    $sql="select a.*,b.unit,b.cost 
+		          from tbl_mara a 
+		          left join tbl_plev b
                   on a.matnr = b.matnr
 		          WHERE a.matnr='$id'";
 		    $query = $this->db->query($sql);
@@ -67,9 +69,11 @@ class Material extends CI_Controller {
 
 	function loads(){
 		
-		$sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
-                  on a.matnr = b.matnr
-		          WHERE a.mtart <> 'SV'";
+		$sql="select a.*,b.unit,b.cost 
+		      from tbl_mara a 
+		      left join tbl_plev b
+              on a.matnr = b.matnr
+		      WHERE a.mtart <> 'SV'";
 		$query = $this->db->query($sql);
 		//$tbName = 'mara';
 
@@ -87,6 +91,7 @@ class Material extends CI_Controller {
 	}
 	
 	function load2(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'mara';
 		
 		function createQuery($_this){
