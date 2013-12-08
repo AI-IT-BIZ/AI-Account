@@ -5,14 +5,17 @@ Ext.define('Account.SCurrency.Grid', {
 	},
 
 	initComponent : function() {
+
 		this.store = new Ext.data.JsonStore({
+			pageSize: 25,
 			proxy: {
 				type: 'ajax',
 				url: __site_url+"currency/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ctype'
+					idProperty: 'ctype',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
@@ -25,18 +28,16 @@ Ext.define('Account.SCurrency.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Currency Code", 
+		    {text: "Currency Code",
 		    width: 80, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "Currency Name", 
+			{text: "Currency Name",
 			width: 250, dataIndex: 'curtx', sortable: true}
 		];
 
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		this.bbar = Ext.create('Ext.PagingToolbar', {
 			store: this.store,
 			displayInfo: true
-		};
+		});
 
 		return this.callParent(arguments);
 	},
