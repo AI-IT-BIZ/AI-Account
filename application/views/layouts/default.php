@@ -95,6 +95,7 @@ function endsWith($haystack, $needle)
 		#div-deposit2 { top:280px; left:280px; width: 90px; height:90px; }
 		#div-gr { top:280px; left:400px; width: 90px; height:90px; }
 		#div-ap { top:400px; left:400px; width: 90px; height:90px; }
+	    #div-apxx { top:400px; left:400px; width: 90px; height:90px; cursor:default; }
 		#div-billfrom { top:400px; left:280px; width: 90px; height:90px; }
 		#div-payment { top:520px; left:280px; width: 210px; height:100px; }
 
@@ -307,7 +308,10 @@ function endsWith($haystack, $needle)
 				text: 'Config BizNet Accounts',
 				leaf: true
 			};
-
+	        var nodeLogin = {
+				text: 'Login',
+				leaf: true
+			};
 			var groupNodeTodo = {
 				text: 'TO-DO',
 				leaf: false,
@@ -315,7 +319,8 @@ function endsWith($haystack, $needle)
 				singleClickExpand : true,
 				children: [
 					nodeTutorials,
-					nodeSetup
+					nodeSetup,
+					nodeLogin
 				]
 			};
 
@@ -563,7 +568,13 @@ function endsWith($haystack, $needle)
                   $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
                   $om.configDialog.show();
                }
-         
+               if(tr.innerHTML.indexOf('Login') > -1)
+               {
+                
+                  //$om.configDialog = Ext.create('Account.Configauthen.Main')
+                  $om.loginDialog = Ext.create('Account.Login.MainWindow');
+                  $om.loginDialog.show();
+               }
                // $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 		       // $om.configDialog.show();
              
@@ -604,6 +615,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-gr" class="box box-red"><span>Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
 									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
+									'<div id="div-apxx" style="visibility:hidden;" class="box box-red"><span>Account Payable</span></div>',
 									'<div id="div-payment" class="box box-red"><span>Payments</span></div>',
 									'<div id="div-deposit2" class="box box-red"><span>Deposit Payments</span></div>',
 									'<div id="div-billfrom" class="box box-red"><span>Billing Receipts</span></div>',
