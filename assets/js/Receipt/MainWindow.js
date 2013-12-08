@@ -27,7 +27,7 @@ Ext.define('Account.Receipt.MainWindow', {
         x: 50,
         y: 50,
         hideLabel: true
-    });
+      });
 
        var form_import_file =  Ext.create('Ext.form.Panel', {
         id: 'form_panel-PR-MainWindow',

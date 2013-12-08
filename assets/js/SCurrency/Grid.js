@@ -13,14 +13,15 @@ Ext.define('Account.SCurrency.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'ctype'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'ctype',
 				'curtx'
 			],
 			remoteSort: true,
-			sorters: ['ctype ASC']
+			sorters: [{property: 'ctype', direction: 'ASC'}]
 		});
 
 		this.columns = [

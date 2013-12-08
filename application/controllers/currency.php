@@ -23,19 +23,29 @@ class Currency extends CI_Controller {
 	function loads(){
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'ctyp';
+		
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`ctype` LIKE '%$query%'
+				OR `curtx` LIKE '%$query%')", NULL, FALSE);
+			}
+		}
 
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
-		$limit = $totalCount;//$this->input->get('limit');
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		//$limit=$totalCount;
 		$start = $this->input->get('start');
-		$page = $totalCount / $limit;
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		$page=$totalCount / 25;
+		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
-
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();

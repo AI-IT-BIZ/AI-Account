@@ -13,6 +13,7 @@ Ext.define('Account.Payment.Item.Grid_gl', {
 		});
 		this.copyAct = new Ext.Action({
 			text: 'Copy',
+			disabled: true,
 			iconCls: 'b-small-copy'
 		});
 

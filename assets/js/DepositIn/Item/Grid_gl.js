@@ -13,6 +13,8 @@ Ext.define('Account.DepositIn.Item.Grid_gl', {
 		});
 		this.copyAct = new Ext.Action({
 			text: 'Copy',
+			disabled: true,
+			disabled: true,
 			iconCls: 'b-small-copy'
 		});
 
