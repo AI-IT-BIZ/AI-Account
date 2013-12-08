@@ -172,6 +172,10 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
+		
+		this.copyAct.setHandler(function(){
+			_this.copyRecord();
+		});
 
 		return this.callParent(arguments);
 	},
@@ -208,6 +212,44 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+	},
+	
+	copyRecord: function(){
+		var _this=this;
+
+		var sel = _this.getView().getSelectionModel().getSelection()[0];
+		if(sel){
+			// หา record ที่สร้างใหม่ล่าสุด
+			var newId = -1;
+			this.store.each(function(r){
+				if(r.get('id')<newId)
+					newId = r.get('id');
+			});
+			newId--;
+
+	        var cur = _this.curValue;
+			// add new record
+			rec = sel.getData();
+			//console.log(rec);
+			rec.id = newId;
+			//rec = { id:newId, ctype:cur };
+			edit = this.editing;
+			edit.cancelEdit();
+			// find current record
+			//var sel = this.getView().getSelectionModel().getSelection()[0];
+			var selIndex = this.store.indexOf(sel);
+			this.store.insert(selIndex+1, rec);
+			edit.startEditByPosition({
+				row: selIndex+1,
+				column: 0
+			});
+
+			this.runNumRow();
+
+			this.getSelectionModel().deselectAll();
+		}else{
+			Ext.Msg.alert('Warning', 'Please select record to copy.');
+		}
 	},
 
 	removeRecord: function(grid, rowIndex){

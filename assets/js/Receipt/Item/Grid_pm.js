@@ -294,18 +294,18 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				newId = r.get('id');
 		});
 		newId--;
-        //var sel = _this.getView().getSelectionModel().getSelection()[0];
-        //if (sel){
-        // i = parseFloat(sel.get('payam'));
-        // net = net - i;
-       // }
+        var sel = _this.getView().getSelectionModel().getSelection()[0];
+        if (sel){
+         i = parseFloat(sel.get('payam'));
+         net = net - i;
+        }
 
 		// add new record
 		rec = { id:newId, pramt:net };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
-		var sel = this.getView().getSelectionModel().getSelection()[0];
+		//var sel = this.getView().getSelectionModel().getSelection()[0];
 		var selIndex = this.store.indexOf(sel);
 		this.store.insert(selIndex+1, rec);
 		edit.startEditByPosition({

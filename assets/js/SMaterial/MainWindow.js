@@ -1,14 +1,14 @@
-Ext.define('Account.SCurrency.MainWindow', {
+Ext.define('Account.SMaterial.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Currency List',
+			title: 'Material&Service List',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 350,
-			minWidth: 300,
+			width: 800,
+			minWidth: 600,
 			resizable: true,
 			modal: true,
 			layout:'border',
@@ -23,15 +23,15 @@ Ext.define('Account.SCurrency.MainWindow', {
 
 		// --- object ---
 
-		this.grid = Ext.create('Account.SCurrency.Grid', {
+		this.grid = Ext.create('Account.SMaterial.Grid', {
 			region:'center',
-			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			border: false//,
+			//tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.SCurrency.FormSearch', {
+		this.searchForm = Ext.create('Account.SMaterial.FormSearch', {
 			region: 'north',
-			height:60
+			height:100
 		});
 
 		this.items = [this.searchForm, this.grid];

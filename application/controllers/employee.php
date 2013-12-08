@@ -67,16 +67,45 @@ class Employee extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'empl';
 		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`empnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$empnr1 = $_this->input->get('empnr');
+			$empnr2 = $_this->input->get('empnr2');
+			if(!empty($empnr1) && empty($empnr2)){
+			  $_this->db->where('empnr', $empnr1);
+			}
+			elseif(!empty($empnr1) && !empty($empnr2)){
+			  $_this->db->where('empnr >=', $empnr1);
+			  $_this->db->where('empnr <=', $empnr2);
+			}
+
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 

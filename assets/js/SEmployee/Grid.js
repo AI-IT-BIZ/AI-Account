@@ -16,7 +16,8 @@ Ext.define('Account.SEmployee.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'empnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'empnr',
@@ -25,7 +26,7 @@ Ext.define('Account.SEmployee.Grid', {
 				'deptx'
 			],
 			remoteSort: true,
-			sorters: ['empnr ASC']
+			sorters: [{property: 'empnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
