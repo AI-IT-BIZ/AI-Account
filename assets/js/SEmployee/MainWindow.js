@@ -1,9 +1,6 @@
 Ext.define('Account.SEmployee.MainWindow', {
 	extend	: 'Ext.window.Window',
-	//requires : [
-		//'Account.SPosition.Grid',
-		//'Account.PR.Item.Window'
-	//],
+	
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -44,12 +41,37 @@ Ext.define('Account.SEmployee.MainWindow', {
 
 		this.grid = Ext.create('Account.SEmployee.Grid', {
 			region:'center',
-			border: false
+			border: false//,
+			//tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+		});
+		
+		this.searchForm = Ext.create('Account.SEmployee.FormSearch', {
+			region: 'north',
+			height:100
 		});
 
-		this.items = [this.grid];
+		this.items = [this.searchForm, this.grid];
+		
+		this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
+	    
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		/*
