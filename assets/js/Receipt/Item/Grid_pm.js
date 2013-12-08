@@ -309,7 +309,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			column: 0
 		});
 
-		this.runNumRow2();
+	//	this.runNumRow2();
 	},
 
 	removeRecord2: function(grid, rowIndex){
