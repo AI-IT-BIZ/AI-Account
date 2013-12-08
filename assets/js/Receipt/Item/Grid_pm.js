@@ -56,8 +56,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 					idProperty: 'recnr,paypr'
 				}
 			},
-			fields: [
-	
+			fields: [	
+			    
 			    'recnr',
 				'paypr',
 				'ptype',
@@ -67,6 +67,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				'chqid',
 				'chqdt',
 				{name:'pramt', type: 'string'},
+				//'pramt',
 				'payam',
 				'reman'
 			],
@@ -275,6 +276,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 	},
 
 	load: function(options){
+		
+	
 		this.store.load({
 			params: options
 		});

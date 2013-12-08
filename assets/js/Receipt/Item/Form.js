@@ -395,7 +395,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
 		this.gridPayment.load({ recnr: 0 });
-		
+
+		//this.gridPayment.clear.();
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
