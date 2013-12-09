@@ -218,13 +218,13 @@ Ext.onReady(function() {
 	
 	$om.viewport.on('click_rtransaction', function(){
 		if(!$om.rtransactionDialog)
-			$om.rtransactionDialog = Ext.create('Account.RTransaction.MainWindow');
+			$om.rtransactionDialog = Ext.create('Account.RSaleVat.MainWindow');
 		$om.rtransactionDialog.show();
 	});
 	
 	$om.viewport.on('click_rbalance', function(){
 		if(!$om.rbalanceDialog)
-			$om.rbalanceDialog = Ext.create('Account.RBalance.MainWindow');
+			$om.rbalanceDialog = Ext.create('Account.RPurchaseVat.MainWindow');
 		$om.rbalanceDialog.show();
 	});
 	

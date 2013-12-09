@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		30/11/2013
+Modified		9/12/2013
 Project		
 Model		
 Company		
@@ -10,6 +10,9 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_payp
+;
 
 Drop View IF EXISTS v_ebdp
 ;
@@ -314,6 +317,9 @@ Create table tbl_mara (
 	beqty Decimal(15,2) COMMENT 'Beginning Qty',
 	beval Decimal(17,2) COMMENT 'Beginning Value',
 	comid Varchar(4),
+	cosav Decimal(17,2) COMMENT 'Average Cost',
+	enqty Decimal(15,2) COMMENT 'Ending Qty',
+	enval Decimal(17,2) COMMENT 'Ending Value',
  Primary Key (matnr)) ENGINE = InnoDB
 COMMENT = 'Material Master';
 
@@ -1185,7 +1191,7 @@ Create table tbl_ebbp (
 	refnr Varchar(40) COMMENT 'Ref no.',
 	chk01 Varchar(5),
  Primary Key (payno,vbelp)) ENGINE = InnoDB
-COMMENT = 'Receipt Item';
+COMMENT = 'Payment Item';
 
 Create table tbl_trko (
 	bukrs Varchar(4) NOT NULL COMMENT 'Company Code',
@@ -1537,8 +1543,8 @@ Create table tbl_ebdk (
 	depdt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
-	vbeln Varchar(20) COMMENT 'PO Doc',
- Primary Key (depnr)) ENGINE = InnoDB
+	ebeln Varchar(20) COMMENT 'PO Doc',
+	poamt Decimal(17,2) COMMENT 'PO amt') ENGINE = InnoDB
 COMMENT = 'Deposit Out Header';
 
 Create table tbl_ebdp (
@@ -1560,8 +1566,11 @@ Create table tbl_ebdp (
 	payrc Decimal(17,2) COMMENT 'Payment receipt',
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
-	duedt Date,
-	perct Int,
+	duedt Date COMMENT 'Due Date',
+	perct Int COMMENT 'Percent of amount',
+	disit Decimal(17,2) COMMENT 'Discount',
+	chk01 Varchar(5) COMMENT 'Vat Check box',
+	coldt Date COMMENT 'Collection Date',
  Primary Key (depnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'Deposit Out Item';
 
@@ -1645,7 +1654,7 @@ from tbl_vbap a left join tbl_mara b
 on a.matnr = b.matnr;
 create view v_vbrk as
 
-select a.*,`b`.`name1` AS `name1`,
+select a.*,`b`.`name1` AS `name1`,`b`.`name2` AS `name2`,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
 `b`.`emai2`,`b`.`dis02`,`b`.`saknr` as cusgl,c.name1 as sname,d.statx,
@@ -1772,7 +1781,7 @@ on a.saknr = b.saknr;
 create view v_vbok as
 
 select a.*,
-`b`.`name1` AS `name1`,
+`b`.`name1` AS `name1`,`b`.`name2` AS `name2`,
 `b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
 `b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx
@@ -1899,6 +1908,15 @@ t3.vbelp,t3.duedt,t3.itamt,t3.sgtxt,t3.perct,t3.ctyp1
 FROM tbl_ebdk AS t1 
 left join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 left join tbl_ebdp AS t3 ON t1.depnr=t3.depnr;
+create view v_payp as
+
+SELECT a.*,b.paypr,b.sgtxt,b.duedt,b.perct,b.pramt,b.ctyp1,b.payty,
+`c`.`name1` AS `name1`,
+`c`.`telf1` AS `telf1`,`c`.`adr01`,`c`.`telfx` AS `telfx`,`c`.`pstlz` AS `pstlz`,
+`c`.`email` AS `email`,`c`.`distx`,`c`.`telf2`,`c`.`adr02`,`c`.`tel02`,`c`.`pst02`,
+`c`.`emai2`,`c`.`dis02`
+FROM tbl_vbdk AS a left join tbl_payp AS b ON a.vbeln=b.vbeln
+left join tbl_kna1 as c on a.kunnr=c.kunnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -1953,7 +1971,9 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0025','BF','PE','Bill from','BF','1000','9999','1308','2000','tbl_ebkk','bilnr'),
                       ('0026','CP','MS','Company Code','CP','1000','9000','1308','1000','tbl_comp','comid'),
                       ('0027','DP','PE','Deposit Payment','DP','1000','9999','1308','2000','tbl_ebdk','depnr'),
-                      ('0028','EP','MS','Employee','EP','1000','9000','1308','1000','tbl_empl','empnr');
+                      ('0028','EP','MS','Employee','EP','1000','9000','1308','1000','tbl_empl','empnr'),
+                      ('0029','MM','MM','Material Master','10','0001','9999','1308','2000','tbl_mara','matnr'),
+                      ('0030','SM','MM','Service Master','20','0001','9999','1308','1000','tbl_mara','matnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 
