@@ -223,53 +223,7 @@ Ext.define('Account.Configauthen.UserDefine', {
      
     
 /**********************************/
-  function AjaxCaller()
-       {
-         var xmlhttp=false;
-         try{
-             xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-         }catch(e){
-             try{
-                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-             }catch(E){
-                xmlhttp = false;
-             }
-          }
-
-         if(!xmlhttp && typeof XMLHttpRequest!='undefined'){
-            xmlhttp = new XMLHttpRequest();
-           }
-         return xmlhttp;
-       }
-       function callPage(url, func , param){
-          ajax=AjaxCaller(); 
-          ajax.open("GET", url + func + param, true); 
-          ajax.onreadystatechange=function(){
-          if(ajax.readyState==4){
-            if(ajax.status==200){
-                switch (func)
-                {
-                    case "GetUserAuthen":
-                          GetUserAuthen(ajax.responseText);
-                          break;
-                    case "GetSaveEditApprove":
-                           Ext.MessageBox.show({title: '', msg: 'Save Complete', icon: Ext.MessageBox.INFO});
-                          callPage(__site_url + "Configauthen?func=","GetUserAuthen","&empnr=" + txtEmployee.getRawValue());
-                          break;   
-                    case "GetEmployee":
-                         // callPage(__site_url + "Configauthen?func=","GetUserAuthen","");
-                          GetEmployee(ajax.responseText);
-                          break;    
-                }
-   
-               // div.innerHTML = ajax.responseText;
-               // alert(ajax.responseText);
-               //return ajax.responseText;
-            }
-          }
-        }
-        ajax.send(null);
-       }
+  
      function SetFieldAuthen(val)
      {
         if(val == 1)
@@ -279,46 +233,58 @@ Ext.define('Account.Configauthen.UserDefine', {
         return    "<img src='assets/images/icons/cross.png' />";
          
      }
-      function GetEmployee(strData)
+     function GetEmployee()
      {
-      
-            var arrEmp = strData.split('|');
-            var detail = arrEmp;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrEmp.length; i++) {
-                  data = new Array();
-                  strTemp = arrEmp[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  data[2] = strTemp[2];
-                  data[3] = strTemp[3];
-                  data[4] = strTemp[4];
-                  data[5] = strTemp[5];
-                  data[6] = strTemp[6];
-                  myData[i] = data;
+        Ext.Ajax.request ({
+             url: __site_url +  'configauthen/GetEmployee' ,
+             disableCaching: false ,
+             success: function (res) {
+                   
+             var arrEmp = res.responseText.split('|');
+             var detail = arrEmp;
+             var data;
+             var myData = new Array();
+             var i;
+             var strTemp;
+             if (detail != '') {
+                 for (i = 0; i < arrEmp.length; i++) {
+                     data = new Array();
+                     strTemp = arrEmp[i].split('+')
+                     data[0] = strTemp[0];
+                     data[1] = strTemp[1];
+                     data[2] = strTemp[2];
+                     data[3] = strTemp[3];
+                     data[4] = strTemp[4];
+                     data[5] = strTemp[5];
+                     data[6] = strTemp[6];
+                     myData[i] = data;
                   }
-              }
-            else {
-                  data = new Array();
-                  myData = data;
-            }
-            store_employee.loadData(myData);
-     }
-     function GetUserAuthen(strData)
-     {
+             }
+             else {
+                      data = new Array();
+                      myData = data;
+             }
+             store_employee.loadData(myData);                   
+           }
+        });
       
-            var arrEmp = strData.split('|');
-            var detail = arrEmp;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrEmp.length; i++) {
+           
+     }
+     function GetUserAuthen(empnr)
+     {
+       Ext.Ajax.request ({
+             url: __site_url +  'configauthen/GetUserAuthen?empnr=' + empnr ,
+             disableCaching: false ,
+             success: function (res) {
+                
+             var arrEmp = res.responseText.split('|');
+             var detail = arrEmp;
+             var data;
+             var myData = new Array();
+             var i;
+             var strTemp;
+             if (detail != '') {
+                for (i = 0; i < arrEmp.length; i++) {
                   data = new Array();
                   strTemp = arrEmp[i].split('+')
                   data[0] = strTemp[0];
@@ -331,13 +297,15 @@ Ext.define('Account.Configauthen.UserDefine', {
                   data[7] = strTemp[7];
                   data[8] = strTemp[8];
                   myData[i] = data;
-                  }
-              }
-            else {
+                }
+             }
+             else {
                   data = new Array();
                   myData = data;
-            }
-            store_edit_authen.loadData(myData);
+             }
+             store_edit_authen.loadData(myData);
+           }
+       });
      }
      function GetSaveEditApprove(empnr)
      {
@@ -357,9 +325,15 @@ Ext.define('Account.Configauthen.UserDefine', {
         {
             sSql= sSql.substr(0,sSql.length -1 );
         }
-        strResult = "&passw=" + passw + "&uname=" + uname + "&empnr="+ empnr + "&authen=" + sSql  ;//+ sSql;
-        //alert(strResult);
-        callPage(__site_url + "Configauthen?func=","GetSaveEditApprove",strResult);
+        strResult = "passw=" + passw + "&uname=" + uname + "&empnr="+ empnr + "&authen=" + sSql  ;//+ sSql;
+        Ext.Ajax.request ({
+             url: __site_url +  'configauthen/GetSaveEditApprove?' + strResult ,
+             disableCaching: false ,
+             success: function (res) {
+                GetUserAuthen(empnr);
+             }
+        });
+
      }
     /*Even********************************************************************/
        grid_edit_authen.on('cellclick', function (grid_edit_authen, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
@@ -435,7 +409,7 @@ Ext.define('Account.Configauthen.UserDefine', {
        });
        
        txtEmployee.onTriggerClick = function(){
-           callPage(__site_url + "Configauthen?func=","GetEmployee","");
+            GetEmployee();
 	    	win_employee_pop_up.show();
 		};
         
@@ -447,16 +421,12 @@ Ext.define('Account.Configauthen.UserDefine', {
            txtPassword.setValue(rec.get('passw'));
            lblEmployeeName.setText(rec.get('name1'));
            
-           callPage(__site_url + "Configauthen?func=","GetUserAuthen","&empnr=" + rec.get('empnr'));
-           
+           GetUserAuthen(rec.get('empnr'));
            win_employee_pop_up.hide();
        });
        
        /************************************/
-     //  callPage(__site_url + "Configauthen?func=","GetUserAuthen","");
-      // callPage(__site_url + "Configauthen?func=","GetEmployee","");
-       /********************************************/
-       /*********************************************************/
+     
        	Ext.apply(this, {
 		  title: '',
            height: 570,

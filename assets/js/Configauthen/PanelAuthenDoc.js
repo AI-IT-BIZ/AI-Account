@@ -16,6 +16,18 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
         ], sortInfo: { field: 'amoid', direction: 'ASC' }
     });
      
+     var btnAddLimitPopUp =  Ext.create('Ext.Button', {
+                text: 'Add',
+                iconCls: 'b-small-plus',
+                width: 60,
+                handler: function() {
+                    
+                    
+                    win_add_limit_amount.show();
+                   // AddLimitAmount();
+              }
+       });
+     
     var grid_limit_amount = Ext.create('Ext.grid.Panel', {
         title:'Doc Type : ',
         store: store_limit_amount,
@@ -28,15 +40,7 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
             { text: "Limit Amount", align: 'center', width: 140, dataIndex: 'liamo', sortable: true }
         ],
         autoExpandColumn: 'budget_limit_doc_name',
-        tbar:[{
-                text: 'Add',
-                iconCls: 'b-small-plus',
-                width: 60,
-                handler: function() {
-                    win_add_limit_amount.show();
-                   // AddLimitAmount();
-              }
-       }]
+        tbar:[btnAddLimitPopUp]
     });
     
     var lblLimitAmount = Ext.create('Ext.form.Label', {
@@ -111,9 +115,18 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
                  { name: 'deptx', type: 'string' }
         ], sortInfo: { field: 'levid', direction: 'ASC' }
      });
-   
+   var btnAddEmpPopUp =  Ext.create('Ext.Button', {
+                text: 'Add',
+                iconCls: 'b-small-plus',
+                width: 60,
+                handler: function() {
+                      
+                       win_add_emp_approve.show();
+              }
+       });
      var grid_authen_aprove = Ext.create('Ext.grid.Panel', {
         height: 200,
+        title:'Doc Type:',
         store: store_authen_aprove,
         plugins: [ Ext.create('Ext.grid.plugin.CellEditing', {
               clicksToEdit: 1
@@ -134,18 +147,7 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
             {  text: "Deptx", align: 'center', width: 160, dataIndex: 'deptx', sortable: true }
         ],
         autoExpandColumn: 'name1',
-        tbar:[{
-                text: 'Add',
-                iconCls: 'b-small-plus',
-                width: 60,
-                handler: function() {
-                       store_add_emp_approve.removeAll();
-                       callPage(__site_url + "Configauthen?func=","GET_EMPL_APPROVE","&docty=" + rec_limit_amount.get('docty'));
-                       win_add_emp_approve.show();
-                   // win_add_limit_amount.show();
-                   // AddLimitAmount();
-              }
-       }],
+        tbar:[btnAddEmpPopUp],
         bbar:['->',{
                 text: 'Save',
                 hidden:true,
@@ -255,178 +257,147 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
        
        
        /*Function********************************************************************/
-       function AjaxCaller()
-       {
-         var xmlhttp=false;
-         try{
-             xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-         }catch(e){
-             try{
-                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-             }catch(E){
-                xmlhttp = false;
-             }
-          }
-
-         if(!xmlhttp && typeof XMLHttpRequest!='undefined'){
-            xmlhttp = new XMLHttpRequest();
-           }
-         return xmlhttp;
-       }
-       function callPage(url, func , param){
-          ajax=AjaxCaller(); 
-          ajax.open("GET", url + func + param, true); 
-          ajax.onreadystatechange=function(){
-          if(ajax.readyState==4){
-            if(ajax.status==200){
-                switch (func)
-                {
-                    case "GET_TBL_DOCT":
-                          GET_TBL_DOCT(ajax.responseText);
-                          break;
-                    case "GET_TBL_AMOU":
-                          GET_TBL_AMOU(ajax.responseText);
-                          break;
-                    case "GET_TBL_AUAM":
-                          GET_TBL_AUAM(ajax.responseText);
-                          break;
-                    case "GET_EMPL_APPROVE":
-                          GET_EMPL_APPROVE(ajax.responseText);
-                          break;
-                    case "GetSaveEmplAuthen":
-                        // alert(ajax.responseText);
-                          break;
-                    case "GetSaveAmount":
-                          GET_TBL_AMOU(ajax.responseText);
-                        //  alert(ajax.responseText);
-                          break;
-                    case "DeleteEmplAuthen":
-                        //  alert(ajax.responseText);
-                          break; 
-                    case "DeleteAmount":
-                        //  alert(ajax.responseText);
-                        //  GET_TBL_AMOU(ajax.responseText);
-                          break;  
-                }
-   
-               // div.innerHTML = ajax.responseText;
-               // alert(ajax.responseText);
-               //return ajax.responseText;
-            }
-          }
-        }
-        ajax.send(null);
-       }
+      
        /*แสดงเอกสารทั้งหมด*******/
-       function GET_TBL_DOCT(strResult)
+       function GET_TBL_DOCT()
        {
+           Ext.Ajax.request ({
+             url: __site_url +  'configauthen/GET_TBL_DOCT' ,
+             disableCaching: false ,
+             success: function (res) {
+                
+                var arrDoct = res.responseText.split('|');
+                var detail = arrDoct;
+                var data;
+                var myData = new Array();
+                var i;
+                var strTemp;
+                if (detail != '') {
+                   for (i = 0; i < arrDoct.length; i++) {
+                       data = new Array();
+                       strTemp = arrDoct[i].split('+')
+                       data[0] = strTemp[0];
+                       data[1] = strTemp[1];
+                       data[2] = strTemp[2];
+                       data[3] = strTemp[3];
+                       myData[i] = data;
+                   }
+                 }
+                 else {
+                     data = new Array();
+                     myData = data;
+                 }
+                 store_doct.loadData(myData);
+             }
+          });
          
-            var arrDoct = strResult.split('|');
-            var detail = arrDoct;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrDoct.length; i++) {
-                  data = new Array();
-                  strTemp = arrDoct[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  data[2] = strTemp[2];
-                  data[3] = strTemp[3];
-                  myData[i] = data;
-                  }
-              }
-            else {
-                  data = new Array();
-                  myData = data;
-            }
-            store_doct.loadData(myData);
+           
        }
       
        /*เลือกพนักงานที่อยู่ในแผนก*******/
-       function GET_EMPL_APPROVE(strResult)
+       function GET_EMPL_APPROVE(docty)
        {
-            var arrEmp = strResult.split('|');
-            var detail = arrEmp;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrEmp.length; i++) {
-                  data = new Array();
-                  strTemp = arrEmp[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  data[2] = strTemp[2];
-                  data[3] = strTemp[3];
-                  myData[i] = data;
+          Ext.Ajax.request ({
+            url: __site_url +  'configauthen/GET_EMPL_APPROVE?docty=' + docty,
+            disableCaching: false ,
+            success: function (res) {
+
+                var arrEmp = res.responseText.split('|');
+                var detail = arrEmp;
+                var data;
+                var myData = new Array();
+                var i;
+                var strTemp;
+                if (detail != '') {
+                   for (i = 0; i < arrEmp.length; i++) {
+                        data = new Array();
+                        strTemp = arrEmp[i].split('+')
+                        data[0] = strTemp[0];
+                        data[1] = strTemp[1];
+                        data[2] = strTemp[2];
+                        data[3] = strTemp[3];
+                        myData[i] = data;
                   }
               }
-            else {
-                  data = new Array();
-                  myData = data;
+              else {
+                   data = new Array();
+                   myData = data;
+              }
+              store_add_emp_approve.loadData(myData);
             }
-            store_add_emp_approve.loadData(myData);
+          });
+                
+            
        }
         /*เลือกข้อมูลจาก tbl_amou โดยดึงข้อมูลจากประเภท docty *******/
-       function GET_TBL_AMOU(strResult)
+       function GET_TBL_AMOU(docty)
        {
-            //var strResult = remoteFunction("GET_TBL_AMOU",$docty);
-            var arrEmp = strResult.split('|');
-            var detail = arrEmp;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrEmp.length; i++) {
-                  data = new Array();
-                  strTemp = arrEmp[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  data[2] = strTemp[2];
-                  data[3] = strTemp[3];
-                  data[4] = strTemp[4];
-                  data[5] = strTemp[5];
-                  myData[i] = data;
+            
+            Ext.Ajax.request ({
+            url: __site_url +  'configauthen/GET_TBL_AMOU?docty=' + docty,
+            disableCaching: false ,
+            success: function (res) {
+                
+               var arrLimit = res.responseText.split('|');
+               var detail = arrLimit;
+               var data;
+               var myData = new Array();
+               var i;
+               var strTemp;
+               if (detail != '') {
+                  for (i = 0; i < arrLimit.length; i++) {
+                    data = new Array();
+                    strTemp = arrLimit[i].split('+')
+                    data[0] = strTemp[0];
+                    data[1] = strTemp[1];
+                    data[2] = strTemp[2];
+                    data[3] = strTemp[3];
+                    data[4] = strTemp[4];
+                    data[5] = strTemp[5];
+                    myData[i] = data;
                   }
               }
-            else {
-                  data = new Array();
-                  myData = data;
-            }
-            store_limit_amount.loadData(myData);
+              else {
+                    data = new Array();
+                    myData = data;
+              }
+              store_limit_amount.loadData(myData);
+             }
+         });
        }
-       function GET_TBL_AUAM(strResult)
+       function GET_TBL_AUAM(amoid)
        {
-            var arrAuam = strResult.split('|');
-            var detail = arrAuam;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrAuam.length; i++) {
-                  data = new Array();
-                  strTemp = arrAuam[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  data[2] = strTemp[2];
-                  data[3] = strTemp[3];
-                  data[4] = strTemp[4];
-                  data[5] = strTemp[5];
-                  data[6] = strTemp[6];
-                  myData[i] = data;
-                  }
+            Ext.Ajax.request ({
+            url: __site_url +  'configauthen/GET_TBL_AUAM?amoid=' + amoid,
+            disableCaching: false ,
+            success: function (res) {
+                 var arrAuam = res.responseText.split('|');
+                 var detail = arrAuam;
+                 var data;
+                 var myData = new Array();
+                 var i;
+                 var strTemp;
+                 if (detail != '') {
+                    for (i = 0; i < arrAuam.length; i++) {
+                       data = new Array();
+                       strTemp = arrAuam[i].split('+')
+                       data[0] = strTemp[0];
+                       data[1] = strTemp[1];
+                       data[2] = strTemp[2];
+                       data[3] = strTemp[3];
+                       data[4] = strTemp[4];
+                       data[5] = strTemp[5];
+                       data[6] = strTemp[6];
+                       myData[i] = data;
+                    }
+                }
+                else {
+                   data = new Array();
+                   myData = data;
+                }
+                store_authen_aprove.loadData(myData);
               }
-            else {
-                  data = new Array();
-                  myData = data;
-            }
-            store_authen_aprove.loadData(myData);
+           });
         
        }
          /*เพิ่ม limit amount ในเอกสารที่เลือก*****/
@@ -438,12 +409,14 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
           var myAmoid = "";
           var myDocty = rec_doct.get('docty');
        
-          
-     
-          callPage(__site_url + "Configauthen?func=","GetSaveAmount","&rowid=" + myRowid + "&docty=" + myDocty + "&liamo=" + amount_param);
-         // callPage(__site_url + "Configauthen?func=","GET_TBL_AMOU","&docty=" + myDocty);
-         
-         
+          Ext.Ajax.request ({
+              url: __site_url +  'configauthen/GetSaveAmount?rowid=' + myRowid + '&amoid=' + myAmoid + '&docty=' + myDocty + '&liamo=' + amount_param,
+              disableCaching: false ,
+              success: function (res) {
+                            GET_TBL_AMOU(myDocty);
+              }
+          });
+                   
        }
        /*เพิ่มผู้มีสิทธิ approve ในกริด*****/
        function AddEmplAuth() 
@@ -452,13 +425,14 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
           var myLevid =  store_authen_aprove.getCount() + 1;
           var myAmoid = rec_limit_amount.get('amoid');
           var myEmpnr = rec_empl.get('empnr');
-          
-          var strData = myLevid + "|" + myAmoid + "|" + myEmpnr;
-          callPage(__site_url + "Configauthen?func=","GetSaveEmplAuthen","&levid=" + myLevid + "&amoid=" + myAmoid + "&empnr=" + myEmpnr );
-          callPage(__site_url + "Configauthen?func=","GET_TBL_AUAM","&amoid=" + myAmoid);
-         
-        
-       
+          Ext.Ajax.request ({
+              url: __site_url +  'configauthen/GetSaveEmplAuthen?levid=' + myLevid + '&amoid=' + myAmoid + '&empnr=' + myEmpnr  ,
+              disableCaching: false ,
+              success: function (res) {
+                           GET_TBL_AUAM(myAmoid);
+              }
+          });
+
        }
       
        function GetSaveData(strData)
@@ -480,8 +454,33 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
             
           }
           strData = rec_doct.get('docty') + "#" + str
-          // var strResult = remoteFunction("GetSaveEmplAuthen",strData);
 
+       }
+       function DeleteAmount(amoid)
+       {
+           Ext.Ajax.request ({
+              url: __site_url +  'configauthen/DeleteAmount?amoid=' + amoid  ,
+              disableCaching: false ,
+              success: function (res) {
+                        GET_TBL_AMOU(rec_doct.get('docty'));
+                       
+                        store_authen_aprove.removeAll();   
+              }
+          });
+        
+       }
+       function DeleteEmplAuthen(amoid,empnr)
+       {
+     
+           Ext.Ajax.request ({
+              url: __site_url +  'configauthen/DeleteEmplAuthen?amoid=' + amoid + '&empnr=' + empnr ,
+              disableCaching: false ,
+              success: function (res) {
+                        GET_TBL_AUAM(amoid);
+                             
+              }
+          });
+        
        }
        function RenderfieldDelete(val)
        {
@@ -492,29 +491,23 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
            return '<div  style="text-align: center"><img style="cursor:pointer"   alt="" src="assets/images/icons/detail.png" /></div>';
        }
        /*Initial********************************************************************/
-       callPage(__site_url + "Configauthen?func=","GET_TBL_DOCT","");
-      // GET_TBL_DOCT();
-      // GET_EMP();
-      // win_authen_doc.show();
+       GET_TBL_DOCT();
+       btnAddLimitPopUp.setDisabled(true);
+       btnAddEmpPopUp.setDisabled(true);
+       
        
        /*Event********************************************************************/
         grid_doct.on('cellclick', function (grid_doct, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-        
-              // tr.style.color="red" ;
+            
+            btnAddLimitPopUp.setDisabled(false);
+            btnAddEmpPopUp.setDisabled(true);
             rec_doct = record;
-            //GET_TBL_AMOU(record.get('docty'));
-            callPage(__site_url + "Configauthen?func=","GET_TBL_AMOU","&docty=" + record.get('docty'));
-           // GET_EMP(record.get('grptx'));
+            GET_TBL_AMOU(record.get('docty'));
             store_authen_aprove.removeAll();
-            
-           // callPage(__site_url + "Configauthen?func=","GET_EMPL_APPROVE","&docty=" + record.get('docty'));
-            
+            GET_EMPL_APPROVE(record.get('docty'));
             grid_limit_amount.setTitle('Doc Type : ' + record.get('doctx'));
-          //  Ext.getCmp('btnAddEmpWindowPop-AuthenDoc-MainWindow').setDisabled(true);
-            
-           // grid_doct.getView().addRowClass(rowIndex, 'select');
-          //  Ext.fly(grid_doct.getView().getRow(rowIndex)).addClass('{    border:1px solid red !important; } ');
-           
+            grid_authen_aprove.setTitle('Doc Type : ');
+
        });
         grid_add_emp_approve.on('cellclick', function (grid_add_emp_approve, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
         
@@ -528,19 +521,18 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
         
            if(cellIndex == 0)
            {
-             // alert(rec_doct.get('docty'));
-             // return;
-              callPage(__site_url + "Configauthen?func=","DeleteAmount","&amoid=" + record.get('amoid'));
-              callPage(__site_url + "Configauthen?func=","GET_TBL_AMOU","&docty=" + rec_doct.get('docty'));
-              store_authen_aprove.removeAll();
-              return;
+            
+              DeleteAmount(record.get('amoid'));
+              grid_authen_aprove.setTitle('Doc Type:');
+              btnAddEmpPopUp.setDisabled(true);
            }
            if(cellIndex == 1)
            {
-            //  Ext.getCmp('btnAddEmpWindowPop-AuthenDoc-MainWindow').setDisabled(false);
               rec_limit_amount = record;
-            //  GET_TBL_AUAM(record.get('amoid'));
-              callPage(__site_url + "Configauthen?func=","GET_TBL_AUAM","&amoid=" + record.get('amoid'));
+              GET_TBL_AUAM(record.get('amoid'));
+              btnAddEmpPopUp.setDisabled(false);
+              
+              grid_authen_aprove.setTitle('Doc Type : ' + rec_doct.get('doctx') + 'Limit Amount : ' + record.get('liamo'));
               return;
            }
         
@@ -551,13 +543,10 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
         
            if(cellIndex == 0)
            {
-             // alert(record.get('amoid'));
-              callPage(__site_url + "Configauthen?func=","DeleteEmplAuthen","&amoid=" + record.get('amoid') + "&empnr=" + record.get('empnr'));
-              callPage(__site_url + "Configauthen?func=","GET_TBL_AUAM","&amoid=" + record.get('amoid'));
-              return;
+              DeleteEmplAuthen(record.get('amoid'),record.get('empnr'));
+
            }
-           
-           
+
        });
     
     
@@ -570,7 +559,6 @@ Ext.define('Account.Configauthen.PanelAuthenDoc', {
            items:[LeftPanel,RightPanel]
 	});
         
-       
 
     return this.callParent(arguments);
         
