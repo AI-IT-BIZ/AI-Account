@@ -297,7 +297,7 @@ class Depositin extends CI_Controller {
 		if(empty($iv_id)){
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   $rate = $this->input->get('rate');  //Currency Rate
+		   $rate = $this->input->get('rate');    //Currency Rate
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
 		   

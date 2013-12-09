@@ -34,7 +34,7 @@ Ext.define('Account.DepositOut.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Deposit No, PO No. or Vendor',
+			emptyText: 'Find from Deposit No, Vendor or PO No.',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

@@ -6,7 +6,7 @@ Ext.define('Account.DepositOut.Item.Window', {
 			title: 'Create/Edit Deposit Payment',
 			closeAction: 'hide',
 			height: 650,
-			width: 950,
+			width: 880,
 			layout: 'border',
 			border: false,
 			resizable: true,
@@ -21,11 +21,11 @@ Ext.define('Account.DepositOut.Item.Window', {
 		this.form = Ext.create('Account.DepositOut.Item.Form',{ region:'center' });
 
 		this.previewDialog = Ext.create('Account.DepositOut.Item.PreviewWindow');
-		
+
 		this.items = [
 		     this.form
-		   ];
-		   
+		];
+		
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
 			handler: function() {
@@ -36,9 +36,6 @@ Ext.define('Account.DepositOut.Item.Window', {
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
-				//var rs = _this.grid1.getData();
-				//_this.form.hdnIvItem.setValue(Ext.encode(rs));
-				
 				_this.form.save();
 			}
 		}, {
@@ -48,13 +45,12 @@ Ext.define('Account.DepositOut.Item.Window', {
 				_this.hide();
 			}
 		}, this.btnPreview];
-
+		
 		return this.callParent(arguments);
 	},
 	dialogId: null,
 	openDialog: function(id){
 		if(id){
-			//alert('bbb');
 			this.dialogId = id;
 			this.show(false);
 
@@ -66,7 +62,6 @@ Ext.define('Account.DepositOut.Item.Window', {
 
 			this.btnPreview.setDisabled(false);
 		}else{
-			//alert('aaa');
 			this.dialogId = null;
 			this.form.reset();
 			this.show(false);

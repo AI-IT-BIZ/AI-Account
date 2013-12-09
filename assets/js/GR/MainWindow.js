@@ -96,8 +96,9 @@ Ext.define('Account.GR.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
+			_this.itemDialog.openDialog();
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
 		});
 
 		this.editAct.setHandler(function(){

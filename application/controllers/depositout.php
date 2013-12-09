@@ -135,7 +135,6 @@ class Depositout extends CI_Controller {
 		}else{
 			$id = $this->code_model->generate('DP', 
 			$this->input->post('bldat'));
-			//echo ($id);
 			$this->db->set('depnr', $id);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
@@ -149,11 +148,11 @@ class Depositout extends CI_Controller {
 		$this->db->delete('ebdp');
 
 		// เตรียมข้อมูล receipt item
-		$vbdp = $this->input->post('ebdp');
-		$dp_item_array = json_decode($vbdp);
+		$ebdp = $this->input->post('ebdp');
+		$dp_item_array = json_decode($ebdp);
 		//echo $this->db->last_query();
 		
-		if(!empty($vbdp) && !empty($dp_item_array)){
+		if(!empty($ebdp) && !empty($dp_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($dp_item_array AS $p){
@@ -165,9 +164,9 @@ class Depositout extends CI_Controller {
 				'meins'=>$p->meins,
 				'disit'=>$p->disit,
 				'unitp'=>$p->unitp,
-				'itamt'=>$p->$itamt,
+				//'itamt'=>$p->$itamt,
 				'chk01'=>$p->chk01,
-				'ctype'=>$p->ctype
+				'ctyp1'=>$p->ctyp1
 			));
 	    	}
 		}

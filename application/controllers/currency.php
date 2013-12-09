@@ -26,6 +26,7 @@ class Currency extends CI_Controller {
 		
 		function createQuery($_this){
 			$query = $_this->input->get('query');
+			//echo $query;
 			if(!empty($query)){
 				$_this->db->where("(`ctype` LIKE '%$query%'
 				OR `curtx` LIKE '%$query%')", NULL, FALSE);
@@ -60,7 +61,7 @@ class Currency extends CI_Controller {
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount//,
 			//'limit'=>$limit,
-			//'start'=>$start//,
+			//'start'=>$start,
 			//'page'=>$page
 		));
 	}
