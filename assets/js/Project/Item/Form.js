@@ -24,6 +24,7 @@ Ext.define('Account.Project.Item.Form', {
 		
 		this.comboJType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Project Type',
+			disabled:true,
 			name : 'jtype',
 			labelWidth: 100,
 			labelAlign: 'left',
@@ -268,7 +269,22 @@ Ext.define('Account.Project.Item.Form', {
 
 		//return this.callParent(arguments);
 	//},
-	
+	/****************************************************/
+    if(arrPermit === undefined )
+    {
+       
+    }
+    else{
+        if(arrPermit['PJ']['approve'] == "0")
+           {
+             this.comboJStatus.setDisabled(true);
+           }
+           else{
+                this.comboJStatus.setDisabled(false);
+        }
+    }
+    
+   	/****************************************************/
 	// event ///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();

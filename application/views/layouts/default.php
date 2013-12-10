@@ -876,6 +876,12 @@ function endsWith($haystack, $needle)
 				}
 			};
 
+           var lblUserName = Ext.create('Ext.form.Label', {
+             id:'lblUserName-default',
+            // width:200,
+             text:''
+          });
+
 // NORTH PANEL Menu
 			var tabs = Ext.widget('tabpanel', {
 				region:'north',
@@ -943,7 +949,7 @@ function endsWith($haystack, $needle)
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
                 			cls: 'x-btn-as-arrow'
-				        }]
+				        },'->',lblUserName]
 		            },{
 		                title: 'Sales',
 		                listeners: {

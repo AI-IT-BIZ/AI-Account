@@ -62,7 +62,6 @@ for($i=0;$i<=strlen($num1)-1;$i++){
    $bathtext1.= $digit[$cut_input_number]."".$digit2[$didit2_chk];
   }
   
-  
   $didit2_chk=$didit2_chk-1;
 }
 if($num1<>'00')
@@ -72,4 +71,24 @@ if($num1<>'00')
 return $bathtext1;
 
 	}
+
+function text_month($month){
+  $monthtxt=null;
+  switch($month){
+  	case '01': $monthtxt='มกราคม';break;
+	case '02': $monthtxt='กุมภาพันธ์';break;
+	case '03': $monthtxt='มีนาคม';break;
+	case '04': $monthtxt='เมษายน';break;
+	case '05': $monthtxt='พฤษภาคม';break;
+	case '06': $monthtxt='มิถุนายน';break;
+	case '07': $monthtxt='กรกฎาคม';break;
+	case '08': $monthtxt='สิงหาคม';break;
+	case '09': $monthtxt='กันยายน';break;
+	case '10': $monthtxt='ตุลาคม';break;
+	case '11': $monthtxt='พฤศจิกายน';break;
+	case '12': $monthtxt='ธันวาคม';break;
+  }
+  return $monthtxt;
+}
+
 }

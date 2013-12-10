@@ -35,6 +35,9 @@ Ext.define('Account.Login.MainWindow', {
         y:90,
         text:'Password :'
       });
+      
+      
+      
     
      var cbCompany = Ext.create('Ext.form.ComboBox', {
         rtl: false,
@@ -69,6 +72,15 @@ Ext.define('Account.Login.MainWindow', {
         width: 200
     });
     
+    var lblLoginError = Ext.create('Ext.form.Label', {
+        layout: 'absolute',
+       style: {color: 'red' },
+        x:20,
+        y:145,
+        hidden:true,
+        text:'*Invalid UserName/Password*'
+      });
+    
     var btnLogin=  Ext.create('Ext.Button', {
         text: 'Login',
         x:110,
@@ -76,7 +88,7 @@ Ext.define('Account.Login.MainWindow', {
         width: 80,
         handler: function() {
  
-                 Login();
+                CheckLogin();
 	      
         }
     });
@@ -87,8 +99,8 @@ Ext.define('Account.Login.MainWindow', {
         y:120,
         width: 80,
         handler: function() {
-            document.getElementById("div-rpr").style.visibility="hidden";
-	      // GetReset();
+           
+	       GetReset();
         }
     
     });
@@ -98,126 +110,101 @@ Ext.define('Account.Login.MainWindow', {
         frame: true,    
         width: 320,
         height: 200,
-        items:[lblCompany,cbCompany ,lblUserName , txtUserName ,lblPassword ,txtPassword ,btnLogin,btnReset]
+        items:[lblCompany,cbCompany ,lblUserName , txtUserName ,lblPassword ,txtPassword , lblLoginError,btnLogin,btnReset]
       
       });
        
         
         /******************************************************************************/
         
-       function AjaxCaller()
-       {
-         var xmlhttp=false;
-         try{
-             xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-         }catch(e){
-             try{
-                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-             }catch(E){
-                xmlhttp = false;
-             }
-          }
-
-         if(!xmlhttp && typeof XMLHttpRequest!='undefined'){
-            xmlhttp = new XMLHttpRequest();
-           }
-         return xmlhttp;
-       }
-       function callPage(url, func , param){
-          ajax=AjaxCaller(); 
-          ajax.open("GET", url + func + param, true); 
-          ajax.onreadystatechange=function(){
-          if(ajax.readyState==4){
-            if(ajax.status==200){
-                switch (func)
-                {
-                    case "GetCompany":
-                          GetCompany(ajax.responseText);
-                          break;
-                    case "Login":
-                          GetResultLogin(ajax.responseText);
-                          break;
-                    
-                }
-            }
-          }
-         }
-         ajax.send(null);
-        }
+      
         function GetReset()
         {
             cbCompany.reset();
             txtUserName.setValue('');
             txtPassword.setValue('');
+            lblLoginError.setVisible(false);
         }
-        function GetCompany(strResult)
+        function GetCompany()
         {
-           
-            var arrCompany = strResult.split('|');
-            var detail = arrCompany;
-            var data;
-            var myData = new Array();
-            var i;
-            var strTemp;
-            if (detail != '') {
-              for (i = 0; i < arrCompany.length; i++) {
-                  data = new Array();
-                  strTemp = arrCompany[i].split('+')
-                  data[0] = strTemp[0];
-                  data[1] = strTemp[1];
-                  myData[i] = data;
+            Ext.Ajax.request ({
+            url: __site_url +  'login/GetCompany' ,
+            disableCaching: false ,
+            success: function (res) {
+   
+                     var arrCompany = res.responseText.split('|');
+                     var detail = arrCompany;
+                     var data;
+                     var myData = new Array();
+                     var i;
+                     var strTemp;
+                     if (detail != '') {
+                        for (i = 0; i < arrCompany.length; i++) {
+                            data = new Array();
+                            strTemp = arrCompany[i].split('+')
+                            data[0] = strTemp[0];
+                            data[1] = strTemp[1];
+                            myData[i] = data;
+                        }
+                     }
+                     else {
+                            data = new Array();
+                            myData = data;
+                     }
+                     store_company.loadData(myData);
+            
                   }
-              }
-            else {
-                  data = new Array();
-                  myData = data;
-            }
-            store_company.loadData(myData);
+            });
            
          }
-         function Login()
+         function CheckLogin()
          {
              var comid = cbCompany.getValue();
              var uname = txtUserName.getRawValue();
              var passw = txtPassword.getRawValue();
-             callPage(__site_url + "Login?func=","Login","&uname=" + uname + "&passw=" + passw + "&comid=" + comid);
+           
+             Ext.Ajax.request ({
+             url: __site_url +  'login/CheckLogin?uname=' + uname + '&passw=' + passw + '&comid=' + comid ,
+             disableCaching: false ,
+             success: function (res) {
+                   GetResultLogin(res.responseText);
+                }
+             });
+             
          }
          function GetResultLogin(strData)
          {
+           
             if(strData != "")
             {
+                
+                 arrPermit = new Array();
                  var arrData = strData.split("|");
                  var strTemp;
                  for (i = 0; i < arrData.length; i++) 
                  {
                     strTemp =  arrData[i].split('+')
-                    if(strTemp[4] == "0")
-                    {
-                        
-                        switch(strTemp[3])
-                        {
-                           case "IP": document.getElementById("div-apxx").style.backgroundColor   = "#484848 ";
-                                      document.getElementById("div-apxx").style.visibility = "visible";
-                                      document.getElementById("div-ap").style.visibility="hidden";
-                                      
-                                     // var div = document.createElement('div');
-                                     // div.setAttribute('class', 'box box-red'); 
-                                    //  document.body.appendChild(div);
-                                      break;
-                        }                  
-                       
-                    }
+                    arrPermit[strTemp[3]] = new Array(5);
+                    arrPermit[strTemp[3]] ['display'] = strTemp[4];
+                    arrPermit[strTemp[3]] ['create'] = strTemp[5];
+                    arrPermit[strTemp[3]] ['edit'] = strTemp[6];
+                    arrPermit[strTemp[3]] ['delete'] = strTemp[7];
+                    arrPermit[strTemp[3]] ['export'] = strTemp[8];
+                    arrPermit[strTemp[3]] ['approve'] = strTemp[9];
                  }
-
-                // Global_comid = arrData[0];
-                // Global_uname = arrData[1];
-                // Global_passw = arrData[2];
+                Ext.getCmp('lblUserName-default').setText('User Name : ' + strTemp[1]);
+               // alert(arrPermit['PD']['approve']);
+                 lblLoginError.setVisible(false);
+                 _this.hide();
             }
-            _this.hide();
+            else{
+              lblLoginError.setVisible(true);
+            }
+           
 
          }
         /*************************************/ 
-         callPage(__site_url + "Login?func=","GetCompany","");
+        GetCompany();
         
         /*************************************/
         
@@ -226,7 +213,7 @@ Ext.define('Account.Login.MainWindow', {
 		   title: 'Login',
    	       closeAction: 'hide',
            width: 320,
-           height: 200,
+           height: 220,
            resizable: false,
            modal: true,
            layout:'fit',
