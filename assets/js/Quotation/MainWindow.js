@@ -139,14 +139,16 @@ Ext.define('Account.Quotation.MainWindow', {
 			}
 	    });
 
-	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
-	    	_this.editAct.execute();
-	    });
-
-
+		if(!this.disableGridDoubleClick){
+		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+		    	_this.editAct.execute();
+		    });
+		}
+		
 		// --- after ---
 		this.grid.load();
 
 		return this.callParent(arguments);
-	}
+	},
+	disableGridDoubleClick: false
 });
