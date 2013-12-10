@@ -40,3 +40,7 @@
 .b-small-cross {
 	background-image: url(../images/icons/cross.png) !important;
 }
+
+/* grid style */
+.grid-disable .x-mask-msg-text { background-image:none; padding:5px; }
+.red-bg-row td { background-color:#ffeeee !important; }
