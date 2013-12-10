@@ -24,7 +24,6 @@ Ext.define('Account.Project.Item.Form', {
 		
 		this.comboJType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Project Type',
-			disabled:true,
 			name : 'jtype',
 			labelWidth: 100,
 			labelAlign: 'left',
