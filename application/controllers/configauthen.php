@@ -59,6 +59,7 @@
             $uname = $_GET['uname'];
             $passw = $_GET['passw'];
             $authen = $_GET['authen'];
+            $comid = "1000";
             $sCount = 0;
                
             $strSQL = "select uname from tbl_user;";
@@ -69,10 +70,10 @@
             }
             if($sCount > 0)
             {
-                $strSQL = " Update tbl_user Set uname ='" . $uname . "' , passw = '" . $passw . "' Where empnr = '" . $empnr . "';";
+                $strSQL = " Update tbl_user Set uname ='" . $uname . "' , passw = '" . $passw . "' Where empnr = '" . $empnr . "' and comid = '" . $comid . "';";
             }
             else{
-                $strSQL =  "Insert into tbl_user(empnr,uname,passw) Values('" . $empnr . "','" . $uname . "','" . $passw . "');";
+                $strSQL =  "Insert into tbl_user(comid,empnr,uname,passw) Values('" . $comid . "','" . $empnr . "','" . $uname . "','" . $passw . "');";
             }
                
             $query = $this->db->query($strSQL);   
@@ -82,7 +83,7 @@
             foreach($arrAuthen as $myAuthen) 
             {
                 $arrRec = explode(" ", $myAuthen);
-                $strSQL =  "Insert into tbl_autx(empnr,docty,autex) Values('" . $empnr . "','" . $arrRec[0] . "','" . $arrRec[1] . "');"     ;         
+                $strSQL =  "Insert into tbl_autx(comid,empnr,docty,autex) Values('" . $comid . "','" . $empnr . "','" . $arrRec[0] . "','" . $arrRec[1] . "');"     ;         
                 $query = $this->db->query($strSQL);
             }
             echo "1";
