@@ -141,7 +141,7 @@ Ext.define('Account.Customer.MainWindow', {
 			window.location = __site_url+'export/customer/index?'+query;
 		});
 		
-		this.importDialog.grid.on('import success',function(){
+		this.importDialog.grid.on('import_success',function(){
 			_this.importDialog.hide();
 			_this.grid.load();
 		});
