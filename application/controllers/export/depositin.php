@@ -12,50 +12,21 @@ class Depositin extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbak';
-
+		$tbName = 'vbdk';
+		
 		// Start for report
 		function createQuery($_this){
-			$query = $_this->input->get('query');
-			if(!empty($query)){
-				$_this->db->where("(`vbeln` LIKE '%$query%'
-				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `jobnr` LIKE '%$query%'
-				OR `jobtx` LIKE '%$query%')", NULL, FALSE);
-			}
-
-
-	        $vbeln1 = $_this->input->get('vbeln');
-			$vbeln2 = $_this->input->get('vbeln2');
-			if(!empty($vbeln1) && empty($vbeln2)){
-			  $_this->db->where('vbeln', $vbeln1);
-			}
-			elseif(!empty($vbeln1) && !empty($vbeln2)){
-			  $_this->db->where('vbeln >=', $vbeln1);
-			  $_this->db->where('vbeln <=', $vbeln2);
-			}
-
+			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat', $bldat1);
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-
-			$jobnr1 = $_this->input->get('jobnr');
-			$jobnr2 = $_this->input->get('jobnr2');
-			if(!empty($jobnr1) && empty($jobnr2)){
-			  $_this->db->where('jobnr', $jobnr1);
-			}
-			elseif(!empty($jobnr1) && !empty($jobnr2)){
-			  $_this->db->where('jobnr >=', $jobnr1);
-			  $_this->db->where('jobnr <=', $jobnr2);
-			}
-
+			
 			$kunnr1 = $_this->input->get('kunnr');
 			$kunnr2 = $_this->input->get('kunnr2');
 			if(!empty($kunnr1) && empty($kunnr2)){
@@ -64,16 +35,6 @@ class Depositin extends CI_Controller {
 			elseif(!empty($kunnr1) && !empty($kunnr2)){
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
-			}
-
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
 			}
 		}
 
@@ -90,16 +51,16 @@ class Depositin extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Quotation")
-									 ->setSubject("Quotation")
-									 ->setDescription("Quotation information.");
+									 ->setTitle("Deposit Receipt")
+									 ->setSubject("Deposit Receipt")
+									 ->setDescription("Deposit Receipt information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'Quotation No')
+	            ->setCellValue('A1', 'Deposit No')
 	            ->setCellValue('B1', 'Quotation Date')
 	            ->setCellValue('C1', 'Customer No')
 	            ->setCellValue('D1', 'Customer Name')

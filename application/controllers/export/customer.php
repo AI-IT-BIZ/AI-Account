@@ -11,7 +11,7 @@ class Customer extends CI_Controller {
 
 	function index()
 	{
-		$this->db->set_dbprefix('tbl_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'kna1';
 
 		// Start for report
