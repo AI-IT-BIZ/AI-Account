@@ -57,13 +57,13 @@ Ext.define('Account.Customer.Import.Grid', {
 				'telf2', //Fax Number 2
 				'pson2', //Contact Person 2
 				'ptype', //Payment
-				'term', //Credit Terms
+				'terms', //Credit Terms
 				'apamt', //Credit Limit
 				'pleve', //Price Level
 				'taxnr', //Vat Type
 				'vat01', //Vat Value
 				'begin', //Minimum Amount
-				'edin', //Maximum Amount
+				'endin', //Maximum Amount
 				'taxid', //Tax ID
 				'saknr', //GL Account
 				'note1', //Text Notes
@@ -88,6 +88,7 @@ Ext.define('Account.Customer.Import.Grid', {
 				}]
 			},
 			{text: "Customer Code", width: 100, align: 'center',		dataIndex: 'kunnr', sortable: false},
+			{text: "Customer Type", width: 20, align: 'center',		dataIndex: 'ktype', sortable: false},
 			{text: "Customer Name", width: 150, align: 'center',		dataIndex: 'name1', sortable: false},
 			{text: "Address", width: 200, align: 'center',		dataIndex: 'adr01', sortable: false},
 			{text: "Province", width: 80, align: 'center',		dataIndex: 'distx', sortable: false},
