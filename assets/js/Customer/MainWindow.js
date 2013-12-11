@@ -45,6 +45,8 @@ Ext.define('Account.Customer.MainWindow', {
 		});
 
 		this.itemDialog = Ext.create('Account.Customer.Item.Window');
+		
+		this.importDialog = Ext.create('Account.Customer.Import.Window');
 
 		this.grid = Ext.create('Account.Customer.Grid', {
 			region:'center',
@@ -92,6 +94,10 @@ Ext.define('Account.Customer.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
 
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
@@ -130,6 +136,11 @@ Ext.define('Account.Customer.MainWindow', {
 			}, params);
 			query = Ext.urlEncode(params);
 			window.location = __site_url+'export/customer/index?'+query;
+		});
+		
+		this.importDialog.grid.on('import success',function(){
+			_this.importDialog.hide();
+			_this.grid.load();
 		});
 		// --- after ---
 		this.grid.load();

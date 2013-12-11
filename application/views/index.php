@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var arrPermit;
 Ext.Loader.setPath('Account', __base_url+'assets/js');
 
 Ext.onReady(function() {
