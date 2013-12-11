@@ -74,6 +74,7 @@ Ext.define('Account.Project.MainWindow', {
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 		
@@ -157,10 +158,23 @@ Ext.define('Account.Project.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
-	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+        
+        if(!this.disableGridDoubleClick){
+	      this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
-	    });
+	      });
+	    }
+	    
+	    this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/project/index?'+query;
+		});
 
 
 		// --- after ---

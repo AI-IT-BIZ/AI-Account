@@ -28,10 +28,11 @@ Ext.define('Account.RSaleVat.Form', {
      items :[{
 			xtype: 'datefield',
 			fieldLabel: 'Period Date',
-			name: 'bldat1',
+			name: 'bldat',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
+			submitFormat:'Y-m-d',
+			allowBlank: false
 			}]  
 		}];		
 

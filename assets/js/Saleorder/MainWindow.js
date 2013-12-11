@@ -149,10 +149,12 @@ Ext.define('Account.Saleorder.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),

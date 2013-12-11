@@ -116,7 +116,7 @@ Ext.define('Account.Customer.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
