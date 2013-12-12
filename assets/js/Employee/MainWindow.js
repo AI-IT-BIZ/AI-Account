@@ -46,6 +46,8 @@ Ext.define('Account.Employee.MainWindow', {
 		});
 
 		this.itemDialog = Ext.create('Account.Employee.Item.Window');
+		
+		this.importDialog = Ext.create('Account.Employee.Import.Window');
 
 		this.grid = Ext.create('Account.Employee.Grid', {
 			region:'center',
@@ -93,6 +95,10 @@ Ext.define('Account.Employee.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
 
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
@@ -139,6 +145,11 @@ Ext.define('Account.Employee.MainWindow', {
 			}, params);
 			query = Ext.urlEncode(params);
 			window.location = __site_url+'export/employee/index?'+query;
+		});
+		
+		this.importDialog.grid.on('import_success',function(){
+			_this.importDialog.hide();
+			_this.grid.load();
 		});
 
 		// --- after ---
