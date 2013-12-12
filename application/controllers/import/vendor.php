@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customer extends CI_Controller {
+class Vendor extends CI_Controller {
 
 	function __construct()
 	{
@@ -58,42 +58,34 @@ class Customer extends CI_Controller {
 		}
 
 		$upload_file = $this->input->get('file');
-		$exel_file = FCPATH.'fileuploads/'.$upload_file;//FCPATH.'fileuploads/quotation.xlsx';
+		$exel_file = FCPATH.'fileuploads/'.$upload_file;//FCPATH.'fileuploads/excelfile.xlsx';
 
 		$result = array();
 
 		$columns = array(
-			0=>'kunnr',
-			1=>'ktype',
+			0=>'lifnr',
+			1=>'vtype',
 			2=>'name1',
 			3=>'adr01',
 			4=>'distx',
-			5=>'cunt1',
+			5=>'cunty',
 			6=>'pstlz',
-			7=>'email',
-			8=>'telf1',
-			9=>'telfx',
+			7=>'telf1',
+			8=>'telfx',
+			9=>'email',
 			10=>'pson1',
-			11=>'adr02',
-			12=>'dis02',
-			13=>'cunt2',
-			14=>'pst02',
-			15=>'emai2',
-			16=>'tel02',
-			17=>'telf2',
-			18=>'pson2',
-			19=>'ptype',
-			20=>'terms',
-			21=>'apamt',
-			22=>'pleve',
-			23=>'taxnr',
-			24=>'vat01',
-			25=>'begin',
-			26=>'endin',
-			27=>'taxid',
-			28=>'saknr',
-			29=>'note1',
-			30=>'statu'
+			11=>'disct',
+			12=>'apamt',
+			13=>'begin',
+			14=>'endin',
+			15=>'ptype',
+			16=>'terms',
+			17=>'taxnr',
+			18=>'vat01',
+			19=>'taxid',
+			20=>'saknr',
+			21=>'note1',
+			22=>'statu'
 		);
 
 		$objReader = PHPExcel_IOFactory::createReaderForFile($exel_file);
@@ -120,31 +112,31 @@ class Customer extends CI_Controller {
 		}
 
 		// check duplicate code
-		$result = check_duplicate($result, 'kunnr');
+		$result = check_duplicate($result, 'lifnr');
 
-		// check valid customer no
-		$customers = array();
+		// check valid vendor no
+		$vendors = array();
 		foreach($result AS $value){
-			array_push($customers, $value['kunnr']);
+			array_push($vendors, $value['lifnr']);
 		}
-		$this->db->select('kunnr');
-		$this->db->where_in('kunnr', $customers);
-		$query = $this->db->get('kna1');
-		$exist_customers = $query->result_array();
-		$result = check_exist_pk($exist_customers, $result, 'kunnr', 'Primary key is duplicate');
+		$this->db->select('lifnr');
+		$this->db->where_in('lifnr', $vendors);
+		$query = $this->db->get('lfa1');
+		$exist_vendors = $query->result_array();
+		$result = check_exist_pk($exist_vendors, $result, 'lifnr', 'Primary key is duplicate');
 
-		// check valid customer type
-		$customer_type = array();
+		// check valid vendor type
+		$vendor_type = array();
 		foreach($result AS $value){
-			array_push($customer_type, $value['ktype']);
+			array_push($vendor_type, $value['vtype']);
 		}
-		$this->db->select('ktype');
-		$this->db->where_in('ktype', $customer_type);
-		$query = $this->db->get('ktyp');
-		$valid_customer_type = $query->result_array();
-		$result = check_exist($valid_customer_type, $result, 'ktype', 'Customer type is not exist');
+		$this->db->select('vtype');
+		$this->db->where_in('vtype', $vendor_type);
+		$query = $this->db->get('vtyp');
+		$valid_vendor_type = $query->result_array();
+		$result = check_exist($valid_vendor_type, $result, 'vtype', 'Vendor type is not exist');
 
-		// check valid payment
+		// check valid payment type
 		$payment = array();
 		foreach($result AS $value){
 			array_push($payment, $value['ptype']);
@@ -188,33 +180,25 @@ class Customer extends CI_Controller {
 		foreach($data_obj AS $data){
 			if(empty($data->error) || $data->error=='')
 				array_push($batch_data, array(
-					'kunnr'=>$data->kunnr,
-					'ktype'=>$data->ktype,
+					'lifnr'=>$data->lifnr,
+					'vtype'=>$data->vtype,
 					'name1'=>$data->name1,
 					'adr01'=>$data->adr01,
 					'distx'=>$data->distx,
 					'pstlz'=>$data->pstlz,
-					'cunt1'=>$data->cunt1,
-					'email'=>$data->email,
+					'cunty'=>$data->cunty,
+					'pstlz'=>$data->pstlz,
 					'telf1'=>$data->telf1,
 					'telfx'=>$data->telfx,
+					'email'=>$data->email,
 					'pson1'=>$data->pson1,
-					'adr02'=>$data->adr02,
-					'dis02'=>$data->dis02,
-					'cunt2'=>$data->cunt2,
-					'pst02'=>$data->pst02,
-					'emai2'=>$data->emai2,
-					'tel02'=>$data->tel02,
-					'telf2'=>$data->telf2,
-					'pson2'=>$data->pson2,
-					'ptype'=>$data->ptype,
-					'terms'=>$data->terms,
-					'apamt'=>$data->apamt,
-					'pleve'=>$data->pleve,
-					'taxnr'=>$data->taxnr,
-					'vat01'=>$data->vat01,
+					'disct'=>$data->disct,
 					//'begin'=>$data->begin,
 					'endin'=>$data->endin,
+					'ptype'=>$data->ptype,
+					'terms'=>$data->terms,
+					'taxnr'=>$data->taxnr,
+					'vat01'=>$data->vat01,
 					'taxid'=>$data->taxid,
 					'saknr'=>$data->saknr,
 					'note1'=>$data->note1,
@@ -224,7 +208,7 @@ class Customer extends CI_Controller {
 		if(count($batch_data)>0){
 			//$this->db->insert_batch('kna1', $batch_data);
 			foreach($batch_data as $data){
-				$this->db->insert('kna1', $data);
+				$this->db->insert('lfa1', $data);
 			}
 		}
 		echo json_encode(array(

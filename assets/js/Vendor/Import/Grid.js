@@ -1,4 +1,4 @@
-Ext.define('Account.Customer.Import.Grid', {
+Ext.define('Account.Vendor.Import.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -27,7 +27,7 @@ Ext.define('Account.Customer.Import.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"import/customer/read",
+				url: __site_url+"import/vendor/read",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -37,37 +37,29 @@ Ext.define('Account.Customer.Import.Grid', {
 			},
 			fields: [
 				'row_id',
-				'kunnr', //Customer Code
-				'ktype', //Customer Type
-				'name1', //Customer Name
+				'lifnr', //Vendor Code
+				'vtype', //Vendor Type
+				'name1', //Vendor Name
 				'adr01', //Address
 				'distx', //Province
-				'cunt1', //Country
+				'cunty', //Country
 				'pstlz', //Post Code
-				'email', //Email
 				'telf1', //Phone Number
 				'telfx', //Fax Number
+				'email', //Email
 				'pson1', //Cantact Person
-				'adr02', //Address 2
-				'dis02', //Province 2
-				'cunt2', //Country 2
-				'pst02', //Post Code 2
-				'emai2', //Email 2
-				'tel02', //Phone Number 2
-				'telf2', //Fax Number 2
-				'pson2', //Contact Person 2
-				'ptype', //Payment
-				'terms', //Credit Terms
-				'apamt', //Credit Limit
-				'pleve', //Price Level
-				'taxnr', //Vat Type
-				'vat01', //Vat Value
+				'disct', //Discount Amount
+				'apamt', //Credit Amount
 				'begin', //Minimum Amount
 				'endin', //Maximum Amount
+				'ptype', //Payment
+				'terms', //Credit Terms
+				'taxnr', //Vat Type
+				'vat01', //Vat Value
 				'taxid', //Tax ID
 				'saknr', //GL Account
 				'note1', //Text Notes
-				'statu', //Customer Status
+				'statu', //Vustomer Status
 				'error' 
 			],
 			remoteSort: false
@@ -87,8 +79,8 @@ Ext.define('Account.Customer.Import.Grid', {
 					handler: this.removeRecord
 				}]
 			},
-			{text: "Customer Code", width: 100, align: 'center',		dataIndex: 'kunnr', sortable: false},
-			{text: "Customer Name", width: 150, align: 'center',		dataIndex: 'name1', sortable: false},
+			{text: "Vendor Code", width: 100, align: 'center',		dataIndex: 'lifnr', sortable: false},
+			{text: "Vendor Name", width: 150, align: 'center',		dataIndex: 'name1', sortable: false},
 			{text: "Address", width: 200, align: 'center',		dataIndex: 'adr01', sortable: false},
 			{text: "Province", width: 80, align: 'center',		dataIndex: 'distx', sortable: false},
 			{text: "Post Code", width: 80, align: 'center',		dataIndex: 'pstlz', sortable: false},
@@ -140,7 +132,7 @@ Ext.define('Account.Customer.Import.Grid', {
 			this.showMask('Importing please wait', '');
 			var data_json = Ext.encode(rs);
 			Ext.Ajax.request({
-				url: __site_url+'import/customer/import',
+				url: __site_url+'import/vendor/import',
 				params: {
 					data: data_json
 				},
