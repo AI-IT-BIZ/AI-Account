@@ -56,7 +56,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber',
+			id : 'PMiRowNumber01',
 			header : "Type ID",
 			dataIndex : 'id_vtype',
 			width : 60,

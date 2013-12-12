@@ -130,7 +130,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		});
 	
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Customer Status',
+			fieldLabel: 'Vendor Status',
 			name : 'statu',
 			labelAlign: 'right',
 			editable: false,
