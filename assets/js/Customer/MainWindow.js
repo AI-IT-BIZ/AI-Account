@@ -33,6 +33,7 @@ Ext.define('Account.Customer.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'ลบ',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
 		this.excelAct = new Ext.Action({
@@ -122,10 +123,12 @@ Ext.define('Account.Customer.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),

@@ -32,7 +32,10 @@ Ext.define('Account.RSaleVat.MainWindow', {
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
 			handler: function() {
-				_this.previewDialog.openDialog(_this.dialogId);
+				var form_basic = _this.form.getForm();
+				if(form_basic.isValid()){
+					_this.previewDialog.openDialog(form_basic.getValues());
+				}
 			}
 		});
 

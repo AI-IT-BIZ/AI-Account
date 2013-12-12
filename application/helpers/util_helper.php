@@ -10,3 +10,13 @@
 		$time = util_helper_get_time_by_date_string($dt_str);
 		return date($format, $time);
 	}
+	
+	function util_helper_get_sql_between_month($dt_str){
+		$time = mysql_to_unix($dt_str);
+		
+		$dt_start = date("Y-m-d", mktime(0, 0, 0, date("m", $time), 1, date("Y", $time)));
+		$dt_end = date("Y-m-d", mktime(0, 0, 0, date("m", $time)+1, 0, date("Y", $time)));
+		
+		return "between '$dt_start' AND '$dt_end'";
+
+	}

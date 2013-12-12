@@ -79,7 +79,7 @@ Ext.define('Account.RSaleVat.PreviewWindow', {
 		this.copies.on('change', function(copies, newVal, oldVal){
 			_this.showFrameLoad();
 			Ext.get('preview_frame').set({
-				src:_this.getFrameUrl(_this.dialogId, newVal)
+				src:_this.getFrameUrl(_this.dialogParams, newVal)
 			});
 			_this.checkFrameReady(function(){
 				_this.hideFrameLoad();
@@ -88,14 +88,14 @@ Ext.define('Account.RSaleVat.PreviewWindow', {
 
 		return this.callParent(arguments);
 	},
-	dialogId: null,
-	openDialog:function(id){
+	dialogParams: null,
+	openDialog:function(form_values){
 		var _this=this;
-		if(id){
-			this.dialogId = id;
+		if(form_values && !Ext.isEmpty(form_values)){
+			this.dialogParams = form_values;
 			this.show(false, function(){
 				Ext.get('preview_frame').set({
-					src:_this.getFrameUrl(id, _this.copies.getValue())
+					src:_this.getFrameUrl(form_values, _this.copies.getValue())
 				});
 				_this.showFrameLoad();
 				_this.checkFrameReady(function(){
@@ -104,9 +104,11 @@ Ext.define('Account.RSaleVat.PreviewWindow', {
 			});
 		}
 	},
-	getFrameUrl: function(id, copies){
+	getFrameUrl: function(params, copies){
 		copies = copies || 1;
-		return __site_url+'form/rsalevat/index/'+id+'/'+copies;
+		var q_str = '';
+		params['copies'] = copies;
+		return __site_url+'form/rsalevat/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

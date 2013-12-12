@@ -61,7 +61,11 @@ class Billto extends CI_Controller {
 <STYLE>
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
- DIV {position:absolute; z-index:25;}
+ DIV {
+	position: absolute;
+	z-index: 25;
+	width: 16px;
+}
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
 .fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
 .fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
@@ -81,11 +85,11 @@ class Billto extends CI_Controller {
 <DIV style="z-index:0"> &nbsp; </div>
 
 
-<DIV style="left:46PX;top:156PX;width:1031PX;height:47PX;background-color:FFC16F;layer-background-color:FFC16F;" class="ad1-0">
+<DIV style="left: 12px; top: 156PX; width: 1065px; height: 47PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
 <table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
 </DIV>
 
-<DIV style="left: 46px; top: 105px; width: 95px; height: 21PX;"><span class="fc1-1">เป็นใบแนบ ภ.พ.30</span></DIV>
+<DIV style="left: 13px; top: 105px; width: 95px; height: 21PX;"><span class="fc1-1">เป็นใบแนบ ภ.พ.30</span></DIV>
 
 <DIV style="left: 223px; top: 106px; width: 57px; height: 21PX;"><span class="fc1-1">กรณียื่นปกติ</span></DIV>
 
@@ -97,7 +101,7 @@ class Billto extends CI_Controller {
 
 <DIV style="left: 663px; top: 65px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
-<DIV style="left: 939px; top: 110px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
+<DIV style="left: 939px; top: 109px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 861px; top: 109px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
 
@@ -105,37 +109,69 @@ class Billto extends CI_Controller {
 
 <DIV style="left: 343px; top: 106px; width: 57px; height: 21PX;"><span class="fc1-1">กรณียื่นเพิ่มเติมครั้งที่</span></DIV>
 
-<DIV style="left: 46px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
+<DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left: 142px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 <DIV style="left: 352px; top: 36px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;">
   <table width="500PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-3">ใบแนบ ภ.พ.30 รายละเอียดภาษีขายและภาษีซื้อของสถานประกอบการแต่ละแห่ง</td></table>
 </DIV>
-<DIV style="left: 47px; top: 168px; width: 59px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ลำดับที่</span></DIV>
+<DIV style="left: 12px; top: 168px; width: 47px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ลำดับที่</span></DIV>
 
-<DIV style="left: 107px; top: 158px; width: 81px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สำนักงานใหญ่/</span></DIV>
-<DIV style="left: 107px; top: 180px; width: 81px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สาขาที่</span></DIV>
+<div style="left: 59px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
 
-<DIV style="left: 189px; top: 168px; width: 158px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชื่อสำนักงานใหญ่และสาขา</span></DIV>
+<DIV style="left: 59px; top: 157px; width: 75px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สำนักงานใหญ่/</span></DIV>
+<DIV style="left: 59px; top: 180px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สาขาที่</span></DIV>
 
-<DIV style="left: 349px; top: 168px; width: 92PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">เดบิต</span></DIV>
+<div style="left: 140px; top: 156px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
 
-<DIV style="left: 654px; top: 181px; width: 95PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">เดบิต</span></DIV>
+<DIV style="left: 140px; top: 167px; width: 172px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชื่อสำนักงานใหญ่และสาขา</span></DIV>
 
-<DIV style="left: 872px; top: 181px; width: 95PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">เดบิต</span></DIV>
+<div style="left: 312px; top: 167px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
 
-<DIV style="left: 973px; top: 181px; width: 88PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">เครดิต</span></DIV>
+<DIV style="left: 311px; top: 167px; width: 264px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ที่ตั้งสถานประกอบการ</span></DIV>
 
-<DIV style="left: 756px; top: 181px; width: 98PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">เครดิต</span></DIV>
+<div style="left: 576px; top: 167px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
 
-<DIV style="left: 531px; top: 180px; width: 99PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">เครดิต</span></DIV>
-<DIV style="left: 655px; top: 157px; width: 200PX; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;งบกำไรขาดทุน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&gt;&gt;</span></DIV>
+<DIV style="left: 575px; top: 167px; width: 97px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ยอดขาย</span></DIV>
 
-<DIV style="left: 873px; top: 157px; width: 191PX; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;งบดุล&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&gt;&gt;</span></DIV>
-<DIV style="left:46PX;top:210PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
+<div style="left: 765px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 485px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
+
+<DIV style="left: 762px; top: 167px; width: 90px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ยอดซื้อ</span></DIV>
+
+<div style="left: 853px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 485px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
+
+<div style="left: 673px; top: 168px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
+
+<DIV style="left: 852px; top: 167px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีซื้อ</span></DIV>
+
+<div style="left: 933px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
+
+<DIV style="left: 934px; top: 157px; width: 93px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีมูลค่าเพิ่มที่ต้องชำระ(+)</span></DIV>
+
+<DIV style="left: 962px; top: 180px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชำระเกิน (-)</span></DIV>
+
+<DIV style="left: 672px; top: 167px; width: 91px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีขาย</span></DIV>
+
+<DIV style="left: 13px; top: 210PX; width: 1064px; height: 23PX;"><span class="fc1-5">&nbsp;</span></DIV>
 
 <!--Item List-->
-<DIV style="left:46PX;top:210px">
+<DIV style="left: 13px; top: 210px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();

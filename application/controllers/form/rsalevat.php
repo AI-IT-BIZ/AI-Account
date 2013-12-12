@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Billto extends CI_Controller {
+class Rsalevat extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -12,11 +12,17 @@ class Billto extends CI_Controller {
 	
 	function index()
 	{
-		$no = $type = $this->uri->segment(4);
-		$copies = intval($type = $this->uri->segment(5));
+		$dt_str = '2013-02-22';
+		$dt_result = util_helper_get_sql_between_month($dt_str);
+		//echo $dt_result;
+		
+		$date =	$this->input->get('bldat');
+		$copies =	$this->input->get('copies');
+		//$no = $type = $this->uri->segment(4);
+		//$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbkk.*,v_vbkp.*";
+	    $strSQL = " select v_vbkk.*";
         $strSQL = $strSQL . " from v_vbkk ";
         $strSQL = $strSQL . " left join v_vbkp on v_vbkk.bilnr =                              v_vbkp.bilnr ";
         $strSQL = $strSQL . " Where v_vbkk.bilnr = '$no' ";
