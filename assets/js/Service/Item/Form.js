@@ -143,6 +143,9 @@ Ext.define('Account.Service.Item.Form', {
 		});
 
 		this.items = [{
+						xtype: 'hidden',
+						name: 'id'
+					},{
             xtype:'fieldset',
             title: 'Service Data',
             collapsible: true,
@@ -414,6 +417,13 @@ Ext.define('Account.Service.Item.Form', {
 				}
 			});
 		}
+	},
+	
+	reset: function(){
+		this.getForm().reset();
+
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
 	},
 	
 	remove : function(id){
