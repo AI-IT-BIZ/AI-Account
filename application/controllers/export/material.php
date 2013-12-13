@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customer extends CI_Controller {
+class Material extends CI_Controller {
 
 	function __construct()
 	{
@@ -11,28 +11,30 @@ class Customer extends CI_Controller {
 
 	function index()
 	{
-		$this->db->set_dbprefix('tbl_');
-		$tbName = 'kna1';
-
-		// Start for report
+		$this->db->set_dbprefix('v_');
+		$tbName = 'mara';
+		
 		function createQuery($_this){
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(`matnr` LIKE '%$query%'
+				OR `maktx` LIKE '%$query%'
+				OR `mtart` LIKE '%$query%'
+				and `mtart` <> 'SV')", NULL, FALSE);
+			}else{
+				$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
 			}
 			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
 			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
 			}
-
 		}
 
 		createQuery($this);
@@ -48,24 +50,30 @@ class Customer extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Customer")
-									 ->setSubject("Customer")
-									 ->setDescription("Customer information.");
+									 ->setTitle("Material")
+									 ->setSubject("Material")
+									 ->setDescription("Material information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'Customer No')
-				->setCellValue('B1', 'Customer Name')
-	            ->setCellValue('C1', 'Address')
-	            ->setCellValue('D1', 'Provine')
-	            ->setCellValue('E1', 'Post Code')
-	            ->setCellValue('F1', 'Telephone')
-	            ->setCellValue('G1', 'Fax')
-	            ->setCellValue('H1', 'Email')
-	            ->setCellValue('I1', 'Contact Person');
+	            ->setCellValue('A1', 'Material No')
+				->setCellValue('B1', 'Material Name')
+	            ->setCellValue('C1', 'Material Type')
+	            ->setCellValue('D1', 'Material Group')
+	            ->setCellValue('E1', 'Unit')
+	            ->setCellValue('F1', 'Create Date')
+	            ->setCellValue('G1', 'GL No')
+				->setCellValue('H1', 'Status')
+				
+				->setCellValue('I1', 'Cost 1')
+				->setCellValue('J1', 'Unit 1')
+	            ->setCellValue('K1', 'Cost 2')
+	            ->setCellValue('L1', 'Unit 2')
+	            ->setCellValue('M1', 'Cost 3')
+	            ->setCellValue('N1', 'Unit 3');
 
 		// Add some data
 		$result_array = $query->result_array();
@@ -73,20 +81,26 @@ class Customer extends CI_Controller {
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-		            ->setCellValue('A'.$excel_i, $value['kunnr'])
-					->setCellValue('B'.$excel_i, $value['name1'])
-		            ->setCellValue('C'.$excel_i, $value['adr01'])
-		            ->setCellValue('D'.$excel_i, $value['distx'])
-		            ->setCellValue('E'.$excel_i, $value['pstlz'])
-                    ->setCellValue('F'.$excel_i, $value['telf1'])
-		            ->setCellValue('G'.$excel_i, $value['telfx'])
-		            ->setCellValue('H'.$excel_i, $value['email'])
-		            ->setCellValue('I'.$excel_i, $value['pson1']);
+		            ->setCellValue('A'.$excel_i, $value['matnr'])
+					->setCellValue('B'.$excel_i, $value['maktx'])
+		            ->setCellValue('C'.$excel_i, $value['mtype'])
+		            ->setCellValue('D'.$excel_i, $value['mgrpp'])
+		            ->setCellValue('E'.$excel_i, $value['meins'])
+                    ->setCellValue('F'.$excel_i, $value['erdat'])
+					->setCellValue('G'.$excel_i, $value['saknr'])
+					
+					->setCellValue('H'.$excel_i, $value['statu'])
+					->setCellValue('I'.$excel_i, $value['cost1'])
+		            ->setCellValue('J'.$excel_i, $value['unit1'])
+		            ->setCellValue('K'.$excel_i, $value['cost2'])
+		            ->setCellValue('L'.$excel_i, $value['unit2'])
+                    ->setCellValue('M'.$excel_i, $value['cost3'])
+		            ->setCellValue('N'.$excel_i, $value['unit3']);
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','I') as $columnID) {
+		foreach(range('A','N') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -112,7 +126,7 @@ class Customer extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="customer_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="material_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

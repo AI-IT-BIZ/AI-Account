@@ -28,30 +28,6 @@ Ext.define('Account.Invoice.MainWindow', {
         hideLabel: true
     });
 
-       var form_import_file =  Ext.create('Ext.form.Panel', {
-        id: 'form_panel-PR-MainWindow',
-        layout: 'absolute',
-        frame: true,
-        width: 300,
-        height: 200,
-        items:[fibasic],
-        tbar :[],
-        bbar :[]
-      });
-
-        var win_import_file = Ext.create('Ext.Window', {
-           id: 'win_import_file-PR-MainWindow',
-           title: 'Left Header, plain: true',
-           width: 300,
-           height: 200,
-           //x: 10,
-           //y: 200,
-           closeAction: 'hide',
-           plain: true,
-           headerPosition: 'top',
-           layout: 'fit',
-           items:[ form_import_file]
-       });
       /*****************************************************/
         
 		// --- object ---
@@ -74,6 +50,7 @@ Ext.define('Account.Invoice.MainWindow', {
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 		
@@ -149,10 +126,12 @@ Ext.define('Account.Invoice.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),

@@ -53,6 +53,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 

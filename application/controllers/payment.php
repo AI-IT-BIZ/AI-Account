@@ -43,6 +43,13 @@ class Payment extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`paynr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+			}
 			
 			$bldat1 = $_this->input->get('bldat1');
 			$bldat2 = $_this->input->get('bldat2');
@@ -83,7 +90,6 @@ class Payment extends CI_Controller {
 			  $_this->db->where('lifnr >=', $lifnr1);
 			  $_this->db->where('lifnr <=', $lifnr2);
 			}
-
 		}
 // End for report
 

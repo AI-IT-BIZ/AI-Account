@@ -21,6 +21,7 @@ Ext.define('Account.PO.Grid', {
 				'bldat',
 				'lifnr',
 				'name1',
+				'purnr',
 				'netwr',
 				'statx',
 				'adr01',
@@ -42,6 +43,7 @@ Ext.define('Account.PO.Grid', {
 			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
+			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
 			{text: "Net Amount", flex: true,xtype: 'numbercolumn', dataIndex: 'netwr', sortable: true},
 			{text: "PO Status", flex: true, dataIndex: 'statx', sortable: true}
 		];

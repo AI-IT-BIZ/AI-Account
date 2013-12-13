@@ -30,31 +30,6 @@ Ext.define('Account.PR.MainWindow', {
         hideLabel: true
     });
 
-       var form_import_file =  Ext.create('Ext.form.Panel', {
-        id: 'form_panel-PR-MainWindow',
-        layout: 'absolute',
-        frame: true,
-        width: 300,
-        height: 200,
-        items:[fibasic],
-        tbar :[],
-        bbar :[]
-      });
-
-
-        var win_import_file = Ext.create('Ext.Window', {
-           id: 'win_import_file-PR-MainWindow',
-           title: 'Left Header, plain: true',
-           width: 300,
-           height: 200,
-           //x: 10,
-           //y: 200,
-           closeAction: 'hide',
-           plain: true,
-           headerPosition: 'top',
-           layout: 'fit',
-           items:[ form_import_file]
-       });
       /*****************************************************/
 		// --- object ---
 		this.addAct = new Ext.Action({
@@ -84,11 +59,8 @@ Ext.define('Account.PR.MainWindow', {
 		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			iconCls: 'b-small-import',
-			handler: function () {
-
-                win_import_file.show();
-            }
+			disabled: true,
+			iconCls: 'b-small-import'
 		});
 
         this.itemDialog = Ext.create('Account.PR.Item.Window');
@@ -148,7 +120,7 @@ Ext.define('Account.PR.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/quotation/index?'+query;
+			window.location = __site_url+'export/pr/index?'+query;
 		});
 
         this.searchForm.on('search_click', function(values){
@@ -165,10 +137,12 @@ Ext.define('Account.PR.MainWindow', {
 				opts.params = Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 		// --- after ---
 		this.grid.load();

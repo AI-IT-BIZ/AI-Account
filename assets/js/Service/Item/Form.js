@@ -9,9 +9,7 @@ Ext.define('Account.Service.Item.Form', {
 			fieldDefaults: {
 				labelAlign: 'right',
 				msgTarget: 'qtip',//'side',
-				labelWidth: 105,
-				//width:300,
-				//labelStyle: 'font-weight:bold'
+				labelWidth: 105
 			}
 		});
 		return this.callParent(arguments);
@@ -25,8 +23,6 @@ Ext.define('Account.Service.Item.Form', {
 		this.comboMGrp = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Service Grp',
 			name : 'matkl',
-			//labelWidth: 100,
-			//width: 300,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -57,8 +53,6 @@ Ext.define('Account.Service.Item.Form', {
 		this.comboMType = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Service Type',
 			name : 'mtart',
-			//labelWidth: 100,
-			//width: 300,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -85,7 +79,68 @@ Ext.define('Account.Service.Item.Form', {
 			displayField: 'matxt',
 			valueField: 'mtart'
 		});
-
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Service Status',
+			name : 'statu',
+			labelAlign: 'right',
+			//width: 286,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			margin: '0 0 0 10',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'customer/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});	
+		
+		this.unit1Dialog = Ext.create('Account.Unit.Window');
+		
+		this.trigUnit1 = Ext.create('Ext.form.field.Trigger', {
+			name: 'unit1',
+			fieldLabel: 'Unit 1',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+			//width:290,
+		});
+		
+		this.unit2Dialog = Ext.create('Account.Unit.Window');
+		
+		this.trigUnit2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'unit2',
+			fieldLabel: 'Unit 2',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+			//width:290,
+		});
+		
+		this.unit3Dialog = Ext.create('Account.Unit.Window');
+		
+		this.trigUnit3 = Ext.create('Ext.form.field.Trigger', {
+			name: 'unit3',
+			fieldLabel: 'Unit 3',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
 
 		this.items = [{
             xtype:'fieldset',
@@ -181,25 +236,7 @@ Ext.define('Account.Service.Item.Form', {
                 xtype: 'container',
                 flex: 1,
                 layout: 'anchor',
-     items :[{
-			xtype: 'textfield',
-			fieldLabel: 'Unit 1',
-			name: 'unit1',
-			anchor:'90%',
-			allowBlank: true
-		},{
-			xtype: 'textfield',
-			fieldLabel: 'Unit 2',
-			name: 'unit2',
-			anchor:'90%',
-			allowBlank: true
-		},{
-			xtype: 'textfield',
-			fieldLabel: 'Unit 3',
-			name: 'unit3',
-			anchor:'90%',
-			allowBlank: true
-		}]
+     items :[this.trigUnit1,this.trigUnit2,this.trigUnit3]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -232,12 +269,125 @@ Ext.define('Account.Service.Item.Form', {
 		}]
 		}]
 
-		//}]
-		}];
+		},this.comboQStatus];
 
-		//return this.callParent(arguments);
-	//},
+		// event trigUnit1//
+		this.trigUnit1.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
 
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.meins);
+							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find Unit : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.unit1Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigUnit1.setValue(record.data.meins);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.unit1Dialog.hide();
+		});
+
+		this.trigUnit1.onTriggerClick = function(){
+			_this.unit1Dialog.show();
+		};	
+		
+		// event trigUnit2//
+		this.trigUnit2.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.meins);
+							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find Unit : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.unit2Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigUnit2.setValue(record.data.meins);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.unit2Dialog.hide();
+		});
+
+		this.trigUnit2.onTriggerClick = function(){
+			_this.unit2Dialog.show();
+		};	
+		
+		// event trigUnit3//
+		this.trigUnit3.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.meins);
+							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find Unit : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.unit3Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigUnit3.setValue(record.data.meins);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.unit3Dialog.hide();
+		});
+
+		this.trigUnit3.onTriggerClick = function(){
+			_this.unit3Dialog.show();
+		};	
+		
 		return this.callParent(arguments);
 	},
 	

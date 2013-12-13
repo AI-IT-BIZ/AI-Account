@@ -7,8 +7,8 @@ Ext.define('Account.Service.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 600,
-			minWidth: 1000,
+			width: 1250,
+			minWidth: 100,
 			resizable: true,
 			modal: true,
 			layout:'border',
@@ -32,37 +32,55 @@ Ext.define('Account.Service.MainWindow', {
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
+			disabled: true,
 			iconCls: 'b-small-minus'
 		});
-		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
-
-		this.grid = Ext.create('Account.Service.Grid', {
-			region:'center'
+		this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel'
 		});
-
+		this.importAct = new Ext.Action({
+			text: 'Import',
+			iconCls: 'b-small-import'
+		});
+		
 		this.itemDialog = Ext.create('Account.Service.Item.Window');
 
-		this.items = [this.grid];
+		this.grid = Ext.create('Account.Service.Grid', {
+			region:'center',
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct,
+				 this.excelAct,this.importAct]
+		});
+
+		this.searchForm = Ext.create('Account.Service.FormSearch', {
+			region: 'north',
+			height:100
+		});
+
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct, this.pdfAct,this.importAct];
+
+		this.items = [this.searchForm, this.grid];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			//_this.itemDialog.reset();
-			_this.itemDialog.show();
-			
-			// สั่ง pr_item grid load
-			//_this.itemDialog.grid.load({jobnr: 0});
+			_this.itemDialog.openDialog();
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
 		});
-		
+
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				_this.itemDialog.show();
-				_this.itemDialog.form.load(id);
-				
+				_this.itemDialog.openDialog(id);
+				//_this.itemDialog.show();
+				//_this.itemDialog.form.load(id);
+
 				// สั่ง pr_item grid load
-				//_this.itemDialog.grid.load({jobnr: id});
+				//_this.itemDialog.form.gridItem.load({vbeln: id});
+				//_this.itemDialog.form.gridPayment.load({vbeln: id});
 			}
 		});
 
@@ -74,6 +92,17 @@ Ext.define('Account.Service.MainWindow', {
 			}
 		});
 
+		this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/service/index?'+query;
+		});
+
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
@@ -82,6 +111,27 @@ Ext.define('Account.Service.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
+
+		this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
+
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				opts.params = Ext.apply(opts.params, formValues);
+			}
+	    });
+
+		if(!this.disableGridDoubleClick){
+		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+		    	_this.editAct.execute();
+		    });
+		}
 
 
 		// --- after ---

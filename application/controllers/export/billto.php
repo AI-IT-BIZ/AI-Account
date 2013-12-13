@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Depositin extends CI_Controller {
+class Billto extends CI_Controller {
 
 	function __construct()
 	{
@@ -12,10 +12,17 @@ class Depositin extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbdk';
-		
+		$tbName = 'vbkk';
+
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`bilnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+			}
 			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
@@ -51,18 +58,18 @@ class Depositin extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Deposit Receipt")
-									 ->setSubject("Deposit Receipt")
-									 ->setDescription("Deposit Receipt information.");
+									 ->setTitle("Billing Receipt")
+									 ->setSubject("Billing Receipt")
+									 ->setDescription("Billing Receipt information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'Deposit No')
-	            ->setCellValue('B1', 'Deposit Date')
-				->setCellValue('C1', 'Quotation')
+	            ->setCellValue('A1', 'Billing Receipt No')
+	            ->setCellValue('B1', 'Billing Receipt Date')
+				->setCellValue('C1', 'Due Date')
 	            ->setCellValue('D1', 'Customer No')
 	            ->setCellValue('E1', 'Customer Name')
 	            ->setCellValue('F1', 'Text Note')
@@ -76,9 +83,9 @@ class Depositin extends CI_Controller {
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-		            ->setCellValue('A'.$excel_i, $value['depnr'])
+		            ->setCellValue('A'.$excel_i, $value['bilnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['vbeln'])
+		            ->setCellValue('C'.$excel_i, $value['duedt'])
 		            ->setCellValue('D'.$excel_i, $value['kunnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
 		            ->setCellValue('F'.$excel_i, $value['txz01'])
@@ -89,7 +96,7 @@ class Depositin extends CI_Controller {
 
 
 		// Adjust header cell format
-		foreach(range('A','J') as $columnID) {
+		foreach(range('A','I') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -115,7 +122,7 @@ class Depositin extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="deposit_receipt_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="billreceipt_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

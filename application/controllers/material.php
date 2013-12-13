@@ -32,7 +32,7 @@ class Material extends CI_Controller {
 		//    $query = $this->db->get('mara');
 		//}
 		}else{
-		    $sql="select a.*,b.unit,b.cost 
+		    /*$sql="select a.*,b.unit,b.cost 
 		          from tbl_mara a 
 		          left join tbl_plev b
                   on a.matnr = b.matnr
@@ -42,6 +42,7 @@ class Material extends CI_Controller {
 			if($query->num_rows()>0){
 			$result_data = $query->first_row('array');	
 			$rows = $query->result_array();
+			
 			$i=0;$u='';
 			foreach($rows AS $row){
 				$i++;
@@ -50,11 +51,16 @@ class Material extends CI_Controller {
 				$result_data[$u] = $row['unit'];
 				$result_data[$c] = $row['cost'];
 			}
-			}
+			}*/
+			
+			$this->db->set_dbprefix('v_');
+		    $tbName = 'mara';
+		    $this->db->where('matnr', $id);
+			$query = $this->db->get($tbName);
 		}
 		
 		if($query->num_rows()>0){
-			//$result_data = $query->first_row('array');
+			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['matnr'];
 
 			echo json_encode(array(
@@ -69,24 +75,51 @@ class Material extends CI_Controller {
 
 	function loads(){
 		
-		$sql="select a.*,b.unit,b.cost 
-		      from tbl_mara a 
-		      left join tbl_plev b
-              on a.matnr = b.matnr
-		      WHERE a.mtart <> 'SV'";
-		$query = $this->db->query($sql);
-		//$tbName = 'mara';
+		$this->db->set_dbprefix('v_');
+		$tbName = 'mara';
+		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`matnr` LIKE '%$query%'
+				OR `maktx` LIKE '%$query%'
+				OR `mtart` LIKE '%$query%') and `mtart` <> 'SV'", NULL, FALSE);
+			}else{
+				$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
+			}
+			
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
+			}
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
+			}
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
 
-		//$query = $this->db->get($tbName);
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 	
@@ -133,7 +166,7 @@ class Material extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 	
@@ -208,7 +241,14 @@ class Material extends CI_Controller {
 			'beval' => $this->input->post('beval'),
 			'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval')
+			'enval' => $this->input->post('enval'),
+			'unit1' => $this->input->post('unit1'),
+			'cost1' => $this->input->post('cost1'),
+			'unit2' => $this->input->post('unit2'),
+			'cost2' => $this->input->post('cost2'),
+			'unit3' => $this->input->post('unit3'),
+			'cost3' => $this->input->post('cost3'),
+			'statu' => $this->input->post('statu')
 			);
 			
 		if (!empty($query) && $query->num_rows() > 0){

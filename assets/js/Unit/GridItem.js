@@ -1,4 +1,4 @@
-Ext.define('Account.Customertype.GridItem', {
+Ext.define('Account.Unit.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
         /*Ext.apply(this, {
@@ -25,7 +25,7 @@ Ext.define('Account.Customertype.GridItem', {
 		});
 
 		// INIT GL search popup ///////////////////////////////////////////////
-        this.glnoDialog = Ext.create('Account.GL.MainWindow');
+        //this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct, this.deleteAct];
@@ -37,22 +37,20 @@ Ext.define('Account.Customertype.GridItem', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customertype/loads',
+				url: __site_url+'unit/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_ktype'
+					idProperty: 'id_unit'
 				}
 			},
 			fields: [
-				{ name:'id_ktype', type:'int' },
-				'ktype',
-				'custx',
-				'saknr',
-				'sgtxt'
+				{ name:'id_unit', type:'int' },
+				'meins',
+				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['id_ktype ASC']
+			sorters: ['id_unit ASC']
 		});
 
 		this.columns = [{
@@ -67,9 +65,9 @@ Ext.define('Account.Customertype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber',
-			header : "Type ID",
-			dataIndex : 'id_ktype',
+			id : 'PMiRowNumber23',
+			header : "Unit No",
+			dataIndex : 'id_unit',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -77,42 +75,21 @@ Ext.define('Account.Customertype.GridItem', {
 				return rowIndex+1;
 			}
 		},{
-			text: "Type Code ",
+			text: "Unit Code ",
 		    width: 80,
-		    dataIndex: 'ktype',
+		    dataIndex: 'meins',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
 			},
 		},{
-			text: "Type Description",
+			text: "Unit Description",
 		    width: 100,
-		    dataIndex: 'custx',
+		    dataIndex: 'metxt',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
 			},
-		},{
-			text: "GL no", 
-			width: 100,
-			dataIndex: 'saknr', 
-			sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
-		},{
-			text: "GL Description", 
-			width: 150, 
-			dataIndex: 'sgtxt', 
-			sortable: true
 		}];
 
 		this.plugins = [this.editing];
@@ -121,49 +98,6 @@ Ext.define('Account.Customertype.GridItem', {
 		// init event ///////
 		this.addAct.setHandler(function(){
 			_this.addRecord();
-		});
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'gl/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.saknr);
-							rModel.set('sgtxt', r.data.sgtxt);
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('saknr', record.data.saknr);
-				rModel.set('sgtxt', record.data.sgtxt);
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
 		});
 
 		return this.callParent(arguments);
@@ -175,22 +109,20 @@ Ext.define('Account.Customertype.GridItem', {
 			params: options,
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customertype/loads',
+				url: __site_url+'unit/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_ktype'
+					idProperty: 'id_unit'
 				}
 			},
 			fields: [
-				{ name:'id_ktype', type:'int' },
-				'ktype',
-				'custx',
-				'saknr',
-				'sgtxt'
+				{ name:'id_unit', type:'int' },
+				'meins',
+				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['id_ktype ASC']
+			sorters: ['id_unit ASC']
 		});
 	},
 	
@@ -226,7 +158,7 @@ Ext.define('Account.Customertype.GridItem', {
 		
 		var r_data = this.getData();
 		Ext.Ajax.request({
-			url: __site_url+'customertype/save',
+			url: __site_url+'unit/save',
 			method: 'POST',
 			params: {
 				ktyp: Ext.encode(r_data)
@@ -250,7 +182,7 @@ Ext.define('Account.Customertype.GridItem', {
 	reset: function(){
 		//this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.grid.load({ ktype: 0 });
+		this.grid.load({ meins: 0 });
 	},
 	
 	getData: function(){
@@ -264,7 +196,7 @@ Ext.define('Account.Customertype.GridItem', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('id_ktype', row_num++);
+			r.set('id_unit', row_num++);
 		});
 	}
 });

@@ -28,7 +28,8 @@ Ext.define('Account.PR.Grid', {
 				'pstlz',
 				'telf1',
 				'telfx',
-				'email'
+				'email',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: [{property: 'purnr', direction: 'ASC'}]
@@ -42,9 +43,10 @@ Ext.define('Account.PR.Grid', {
 			dataIndex: 'bldat', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
+			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
 			{text: "Net Amount", xtype: 'numbercolumn',
 			flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "Currency", dataIndex: 'ctype', sortable: true},
 			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},
 			{text: "2",hidden: true, width: 0, dataIndex: 'distx', sortable: false},
 			{text: "3",hidden: true, width: 0, dataIndex: 'pstlz', sortable: false},

@@ -41,6 +41,7 @@ Ext.define('Account.Payment.MainWindow', {
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 		
@@ -116,10 +117,12 @@ Ext.define('Account.Payment.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
@@ -129,7 +132,7 @@ Ext.define('Account.Payment.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/ap/index?'+query;
+			window.location = __site_url+'export/payment/index?'+query;
 		});
 		// --- after ---
 		this.grid.load();

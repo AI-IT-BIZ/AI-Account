@@ -5,7 +5,7 @@ Ext.define('Account.Service.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Service',
 			closeAction: 'hide',
-			height: 550,
+			height: 560,
 			width: 550,
 			layout: 'border',
 			resizable: true,
@@ -44,5 +44,26 @@ Ext.define('Account.Service.Item.Window', {
 		}];
 
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			//this.form.gridItem.load({matnr: id});
+
+			//this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			//this.btnPreview.setDisabled(true);
+		}
 	}
 });

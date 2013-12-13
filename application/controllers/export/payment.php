@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Depositin extends CI_Controller {
+class Payment extends CI_Controller {
 
 	function __construct()
 	{
@@ -12,12 +12,12 @@ class Depositin extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbdk';
+		$tbName = 'ebbk';
 		
 		// Start for report
 		function createQuery($_this){
 			
-			$bldat1 = $_this->input->get('bldat');
+			$bldat1 = $_this->input->get('bldat1');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -27,15 +27,36 @@ class Depositin extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
+			$duedt1 = $_this->input->get('duedt1');
+			$duedt2 = $_this->input->get('duedt2');
+			if(!empty($duedt1) && empty($duedt2)){
+			  $_this->db->where('duedt', $duedt1);
 			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
+			elseif(!empty($duedt2) && !empty($duedt2)){
+			  $_this->db->where('duedt >=', $duedt2);
+			  $_this->db->where('duedt <=', $duedt2);
 			}
+			
+            $payno1 = $_this->input->get('payno');
+			$payno2 = $_this->input->get('payno2');
+			if(!empty($payno1) && empty($payno2)){
+			  $_this->db->where('payno', $payno1);
+			}
+			elseif(!empty($payno1) && !empty($payno2)){
+			  $_this->db->where('payno >=', $payno1);
+			  $_this->db->where('payno <=', $payno2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+
 		}
 
 		createQuery($this);
@@ -51,37 +72,37 @@ class Depositin extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Deposit Receipt")
-									 ->setSubject("Deposit Receipt")
-									 ->setDescription("Deposit Receipt information.");
+									 ->setTitle("Payment")
+									 ->setSubject("Payment")
+									 ->setDescription("Payment information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'Deposit No')
-	            ->setCellValue('B1', 'Deposit Date')
-				->setCellValue('C1', 'Quotation')
-	            ->setCellValue('D1', 'Customer No')
-	            ->setCellValue('E1', 'Customer Name')
-	            ->setCellValue('F1', 'Text Note')
+	            ->setCellValue('A1', 'Payment No')
+	            ->setCellValue('B1', 'Payment Date')
+				->setCellValue('C1', 'Due Date')
+	            ->setCellValue('D1', 'Vendor No')
+	            ->setCellValue('E1', 'Vendor Name')
+				->setCellValue('F1', 'Text Note')
 	            ->setCellValue('G1', 'Status')
-	            ->setCellValue('H1', 'Amount')
-	            ->setCellValue('I1', 'Currency');
-
+	            ->setCellValue('I1', 'Amount')
+	            ->setCellValue('J1', 'Currency');
+				
 		// Add some data
 		$result_array = $query->result_array();
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-		            ->setCellValue('A'.$excel_i, $value['depnr'])
+					->setCellValue('A'.$excel_i, $value['invnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['vbeln'])
-		            ->setCellValue('D'.$excel_i, $value['kunnr'])
+		            ->setCellValue('C'.$excel_i, $value['duedt'])
+		            ->setCellValue('D'.$excel_i, $value['lifnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
-		            ->setCellValue('F'.$excel_i, $value['txz01'])
+					->setCellValue('F'.$excel_i, $value['txz01'])
 		            ->setCellValue('G'.$excel_i, $value['statx'])
 		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
 		            ->setCellValue('I'.$excel_i, $value['ctype']);
@@ -89,7 +110,7 @@ class Depositin extends CI_Controller {
 
 
 		// Adjust header cell format
-		foreach(range('A','J') as $columnID) {
+		foreach(range('A','I') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -115,7 +136,7 @@ class Depositin extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="deposit_receipt_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="payment_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');
