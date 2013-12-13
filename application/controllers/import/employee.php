@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customer extends CI_Controller {
+class Employee extends CI_Controller {
 
 	function __construct()
 	{
@@ -57,43 +57,46 @@ class Customer extends CI_Controller {
 			return $array_import;
 		}
 
+		function check_exist2($array_master, $array_import, $field_master, $field_import, $error_message){
+			for($i=0;$i<count($array_import);$i++){
+				$code1 = $array_import[$i][$field_import];
+				$exist = false;
+				for($j=0;$j<count($array_master);$j++){
+					$code2 = $array_master[$j][$field_master];
+					if($code1==$code2){
+						$exist = true;
+						break;
+					}
+				}
+				if(!$exist)
+					array_push($array_import[$i]['error'], $error_message);
+			}
+			return $array_import;
+		}
+
 		$upload_file = $this->input->get('file');
-		$exel_file = FCPATH.'fileuploads/'.$upload_file;//FCPATH.'fileuploads/quotation.xlsx';
+		$exel_file = FCPATH.'fileuploads/'.$upload_file;//FCPATH.'fileuploads/excelfile.xlsx';
 
 		$result = array();
 
 		$columns = array(
-			0=>'kunnr',
-			1=>'ktype',
-			2=>'name1',
-			3=>'adr01',
-			4=>'distx',
-			5=>'cunt1',
-			6=>'pstlz',
+			0=>'empnr',
+			1=>'name1',
+			2=>'adr01',
+			3=>'distx',
+			4=>'pstlz',
+			5=>'telf1',
+			6=>'cidno',
 			7=>'email',
-			8=>'telf1',
-			9=>'telfx',
-			10=>'pson1',
-			11=>'adr02',
-			12=>'dis02',
-			13=>'cunt2',
-			14=>'pst02',
-			15=>'emai2',
-			16=>'tel02',
-			17=>'telf2',
-			18=>'pson2',
-			19=>'ptype',
-			20=>'terms',
-			21=>'apamt',
-			22=>'pleve',
-			23=>'taxnr',
-			24=>'vat01',
-			25=>'begin',
-			26=>'endin',
-			27=>'taxid',
-			28=>'saknr',
-			29=>'note1',
-			30=>'statu'
+			8=>'postx',
+			9=>'supnr',
+			10=>'begdt',
+			11=>'salar',
+			12=>'bcode',
+			13=>'saknr',
+			14=>'pson1',
+			15=>'telf2',
+			16=>'statu'
 		);
 
 		$objReader = PHPExcel_IOFactory::createReaderForFile($exel_file);
@@ -120,40 +123,51 @@ class Customer extends CI_Controller {
 		}
 
 		// check duplicate code
-		$result = check_duplicate($result, 'kunnr');
+		$result = check_duplicate($result, 'empnr');
 
-		// check valid customer no
-		$customers = array();
+		// check valid employee no
+		$employees = array();
 		foreach($result AS $value){
-			array_push($customers, $value['kunnr']);
+			array_push($employees, $value['empnr']);
 		}
-		$this->db->select('kunnr');
-		$this->db->where_in('kunnr', $customers);
-		$query = $this->db->get('kna1');
-		$exist_customers = $query->result_array();
-		$result = check_exist_pk($exist_customers, $result, 'kunnr', 'Primary key is duplicate');
+		$this->db->select('empnr');
+		$this->db->where_in('empnr', $employees);
+		$query = $this->db->get('empl');
+		$exist_employees = $query->result_array();
+		$result = check_exist_pk($exist_employees, $result, 'empnr', 'Primary key is duplicate');
 
-		// check valid customer type
-		$customer_type = array();
+		// check valid supervisor
+		$supervisor = array();
 		foreach($result AS $value){
-			array_push($customer_type, $value['ktype']);
+			array_push($supervisor, $value['supnr']);
 		}
-		$this->db->select('ktype');
-		$this->db->where_in('ktype', $customer_type);
-		$query = $this->db->get('ktyp');
-		$valid_customer_type = $query->result_array();
-		$result = check_exist($valid_customer_type, $result, 'ktype', 'Customer type is not exist');
+		$this->db->select('empnr');
+		$this->db->where_in('empnr', $supervisor);
+		$query = $this->db->get('empl');
+		$valid_supervisor = $query->result_array();
+		$result = check_exist2($valid_supervisor, $result, 'empnr', 'supnr', 'Supervisor is not exist');
+		
+		// check valid position
+		$position = array();
+		foreach($result AS $value){
+			array_push($position, $value['postx']);
+		}
+		$this->db->select('postx');
+		$this->db->where_in('postx', $position);
+		$query = $this->db->get('posi');
+		$valid_position = $query->result_array();
+		$result = check_exist($valid_position, $result, 'postx', 'Position is not exist');
 
-		// check valid payment
-		$payment = array();
+		// check valid bank name
+		$bank = array();
 		foreach($result AS $value){
-			array_push($payment, $value['ptype']);
+			array_push($bank, $value['bcode']);
 		}
-		$this->db->select('ptype');
-		$this->db->where_in('ptype', $payment);
-		$query = $this->db->get('ptyp');
-		$valid_payment = $query->result_array();
-		$result = check_exist($valid_payment, $result, 'ptype', 'Payment Type is not exist');
+		$this->db->select('bcode');
+		$this->db->where_in('bcode', $bank);
+		$query = $this->db->get('bnam');
+		$valid_bank = $query->result_array();
+		$result = check_exist($valid_bank, $result, 'bcode', 'Bank Name is not exist');
 		
 		// check valid GL Account
 		$gl = array();
@@ -164,7 +178,7 @@ class Customer extends CI_Controller {
 		$this->db->where_in('saknr', $gl);
 		$query = $this->db->get('glno');
 		$valid_gl = $query->result_array();
-		$result = check_exist($valid_gl, $result, 'saknr', 'GL Number is not exist');
+		$result = check_exist($valid_gl, $result, 'saknr', 'Bank Account Number is not exist');
 
 		// finish data
 		for($i=0;$i<count($result);$i++){
@@ -188,43 +202,28 @@ class Customer extends CI_Controller {
 		foreach($data_obj AS $data){
 			if(empty($data->error) || $data->error=='')
 				array_push($batch_data, array(
-					'kunnr'=>$data->kunnr,
-					'ktype'=>$data->ktype,
+					'empnr'=>$data->empnr,
 					'name1'=>$data->name1,
 					'adr01'=>$data->adr01,
 					'distx'=>$data->distx,
 					'pstlz'=>$data->pstlz,
-					'cunt1'=>$data->cunt1,
-					'email'=>$data->email,
 					'telf1'=>$data->telf1,
-					'telfx'=>$data->telfx,
-					'pson1'=>$data->pson1,
-					'adr02'=>$data->adr02,
-					'dis02'=>$data->dis02,
-					'cunt2'=>$data->cunt2,
-					'pst02'=>$data->pst02,
-					'emai2'=>$data->emai2,
-					'tel02'=>$data->tel02,
-					'telf2'=>$data->telf2,
-					'pson2'=>$data->pson2,
-					'ptype'=>$data->ptype,
-					'terms'=>$data->terms,
-					'apamt'=>$data->apamt,
-					'pleve'=>$data->pleve,
-					'taxnr'=>$data->taxnr,
-					'vat01'=>$data->vat01,
-					//'begin'=>$data->begin,
-					'endin'=>$data->endin,
-					'taxid'=>$data->taxid,
+					'cidno'=>$data->cidno,
+					'email'=>$data->email,
+					'postx'=>$data->postx,
+					'supnr'=>$data->supnr,
+					'begdt'=>$data->begdt,
+					'salar'=>$data->salar,
+					'bcode'=>$data->bcode,
 					'saknr'=>$data->saknr,
-					'note1'=>$data->note1,
+					'pson1'=>$data->pson1,
+					'telf2'=>$data->telf2,
 					'statu'=>$data->statu
 				));
 		}
 		if(count($batch_data)>0){
-			//$this->db->insert_batch('kna1', $batch_data);
 			foreach($batch_data as $data){
-				$this->db->insert('kna1', $data);
+				$this->db->insert('empl', $data);
 			}
 		}
 		echo json_encode(array(

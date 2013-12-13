@@ -21,6 +21,7 @@ Ext.define('Account.Vendor.MainWindow', {
 	},
 	initComponent : function() {
 		var _this=this;
+
         /*****************************************************/
 
        var fibasic = Ext.create('Ext.form.field.File', {
@@ -31,7 +32,6 @@ Ext.define('Account.Vendor.MainWindow', {
     });
 
       /*****************************************************/
-     
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'เพิ่ม',
@@ -57,7 +57,9 @@ Ext.define('Account.Vendor.MainWindow', {
 		});
 
 		this.itemDialog = Ext.create('Account.Vendor.Item.Window');
-
+		
+		this.importDialog = Ext.create('Account.Vendor.Import.Window');
+		
 		this.grid = Ext.create('Account.Vendor.Grid', {
 			region:'center',
 			border: false,
@@ -104,6 +106,10 @@ Ext.define('Account.Vendor.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
 
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
@@ -145,7 +151,11 @@ Ext.define('Account.Vendor.MainWindow', {
 			query = Ext.urlEncode(params);
 			window.location = __site_url+'export/vendor/index?'+query;
 		});
-
+		
+		this.importDialog.grid.on('import_success',function(){
+			_this.importDialog.hide();
+			_this.grid.load();
+		});
 		// --- after ---
 		this.grid.load();
 
