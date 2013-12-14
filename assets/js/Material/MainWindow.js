@@ -45,6 +45,8 @@ Ext.define('Account.Material.MainWindow', {
 		});
 		
 		this.itemDialog = Ext.create('Account.Material.Item.Window');
+		
+		this.importDialog = Ext.create('Account.Material.Import.Window');
 
 		this.grid = Ext.create('Account.Material.Grid', {
 			region:'center',
@@ -102,6 +104,10 @@ Ext.define('Account.Material.MainWindow', {
 			query = Ext.urlEncode(params);
 			window.location = __site_url+'export/material/index?'+query;
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
@@ -133,7 +139,10 @@ Ext.define('Account.Material.MainWindow', {
 		    });
 		}
 
-
+		this.importDialog.grid.on('import_success',function(){
+			_this.importDialog.hide();
+			_this.grid.load();
+		});
 		// --- after ---
 		this.grid.load();
 
