@@ -45,6 +45,8 @@ Ext.define('Account.Service.MainWindow', {
 		});
 		
 		this.itemDialog = Ext.create('Account.Service.Item.Window');
+		
+		this.importDialog = Ext.create('Account.Service.Import.Window');
 
 		this.grid = Ext.create('Account.Service.Grid', {
 			region:'center',
@@ -102,6 +104,10 @@ Ext.define('Account.Service.MainWindow', {
 			query = Ext.urlEncode(params);
 			window.location = __site_url+'export/service/index?'+query;
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
 
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
@@ -132,7 +138,11 @@ Ext.define('Account.Service.MainWindow', {
 		    	_this.editAct.execute();
 		    });
 		}
-
+		
+		this.importDialog.grid.on('import_success',function(){
+			_this.importDialog.hide();
+			_this.grid.load();
+		});
 
 		// --- after ---
 		this.grid.load();
