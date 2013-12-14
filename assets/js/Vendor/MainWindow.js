@@ -52,7 +52,6 @@ Ext.define('Account.Vendor.MainWindow', {
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			disabled: true,
 			iconCls: 'b-small-import'
 		});
 

@@ -20,7 +20,7 @@ Class Code_model2 extends CI_Model
 			$prefix  = $result_init['short'];
 			
 			$sql = "SELECT ".$tb_code." FROM ".$tb_name.
-			" WHERE ".$tb_code." LIKE ".$prefix."%"
+			" WHERE ".$tb_code." LIKE '".$prefix."%'"
 			." ORDER BY ".$tb_code." DESC LIMIT 1";
 			$query_code = $this->db->query($sql);
             
