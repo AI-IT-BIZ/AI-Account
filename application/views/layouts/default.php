@@ -561,7 +561,13 @@ function endsWith($haystack, $needle)
 			});
 
 			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
-
+               if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
+               {
+                
+                  $om.ChartOfAccountsDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
+                  $om.ChartOfAccountsDialog.show();
+                  return;
+               }
 			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 			{
 				$om.configDialog = Ext.create('Account.UMS.MainWindow');
