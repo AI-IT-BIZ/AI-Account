@@ -3,7 +3,7 @@ Ext.define('Account.UMS.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'User management',
+			title: 'Authorize setting',
 			closeAction: 'hide',
 			height: 500,
 			minHeight: 500,
@@ -45,16 +45,14 @@ Ext.define('Account.UMS.MainWindow', {
 				_this.itemDialog.openDialog(id);
 			}
 		});
-/*
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
 		});
 
-		this.itemDialog.form.on('afterDelete', function(){
-			_this.grid.load();
-		});
-*/
+	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 
 		// --- after ---
 		this.grid.load();

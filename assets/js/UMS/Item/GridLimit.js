@@ -6,6 +6,10 @@ Ext.define('Account.UMS.Item.GridLimit', {
 	},
 	initComponent : function() {
 
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		});
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
@@ -29,15 +33,25 @@ Ext.define('Account.UMS.Item.GridLimit', {
 		});
 
 		this.columns = [
-			{ text: "Employee Code", align: 'center', width: 80, dataIndex: 'comid', sortable: false },
-			{ text: "Document Type", align: 'center', width: 80, dataIndex: 'doctx', sortable: false },
-			{ text: "Limit", align: 'center', width: 80,  dataIndex: 'limam', sortable: false }
+			{ text: "Employee Code", align: 'center', width: 80, dataIndex: 'comid', sortable: false, hidden: true },
+			{ text: "Document Type", align: 'left', width: 150, dataIndex: 'doctx', sortable: false },
+			{ text: "Limit", align: 'right', width: 80,  dataIndex: 'limam', sortable: false, field: {
+				type: 'numberfield',
+				decimalPrecision: 2
+			}, renderer: Ext.util.Format.numberRenderer('0,0.##')}
 		];
+
+		this.plugins = [this.editing];
 
 		return this.callParent(arguments);
 	},
-	load: function(options){
-		this.store.load({params: options});
+	load: function(options, cb, scope){
+		var prms = {params: options};
+		if(cb && typeof(cb)=='function')
+			prms['callback'] = cb;
+		if(scope)
+			prms['scope'] = scope;
+		this.store.load(prms);
 	},
 	getSelectionId: function(){
 		var sel = this.getView().getSelectionModel().getSelection()[0];
@@ -47,7 +61,8 @@ Ext.define('Account.UMS.Item.GridLimit', {
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
-			rs.push(r.getData());
+			if(r.data['limam']>0)
+				rs.push(r.getData());
 		});
 		return rs;
 	}

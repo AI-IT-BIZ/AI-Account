@@ -33,12 +33,12 @@ Ext.define('Account.UMS.Item.GridPermission', {
 
 		this.columns = [
 			{id:'doctx', text: "Doc Type", align: 'left', width: 160, dataIndex: 'doctx', sortable: false },
-			{ text: "Display", align: 'center', width: 80,renderer:this.renderAuthenField, dataIndex: 'display', sortable: false },
-			{ text: "Create", align: 'center', width: 80,renderer:this.renderAuthenField, dataIndex: 'create', sortable: false },
-			{ text: "Edit", align: 'center', width: 80, renderer:this.renderAuthenField,  dataIndex: 'edit', sortable: false },
-			{ text: "Delete", align: 'center', width: 80, renderer:this.renderAuthenField,  dataIndex: 'delete', sortable: false },
-			{ text: "Export", align: 'center', width: 80, renderer:this.renderAuthenField,  dataIndex: 'export', sortable: false },
-			{ text: "Approve", align: 'center', width: 80, renderer:this.renderAuthenField,  dataIndex: 'approve', sortable: false }
+			{ text: "Display", align: 'center', width: 70,renderer:this.renderAuthenField, dataIndex: 'display', sortable: false },
+			{ text: "Create", align: 'center', width: 70,renderer:this.renderAuthenField, dataIndex: 'create', sortable: false },
+			{ text: "Edit", align: 'center', width: 70, renderer:this.renderAuthenField,  dataIndex: 'edit', sortable: false },
+			{ text: "Delete", align: 'center', width: 70, renderer:this.renderAuthenField,  dataIndex: 'delete', sortable: false },
+			{ text: "Export", align: 'center', width: 70, renderer:this.renderAuthenField,  dataIndex: 'export', sortable: false },
+			{ text: "Approve", align: 'center', width: 70, renderer:this.renderAuthenField,  dataIndex: 'approve', sortable: false }
 		];
 
 		this.on('cellclick', function (grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
@@ -67,6 +67,14 @@ Ext.define('Account.UMS.Item.GridPermission', {
 		var rs = [];
 		this.store.each(function(r){
 			rs.push(r.getData());
+		});
+		return rs;
+	},
+	getDocTypeApprovable: function(){
+		var rs = [];
+		this.store.each(function(r){
+			if(r.data['display']==1 && r.data['approve']==1)
+				rs.push(r.data['docty']);
 		});
 		return rs;
 	}

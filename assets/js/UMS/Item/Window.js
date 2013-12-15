@@ -4,10 +4,10 @@ Ext.define('Account.UMS.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit User',
+			title: 'User authorization setting',
 			closeAction: 'hide',
-			height: 580,
-			width: 1050,
+			height: 570,
+			width: 1100,
 			layout: 'border',
 			border: false,
 			resizable: true,
@@ -48,20 +48,10 @@ Ext.define('Account.UMS.Item.Window', {
 
 			this.show();
 			this.form.load(id);
-
-			// สั่ง grid permission load
-			this.form.grid.load({
-				uname: id
-			});
 		}else{
 			this.dialogId = null;
 			this.form.reset();
 			this.show(false);
-
-			// สั่ง grid permission load
-			this.form.grid.load({
-				uname: '-1'
-			});
 		}
 	}
 });
