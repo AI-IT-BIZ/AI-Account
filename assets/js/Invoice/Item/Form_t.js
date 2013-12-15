@@ -16,6 +16,64 @@ Ext.define('Account.Invoice.Item.Form_t', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		var myStorecomboWHTno = Ext.create('Ext.data.Store', {
+    fields: ['idWHT', 'name'],
+    data : [
+        {"idWHT":"01", "name":"นิติบุคคล"},
+        {"idWHT":"02", "name":"บุคคลธรรมดา"}
+        //...
+    ]
+});
+    
+    this.comboWHType = Ext.create('Ext.form.ComboBox', {
+    fieldLabel: 'Witholding Tax',
+	name: 'whtyp',
+	width:240,
+	triggerAction : 'all',
+	clearFilterOnReset: true,
+	emptyText: '--Select WHT Typ--',
+	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
+    margin: '4 0 0 0',
+    store: myStorecomboWHTno,
+    labelAlign: 'left',
+    queryMode: 'local',
+    displayField: 'name',
+    valueField: 'idWHT'
+    });
+
+		this.comboWHTno = Ext.create('Ext.form.ComboBox', {			
+			//fieldLabel: 'Witholding Type',
+			name: 'whtnr',
+			//labelAlign: 'right',
+			margin: '4 0 0 10',
+			width:80,
+			editable: false,
+			//allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+		    emptyText: '--WHT No--',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_whtcombo',  //loads_tycombo($tb,$pk,$like)
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'whtnr'
+					}
+				},
+				fields: [
+					'whtnr',
+					'whtxt'
+				],
+				remoteSort: true,
+				sorters: 'whtnr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'whtxt',
+			valueField: 'whtnr'
+		});
 
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
@@ -26,6 +84,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			//margin: '0 0 0 175',
 			readOnly: true
 		});
+		
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
 			name: 'dismt',
@@ -156,6 +215,17 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			width:380,
 			name: 'txz01'//,
 			//anchor:'90%'
+		},{
+			xtype: 'container',
+            layout: 'hbox',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [this.comboWHType,this.comboWHTno,{
+   	        xtype: 'textfield',
+   	        name: 'whtxt',
+   	        margin: '4 0 0 7',
+			width:250
+		}]
 		}]
             },{
                 xtype: 'container',
@@ -164,7 +234,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
-            //margin: '5 0 5 600',
+            margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},this.txtDiscountSum,
 		this.txtTaxValue,

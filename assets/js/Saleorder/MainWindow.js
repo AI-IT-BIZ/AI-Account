@@ -115,6 +115,7 @@ Ext.define('Account.Saleorder.MainWindow', {
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
+		
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
