@@ -40,6 +40,9 @@
 .b-small-cross {
 	background-image: url(../images/icons/cross.png) !important;
 }
+.b-small-key {
+	background-image: url('../images/icons/key.gif') !important;
+}
 
 /* grid style */
 .grid-disable .x-mask-msg-text { background-image:none; padding:5px; }
