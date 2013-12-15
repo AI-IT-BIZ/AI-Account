@@ -65,7 +65,8 @@ $autoload['libraries'] = array('PHXView','session','upload','email','database');
 */
 
 $autoload['helper'] = array('url','date','file','cookie','form',
-							'util_helper');
+							'util_helper',
+							'db_helper');
 
 
 /*

@@ -75,15 +75,15 @@ function endsWith($haystack, $needle)
 		#div-rinvoice { position:absolute; top:630px; left:30px; width: 100px; height:100px; }
 		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
 		#div-config { position:absolute; top:740px; left:30px; width: 210px; height:100px; }
-		
+
 		#div-saleorder2 { top:160px; left:150px; width: 130px; height:210px; }
 		#div-saleorder3 { top:160px; left:310px; width: 90px; height: 90px; }
-		
+
 		#div-invoice2 { top:280px; left:310px; width: 90px; height: 90px; }
 		#div-invoice3 { top:160px; left:430px; width: 130px; height:210px; }
-		
+
 		#div-billto2 { top:160px; left:590px; width: 90px; height: 90px; }
-		
+
 		#div-receipt2 { top:280px; left:590px; width: 90px; height: 90px; }
 		#div-receipt3 { top:160px; left:710px; width: 130px; height:210px; }
 
@@ -102,19 +102,19 @@ function endsWith($haystack, $needle)
 		#div-rap { position:absolute; top:630px; left:280px; width: 100px; height:100px; }
 		#div-rpayment { position:absolute; top:630px; left:390px; width: 100px; height:100px; }
 		#div-employee { position:absolute; top:740px; left:280px; width: 100px; height:100px; }
-		
+
 		#div-pr2 { top:30px; left:30px; width: 210px; height:100px; }
 		#div-po2 { top:160px; left:30px; width: 90px; height:90px; }
 		#div-deposit21 { top:280px; left:30px; width: 90px; height:90px; }
-		
+
 		#div-gr2 { top:160px; left:150px; width: 130px; height:210px; }
 		#div-gr3 { top:160px; left:310px; width: 90px; height: 90px; }
-		
+
 		#div-ap2 { top:280px; left:310px; width: 90px; height: 90px; }
 		#div-ap3 { top:160px; left:430px; width: 130px; height:210px; }
-		
+
 		#div-billfrom2 { top:160px; left:590px; width: 90px; height: 90px; }
-		
+
 		#div-payment2 { top:280px; left:590px; width: 90px; height: 90px; }
 		#div-payment3 { top:160px; left:710px; width: 130px; height:210px; }
 
@@ -135,7 +135,7 @@ function endsWith($haystack, $needle)
 		#div-rap-aging { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
 		#div-rmm-aging { position:absolute; top:730px; left:530px; width: 100px; height:100px; }
 		#div-rmm-stockcard { position:absolute; top:730px; left:640px; width: 100px; height:100px; }
-		
+
 		#div-income2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
 		#div-journal2 { top:140px; left:150px; width: 210px; height:100px; }
@@ -160,7 +160,7 @@ function endsWith($haystack, $needle)
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
-		
+
 		#div-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-balance2 { top:30px; left:260px; width: 100px; height:100px; }
 		#div-material2 { top:140px; left:150px; width: 100px; height:100px; }
@@ -176,7 +176,7 @@ function endsWith($haystack, $needle)
 		.h-reciept { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
 		.h-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
 		.h-report { background-image: url('assets/images/tb-icons/doc_report3.png') !important; }
-		
+
 		.ms-comp { background-image: url('assets/images/tb-icons/doc_comp.png') !important; }
 		.ms-init { background-image: url('assets/images/tb-icons/doc_information.png') !important; }
 		.ms-user { background-image: url('assets/images/tb-icons/doc_user.png') !important; }
@@ -190,7 +190,7 @@ function endsWith($haystack, $needle)
 		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
 		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
 		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
-		
+
 		.s-cust { background-image: url('assets/images/tb-icons/doc_user1.png') !important; }
 		.s-sman { background-image: url('assets/images/tb-icons/doc_user7.png') !important; }
 
@@ -201,9 +201,9 @@ function endsWith($haystack, $needle)
 		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
 		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
 		.p-pay { background-image: url('assets/images/tb-icons/doc_payment.png') !important; }
-		
+
 		.p-vend { background-image: url('assets/images/tb-icons/doc_user6.png') !important; }
-		
+
 		.a-income { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
 		.a-journalt { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
 		.a-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
@@ -211,14 +211,14 @@ function endsWith($haystack, $needle)
 		.a-charta { background-image: url('assets/images/tb-icons/doc_blue3.png') !important; }
 		.a-fixasset { background-image: url('assets/images/tb-icons/doc_blue1.png') !important; }
 		.a-deprec { background-image: url('assets/images/tb-icons/doc_blue5.png') !important; }
-		
+
 		.m-inv-trans { background-image: url('assets/images/tb-icons/doc_purple2.png') !important; }
 		.m-inv-balance { background-image: url('assets/images/tb-icons/doc_purple1.png') !important; }
 		.m-inv-master { background-image: url('assets/images/tb-icons/doc_purple5.png') !important; }
 		.m-ser-master { background-image: url('assets/images/tb-icons/doc_purple10.png') !important; }
 		.m-oth-expense { background-image: url('assets/images/tb-icons/doc_purple4.png') !important; }
 		.m-oth-income { background-image: url('assets/images/tb-icons/doc_purple3.png') !important; }
-		
+
 		.r-report1 { background-image: url('assets/images/tb-icons/report2.png') !important; }
 		.r-report2 { background-image: url('assets/images/tb-icons/report3.png') !important; }
 		.r-report3 { background-image: url('assets/images/tb-icons/report6.png') !important; }
@@ -263,32 +263,32 @@ function endsWith($haystack, $needle)
 		#arrow-home-14 { width:30px; top:440px; left:370px; }
 		#arrow-home-16 { height:30px; top:490px; left:320px; }
 		#arrow-home-18 { height:30px; top:490px; left:440px; }
-		
+
 		#arrow-sale-01 { width:30px; top:200px; left:280px; }
 		#arrow-sale-02 { width:150px; top:260px; left:280px; }
 		#arrow-sale-03 { width:30px; top:321px; left:280px; }
-		
+
 		#arrow-sale-04 { width:30px; top:200px; left:400px; }
 		#arrow-sale-05 { width:30px; top:321px; left:400px; }
-		
+
 		#arrow-sale-06 { width:30px; top:200px; left:560px; }
 		#arrow-sale-07 { width:150px; top:260px; left:560px; }
 		#arrow-sale-08 { width:30px; top:321px; left:560px; }
-		
+
 		#arrow-sale-09 { width:30px; top:200px; left:680px; }
 		#arrow-sale-10 { width:30px; top:321px; left:680px; }
-		
+
 		#arrow-purc-01 { width:30px; top:200px; left:280px; }
 		#arrow-purc-02 { width:150px; top:260px; left:280px; }
 		#arrow-purc-03 { width:30px; top:321px; left:280px; }
-		
+
 		#arrow-purc-04 { width:30px; top:200px; left:400px; }
 		#arrow-purc-05 { width:30px; top:321px; left:400px; }
-		
+
 		#arrow-purc-06 { width:30px; top:200px; left:560px; }
 		#arrow-purc-07 { width:150px; top:260px; left:560px; }
 		#arrow-purc-08 { width:30px; top:321px; left:560px; }
-		
+
 		#arrow-purc-09 { width:30px; top:200px; left:680px; }
 		#arrow-purc-10 { width:30px; top:321px; left:680px; }
 	</style>
@@ -497,7 +497,7 @@ function endsWith($haystack, $needle)
 					nodeReport3
 				]
 			};
-            
+
             var nodeCompany = {
 				text: 'Company Define',
 				leaf: true
@@ -522,7 +522,7 @@ function endsWith($haystack, $needle)
 				text: 'Employee',
 				leaf: true
 			};
-			
+
 			var groupConfig = {
 				text: 'Configuration',
 				leaf: false,
@@ -559,33 +559,33 @@ function endsWith($haystack, $needle)
 					]
 				}
 			});
-			
-			 tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
-         
-               if(tr.innerHTML.indexOf('Authorize Setting') > -1)
-               {
-                
-                  $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-                  $om.configDialog.show();
-               }
-               if(tr.innerHTML.indexOf('User Define') > -1)
-               {
-                
-                  $om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
-                  $om.configDialog.show();
-               }
-               if(tr.innerHTML.indexOf('Login') > -1)
-               {
-                
-                  //$om.configDialog = Ext.create('Account.Configauthen.Main')
-                  $om.loginDialog = Ext.create('Account.Login.MainWindow');
-                  $om.loginDialog.show();
-               }
-               // $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-		       // $om.configDialog.show();
-             
+
+			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
+
+			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
+			{
+				$om.configDialog = Ext.create('Account.UMS.MainWindow');
+				$om.configDialog.show();
+				//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+				//$om.configDialog.show();
+			}
+			if(tr.innerHTML.indexOf('User Define') > -1)
+			{
+				$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+				$om.configDialog.show();
+				//$om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
+				//$om.configDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Login') > -1)
+			{
+				//$om.configDialog = Ext.create('Account.Configauthen.Main')
+				$om.loginDialog = Ext.create('Account.Login.MainWindow');
+				$om.loginDialog.show();
+			}
+			// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+			// $om.configDialog.show();
             });
-			 
+
 			// CENTER PANEL
 			var centerPanel = new Ext.Panel({
 				region:'center',
@@ -702,14 +702,14 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-sale-01" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-02" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-03" class="arrow arrow-right"><span></span></div>',
-								
+
 								'<div id="arrow-sale-04" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-05" class="arrow arrow-left"><span></span></div>',
-								
+
 								'<div id="arrow-sale-06" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-07" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-08" class="arrow arrow-right"><span></span></div>',
-								
+
 								'<div id="arrow-sale-09" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-sale-10" class="arrow arrow-left"><span></span></div>',
 							'</div>',
@@ -735,14 +735,14 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-purc-01" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-02" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-03" class="arrow arrow-right"><span></span></div>',
-								
+
 								'<div id="arrow-purc-04" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-05" class="arrow arrow-left"><span></span></div>',
-								
+
 								'<div id="arrow-purc-06" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-07" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-08" class="arrow arrow-right"><span></span></div>',
-								
+
 								'<div id="arrow-purc-09" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-purc-10" class="arrow arrow-left"><span></span></div>',
 							'</div>',
