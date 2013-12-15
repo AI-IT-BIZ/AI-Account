@@ -42,6 +42,13 @@ Ext.onReady(function() {
 		$om.rglDialog.show();
 	});
 
+
+   $om.viewport.on('click_chart-account', function(){
+		if(!$om.chartOfAccountDialog)
+			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
+		$om.chartOfAccountDialog.show();
+	});
+
 //<<<<<<< HEAD
 	
 	$om.viewport.on('click_customer', function(){
@@ -228,6 +235,7 @@ Ext.onReady(function() {
 			$om.rbalanceDialog = Ext.create('Account.RPurchaseVat.MainWindow');
 		$om.rbalanceDialog.show();
 	});
+	
 	
 
 });
