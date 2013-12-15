@@ -29,6 +29,12 @@ class Ums extends CI_Controller {
 		$this->tbDoct = $this->db->dbprefix('doct');
 		$this->tbUser = $this->db->dbprefix('user');
 	}
+
+	public function login(){
+		$this->phxview->RenderView('login');
+		$this->phxview->RenderLayout('empty_ext');
+	}
+
 	public function index(){
 		// test stuff
 		$json = '{"a":10,"b":20}';
