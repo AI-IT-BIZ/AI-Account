@@ -11,12 +11,23 @@ class Ums extends CI_Controller {
 		'approve'
 	);
 
+
+	private $tbAutx = '';
+	private $tbAutl = '';
+	private $tbDoct = '';
+	private $tbUser = '';
+
 	function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model('ums_service','',TRUE);
 
+		// init table name
+		$this->tbAutx = $this->db->dbprefix('autx');
+		$this->tbAutl = $this->db->dbprefix('autl');
+		$this->tbDoct = $this->db->dbprefix('doct');
+		$this->tbUser = $this->db->dbprefix('user');
 	}
 	public function index(){
 		// test stuff
@@ -116,10 +127,9 @@ class Ums extends CI_Controller {
 	}
 
 	public function loads_permission(){
-		$tbAutx = $this->db->dbprefix('autx');
-		$tbDoct = $this->db->dbprefix('doct');
-		$tbUser = $this->db->dbprefix('user');
-
+		$tbAutx = $this->tbAutx;
+		$tbDoct = $this->tbDoct;
+		$tbUser = $this->tbUser;
 
 		$uname = $this->input->get('uname');
 		$uname = $this->db->escape($uname);
@@ -152,14 +162,14 @@ Order by d.doctx ASC";
 	}
 
 	public function loads_doctype_limit(){
-		$tbAuta = $this->db->dbprefix('autx');
-		$tbDoct = $this->db->dbprefix('doct');
-		$tbUser = $this->db->dbprefix('user');
+		$tbAutl = $this->tbAutl;
+		$tbDoct = $this->tbDoct;
+		$tbUser = $this->tbUser;
 
 		$uname = $this->input->get('uname');
 		$uname = $this->db->escape($uname);
 
-		$approveable_docty = $this->input->get('approveable');
+		$approveable_docty = $this->input->get('approvable');
 		//$approveable_docty = $this->db->escape($approveable_docty);
 
 		$sql = "
@@ -167,12 +177,13 @@ SELECT
 TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
 , a.limam, a.comid
 FROM $tbDoct d
-LEFT JOIN $tbAuta a ON d.docty = a.docty AND a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
+LEFT JOIN $tbAutl a ON d.docty = a.docty AND a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
 WHERE 1=1
 ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 		$query = $this->db->query($sql);
 
 		$result = $query->result_array();
+		/*
 		$new_result = array();
 		if(!empty($approveable_docty)){
 			$approveable_docty_array = explode(',', $approveable_docty);
@@ -188,15 +199,17 @@ ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 					array_push($new_result, $v);
 			}
 		}
-
+		*/
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$new_result,
-			'totalCount'=>count($new_result)
+			'rows'=>$result,
+			'totalCount'=>count($result)
 		));
 	}
 
 	public function save(){
+		$tbUser = $this->tbUser;
+
 		$id = $this->input->post('id');
 
 		$uname = $this->input->post('uname');
@@ -234,7 +247,7 @@ ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 
 		// ลบ permission ภายใต้ id ทั้งหมด
 		$id_query = $this->db->escape($id);
-		$this->db->where("empnr = (SELECT empnr FROM tbl_user WHERE uname=$id_query)");
+		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
 		$this->db->delete('autx');
 
 		// เตรียมข้อมูล permission
@@ -262,6 +275,29 @@ ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 				$this->db->insert('autx', $autx_data);
 			}
 		}
+
+		// ลบ limit ภายใต้ id ทั้งหมด
+		$id_query = $this->db->escape($id);
+		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
+		$this->db->delete('autl');
+
+		// เตรียมข้อมูล permission
+		$autl = $this->input->post('autl');
+		$autl_array = json_decode($autl);
+		if(!empty($user) && !empty($autl_array)){
+			// loop เพื่อ insert autl ที่ส่งมาใหม่
+			$item_index = 0;
+			foreach($autl_array AS $p){
+				// finally save each autx
+				$this->db->insert('autl', array(
+					'comid'=>'1000',
+					'empnr'=>$user['empnr'],
+					'docty'=>$p->docty,
+					'limam'=>$p->limam
+				));
+			}
+		}
+
 		// end transaction
 		if ($this->db->trans_status() === FALSE)
 		{
