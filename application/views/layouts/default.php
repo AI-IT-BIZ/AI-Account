@@ -554,8 +554,8 @@ function endsWith($haystack, $needle)
                if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
                {
 
-                  $om.ChartOfAccountsDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
-                  $om.ChartOfAccountsDialog.show();
+                  $om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
+                  $om.chartOfAccountDialog.show();
                   return;
                }
 			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
@@ -793,6 +793,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rap-aging', c); }, c);
 								pEl.getById('div-rmm-aging').on('click', function(){ $om.viewport.fireEvent('click_rmm-aging', c); }, c);
 								pEl.getById('div-rmm-stockcard').on('click', function(){ $om.viewport.fireEvent('click_rmm-stockcard', c); }, c);
+								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart-account', c); }, c);
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);

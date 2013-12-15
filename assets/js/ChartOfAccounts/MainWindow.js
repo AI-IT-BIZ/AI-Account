@@ -45,7 +45,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        var tree = Ext.create('Ext.tree.Panel',{
 			//	region: 'west',
 			  //  collapsible: true,
-              
+             
                 loadMask: true,
 				width: 230,
 				autoScroll: true,
@@ -60,7 +60,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        var LeftPanel =  Ext.create('Ext.Panel', {
            layout: 'fit',
          //frame: true,    
-           width:400,
+           width:550,
            height: 600,
            items:[tree]
       
@@ -69,11 +69,11 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        
        /*************************************************************/
         var txtID = Ext.create('Ext.form.Text', {
-         	fieldLabel: 'ID',
+         	fieldLabel: 'GL No',
             layout: 'absolute',
             fieldStyle: 'text-align: left;',
             width: 300,
-            x:100,
+            x:50,
             y:25
       });
       
@@ -83,7 +83,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             fieldStyle: 'text-align: left;',
             width: 300,
             height:60,
-            x:100,
+            x:50,
             y:55
       });
       
@@ -93,23 +93,23 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             fieldStyle: 'text-align: left;',
             width: 300,
             height:60,
-            x:100,
+            x:50,
             y:125
       });
      
       
       
       var rdSmallAccount = Ext.create('Ext.form.Radio', {
-        fieldLabel: 'account type',
-          x:100,
+        fieldLabel: 'Account Type',
+          x:50,
           y:195,
-          boxLabel  : 'Small Account',
+          boxLabel  : 'Sub Account',
          // name      : 'size',
           checked: true,
           inputValue: '1'
       });
        var rdGroupAccount = Ext.create('Ext.form.Radio', {
-          x:330,
+          x:280,
           y:195,
           boxLabel  : 'Group Account',
          // name      : 'size',
@@ -118,8 +118,8 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
       
        var cbAccountGroup = Ext.create('Ext.form.ComboBox', {
         rtl: false,
-        fieldLabel: 'group account',
-        x:100,
+        fieldLabel: 'Account Under',
+        x:50,
         y:225,
         width: 300,
         emptyText: 'Select Account',
@@ -136,7 +136,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
      var cbDepartment = Ext.create('Ext.form.ComboBox', {
         rtl: false,
         fieldLabel: 'Department',
-        x:100,
+        x:50,
         y:255,
         width: 300,
         emptyText: 'Select Department',
@@ -153,7 +153,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
      var btnSave =  Ext.create('Ext.Button', {
          text: 'Save',
          width:80,
-         x:230,
+         x:180,
          y:290,
          handler: function() {
                    
@@ -166,7 +166,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
     var btnCancel =  Ext.create('Ext.Button', {
          text: 'Cancel',
          width:80,
-         x:320,
+         x:270,
          y:290,
          handler: function() {
                     GetDisable();
@@ -180,7 +180,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
          iconCls: 'b-small-plus',
          width:60,
          handler: function() {
-                   txtID.setDisabled(false);
+                   txtID.setReadOnly(false);
                    GetEnable(); 
                    btnEdit.setDisabled(true); 
                    GetReset();     
@@ -204,8 +204,8 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
    		bodyPadding: '5 10 0 10',
         layout: 'fit', 
        	border: true,  
-        width: 590,
-        height: 535,
+        width: 440,
+        height: 435,
         items:[{
 		         	xtype:'fieldset',
                     title: 'Account Detail',
@@ -346,19 +346,19 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         {
             if(rdSmallAccount.getValue())
             {
-              Ext.MessageBox.alert('', 'please select accout group');
+              Ext.MessageBox.alert('', 'Please select Accout Under');
               return;
             }
         }
         if(cbDepartment.getRawValue() == "")
         {   
-                 Ext.MessageBox.alert('', 'please select department');
+                 Ext.MessageBox.alert('', 'Please select Department');
                  return;
 
         }
         if(txtNameT.getRawValue() == "")
         {
-             Ext.MessageBox.alert('', 'please insert thai name');
+             Ext.MessageBox.alert('', 'Please insert Thai Name');
              return;
         }
         var treid = treid_edit;
@@ -389,6 +389,12 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             rt = store_chart_account.getAt(index);
             level = parseInt(rt.get('level')) + 1 ;
             child = rt.get('treid');
+            
+            if(level > 5)
+            {
+            	Ext.MessageBox.alert('', 'Over Level');
+                return;
+            }
         }
         else{
             if(rdGroupAccount.getValue())
@@ -433,13 +439,13 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
      }
      function GetDisable()
      {
-        txtID.setDisabled(true);
-        txtNameT.setDisabled(true);
-        txtNameE.setDisabled(true);
-        cbAccountGroup.setDisabled(true);
-        cbDepartment.setDisabled(true);
-        rdGroupAccount.setDisabled(true);
-        rdSmallAccount.setDisabled(true);
+        txtID.setReadOnly(true);
+        txtNameT.setReadOnly(true);
+        txtNameE.setReadOnly(true);
+        cbAccountGroup.setReadOnly(true);
+        cbDepartment.setReadOnly(true);
+        rdGroupAccount.setReadOnly(true);
+        rdSmallAccount.setReadOnly(true);
         btnSave.setDisabled(true);
         btnCancel.setDisabled(true);
         
@@ -448,12 +454,12 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
      function GetEnable()
      {
         //txtID.setDisabled(false);
-        txtNameT.setDisabled(false);
-        txtNameE.setDisabled(false);
-        cbAccountGroup.setDisabled(false);
-        cbDepartment.setDisabled(false);
-        rdGroupAccount.setDisabled(false);
-        rdSmallAccount.setDisabled(false);
+        txtNameT.setReadOnly(false);
+        txtNameE.setReadOnly(false);
+        cbAccountGroup.setReadOnly(false);
+        cbDepartment.setReadOnly(false);
+        rdGroupAccount.setReadOnly(false);
+        rdSmallAccount.setReadOnly(false);
         btnSave.setDisabled(false);
         btnCancel.setDisabled(false);
         
@@ -470,8 +476,8 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        	Ext.apply(this, {
 		   title: 'Chart Of Accounts',
    	       closeAction: 'hide',
-           height: 600,
-           minHeight: 570,
+           height: 500,
+           //minHeight: 570,
            width: 1000,
            minWidth: 750,
            resizable: false,

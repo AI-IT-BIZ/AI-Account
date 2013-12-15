@@ -454,7 +454,29 @@ class Invoice extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+	
+	public function loads_whtcombo(){
+		$tbName = 'whty';
+		$tbPK = 'whtnr';
 
+		$query = $this->input->post('query');
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		if(!empty($query) && $query!=''){
+			$this->db->or_like('whtxt', $query);
+			$this->db->or_like($tbPK, $query);
+		}
+
+		$query = $this->db->get($tbName);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+	
 	function remove(){
 		$id = $this->input->post('id');
 		$this->db->where('invnr', $id);

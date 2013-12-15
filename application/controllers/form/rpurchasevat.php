@@ -36,20 +36,6 @@ class Rpurchasevat extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
-		//$v_amt = 0;
-		//foreach ($rows as $key => $item) {
-			//$itamt = 0;
-			//$itamt = $item['menge'] * $item['unitp'];
-			//$itamt = $itamt - $item['disit'];
-			//$b_amt += $item['itamt'];
-			//$v=0;
-			//if(!empty($r_data['chk01']))
-			//{
-			//   $v = $itamt * $r_data['taxpr'];
-			//   $v = $v / 100;
-			//   $v_amt += $v;
-			//}
-		//}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -158,7 +144,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php endif; ?>
 
 <!--Page No-->
-<DIV style="left: 642px; top: 29px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
+<DIV style="left: 642px; top: 28px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
 <DIV style="left: 672px; top: 28px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
@@ -172,7 +158,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
 <DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
-<DIV style="left: 159px; top: 152px; width: 74px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
+<DIV style="left: 159px; top: 152px; width: 147px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
 
 <DIV style="left: 427px; top: 177px; width: 75PX; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
 
@@ -192,7 +178,7 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 
 <!--Company Logo--><!--Company Text-->
-<DIV style="left: 414px; top: 127px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 414px; top: 128px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 
 <DIV style="left: 129px; top: 127px; width: 248px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 
@@ -282,9 +268,9 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left: 210px; top: 1055px; width: 194PX; height: 23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left: 549px; top: 1057px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 549px; top: 1055px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 659px; top: 1057px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 659px; top: 1055px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
