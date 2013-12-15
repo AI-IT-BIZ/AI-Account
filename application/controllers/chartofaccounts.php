@@ -7,8 +7,8 @@
 	    }
         function GetTreeChart()
      	{
-     	//  $xx = "{ text: 'detention', leaf: false }" ;
-           $strSQL = "Select * from tbl_chrt Where level = 1;";
+     
+           $strSQL = "Select * from tbl_glno Where level = 1 order by saknr asc ;";
            $queryL1 = $this->db->query($strSQL);
            $arrL1 = array();
            $arrChild  = array();
@@ -19,44 +19,44 @@
             
               /************************************/
               /*Level2 **************************/
-              $strSQL = " Select * from tbl_chrt Where level = 2 And child = '" . $rowL1->treid . "' ;"; 
+              $strSQL = " Select * from tbl_glno Where level = 2 And child = '" . $rowL1->treid . "' order by child desc ;"; 
               $queryL2 = $this->db->query($strSQL);
               $arrChild  = array();  
               foreach ($queryL2->result() as $rowL2)
               {
                   /*Level3 **************************/
-                  $strSQL = " Select * from tbl_chrt Where level = 3 And child = '" . $rowL2->treid . "' ;"; 
+                  $strSQL = " Select * from tbl_glno Where level = 3 And child = '" . $rowL2->treid . "' order by child desc;"; 
                   $queryL3 = $this->db->query($strSQL);
                   $arrChild3  = array(); 
                   foreach ($queryL3->result() as $rowL3)
                   {  
                     
                     /*Level4 **************************/
-                    $strSQL = " Select * from tbl_chrt Where level = 4 And child = '" . $rowL3->treid . "' ;"; 
+                    $strSQL = " Select * from tbl_glno Where level = 4 And child = '" . $rowL3->treid . "' order by child desc;"; 
                     $queryL4 = $this->db->query($strSQL);
                     $arrChild4  = array(); 
                     foreach ($queryL4->result() as $rowL4)
                     {
                         /*Level5 **************************/
-                        $strSQL = " Select * from tbl_chrt Where level = 5 And child = '" . $rowL4->treid . "' ;"; 
+                        $strSQL = " Select * from tbl_glno Where level = 5 And child = '" . $rowL4->treid . "' order by child desc;"; 
                         $queryL5 = $this->db->query($strSQL);
                         $arrChild5  = array(); 
                         foreach ($queryL5->result() as $rowL5)
                         {
-                            $strText = $rowL5->accid. "[" . $rowL5->deptx  . "]" . $rowL5->tname;
+                            $strText = $rowL5->saknr . "[" . $rowL5->depar  . "]" . $rowL5->sgtxt;
                             array_push($arrChild5, array('text' => $strText, 'leaf' => $rowL5->leaf1 , 'id' => $rowL5->treid ));
                         }
-                        $strText = $rowL4->accid. "[" . $rowL4->deptx  . "]" . $rowL4->tname;
+                        $strText = $rowL4->saknr. "[" . $rowL4->depar  . "]" . $rowL4->sgtxt;
                         array_push($arrChild4, array('text' => $strText, 'leaf' => $rowL4->leaf1 , 'id' => $rowL4->treid  , 'expanded' => true ,  'children' => $arrChild5  ));
                     }
-                     $strText = $rowL3->accid. "[" . $rowL3->deptx  . "]" . $rowL3->tname;
+                     $strText = $rowL3->saknr. "[" . $rowL3->depar  . "]" . $rowL3->sgtxt;
                      array_push($arrChild3, array('text' => $strText, 'leaf' => $rowL3->leaf1 , 'id' => $rowL3->treid  , 'expanded' => true , 'children' => $arrChild4 ));
                   }
-                  $strText = $rowL2->accid. "[" . $rowL2->deptx  . "]" . $rowL2->tname;
+                  $strText = $rowL2->saknr. "[" . $rowL2->depar  . "]" . $rowL2->sgtxt;
                   array_push($arrChild, array('text' => $strText, 'leaf' => $rowL2->leaf1 , 'id' => $rowL2->treid  ,  'expanded' => true , 'children' => $arrChild3));
               }
               /************************************/
-              $strText = $rowL1->accid. "[" . $rowL1->deptx  . "]" . $rowL1->tname;
+              $strText = $rowL1->saknr. "[" . $rowL1->depar  . "]" . $rowL1->sgtxt;
               array_push($arrL1, array('text' => $strText, 'leaf' => $rowL1->leaf1 , 'id' => $rowL1->treid , 'expanded' => true ,  'children' => $arrChild ));
            }
         /*******************************************************/
@@ -69,7 +69,7 @@
         function SaveTree()
         {
             $strField = "treid";
-            $strTable = "tbl_chrt";
+            $strTable = "tbl_glno";
             $strTypeID = "TR";
             
             
@@ -79,12 +79,12 @@
            // $text1 = $_GET['text1'];
             $leaf1 = $_GET['leaf1'];
             $child = $_GET['child'];
-            $accid = $_GET['accid'];
-            $tname = $_GET['tname'];
-            $ename = $_GET['ename'];
-            $accty = $_GET['accty'];
-            $accgr = $_GET['accgr'];
-            $deptx = $_GET['deptx'];
+            $saknr = $_GET['accid'];
+            $sgtxt = $_GET['tname'];
+            $entxt = $_GET['ename'];
+            $gltyp = $_GET['accty'];
+            $under = $_GET['accgr'];
+            $depar = $_GET['deptx'];
             if($treid == "")
             {
                 
@@ -104,16 +104,16 @@
                 }
                 $numID = $numID + 1;
                 $MaxKey = $strTypeID . "-" . sprintf("%05s",$numID);
-                $strSQL = " Insert into tbl_chrt(treid,level,text1,leaf1,child,accid,";
-                $strSQL = $strSQL . " tname,ename,accty,accgr,deptx) Values('";
-                $strSQL = $strSQL . $MaxKey . "','" . $level . "','" . "" . "','" . $leaf1 . "','" . $child . "','" . $accid . "','";
-                $strSQL = $strSQL . $tname . "','" . $ename . "','" . $accty . "','" . $accgr . "','" . $deptx . "') ";
+                $strSQL = " Insert into tbl_glno(treid,level,leaf1,child,saknr,";
+                $strSQL = $strSQL . " sgtxt,entxt,gltyp,under,depar) Values('";
+                $strSQL = $strSQL . $MaxKey . "'," . $level . ",'" . $leaf1 . "','" . $child . "','" . $saknr . "','";
+                $strSQL = $strSQL . $sgtxt . "','" . $entxt . "','" . $gltyp . "','" . $under . "','" . $depar . "') ";
                 $query = $this->db->query($strSQL);
             }
             else
             {
-               $strSQL = " Update tbl_chrt Set level = " . $level . " , leaf1 = '" . $leaf1 . "' , child = '" . $child . "' , accid = '" . $accid . "' , ";
-               $strSQL = $strSQL . " tname = '" . $tname . "' , ename = '" . $ename . "' , accty = '" . $accty . "' , accgr = '" . $accgr . "' , deptx = '" . $deptx . "' ";
+               $strSQL = " Update tbl_glno Set level = " . $level . " , leaf1 = '" . $leaf1 . "' , child = '" . $child . "' , saknr = '" . $saknr . "' , ";
+               $strSQL = $strSQL . " sgtxt = '" . $sgtxt . "' , entxt = '" . $entxt . "' , gltyp = '" . $gltyp . "' , under = '" . $under . "' , depar = '" . $depar . "' ";
                $strSQL = $strSQL . " Where treid = '" . $treid . "' ;";
         
                $query = $this->db->query($strSQL);
@@ -122,13 +122,13 @@
         }
         function GetAccountChart()
         {
-            $strSQL = "Select * from tbl_chrt";
+            $strSQL = "Select * from tbl_glno";
             $strResult = "";
             $query = $this->db->query($strSQL);
             foreach ($query->result() as $row)
             {
-                $strResult = $strResult . $row->treid . "+" . $row->level  . "+" . $row->text1 . "+" . $row->leaf1 . "+" . $row->child . "+" . $row->accid . "+";
-                $strResult = $strResult . $row->tname . "+" . $row->ename . "+"  . $row->accty . "+"  . $row->accgr . "+"  . $row->deptx . "|" ;
+                $strResult = $strResult . $row->treid . "+" . $row->level  . "+" . "" . "+" . $row->leaf1 . "+" . $row->child . "+" . $row->saknr . "+";
+                $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->under . "+"  . $row->depar . "|" ;
             }
             if( $strResult != "" )
             {
@@ -138,12 +138,12 @@
         }
         function GetGroupAccount()
         {
-            $strSQL = "Select treid,accid from tbl_chrt Where leaf1 = 'false';" ;
+            $strSQL = "Select treid,saknr from tbl_glno Where leaf1 = 'false';" ;
             $strResult = "";
             $query = $this->db->query($strSQL);
             foreach ($query->result() as $row)
             {
-                $strResult = $strResult . $row->treid . "+" . $row->accid  . "|" ;
+                $strResult = $strResult . $row->treid . "+" . $row->saknr  . "|" ;
             }
             if( $strResult != "" )
             {
