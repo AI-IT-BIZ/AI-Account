@@ -151,15 +151,15 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
-<DIV style="left: 579px; top: 27px; width: 40PX; height: 20PX;"><span class="fc1-2">สำเนา</span></DIV>
-<DIV style="left: 612px; top: 27px; width: 112PX; height: 25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
+<DIV style="left: 579px; top: 29px; width: 40PX; height: 20PX;"><span class="fc1-2">สำเนา</span></DIV>
+<DIV style="left: 612px; top: 30px; width: 112PX; height: 25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
 <?php else: ?>
-<DIV style="left: 577px; top: 28px; width: 40PX; height: 20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
+<DIV style="left: 577px; top: 30px; width: 40PX; height: 20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
 <?php endif; ?>
 
 <!--Page No-->
-<DIV style="left: 642px; top: 29px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
-<DIV style="left: 672px; top: 28px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
+<DIV style="left: 642px; top: 30px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
+<DIV style="left: 672px; top: 30px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
 <DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีขาย</span></DIV>
@@ -282,9 +282,9 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left: 210px; top: 1055px; width: 194PX; height: 23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left: 549px; top: 1057px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 549px; top: 1054px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 659px; top: 1057px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 659px; top: 1054px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->

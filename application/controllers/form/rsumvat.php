@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Billto extends CI_Controller {
+class Rsumvat extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -15,18 +15,26 @@ class Billto extends CI_Controller {
 		$no = $type = $this->uri->segment(4);
 		$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
-		
-	    $strSQL = " select v_vbkk.*,v_vbkp.*";
-        $strSQL = $strSQL . " from v_vbkk ";
-        $strSQL = $strSQL . " left join v_vbkp on v_vbkk.bilnr =                              v_vbkp.bilnr ";
-        $strSQL = $strSQL . " Where v_vbkk.bilnr = '$no' ";
-		$strSQL .= "ORDER BY vbelp ASC";
+		//Sale
+	    $strSQL1 = " select v_vbrk.*";
+        $strSQL1 = $strSQL . " from v_vbrk ";
+        $strSQL1 = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL1 .= "ORDER BY invnr ASC";
        
-		$query = $this->db->query($strSQL);
-		$r_data = $query->first_row('array');
+		$q_sale = $this->db->query($strSQL1);
+		$r_sale = $q_sale->first_row('array');
+		
+		//Purchase
+		$strSQL2 = " select v_ebrk.*";
+        $strSQL2 = $strSQL . " from v_ebrk ";
+        $strSQL2 = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL2 .= "ORDER BY invnr ASC";
+       
+		$q_purch = $this->db->query($strSQL2);
+		$r_purch = $q_purch->first_row('array');
 		
 		// calculate sum
-		$rows = $query->result_array();
+		$rows = $q_sale->result_array();
 		$b_amt = 0;
 		//$v_amt = 0;
 		//foreach ($rows as $key => $item) {
@@ -91,6 +99,12 @@ class Billto extends CI_Controller {
 
 <DIV style="left: 13px; top: 105px; width: 95px; height: 21PX;"><span class="fc1-1">เป็นใบแนบ ภ.พ.30</span></DIV>
 
+<!--Check Box 1-->
+
+<DIV style="z-index: 15; left: 182px; top: 94px; width: 38PX; height: 39PX;">
+<img  WIDTH=38 HEIGHT=39 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>">
+</DIV>
+
 <DIV style="left: 223px; top: 106px; width: 57px; height: 21PX;"><span class="fc1-1">กรณียื่นปกติ</span></DIV>
 
 <DIV style="left: 595px; top: 107px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
@@ -142,11 +156,15 @@ class Billto extends CI_Controller {
 
 <DIV style="left: 575px; top: 167px; width: 97px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ยอดขาย</span></DIV>
 
+<DIV style="left: 672px; top: 167px; width: 91px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีขาย</span></DIV>
+
 <div style="left: 765px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 485px;">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<DIV style="left: 762px; top: 167px; width: 90px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ยอดซื้อ</span></DIV>
+<DIV style="left: 767px; top: 167px; width: 85px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ยอดซื้อ</span></DIV>
+
+<DIV style="left: 852px; top: 167px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีซื้อ</span></DIV>
 
 <div style="left: 853px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 485px;">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
@@ -156,17 +174,13 @@ class Billto extends CI_Controller {
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<DIV style="left: 852px; top: 167px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีซื้อ</span></DIV>
-
 <div style="left: 933px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 475px;">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<DIV style="left: 934px; top: 157px; width: 93px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีมูลค่าเพิ่มที่ต้องชำระ(+)</span></DIV>
+<DIV style="left: 934px; top: 157px; width: 142px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีมูลค่าเพิ่มที่ต้องชำระ(+)</span></DIV>
 
 <DIV style="left: 962px; top: 180px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชำระเกิน (-)</span></DIV>
-
-<DIV style="left: 672px; top: 167px; width: 91px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีขาย</span></DIV>
 
 <DIV style="left: 13px; top: 210PX; width: 1064px; height: 23PX;"><span class="fc1-5">&nbsp;</span></DIV>
 
@@ -184,16 +198,16 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$invdt_str = util_helper_format_date($r_data['invdt']);
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:38px;"><?=$item['vbelp'];?></td>
-	  <td class="fc1-8" align="center" style="width:65px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="center" style="width:86px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="left" style="width:164px;"><?=$item['txz01'];?></td>
-		<td class="fc1-8" align="left" style="width:68px;"><?=number_format($itamt,2,'.',',');?></td>
+		<td class="fc1-8" align="center" style="width:47px;"><?=$item['vbelp'];?></td>
+	  <td class="fc1-8" align="center" style="width:82px;"><?=$item['invnr'];?></td>
+	  <td class="fc1-8" align="left" style="width:172px;"><?=$invdt_str;?></td>
+	  <td class="fc1-8" align="left" style="width:264px;"><?=$item['txz01'];?></td>
+		<td class="fc1-8" align="right" style="width:97px;"><?=number_format($itamt,2,'.',',');?></td>
         
-        <td class="fc1-8" align="center" style="width:51px;"><?=$item['vbelp'];?></td>
-        <td class="fc1-8" align="center" style="width:35px;"><?=$item['vbelp'];?></td>
-	  <td class="fc1-8" align="right" style="width:100px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="right" style="width:93px;"><?=$invdt_str;?></td>
+        <td class="fc1-8" align="right" style="width:91px;"><?=$item['vbelp'];?></td>
+        <td class="fc1-8" align="right" style="width:85px;"><?=$item['vbelp'];?></td>
+	  <td class="fc1-8" align="right" style="width:80px;"><?=$item['invnr'];?></td>
+	  <td class="fc1-8" align="right" style="width:142px;"><?=$invdt_str;?></td>
 	</tr>
 
 <?php
