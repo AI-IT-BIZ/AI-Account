@@ -73,7 +73,8 @@ return $bathtext1;
 	}
 
 function text_month($month){
-  $monthtxt=null;
+  $monthtxt = null;
+  
   switch($month){
   	case '01': $monthtxt='มกราคม';break;
 	case '02': $monthtxt='กุมภาพันธ์';break;

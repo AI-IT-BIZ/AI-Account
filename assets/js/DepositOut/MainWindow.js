@@ -133,7 +133,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 	    });
 	    }
 	    
-	    		this.excelAct.setHandler(function(){
+	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
 				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
 			params = Ext.apply({

@@ -153,7 +153,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.trigVender = Ext.create('Ext.form.field.Trigger', {
+		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
 			triggerCls: 'x-form-search-trigger',
@@ -203,7 +203,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnGrItem, 
+			items: [this.hdnDpItem, 
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -246,7 +246,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.trigVender,{
+				 			items :[this.trigVendor,{
 								xtype: 'displayfield',
 								name: 'name1',
 								margins: '0 0 0 6',
@@ -394,8 +394,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.poDialog.show();
 		};
 		
-		// event trigVender///
-		this.trigVender.on('keyup',function(o, e){
+		// event trigVendor///
+		this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -424,7 +424,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		}, this);
 
 		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigVender.setValue(record.data.lifnr);
+			_this.trigVendor.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var v = record.data.lifnr;
@@ -450,7 +450,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.vendorDialog.hide();
 		});
 
-		this.trigVender.onTriggerClick = function(){
+		this.trigVendor.onTriggerClick = function(){
 			_this.vendorDialog.show();
 		};
 		
@@ -550,7 +550,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnGrItem.setValue(Ext.encode(rsItem));
+		this.hdnDpItem.setValue(Ext.encode(rsItem));
+		
+		var rsGL = _this.gridGL.getData();
+		this.hdnGlItem.setValue(Ext.encode(rsGL));
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
@@ -635,5 +638,21 @@ Ext.define('Account.DepositOut.Item.Form', {
             	vat:sel.get('chk01')
             });     
         }
+        
+        if(currency != 'THB'){
+	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+		  sum = sum * rate;
+		}   
+        if(sum>0){
+        	//console.log(rsPM);
+            _this.gridGL.load({
+            	//paym:Ext.encode(rsPM),
+            	netpr:sum,
+            	vvat:vats,
+            	lifnr:this.trigVendor.getValue(),
+            	ptype:'01',
+            	dtype:'01'
+            }); 
+           }
 	}
 });

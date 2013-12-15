@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsalevat extends CI_Controller {
+class Rpurchasevat extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -25,9 +25,9 @@ class Rsalevat extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbrk.*";
-        $strSQL = $strSQL . " from v_vbrk ";
-        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+	    $strSQL = " select v_ebrk.*";
+        $strSQL = $strSQL . " from v_ebrk ";
+        $strSQL = $strSQL . " Where v_ebrk.bldat ".$dt_result;
 		$strSQL .= "ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
@@ -162,7 +162,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 672px; top: 28px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีขาย</span></DIV>
+<DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีซื้อ</span></DIV>
 <DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
 <DIV style="left: 319px; top: 59px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
@@ -210,8 +210,8 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 <DIV style="left: 156px; top: 230PX; width: 80px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่</span></DIV>
 <DIV style="left: 156px; top: 248PX; width: 80px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ใบกำกับภาษี</span></DIV>
 
-<DIV style="left: 236px; top: 230PX; width: 164px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อผู้ซื้อสินค้า/</span></DIV>
-<DIV style="left: 236px; top: 248PX; width: 164px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผู้รับบริการ</span></DIV>
+<DIV style="left: 236px; top: 230PX; width: 164px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อผู้ขายสินค้า/</span></DIV>
+<DIV style="left: 236px; top: 248PX; width: 164px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผู้ให้บริการ</span></DIV>
 
 <DIV style="left: 400px; top: 230px; width: 76px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ประจำตัว</span></DIV>
 <DIV style="left: 400px; top: 248PX; width: 75px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผ้เสียภาษี</span></DIV>

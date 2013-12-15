@@ -228,7 +228,7 @@ class Depositout extends CI_Controller {
 				$this->db->insert('bven', array(
 					'belnr'=>$id,
 					'belpr'=>++$item_index,
-					'gjahr' => substr($date,0,4),
+					'gjahr'=>substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
@@ -310,7 +310,7 @@ class Depositout extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $vvat = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
-		   $rate = $this->input->get('rate');    //Currency Rate
+		   //$rate = $this->input->get('rate');    //Currency Rate
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
 		   
