@@ -40,8 +40,9 @@ Ext.define('Account.UMS.Grid', {
 		this.columns = [
 		    {text: "Company ID", width: 90, dataIndex: 'comid', sortable: true},
 			{text: "Employee No", width: 100, dataIndex: 'empnr', sortable: true},
-			{text: "Username", width: 125, dataIndex: 'uname', sortable: true},
-			{text: "Position", width: 125, dataIndex: 'posit', sortable: true}
+			{text: "Username", width: 100, dataIndex: 'uname', sortable: true},
+			{text: "Name", width: 185, dataIndex: 'name1', sortable: true},
+			{text: "Position", width: 125, dataIndex: 'posit', sortable: true, hidden: true}
 		];
 
 		this.bbar = {
