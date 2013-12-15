@@ -39,6 +39,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			disabled: !UMS.CAN.APPROVE('QT'),
 			fieldLabel: 'QT Status',
 			name : 'statu',
 			labelAlign: 'right',
@@ -165,7 +166,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',

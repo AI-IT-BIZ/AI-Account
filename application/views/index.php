@@ -5,37 +5,37 @@ Ext.Loader.setPath('Account', __base_url+'assets/js');
 Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
-    
+
     $om.viewport.on('click_config', function(){
 		if(!$om.initdocDialog)
 			$om.initdocDialog = Ext.create('Account.Initdoc.MainWindow');
 		$om.initdocDialog.show();
 	});
-    
+
 	$om.viewport.on('click_income', function(){
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
 	});
-	
+
 	$om.viewport.on('click_journaltemp', function(){
 		if(!$om.journaltempDialog)
 			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
 		$om.journaltempDialog.show();
 	});
-	
+
 	$om.viewport.on('click_journal', function(){
 		if(!$om.journalDialog)
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rjournal', function(){
 		if(!$om.rjournalDialog)
 			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
 		$om.rjournalDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rgl', function(){
 		if(!$om.rglDialog)
 			$om.rglDialog = Ext.create('Account.RGL.MainWindow');
@@ -43,19 +43,19 @@ Ext.onReady(function() {
 	});
 
 //<<<<<<< HEAD
-	
+
 	$om.viewport.on('click_customer', function(){
 		if(!$om.customerDialog)
 			$om.customerDialog = Ext.create('Account.Customer.MainWindow');
 		$om.customerDialog.show();
 	});
-	
+
 	$om.viewport.on('click_vendor', function(){
 		if(!$om.vendorDialog)
 			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		$om.vendorDialog.show();
 	});
-	
+
 //=======
 	//Sale Module
 	$om.viewport.on('click_project', function(){
@@ -64,6 +64,11 @@ Ext.onReady(function() {
 		$om.projectDialog.show();
 	});
 	$om.viewport.on('click_quotation', function(){
+		if(!UMS.CAN.DISPLAY('QT')){
+			UMS.ALERT("You don't have permission for quotation.");
+			return;
+		}
+
 		if(!$om.quotationDialog)
 			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		$om.quotationDialog.show();
@@ -179,56 +184,56 @@ Ext.onReady(function() {
 			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
 		$om.rpaymentDialog.show();
 	});
-	
+
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)
 			$om.materialDialog = Ext.create('Account.Material.MainWindow');
 		$om.materialDialog.show();
 	});
-	
+
 	$om.viewport.on('click_service', function(){
 		if(!$om.serviceDialog)
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();
 	});
-	
+
 	$om.viewport.on('click_transaction', function(){
 		if(!$om.transactionDialog)
 			$om.transactionDialog = Ext.create('Account.Transaction.MainWindow');
 		$om.transactionDialog.show();
 	});
-	
+
 	$om.viewport.on('click_balance', function(){
 		if(!$om.balanceDialog)
 			$om.balanceDialog = Ext.create('Account.Balance.MainWindow');
 		$om.balanceDialog.show();
 	});
-	
+
 	$om.viewport.on('click_otincome', function(){
 		if(!$om.otincomeDialog)
 			$om.otincomeDialog = Ext.create('Account.Otincome.MainWindow');
 		$om.otincomeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_otexpense', function(){
 		if(!$om.otexpenseDialog)
 			$om.otexpenseDialog = Ext.create('Account.Otexpense.MainWindow');
 		$om.otexpenseDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rtransaction', function(){
 		if(!$om.rtransactionDialog)
 			$om.rtransactionDialog = Ext.create('Account.RSaleVat.MainWindow');
 		$om.rtransactionDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rbalance', function(){
 		if(!$om.rbalanceDialog)
 			$om.rbalanceDialog = Ext.create('Account.RPurchaseVat.MainWindow');
 		$om.rbalanceDialog.show();
 	});
-	
+
 
 });
 </script>

@@ -26,7 +26,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		this.items = [
 		     this.form
 		];
-		
+
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
 			handler: function() {
@@ -36,6 +36,7 @@ Ext.define('Account.Quotation.Item.Window', {
 
 		this.buttons = [{
 			text: 'Save',
+			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')),
 			handler: function() {
 				_this.form.save();
 			}

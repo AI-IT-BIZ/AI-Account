@@ -53,7 +53,6 @@ Ext.define('Account.UMS.Login.Window', {
 				else
 					Ext.Msg.alert('Success', result);
 			});
-			//_this.fireEvent('login_success');
 		});
 
 		return this.callParent(arguments);
