@@ -45,7 +45,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        var tree = Ext.create('Ext.tree.Panel',{
 			//	region: 'west',
 			  //  collapsible: true,
-              
+             
                 loadMask: true,
 				width: 230,
 				autoScroll: true,
@@ -103,7 +103,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         fieldLabel: 'Account Type',
           x:50,
           y:195,
-          boxLabel  : 'Small Account',
+          boxLabel  : 'Sub Account',
          // name      : 'size',
           checked: true,
           inputValue: '1'
@@ -346,19 +346,19 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         {
             if(rdSmallAccount.getValue())
             {
-              Ext.MessageBox.alert('', 'please select accout group');
+              Ext.MessageBox.alert('', 'Please select Accout Under');
               return;
             }
         }
         if(cbDepartment.getRawValue() == "")
         {   
-                 Ext.MessageBox.alert('', 'please select department');
+                 Ext.MessageBox.alert('', 'Please select Department');
                  return;
 
         }
         if(txtNameT.getRawValue() == "")
         {
-             Ext.MessageBox.alert('', 'please insert thai name');
+             Ext.MessageBox.alert('', 'Please insert Thai Name');
              return;
         }
         var treid = treid_edit;
@@ -389,6 +389,12 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             rt = store_chart_account.getAt(index);
             level = parseInt(rt.get('level')) + 1 ;
             child = rt.get('treid');
+            
+            if(level > 5)
+            {
+            	Ext.MessageBox.alert('', 'Over Level');
+                return;
+            }
         }
         else{
             if(rdGroupAccount.getValue())
