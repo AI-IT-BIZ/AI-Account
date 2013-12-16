@@ -58,6 +58,7 @@ Ext.define('Account.Vendor.MainWindow', {
 		this.itemDialog = Ext.create('Account.Vendor.Item.Window');
 		
 		this.importDialog = Ext.create('Account.Vendor.Import.Window');
+		//this.importDialog = Ext.create('Account.ChartOfAccounts.Import.Window');
 		
 		this.grid = Ext.create('Account.Vendor.Grid', {
 			region:'center',
