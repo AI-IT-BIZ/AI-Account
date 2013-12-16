@@ -33,13 +33,13 @@
                   {  
                     
                     /*Level4 **************************/
-                    $strSQL = " Select * from tbl_glno Where level = 4 And overs = '" . $rowL3->saknr . "' order by overs desc;"; 
+                    $strSQL = " Select * from tbl_glno Where gllev = 4 And overs = '" . $rowL3->saknr . "' order by overs desc;"; 
                     $queryL4 = $this->db->query($strSQL);
                     $arrChild4  = array(); 
                     foreach ($queryL4->result() as $rowL4)
                     {
                         /*Level5 **************************/
-                        $strSQL = " Select * from tbl_glno Where level = 5 And overs = '" . $rowL4->saknr . "' order by overs desc;"; 
+                        $strSQL = " Select * from tbl_glno Where gllev = 5 And overs = '" . $rowL4->saknr . "' order by overs desc;"; 
                         $queryL5 = $this->db->query($strSQL);
                         $arrChild5  = array(); 
                         foreach ($queryL5->result() as $rowL5)
