@@ -8,7 +8,8 @@
         function GetTreeChart()
      	{
      
-           $strSQL = "Select * from tbl_glno Where level = 1 order by saknr asc ;";
+           $strSQL = "Select * from tbl_glno Where gllev = 1 order by saknr asc ;";
+           $leaf1 = "";
            $queryL1 = $this->db->query($strSQL);
            $arrL1 = array();
            $arrChild  = array();
@@ -19,45 +20,50 @@
             
               /************************************/
               /*Level2 **************************/
-              $strSQL = " Select * from tbl_glno Where level = 2 And child = '" . $rowL1->treid . "' order by child desc ;"; 
+              $strSQL = " Select * from tbl_glno Where gllev = 2 And overs = '" . $rowL1->saknr . "' order by overs desc ;"; 
               $queryL2 = $this->db->query($strSQL);
               $arrChild  = array();  
               foreach ($queryL2->result() as $rowL2)
               {
                   /*Level3 **************************/
-                  $strSQL = " Select * from tbl_glno Where level = 3 And child = '" . $rowL2->treid . "' order by child desc;"; 
+                  $strSQL = " Select * from tbl_glno Where gllev = 3 And overs = '" . $rowL2->saknr . "' order by overs desc;"; 
                   $queryL3 = $this->db->query($strSQL);
                   $arrChild3  = array(); 
                   foreach ($queryL3->result() as $rowL3)
                   {  
                     
                     /*Level4 **************************/
-                    $strSQL = " Select * from tbl_glno Where level = 4 And child = '" . $rowL3->treid . "' order by child desc;"; 
+                    $strSQL = " Select * from tbl_glno Where level = 4 And overs = '" . $rowL3->saknr . "' order by overs desc;"; 
                     $queryL4 = $this->db->query($strSQL);
                     $arrChild4  = array(); 
                     foreach ($queryL4->result() as $rowL4)
                     {
                         /*Level5 **************************/
-                        $strSQL = " Select * from tbl_glno Where level = 5 And child = '" . $rowL4->treid . "' order by child desc;"; 
+                        $strSQL = " Select * from tbl_glno Where level = 5 And overs = '" . $rowL4->saknr . "' order by overs desc;"; 
                         $queryL5 = $this->db->query($strSQL);
                         $arrChild5  = array(); 
                         foreach ($queryL5->result() as $rowL5)
                         {
                             $strText = $rowL5->saknr . "[" . $rowL5->depar  . "]" . $rowL5->sgtxt;
-                            array_push($arrChild5, array('text' => $strText, 'leaf' => $rowL5->leaf1 , 'id' => $rowL5->treid ));
+                            $leaf1 = ($rowL5->gltyp == "1") ? "false" : "true";
+                            array_push($arrChild5, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL5->saknr ));
                         }
                         $strText = $rowL4->saknr. "[" . $rowL4->depar  . "]" . $rowL4->sgtxt;
-                        array_push($arrChild4, array('text' => $strText, 'leaf' => $rowL4->leaf1 , 'id' => $rowL4->treid  , 'expanded' => true ,  'children' => $arrChild5  ));
+                        $leaf1 = ($rowL4->gltyp == "1") ? "false" : "true";
+                        array_push($arrChild4, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL4->saknr  , 'expanded' => true ,  'children' => $arrChild5  ));
                     }
                      $strText = $rowL3->saknr. "[" . $rowL3->depar  . "]" . $rowL3->sgtxt;
-                     array_push($arrChild3, array('text' => $strText, 'leaf' => $rowL3->leaf1 , 'id' => $rowL3->treid  , 'expanded' => true , 'children' => $arrChild4 ));
+                     $leaf1 = ($rowL3->gltyp == "1") ? "false" : "true";
+                     array_push($arrChild3, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL3->saknr  , 'expanded' => true , 'children' => $arrChild4 ));
                   }
                   $strText = $rowL2->saknr. "[" . $rowL2->depar  . "]" . $rowL2->sgtxt;
-                  array_push($arrChild, array('text' => $strText, 'leaf' => $rowL2->leaf1 , 'id' => $rowL2->treid  ,  'expanded' => true , 'children' => $arrChild3));
+                  $leaf1 = ($rowL2->gltyp == "1") ? "false" : "true";
+                  array_push($arrChild, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL2->saknr  ,  'expanded' => true , 'children' => $arrChild3));
               }
               /************************************/
               $strText = $rowL1->saknr. "[" . $rowL1->depar  . "]" . $rowL1->sgtxt;
-              array_push($arrL1, array('text' => $strText, 'leaf' => $rowL1->leaf1 , 'id' => $rowL1->treid , 'expanded' => true ,  'children' => $arrChild ));
+              $leaf1 = ($rowL1->gltyp == "1") ? "false" : "true";
+              array_push($arrL1, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL1->saknr , 'expanded' => true ,  'children' => $arrChild ));
            }
         /*******************************************************/
      	   //$arr = array('text' => 'detention', 'leaf' => false);
@@ -68,53 +74,35 @@
 	    }
         function SaveTree()
         {
-            $strField = "treid";
-            $strTable = "tbl_glno";
-            $strTypeID = "TR";
-            
+           
             
             /************************/
             $treid = $_GET['treid'];
-            $level = $_GET['level'];
+            $gllev = $_GET['level'];
            // $text1 = $_GET['text1'];
-            $leaf1 = $_GET['leaf1'];
-            $child = $_GET['child'];
+           // $leaf1 = $_GET['leaf1'];
+          //  $child = $_GET['child'];
             $saknr = $_GET['accid'];
             $sgtxt = $_GET['tname'];
             $entxt = $_GET['ename'];
             $gltyp = $_GET['accty'];
-            $under = $_GET['accgr'];
+            $overs = $_GET['accgr'];
             $depar = $_GET['deptx'];
             if($treid == "")
             {
                 
-                $strSQL = "Select MAX(" . $strField . ") MaxKEY From " . $strTable . " Where " . $strField . " Like '" . $strTypeID . "-%'";
-                $query = $this->db->query($strSQL);
-                foreach ($query->result() as $row) 
-                {  
-                   if($row->MaxKEY == "")
-                   {
-                      $numID = 0;
-                   } 
-                   else
-                   {
-                      $numID = str_replace($strTypeID . "-","" ,$row->MaxKEY);
-                   }
-                  
-                }
-                $numID = $numID + 1;
-                $MaxKey = $strTypeID . "-" . sprintf("%05s",$numID);
-                $strSQL = " Insert into tbl_glno(treid,level,leaf1,child,saknr,";
-                $strSQL = $strSQL . " sgtxt,entxt,gltyp,under,depar) Values('";
-                $strSQL = $strSQL . $MaxKey . "'," . $level . ",'" . $leaf1 . "','" . $child . "','" . $saknr . "','";
-                $strSQL = $strSQL . $sgtxt . "','" . $entxt . "','" . $gltyp . "','" . $under . "','" . $depar . "') ";
+                
+                $strSQL = " Insert into tbl_glno(saknr,gllev,gltyp,";
+                $strSQL = $strSQL . " sgtxt,entxt,overs,depar) Values('";
+                $strSQL = $strSQL . $saknr . "','" . $gllev . "','" . $gltyp . "','";
+                $strSQL = $strSQL . $sgtxt . "','" . $entxt . "','" . $overs . "','" . $depar . "') ";
                 $query = $this->db->query($strSQL);
             }
             else
             {
-               $strSQL = " Update tbl_glno Set level = " . $level . " , leaf1 = '" . $leaf1 . "' , child = '" . $child . "' , saknr = '" . $saknr . "' , ";
-               $strSQL = $strSQL . " sgtxt = '" . $sgtxt . "' , entxt = '" . $entxt . "' , gltyp = '" . $gltyp . "' , under = '" . $under . "' , depar = '" . $depar . "' ";
-               $strSQL = $strSQL . " Where treid = '" . $treid . "' ;";
+               $strSQL = " Update tbl_glno Set gllev = '" . $gllev .  "' , saknr = '" . $saknr . "' , ";
+               $strSQL = $strSQL . " sgtxt = '" . $sgtxt . "' , entxt = '" . $entxt . "' , gltyp = '" . $gltyp . "' , overs = '" . $overs . "' , depar = '" . $depar . "' ";
+               $strSQL = $strSQL . " Where saknr = '" . $saknr . "' ;";
         
                $query = $this->db->query($strSQL);
             }
@@ -124,11 +112,13 @@
         {
             $strSQL = "Select * from tbl_glno";
             $strResult = "";
+            $leaf1 = "";
             $query = $this->db->query($strSQL);
             foreach ($query->result() as $row)
             {
-                $strResult = $strResult . $row->treid . "+" . $row->level  . "+" . "" . "+" . $row->leaf1 . "+" . $row->child . "+" . $row->saknr . "+";
-                $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->under . "+"  . $row->depar . "|" ;
+                $leaf1 = ($rowL1->gltyp == "1") ? "false" : "true";
+                $strResult = $strResult . $row->saknr . "+" . $row->gllev  . "+" . "" . "+" . $leaf1 . "+" . $row->overs . "+" . $row->saknr . "+";
+                $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->overs . "+"  . $row->depar . "|" ;
             }
             if( $strResult != "" )
             {
@@ -138,12 +128,12 @@
         }
         function GetGroupAccount()
         {
-            $strSQL = "Select treid,saknr from tbl_glno Where leaf1 = 'false';" ;
+            $strSQL = "Select saknr,saknr from tbl_glno Where gltyp = '1';" ;
             $strResult = "";
             $query = $this->db->query($strSQL);
             foreach ($query->result() as $row)
             {
-                $strResult = $strResult . $row->treid . "+" . $row->saknr  . "|" ;
+                $strResult = $strResult . $row->saknr . "+" . $row->saknr  . "|" ;
             }
             if( $strResult != "" )
             {
