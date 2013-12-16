@@ -46,7 +46,8 @@ Ext.define('Account.AP.Item.Grid_i', {
 				'disit',
 				'itamt',
 				'ctype',
-				'chk01'
+				'chk01',
+				'chk02'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -157,6 +158,20 @@ Ext.define('Account.AP.Item.Grid_i', {
             xtype: 'checkcolumn',
             text: 'Vat',
             dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },{
+            xtype: 'checkcolumn',
+            text: 'WHT',
+            dataIndex: 'chk02',
             width: 30,
             field: {
                 xtype: 'checkboxfield',

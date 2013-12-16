@@ -199,7 +199,9 @@ class Invoice extends CI_Controller {
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01')
+			'whtyp' => $this->input->post('whtyp'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 		
 		// start transaction
@@ -455,9 +457,13 @@ class Invoice extends CI_Controller {
 		));
 	}
 	
-	public function loads_whtcombo(){
+	public function loads_wht(){
 		$tbName = 'whty';
 		$tbPK = 'whtnr';
+		
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('whtnr', $id);
 
 		$query = $this->input->post('query');
 

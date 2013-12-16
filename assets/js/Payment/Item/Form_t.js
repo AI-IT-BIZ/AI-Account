@@ -16,7 +16,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 	},
 	initComponent : function() {
 		var _this=this;
-
+        
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
@@ -148,7 +148,7 @@ Ext.define('Account.Payment.Item.Form_t', {
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 200',
+                margins: '0 0 0 20',
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
@@ -160,14 +160,6 @@ Ext.define('Account.Payment.Item.Form_t', {
 			defaultType: 'textfield',
 			//margin: '5 0 5 600',
 	items: [
-		//this.txtTax
-		//,{
-		//	xtype: 'displayfield',
-		//	align: 'right',
-		//	width:10,
-		//	margin: '4 0 0 0',
-		//	value: '%'
-		//},
 		this.txtInterest
 	]
 	},

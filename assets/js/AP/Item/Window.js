@@ -5,8 +5,8 @@ Ext.define('Account.AP.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Account Payable',
 			closeAction: 'hide',
-			height: 650,
-			width: 880,
+			height: 670,
+			width: 940,
 			layout: 'border',
 			border: false,
 			resizable: true,

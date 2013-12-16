@@ -249,6 +249,17 @@ Ext.define('Account.Invoice.Item.Form', {
 			allowBlank : false
 		});
 		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 25'
+         });
+		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbrp'
 		});
@@ -355,14 +366,8 @@ Ext.define('Account.Invoice.Item.Form', {
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.comboPSale ,{
-			xtype: 'numberfield',
-			fieldLabel: 'Credit Terms',
-			name: 'terms',
-			labelAlign: 'right',
-			width:200,
-			margin: '0 0 0 25'
-		},{
+   items: [this.comboPSale, this.numberCredit
+   ,{
 			xtype: 'displayfield',
 			margin: '0 0 0 5',
 			width:10,
@@ -638,8 +643,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
-		//this.comboPay.on('select', this.selectPay, this);
-
+		this.numberCredit.on('keyup', this.getDuedate, this);
+		
 		return this.callParent(arguments);
 	},	
 	
@@ -719,7 +724,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		//this.gridPayment.load({ vbeln: 0 });
 
 		// default status = wait for approve
-		this.comboQStatus.setValue('05');
+		this.comboQStatus.setValue('01');
 		this.comboCond.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.comboPay.setValue('01');
@@ -806,6 +811,14 @@ Ext.define('Account.Invoice.Item.Form', {
             	wht:sel.get('chk02')
             });     
         }
+	},
+	
+	// Add duedate functions
+	getDuedate: function(){
+		var credit = this.numberCredit.getValue();
+		alert(credit);
+		var date = Date.today().add({ days: credit });
+		_this.getForm().findField('duedt').setValue(date);
 	},
 	
 // Payments Method	
