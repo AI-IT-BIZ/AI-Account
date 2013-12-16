@@ -113,7 +113,7 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$jobnr1 = $_this->input->get('jobnr');
+			/*$jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
 			if(!empty($jobnr1) && empty($jobnr2)){
 			  $_this->db->where('jobnr', $jobnr1);
@@ -121,7 +121,7 @@ class Invoice extends CI_Controller {
 			elseif(!empty($jobnr1) && !empty($jobnr2)){
 			  $_this->db->where('jobnr >=', $jobnr1);
 			  $_this->db->where('jobnr <=', $jobnr2);
-			}
+			}*/
 			
 			$kunnr1 = $_this->input->get('kunnr');
 			$kunnr2 = $_this->input->get('kunnr2');

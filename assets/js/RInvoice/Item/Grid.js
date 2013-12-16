@@ -13,12 +13,13 @@ Ext.define('Account.RInvoice.Item.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'invnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 			    'invnr',
 				'bldat',
-				'vbeln',
+				'ordnr',
 				'kunnr',
 				'name1',
 				'jobnr',
@@ -29,7 +30,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: ['invnr ASC']
+			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -37,14 +38,12 @@ Ext.define('Account.RInvoice.Item.Grid', {
 		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
 			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 70, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Quotation No", 
-		    width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
+			{text: "Sale Order No", 
+		    width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
 		    {text: "Customer No", 
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
 			width: 120, dataIndex: 'name1', sortable: true},
-			{text: "Quotation No", 
-			width: 80, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Project No", 
 			width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
 			{text: "Project Name", 
