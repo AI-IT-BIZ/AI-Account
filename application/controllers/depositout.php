@@ -121,7 +121,15 @@ class Depositout extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'txz01' => $this->input->post('txz01')
+			'txz01' => $this->input->post('txz01'),
+			'taxnr' => $this->input->post('taxnr'),
+			'terms' => $this->input->post('terms'),
+			'ptype' => $this->input->post('ptype'),
+			'taxpr' => $this->input->post('taxpr'),
+			'whtpr' => $this->input->post('whtpr'),
+			'whtyp' => $this->input->post('whtyp'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 		
 		// start transaction

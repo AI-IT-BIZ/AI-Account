@@ -192,6 +192,16 @@ Ext.define('Account.DepositOut.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
+         
+         this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'WHT Value',
+			name: 'whtpr',
+			labelAlign: 'right',
+			width:170,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -302,6 +312,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 						width:25,
 						value: 'Days'
 						}]},
+						this.numberWHT,
 					    this.comboQStatus]
 		            }]
 				}]
@@ -590,6 +601,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
