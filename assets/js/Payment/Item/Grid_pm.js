@@ -185,7 +185,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				}
 			}
 		    },
-		    {text: "Pay Amt", 
+		    {text: "Pay Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
 		    width: 100, dataIndex: 'payam', sortable: false,
