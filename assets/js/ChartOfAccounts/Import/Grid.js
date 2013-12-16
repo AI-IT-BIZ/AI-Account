@@ -41,7 +41,7 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 				'sgtxt', //GL Name
 				'entxt', //GL Name Eng
 				'glgrp', //GL Group
-				'level', //Level
+				'gllev', //Level
 				'gltyp', //GL Type
 				'overs', //GL Over
 				'error' 
@@ -67,7 +67,7 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 			{text: "GL Name", width: 100, align: 'center',		dataIndex: 'sgtxt', sortable: false},
 			{text: "GL Name Eng", width: 100, align: 'center',		dataIndex: 'entxt', sortable: false},
 			{text: "GL Group", width: 50, align: 'center',		dataIndex: 'glgrp', sortable: false},
-			{text: "Level", width: 30, align: 'center',		dataIndex: 'level', sortable: false},
+			{text: "Level", width: 30, align: 'center',		dataIndex: 'gllev', sortable: false},
 			{text: "GL Type", width: 30, align: 'center',		dataIndex: 'gltyp', sortable: false},
 			{text: "GL Over", width: 50, align: 'center',		dataIndex: 'overs', sortable: false},
 			{
