@@ -9,9 +9,32 @@ class XUMS {
 		$sess = X::getUMSSession();
 		if(empty($sess))
 			return $sess;
-		else{
+		else
 			return $sess->UserState;
-		}
+	}
+
+	public static function USERNAME(){
+		$us = XUMS::getUserState();
+		if(empty($us))
+			return $us;
+		else
+			return $us->uname;
+	}
+
+	public static function DISPLAYNAME(){
+		$us = XUMS::getUserState();
+		if(empty($us))
+			return $us;
+		else
+			return $us->name1;
+	}
+
+	public static function COMPANY_ID(){
+		$us = XUMS::getUserState();
+		if(empty($us))
+			return $us;
+		else
+			return $us->comid;
 	}
 
 	public static function getPermission(){
@@ -23,18 +46,14 @@ class XUMS {
 		}
 	}
 
-	public static function getLimit(){
+	// return list of authorize limit value
+	public static function getLimits(){
 		$sess = X::getUMSSession();
 		if(empty($sess))
 			return $sess;
 		else{
 			return $sess->Limit;
 		}
-	}
-
-	public static function getCompany(){
-		$sess = XUMS::getUserState();
-		return $sess->comid;
 	}
 
 	private static function checkPermission($docty, $type){
@@ -61,7 +80,7 @@ class XUMS {
 
 	public static function LIMIT($docty){
 		$permissions = XUMS::getPermission();
-		$limits = XUMS::getLimit();
+		$limits = XUMS::getLimits();
 
 		foreach($permissions AS $p){
 			$exist = false;

@@ -1,6 +1,5 @@
 <?php
-// *** UMS DATA ***
-$UMS_SESSION = X::getUMSSession();
+$USER_PERMISSIONS = XUMS::getPermission();
 
 function endsWith($haystack, $needle)
 {
@@ -42,7 +41,7 @@ function endsWith($haystack, $needle)
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
 			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
-			__user_state = <?= json_encode($UMS_SESSION) ?>;
+			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
 
 		var UMSClass = function(){
 			function checkPermission(docty, type){
@@ -876,7 +875,7 @@ function endsWith($haystack, $needle)
 			var lblUserName = Ext.create('Ext.form.Label', {
 				id:'lblUserName-default',
 				// width:200,
-				text:'<?= $UMS_SESSION->UserState->name1 ?>'
+				text:'<?= XUMS::DISPLAYNAME() ?>'
 			});
 
 			var btnLogout = Ext.create('Ext.Button', {

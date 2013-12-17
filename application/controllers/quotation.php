@@ -121,6 +121,13 @@ class Quotation extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+
+			// query for limit user
+			if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
+				$_this->db->where('beamt <=', XUMS::LIMIT('QT'));
+			}else{
+				$_this->db->where('ernam', XUMS::USERNAME());
+			}
 		}
 // End for report
 
@@ -183,16 +190,18 @@ class Quotation extends CI_Controller {
 		// start transaction
 		$this->db->trans_start();
 
+		$current_username = XUMS::USERNAME();
+
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('vbeln', $id);
 			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('vbak', $formData);
 		}else{
 			$id = $this->code_model->generate('QT', $this->input->post('bldat'));
 			$this->db->set('vbeln', $id);
 			$this->db->set('erdat', 'NOW()', false);
-		    $this->db->set('ernam', 'test');
+		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbak', $formData);
 
 			//$id = $this->db->insert_id();
