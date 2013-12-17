@@ -65,12 +65,24 @@ class XUMS {
 
 		foreach($permissions AS $p){
 			$exist = false;
+			$l_val = -1;
 			foreach($limits AS $l){
-				if($p->docty==$l->docty){
-					$exist = true; break;
+				if($docty==$l->docty
+					&& XUMS::CAN_DISPLAY($docty)
+					&& XUMS::CAN_APPROVE($docty)){
+					$exist = true;
+					$l_val = $l->limam;
+					break;
 				}
 			}
-			//if($exist)
+			if($exist){
+				if($l_val==0)
+					return 9999999999;
+				else
+					return $l_val;
+			}else{
+				return 0;
+			}
 		}
 	}
 
