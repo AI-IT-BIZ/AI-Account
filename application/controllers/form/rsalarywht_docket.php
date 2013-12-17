@@ -56,219 +56,435 @@ class Rsalarywht_docket extends CI_Controller {
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-5 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
+.fc1-9 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
+.fc1-11 { COLOR:808080;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-13 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;FONT-STYLE:ITALIC;}
+.fc1-14 { COLOR:000000;FONT-SIZE:17PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
+.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
+.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-18 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-19 { COLOR:808080;FONT-SIZE:7PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-20 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
-.ad1-2 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
-.ad1-3 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
-.ad1-4 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
-.ad1-5 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
-.ad1-6 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
-.ad1-7 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
-.ad1-8 {border-color:0000FF;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
+.ad1-2 {border-color:808080;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
+.ad1-3 {border-color:808080;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
+.ad1-4 {border-color:808080;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
+.ad1-5 {border-color:C0C0C0;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
+.ad1-6 {border-color:000000;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
+.ad1-7 {border-color:808080;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
+.ad1-8 {border-color:808080;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
+.ad1-9 {border-color:808080;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;}
 </STYLE>
 
-<!--<TITLE>Crystal Report Viewer</TITLE>-->
+<TITLE>Crystal Report Viewer</TITLE>
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php
-$current_copy_index = 0;
-for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
-
-	// check total page
-	$page_size = 10;
-	$total_count = count($rows);
-	$total_page = ceil($total_count / $page_size);
-	$real_current_page = 0;
-	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
-		echo '<div';
-		if($real_current_page>0)
-			echo ' class="break"';
-		echo ' style="position:relative; height:1100px;">';
-		$real_current_page++;
-?>
 <DIV style="z-index:0"> &nbsp; </div>
-<div style="left: 560px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 819px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
+
+<div style="left:441PX;top:110PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:279PX;">
+<table width="0px" height="273PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 476px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
+<div style="left:441PX;top:269PX;border-color:808080;border-style:solid;border-width:0px;border-top-width:1PX;width:316PX;">
 </div>
-<div style="left:49PX;top:270PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
+<div style="left:30PX;top:326PX;border-color:808080;border-style:solid;border-width:0px;border-top-width:1PX;width:412PX;">
 </div>
-<div style="left: 660PX; top: 229px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 821px;">
-  <table width="0px" height="568PX"><td>&nbsp;</td></table>
+<div style="left:30PX;top:387PX;border-color:808080;border-style:solid;border-width:0px;border-top-width:1PX;width:727PX;">
 </div>
-<div style="left: 87px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
+<div style="left:31PX;top:788PX;border-color:808080;border-style:solid;border-width:0px;border-top-width:1PX;width:726PX;">
 </div>
-<div style="left: 319px; top: 229px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
+<div style="left:564PX;top:520PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 192px; top: 228px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 821px;">
-<table width="0px" height="304PX"><td>&nbsp;</td></table>
+<div style="left:564PX;top:581PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 49px; top: 1050px; border-color: 0000FF; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 705PX;">
+<div style="left:564PX;top:624PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
 </div>
-<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 48PX; top: 27px; width: 704px; height: 189px;">
-  <table border=0 cellpadding=0 cellspacing=0 width=401px height=94px><TD>&nbsp;</TD></TABLE>
-</DIV>
-<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 228px; width: 704PX; height: 850px;">
-  <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
-</DIV>
+<div style="left:564PX;top:650PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:564PX;top:676PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:564PX;top:703PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:520PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:581PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:624PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:650PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:676PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:703PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:729PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:682PX;top:755PX;border-color:808080;border-style:solid;border-width:0px;border-left-width:1PX;height:25PX;">
+<table width="0px" height="19PX"><td>&nbsp;</td></table>
+</div>
+<div style="left:31PX;top:961PX;border-color:808080;border-style:solid;border-width:0px;border-top-width:1PX;width:726PX;">
+</div>
 
-<!--Copies-->
-<?php if($current_copy_index>0): ?>
-<DIV style="left: 579px; top: 29px; width: 40PX; height: 20PX;"><span class="fc1-2">สำเนา</span></DIV>
-<DIV style="left: 612px; top: 30px; width: 112PX; height: 25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
-<?php else: ?>
-<DIV style="left: 577px; top: 30px; width: 40PX; height: 20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
-<?php endif; ?>
-
-<!--Page No-->
-<DIV style="left: 642px; top: 30px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
-<DIV style="left: 672px; top: 30px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
-
-<!--Header Text-->
-<DIV style="left: 258px; top: 29px; width: 289px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">รายงานภาษีหัก ณ ที่จ่าย เงินเดือนพนักงาน (ใบแนบ ภ.ง.ด.1)</span></DIV>
-<DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
-
-<DIV style="left: 319px; top: 58px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
-
-<DIV style="left: 460px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 509px; top: 58px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
-
-<DIV style="left: 51px; top: 128px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
-<DIV style="left: 51px; top: 103px; width: 108px; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
-<DIV style="left: 162px; top: 105px; width: 74px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
-
-<DIV style="left: 461px; top: 130px; width: 45px; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
-
-<DIV style="left: 538px; top: 132px; width: 112PX; height: 25PX;"><span class="fc1-3"></span></DIV>
-
-<DIV style="left: 51px; top: 155px; width: 97px; height: 20PX;"><span class="fc1-3">ชื่อสถานประกอบการ </span></DIV>
-
-<DIV style="left: 51px; top: 182px; width: 106PX; height: 20PX;"><span class="fc1-3">ที่อยู่สถานประกอบการ </span></DIV>
-
-<DIV style="left: 608px; top: 106px; width: 36px; height: 20PX;"><span class="fc1-3">สาขาที่ </span></DIV>
-<?php 
-$bldat_str = util_helper_format_date($r_data['bldat']);
-?>
-<DIV style="left: 652px; top: 106px; width: 32px; height: 21PX;"><span class="fc1-3">0000</span></DIV>
-<?php 
-$duedt_str = util_helper_format_date($r_data['duedt']);
-?>
-
-<!--Company Logo--><!--Company Text-->
-<DIV style="left: 150px; top: 157px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
-
-<DIV style="left: 150px; top: 130px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
-
-<DIV style="left: 159px; top: 182px; width: 327px; height: 25px;">
-<table width="330PX" border=0 cellpadding=0 cellspacing=0>
-  <td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110</td></table>
+<DIV class="box" style="z-index:10; border-color:C0C0C0;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:64PX;top:488PX;width:334PX;height:27PX;background-color:C0C0C0;layer-background-color:C0C0C0;">
+<table border=0 cellpadding=0 cellspacing=0 width=327px height=20px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<!--Vendor Name-->
-<DIV style="left: 461px; top: 104px; width: 70px; height: 22PX;"><span class="fc1-3">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 538px; top: 102px; width: 46px; height: 26PX;"><span class="fc1-7">0000</span></DIV>
-
-<!--Item Table-->
-<DIV style="left: 49PX; top: 237px; width: 38px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
-<DIV style="left: 192px; top: 237px; width: 127px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อ</span></DIV>
-<DIV style="left: 320px; top: 237px; width: 155px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อสกุล</span></DIV>
-<DIV style="left: 475px; top: 230PX; width: 85px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วัน เดือน ปี</span></DIV>
-<DIV style="left: 477px; top: 248PX; width: 84px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ที่จ่าย</span></DIV>
-<DIV style="left: 89px; top: 230px; width: 104px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขประจำตัวผู้เสีย</span></DIV>
-<DIV style="left: 89px; top: 248PX; width: 104px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ภาษีอากร(13หลัก)</span></DIV>
-<DIV style="left: 562px; top: 230PX; width: 99px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">จำนวน</span></DIV>
-<DIV style="left: 562px; top: 248PX; width: 99px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ที่จ่าย</span></DIV>
-<DIV style="left:660PX;top:230PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงินภาษี</span></DIV>
-<DIV style="left:660PX;top:248PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">ที่หัก</span></DIV>
-
-<?php
-/*
-$rows = $query->result_array();
-$i=322;$b_amt = 0;
-foreach ($rows as $key => $item) {
-	//echo $value['total_per_menge']."<br />";
-?>
-<DIV style="left:49PX;top:<?=$i?>PX;width:32PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=$item['vbelp'];?></span></DIV>
-
-<DIV style="left:167PX;top:<?=$i?>PX;width:218PX;height:22PX;"><span class="fc1-8"><?=$item['invnr'];?></span></DIV>
-<DIV style="left:385PX;top:<?=$i?>PX;width:71PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=$item['invdt'];?></span></DIV>
-<DIV style="left:520PX;top:<?=$i?>PX;width:78PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=$item['coldt'];?></span></DIV>
-
-<DIV style="left:660PX;top:<?=$i?>PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=number_format($item['itamt'],2,'.',',');?></span></DIV>
-
-<?php
-$i=322+20;
-}
-*/
-?>
-
-<DIV style="left:49PX;top:272px">
-<table cellpadding="0" cellspacing="0" border="0">
-<?php
-$rows = $query->result_array();
-$no=1;$v_amt=0;$t_amt=0;
-for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
-	$item = $rows[$i];
-	$itamt = $item['beamt'];
-	$t_amt += $itamt;
-	$vtamt = $item['vat01'];
-	$v_amt += $vtamt;
-	$invdt_str = util_helper_format_date($r_data['bldat']);
-?>
-	<tr>
-		<td class="fc1-8" align="center" style="width:38px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="center" style="width:65px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:86px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="left" style="width:164px;"><?=$item['name1'];?></td>
-		<td class="fc1-8" align="center" style="width:68px;"><?=$item['taxid'];?></td>
-      <td class="fc1-8" align="center" style="width:51px;">0000</td>
-        <td class="fc1-8" align="center" style="width:35px;">0000</td>
-	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['beamt'],2,'.',',');?></td>
-	  <td class="fc1-8" align="right" style="width:93px;"><?=number_format($item['vat01'],2,'.',',');?></td>
-	</tr>
-
-<?php
-endfor;
-?>
-</table>
+<DIV class="box" style="z-index:10; border-color:000000;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:408PX;top:488PX;width:68PX;height:26PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=19px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<!--Footer Text-->
-<DIV style="left: 210px; top: 1055px; width: 194PX; height: 23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left: 549px; top: 1054px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 659px; top: 1054px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<DIV class="box" style="z-index:10; border-color:000000;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:480PX;top:488PX;width:112PX;height:26PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=105px height=19px><TD>&nbsp;</TD></TABLE>
+</DIV>
 
-<!--Payment Table-->
+<DIV class="box" style="z-index:10; border-color:000000;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:598PX;top:488PX;width:114PX;height:26PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=107px height=19px><TD>&nbsp;</TD></TABLE>
+</DIV>
 
-<?php
-  $text_amt = $this->convert_amount->generate($r_data['netwr']);
-?>
-<!--Amount Text--><!--Signature Text--><BR>
-<?php
-		echo '</div>';
-	endfor; // end page for
-endfor; // end copy for
-?>
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:520PX;width:69PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
 
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:581PX;width:69PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:624PX;width:69PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:650PX;width:69PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:676PX;width:69PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:407PX;top:703PX;width:69PX;height:24PX;background-color:C0C0C0;layer-background-color:C0C0C0;">
+<table border=0 cellpadding=0 cellspacing=0 width=62px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:520PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:581PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:624PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:650PX;width:110PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:676PX;width:110PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:482PX;top:703PX;width:110PX;height:24PX;background-color:C0C0C0;layer-background-color:C0C0C0;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:520PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:581PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:624PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:650PX;width:110PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:676PX;width:110PX;height:25PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:703PX;width:110PX;height:24PX;background-color:C0C0C0;layer-background-color:C0C0C0;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:729PX;width:110PX;height:24PX;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+<DIV class="box" style="z-index:10; border-color:808080;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:600PX;top:755PX;width:110PX;height:24PX;background-color:C0C0C0;layer-background-color:C0C0C0;">
+<table border=0 cellpadding=0 cellspacing=0 width=103px height=17px><TD>&nbsp;</TD></TABLE>
+</DIV>
+
+
+<DIV style="z-index:15;left:30PX;top:38PX;width:726PX;height:70PX;">
+<img  WIDTH=726 HEIGHT=70 SRC="<?= base_url('assets/images/icons/pnd1.jpg') ?>">
+</DIV>
+<DIV style="left:30PX;top:110PX;width:105PX;height:19PX;"><span class="fc1-0">เลขประจำตัวประชาชน</span></DIV>
+
+<DIV style="left:142PX;top:157PX;width:134PX;height:17PX;"><span class="fc1-1">ที่เป็นผู้ไม่มีเลขประจำตัวประชาชน)</span></DIV>
+
+<DIV style="left:30PX;top:142PX;width:127PX;height:22PX;">
+<table width="122PX" border=0 cellpadding=0 cellspacing=0>
+<tr><td class="fc1-0">เลขประจำตัวผู้เสียภาษีอากร </td></tr>
+<tr><td class="fc1-0">&nbsp;</td></tr></table>
+</DIV>
+
+<DIV style="left:30PX;top:176PX;width:164PX;height:20PX;"><span class="fc1-2">ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย</span></DIV>
+
+<DIV style="left:194PX;top:176PX;width:71PX;height:21PX;"><span class="fc1-3">( หน่วยงาน ) :</span></DIV>
+
+<DIV style="left:320PX;top:176PX;width:45PX;height:21PX;"><span class="fc1-2">สาขาที่</span></DIV>
+
+<DIV style="left:295PX;top:142PX;width:140PX;height:32PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">999999999</span></DIV>
+
+<DIV style="left:364PX;top:174PX;width:71PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0000</span></DIV>
+
+<DIV style="left:30PX;top:198PX;width:405PX;height:28PX;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+
+<DIV style="left:75PX;top:226PX;width:360PX;height:73PX;"><span class="fc1-6">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana Bangkok</span></DIV>
+
+<DIV style="left:101PX;top:297PX;width:52PX;height:24PX;"><span class="fc1-6">10110</span></DIV>
+
+<DIV style="left:153PX;top:299PX;width:65PX;height:24PX;"><span class="fc1-2"> โทรศัพท์ : </span></DIV>
+
+<DIV style="left: 219px; top: 297PX; width: 146px; height: 25PX;"><span class="fc1-6">0-2224-3388</span></DIV>
+
+<DIV style="left:155PX;top:142PX;width:121PX;height:17PX;"><span class="fc1-1"> (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย</span></DIV>
+
+<DIV style="left:116PX;top:347PX;width:60PX;height:24PX;"><span class="fc1-0">(1 ) ยื่นปกติ</span></DIV>
+
+<DIV style="left:239PX;top:347PX;width:138PX;height:23PX;"><span class="fc1-0">(2 ) ยื่นเพิ่มเติมครั้งที่ .............</span></DIV>
+
+<DIV style="left:446PX;top:120PX;width:127PX;height:26PX;"><span class="fc1-0">เดือนที่จ่ายเงินได้พึงประเมิน</span></DIV>
+
+<DIV style="left:446PX;top:146PX;width:84PX;height:19PX;"><span class="fc1-7">( ให้ทำเครื่องหมาย "</span></DIV>
+
+<DIV style="left:532PX;top:145PX;width:20PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=20 HEIGHT=18 SRC="<?= base_url('assets/images/icons/checkbox02.jpg') ?>"></DIV>
+
+<DIV style="left:547PX;top:146PX;width:32PX;height:21PX;"><span class="fc1-7">" ลงใน "</span></DIV>
+
+<DIV style="left:598PX;top:146PX;width:62PX;height:19PX;"><span class="fc1-7">" หน้าชื่อเดือน )</span></DIV>
+
+<DIV style="left:661PX;top:146PX;width:95PX;height:21PX;"><span class="fc1-7">พ.ศ. .........................</span></DIV>
+
+<DIV style="left:463PX;top:179PX;width:58PX;height:17PX;"><span class="fc1-7">(1) มกราคม</span></DIV>
+
+<DIV style="left:540PX;top:179PX;width:58PX;height:17PX;"><span class="fc1-7">(4) เมษายน</span></DIV>
+
+<DIV style="left:614PX;top:179PX;width:56PX;height:17PX;"><span class="fc1-7">(7) กรกฎาคม</span></DIV>
+
+<DIV style="left:687PX;top:179PX;width:69PX;height:19PX;"><span class="fc1-7">(10) ตุลาคม</span></DIV>
+
+<DIV style="left:463PX;top:211PX;width:58PX;height:16PX;"><span class="fc1-7">(2) กุมภาพันธ์</span></DIV>
+
+<DIV style="left:540PX;top:211PX;width:60PX;height:17PX;"><span class="fc1-7">(5) พฤษภาคม</span></DIV>
+
+<DIV style="left:614PX;top:211PX;width:56PX;height:16PX;"><span class="fc1-7">(8) สิงหาคม</span></DIV>
+
+<DIV style="left:687PX;top:213PX;width:69PX;height:22PX;"><span class="fc1-7">(11) พฤศจิกายน</span></DIV>
+
+<DIV style="left:463PX;top:243PX;width:58PX;height:19PX;"><span class="fc1-7">(3) มีนาคม</span></DIV>
+
+<DIV style="left:540PX;top:243PX;width:58PX;height:19PX;"><span class="fc1-7">(6) มิถุนายน</span></DIV>
+
+<DIV style="left:614PX;top:245PX;width:56PX;height:17PX;"><span class="fc1-7">(9) กันยายน</span></DIV>
+
+<DIV style="left:688PX;top:245PX;width:68PX;height:17PX;"><span class="fc1-7">(12) ธันวาคม</span></DIV>
+
+<DIV style="left:138PX;top:110PX;width:63PX;height:17PX;"><span class="fc1-1"> (ของผู้มีหน้าที่</span></DIV>
+
+<DIV style="left:127PX;top:125PX;width:88PX;height:17PX;"><span class="fc1-1">หัก ภาษี ณ ที่จ่าย )</span></DIV>
+
+<DIV style="left:446PX;top:180PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='01'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:523PX;top:181PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='4'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:598PX;top:181PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='07'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:670PX;top:181PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='10'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:446PX;top:213PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='02'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:523PX;top:213PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:598PX;top:213PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='08'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:670PX;top:213PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='11'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:446PX;top:245PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='03'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:523PX;top:245PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='06'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:598PX;top:245PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='09'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:670PX;top:245PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='12'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+
+<DIV style="left:579PX;top:148PX;width:15PX;height:15PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
+
+<DIV style="left:456PX;top:281PX;width:301PX;height:27PX;"><span class="fc1-11">ใบเสร็จเล่มที่ .........................เลขที่ .....................................</span></DIV>
+
+<DIV style="left:30PX;top:228PX;width:45PX;height:22PX;"><span class="fc1-2">ที่อยู่ :</span></DIV>
+
+<DIV style="left:30PX;top:299PX;width:71PX;height:24PX;"><span class="fc1-0"> รหัสไปรษณีย์</span></DIV>
+
+<DIV style="left:217PX;top:351PX;width:15PX;height:15PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
+
+<DIV style="left:456PX;top:306PX;width:301PX;height:27PX;"><span class="fc1-11"> จำนวนเงิน...........................................&nbsp;&nbsp;บาท</span></DIV>
+
+<DIV style="left:456PX;top:344PX;width:246PX;height:23PX;"><span class="fc1-11">ลงชื่อ.....................................................ผู้รับเงิน</span></DIV>
+
+<DIV style="left:456PX;top:364PX;width:246PX;height:23PX;"><span class="fc1-11">วันที่.....................................................</span></DIV>
+
+<DIV style="left:94PX;top:350PX;width:15PX;height:15PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
+
+<DIV style="left:682PX;top:142PX;width:66PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">2550</span></DIV>
+
+<DIV style="left:66PX;top:413PX;width:224PX;height:23PX;"><span class="fc1-0">มีรายละเอียดการหักเป็นรายผู้มีเงินได้ ปรากฏตาม</span></DIV>
+
+<DIV style="left:66PX;top:434PX;width:224PX;height:19PX;"><span class="fc1-12">(ให้แสดงรายละเอียดในใบแนบ ภ.ง.ด.1&nbsp;&nbsp;หรือในสื่อ</span></DIV>
+
+<DIV style="left:66PX;top:454PX;width:125PX;height:21PX;"><span class="fc1-13">บันทึกในระบบคอมพิวเตอร์</span></DIV>
+
+<DIV style="left:351PX;top:408PX;width:52PX;height:25PX;"><span class="fc1-5"> ใบแนบ</span></DIV>
+
+<DIV style="left:467PX;top:408PX;width:97PX;height:27PX;"><span class="fc1-6">ที่แนบมาพร้อมนี้ :</span></DIV>
+
+<DIV style="left:624PX;top:408PX;width:117PX;height:27PX;"><span class="fc1-6">จำนวน................แผ่น</span></DIV>
+
+<DIV style="left:351PX;top:432PX;width:181PX;height:24PX;"><span class="fc1-5"> สื่อบันทึกในระบบคอมพิวเตอร์</span></DIV>
+
+<DIV style="left:530PX;top:432PX;width:93PX;height:24PX;"><span class="fc1-6">ที่แนบมาพร้อมนี้ :</span></DIV>
+
+<DIV style="left:351PX;top:452PX;width:390PX;height:19PX;"><span class="fc1-12">(ตามหนังสือแสดงความประสงค์ฯ ทะเบียนรับเลขที่...............................................................)</span></DIV>
+
+<DIV style="left:665PX;top:402PX;width:42PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">1</span></DIV>
+
+<DIV style="left:191PX;top:454PX;width:99PX;height:21PX;">
+<table width="94PX" border=0 cellpadding=0 cellspacing=0>
+<tr><td class="fc1-12">อย่างใดอย่างหนึ่งเท่านั้น</td></tr>
+<tr><td class="fc1-12">&nbsp;</td></tr></table>
+</DIV>
+
+<DIV style="left:404PX;top:402PX;width:62PX;height:28PX;"><span class="fc1-14">ภ.ง.ด.1 </span></DIV>
+
+<DIV style="left:333PX;top:434PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
+
+<DIV style="left:624PX;top:432PX;width:117PX;height:27PX;"><span class="fc1-6">จำนวน................แผ่น</span></DIV>
+
+<DIV style="left:333PX;top:409PX;width:17PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=20 HEIGHT=18 SRC="<?= base_url('assets/images/icons/checkbox02.jpg') ?>"></DIV>
+
+<DIV style="left:118PX;top:488PX;width:227PX;height:27PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">สรุปรายการภาษีที่นำส่ง</span></DIV>
+
+<DIV style="left:410PX;top:488PX;width:63PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">จำนวนราย</span></DIV>
+
+<DIV style="left:488PX;top:488PX;width:95PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">เงินได้ทั้งสิ้น</span></DIV>
+
+<DIV style="left:601PX;top:488PX;width:106PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">ภาษีที่นำส่งทั้งสิ้น</span></DIV>
+
+<DIV style="left:66PX;top:544PX;width:312PX;height:24PX;"><span class="fc1-17">2. เงินได้ตาม มาตรา 40 (1)&nbsp;&nbsp;เงินเดือน&nbsp;&nbsp;ค่าจ้าง&nbsp;&nbsp;ฯลฯ&nbsp;&nbsp;กรณีได้รับ</span></DIV>
+
+<DIV style="left:66PX;top:521PX;width:312PX;height:22PX;"><span class="fc1-17">1. เงินได้ตาม มาตรา 40 (1)&nbsp;&nbsp;เงินเดือน&nbsp;&nbsp;ค่าจ้าง&nbsp;&nbsp;ฯลฯ&nbsp;&nbsp;กรณีทั่วไป</span></DIV>
+
+<DIV style="left:82PX;top:564PX;width:295PX;height:24PX;"><span class="fc1-17">อนุมัติจากกรมสรรพากรให้หักอัตรา ร้อยละ&nbsp;&nbsp;3</span></DIV>
+
+<DIV style="left:82PX;top:587PX;width:295PX;height:21PX;"><span class="fc1-18">(ตามหนังสือที่....................................ลงวันที่.........................</span></DIV>
+
+<DIV style="left:66PX;top:607PX;width:312PX;height:22PX;"><span class="fc1-17">3. เงินได้ตาม มาตรา 40 (1)&nbsp;&nbsp;(2)&nbsp;&nbsp;กรณีนายจ้างจ่ายให้ครั้งเดียว</span></DIV>
+
+<DIV style="left:66PX;top:652PX;width:312PX;height:24PX;">
+<table width="307PX" border=0 cellpadding=0 cellspacing=0>
+<tr><td class="fc1-17">4. เงินได้ตาม มาตรา 40 (2)&nbsp;&nbsp;กรณีผู้รับเงินได้เป็นผู้อยู่ในประเทศไ</td></tr>
+<tr><td class="fc1-17">&nbsp;</td></tr></table>
+</DIV>
+
+<DIV style="left:82PX;top:630PX;width:295PX;height:22PX;"><span class="fc1-17">เพราะเหตุออกจากงาน</span></DIV>
+
+<DIV style="left:66PX;top:678PX;width:312PX;height:24PX;"><span class="fc1-17">5. เงินได้ตาม มาตรา 40 (2)&nbsp;&nbsp;กรณีผู้รับเงินได้มิได้เป็นผู้อยู่ในปร</span></DIV>
+
+<DIV style="left:66PX;top:706PX;width:310PX;height:24PX;"><span class="fc1-17">6. รวม</span></DIV>
+
+<DIV style="left:66PX;top:732PX;width:312PX;height:24PX;"><span class="fc1-17">7. เงินเพิ่ม&nbsp;&nbsp;(ถ้ามี)</span></DIV>
+
+<DIV style="left:66PX;top:759PX;width:312PX;height:24PX;"><span class="fc1-17">8. รวมยอดภาษีที่นำส่งทั้งสิ้น&nbsp;&nbsp;และเงินเพิ่ม&nbsp;&nbsp;(6. + 7.)</span></DIV>
+
+<DIV style="left:484PX;top:521PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-6">0</span></DIV>
+
+<DIV style="left:564PX;top:521PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">00</span></DIV>
+
+<DIV style="left:603PX;top:521PX;width:75PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-6">0</span></DIV>
+
+<DIV style="left:682PX;top:521PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">00</span></DIV>
+
+<DIV style="left:600PX;top:704PX;width:78PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
+
+<DIV style="left:682PX;top:704PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
+
+<DIV style="left:564PX;top:704PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
+
+<DIV style="left:484PX;top:704PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
+
+<DIV style="left:409PX;top:521PX;width:63PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">3</span></DIV>
+
+<DIV style="left:411PX;top:704PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">3</span></DIV>
+
+<DIV style="left:601PX;top:757PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
+
+<DIV style="left:684PX;top:757PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
+
+<DIV style="left:168PX;top:796PX;width:448PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ข้าพเจ้าขอรับรองว่า&nbsp;&nbsp;รายการที่แจ้งไว้ข้างต้นนี้&nbsp;&nbsp;เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ </span></DIV>
+
+<DIV style="left:194PX;top:857PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ลงชื่อ .......................................................................ผู้จ่ายเงิน</span></DIV>
+
+<DIV style="left: 590px; top: 883PX; width: 42PX; height: 42PX; TEXT-ALIGN: CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
+
+<DIV style="left:194PX;top:883PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( .........................................................................)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></DIV>
+
+<DIV style="left:290PX;top:876PX;width:200PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">นายจ้าง&nbsp;&nbsp;แสนใจดี</span></DIV>
+
+<DIV style="left:290PX;top:904PX;width:213PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">กรรรมการผู้จัดการ</span></DIV>
+
+<DIV style="left:194PX;top:911PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ตำแหน่ง ..................................................................................</span></DIV>
+
+<DIV style="left:194PX;top:937PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ยื่นวันที่.............เดือน................................พ .ศ. .......................</span></DIV>
+
+<DIV style="left:278PX;top:932PX;width:34PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">17</span></DIV>
+
+<DIV style="left:346PX;top:932PX;width:86PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">ธันวาคม</span></DIV>
+
+<DIV style="left:465PX;top:932PX;width:58PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">2556</span></DIV>
+<BR>
 </BODY></HTML>
 
 

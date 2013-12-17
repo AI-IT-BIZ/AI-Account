@@ -80,6 +80,22 @@ class Rsumvat extends CI_Controller {
 
 <TITLE>Crystal Report Viewer</TITLE>
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
+<?php
+$current_copy_index = 0;
+for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
+
+	// check total page
+	$page_size = 10;
+	$total_count = count($rows);
+	$total_page = ceil($total_count / $page_size);
+	$real_current_page = 0;
+	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
+		echo '<div';
+		if($real_current_page>0)
+			echo ' class="break"';
+		echo ' style="position:relative; height:1100px;">';
+		$real_current_page++;
+?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <DIV style="z-index:0"> &nbsp; </div>
 
@@ -92,12 +108,12 @@ class Rsumvat extends CI_Controller {
 
 <!--Check Box 1-->
 
-<DIV style="z-index: 15; left: 182px; top: 94px; width: 38PX; height: 39PX;">
-<img  WIDTH=38 HEIGHT=39 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>">
+<DIV style="z-index: 15; left: 196px; top: 108px; width: 15PX; height: 15PX;">
+<img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>">
 </DIV>
 
-<DIV style="z-index: 15; left: 304px; top: 94px; width: 38PX; height: 39PX;">
-<img  WIDTH=38 HEIGHT=39 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>">
+<DIV style="z-index: 15; left: 316px; top: 108px; width: 15PX; height: 15PX;">
+<img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>">
 </DIV>
 
 <DIV style="left: 223px; top: 106px; width: 57px; height: 21PX;"><span class="fc1-1">กรณียื่นปกติ</span></DIV>
@@ -637,6 +653,11 @@ endfor;
 
 <DIV style="left: 331px; top: 660PX; width: 106PX; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">รวมทั้งสิ้น</span></DIV>
 <BR>
+<?php
+		echo '</div>';
+	endfor; // end page for
+endfor; // end copy for
+?>
 
 </BODY></HTML> 
 

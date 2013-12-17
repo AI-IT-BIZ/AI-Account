@@ -81,7 +81,7 @@ Ext.define('Account.RSalaryWHT.PreviewWindow2', {
 			Ext.get('preview_frame').set({
 				src:_this.getFrameUrl(_this.dialogParams, newVal)
 			});
-			_this.checkFrameReady(function(){
+			    _this.checkFrameReady(function(){
 				_this.hideFrameLoad();
 			});
 		});
@@ -97,8 +97,8 @@ Ext.define('Account.RSalaryWHT.PreviewWindow2', {
 				Ext.get('preview_frame').set({
 					src:_this.getFrameUrl(form_values, _this.copies.getValue())
 				});
-				_this.showFrameLoad();
-				_this.checkFrameReady(function(){
+				    _this.showFrameLoad();
+				    _this.checkFrameReady(function(){
 					_this.hideFrameLoad();
 				});
 			});
