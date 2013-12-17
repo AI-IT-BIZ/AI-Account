@@ -12,6 +12,11 @@ Ext.define('Account.PO.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.prDialog = Ext.create('Account.PR.MainWindow', {
+			disableGridDoubleClick: true
+		});
+		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.prDialog = Ext.create('Account.PR.MainWindow');
 

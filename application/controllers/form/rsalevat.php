@@ -165,10 +165,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีขาย</span></DIV>
 <DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 319px; top: 59px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 319px; top: 58px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 460px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 509px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 509px; top: 58px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 
 <DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
 <DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
@@ -214,7 +214,7 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 <DIV style="left: 236px; top: 248PX; width: 164px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผู้รับบริการ</span></DIV>
 
 <DIV style="left: 400px; top: 230px; width: 76px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ประจำตัว</span></DIV>
-<DIV style="left: 400px; top: 248PX; width: 75px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผ้เสียภาษี</span></DIV>
+<DIV style="left: 400px; top: 248PX; width: 75px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผู้เสียภาษี</span></DIV>
 
 <DIV style="left: 475px; top: 230PX; width: 51px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">สำนักงาน</span></DIV>
 <DIV style="left: 477px; top: 248PX; width: 47px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ใหญ่</span></DIV>
@@ -256,7 +256,7 @@ $rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = $item['netwr'];
+	$itamt = $item['beamt'];
 	$t_amt += $itamt;
 	$vtamt = $item['vat01'];
 	$v_amt += $vtamt;
@@ -270,7 +270,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:68px;"><?=$item['taxid'];?></td>
       <td class="fc1-8" align="center" style="width:51px;">0000</td>
         <td class="fc1-8" align="center" style="width:35px;">0000</td>
-	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['netwr'],2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['beamt'],2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:93px;"><?=number_format($item['vat01'],2,'.',',');?></td>
 	</tr>
 

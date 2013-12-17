@@ -12,6 +12,11 @@ Ext.define('Account.AP.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.grDialog = Ext.create('Account.GR.MainWindow', {
+			disableGridDoubleClick: true
+		});
+		
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.grDialog = Ext.create('Account.GR.MainWindow');

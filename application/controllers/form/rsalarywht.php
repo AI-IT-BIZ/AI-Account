@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rpurchasevat extends CI_Controller {
+class Rsalarywht extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -25,9 +25,9 @@ class Rpurchasevat extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_ebrk.*";
-        $strSQL = $strSQL . " from v_ebrk ";
-        $strSQL = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+	    $strSQL = " select v_vbrk.*";
+        $strSQL = $strSQL . " from v_vbrk ";
+        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
 		$strSQL .= "ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
@@ -36,6 +36,20 @@ class Rpurchasevat extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
+		//$v_amt = 0;
+		//foreach ($rows as $key => $item) {
+			//$itamt = 0;
+			//$itamt = $item['menge'] * $item['unitp'];
+			//$itamt = $itamt - $item['disit'];
+			//$b_amt += $item['itamt'];
+			//$v=0;
+			//if(!empty($r_data['chk01']))
+			//{
+			//   $v = $itamt * $r_data['taxpr'];
+			//   $v = $v / 100;
+			//   $v_amt += $v;
+			//}
+		//}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -103,13 +117,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 560px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 819px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 525px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 819px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
-</div>
 <div style="left: 476px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
-</div>
-<div style="left: 401px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:270PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
@@ -120,10 +128,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 87px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 237px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
+<div style="left: 319px; top: 229px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 156px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 821px;">
+<div style="left: 192px; top: 228px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 821px;">
 <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
 <div style="left: 49px; top: 1050px; border-color: 0000FF; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 705PX;">
@@ -137,82 +145,72 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
-<DIV style="left: 579px; top: 27px; width: 40PX; height: 20PX;"><span class="fc1-2">สำเนา</span></DIV>
-<DIV style="left: 612px; top: 27px; width: 112PX; height: 25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
+<DIV style="left: 579px; top: 29px; width: 40PX; height: 20PX;"><span class="fc1-2">สำเนา</span></DIV>
+<DIV style="left: 612px; top: 30px; width: 112PX; height: 25PX;"><span class="fc1-3"><?= $current_copy_index ?></span></DIV>
 <?php else: ?>
-<DIV style="left: 577px; top: 28px; width: 40PX; height: 20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
+<DIV style="left: 577px; top: 30px; width: 40PX; height: 20PX;"><span class="fc1-2">ต้นฉบับ</span></DIV>
 <?php endif; ?>
 
 <!--Page No-->
-<DIV style="left: 642px; top: 28px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
-<DIV style="left: 672px; top: 28px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
+<DIV style="left: 642px; top: 30px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
+<DIV style="left: 672px; top: 30px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีซื้อ</span></DIV>
+<DIV style="left: 258px; top: 29px; width: 289px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">รายงานภาษีหัก ณ ที่จ่าย เงินเดือนพนักงาน (ใบแนบ ภ.ง.ด.1)</span></DIV>
 <DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 319px; top: 59px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 319px; top: 58px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 460px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 509px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 509px; top: 58px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 
-<DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
-<DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
-<DIV style="left: 159px; top: 152px; width: 147px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
+<DIV style="left: 51px; top: 128px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
+<DIV style="left: 51px; top: 103px; width: 108px; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left: 162px; top: 105px; width: 74px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
 
-<DIV style="left: 427px; top: 177px; width: 75PX; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
+<DIV style="left: 461px; top: 130px; width: 45px; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
 
-<DIV style="left: 472px; top: 176px; width: 112PX; height: 25PX;"><span class="fc1-3"></span></DIV>
+<DIV style="left: 538px; top: 132px; width: 112PX; height: 25PX;"><span class="fc1-3"></span></DIV>
 
-<DIV style="left: 319px; top: 126px; width: 106PX; height: 20PX;"><span class="fc1-3">ชื่อสถานประกอบการ </span></DIV>
+<DIV style="left: 51px; top: 155px; width: 97px; height: 20PX;"><span class="fc1-3">ชื่อสถานประกอบการ </span></DIV>
 
-<DIV style="left: 319px; top: 149px; width: 106PX; height: 20PX;"><span class="fc1-3">ที่อยู่สถานประกอบการ </span></DIV>
+<DIV style="left: 51px; top: 182px; width: 106PX; height: 20PX;"><span class="fc1-3">ที่อยู่สถานประกอบการ </span></DIV>
 
-<DIV style="left: 319px; top: 176px; width: 76PX; height: 20PX;"><span class="fc1-3">สาขาที่ </span></DIV>
+<DIV style="left: 608px; top: 106px; width: 36px; height: 20PX;"><span class="fc1-3">สาขาที่ </span></DIV>
 <?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left: 357px; top: 176px; width: 60px; height: 21PX;"><span class="fc1-3">0000</span></DIV>
+<DIV style="left: 652px; top: 106px; width: 32px; height: 21PX;"><span class="fc1-3">0000</span></DIV>
 <?php 
 $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 
 <!--Company Logo--><!--Company Text-->
-<DIV style="left: 414px; top: 128px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 150px; top: 157px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 
-<DIV style="left: 129px; top: 127px; width: 248px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 150px; top: 130px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 
-<DIV style="left: 420px; top: 149px; width: 327px; height: 25px;">
+<DIV style="left: 159px; top: 182px; width: 327px; height: 25px;">
 <table width="330PX" border=0 cellpadding=0 cellspacing=0>
   <td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110</td></table>
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left: 51px; top: 176PX; width: 79px; height: 22PX;"><span class="fc1-3">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 124px; top: 173PX; width: 181px; height: 26PX;"><span class="fc1-7">0000</span></DIV>
+<DIV style="left: 461px; top: 104px; width: 70px; height: 22PX;"><span class="fc1-3">สำนักงานใหญ่</span></DIV>
+<DIV style="left: 538px; top: 102px; width: 46px; height: 26PX;"><span class="fc1-7">0000</span></DIV>
 
 <!--Item Table-->
-<DIV style="left: 49PX; top: 230PX; width: 38px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
-<DIV style="left: 156px; top: 230PX; width: 80px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่</span></DIV>
-<DIV style="left: 156px; top: 248PX; width: 80px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ใบกำกับภาษี</span></DIV>
-
-<DIV style="left: 236px; top: 230PX; width: 164px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อผู้ขายสินค้า/</span></DIV>
-<DIV style="left: 236px; top: 248PX; width: 164px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผู้ให้บริการ</span></DIV>
-
-<DIV style="left: 400px; top: 230px; width: 76px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ประจำตัว</span></DIV>
-<DIV style="left: 400px; top: 248PX; width: 75px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ผ้เสียภาษี</span></DIV>
-
-<DIV style="left: 475px; top: 230PX; width: 51px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">สำนักงาน</span></DIV>
-<DIV style="left: 477px; top: 248PX; width: 47px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ใหญ่</span></DIV>
-
-<DIV style="left: 525px; top: 230PX; width: 35px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">สาขาที่</span></DIV>
-
-<DIV style="left: 89px; top: 230px; width: 65px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
-<DIV style="left: 89px; top: 248PX; width: 66px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ใบกำกับภาษี</span></DIV>
-<DIV style="left: 562px; top: 230PX; width: 99px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">มูลค่าสินค้า</span></DIV>
-<DIV style="left: 562px; top: 248PX; width: 99px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">หรือบริการ</span></DIV>
-<DIV style="left:660PX;top:230PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
-<DIV style="left:660PX;top:248PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">ภาษีมูลค่าเพิ่ม</span></DIV>
+<DIV style="left: 49PX; top: 237px; width: 38px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
+<DIV style="left: 192px; top: 237px; width: 127px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อ</span></DIV>
+<DIV style="left: 320px; top: 237px; width: 155px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ชื่อสกุล</span></DIV>
+<DIV style="left: 475px; top: 230PX; width: 85px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วัน เดือน ปี</span></DIV>
+<DIV style="left: 477px; top: 248PX; width: 84px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ที่จ่าย</span></DIV>
+<DIV style="left: 89px; top: 230px; width: 104px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขประจำตัวผู้เสีย</span></DIV>
+<DIV style="left: 89px; top: 248PX; width: 104px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ภาษีอากร(13หลัก)</span></DIV>
+<DIV style="left: 562px; top: 230PX; width: 99px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">จำนวน</span></DIV>
+<DIV style="left: 562px; top: 248PX; width: 99px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ที่จ่าย</span></DIV>
+<DIV style="left:660PX;top:230PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงินภาษี</span></DIV>
+<DIV style="left:660PX;top:248PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">ที่หัก</span></DIV>
 
 <?php
 /*
@@ -268,9 +266,9 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left: 210px; top: 1055px; width: 194PX; height: 23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left: 549px; top: 1055px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 549px; top: 1054px; width: 106px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 659px; top: 1055px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left: 659px; top: 1054px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->

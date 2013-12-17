@@ -12,6 +12,11 @@ Ext.define('Account.PR.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+			disableGridDoubleClick: true
+		});
+		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
