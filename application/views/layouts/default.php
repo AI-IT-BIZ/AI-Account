@@ -1,5 +1,5 @@
 <?php
-$USER_PERMISSIONS = XUMS::getPermission();
+$USER_PERMISSIONS = X::getUMSSession();
 
 function endsWith($haystack, $needle)
 {
