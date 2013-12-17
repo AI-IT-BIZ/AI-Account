@@ -84,7 +84,7 @@ class ChartOfAccounts extends CI_Controller {
 			1=>'sgtxt',
 			2=>'entxt',
 			3=>'glgrp',
-			4=>'level',
+			4=>'gllev',
 			5=>'gltyp',
 			6=>'overs'
 			//7=>'statu'
@@ -178,9 +178,9 @@ class ChartOfAccounts extends CI_Controller {
 					'sgtxt'=>$data->sgtxt,
 					'entxt'=>$data->entxt,
 					'glgrp'=>$data->glgrp,
-					'level'=>$data->adr01,
-					'gltyp'=>$data->distx,
-					'overs'=>$data->pstlz
+					'gllev'=>$data->gllev,
+					'gltyp'=>$data->gltyp,
+					'overs'=>$data->overs
 					//'statu'=>$data->statu
 				));
 		}

@@ -35,20 +35,24 @@ Ext.define('Account.Vendor.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('VD')
 		});
 		this.editAct = new Ext.Action({
 			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('VD') || UMS.CAN.CREATE('VD') || UMS.CAN.EDIT('VD'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'ลบ',
 			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('QT')
 		});
 		this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disable: !UMS.CAN.EXPORT('VD')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
