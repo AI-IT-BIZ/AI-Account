@@ -7,7 +7,7 @@ Ext.define('Account.RSalaryWHT.MainWindow', {
 			title: 'WHT of Salary Report Selection',
 			closeAction: 'hide',
 			height: 150,
-			width: 350,
+			width: 400,
 			layout: 'border',
 			//layout: 'accordion',
 			resizable: true,
@@ -24,13 +24,15 @@ Ext.define('Account.RSalaryWHT.MainWindow', {
 		this.form = Ext.create('Account.RSalaryWHT.Form',{ region:'center' });
 
 		this.previewDialog = Ext.create('Account.RSalaryWHT.PreviewWindow');
+		this.previewDialog2 = Ext.create('Account.RSalaryWHT.PreviewWindow2');
+		this.previewDialog3 = Ext.create('Account.RSalaryWHT.PreviewWindow3');
 
 		this.items = [
 		     this.form
 		];
 		
 		this.btnPreview = Ext.create('Ext.Button', {
-			text: 'Preview',
+			text: 'Report Preview',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
@@ -38,8 +40,29 @@ Ext.define('Account.RSalaryWHT.MainWindow', {
 				}
 			}
 		});
+		
+		this.btnPreview2 = Ext.create('Ext.Button', {
+			text: 'Docket Preview',
+			handler: function() {
+				var form_basic = _this.form.getForm();
+				if(form_basic.isValid()){
+					_this.previewDialog2.openDialog(form_basic.getValues());
+				}
+			}
+		});
+		
+		this.btnPreview3 = Ext.create('Ext.Button', {
+			text: 'Attached Preview',
+			handler: function() {
+				var form_basic = _this.form.getForm();
+				if(form_basic.isValid()){
+					_this.previewDialog3.openDialog(form_basic.getValues());
+				}
+			}
+		});
 
-		this.buttons = [this.btnPreview, {
+		this.buttons = [this.btnPreview, 
+		this.btnPreview2, this.btnPreview3,{
 			text: 'Cancel',
 			handler: function() {
 				//_this.form.getForm().reset();

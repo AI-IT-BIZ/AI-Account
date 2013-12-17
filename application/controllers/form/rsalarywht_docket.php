@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsalarywht extends CI_Controller {
+class Rsalarywht_docket extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()

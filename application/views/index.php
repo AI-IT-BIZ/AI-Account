@@ -231,7 +231,7 @@ Ext.onReady(function() {
 
 	$om.viewport.on('click_rtransaction', function(){
 		if(!$om.rtransactionDialog)
-			$om.rtransactionDialog = Ext.create('Account.RSaleVat.MainWindow');
+			$om.rtransactionDialog = Ext.create('Account.RSalaryWHT.MainWindow');
 		$om.rtransactionDialog.show();
 	});
 
