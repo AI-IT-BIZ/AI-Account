@@ -46,7 +46,7 @@ class GL extends CI_Controller {
 		//$sort = $this->input->post('sort');
 		//$dir = $this->input->post('dir');
 		//$this->db->order_by($sort, $dir);
-
+		$this->db->where('gltyp', 2);
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(

@@ -20,7 +20,6 @@ class Journal extends CI_Controller {
 		$this->db->limit(1);
 		$this->db->where('belnr', $id);
 		$query = $this->db->get('bkpf');
-		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			$result['id'] = $result['belnr'];
