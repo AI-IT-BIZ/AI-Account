@@ -27,7 +27,7 @@ Ext.define('Account.UMS.Login.Form', {
 			listeners : {
 				specialkey : function(o, e) {
 					if (e.getKey() == e.ENTER)
-						_this.submitAct.execute();
+						_this.fireEvent('form_key_enter');
 				}
 			}
 		},{
@@ -39,7 +39,7 @@ Ext.define('Account.UMS.Login.Form', {
 			listeners : {
 				specialkey : function(o, e) {
 					if (e.getKey() == e.ENTER)
-						_this.submitAct.execute();
+						_this.fireEvent('form_key_enter');
 				}
 			}
 		}];
