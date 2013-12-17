@@ -66,7 +66,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
       
        }); 
        
-       
+         var loadMask = new Ext.LoadMask(LeftPanel, {msg:'Wait message', store: store_tree_chart});
        /*************************************************************/
         var txtID = Ext.create('Ext.form.Text', {
          	fieldLabel: 'GL No',
