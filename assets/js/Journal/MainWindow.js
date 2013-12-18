@@ -38,6 +38,11 @@ Ext.define('Account.Journal.MainWindow', {
 			iconCls: 'b-small-minus'
 		});
 		
+		this.importAct = new Ext.Action({
+			text: 'Salary Import',
+			iconCls: 'b-small-import'
+		});
+		
 		this.itemDialog = Ext.create('Account.Journal.Item.Window');
 
 		this.grid = Ext.create('Account.Journal.Grid', {
@@ -45,9 +50,12 @@ Ext.define('Account.Journal.MainWindow', {
 			border: false
 		});
 
+		this.importDialog = Ext.create('Account.Journal.Import.Window');
+		
 		this.items = [this.grid];
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.tbar = [this.addAct, this.editAct, this.deleteAct, this.importAct];
+		
 
 		// --- event ---
 		this.addAct.setHandler(function(){
@@ -77,6 +85,11 @@ Ext.define('Account.Journal.MainWindow', {
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		
+		this.importAct.setHandler(function(){
+			_this.importDialog.openDialog();
+		});
+		
 		this.itemDialog.form.on('afterSave', function(form){
 			_this.itemDialog.hide();
 
@@ -84,6 +97,11 @@ Ext.define('Account.Journal.MainWindow', {
 		});
 
 		this.itemDialog.form.on('afterDelete', function(form){
+			_this.grid.load();
+		});
+		
+		this.importDialog.grid.on('import_success',function(){
+			_this.importDialog.hide();
 			_this.grid.load();
 		});
 		
