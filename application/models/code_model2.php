@@ -2,6 +2,7 @@
 
 Class Code_model2 extends CI_Model
 {
+	// Generate Running no. -> Customer no, Material no
 	function generate2($modul){
 		$this->db->where('modul', $modul);
 
