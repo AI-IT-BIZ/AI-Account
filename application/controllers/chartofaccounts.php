@@ -3,9 +3,99 @@
         
         function index()
      	{
-     	    
-	    }
-        function GetTreeChart()
+     	}  
+	function GetTreeChart()
+        {
+           $strSQL = "Select * from tbl_glno Where gllev = 1 order by saknr asc ;";
+           $queryL1 = $this->db->query($strSQL);
+           $strSQL = "Select * from tbl_glno Where gllev = 2 order by saknr asc ;";
+           $queryL2 = $this->db->query($strSQL);
+           $strSQL = "Select * from tbl_glno Where gllev = 3 order by saknr asc ;";
+           $queryL3 = $this->db->query($strSQL);
+           $strSQL = "Select * from tbl_glno Where gllev = 4 order by saknr asc ;";
+           $queryL4 = $this->db->query($strSQL);
+           $strSQL = "Select * from tbl_glno Where gllev = 5 order by saknr asc ;";
+           $queryL5 = $this->db->query($strSQL);
+           
+           $saknrL1 = "";
+           $saknrL2 = "";
+           $saknrL3 = "";
+           $saknrL4 = "";
+           $saknrL5 = "";
+           $arrL1 = array();
+           $leaf1 = "";
+           $strText = "";
+
+           foreach ($queryL1->result() as $rowL1)
+           {  
+            
+              /************************************/
+              /*Level2 **************************/
+              $saknrL1 =  $rowL1->saknr;
+              $arrChild  = array();  
+              foreach ($queryL2->result() as $rowL2)
+              {
+                  if($saknrL1 == $rowL2->overs)
+                  {
+                      
+                  
+                  /*Level3 **************************/
+                  $saknrL2 =  $rowL2->saknr;
+                  $arrChild3  = array(); 
+                  foreach ($queryL3->result() as $rowL3)
+                  {  
+                    if($saknrL2 == $rowL3->overs)
+                    {
+                        
+                    
+                    /*Level4 **************************/
+                    $saknrL3 =  $rowL3->saknr;
+                    $arrChild4  = array(); 
+                    foreach ($queryL4->result() as $rowL4)
+                    {
+                        if($saknrL3 == $rowL4->overs)
+                        {
+                        
+                       
+                        /*Level5 **************************/
+                        $saknrL4 =  $rowL4->saknr;
+                        $arrChild5  = array(); 
+                        foreach ($queryL5->result() as $rowL5)
+                        {
+                            if($saknrL4 == $rowL5->overs)
+                            {
+                                $strText = $rowL5->saknr . "[" . $rowL5->depar  . "]" . $rowL5->sgtxt;
+                                $leaf1 = ($rowL5->gltyp == "1") ? "false" : "true";
+                                array_push($arrChild5, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL5->saknr ));
+                            }
+                            
+                        }
+                        $strText = $rowL4->saknr. "[" . $rowL4->depar  . "]" . $rowL4->sgtxt;
+                        $leaf1 = ($rowL4->gltyp == "1") ? "false" : "true";
+                        array_push($arrChild4, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL4->saknr  , 'expanded' => true ,  'children' => $arrChild5  ));
+                         }
+                    }
+                     $strText = $rowL3->saknr. "[" . $rowL3->depar  . "]" . $rowL3->sgtxt;
+                     $leaf1 = ($rowL3->gltyp == "1") ? "false" : "true";
+                     array_push($arrChild3, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL3->saknr  , 'expanded' => true , 'children' => $arrChild4 ));
+                    }
+                  }
+                  $strText = $rowL2->saknr. "[" . $rowL2->depar  . "]" . $rowL2->sgtxt;
+                  $leaf1 = ($rowL2->gltyp == "1") ? "false" : "true";
+                  array_push($arrChild, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL2->saknr  ,  'expanded' => true , 'children' => $arrChild3));
+                }
+              }
+              /************************************/
+              $strText = $rowL1->saknr. "[" . $rowL1->depar  . "]" . $rowL1->sgtxt;
+              $leaf1 = ($rowL1->gltyp == "1") ? "false" : "true";
+              array_push($arrL1, array('text' => $strText, 'leaf' => $leaf1 , 'id' => $rowL1->saknr , 'expanded' => true ,  'children' => $arrChild ));
+           }
+           
+           $arrxx = array($arrL1);
+           echo json_encode($arrL1);
+        }
+         
+        function GetTreeChart_OLD()
      	{
      
            $strSQL = "Select * from tbl_glno Where gllev = 1 order by saknr asc ;";
