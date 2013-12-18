@@ -295,7 +295,7 @@ class Depositout extends CI_Controller {
 		if(!empty($ponr)){
 			$this->db->set_dbprefix('v_');
 		    $this->db->where('ebeln', $ponr);
-			$this->db->where('matnr', '200003');
+			$this->db->where('matkl', '08');
 
 		    $query = $this->db->get('ekpo');
 		}else{

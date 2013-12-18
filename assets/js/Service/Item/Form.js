@@ -165,7 +165,7 @@ Ext.define('Account.Service.Item.Form', {
 			name: 'maktx',
 			width: 400,
 			allowBlank: true
-		}, this.comboMGrp,this.comboMType, 
+		}, this.comboMType, this.comboMGrp,
 		  {
 			xtype: 'textfield',
 			fieldLabel: 'Unit',
@@ -424,6 +424,7 @@ Ext.define('Account.Service.Item.Form', {
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
+		this.comboMType.setValue('SV');
 	},
 	
 	remove : function(id){

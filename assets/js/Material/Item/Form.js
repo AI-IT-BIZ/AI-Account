@@ -168,7 +168,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'maktx',
 			width: 400,
 			allowBlank: true
-		}, this.comboMGrp,this.comboMType, 
+		}, this.comboMType, this.comboMGrp,
 		  {
 			xtype: 'textfield',
 			fieldLabel: 'Unit',
