@@ -22,8 +22,8 @@ class Rsumvat extends CI_Controller {
 		if($copies<=0) $copies = 1;
 		//Sale
 	    $strSQL1 = " select v_vbrk.*";
-        $strSQL1 = $strSQL . " from v_vbrk ";
-        $strSQL1 = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " from v_vbrk ";
+        $strSQL1 = $strSQL1 . " Where v_vbrk.bldat ".$dt_result;
 		$strSQL1 .= "ORDER BY invnr ASC";
        
 		$q_sale = $this->db->query($strSQL1);
@@ -31,8 +31,8 @@ class Rsumvat extends CI_Controller {
 		
 		//Purchase
 		$strSQL2 = " select v_ebrk.*";
-        $strSQL2 = $strSQL . " from v_ebrk ";
-        $strSQL2 = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+        $strSQL2 = $strSQL2 . " from v_ebrk ";
+        $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
 		$strSQL2 .= "ORDER BY invnr ASC";
        
 		$q_purch = $this->db->query($strSQL2);

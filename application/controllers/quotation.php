@@ -123,11 +123,11 @@ class Quotation extends CI_Controller {
 			}
 
 			// query for limit user
-			if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
-				$_this->db->where('beamt <=', XUMS::LIMIT('QT'));
-			}else{
-				$_this->db->where('ernam', XUMS::USERNAME());
-			}
+			//if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
+			//	$_this->db->where('beamt <=', XUMS::LIMIT('QT'));
+			//}else{
+			//	$_this->db->where('ernam', XUMS::USERNAME());
+			//}
 		}
 // End for report
 

@@ -103,6 +103,7 @@ class Project extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
 		}
 // End for report
 
@@ -157,18 +158,18 @@ class Project extends CI_Controller {
 			'esamt' => $this->input->post('esamt')
 		);
 		  //$this->db->set('erdat', 'NOW()', false);
-		  //$this->db->set('ernam', 'test');
+		  $current_username = XUMS::USERNAME();
 		  
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('jobnr', $id);
 			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('jobk', $formData);
 		}else{
 			$this->db->set('jobnr', $this->code_model->generate('PJ',
 			$this->input->post('bldat')));
 			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('jobk', $formData);
 		}
 

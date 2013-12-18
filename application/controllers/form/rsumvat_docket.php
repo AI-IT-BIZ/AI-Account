@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsalarywht_docket extends CI_Controller {
+class Rsumvat_docket extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -23,18 +23,30 @@ class Rsalarywht_docket extends CI_Controller {
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
 		
+		$taxid = str_split('1234567890123');
+		
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbrk.*";
-        $strSQL = $strSQL . " from v_vbrk ";
-        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+	    //Sale
+	    $strSQL1 = " select v_vbrk.*";
+        $strSQL1 = $strSQL1 . " from v_vbrk ";
+        $strSQL1 = $strSQL1 . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL1 .= "ORDER BY invnr ASC";
        
-		$query = $this->db->query($strSQL);
-		$r_data = $query->first_row('array');
+		$q_sale = $this->db->query($strSQL1);
+		$r_sale = $q_sale->first_row('array');
+		
+		//Purchase
+		$strSQL2 = " select v_ebrk.*";
+        $strSQL2 = $strSQL2 . " from v_ebrk ";
+        $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL2 .= "ORDER BY invnr ASC";
+       
+		$q_purch = $this->db->query($strSQL2);
+		$r_purch = $q_purch->first_row('array');
 		
 		// calculate sum
-		$rows = $query->result_array();
+		//$rows = $query->result_array();
 		$b_amt = 0;
 
 		function check_page($page_index, $total_page, $value){
@@ -284,10 +296,19 @@ class Rsalarywht_docket extends CI_Controller {
 </DIV>
 <DIV style="z-index:15;left:347PX;top:129PX;width:79PX;height:20PX;">
 <img  WIDTH=79 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp03.jpg') ?>">
-<DIV style="z-index: 15; left: 131px; top: 291px; width: 79PX; height: 20PX;">
+</DIV>
+
+<DIV style="z-index: 15; left: 112px; top: 288px; width: 79PX; height: 20PX;">
 <img  WIDTH=79 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp03.jpg') ?>">
 </DIV>
-<DIV style="left:344PX;top:127PX;width:81PX;height:24PX;TEXT-ALIGN:RIGHT;"><span class="fc1-0">0000</span></DIV>
+
+<DIV style="left:344PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+
+<DIV style="left:360PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+
+<DIV style="left:375PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+
+<DIV style="left:391PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
 <DIV style="left:30PX;top:104PX;width:154PX;height:22PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร(13หลัก)*</span></DIV>
 
@@ -307,9 +328,8 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:85PX;top:225PX;width:354PX;height:61PX;">
 <table width="349PX" border=0 cellpadding=0 cellspacing=0>
-<tr><td class="fc1-0">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana</td></tr>
-<tr>
-  <td class="fc1-0">กรุงเทพฯ </td></tr></table>
+<tr><td class="fc1-0">555 อาคารรุ่งเรือง ถนนสามเสนใน แขวงพญาไท เขตพญาไท </td></tr>
+<tr><td class="fc1-0">กรุงเทพฯ</td></tr></table>
 </DIV>
 
 <DIV style="left:87PX;top:316PX;width:239PX;height:27PX;"><span class="fc1-0">0-2224-3388</span></DIV>
@@ -382,7 +402,7 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:463PX;top:238PX;width:62PX;height:19PX;"><span class="fc1-4">(2) กุมภาพันธ์</span></DIV>
 
-<DIV style="left: 543PX; top: 238PX; width: 59PX; height: 18px;"><span class="fc1-4">(5) พฤษภาคม</span></DIV>
+<DIV style="left:543PX;top:238PX;width:59PX;height:19PX;"><span class="fc1-4">(5) พฤษภาคม</span></DIV>
 
 <DIV style="left:619PX;top:219PX;width:59PX;height:19PX;"><span class="fc1-4">(7) กรกฎาคม</span></DIV>
 
@@ -392,33 +412,33 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:694PX;top:238PX;width:70PX;height:19PX;"><span class="fc1-4">(11) พฤศจิกายน</span></DIV>
 
-<DIV style="left:446PX;top:222PX;width:15PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='01'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:222PX;width:15PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:446PX;top:241PX;width:15PX;height:19PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='02'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:241PX;width:15PX;height:19PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:528PX;top:222PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='04'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:528PX;top:222PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:528PX;top:241PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:606PX;top:222PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='07'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:222PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:606PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='08'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:678PX;top:222PX;width:15PX;height:25PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='10'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:222PX;width:15PX;height:25PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:678PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='11'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:446PX;top:260PX;width:15PX;height:17PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='03'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:260PX;width:15PX;height:17PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:463PX;top:257PX;width:62PX;height:19PX;"><span class="fc1-4">(3) มีนาคม</span></DIV>
 
-<DIV style="left:528PX;top:260PX;width:16PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='06'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:528PX;top:260PX;width:16PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:543PX;top:257PX;width:59PX;height:19PX;"><span class="fc1-4">(6) มิถุนายน</span></DIV>
 
-<DIV style="left:606PX;top:260PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='09'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:260PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:680PX;top:260PX;width:13PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='12'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:260PX;width:13PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:621PX;top:257PX;width:59PX;height:20PX;"><span class="fc1-4">(9) กันยายน</span></DIV>
 
@@ -426,14 +446,41 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:30PX;top:287PX;width:71PX;height:27PX;"><span class="fc1-3">รหัสไปรษณีย์</span></DIV>
 
-<DIV style="left:104PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">10110</span></DIV>
+<DIV style="left:80PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">1</span></DIV>
 
-<DIV style="left:193PX;top:104PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11">3</span></DIV>
+<DIV style="left:95PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
-<DIV style="left:212PX;top:104PX;width:68PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11">1312</span></DIV>
-<DIV style="left:368PX;top:104PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11">13</span></DIV>
+<DIV style="left:110PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">4</span></DIV>
 
-<DIV style="left:410PX;top:104PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11">2</span></DIV>
+<DIV style="left:125PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+
+<DIV style="left:140PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+
+<DIV style="left:193PX;top:104PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[0];?></span></DIV>
+
+<DIV style="left: 215px; top: 104PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[1];?></span></DIV>
+
+<DIV style="left: 230px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[2];?></span></DIV>
+
+<DIV style="left: 246px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[3];?></span></DIV>
+
+<DIV style="left: 262px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[4];?></span></DIV>
+
+<DIV style="left: 284px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[5];?></span></DIV>
+
+<DIV style="left: 300px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[6];?></span></DIV>
+
+<DIV style="left: 317px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[7];?></span></DIV>
+
+<DIV style="left: 333px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[8];?></span></DIV>
+
+<DIV style="left: 347px; top: 104PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[9];?></span></DIV>
+
+<DIV style="left:360PX;top:104PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[10];?></span></DIV>
+
+<DIV style="left:385PX;top:104PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[11];?></span></DIV>
+
+<DIV style="left:410PX;top:104PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[12];?></span></DIV>
 
 <DIV style="left:169PX;top:354PX;width:98PX;height:30PX;TEXT-ALIGN:CENTER;"><span class="fc1-13">การคำนวณภาษี</span></DIV>
 
@@ -443,11 +490,11 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:557PX;top:388PX;width:23PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">สต.</span></DIV>
 
-<DIV style="left:304PX;top:420PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">จ </span></DIV>
+<DIV style="left:304PX;top:420PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
 <DIV style="left:322PX;top:402PX;width:102PX;height:21PX;"><span class="fc1-4">(1.1) ยอดขายแจ้งไว้ขาด</span></DIV>
 
-<DIV style="left:304PX;top:404PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">จ </span></DIV>
+<DIV style="left:304PX;top:404PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
 <DIV style="left:322PX;top:418PX;width:101PX;height:21PX;"><span class="fc1-4">(1.2) ยอดซื้อแจ้งไว้เกิน</span></DIV>
 
@@ -509,11 +556,11 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:217PX;top:539PX;width:86PX;height:20PX;"><span class="fc1-22">หรือกรณียื่นเพิ่มเติม</span></DIV>
 
-<DIV style="left:304PX;top:532PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">จ </span></DIV>
+<DIV style="left:304PX;top:532PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
 <DIV style="left:208PX;top:519PX;width:11PX;height:52PX;TEXT-ALIGN:RIGHT;"><span class="fc1-23">{</span></DIV>
 
-<DIV style="left:304PX;top:548PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">จ </span></DIV>
+<DIV style="left:304PX;top:548PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
 <DIV style="left:322PX;top:530PX;width:101PX;height:21PX;"><span class="fc1-7">(6.1) ยอดซื้อแจ้งไว้ขาด</span></DIV>
 
@@ -582,11 +629,9 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:326PX;top:618PX;width:253PX;height:20PX;"><span class="fc1-27">.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.</span></DIV>
 
-<DIV style="left:63PX;top:695PX;width:23PX;height:20PX;"><span class="fc1-10">จ </span></DIV>
+<DIV style="left:63PX;top:695PX;width:23PX;height:20PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
-<DIV style="left:63PX;top:670PX;width:23PX;height:22PX;"><span class="fc1-10">จ </span></DIV>
-
-<DIV style="left:66PX;top:693PX;width:14PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"></span></DIV>
+<DIV style="left:63PX;top:670PX;width:23PX;height:22PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
 <DIV style="left:86PX;top:674PX;width:20PX;height:15PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">11.</span></DIV>
 

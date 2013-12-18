@@ -237,7 +237,7 @@ Ext.onReady(function() {
 
 	$om.viewport.on('click_rbalance', function(){
 		if(!$om.rbalanceDialog)
-			$om.rbalanceDialog = Ext.create('Account.RPurchaseVat.MainWindow');
+			$om.rbalanceDialog = Ext.create('Account.RPP30Vat.MainWindow');
 		$om.rbalanceDialog.show();
 	});
 
