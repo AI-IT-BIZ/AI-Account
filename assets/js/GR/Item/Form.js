@@ -19,7 +19,7 @@ Ext.define('Account.GR.Item.Form', {
 		
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		this.poDialog = Ext.create('Account.PO.MainWindow');
+		//this.poDialog = Ext.create('Account.PO.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.GR.Item.Grid_i',{

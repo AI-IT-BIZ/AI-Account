@@ -17,7 +17,12 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		});
 
 		// INIT Invoice search popup /////////////////////////////////
-		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
+			disableGridDoubleClick: true,
+			gridParams: {
+				statu: '02'
+			}
+		});
 		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];

@@ -362,7 +362,7 @@ class Invoice extends CI_Controller {
 		
         $sql="SELECT *
 			FROM tbl_apov
-			WHERE apgrp = '2'";
+			WHERE apgrp = '1'";
 		$query = $this->db->query($sql);
 		
 		echo json_encode(array(

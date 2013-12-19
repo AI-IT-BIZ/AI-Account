@@ -110,19 +110,28 @@ Ext.define('Account.DepositIn.MainWindow', {
 			_this.grid.load();
 		});
 
-		this.grid.store.on("beforeload", function (store, opts) {
+		/*this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};
 			if(opts.params){
 				var formValues = _this.searchForm.getValues();
 				Ext.apply(opts.params, formValues);
 			}
-	    });
+	    });*/
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
 	    }
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
