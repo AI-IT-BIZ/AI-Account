@@ -7,6 +7,7 @@ class Salary extends CI_Controller {
 		parent::__construct();
 
 		$this->load->library('PHPExcel');
+		$this->load->model('code_model','',TRUE);
 	}
 
 	function read()
@@ -173,48 +174,215 @@ class Salary extends CI_Controller {
 		$datas = $this->input->post('data');
 		$data_obj = json_decode($datas);
 		$sum_social = 0;
-		$sum_tax = 0;
-		$batch_data = array();
+		$sum_withh = 0;
+		$sum_socialco = 0;
+		$withh = 0;
+		$social = 0;
+		$socialco = 0;
+		$current_user = XUMS::USERNAME();
+		$date = date('Ymd');
+		$form_data = array();
+		$item_data = array();
+		
+		//Prepare Form Data
 		foreach($data_obj AS $data){
 			if(empty($data->error) || $data->error==''){
-				array_push($batch_data, array(
-					'lifnr'=>$data->lifnr,
-					'vtype'=>$data->vtype,
-					'name1'=>$data->name1,
-					'adr01'=>$data->adr01,
-					'distx'=>$data->distx,
-					'pstlz'=>$data->pstlz,
-					'cunty'=>$data->cunty,
-					'pstlz'=>$data->pstlz,
-					'telf1'=>$data->telf1,
-					'telfx'=>$data->telfx,
-					'email'=>$data->email,
-					'pson1'=>$data->pson1,
-					'disct'=>$data->disct,
-					//'begin'=>$data->begin,
-					'endin'=>$data->endin,
-					'ptype'=>$data->ptype,
-					'terms'=>$data->terms,
-					'taxnr'=>$data->taxnr,
-					'vat01'=>$data->vat01,
-					'taxid'=>$data->taxid,
-					'saknr'=>$data->saknr,
-					'note1'=>$data->note1,
-					'statu'=>$data->statu
+				array_push($form_data, array(
+					'belnr'=>"",//$this->code_model->generate('JV',$date),
+					'gjahr' => substr($date,0,4),
+					'bldat'=>$date,
+					'ernam'=>$current_user,
+					'erdat'=>$date,
+					'txz01'=>"จ่ายเงินเดือนให้กับพนักงาน ".+$data->empnr,
+					'refnr'=>$data->empnr,
+					'auart'=>"JV",
+					'netwr'=>$data->salar
 				));
-				$sum_social += $data->soci;
-				$sum_tax += $data->wtax; 
+				$withh = $data->withh;
+				$sum_withh += $withh;
+				$social = $data->socia;
+				$sum_social += $social;
+				$socialco = $data->cosoc;
+				$sum_socialco += $socialco;
+			}
+		}		
+		//Prepare Item Data
+		foreach($data_obj AS $data){
+			if(empty($data->error) || $data->error==''){
+				array_push($item_data, array(
+					'socia'=>$data->socia,
+					'cosoc'=>$data->cosoc,
+					'withh'=>$data->withh,
+					'netpa'=>$data->netpa,
+					'glcod'=>$data->glcod,
+					'glban'=>$data->glban
+				));
 			}
 		}
-		if(count($batch_data)>0){
-			foreach($batch_data as $data){
-				$this->db->insert('lfa1', $data);
+		
+		//echo $this->code_model->generate('JV',$date);
+		//return;
+		
+		if(count($form_data)>0){
+			for($i=0;$i<count($form_data);$i++){
+				
+				//Save Journal Header Salary
+				$id = $this->code_model->generate('JV',$date);
+				$form_data[$i]['belnr'] = $id;
+				$this->db->insert('bkpf', $form_data[$i]);
+		
+				//Save Journal Item				
+				$array_item1 = array(	//Debit เงินเดือนพนักงาน
+					'belnr'=>$id,
+					'gjahr'=>$form_data[$i]['gjahr'],
+					'belpr'=>1,
+					'bldat'=>$date,
+					'ernam'=>$current_user,
+					'erdat'=>$date,
+					'txz01'=>'เงินเดือนพนักงาน',
+					'saknr'=>$item_data[$i]['glcod'],
+					'debit'=>$form_data[$i]['netwr'],
+					'credi'=>'0'
+				);								
+				$array_item2 = array(	//Credit Withholding Tax
+					'belnr'=>$id,
+					'gjahr'=>$form_data[$i]['gjahr'],
+					'belpr'=>2,
+					'bldat'=>$date,
+					'ernam'=>$current_user,
+					'erdat'=>$date,
+					'txz01'=>'ภาษีหัก ณ ที่จ่าย ภงด 1',
+					'saknr'=>'2132-01',
+					'debit'=>0,
+					'credi'=>$item_data[$i]['withh']
+				);
+				$array_item3 = array(	//Credit Social Fund
+					'belnr'=>$id,
+					'gjahr'=>$form_data[$i]['gjahr'],
+					'belpr'=>3,
+					'bldat'=>$date,
+					'ernam'=>$current_user,
+					'erdat'=>$date,
+					'txz01'=>'เงินประกันสังคม',
+					'saknr'=>'2131-04',
+					'debit'=>0,
+					'credi'=>$item_data[$i]['socia']
+				);
+				$array_item4 = array(	//Credit Bank
+					'belnr'=>$id,
+					'gjahr'=>$form_data[$i]['gjahr'],
+					'belpr'=>4,
+					'bldat'=>$date,
+					'ernam'=>$current_user,
+					'erdat'=>$date,
+					'txz01'=>'ธนาคาร',
+					'saknr'=>$item_data[$i]['glban'],
+					'debit'=>0,
+					'credi'=>$item_data[$i]['netpa']
+				);
+				$this->db->insert('bsid', $array_item1);
+				$this->db->insert('bsid', $array_item2);
+				$this->db->insert('bsid', $array_item3);
+				$this->db->insert('bsid', $array_item4);					
 			}
+			//Save Journal  Social Fund
+			$id_social = $this->code_model->generate('JV',$date);
+			$form_social = array(
+				'belnr'=>$id_social,
+				'gjahr' => substr($date,0,4),
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>"จ่ายสมทบเงินประกันสังคม ",
+				'auart'=>"JV",
+				'netwr'=>$sum_social+$sum_socialco
+			);
+			$item_social1 = array(	//Debit Social Fund
+				'belnr'=>$id_social,
+				'gjahr'=>$form_social['gjahr'],
+				'belpr'=>1,
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>'ประกันสังคม',
+				'saknr'=>'2131-04',
+				'debit'=>$sum_social,
+				'credi'=>'0'
+			);
+			$item_social2 = array(	//Debit Social Fund Contribution
+				'belnr'=>$id_social,
+				'gjahr'=>$form_social['gjahr'],
+				'belpr'=>2,
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>'สมทบประกันสังคม',
+				'saknr'=>'5310-09',
+				'debit'=>$sum_socialco,
+				'credi'=>'0'
+			);
+			$item_social3 = array(	//Credit Social Fund AP
+				'belnr'=>$id_social,
+				'gjahr'=>$form_social['gjahr'],
+				'belpr'=>3,
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>'เจ้าหนี้ประกันสังคม',
+				'saknr'=>'2138-00',
+				'debit'=>'0',
+				'credi'=>$sum_social+$sum_socialco
+			);
+			$this->db->insert('bkpf',$form_social);	
+			$this->db->insert('bsid', $item_social1);
+			$this->db->insert('bsid', $item_social2);
+			$this->db->insert('bsid', $item_social3);
+			
+			//Save Journal  Withholding Tax
+			$id_withh = $this->code_model->generate('JV',$date);
+			$form_withh = array(
+				'belnr'=>$id_withh,
+				'gjahr' => substr($date,0,4),
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>"บันทึกเจ้าหนี้สรรพากร  ภงด 1 ",
+				'auart'=>"JV",
+				'netwr'=>$sum_withh
+			);
+			$item_withh1 = array(	//Debit Withholding Tax
+				'belnr'=>$id_withh,
+				'gjahr'=>$form_withh['gjahr'],
+				'belpr'=>1,
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>'ภาษีหัก ณ ที่จ่าย ภงด 1',
+				'saknr'=>'2132-01',
+				'debit'=>$sum_withh,
+				'credi'=>'0'
+			);
+			$item_withh2 = array(	//Credit Revenue AP
+				'belnr'=>$id_withh,
+				'gjahr'=>$form_withh['gjahr'],
+				'belpr'=>2,
+				'bldat'=>$date,
+				'ernam'=>$current_user,
+				'erdat'=>$date,
+				'txz01'=>'เจ้าหนี้กรมสรรพากร',
+				'saknr'=>'2137-00',
+				'debit'=>'0',
+				'credi'=>$sum_withh
+			);
+			$this->db->insert('bkpf',$form_withh);	
+			$this->db->insert('bsid', $item_withh1);
+			$this->db->insert('bsid', $item_withh2);
 		}
+						
 		echo json_encode(array(
 			'success'=>TRUE,
-			'rows'=>$batch_data,
-			'totalCount'=>count($batch_data)
+			'rows'=>$form_data,
+			'totalCount'=>count($form_data)
 		));
 	}
 
