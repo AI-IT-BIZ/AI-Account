@@ -15,9 +15,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.projectDialog = Ext.create('Account.Project.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
@@ -647,6 +645,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
+				waitMsg: 'Save data...',
 				success: function(form_basic, action) {
 					form_basic.reset();
 					_this.fireEvent('afterSave', _this);

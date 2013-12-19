@@ -59,6 +59,7 @@ class Project extends CI_Controller {
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$_this->db->where("(`jobnr` LIKE '%$query%'
+				OR `jobtx` LIKE '%$query%'
 				OR `kunnr` LIKE '%$query%'
 				OR `name1` LIKE '%$query%'
 				OR `salnr` LIKE '%$query%')", NULL, FALSE);

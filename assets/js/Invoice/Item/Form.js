@@ -13,12 +13,15 @@ Ext.define('Account.Invoice.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.saleorderDialog = Ext.create('Account.Saleorder.MainWindow', {
-			disableGridDoubleClick: true
+		this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
+			disableGridDoubleClick: true,
+			gridParams: {
+				statu: '02'
+			}
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
-		this.soDialog = Ext.create('Account.Saleorder.MainWindow');
+		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		

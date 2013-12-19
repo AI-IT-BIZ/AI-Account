@@ -14,7 +14,10 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var _this=this;
 		// INIT other components ///////////////////////////////////
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			gridParams: {
+				statu: '02'
+			}
 		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');

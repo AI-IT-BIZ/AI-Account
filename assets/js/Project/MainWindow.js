@@ -65,10 +65,18 @@ Ext.define('Account.Project.MainWindow', {
 				this.excelAct,this.importAct]
 		});
 
-		this.searchForm = Ext.create('Account.Project.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Project.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -140,15 +148,6 @@ Ext.define('Account.Project.MainWindow', {
 	    	_this.editAct.execute();
 	      });
 	    }
-
-		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
-			this.grid.store.on('beforeload', function (store, opts) {
-				opts.params = opts.params || {};
-				if(opts.params){
-					opts.params = Ext.apply(opts.params, _this.gridParams);
-				}
-		    });
-		}
 
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
