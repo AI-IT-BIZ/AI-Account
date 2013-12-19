@@ -15,9 +15,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.projectDialog = Ext.create('Account.Project.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
