@@ -37,8 +37,7 @@ Class Code_model2 extends CI_Model
 				    $last_no = abs(intval($last_no))+1;
 					return $prefix.str_pad($last_no, $min_code_length, '0', STR_PAD_LEFT);
 				}
-
-				
+	
 			}else{
 				if($modul=='CP')
 				return $min_code;

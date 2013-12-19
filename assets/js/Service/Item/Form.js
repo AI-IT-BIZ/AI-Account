@@ -113,6 +113,26 @@ Ext.define('Account.Service.Item.Form', {
 			valueField: 'statu'
 		});	
 		
+		this.glnoDialog = Ext.create('Account.GL.MainWindow');
+		
+		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
+			name: 'saknr',
+			fieldLabel: 'GL Account',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			//width:290,
+		});
+		
+		this.unitDialog = Ext.create('Account.Unit.Window');
+		
+		this.trigUnit = Ext.create('Ext.form.field.Trigger', {
+			name: 'meins',
+			fieldLabel: 'Unit',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+			//width:290,
+		});
+		
 		this.unit1Dialog = Ext.create('Account.Unit.Window');
 		
 		this.trigUnit1 = Ext.create('Ext.form.field.Trigger', {
@@ -155,10 +175,11 @@ Ext.define('Account.Service.Item.Form', {
                 anchor: '100%'
             },
 		items: [{
-			xtype: 'textfield',
+			xtype:'displayfield',
 			fieldLabel: 'Service Code',
 			name: 'matnr',
-			allowBlank: false
+			readOnly: true,
+			value: 'XXXXX'
 		}, {
 			xtype: 'textfield',
 			fieldLabel: 'Service Name',
@@ -166,23 +187,16 @@ Ext.define('Account.Service.Item.Form', {
 			width: 400,
 			allowBlank: true
 		}, this.comboMType, this.comboMGrp,
-		  {
-			xtype: 'textfield',
-			fieldLabel: 'Unit',
-			name: 'meins',
-			allowBlank: true
-		}, {
-			xtype: 'textfield',
-			//xtype: 'filefield',
-            id: 'form-file',
-            emptyText: 'Select a GL account',
-			fieldLabel: 'GL Account',
-			name: 'saknr',
-			allowBlank: true,
-			buttonText: '',
-            buttonConfig: {
-                iconCls: 'b-small-pencil'
-            }
+		  this.trigUnit,{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigGlno,{
+						xtype: 'displayfield',
+						name: 'sgtxt',
+						margins: '0 0 0 6',
+						width:286,
+						allowBlank: false
+                }]
             }]
 		}, {
 // Frame number 2	
@@ -273,6 +287,45 @@ Ext.define('Account.Service.Item.Form', {
 		}]
 
 		},this.comboQStatus];
+		
+		// event trigUnit//
+		this.trigUnit.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.meins);
+							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find Unit : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigUnit.setValue(record.data.meins);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.unitDialog.hide();
+		});
+
+		this.trigUnit.onTriggerClick = function(){
+			_this.unitDialog.show();
+		};
 
 		// event trigUnit1//
 		this.trigUnit1.on('keyup',function(o, e){
@@ -389,6 +442,45 @@ Ext.define('Account.Service.Item.Form', {
 
 		this.trigUnit3.onTriggerClick = function(){
 			_this.unit3Dialog.show();
+		};	
+		
+		// event trigGlno//
+		this.trigGlno.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'gl/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.saknr);
+							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find GL Account : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigGlno.setValue(record.data.saknr);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.glnoDialog.hide();
+		});
+
+		this.trigGlno.onTriggerClick = function(){
+			_this.glnoDialog.show();
 		};	
 		
 		return this.callParent(arguments);
