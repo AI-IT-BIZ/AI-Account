@@ -645,6 +645,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
+				waitMsg: 'Save data...',
 				success: function(form_basic, action) {
 					form_basic.reset();
 					_this.fireEvent('afterSave', _this);

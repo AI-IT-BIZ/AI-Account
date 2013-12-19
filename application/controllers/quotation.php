@@ -160,6 +160,33 @@ class Quotation extends CI_Controller {
 			$this->db->limit(1);
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
+
+			// ##### CHECK APPROVE ABLE
+			$row = $query->first_row('array');
+			// status has change
+			if($row['statu']!=$this->input->post('statu')){
+				if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
+					$limit = XUMS::LIMIT('QT');
+					if($limit>$row['beamt']){
+						$emsg = 'You do not have permission to approve quotaion over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+				}else{
+					$emsg = 'You do not have permission to approve quotation.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+
 		}
         $net = $this->input->post('netwr');
 		$formData = array(
