@@ -19,12 +19,22 @@ Ext.onReady(function() {
 	});
 
 	$om.viewport.on('click_journaltemp', function(){
+		if(!UMS.CAN.DISPLAY('JT')){
+			UMS.ALERT("You don't have permission for Journal Template.");
+			return;
+		}
+		
 		if(!$om.journaltempDialog)
 			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
 		$om.journaltempDialog.show();
 	});
 
 	$om.viewport.on('click_journal', function(){
+		if(!UMS.CAN.DISPLAY('JN')){
+			UMS.ALERT("You don't have permission for Journal.");
+			return;
+		}
+		
 		if(!$om.journalDialog)
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
@@ -44,6 +54,11 @@ Ext.onReady(function() {
 
 
    $om.viewport.on('click_chart-account', function(){
+   		if(!UMS.CAN.DISPLAY('CA')){
+			UMS.ALERT("You don't have permission for Chart of Account.");
+			return;
+		}
+		
 		if(!$om.chartOfAccountDialog)
 			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
 		$om.chartOfAccountDialog.show();
@@ -259,12 +274,22 @@ Ext.onReady(function() {
 
 //Material Module
 	$om.viewport.on('click_material', function(){
+		if(!UMS.CAN.DISPLAY('MM')){
+			UMS.ALERT("You don't have permission for Material Master.");
+			return;
+		}
+		
 		if(!$om.materialDialog)
 			$om.materialDialog = Ext.create('Account.Material.MainWindow');
 		$om.materialDialog.show();
 	});
 
 	$om.viewport.on('click_service', function(){
+		if(!UMS.CAN.DISPLAY('SV')){
+			UMS.ALERT("You don't have permission for Service Master.");
+			return;
+		}
+		
 		if(!$om.serviceDialog)
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();

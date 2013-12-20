@@ -50,7 +50,7 @@
 
 /* Toolbar */
 .h-invoice { background-image: url('../images/tb-icons/doc_add.png') !important; }
-.h-reciept { background-image: url('../images/tb-icons/doc_save.png') !important; }
+.h-receipt { background-image: url('../images/tb-icons/doc_save.png') !important; }
 .h-journal { background-image: url('../images/tb-icons/doc_notes.png') !important; }
 .h-report { background-image: url('../images/tb-icons/doc_report3.png') !important; }
 

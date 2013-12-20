@@ -313,6 +313,10 @@ function endsWith($haystack, $needle)
 				]
 			};
 
+			var nodeSalePerson = {
+				text: 'Create New Sale Persons',
+				leaf: true
+			};
 			var nodeProject = {
 				text: 'Create New Projects',
 				leaf: true
@@ -344,6 +348,7 @@ function endsWith($haystack, $needle)
 				expanded: true,
 				singleClickExpand : true,
 				children: [
+					nodeSalePerson,
 					nodeProject,
 					nodeQuotation,
 					nodeSaleOrder,
@@ -352,17 +357,17 @@ function endsWith($haystack, $needle)
 					nodeCustomer
 				]
 			};
-
+			
 			var nodePR = {
-				text: 'Create New Purcharse Requisitons',
+				text: 'Create New Purchase Requisitions',
 				leaf: true
 			};
 			var nodePO = {
-				text: 'Create New Purcharse Orders',
+				text: 'Create New Purchase Orders',
 				leaf: true
 			};
 			var nodeGR = {
-				text: 'Create New Goods Recieves',
+				text: 'Create New Goods Receipts',
 				leaf: true
 			};
 			var nodeAP = {
@@ -448,6 +453,10 @@ function endsWith($haystack, $needle)
 				text: 'Create New Materials',
 				leaf: true
 			};
+			var nodeService = {
+				text: 'Create New Services',
+				leaf: true
+			};
 
 			var groupMaterial = {
 				text: 'Material Management',
@@ -459,7 +468,8 @@ function endsWith($haystack, $needle)
 					nodeBalances,
 					nodeOtherIn,
 					nodeOtherEx,
-					nodeMaterial
+					nodeMaterial,
+					nodeService
 				]
 			};
 
@@ -557,12 +567,26 @@ function endsWith($haystack, $needle)
 			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
                if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
                {
+               	  if(!UMS.CAN.DISPLAY('CA')){
+				  UMS.ALERT("You don't have permission for Chart of Accounts.");
+				  return;
+				  }	
 
                   $om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
                   $om.chartOfAccountDialog.show();
                   return;
                }
 //<<<<<<< HEAD
+			if(tr.innerHTML.indexOf('Create New Sale Persons') > -1)
+			{
+				//if(!UMS.CAN.DISPLAY('PJ')){
+				//UMS.ALERT("You don't have permission for Project.");
+				//return;
+				//}		
+				if(!$om.salepersonDialog)
+					$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
+				$om.salepersonDialog.show();
+			}
             if(tr.innerHTML.indexOf('Create New Projects') > -1)
 			{
 				if(!UMS.CAN.DISPLAY('PJ')){
@@ -623,12 +647,114 @@ function endsWith($haystack, $needle)
 				$om.customerDialog = Ext.create('Account.Customer.MainWindow');
 				$om.customerDialog.show();
 			}
+			if(tr.innerHTML.indexOf('Create New Purchase Requisitions') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('PR')){
+				UMS.ALERT("You don't have permission for Purchase Requisition.");
+				return;
+				}		
+				if(!$om.prDialog)
+				$om.prDialog = Ext.create('Account.PR.MainWindow');
+				$om.prDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Purchase Orders') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('PO')){
+				UMS.ALERT("You don't have permission for Purchase Order.");
+				return;
+				}		
+				if(!$om.poDialog)
+				$om.poDialog = Ext.create('Account.PO.MainWindow');
+				$om.poDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Goods Receipts') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('GR')){
+				UMS.ALERT("You don't have permission for Goods Receipts.");
+				return;
+				}		
+				if(!$om.grDialog)
+				$om.grDialog = Ext.create('Account.GR.MainWindow');
+				$om.grDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Account Payables') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('AP')){
+				UMS.ALERT("You don't have permission for Account Payables.");
+				return;
+				}		
+				if(!$om.apDialog)
+				$om.apDialog = Ext.create('Account.AP.MainWindow');
+				$om.apDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Payments') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('PD')){
+				UMS.ALERT("You don't have permission for Account Payment.");
+				return;
+				}		
+				if(!$om.paymentDialog)
+				$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
+				$om.paymentDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Account Vendors') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('VD')){
+				UMS.ALERT("You don't have permission for Vendor.");
+				return;
+				}		
+				if(!$om.vendorDialog)
+				$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+				$om.vendorDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Journal Templates') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('JT')){
+				UMS.ALERT("You don't have permission for Journal Template.");
+				return;
+				}		
+				if(!$om.journaltempDialog)
+				$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
+				$om.journaltempDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Journals') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('JN')){
+				UMS.ALERT("You don't have permission for Journal.");
+				return;
+				}		
+				if(!$om.journaltempDialog)
+				$om.journalDialog = Ext.create('Account.Journal.MainWindow');
+				$om.journalDialog.show();
+			}
 			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 			{
+			  	if(!UMS.CAN.DISPLAY('AU')){
+			 	UMS.ALERT("You don't have permission for Authorize Setting.");
+			  	return;
+				}
 				$om.configDialog = Ext.create('Account.UMS.MainWindow');
 				$om.configDialog.show();
 				//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 				//$om.configDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Materials') > -1)
+			{
+			  	if(!UMS.CAN.DISPLAY('MM')){
+			 	UMS.ALERT("You don't have permission for Material.");
+			  	return;
+				}
+				$om.materialDialog = Ext.create('Account.Material.MainWindow');
+				$om.materialDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Services') > -1)
+			{
+			  	if(!UMS.CAN.DISPLAY('SV')){
+			 	UMS.ALERT("You don't have permission for Services.");
+			  	return;
+				}
+				$om.serviceDialog = Ext.create('Account.Service.MainWindow');
+				$om.serviceDialog.show();
 			}
 			if(tr.innerHTML.indexOf('User Define') > -1)
 			{
@@ -1009,10 +1135,10 @@ function endsWith($haystack, $needle)
 				            iconCls: 'h-invoice',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reciepts',
+				            text: 'Receipts',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-reciept',
+				            iconCls: 'h-receipt',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Purchase Orders',
@@ -1095,7 +1221,7 @@ function endsWith($haystack, $needle)
 				            iconCls: 's-billto',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reciepts',
+				            text: 'Receipts',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 's-recp',
