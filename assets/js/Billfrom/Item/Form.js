@@ -19,7 +19,7 @@ Ext.define('Account.Billfrom.Item.Form', {
 		
 		// INIT Customer search popup ///////////////////////////////
 		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		//this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Billfrom.Item.Grid_i',{
 			//title:'Invoice Items',

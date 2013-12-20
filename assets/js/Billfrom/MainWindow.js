@@ -30,30 +30,6 @@ Ext.define('Account.Billfrom.MainWindow', {
         hideLabel: true
     });
 
-       var form_import_file =  Ext.create('Ext.form.Panel', {
-        id: 'form_panel-PR-MainWindow',
-        layout: 'absolute',
-        frame: true,
-        width: 300,
-        height: 200,
-        items:[fibasic],
-        tbar :[],
-        bbar :[]
-      });
-
-        var win_import_file = Ext.create('Ext.Window', {
-           id: 'win_import_file-PR-MainWindow',
-           title: 'Left Header, plain: true',
-           width: 300,
-           height: 200,
-           //x: 10,
-           //y: 200,
-           closeAction: 'hide',
-           plain: true,
-           headerPosition: 'top',
-           layout: 'fit',
-           items:[ form_import_file]
-       });
       /*****************************************************/
 
 		// --- object ---
@@ -91,9 +67,9 @@ Ext.define('Account.Billfrom.MainWindow', {
 
 		this.grid = Ext.create('Account.Billfrom.Grid', {
 			region:'center',
-			border: false//,
-			//tbar: [this.addAct, this.editAct, this.deleteAct,
-			//	this.printAct, this.excelAct,this.importAct]
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct,
+				this.printAct, this.excelAct,this.importAct]
 		});
 
 		this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
@@ -101,8 +77,8 @@ Ext.define('Account.Billfrom.MainWindow', {
 			height:100
 		});
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct,this.importAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct,this.importAct];
 
 		this.items = [this.searchForm, this.grid];
 

@@ -17,7 +17,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 		});
 
 		// INIT Invoice search popup /////////////////////////////////
-		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		this.apDialog = Ext.create('Account.SAp.MainWindow');
 		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -86,7 +86,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
-					_this.invoiceDialog.show();
+					_this.apDialog.show();
 				}
 			},
 			},
@@ -175,7 +175,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'invoice/load',
+					url: __site_url+'ap/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -207,7 +207,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 			}
 		});
 
-		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.apDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
@@ -228,7 +228,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.invoiceDialog.hide();
+			_this.apDialog.hide();
 		});
 
 		return this.callParent(arguments);

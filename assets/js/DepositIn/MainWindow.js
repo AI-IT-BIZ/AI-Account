@@ -53,10 +53,22 @@ Ext.define('Account.DepositIn.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.DepositIn.FormSearch', {
+		//this.searchForm = Ext.create('Account.DepositIn.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Project.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -110,13 +122,13 @@ Ext.define('Account.DepositIn.MainWindow', {
 			_this.grid.load();
 		});
 
-		/*this.grid.store.on("beforeload", function (store, opts) {
+		this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};
 			if(opts.params){
 				var formValues = _this.searchForm.getValues();
 				Ext.apply(opts.params, formValues);
 			}
-	    });*/
+	    });
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

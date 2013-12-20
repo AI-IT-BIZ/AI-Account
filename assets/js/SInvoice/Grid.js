@@ -8,7 +8,7 @@ Ext.define('Account.SInvoice.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"invoice/load2",
+				url: __site_url+"invoice/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',

@@ -62,10 +62,23 @@ Ext.define('Account.DepositOut.MainWindow', {
 		            this.excelAct,this.importAct]
 		});
 
-	    this.searchForm = Ext.create('Account.DepositOut.FormSearch', {
+	    //this.searchForm = Ext.create('Account.DepositOut.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.DepositOut.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -126,6 +139,15 @@ Ext.define('Account.DepositOut.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

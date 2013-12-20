@@ -62,10 +62,23 @@ Ext.define('Account.Invoice.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Invoice.FormSearch', {
+		//this.searchForm = Ext.create('Account.Invoice.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Invoice.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -118,6 +131,14 @@ Ext.define('Account.Invoice.MainWindow', {
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
+		
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
 
 		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
 			this.grid.store.on('beforeload', function (store, opts) {

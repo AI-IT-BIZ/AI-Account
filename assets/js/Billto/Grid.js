@@ -32,12 +32,12 @@ Ext.define('Account.Billto.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Bill To No", 
+		    {text: "Billing No", 
 		    width: 120, align: 'center', dataIndex: 'bilnr', sortable: true},
 			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'bldat', sortable: true},
-			{text: "Receipt Date", xtype: 'datecolumn', format:'d/m/Y',
+			{text: "Billing Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'duedt', sortable: true},
 		    {text: "Customer No", 

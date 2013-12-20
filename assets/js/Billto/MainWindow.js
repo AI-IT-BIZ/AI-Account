@@ -53,10 +53,23 @@ Ext.define('Account.Billto.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Billto.FormSearch', {
+		//this.searchForm = Ext.create('Account.Billto.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Billto.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -97,7 +110,7 @@ Ext.define('Account.Billto.MainWindow', {
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
-		});//
+		});
 
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
@@ -113,6 +126,14 @@ Ext.define('Account.Billto.MainWindow', {
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
+		
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
 
 		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
 			this.grid.store.on('beforeload', function (store, opts) {

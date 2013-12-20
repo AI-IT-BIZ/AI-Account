@@ -47,6 +47,15 @@ class Depositin extends CI_Controller {
 		// Start for report
 		function createQuery($_this){
 			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`depnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `vbeln` LIKE '%$query%'
+				OR `salnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){

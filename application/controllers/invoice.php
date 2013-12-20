@@ -48,12 +48,15 @@ class Invoice extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrk';
 		
+		$statu = $this->input->get('statu');
+		$this->db->where('statu', $statu);
+		
 		$totalCount = $this->db->count_all_results($tbName);
 
 		//createQuery($this);
-		//$limit = $this->input->get('limit');
-		//$start = $this->input->get('start');
-		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 		
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
