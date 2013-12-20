@@ -113,7 +113,7 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$jobnr1 = $_this->input->get('jobnr');
+			/*$jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
 			if(!empty($jobnr1) && empty($jobnr2)){
 			  $_this->db->where('jobnr', $jobnr1);
@@ -121,7 +121,7 @@ class Invoice extends CI_Controller {
 			elseif(!empty($jobnr1) && !empty($jobnr2)){
 			  $_this->db->where('jobnr >=', $jobnr1);
 			  $_this->db->where('jobnr <=', $jobnr2);
-			}
+			}*/
 			
 			$kunnr1 = $_this->input->get('kunnr');
 			$kunnr2 = $_this->input->get('kunnr2');
@@ -199,7 +199,9 @@ class Invoice extends CI_Controller {
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01')
+			'whtyp' => $this->input->post('whtyp'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 		
 		// start transaction
@@ -360,7 +362,7 @@ class Invoice extends CI_Controller {
 		
         $sql="SELECT *
 			FROM tbl_apov
-			WHERE apgrp = '2'";
+			WHERE apgrp = '1'";
 		$query = $this->db->query($sql);
 		
 		echo json_encode(array(
@@ -455,9 +457,13 @@ class Invoice extends CI_Controller {
 		));
 	}
 	
-	public function loads_whtcombo(){
+	public function loads_wht(){
 		$tbName = 'whty';
 		$tbPK = 'whtnr';
+		
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('whtnr', $id);
 
 		$query = $this->input->post('query');
 

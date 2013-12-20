@@ -52,7 +52,8 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('PHXView','session','upload','email','database');
+$autoload['libraries'] = array('x', 'xums', 'PHXView',
+								'session','upload','email','database');
 
 
 /*

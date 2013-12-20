@@ -14,6 +14,10 @@ class Index extends CI_Controller {
 
 	function index()
 	{
+		$userState = XUMS::getUserState();
+		if(empty($userState) || empty($userState->uname))
+			redirect(site_url('ums/login', true));
+
 		$this->phxview->RenderView('index');
 		$this->phxview->RenderLayout('default');
 	}

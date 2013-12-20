@@ -56,6 +56,7 @@ Ext.define('Account.Project.Item.Form', {
 		});
 		
 		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
+			disabled: !UMS.CAN.APPROVE('PJ'),
 			fieldLabel: 'Project Status',
 			name : 'statu',
 			labelWidth: 100,

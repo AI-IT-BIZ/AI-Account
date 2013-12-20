@@ -242,7 +242,7 @@ $rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = $item['netwr'];
+	$itamt = $item['beamt'];
 	$t_amt += $itamt;
 	$vtamt = $item['vat01'];
 	$v_amt += $vtamt;
@@ -256,7 +256,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:68px;"><?=$item['taxid'];?></td>
       <td class="fc1-8" align="center" style="width:51px;">0000</td>
         <td class="fc1-8" align="center" style="width:35px;">0000</td>
-	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['netwr'],2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['beamt'],2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:93px;"><?=number_format($item['vat01'],2,'.',',');?></td>
 	</tr>
 

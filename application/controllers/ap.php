@@ -185,7 +185,10 @@ class Ap extends CI_Controller {
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'ctype' => $this->input->post('ctype')
+			'ctype' => $this->input->post('ctype'),
+			'whtyp' => $this->input->post('whtyp'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 
 		// start transaction

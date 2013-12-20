@@ -1,4 +1,4 @@
-Ext.define('Account.RSaleVat.Form', {
+Ext.define('Account.RSalaryWHT.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 

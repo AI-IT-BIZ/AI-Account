@@ -120,8 +120,9 @@ class Receipt extends CI_Controller {
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'duedt' => $this->input->post('duedt')
-		);
+			'duedt' => $this->input->post('duedt')//,
+			//'whtpr' => $this->input->post('whtpr')
+			);
 		
 		// start transaction
 		$this->db->trans_start();  

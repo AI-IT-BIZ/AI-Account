@@ -3,7 +3,7 @@ Ext.define('Account.Project.Grid', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-	
+
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -21,7 +21,7 @@ Ext.define('Account.Project.Grid', {
 				'jobtx',
 			    'kunnr',
 				'name1',
-				
+
 				'bldat',
 				'statx',
 				'salnr',
@@ -35,26 +35,26 @@ Ext.define('Account.Project.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Project No", 
+		    {text: "Project No",
 		    width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", 
+			{text: "Project Name",
 			width: 150, dataIndex: 'jobtx', sortable: true},
-		    {text: "Customer No", 
+		    {text: "Customer No",
 		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
+			{text: "Customer Name",
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Project Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
 			{text: "1", hidden: true, width: 0, dataIndex: 'salnr', sortable: true},
-			{text: "Sale Person", 
+			{text: "Sale Person",
 			width: 100, dataIndex: 'sname', sortable: true},
-			{text: "Status", 
+			{text: "Status",
 			width: 120, dataIndex: 'statx', sortable: true},
-			{text: "Start Date", xtype: 'datecolumn', format:'d/m/Y', 
+			{text: "Start Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'stdat', sortable: true},
 			{text: "End Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'endat', sortable: true},
-			{text: "Project Amount", 
+			{text: "Project Amount",
 			xtype: 'numbercolumn',
 			width: 90, align: 'right', dataIndex: 'pramt', sortable: true}
 		];
@@ -69,6 +69,8 @@ Ext.define('Account.Project.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
+		this.store.load({
+			params: options
+		});
 	}
 });

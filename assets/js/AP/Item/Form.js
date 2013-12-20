@@ -12,6 +12,11 @@ Ext.define('Account.AP.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.grDialog = Ext.create('Account.GR.MainWindow', {
+			disableGridDoubleClick: true
+		});
+		
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.grDialog = Ext.create('Account.GR.MainWindow');
@@ -192,6 +197,16 @@ Ext.define('Account.AP.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
+         
+         this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'WHT Value',
+			name: 'whtpr',
+			labelAlign: 'right',
+			width:170,
+			align: 'right'//,
+			//margin: '0 0 0 35'
+         });
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -224,7 +239,7 @@ Ext.define('Account.AP.Item.Form', {
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'AP Doc',
+					    fieldLabel: 'AP No',
 					    name: 'invnr',
 						value: 'IPXXXX-XXXX',
 						labelAlign: 'right',
@@ -302,6 +317,7 @@ Ext.define('Account.AP.Item.Form', {
 						width:25,
 						value: 'Days'
 						}]},
+						this.numberWHT,
 					    this.comboQStatus]
 		            }]
 				}]
@@ -314,7 +330,7 @@ Ext.define('Account.AP.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:170,
+			height:195,
 			items: [
 				this.formTotal,
 				this.gridPrice,
@@ -510,7 +526,8 @@ Ext.define('Account.AP.Item.Form', {
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
-
+        
+        this.numberCredit.on('keyup', this.getDuedate, this);
 		return this.callParent(arguments);
 	},
 	
@@ -590,8 +607,15 @@ Ext.define('Account.AP.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+	},
+	// Add duedate functions
+	getDuedate: function(){
+		var credit = this.numberCredit.getValue();
+		var date = Date.today().add({ days: credit });
+		_this.getForm().findField('duedt').setValue(date);
 	},
 	// calculate total functions
 	calculateTotal: function(){

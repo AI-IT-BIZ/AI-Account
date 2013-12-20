@@ -13,7 +13,10 @@ Ext.define('Account.Quotation.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		// INIT other components ///////////////////////////////////
-		this.projectDialog = Ext.create('Account.Project.MainWindow');
+		this.projectDialog = Ext.create('Account.Project.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
@@ -39,6 +42,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			disabled: !UMS.CAN.APPROVE('QT'),
 			fieldLabel: 'QT Status',
 			name : 'statu',
 			labelAlign: 'right',
@@ -165,7 +169,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
@@ -489,9 +493,9 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('terms').setValue(r.data.terms);
-			_this.getForm().findField('ptype').setValue(r.data.ptype);
-			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			//_this.getForm().findField('terms').setValue(r.data.terms);
+			//_this.getForm().findField('ptype').setValue(r.data.ptype);
+			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			//_this.trigCustomer.on('keyup', this.selectTax, this);
 
 						}else{
@@ -521,9 +525,9 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('terms').setValue(r.data.terms);
-			_this.getForm().findField('ptype').setValue(r.data.ptype);
-			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			//_this.getForm().findField('terms').setValue(r.data.terms);
+			//_this.getForm().findField('ptype').setValue(r.data.ptype);
+			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			       }
 				}
 				});
@@ -641,6 +645,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
+				waitMsg: 'Save data...',
 				success: function(form_basic, action) {
 					form_basic.reset();
 					_this.fireEvent('afterSave', _this);

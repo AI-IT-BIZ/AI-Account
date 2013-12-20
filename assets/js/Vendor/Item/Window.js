@@ -32,6 +32,7 @@ Ext.define('Account.Vendor.Item.Window', {
 		
 		this.buttons = [{
 			text: 'Save',
+			disabled: !(UMS.CAN.CREATE('VD') || UMS.CAN.EDIT('VD')),
 			handler: function() {
 				_this.form.save();
 			}

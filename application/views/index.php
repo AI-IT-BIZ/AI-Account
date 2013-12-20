@@ -5,37 +5,37 @@ Ext.Loader.setPath('Account', __base_url+'assets/js');
 Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
-    
+
     $om.viewport.on('click_config', function(){
 		if(!$om.initdocDialog)
 			$om.initdocDialog = Ext.create('Account.Initdoc.MainWindow');
 		$om.initdocDialog.show();
 	});
-    
+
 	$om.viewport.on('click_income', function(){
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
 	});
-	
+
 	$om.viewport.on('click_journaltemp', function(){
 		if(!$om.journaltempDialog)
 			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
 		$om.journaltempDialog.show();
 	});
-	
+
 	$om.viewport.on('click_journal', function(){
 		if(!$om.journalDialog)
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rjournal', function(){
 		if(!$om.rjournalDialog)
 			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
 		$om.rjournalDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rgl', function(){
 		if(!$om.rglDialog)
 			$om.rglDialog = Ext.create('Account.RGL.MainWindow');
@@ -50,52 +50,87 @@ Ext.onReady(function() {
 	});
 
 //<<<<<<< HEAD
-	
+
 	$om.viewport.on('click_customer', function(){
 		if(!$om.customerDialog)
 			$om.customerDialog = Ext.create('Account.Customer.MainWindow');
 		$om.customerDialog.show();
 	});
-	
+
 	$om.viewport.on('click_vendor', function(){
 		if(!$om.vendorDialog)
 			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		$om.vendorDialog.show();
 	});
-	
+
 //=======
 	//Sale Module
 	$om.viewport.on('click_project', function(){
+		if(!UMS.CAN.DISPLAY('PJ')){
+			UMS.ALERT("You don't have permission for Project.");
+			return;
+		}
+		
 		if(!$om.projectDialog)
 			$om.projectDialog = Ext.create('Account.Project.MainWindow');
 		$om.projectDialog.show();
 	});
 	$om.viewport.on('click_quotation', function(){
+		if(!UMS.CAN.DISPLAY('QT')){
+			UMS.ALERT("You don't have permission for Quotation.");
+			return;
+		}
+
 		if(!$om.quotationDialog)
 			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		$om.quotationDialog.show();
 	});
 	$om.viewport.on('click_deposit1', function(){
+		if(!UMS.CAN.DISPLAY('DR')){
+			UMS.ALERT("You don't have permission for Deposit Reciept.");
+			return;
+		}
+		
 		if(!$om.deposit1Dialog)
 			$om.deposit1Dialog = Ext.create('Account.DepositIn.MainWindow');
 		$om.deposit1Dialog.show();
 	});
 	$om.viewport.on('click_saleorder', function(){
+		if(!UMS.CAN.DISPLAY('SO')){
+			UMS.ALERT("You don't have permission for Sale Order.");
+			return;
+		}
+		
 		if(!$om.saleorderDialog)
 			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
 		$om.saleorderDialog.show();
 	});
 	$om.viewport.on('click_invoice', function(){
+		if(!UMS.CAN.DISPLAY('IV')){
+			UMS.ALERT("You don't have permission for Invoice.");
+			return;
+		}
+		
 		if(!$om.invoiceDialog)
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
 	$om.viewport.on('click_billto', function(){
+		if(!UMS.CAN.DISPLAY('BT')){
+			UMS.ALERT("You don't have permission for Billing Note.");
+			return;
+		}
+		
 		if(!$om.billtoDialog)
 			$om.billtoDialog = Ext.create('Account.Billto.MainWindow');
 		$om.billtoDialog.show();
 	});
 	$om.viewport.on('click_receipt', function(){
+		if(!UMS.CAN.DISPLAY('RD')){
+			UMS.ALERT("You don't have permission for Receipt.");
+			return;
+		}
+		
 		if(!$om.receiptDialog)
 			$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 		$om.receiptDialog.show();
@@ -122,36 +157,71 @@ Ext.onReady(function() {
 	});
 //Purchase Module
 	$om.viewport.on('click_pr', function(){
+		if(!UMS.CAN.DISPLAY('PR')){
+			UMS.ALERT("You don't have permission for Purchase Requisition.");
+			return;
+		}
+		
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
 	});
 	$om.viewport.on('click_po', function(){
+		if(!UMS.CAN.DISPLAY('PO')){
+			UMS.ALERT("You don't have permission for Purchase Order.");
+			return;
+		}
+		
 		if(!$om.poDialog)
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
 	});
 	$om.viewport.on('click_deposit2', function(){
+		if(!UMS.CAN.DISPLAY('DP')){
+			UMS.ALERT("You don't have permission for Deposit Payment.");
+			return;
+		}
+		
 		if(!$om.deposit2Dialog)
 			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
 		$om.deposit2Dialog.show();
 	});
 	$om.viewport.on('click_gr', function(){
+		if(!UMS.CAN.DISPLAY('GR')){
+			UMS.ALERT("You don't have permission for Good Reciept.");
+			return;
+		}
+		
 		if(!$om.grDialog)
 			$om.grDialog = Ext.create('Account.GR.MainWindow');
 		$om.grDialog.show();
 	});
 	$om.viewport.on('click_ap', function(){
+		if(!UMS.CAN.DISPLAY('AP')){
+			UMS.ALERT("You don't have permission for Account Payable.");
+			return;
+		}
+		
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
 		$om.apDialog.show();
 	});
 	$om.viewport.on('click_billfrom', function(){
+		if(!UMS.CAN.DISPLAY('BF')){
+			UMS.ALERT("You don't have permission for Billing Receipt.");
+			return;
+		}
+		
 		if(!$om.billfromDialog)
 			$om.billfromDialog = Ext.create('Account.Billfrom.MainWindow');
 		$om.billfromDialog.show();
 	});
 	$om.viewport.on('click_payment', function(){
+		if(!UMS.CAN.DISPLAY('PD')){
+			UMS.ALERT("You don't have permission for Payment.");
+			return;
+		}
+		
 		if(!$om.paymentDialog)
 			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		$om.paymentDialog.show();
@@ -186,57 +256,56 @@ Ext.onReady(function() {
 			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
 		$om.rpaymentDialog.show();
 	});
-	
+
 //Material Module
 	$om.viewport.on('click_material', function(){
 		if(!$om.materialDialog)
 			$om.materialDialog = Ext.create('Account.Material.MainWindow');
 		$om.materialDialog.show();
 	});
-	
+
 	$om.viewport.on('click_service', function(){
 		if(!$om.serviceDialog)
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();
 	});
-	
+
 	$om.viewport.on('click_transaction', function(){
 		if(!$om.transactionDialog)
 			$om.transactionDialog = Ext.create('Account.Transaction.MainWindow');
 		$om.transactionDialog.show();
 	});
-	
+
 	$om.viewport.on('click_balance', function(){
 		if(!$om.balanceDialog)
 			$om.balanceDialog = Ext.create('Account.Balance.MainWindow');
 		$om.balanceDialog.show();
 	});
-	
+
 	$om.viewport.on('click_otincome', function(){
 		if(!$om.otincomeDialog)
 			$om.otincomeDialog = Ext.create('Account.Otincome.MainWindow');
 		$om.otincomeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_otexpense', function(){
 		if(!$om.otexpenseDialog)
 			$om.otexpenseDialog = Ext.create('Account.Otexpense.MainWindow');
 		$om.otexpenseDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rtransaction', function(){
 		if(!$om.rtransactionDialog)
-			$om.rtransactionDialog = Ext.create('Account.RSaleVat.MainWindow');
+			$om.rtransactionDialog = Ext.create('Account.RSalaryWHT.MainWindow');
 		$om.rtransactionDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rbalance', function(){
 		if(!$om.rbalanceDialog)
-			$om.rbalanceDialog = Ext.create('Account.RPurchaseVat.MainWindow');
+			$om.rbalanceDialog = Ext.create('Account.RPP30Vat.MainWindow');
 		$om.rbalanceDialog.show();
 	});
-	
-	
+
 
 });
 </script>

@@ -34,7 +34,7 @@ Ext.define('Account.Project.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Project, Customer or Sale',
+			emptyText: 'Find from Project, Customer or Sale Person',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -44,7 +44,7 @@ Ext.define('Account.Project.FormSearch', {
 			}
 		});
 
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+		var statusOptions = {
 			fieldLabel: 'Status',
 			name : 'statu',
 			labelAlign: 'right',
@@ -73,8 +73,13 @@ Ext.define('Account.Project.FormSearch', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu'
-		});
+			valueField: 'statu',
+			value: (this.statu)?this.statu:undefined
+		};
+		if(this.status_options){
+			statusOptions = Ext.apply(statusOptions, this.status_options);
+		}
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', statusOptions);
 
 		this.items = [{
 			// column layout with 2 columns

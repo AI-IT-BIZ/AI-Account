@@ -1,6 +1,7 @@
 <?php
 Class Code_model extends CI_Model
 {
+	// Generate No from period -> Document No	
 	function generate($modul, $date){
 		$this->db->where('modul', $modul);
 

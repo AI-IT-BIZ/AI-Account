@@ -13,8 +13,15 @@ Ext.define('Account.DepositIn.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
+		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
+			disableGridDoubleClick: true,
+			gridParams: {
+				statu: '02'
+			}
+		});
+		
 		// INIT Customer search popup ///////////////////////////////
-		this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
+		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
@@ -465,7 +472,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ recnr: 0 });
+		this.gridItem.load({ depnr: 0 });
 		//this.gridPayment.load({ recnr: 0 });
 		
 		// default status = wait for approve

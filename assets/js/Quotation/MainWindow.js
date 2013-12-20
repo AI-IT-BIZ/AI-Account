@@ -28,16 +28,18 @@ Ext.define('Account.Quotation.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('QT')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('QT') || UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('QT')
 		});
 		//this.printAct = new Ext.Action({
 		//	text: 'Print',
@@ -45,7 +47,8 @@ Ext.define('Account.Quotation.MainWindow', {
 		//});
 		this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('QT')
 		});
 		//this.pdfAct = new Ext.Action({
 		//	text: 'PDF',
@@ -53,8 +56,8 @@ Ext.define('Account.Quotation.MainWindow', {
 		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			disabled: true,
-			iconCls: 'b-small-import'
+			iconCls: 'b-small-import',
+			disabled: !UMS.CAN.CREATE('QT')
 		});
 
         this.itemDialog = Ext.create('Account.Quotation.Item.Window');
@@ -138,17 +141,26 @@ Ext.define('Account.Quotation.MainWindow', {
 			_this.grid.load();
 		});
 
-		this.grid.store.on("beforeload", function (store, opts) {
+		/*this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};
 			if(opts.params){
 				var formValues = _this.searchForm.getValues();
 				opts.params = Ext.apply(opts.params, formValues);
 			}
-	    });
+	    });*/
 
 		if(!this.disableGridDoubleClick){
 		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 		    	_this.editAct.execute();
+		    });
+		}
+		
+		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
 		    });
 		}
 

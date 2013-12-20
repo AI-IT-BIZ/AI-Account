@@ -45,7 +45,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
        var tree = Ext.create('Ext.tree.Panel',{
 			//	region: 'west',
 			  //  collapsible: true,
-             
+              
                 loadMask: true,
 				width: 230,
 				autoScroll: true,
@@ -61,12 +61,12 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
            layout: 'fit',
          //frame: true,    
            width:550,
-           height: 600,
+           height: 440,
            items:[tree]
       
        }); 
        
-       
+         var loadMask = new Ext.LoadMask(LeftPanel, {msg:'Wait message', store: store_tree_chart});
        /*************************************************************/
         var txtID = Ext.create('Ext.form.Text', {
          	fieldLabel: 'GL No',
@@ -106,14 +106,14 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
           boxLabel  : 'Sub Account',
          // name      : 'size',
           checked: true,
-          inputValue: '1'
+          inputValue: '2'
       });
        var rdGroupAccount = Ext.create('Ext.form.Radio', {
           x:280,
           y:195,
           boxLabel  : 'Group Account',
          // name      : 'size',
-          inputValue: '2'
+          inputValue: '1'
       });
       
        var cbAccountGroup = Ext.create('Ext.form.ComboBox', {
@@ -346,19 +346,19 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         {
             if(rdSmallAccount.getValue())
             {
-              Ext.MessageBox.alert('', 'Please select Accout Under');
+              Ext.MessageBox.alert('', 'please select accout group');
               return;
             }
         }
         if(cbDepartment.getRawValue() == "")
         {   
-                 Ext.MessageBox.alert('', 'Please select Department');
+                 Ext.MessageBox.alert('', 'please select department');
                  return;
 
         }
         if(txtNameT.getRawValue() == "")
         {
-             Ext.MessageBox.alert('', 'Please insert Thai Name');
+             Ext.MessageBox.alert('', 'please insert thai name');
              return;
         }
         var treid = treid_edit;
@@ -376,11 +376,11 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         
         if(rdSmallAccount.getValue())
         {
-            accty = "1";
+            accty = "2";
             leaf1 = "true";
         }
         else{
-            accty = "2";
+            accty = "1";
             leaf1 = "false";
         }
         var index = store_chart_account.find('accid',accgr);
@@ -389,12 +389,6 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             rt = store_chart_account.getAt(index);
             level = parseInt(rt.get('level')) + 1 ;
             child = rt.get('treid');
-            
-            if(level > 5)
-            {
-            	Ext.MessageBox.alert('', 'Over Level');
-                return;
-            }
         }
         else{
             if(rdGroupAccount.getValue())
@@ -412,7 +406,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         var strParam = "?treid=" + treid +  "&level=" + level + "&leaf1=" + leaf1  + "&child=" + child + "&accid=" + accid;
         strParam = strParam  + "&tname=" + tname + "&ename=" + ename + "&accty=" + accty + "&accgr=" + accgr;
         strParam = strParam  + "&deptx=" + deptx;
-    //  alert(strParam);
+        //alert(strParam);
         Ext.Ajax.request ({
              url: __site_url +  'chartofaccounts/SaveTree' + strParam ,
              disableCaching: false ,
@@ -516,7 +510,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                   
                   treid_edit = rt.get('treid');
                   
-                  if(rt.get('accty') == "1")
+                  if(rt.get('accty') == "2")
                   {
                     rdSmallAccount.setValue(true);
                     rdGroupAccount.setValue(false);

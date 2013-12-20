@@ -2,32 +2,11 @@
 
 class Ums extends CI_Controller {
 
-	private $permission_array = array(
-		'display',
-		'create',
-		'edit',
-		'delete',
-		'export',
-		'approve'
-	);
-
-
-	private $tbAutx = '';
-	private $tbAutl = '';
-	private $tbDoct = '';
-	private $tbUser = '';
-
 	function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model('ums_service','',TRUE);
-
-		// init table name
-		$this->tbAutx = $this->db->dbprefix('autx');
-		$this->tbAutl = $this->db->dbprefix('autl');
-		$this->tbDoct = $this->db->dbprefix('doct');
-		$this->tbUser = $this->db->dbprefix('user');
 	}
 
 	public function login(){
@@ -35,7 +14,98 @@ class Ums extends CI_Controller {
 		$this->phxview->RenderLayout('empty_ext');
 	}
 
+
+	public function do_login()
+	{
+		$permission_array = $this->ums_service->permission_array;
+
+		$Username = $this->input->post('username');
+		$Password = $this->input->post('password');
+
+		$resFailUsername = array(
+			'success' => false,
+			'message' => 'username','msg'=>'Username or Password incorrect!'
+		);
+		$resFailStatus = array(
+			'success' => false,
+			'message' => 'User is not exist.'
+		);
+		$query=$this->db->get_where('user', array(
+			'uname'=>$Username
+		));
+		$users = $query->result('array');
+		if (count($users) == 1)
+		{
+			$sUser = $users[0];
+			if (!isset($sUser['passw']))
+				X::renderJSON($resFailStatus);
+			else
+				if(!isset($Password))
+					X::renderJSON($resFailUsername);
+				else{
+					if ($sUser['passw']!=$Password)
+						X::renderJSON($resFailUsername);
+					else
+					{
+                    	// prepare PermissionState
+                    	$permission_state = $this->ums_service->load_permission_by_uname($sUser['uname']);
+						$permission_state_buff = array();
+						foreach($permission_state AS $v){
+							if($v['display']==1){
+								$perm = array('docty'=>$v['docty']);
+								foreach($permission_array AS $p){
+									$perm[$p] = $v[$p];
+								}
+								array_push($permission_state_buff, $perm);
+							}
+						}
+
+						$limit_state = $this->ums_service->load_doctype_limit_by_uname($sUser['uname']);
+						$limit_state_buff = array();
+						foreach($limit_state AS $v){
+							$is_exist = false;
+							foreach($permission_state_buff AS $p){
+								if($p['docty']==$v['docty']){
+									$is_exist=true; break;
+								}
+							}
+							if($is_exist){
+								$lim = array(
+									'limam'=>empty($v['limam'])?0:$v['limam'],
+									'docty'=>$v['docty']
+								);
+								array_push($limit_state_buff, $lim);
+							}
+						}
+
+						X::setSession('currentStateJson',json_encode(array(
+							'UserState'=>array(
+								'uname'=>$sUser['uname'],
+								'name1'=>$sUser['name1'],
+								'comid'=>$sUser['comid']
+							),
+							'Permission'=>$permission_state_buff,
+							'Limit'=>$limit_state_buff
+						)));
+						X::renderJSON(array(
+							'success'=>true,
+							'data'=>json_decode(X::getSession('currentStateJson'))
+						));
+					}
+				}
+		}
+		else
+			X::renderJSON($resFailUsername);
+	}
+
+	public function do_logout(){
+		X::unsetSession('currentStateJson');
+		redirect(site_url('ums/login'));
+	}
+
 	public function index(){
+		X::test(999999999999999);
+		/*
 		// test stuff
 		$json = '{"a":10,"b":20}';
 		$obj = json_decode($json);
@@ -45,6 +115,7 @@ class Ums extends CI_Controller {
 		$$classname->{'b'} += 55;
 
 		echo $$classname->{'b'};
+		*/
 	}
 
 	public function load(){
@@ -133,79 +204,26 @@ class Ums extends CI_Controller {
 	}
 
 	public function loads_permission(){
-		$tbAutx = $this->tbAutx;
-		$tbDoct = $this->tbDoct;
-		$tbUser = $this->tbUser;
-
 		$uname = $this->input->get('uname');
-		$uname = $this->db->escape($uname);
-		$sql = "
-Select d.doctx ,d.docty,a.autex From $tbDoct d
-Left Join $tbAutx a on d.docty = a.docty and a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
-Order by d.doctx ASC";
-		$query = $this->db->query($sql);
 
-		$result = $query->result_array();
+		$result = $this->ums_service->load_permission_by_uname($uname);
 
-		$p_count = count($this->permission_array);
-		$p_array = $this->permission_array;
-
-		for($i=0;$i<count($result);$i++){
-			$permission = $result[$i]['autex'];
-			if(strlen($permission)<$p_count){
-				$permission = str_pad('', $p_count, '0');
-			}
-
-			for($j=0;$j<count($p_array);$j++){
-				$result[$i][$p_array[$j]] = $permission[$j];
-			}
-		}
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>count($result)
 		));
 	}
 
 	public function loads_doctype_limit(){
-		$tbAutl = $this->tbAutl;
-		$tbDoct = $this->tbDoct;
-		$tbUser = $this->tbUser;
+		$tbAutl = $this->ums_service->tbAutl;
+		$tbDoct = $this->ums_service->tbDoct;
+		$tbUser = $this->ums_service->tbUser;
 
 		$uname = $this->input->get('uname');
-		$uname = $this->db->escape($uname);
 
-		$approveable_docty = $this->input->get('approvable');
-		//$approveable_docty = $this->db->escape($approveable_docty);
+		$result = $this->ums_service->load_doctype_limit_by_uname($uname);
 
-		$sql = "
-SELECT
-TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
-, a.limam, a.comid
-FROM $tbDoct d
-LEFT JOIN $tbAutl a ON d.docty = a.docty AND a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
-WHERE 1=1
-ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
-		$query = $this->db->query($sql);
-
-		$result = $query->result_array();
-		/*
-		$new_result = array();
-		if(!empty($approveable_docty)){
-			$approveable_docty_array = explode(',', $approveable_docty);
-			foreach($result AS $v){
-				$is_exist = false;
-				foreach($approveable_docty_array AS $dt){
-					if($v['docty']==$dt){
-						$is_exist = true;
-						break;
-					}
-				}
-				if($is_exist)
-					array_push($new_result, $v);
-			}
-		}
-		*/
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,
@@ -214,7 +232,8 @@ ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 	}
 
 	public function save(){
-		$tbUser = $this->tbUser;
+		$tbUser = $this->ums_service->tbUser;
+		$permission_array = $this->ums_service->permission_array;
 
 		$id = $this->input->post('id');
 
@@ -272,7 +291,7 @@ ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 				);
 				$classname = "p";
 
-				$p_array = $this->permission_array;
+				$p_array = $permission_array;
 				for($i=0;$i<count($p_array);$i++){
 					$autx_data['autex'] .= $$classname->{$p_array[$i]};
 				}

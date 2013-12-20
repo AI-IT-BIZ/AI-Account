@@ -2,6 +2,7 @@
 
 Class Code_model3 extends CI_Model
 {
+	// Generate Module no -> Journal Template	
 	function generate3($modul,$table,$pkey){
 		$this->db->where('modul', $modul);
 

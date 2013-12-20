@@ -1,4 +1,6 @@
 <?php
+$USER_PERMISSIONS = X::getUMSSession();
+
 function endsWith($haystack, $needle)
 {
 	$length = strlen($needle);
@@ -38,7 +40,47 @@ function endsWith($haystack, $needle)
 	</script>
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
-			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>';
+			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
+			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
+
+		var UMSClass = function(){
+			function checkPermission(docty, type){
+				if(__user_state){
+					var have = false;
+					for(var i=0;i<__user_state.Permission.length;i++){
+						var p = __user_state.Permission[i];
+						if(p[type]==1 && p.docty==docty){
+							have = true; break;
+						}
+					}
+					return have;
+				}else
+					return false;
+			}
+
+			this.CAN = {
+				DISPLAY : function(docty){ return checkPermission(docty, 'display'); },
+				CREATE : function(docty){ return checkPermission(docty, 'create'); },
+				EDIT : function(docty){ return checkPermission(docty, 'edit'); },
+				DELETE : function(docty){ return checkPermission(docty, 'delete'); },
+				EXPORT : function(docty){ return checkPermission(docty, 'export'); },
+				APPROVE : function(docty){ return checkPermission(docty, 'approve'); }
+			};
+
+			this.ALERT = function(msg, title){
+				title = title||'Permission is required.'
+				Ext.Msg.show({
+					title: title,
+					msg: msg,
+					buttons: Ext.Msg.OK,
+					icon: Ext.MessageBox.ERROR
+				});
+			};
+		}
+
+		var UMS = new UMSClass();
+
+		//console.log(UMS);
 	</script>
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style.css') ?>" />
 
@@ -172,60 +214,7 @@ function endsWith($haystack, $needle)
 		#div-rbalance2 { position:absolute; top:400px; left:260px; width: 100px; height:100px; }
 
 		/* Toolbar */
-		.h-invoice { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
-		.h-reciept { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
-		.h-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
-		.h-report { background-image: url('assets/images/tb-icons/doc_report3.png') !important; }
-
-		.ms-comp { background-image: url('assets/images/tb-icons/doc_comp.png') !important; }
-		.ms-init { background-image: url('assets/images/tb-icons/doc_information.png') !important; }
-		.ms-user { background-image: url('assets/images/tb-icons/doc_user.png') !important; }
-		.ms-auth { background-image: url('assets/images/tb-icons/doc_auth.png') !important; }
-		.ms-empl { background-image: url('assets/images/tb-icons/doc_user2.png') !important; }
-
-		.s-proj { background-image: url('assets/images/tb-icons/doc_excel.png') !important; }
-		.s-quot { background-image: url('assets/images/tb-icons/doc_new2.png') !important; }
-		.s-dep { background-image: url('assets/images/tb-icons/doc_depin.png') !important; }
-		.s-sale { background-image: url('assets/images/tb-icons/doc_new3.png') !important; }
-		.s-inv { background-image: url('assets/images/tb-icons/doc_add.png') !important; }
-		.s-billto { background-image: url('assets/images/tb-icons/doc_save2.png') !important; }
-		.s-recp { background-image: url('assets/images/tb-icons/doc_save.png') !important; }
-
-		.s-cust { background-image: url('assets/images/tb-icons/doc_user1.png') !important; }
-		.s-sman { background-image: url('assets/images/tb-icons/doc_user7.png') !important; }
-
-		.p-pr { background-image: url('assets/images/tb-icons/doc_pr.png') !important; }
-		.p-po { background-image: url('assets/images/tb-icons/doc_order.png') !important; }
-		.p-dep { background-image: url('assets/images/tb-icons/doc_depout.png') !important; }
-		.p-gr { background-image: url('assets/images/tb-icons/doc_gr.png') !important; }
-		.p-ap { background-image: url('assets/images/tb-icons/doc_ap.png') !important; }
-		.p-billfr { background-image: url('assets/images/tb-icons/doc_open.png') !important; }
-		.p-pay { background-image: url('assets/images/tb-icons/doc_payment.png') !important; }
-
-		.p-vend { background-image: url('assets/images/tb-icons/doc_user6.png') !important; }
-
-		.a-income { background-image: url('assets/images/tb-icons/doc_add2.png') !important; }
-		.a-journalt { background-image: url('assets/images/tb-icons/doc_setting.png') !important; }
-		.a-journal { background-image: url('assets/images/tb-icons/doc_notes.png') !important; }
-		.a-managec { background-image: url('assets/images/tb-icons/doc_blue2.png') !important; }
-		.a-charta { background-image: url('assets/images/tb-icons/doc_blue3.png') !important; }
-		.a-fixasset { background-image: url('assets/images/tb-icons/doc_blue1.png') !important; }
-		.a-deprec { background-image: url('assets/images/tb-icons/doc_blue5.png') !important; }
-
-		.m-inv-trans { background-image: url('assets/images/tb-icons/doc_purple2.png') !important; }
-		.m-inv-balance { background-image: url('assets/images/tb-icons/doc_purple1.png') !important; }
-		.m-inv-master { background-image: url('assets/images/tb-icons/doc_purple5.png') !important; }
-		.m-ser-master { background-image: url('assets/images/tb-icons/doc_purple10.png') !important; }
-		.m-oth-expense { background-image: url('assets/images/tb-icons/doc_purple4.png') !important; }
-		.m-oth-income { background-image: url('assets/images/tb-icons/doc_purple3.png') !important; }
-
-		.r-report1 { background-image: url('assets/images/tb-icons/report2.png') !important; }
-		.r-report2 { background-image: url('assets/images/tb-icons/report3.png') !important; }
-		.r-report3 { background-image: url('assets/images/tb-icons/report6.png') !important; }
-		.r-report4 { background-image: url('assets/images/tb-icons/doc_reports.png') !important; }
-		.r-report5 { background-image: url('assets/images/tb-icons/report5.png') !important; }
-		.r-report6 { background-image: url('assets/images/tb-icons/report4.png') !important; }
-		.r-report7 { background-image: url('assets/images/tb-icons/report7.png') !important; }
+		/* move toolbar css into style.css  */
 
 		/* Arrow */
 		.arrow { width:11px; border:0px solid #f00; position:absolute; background:#014051 url('<?= base_url('assets/images/arrow/arrow-line.gif') ?>') repeat-y center center; }
@@ -568,7 +557,7 @@ function endsWith($haystack, $needle)
 			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
                if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
                {
-                
+
                   $om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
                   $om.chartOfAccountDialog.show();
                   return;
@@ -893,11 +882,21 @@ function endsWith($haystack, $needle)
 				}
 			};
 
-           var lblUserName = Ext.create('Ext.form.Label', {
-             id:'lblUserName-default',
-            // width:200,
-             text:''
-          });
+			var lblUserName = Ext.create('Ext.form.Label', {
+				id:'lblUserName-default',
+				// width:200,
+				text:'<?= XUMS::DISPLAYNAME() ?>'
+			});
+
+			var btnLogout = Ext.create('Ext.Button', {
+				text: 'Logout',
+	            scale: 'large',
+	            iconAlign: 'top',
+	            iconCls: 'g-logout',
+	            handler: function(){
+	            	location.href = __site_url+'ums/do_logout';
+	            }
+			});
 
 // NORTH PANEL Menu
 			var tabs = Ext.widget('tabpanel', {
@@ -966,7 +965,8 @@ function endsWith($haystack, $needle)
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
                 			cls: 'x-btn-as-arrow'
-				        },'->',lblUserName]
+				        },
+				        '->', lblUserName, '-', btnLogout]
 		            },{
 		                title: 'Sales',
 		                listeners: {

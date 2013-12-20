@@ -1,10 +1,10 @@
-Ext.define('Account.RSaleVat.MainWindow', {
+Ext.define('Account.RPP30Vat.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Sale Vat Report Selection',
+			title: 'ภ.พ.30',
 			closeAction: 'hide',
 			height: 150,
 			width: 350,
@@ -21,9 +21,9 @@ Ext.define('Account.RSaleVat.MainWindow', {
 		
 		//this.itemDialog = Ext.create('Account.RReceiptVat.Item.Window');
 
-		this.form = Ext.create('Account.RSaleVat.Form',{ region:'center' });
+		this.form = Ext.create('Account.RPP30Vat.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.RSaleVat.PreviewWindow');
+		this.previewDialog = Ext.create('Account.RPP30Vat.PreviewWindow');
 
 		this.items = [
 		     this.form
