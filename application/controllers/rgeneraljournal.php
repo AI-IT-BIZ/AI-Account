@@ -21,7 +21,7 @@ class Rgeneraljournal extends CI_Controller {
 				v_bkpf 
 				inner JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
 			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'	
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
 		$rs = $this->db->query($sql);

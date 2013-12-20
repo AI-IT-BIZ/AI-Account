@@ -1,5 +1,6 @@
 Ext.define('Account.Material.Item.Form', {
 	extend	: 'Ext.form.Panel',
+
 	constructor:function(config) {
 
 		Ext.apply(this, {
