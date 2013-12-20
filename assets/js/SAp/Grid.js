@@ -24,7 +24,8 @@ Ext.define('Account.SAp.Grid', {
 				'netwr',
 				'statx',
 				'refnr',
-				'sgtxt'
+				'sgtxt',
+				'ctype'
 				
 			],
 			remoteSort: true,
@@ -38,6 +39,7 @@ Ext.define('Account.SAp.Grid', {
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
 			{text: "AP Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "Currency", flex: true, dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

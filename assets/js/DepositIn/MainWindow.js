@@ -68,7 +68,7 @@ Ext.define('Account.DepositIn.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.Project.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.DepositIn.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
