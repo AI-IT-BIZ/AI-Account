@@ -557,6 +557,56 @@ function endsWith($haystack, $needle)
                   $om.chartOfAccountDialog.show();
                   return;
                }
+            if(tr.innerHTML.indexOf('Create New Projects') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('PJ')){
+				UMS.ALERT("You don't have permission for Project.");
+				return;
+				}		
+				if(!$om.projectDialog)
+					$om.projectDialog = Ext.create('Account.Project.MainWindow');
+				$om.projectDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Quotations') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('QT')){
+				UMS.ALERT("You don't have permission for Quotation.");
+				return;
+				}		
+				if(!$om.projectDialog)
+					$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
+				$om.quotationDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Sale Orders') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('SO')){
+				UMS.ALERT("You don't have permission for Sale Order.");
+				return;
+				}		
+				if(!$om.saleorderDialog)
+					$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
+				$om.saleorderDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Invoices') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('IV')){
+				UMS.ALERT("You don't have permission for Invoice.");
+				return;
+				}		
+				if(!$om.invoiceDialog)
+					$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
+				$om.invoiceDialog.show();
+			}
+			if(tr.innerHTML.indexOf('Create New Receipts') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('RD')){
+				UMS.ALERT("You don't have permission for Receipt.");
+				return;
+				}		
+				if(!$om.receiptDialog)
+					$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
+				$om.receiptDialog.show();
+			}
 			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 			{
 				$om.configDialog = Ext.create('Account.UMS.MainWindow');
