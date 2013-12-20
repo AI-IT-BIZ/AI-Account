@@ -71,10 +71,23 @@ Ext.define('Account.PR.MainWindow', {
 		    this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.PR.FormSearch', {
+		//this.searchForm = Ext.create('Account.PR.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.PR.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 

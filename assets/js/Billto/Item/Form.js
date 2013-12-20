@@ -340,7 +340,7 @@ Ext.define('Account.Billto.Item.Form', {
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
 			pay = isNaN(pay)?0:pay;
-
+            
 			var amt = itamt - pay;
 			sum += amt;
 		});

@@ -72,14 +72,24 @@ Ext.define('Account.Billfrom.MainWindow', {
 				this.printAct, this.excelAct,this.importAct]
 		});
 
-		this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
+		//this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
 
-		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		//this.printAct, this.excelAct,this.importAct];
-
+		this.searchForm = Ext.create('Account.Billfrom.FormSearch', searchOptions);
+		
 		this.items = [this.searchForm, this.grid];
 
 		// --- event ---

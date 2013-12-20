@@ -28,51 +28,31 @@ Ext.define('Account.GR.MainWindow', {
         y: 50,
         hideLabel: true
     });
-
-       var form_import_file =  Ext.create('Ext.form.Panel', {
-        id: 'form_panel-PR-MainWindow',
-        layout: 'absolute',
-        frame: true,
-        width: 300,
-        height: 200,
-        items:[fibasic],
-        tbar :[],
-        bbar :[]
-      });
-
-        var win_import_file = Ext.create('Ext.Window', {
-           id: 'win_import_file-PR-MainWindow',
-           title: 'Left Header, plain: true',
-           width: 300,
-           height: 200,
-           //x: 10,
-           //y: 200,
-           closeAction: 'hide',
-           plain: true,
-           headerPosition: 'top',
-           layout: 'fit',
-           items:[ form_import_file]
-       });
       /*****************************************************/
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('GR')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('GR') || UMS.CAN.CREATE('GR') || UMS.CAN.EDIT('GR'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('GR')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('GR')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 		
@@ -84,10 +64,23 @@ Ext.define('Account.GR.MainWindow', {
 		            this.excelAct,this.importAct]
 		});
 
-	    this.searchForm = Ext.create('Account.GR.FormSearch', {
+	    //this.searchForm = Ext.create('Account.GR.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.GR.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -148,6 +141,15 @@ Ext.define('Account.GR.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
 
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();

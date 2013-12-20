@@ -53,10 +53,23 @@ Ext.define('Account.Payment.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Payment.FormSearch', {
+		//this.searchForm = Ext.create('Account.Payment.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Payment.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -117,6 +130,15 @@ Ext.define('Account.Payment.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

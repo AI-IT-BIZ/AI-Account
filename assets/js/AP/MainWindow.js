@@ -24,20 +24,23 @@ Ext.define('Account.AP.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('IP')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('IP') || UMS.CAN.CREATE('IP') || UMS.CAN.EDIT('IP'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('IP')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('IP')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -53,10 +56,23 @@ Ext.define('Account.AP.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.AP.FormSearch', {
+		//this.searchForm = Ext.create('Account.AP.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.AP.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -118,6 +134,15 @@ Ext.define('Account.AP.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
