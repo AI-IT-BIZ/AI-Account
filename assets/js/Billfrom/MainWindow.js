@@ -35,24 +35,24 @@ Ext.define('Account.Billfrom.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('BF')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('BF') || UMS.CAN.CREATE('BF') || UMS.CAN.EDIT('BF'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('BF')
 		});
-		this.printAct = new Ext.Action({
-			text: 'Print',
-			iconCls: 'b-small-print'
-		});
+		
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('BF')
 		});
 		//this.pdfAct = new Ext.Action({
 		//	text: 'PDF',
@@ -60,6 +60,7 @@ Ext.define('Account.Billfrom.MainWindow', {
 		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 
@@ -69,7 +70,7 @@ Ext.define('Account.Billfrom.MainWindow', {
 			region:'center',
 			border: false,
 			tbar: [this.addAct, this.editAct, this.deleteAct,
-				this.printAct, this.excelAct,this.importAct]
+				   this.excelAct,this.importAct]
 		});
 
 		//this.searchForm = Ext.create('Account.Billfrom.FormSearch', {

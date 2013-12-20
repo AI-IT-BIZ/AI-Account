@@ -25,21 +25,24 @@ Ext.define('Account.Journal.MainWindow', {
 		// --- object ---
 		
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			text: 'Add',
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('JN')
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			text: 'Edit',
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('JN') || UMS.CAN.CREATE('JN') || UMS.CAN.EDIT('JN'))
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			text: 'Delete',
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('JN')
 		});
 		
 		this.importAct = new Ext.Action({
 			text: 'Salary Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 		
