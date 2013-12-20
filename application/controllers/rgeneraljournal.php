@@ -19,10 +19,10 @@ class Rgeneraljournal extends CI_Controller {
 				ifnull(v_bcus.statu,'') as statu
 			from 
 				v_bkpf 
-				LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
+				inner JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
 			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'
-			ORDER BY v_bkpf.bldat,v_bkpf.belnr		
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'	
+			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
 		$rs = $this->db->query($sql);
 		$rs = $rs->result_array();
@@ -36,8 +36,8 @@ class Rgeneraljournal extends CI_Controller {
 				$v['name1'],
 				$v['saknr'],
 				$v['sgtxt'],
-				$v['debit'],
-				$v['credi'],
+				floatval($v['debit']),
+				floatval($v['credi']),
 				$v['statu']
 			);
 		}

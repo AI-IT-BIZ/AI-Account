@@ -6,7 +6,8 @@ Ext.define('RGeneralJournal', {
 Ext.define('Account.RGeneralJournal.Result.Grid', {
 	extend	: 'Ext.window.Window',
 	requires: [
-		'Ext.ux.grid.FiltersFeature'
+		'Ext.ux.grid.FiltersFeature',
+		'Ext.ux.DataTip'
 	],
 	title: 'Report General Journal',
 	closeAction: 'hide',
@@ -40,7 +41,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				{name: 'statu'}
 			],
 			data: [],
-			groupField: 'belnr'
+			groupers: ['bldat', 'belnr']
 		});
 		this.columnsGrid = [
 			{text: 'Sv Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
@@ -88,13 +89,19 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			store: this.storeGrid,
 			columns: this.columnsGrid,
 			forceFit: true,
-			features: [{
+			features: [Ext.create('Ext.ux.grid.feature.MultiGroupingSummary', {
 				id: 'group',
-				ftype: 'groupingsummary',
-				groupHeaderTpl: '{name}',
-				hideGroupedHeader: false,
+				//groupsHeaderTpl: {
+				//	project: 'Project: {name}',
+				//	estimate: '{name} hours',
+				//	due: 'Due: {[Ext.Date.format(values.name, "d.m.Y")]}'
+				//},
+				hideGroupedHeader: true,
 				enableGroupingMenu: true,
 				startCollapsed: true
+			}), {
+				ftype: 'summary',
+				dock: 'bottom'
 			},filters]
 		});
 		this.items =[this.grid]
