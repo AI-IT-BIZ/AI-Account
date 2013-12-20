@@ -71,11 +71,18 @@ Ext.define('Account.Quotation.MainWindow', {
 				 this.excelAct,this.importAct]
 		});
 
-		this.searchForm = Ext.create('Account.Quotation.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
 
+		this.searchForm = Ext.create('Account.Quotation.FormSearch', searchOptions);
 		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
 		//this.printAct, this.excelAct, this.pdfAct,this.importAct];
 
@@ -141,13 +148,13 @@ Ext.define('Account.Quotation.MainWindow', {
 			_this.grid.load();
 		});
 
-		/*this.grid.store.on("beforeload", function (store, opts) {
+		this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};
 			if(opts.params){
 				var formValues = _this.searchForm.getValues();
 				opts.params = Ext.apply(opts.params, formValues);
 			}
-	    });*/
+	    });
 
 		if(!this.disableGridDoubleClick){
 		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

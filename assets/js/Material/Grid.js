@@ -44,12 +44,12 @@ Ext.define('Account.Material.Grid', {
 			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
 			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
-			{text: "Cost 1", width: 80, dataIndex: 'cost1', sortable: true},
 			{text: "Unit 1", width: 50, dataIndex: 'unit1', sortable: true},
-			{text: "Cost 2", width: 80, dataIndex: 'cost2', sortable: true},
+			{text: "Cost 1", width: 80, dataIndex: 'cost1', sortable: true},
 			{text: "Unit 2", width: 50, dataIndex: 'unit2', sortable: true},
-			{text: "Cost 3", width: 80, dataIndex: 'cost3', sortable: true},
-			{text: "Unit 3", width: 50, dataIndex: 'unit3', sortable: true}
+			{text: "Cost 2", width: 80, dataIndex: 'cost2', sortable: true},
+			{text: "Unit 3", width: 50, dataIndex: 'unit3', sortable: true},
+			{text: "Cost 3", width: 80, dataIndex: 'cost3', sortable: true}
 		];
 
 		this.bbar = {

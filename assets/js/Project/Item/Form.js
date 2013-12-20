@@ -280,7 +280,7 @@ Ext.define('Account.Project.Item.Form', {
              this.comboJStatus.setDisabled(true);
            }
            else{
-                this.comboJStatus.setDisabled(false);
+             this.comboJStatus.setDisabled(false);
         }
     }
     

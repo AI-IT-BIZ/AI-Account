@@ -475,6 +475,7 @@ function endsWith($haystack, $needle)
 				text: 'Report 3',
 				leaf: true
 			};
+			
 			var groupReport = {
 				text: 'Reports',
 				leaf: false,
@@ -483,7 +484,11 @@ function endsWith($haystack, $needle)
 				children: [
 					nodeReport1,
 					nodeReport2,
-					nodeReport3
+					nodeReport3,
+					{
+						text: 'Report General Journal',
+						leaf: true
+					}
 				]
 			};
 
@@ -557,6 +562,7 @@ function endsWith($haystack, $needle)
                   $om.chartOfAccountDialog.show();
                   return;
                }
+<<<<<<< HEAD
             if(tr.innerHTML.indexOf('Create New Projects') > -1)
 			{
 				if(!UMS.CAN.DISPLAY('PJ')){
@@ -629,6 +635,35 @@ function endsWith($haystack, $needle)
 			}
 			// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 			// $om.configDialog.show();
+=======
+				if(tr.innerHTML.indexOf('Authorize Setting') > -1)
+				{
+					$om.configDialog = Ext.create('Account.UMS.MainWindow');
+					$om.configDialog.show();
+					//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+					//$om.configDialog.show();
+				}
+				if(tr.innerHTML.indexOf('User Define') > -1)
+				{
+					$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+					$om.configDialog.show();
+					//$om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
+					//$om.configDialog.show();
+				}
+				if(tr.innerHTML.indexOf('Login') > -1)
+				{
+					//$om.configDialog = Ext.create('Account.Configauthen.Main')
+					$om.loginDialog = Ext.create('Account.Login.MainWindow');
+					$om.loginDialog.show();
+				}
+				// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
+				// $om.configDialog.show();
+				
+				if(tr.innerHTML.indexOf('Report General Journal') > -1){
+					$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
+					$om.RGeneralJournal.show();					
+				}
+>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
             });
 
 			// CENTER PANEL
