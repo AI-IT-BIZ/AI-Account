@@ -562,7 +562,7 @@ function endsWith($haystack, $needle)
                   $om.chartOfAccountDialog.show();
                   return;
                }
-<<<<<<< HEAD
+//<<<<<<< HEAD
             if(tr.innerHTML.indexOf('Create New Projects') > -1)
 			{
 				if(!UMS.CAN.DISPLAY('PJ')){
@@ -613,6 +613,16 @@ function endsWith($haystack, $needle)
 					$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 				$om.receiptDialog.show();
 			}
+			if(tr.innerHTML.indexOf('Create New Customers') > -1)
+			{
+				if(!UMS.CAN.DISPLAY('CS')){
+				UMS.ALERT("You don't have permission for Customer.");
+				return;
+				}		
+				if(!$om.customerDialog)
+				$om.customerDialog = Ext.create('Account.Customer.MainWindow');
+				$om.customerDialog.show();
+			}
 			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 			{
 				$om.configDialog = Ext.create('Account.UMS.MainWindow');
@@ -635,7 +645,7 @@ function endsWith($haystack, $needle)
 			}
 			// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 			// $om.configDialog.show();
-=======
+//=======
 				if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 				{
 					$om.configDialog = Ext.create('Account.UMS.MainWindow');
@@ -663,7 +673,7 @@ function endsWith($haystack, $needle)
 					$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 					$om.RGeneralJournal.show();					
 				}
->>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
+//>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
             });
 
 			// CENTER PANEL
