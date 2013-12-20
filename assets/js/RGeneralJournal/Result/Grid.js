@@ -96,7 +96,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				//	estimate: '{name} hours',
 				//	due: 'Due: {[Ext.Date.format(values.name, "d.m.Y")]}'
 				//},
-				hideGroupedHeader: true,
+				hideGroupedHeader: false,
 				enableGroupingMenu: true,
 				startCollapsed: true
 			}), {
