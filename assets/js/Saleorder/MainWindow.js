@@ -119,6 +119,14 @@ Ext.define('Account.Saleorder.MainWindow', {
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
+		
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
 
 		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
 			this.grid.store.on('beforeload', function (store, opts) {
