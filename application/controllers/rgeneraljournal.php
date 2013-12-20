@@ -22,7 +22,7 @@ class Rgeneraljournal extends CI_Controller {
 				LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
 			where 
 				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'
-			ORDER BY v_bkpf.belnr,v_bkpf.bldat		
+			ORDER BY v_bkpf.bldat,v_bkpf.belnr		
 		";
 		$rs = $this->db->query($sql);
 		$rs = $rs->result_array();
