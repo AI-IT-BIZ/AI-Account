@@ -24,20 +24,24 @@ Ext.define('Account.Billto.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('BT')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('BT') || UMS.CAN.CREATE('BT') || UMS.CAN.EDIT('BT'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('BT')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('BT')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -53,10 +57,23 @@ Ext.define('Account.Billto.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Billto.FormSearch', {
+		//this.searchForm = Ext.create('Account.Billto.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Billto.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -97,7 +114,7 @@ Ext.define('Account.Billto.MainWindow', {
 		this.itemDialog.form.on('afterSave', function(){
 			_this.itemDialog.hide();
 			_this.grid.load();
-		});//
+		});
 
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
@@ -113,6 +130,14 @@ Ext.define('Account.Billto.MainWindow', {
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
+		
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
 
 		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
 			this.grid.store.on('beforeload', function (store, opts) {

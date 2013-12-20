@@ -23,16 +23,19 @@ Ext.define('Account.Company.MainWindow', {
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			text: 'Add',
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('CC')
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			text: 'Edit',
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('CC') || UMS.CAN.CREATE('CC') || UMS.CAN.EDIT('CC'))
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
-			iconCls: 'b-small-minus'
+			text: 'Delete',
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('CC')
 		});
 
 		this.itemDialog = Ext.create('Account.Company.Item.Window');

@@ -17,7 +17,7 @@ Ext.define('Account.Payment.Item.Form', {
 			disableGridDoubleClick: true
 		});
 		
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
+		//this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Payment.Item.Grid_i',{

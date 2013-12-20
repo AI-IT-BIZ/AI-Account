@@ -18,7 +18,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Receipt.Item.Grid_i',{

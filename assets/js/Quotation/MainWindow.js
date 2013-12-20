@@ -57,7 +57,8 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.importAct = new Ext.Action({
 			text: 'Import',
 			iconCls: 'b-small-import',
-			disabled: !UMS.CAN.CREATE('QT')
+			disabled: true
+			//disabled: !UMS.CAN.CREATE('QT')
 		});
 
         this.itemDialog = Ext.create('Account.Quotation.Item.Window');

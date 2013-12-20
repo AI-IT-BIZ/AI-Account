@@ -34,7 +34,7 @@ Ext.define('Account.Receipt.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Receipt, Customer, Invoice',
+			emptyText: 'Find from Receipt No, Customer No or Name',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

@@ -50,8 +50,7 @@ class Billto extends CI_Controller {
 			if(!empty($query)){
 				$_this->db->where("(`bilnr` LIKE '%$query%'
 				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');

@@ -25,16 +25,19 @@ Ext.define('Account.Journaltemp.MainWindow', {
 		// --- object ---
 		
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			text: 'Add',
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('JT')
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			text: 'Edit',
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('JT') || UMS.CAN.CREATE('JT') || UMS.CAN.EDIT('JT'))
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
-			iconCls: 'b-small-minus'
+			text: 'Delete',
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('JT')
 		});
 		
 		this.itemDialog = Ext.create('Account.Journaltemp.Item.Window');

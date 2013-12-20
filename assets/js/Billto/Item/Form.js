@@ -19,7 +19,7 @@ Ext.define('Account.Billto.Item.Form', {
 		
 		// INIT Customer search popup ///////////////////////////////
 		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
 		this.gridItem = Ext.create('Account.Billto.Item.Grid_i',{
 			//title:'Invoice Items',
@@ -340,12 +340,12 @@ Ext.define('Account.Billto.Item.Form', {
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
 			pay = isNaN(pay)?0:pay;
-
+            
 			var amt = itamt - pay;
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-		//var net = this.formTotal.calculate();
+		var net = this.formTotal.calculate();
 		//this.gridPayment.netValue = net;
 	}
 	

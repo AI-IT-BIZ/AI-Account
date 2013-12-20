@@ -18,7 +18,7 @@ Ext.define('Account.PO.Item.Form', {
 		});
 		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		this.prDialog = Ext.create('Account.PR.MainWindow');
+		//this.prDialog = Ext.create('Account.PR.MainWindow');
 
 		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
 			height: 320,

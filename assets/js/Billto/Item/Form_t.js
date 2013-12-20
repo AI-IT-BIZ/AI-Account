@@ -17,12 +17,15 @@ Ext.define('Account.Billto.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtTotal = Ext.create('Ext.form.field.Text', {
+		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
+			xtype: 'textfield',
+		    fieldLabel: 'Total',
+			name: 'beamt',
+			alwaysDisplayDecimals: true,
 			labelWidth: 155,
 			width:270,
-			//margin: '0 0 0 175',
 			readOnly: true
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
@@ -203,10 +206,10 @@ Ext.define('Account.Billto.Item.Form_t', {
 	},
 	// calculate function
 	calculate: function(){
-		var total = this.txtTotal.getValue().replace(',',''),
-			total = parseFloat(total),
+		var total = this.txtTotal.getValue();//.replace(',','');
+			total = parseFloat(total);
 			total = isNaN(total)?0:total;
-
+        // alert(total);
 		//console.log(total);
 
 		if(total<=0) return;
@@ -230,7 +233,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			this.txtDiscount.setValue('0.00');
+			this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
@@ -243,7 +246,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 			this.txtInterest.setValue('');
 		}
 
-		var net = total - discountValue + taxValue;
+		var net = total; //- discountValue + taxValue;
 		this.txtNet.setValue(net);
 		
 		return net;

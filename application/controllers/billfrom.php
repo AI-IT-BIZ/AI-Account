@@ -113,7 +113,7 @@ class Billfrom extends CI_Controller {
 		// เตรียมข้อมูล receipt item
 		$ebkp = $this->input->post('ebkp');
 		$bt_item_array = json_decode($ebkp);
-		
+		$ctype='';
 		if(!empty($bt_item_array)){
 			//$result = $bt_item_array->first_row('array');
 			//print_r($bt_item_array);
@@ -168,7 +168,7 @@ class Billfrom extends CI_Controller {
 				'vbelp'=>++$item_index,
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
-				'texts'=>$p->texts,
+				//'texts'=>$p->texts,
 				'itamt'=>$p->itamt,
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,

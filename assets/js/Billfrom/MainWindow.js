@@ -30,53 +30,29 @@ Ext.define('Account.Billfrom.MainWindow', {
         hideLabel: true
     });
 
-       var form_import_file =  Ext.create('Ext.form.Panel', {
-        id: 'form_panel-PR-MainWindow',
-        layout: 'absolute',
-        frame: true,
-        width: 300,
-        height: 200,
-        items:[fibasic],
-        tbar :[],
-        bbar :[]
-      });
-
-        var win_import_file = Ext.create('Ext.Window', {
-           id: 'win_import_file-PR-MainWindow',
-           title: 'Left Header, plain: true',
-           width: 300,
-           height: 200,
-           //x: 10,
-           //y: 200,
-           closeAction: 'hide',
-           plain: true,
-           headerPosition: 'top',
-           layout: 'fit',
-           items:[ form_import_file]
-       });
       /*****************************************************/
 
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('BF')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('BF') || UMS.CAN.CREATE('BF') || UMS.CAN.EDIT('BF'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('BF')
 		});
-		this.printAct = new Ext.Action({
-			text: 'Print',
-			iconCls: 'b-small-print'
-		});
+		
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('BF')
 		});
 		//this.pdfAct = new Ext.Action({
 		//	text: 'PDF',
@@ -84,6 +60,7 @@ Ext.define('Account.Billfrom.MainWindow', {
 		//});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 
@@ -91,19 +68,29 @@ Ext.define('Account.Billfrom.MainWindow', {
 
 		this.grid = Ext.create('Account.Billfrom.Grid', {
 			region:'center',
-			border: false//,
-			//tbar: [this.addAct, this.editAct, this.deleteAct,
-			//	this.printAct, this.excelAct,this.importAct]
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct,
+				   this.excelAct,this.importAct]
 		});
 
-		this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
+		//this.searchForm = Ext.create('Account.Billfrom.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		this.printAct, this.excelAct,this.importAct];
-
+		this.searchForm = Ext.create('Account.Billfrom.FormSearch', searchOptions);
+		
 		this.items = [this.searchForm, this.grid];
 
 		// --- event ---

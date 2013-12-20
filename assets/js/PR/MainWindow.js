@@ -34,16 +34,18 @@ Ext.define('Account.PR.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('PR')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('PR') || UMS.CAN.CREATE('PR') || UMS.CAN.EDIT('PR'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('PR')
 		});
 		//this.printAct = new Ext.Action({
 		//	text: 'Print',
@@ -51,7 +53,8 @@ Ext.define('Account.PR.MainWindow', {
 		//});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('PR')
 		});
 		//this.pdfAct = new Ext.Action({
 		//	text: 'PDF',
@@ -71,10 +74,23 @@ Ext.define('Account.PR.MainWindow', {
 		    this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.PR.FormSearch', {
+		//this.searchForm = Ext.create('Account.PR.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.PR.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 

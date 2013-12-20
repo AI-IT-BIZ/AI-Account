@@ -328,7 +328,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <?php 
 $coldt_str = util_helper_format_date($r_data['coldt']);
 ?>
-<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$coldt_str;?></span></DIV>
+<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"></span></DIV>
 
 
 <!--Item Table-->

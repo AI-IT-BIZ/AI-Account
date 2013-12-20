@@ -48,10 +48,9 @@ class Receipt extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`invnr` LIKE '%$query%'
+				$_this->db->where("(`recnr` LIKE '%$query%'
 				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -72,6 +71,16 @@ class Receipt extends CI_Controller {
 			elseif(!empty($kunnr1) && !empty($kunnr2)){
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
 			}
 
 		}

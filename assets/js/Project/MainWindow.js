@@ -33,20 +33,23 @@ Ext.define('Account.Project.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('PJ')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('PJ') || UMS.CAN.CREATE('PJ') || UMS.CAN.EDIT('PJ'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('PJ')
 		});
 		this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('PJ')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',

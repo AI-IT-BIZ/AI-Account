@@ -24,25 +24,30 @@ Ext.define('Account.Employee.MainWindow', {
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			text: 'Add',
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('EP')
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			text: 'Edit',
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('EP') || UMS.CAN.CREATE('EP') || UMS.CAN.EDIT('EP'))
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
+			text: 'Delete',
 			disabled: true,
-			iconCls: 'b-small-minus'
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('EP')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('EP')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			iconCls: 'b-small-import'
+			iconCls: 'b-small-import',
+			disabled: !UMS.CAN.CREATE('EP')
 		});
 
 		this.itemDialog = Ext.create('Account.Employee.Item.Window');
