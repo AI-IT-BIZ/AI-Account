@@ -7,7 +7,18 @@ class Quotation extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('code_model','',TRUE);
+
+		$this->load->model('email_service','',TRUE);
+
+		if(empty(XUMS::USERNAME())){
+			echo json_encode(array(
+				'success'=>false,
+				'message'=>'Session has expire please re-login.'
+			));
+			return;
+		}
 	}
+
 	/*
 	function test_get_code(){
 		echo $this->code_model->generate('PR', '2013-05-22');
@@ -156,19 +167,23 @@ class Quotation extends CI_Controller {
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
+
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('vbeln', $id);
 			$query = $this->db->get('vbak');
 
-			// ##### CHECK APPROVE ABLE
+			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
 			// status has change
-			if($row['statu']!=$this->input->post('statu')){
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
 				if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
 					$limit = XUMS::LIMIT('QT');
-					if($limit>$row['beamt']){
-						$emsg = 'You do not have permission to approve quotaion over than '.number_format($limit);
+					if($limit<$row['beamt']){
+						$emsg = 'You do not have permission to change quotaion status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -177,7 +192,7 @@ class Quotation extends CI_Controller {
 						return;
 					}
 				}else{
-					$emsg = 'You do not have permission to approve quotation.';
+					$emsg = 'You do not have permission to change quotaion status.';
 					echo json_encode(array(
 						'success'=>false,
 						'errors'=>array( 'statu' => $emsg ),
@@ -185,8 +200,17 @@ class Quotation extends CI_Controller {
 					));
 					return;
 				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The quotation that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
 			}
-
+			// ##### END CHECK PERMISSIONS
 		}
         $net = $this->input->post('netwr');
 		$formData = array(
@@ -231,7 +255,7 @@ class Quotation extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbak', $formData);
 
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -294,15 +318,26 @@ class Quotation extends CI_Controller {
 		// end transaction
 		$this->db->trans_complete();
 
-		if ($this->db->trans_status() === FALSE)
+		if ($this->db->trans_status() === FALSE){
 			echo json_encode(array(
 				'success'=>false
 			));
-		else
+		}else{
 			echo json_encode(array(
-				'success'=>true,
-				'data'=>$_POST
+				'success'=>true
 			));
+
+			try{
+				$post_id = $this->input->post('id');
+				// send notification email
+				if(!empty($inserted_id)){
+					$this->email_service->quotation_create($inserted_id);
+				}else if(!empty($post_id)){
+					if($status_changed)
+						$this->email_service->quotation_change_status($post_id);
+				}
+			}catch(exception $e){}
+		}
 	}
 
     public function loads_scombo(){
