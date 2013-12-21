@@ -17,7 +17,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 	initComponent : function() {
 		var _this=this;
 
-		this.txtDebit = Ext.create('Ext.form.field.Text', {
+		this.txtDebit = Ext.create('widget.numericfield', {
 			fieldLabel: 'Total Amount',
 			name: 'debit',
 			labelWidth: 90,
@@ -27,7 +27,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 			readOnly: true
 		});
 		
-		this.txtCredit = Ext.create('Ext.form.field.Text', {
+		this.txtCredit = Ext.create('widget.numericfield', {
 			//fieldLabel: 'Total',
 			name: 'credi',
 			width:100,
@@ -35,7 +35,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 			readOnly: true
 		});
 		
-		this.txtNet = Ext.create('Ext.form.field.Text', {
+		this.txtNet = Ext.create('widget.numericfield', {
          	xtype: 'textfield',
 			fieldLabel: 'Balance Amount',
 			name: 'netwr1',
