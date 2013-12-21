@@ -357,7 +357,7 @@ function endsWith($haystack, $needle)
 					nodeSalePerson
 				]
 			};
-			
+
 			var nodePR = {
 				text: 'Create New Purchase Requisitions',
 				leaf: true
@@ -485,7 +485,7 @@ function endsWith($haystack, $needle)
 				text: 'Report 3',
 				leaf: true
 			};
-			
+
 			var groupReport = {
 				text: 'Reports',
 				leaf: false,
@@ -570,7 +570,7 @@ function endsWith($haystack, $needle)
                	  if(!UMS.CAN.DISPLAY('CA')){
 				  UMS.ALERT("You don't have permission for Chart of Accounts.");
 				  return;
-				  }	
+				  }
 
                   $om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
                   $om.chartOfAccountDialog.show();
@@ -582,7 +582,7 @@ function endsWith($haystack, $needle)
 				//if(!UMS.CAN.DISPLAY('PJ')){
 				//UMS.ALERT("You don't have permission for Project.");
 				//return;
-				//}		
+				//}
 				if(!$om.salepersonDialog)
 					$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
 				$om.salepersonDialog.show();
@@ -592,7 +592,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('PJ')){
 				UMS.ALERT("You don't have permission for Project.");
 				return;
-				}		
+				}
 				if(!$om.projectDialog)
 					$om.projectDialog = Ext.create('Account.Project.MainWindow');
 				$om.projectDialog.show();
@@ -602,7 +602,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('QT')){
 				UMS.ALERT("You don't have permission for Quotation.");
 				return;
-				}		
+				}
 				if(!$om.projectDialog)
 					$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
 				$om.quotationDialog.show();
@@ -612,7 +612,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('SO')){
 				UMS.ALERT("You don't have permission for Sale Order.");
 				return;
-				}		
+				}
 				if(!$om.saleorderDialog)
 					$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
 				$om.saleorderDialog.show();
@@ -622,7 +622,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('IV')){
 				UMS.ALERT("You don't have permission for Invoice.");
 				return;
-				}		
+				}
 				if(!$om.invoiceDialog)
 					$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 				$om.invoiceDialog.show();
@@ -632,7 +632,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('RD')){
 				UMS.ALERT("You don't have permission for Receipt.");
 				return;
-				}		
+				}
 				if(!$om.receiptDialog)
 					$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 				$om.receiptDialog.show();
@@ -642,7 +642,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('CS')){
 				UMS.ALERT("You don't have permission for Customer.");
 				return;
-				}		
+				}
 				if(!$om.customerDialog)
 				$om.customerDialog = Ext.create('Account.Customer.MainWindow');
 				$om.customerDialog.show();
@@ -652,7 +652,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('PR')){
 				UMS.ALERT("You don't have permission for Purchase Requisition.");
 				return;
-				}		
+				}
 				if(!$om.prDialog)
 				$om.prDialog = Ext.create('Account.PR.MainWindow');
 				$om.prDialog.show();
@@ -662,7 +662,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('PO')){
 				UMS.ALERT("You don't have permission for Purchase Order.");
 				return;
-				}		
+				}
 				if(!$om.poDialog)
 				$om.poDialog = Ext.create('Account.PO.MainWindow');
 				$om.poDialog.show();
@@ -672,7 +672,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('GR')){
 				UMS.ALERT("You don't have permission for Goods Receipts.");
 				return;
-				}		
+				}
 				if(!$om.grDialog)
 				$om.grDialog = Ext.create('Account.GR.MainWindow');
 				$om.grDialog.show();
@@ -682,7 +682,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('AP')){
 				UMS.ALERT("You don't have permission for Account Payables.");
 				return;
-				}		
+				}
 				if(!$om.apDialog)
 				$om.apDialog = Ext.create('Account.AP.MainWindow');
 				$om.apDialog.show();
@@ -692,7 +692,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('PD')){
 				UMS.ALERT("You don't have permission for Account Payment.");
 				return;
-				}		
+				}
 				if(!$om.paymentDialog)
 				$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 				$om.paymentDialog.show();
@@ -702,7 +702,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('VD')){
 				UMS.ALERT("You don't have permission for Vendor.");
 				return;
-				}		
+				}
 				if(!$om.vendorDialog)
 				$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 				$om.vendorDialog.show();
@@ -712,7 +712,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('JT')){
 				UMS.ALERT("You don't have permission for Journal Template.");
 				return;
-				}		
+				}
 				if(!$om.journaltempDialog)
 				$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
 				$om.journaltempDialog.show();
@@ -722,7 +722,7 @@ function endsWith($haystack, $needle)
 				if(!UMS.CAN.DISPLAY('JN')){
 				UMS.ALERT("You don't have permission for Journal.");
 				return;
-				}		
+				}
 				if(!$om.journaltempDialog)
 				$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 				$om.journalDialog.show();
@@ -794,10 +794,10 @@ function endsWith($haystack, $needle)
 				}
 				// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 				// $om.configDialog.show();
-				
+
 				if(tr.innerHTML.indexOf('Report General Journal') > -1){
 					$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
-					$om.RGeneralJournal.show();					
+					$om.RGeneralJournal.show();
 				}
 //>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
             });
