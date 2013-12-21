@@ -49,7 +49,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'mtart'
+				'mtart',
+				'saknr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -217,7 +218,12 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			align: 'center',
 			field: {
 				type: 'textfield'
-			},
+			}
+		},
+			{
+			dataIndex: 'saknr',
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];

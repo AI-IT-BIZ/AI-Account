@@ -194,7 +194,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			align: 'center',
 			field: {
 				type: 'textfield'
-			},
+			}
 		}];
 
 		this.plugins = [this.editing];
@@ -230,6 +230,8 @@ Ext.define('Account.PO.Item.Grid_i', {
 							rModel.set('maktx', r.data.maktx);
 							// Unit
 							rModel.set('meins', r.data.meins);
+							// GL No.
+							rModel.set('saknr', r.data.saknr);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -250,6 +252,8 @@ Ext.define('Account.PO.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
+				// GL No.
+			    rModel.set('saknr', record.data.saknr);
 				//rModel.set('amount', 100+Math.random());
 
 			}

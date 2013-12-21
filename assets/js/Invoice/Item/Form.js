@@ -769,11 +769,11 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
-				    whts += wht;
-			}
+			//if(r.data['chk02']==true){
+			//	var wht = _this.numberWHT.getValue();
+			//	    wht = (amt * wht) / 100;
+			//	    whts += wht;
+			//}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
@@ -794,16 +794,18 @@ Ext.define('Account.Invoice.Item.Form', {
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		  vats = vats * rate;
-		  whts = whts * rate;
+		  //whts = whts * rate;
 		}
         if(sum>0){
+        	r_data = this.gridItem.getData();
             _this.gridGL.load({
             	netpr:sum,
             	vvat:vats,
-            	vwht:whts,
+            	//vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
-            	ptype:'01',
-            	dtype:'01'
+            	//ptype:'01',
+            	dtype:'01',
+            	items: Ext.encode(r_data)
             });
            }
 
@@ -831,10 +833,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
 
 		bForm.findField('duedt').setValue(result);
-	},
+	}
 
 // Payments Method
-	selectPay: function(combo, record, index){
+	/*selectPay: function(combo, record, index){
 		var _this=this;
 		var store = this.gridItem.store;
 		var vtax = combo.getValue();
@@ -857,28 +859,30 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
-				    whts += wht;
-			}
+			//if(r.data['chk02']==true){
+			//	var wht = _this.numberWHT.getValue();
+			//	    wht = (amt * wht) / 100;
+			//	    whts += wht;
+			//}
 		});
 
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		  vats = vats * rate;
-		  whts = whts * rate;
+		  //whts = whts * rate;
 		}
 		if(sum>0){
+			r_data = this.gridItem.getData();
             _this.gridGL.load({
             	netpr:sum,
             	vvat:vats,
-            	vwht:whts,
+            	//vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
-            	ptype:combo.getValue(),
-            	dtype:'01'
+            	//ptype:combo.getValue(),
+            	dtype:'01',
+            	items: Ext.encode(r_data)
             });
            }
-	}
+	}*/
 });
