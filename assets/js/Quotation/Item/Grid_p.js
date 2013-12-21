@@ -107,7 +107,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 					}
 				}}
             },
-			{text: "Percent",
+			{text: "Partial Amt",
 			width: 70,
 			xtype: 'numbercolumn',
 			dataIndex: 'perct',
@@ -132,12 +132,25 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			//sortable: true,
 			align: 'right',
 			renderer: function(v,p,r){
+				var amt = 0;
 				var net = _this.netValue;
-				var perc = parseFloat(r.data['perct']);
-				perc = isNaN(perc)?0:perc;
-				if(perc>0){
-                //net = isNaN(net)?0:net;
-				var amt = (perc * net) / 100;
+				var perc = r.data['perct'];
+				//var perc = parseFloat(r.data['perct']);
+				//perc = isNaN(perc)?0:perc;
+				if(!Ext.isEmpty(perc)){
+				//var amt = (perc * net) / 100;
+				//alert(perc);
+				if(perc.match(/%$/gi)){
+				  perc = perc.replace('%','');
+				  var percPercent = parseFloat(perc);
+				  amt = total * percPercent / 100;
+			    }else{
+				  amt = parseFloat(perc);
+			    }
+			//discountValue = isNaN(discountValue)?0:discountValue;
+
+			//this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
+			
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 				}
