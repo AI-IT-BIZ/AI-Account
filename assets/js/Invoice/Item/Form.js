@@ -396,7 +396,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			width:200,
 			margin: '0 0 0 25',
-			readOnly: true,
+			//readOnly: true,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'

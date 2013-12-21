@@ -20,64 +20,24 @@ Ext.define('Account.Service.Item.Form', {
 		// INIT Warehouse search popup ///////
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.comboMGrp = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Service Grp',
-			name : 'matkl',
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Group --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'material/loads_gcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'matkl'
-					}
-				},
-				fields: [
-					'matkl',
-					'matxt'
-				],
-				remoteSort: true,
-				sorters: 'matkl ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'matxt',
-			valueField: 'matkl'
+		this.typeDialog = Ext.create('Account.Materialtype.Window');
+		
+		this.trigType = Ext.create('Ext.form.field.Trigger', {
+			name: 'mtart',
+			fieldLabel: 'Service Type',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true//,
+			//width:290
 		});
 		
-		this.comboMType = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Service Type',
-			name : 'mtart',
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Type --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'material/loads_tcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'mtart'
-					}
-				},
-				fields: [
-					'mtart',
-					'matxt'
-				],
-				remoteSort: true,
-				sorters: 'mtart ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'matxt',
-			valueField: 'mtart'
+		this.grpDialog = Ext.create('Account.Materialgrp.Window');
+		
+		this.trigGrp = Ext.create('Ext.form.field.Trigger', {
+			name: 'matkl',
+			fieldLabel: 'Service Group',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true//,
+			//width:290
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
@@ -171,9 +131,9 @@ Ext.define('Account.Service.Item.Form', {
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
+            //defaults: {
+            //    anchor: '100%'
+           // },
 		items: [{
 			xtype:'displayfield',
 			fieldLabel: 'Service Code',
@@ -185,17 +145,37 @@ Ext.define('Account.Service.Item.Form', {
 			fieldLabel: 'Service Name',
 			name: 'maktx',
 			width: 400,
-			allowBlank: true
-		}, this.comboMType, this.comboMGrp,
+			allowBlank: false
+		}, {
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigType,{
+						xtype: 'displayfield',
+						name: 'matxt',
+						margins: '4 0 0 6',
+						width:286//,
+						//allowBlank: false
+                }]
+            }, {
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigGrp,{
+						xtype: 'displayfield',
+						name: 'matxt2',
+						margins: '4 0 0 6',
+						width:286//,
+						//allowBlank: false
+                }]
+            },
 		  this.trigUnit,{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[this.trigGlno,{
 						xtype: 'displayfield',
 						name: 'sgtxt',
-						margins: '0 0 0 6',
-						width:286,
-						allowBlank: false
+						margins: '4 0 0 6',
+						width:286///,
+						//allowBlank: false
                 }]
             }]
 		}, {
@@ -205,9 +185,9 @@ Ext.define('Account.Service.Item.Form', {
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
+            //defaults: {
+           //     anchor: '100%'
+            //},
      items :[{
 		
 		xtype: 'numberfield',
@@ -242,12 +222,12 @@ Ext.define('Account.Service.Item.Form', {
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
+            //defaults: {
+            //    anchor: '100%'
+            //},
             items: [{
             xtype: 'container',
-            anchor: '100%',
+            //anchor: '100%',
             layout: 'hbox',
             items:[{
                 xtype: 'container',
@@ -262,7 +242,7 @@ Ext.define('Account.Service.Item.Form', {
 			xtype: 'numberfield',
 			fieldLabel: 'Cost 1',
 			name: 'cost1',
-			anchor:'100%',
+			//anchor:'100%',
 			labelWidth: 90,
 			allowBlank: true
 		},{
@@ -270,7 +250,7 @@ Ext.define('Account.Service.Item.Form', {
 			fieldLabel: 'Cost 2',
 			minValue: 0,
 			name: 'cost2',
-			anchor:'100%',
+			//anchor:'100%',
 			labelWidth: 90,
 			allowBlank: true
 		},{
@@ -278,7 +258,7 @@ Ext.define('Account.Service.Item.Form', {
 			fieldLabel: 'Cost 3',
 			minValue: 0,
 			name: 'cost3',
-			anchor:'100%',
+			//anchor:'100%',
 			labelWidth: 90,
 			allowBlank: true
 		}
@@ -287,6 +267,92 @@ Ext.define('Account.Service.Item.Form', {
 		}]
 
 		},this.comboQStatus];
+		
+		// event trigType//
+		this.trigType.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'material/load_type',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.mtart);
+							_this.trigType.setValue(r.data.mtart);
+			_this.getForm().findField('matxt').setValue(r.data.matxt);
+			//_this.getForm().findField('saknr').setValue(r.data.saknr);
+			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find material type : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigType.setValue(record.data.mtart);
+			_this.getForm().findField('matxt').setValue(record.data.matxt);
+			//_this.getForm().findField('saknr').setValue(record.data.saknr);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.typeDialog.hide();
+		});
+
+		this.trigType.onTriggerClick = function(){
+			_this.typeDialog.show();
+		};	
+		
+		// event trigGrp//
+		this.trigGrp.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'material/load_grp',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.matkl);
+							_this.trigGrp.setValue(r.data.matkl);
+			_this.getForm().findField('matxt2').setValue(r.data.matxt);
+			_this.getForm().findField('saknr').setValue(r.data.saknr);
+			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find material group : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.grpDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigGrp.setValue(record.data.matkl);
+			_this.getForm().findField('matxt2').setValue(record.data.matxt);
+			_this.getForm().findField('saknr').setValue(record.data.saknr);
+			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.grpDialog.hide();
+		});
+
+		this.trigGrp.onTriggerClick = function(){
+			_this.grpDialog.show();
+		};	
 		
 		// event trigUnit//
 		this.trigUnit.on('keyup',function(o, e){
@@ -516,7 +582,7 @@ Ext.define('Account.Service.Item.Form', {
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
-		this.comboMType.setValue('SV');
+		//this.comboMType.setValue('SV');
 	},
 	
 	remove : function(id){

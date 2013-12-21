@@ -22,37 +22,16 @@ Ext.define('Account.Project.Item.Form', {
 		// INIT Warehouse search popup //////
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.comboJType = Ext.create('Ext.form.ComboBox', {
+		this.typeDialog = Ext.create('Account.Projecttype.Window');
+		
+		this.trigType = Ext.create('Ext.form.field.Trigger', {
+			name: 'jtype',
 			fieldLabel: 'Project Type',
-			name : 'jtype',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
 			labelWidth: 100,
 			labelAlign: 'left',
-			width: 250,
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Type --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'project/loads_tcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'jtype'
-					}
-				},
-				fields: [
-					'jtype',
-					'jobtx'
-				],
-				remoteSort: true,
-				sorters: 'jtype ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'jobtx',
-			valueField: 'jtype'
+			width: 250
 		});
 		
 		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
@@ -200,7 +179,17 @@ Ext.define('Account.Project.Item.Form', {
      	xtype: 'container',
         layout: 'hbox',
         margin: '0 0 5 0',
-     items: [this.comboJType,{
+     items: [ {
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigType,{
+						xtype: 'displayfield',
+						name: 'jobtx',
+						margins: '4 0 0 6',
+						width:286//,
+						//allowBlank: false
+                }]
+            },{
 			xtype: 'datefield',
 			fieldLabel: 'Project Date',
 			name: 'bldat',
@@ -285,6 +274,48 @@ Ext.define('Account.Project.Item.Form', {
     }
     
    	/****************************************************/
+   	// event trigType//
+		this.trigType.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load_type',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.mtart);
+							_this.trigType.setValue(r.data.jtype);
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+			//_this.getForm().findField('saknr').setValue(r.data.saknr);
+			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+
+						}else{
+							o.markInvalid('Could not find Project type : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigType.setValue(record.data.jtype);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+			//_this.getForm().findField('saknr').setValue(record.data.saknr);
+			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+
+			grid.getSelectionModel().deselectAll();
+			_this.typeDialog.hide();
+		});
+
+		this.trigType.onTriggerClick = function(){
+			_this.typeDialog.show();
+		};
 	// event ///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
