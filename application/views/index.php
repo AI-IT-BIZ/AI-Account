@@ -150,6 +150,16 @@ Ext.onReady(function() {
 			$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 		$om.receiptDialog.show();
 	});
+	$om.viewport.on('click_saleperson', function(){
+		if(!UMS.CAN.DISPLAY('SP')){
+			UMS.ALERT("You don't have permission for Sale Person.");
+			return;
+		}
+		
+		if(!$om.salepersonDialog)
+			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
+		$om.salepersonDialog.show();
+	});
 	/*$om.viewport.on('click_rproject', function(){
 		if(!$om.rprojectDialog)
 			$om.rprojectDialog = Ext.create('Account.RProject.MainWindow');
