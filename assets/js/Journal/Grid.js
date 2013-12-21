@@ -9,13 +9,15 @@ Ext.define('Account.Journal.Grid', {
 	initComponent : function() {
 		this.store = new Ext.data.JsonStore({
 			// store configs
+			pageSize: 25,
 			proxy: {
 				type: 'ajax',
 				url: __site_url+'journal/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'belnr'
+					idProperty: 'belnr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
@@ -56,7 +58,6 @@ Ext.define('Account.Journal.Grid', {
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

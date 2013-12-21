@@ -105,10 +105,10 @@ function endsWith($haystack, $needle)
 
 		#div1-1-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-1-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-project { top:30px; left:30px; width: 210px; height:100px; }
-		#div-quotation { top:160px; left:30px; width: 90px; height:90px; }
+		#div-project,#div-sales-project { top:30px; left:30px; width: 210px; height:100px; }
+		#div-quotation,#div-sales-quotation { top:160px; left:30px; width: 90px; height:90px; }
 		#div-customer { top:160px; left:150px; width: 90px; height:90px; }
-		#div-deposit1 { top:280px; left:30px; width: 90px; height:90px; }
+		#div-deposit1,#div-sales-deposit1 { top:280px; left:30px; width: 90px; height:90px; }
 		#div-saleorder { top:280px; left:150px; width: 90px; height:90px; }
 		#div-invoice { top:400px; left:150px; width: 90px; height:90px; }
 		#div-billto { top:400px; left:30px; width: 90px; height:90px; }
@@ -118,16 +118,16 @@ function endsWith($haystack, $needle)
 		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
 		#div-config { position:absolute; top:740px; left:30px; width: 210px; height:100px; }
 
-		#div-saleorder2 { top:160px; left:150px; width: 130px; height:210px; }
-		#div-saleorder3 { top:160px; left:310px; width: 90px; height: 90px; }
+		#div-sales-saleorder2 { top:160px; left:150px; width: 130px; height:210px; }
+		#div-sales-saleorder3 { top:160px; left:310px; width: 90px; height: 90px; }
 
-		#div-invoice2 { top:280px; left:310px; width: 90px; height: 90px; }
-		#div-invoice3 { top:160px; left:430px; width: 130px; height:210px; }
+		#div-sales-invoice2 { top:280px; left:310px; width: 90px; height: 90px; }
+		#div-sales-invoice3 { top:160px; left:430px; width: 130px; height:210px; }
 
-		#div-billto2 { top:160px; left:590px; width: 90px; height: 90px; }
+		#div-sales-billto2 { top:160px; left:590px; width: 90px; height: 90px; }
 
-		#div-receipt2 { top:280px; left:590px; width: 90px; height: 90px; }
-		#div-receipt3 { top:160px; left:710px; width: 130px; height:210px; }
+		#div-sales-receipt2 { top:280px; left:590px; width: 90px; height: 90px; }
+		#div-sales-receipt3 { top:160px; left:710px; width: 130px; height:210px; }
 
 		#div1-2-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-2-container div span { position:absolute; bottom:10px; left:10px; }
@@ -145,20 +145,20 @@ function endsWith($haystack, $needle)
 		#div-rpayment { position:absolute; top:630px; left:390px; width: 100px; height:100px; }
 		#div-employee { position:absolute; top:740px; left:280px; width: 100px; height:100px; }
 
-		#div-pr2 { top:30px; left:30px; width: 210px; height:100px; }
-		#div-po2 { top:160px; left:30px; width: 90px; height:90px; }
-		#div-deposit21 { top:280px; left:30px; width: 90px; height:90px; }
+		#div-purchase-pr2 { top:30px; left:30px; width: 210px; height:100px; }
+		#div-purchase-po2 { top:160px; left:30px; width: 90px; height:90px; }
+		#div-purchase-deposit21 { top:280px; left:30px; width: 90px; height:90px; }
 
-		#div-gr2 { top:160px; left:150px; width: 130px; height:210px; }
-		#div-gr3 { top:160px; left:310px; width: 90px; height: 90px; }
+		#div-purchase-gr2 { top:160px; left:150px; width: 130px; height:210px; }
+		#div-purchase-gr3 { top:160px; left:310px; width: 90px; height: 90px; }
 
-		#div-ap2 { top:280px; left:310px; width: 90px; height: 90px; }
-		#div-ap3 { top:160px; left:430px; width: 130px; height:210px; }
+		#div-purchase-ap2 { top:280px; left:310px; width: 90px; height: 90px; }
+		#div-purchase-ap3 { top:160px; left:430px; width: 130px; height:210px; }
 
-		#div-billfrom2 { top:160px; left:590px; width: 90px; height: 90px; }
+		#div-purchase-billfrom2 { top:160px; left:590px; width: 90px; height: 90px; }
 
-		#div-payment2 { top:280px; left:590px; width: 90px; height: 90px; }
-		#div-payment3 { top:160px; left:710px; width: 130px; height:210px; }
+		#div-purchase-payment2 { top:280px; left:590px; width: 90px; height: 90px; }
+		#div-purchase-payment3 { top:160px; left:710px; width: 130px; height:210px; }
 
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
@@ -313,10 +313,6 @@ function endsWith($haystack, $needle)
 				]
 			};
 
-			var nodeSalePerson = {
-				text: 'Create New Sale Persons',
-				leaf: true
-			};
 			var nodeProject = {
 				text: 'Create New Projects',
 				leaf: true
@@ -341,6 +337,10 @@ function endsWith($haystack, $needle)
 				text: 'Create New Customers',
 				leaf: true
 			};
+			var nodeSalePerson = {
+				text: 'Create New Sale Persons',
+				leaf: true
+			};
 
 			var groupSale = {
 				text: 'Sales',
@@ -348,13 +348,13 @@ function endsWith($haystack, $needle)
 				expanded: true,
 				singleClickExpand : true,
 				children: [
-					nodeSalePerson,
 					nodeProject,
 					nodeQuotation,
 					nodeSaleOrder,
 					nodeInvoice,
 					nodeReceipt,
-					nodeCustomer
+					nodeCustomer,
+					nodeSalePerson
 				]
 			};
 			
@@ -398,10 +398,10 @@ function endsWith($haystack, $needle)
 				]
 			};
 
-			var nodeIncome = {
-				text: 'Create New Income Statements',
-				leaf: true
-			};
+			//var nodeIncome = {
+			//	text: 'Create New Income Statements',
+			//	leaf: true
+			//};
 			var nodeJTemplate = {
 				text: 'Create New Journal Templates',
 				leaf: true
@@ -410,10 +410,10 @@ function endsWith($haystack, $needle)
 				text: 'Create New Journals',
 				leaf: true
 			};
-			var nodeBudget = {
-				text: 'Create New Manage Bugets',
-				leaf: true
-			};
+			//var nodeBudget = {
+			//	text: 'Create New Manage Bugets',
+			//	leaf: true
+			//};
 			var nodeAccChart = {
 				text: 'Chart of Accounts',
 				leaf: true
@@ -425,10 +425,10 @@ function endsWith($haystack, $needle)
 				expanded: true,
 				singleClickExpand : true,
 				children: [
-					nodeIncome,
+					//nodeIncome,
 					nodeJTemplate,
 					nodeJournal,
-					nodeBudget,
+					//nodeBudget,
 					nodeAccChart
 				]
 			};
@@ -898,16 +898,16 @@ function endsWith($haystack, $needle)
 							'</div>',
 							'<div id="sales-container" style="display:none;">',
 								'<div id="div1-1-container">',
-									'<div id="div-project" class="box box-green"><span>Create New Projects</span></div>',
-									'<div id="div-quotation" class="box box-green"><span>Quotations</span></div>',
-									'<div id="div-saleorder2" class="box box-green"><span>Create New Sale Order</span></div>',
-									'<div id="div-saleorder3" class="box box-green"><span>Sale Orders</span></div>',
-									'<div id="div-invoice2" class="box box-green"><span>invoices</span></div>',
-									'<div id="div-invoice3" class="box box-green"><span>Create New Invoice</span></div>',
-									'<div id="div-billto2" class="box box-green"><span>Bill to Customers</span></div>',
-									'<div id="div-receipt2" class="box box-green"><span>Receipts</span></div>',
-									'<div id="div-receipt3" class="box box-green"><span>Create New Receipt</span></div>',
-									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
+									'<div id="div-sales-project" class="box box-green"><span>Create New Projects</span></div>',
+									'<div id="div-sales-quotation" class="box box-green"><span>Quotations</span></div>',
+									'<div id="div-sales-saleorder2" class="box box-green"><span>Create New Sale Order</span></div>',
+									'<div id="div-sales-saleorder3" class="box box-green"><span>Sale Orders</span></div>',
+									'<div id="div-sales-invoice2" class="box box-green"><span>invoices</span></div>',
+									'<div id="div-sales-invoice3" class="box box-green"><span>Create New Invoice</span></div>',
+									'<div id="div-sales-billto2" class="box box-green"><span>Bill to Customers</span></div>',
+									'<div id="div-sales-receipt2" class="box box-green"><span>Receipts</span></div>',
+									'<div id="div-sales-receipt3" class="box box-green"><span>Create New Receipt</span></div>',
+									'<div id="div-sales-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
 
 								'</div>',
 								// arrow
@@ -931,16 +931,16 @@ function endsWith($haystack, $needle)
 							'</div>',
 							'<div id="purchase-container" style="display:none;">',
 								'<div id="div1-2-container">',
-									'<div id="div-pr2" class="box box-red"><span>Create New Purchase Requisitions</span></div>',
-									'<div id="div-po2" class="box box-red"><span>Purchase Orders</span></div>',
-									'<div id="div-gr2" class="box box-red"><span>Create New Goods Receipt</span></div>',
-									'<div id="div-gr3" class="box box-red"><span>Goods Receipts</span></div>',
-									'<div id="div-ap2" class="box box-red"><span>Account Payables</span></div>',
-									'<div id="div-ap3" class="box box-red"><span>Create New Account Payable</span></div>',
-									'<div id="div-billfrom2" class="box box-red"><span>Bill from Vendors</span></div>',
-									'<div id="div-payment2" class="box box-red"><span>Payments</span></div>',
-									'<div id="div-payment3" class="box box-red"><span>Create New Payment</span></div>',
-									'<div id="div-deposit21" class="box box-red"><span>Deposit Payments</span></div>',
+									'<div id="div-purchase-pr2" class="box box-red"><span>Create New Purchase Requisitions</span></div>',
+									'<div id="div-purchase-po2" class="box box-red"><span>Purchase Orders</span></div>',
+									'<div id="div-purchase-gr2" class="box box-red"><span>Create New Goods Receipt</span></div>',
+									'<div id="div-purchase-gr3" class="box box-red"><span>Goods Receipts</span></div>',
+									'<div id="div-purchase-ap2" class="box box-red"><span>Account Payables</span></div>',
+									'<div id="div-purchase-ap3" class="box box-red"><span>Create New Account Payable</span></div>',
+									'<div id="div-purchase-billfrom2" class="box box-red"><span>Bill from Vendors</span></div>',
+									'<div id="div-purchase-payment2" class="box box-red"><span>Payments</span></div>',
+									'<div id="div-purchase-payment3" class="box box-red"><span>Create New Payment</span></div>',
+									'<div id="div-purchase-deposit21" class="box box-red"><span>Deposit Payments</span></div>',
 
 								'</div>',
 								// arrow
@@ -965,28 +965,28 @@ function endsWith($haystack, $needle)
 							'</div>',
 							'<div id="account-container" style="display:none;">',
 								'<div id="div1-3-container">',
-									'<div id="div-income2" class="box box-blue"><span>Income Statement</span></div>',
-									'<div id="div-journaltemp2" class="box box-blue"><span>Journal Template</span></div>',
-									'<div id="div-journal2" class="box box-blue"><span>Journal</span></div>',
-									'<div id="div-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
-									'<div id="div-chart-account2" class="box box-blue"><span>Chart of Account</span></div>',
-									'<div id="div-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
-									'<div id="div-dep-amort2" class="box box-blue"><span>Depreciation& Amortization</span></div>',
+									'<div id="div-account-income2" class="box box-blue"><span>Income Statement</span></div>',
+									'<div id="div-account-journaltemp2" class="box box-blue"><span>Journal Template</span></div>',
+									'<div id="div-account-journal2" class="box box-blue"><span>Journal</span></div>',
+									'<div id="div-account-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
+									'<div id="div-account-chart-account2" class="box box-blue"><span>Chart of Account</span></div>',
+									'<div id="div-account-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
+									'<div id="div-account-dep-amort2" class="box box-blue"><span>Depreciation& Amortization</span></div>',
 
-									'<div id="div-rjournal2" class="box box-orange"><span>Journal Report</span></div>',
-									'<div id="div-rgl2" class="box box-orange"><span>GL Report</span></div>',
-									'<div id="div-rar-aging2" class="box box-orange"><span>AR Aging Report</span></div>',
-									'<div id="div-rap-aging2" class="box box-orange"><span>AP Aging Report</span></div>',
+									'<div id="div-account-rjournal2" class="box box-orange"><span>Journal Report</span></div>',
+									'<div id="div-account-rgl2" class="box box-orange"><span>GL Report</span></div>',
+									'<div id="div-account-rar-aging2" class="box box-orange"><span>AR Aging Report</span></div>',
+									'<div id="div-account-rap-aging2" class="box box-orange"><span>AP Aging Report</span></div>',
 								'</div>',
 							'</div>',
 							'<div id="material-container" style="display:none;">',
 								'<div id="div1-4-container">',
-								    '<div id="div-transaction2" class="box box-purple"><span>Inventory Transactions</span></div>',
-									'<div id="div-balance2" class="box box-purple"><span>Inventory Balances</span></div>',
-									'<div id="div-otincome2" class="box box-purple"><span>Other Incomes</span></div>',
-									'<div id="div-otexpense2" class="box box-purple"><span>Other Expenses</span></div>',
-									'<div id="div-material2" class="box box-purple"><span>Inventories Master</span></div>',
-									'<div id="div-service2" class="box box-purple"><span>Services Master</span></div>',
+								    '<div id="div-material-transaction2" class="box box-purple"><span>Inventory Transactions</span></div>',
+									'<div id="div-material-balance2" class="box box-purple"><span>Inventory Balances</span></div>',
+									'<div id="div-material-otincome2" class="box box-purple"><span>Other Incomes</span></div>',
+									'<div id="div-material-otexpense2" class="box box-purple"><span>Other Expenses</span></div>',
+									'<div id="div-material-material2" class="box box-purple"><span>Inventories Master</span></div>',
+									'<div id="div-material-service2" class="box box-purple"><span>Services Master</span></div>',
 
 									'<div id="div-rtransaction2" class="box box-orange"><span>Transaction Report</span></div>',
 									'<div id="div-rbalance2" class="box box-orange"><span>Balance Report</span></div>',
@@ -1049,6 +1049,28 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
                                 pEl.getById('div-rtransaction').on('click', function(){ $om.viewport.fireEvent('click_rtransaction', c); }, c);
                                 pEl.getById('div-rbalance').on('click', function(){ $om.viewport.fireEvent('click_rbalance', c); }, c);
+                                //Sales Tab
+                                pEl.getById('div-sales-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
+                                pEl.getById('div-sales-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
+                                pEl.getById('div-sales-saleorder2').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
+                                pEl.getById('div-sales-saleorder3').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
+                                pEl.getById('div-sales-invoice2').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+                                pEl.getById('div-sales-invoice3').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+                                pEl.getById('div-sales-billto2').on('click', function(){ $om.viewport.fireEvent('click_billto', c); }, c);
+                                pEl.getById('div-sales-receipt2').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+                                pEl.getById('div-sales-receipt3').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+                                pEl.getById('div-sales-deposit1').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
+                                //Purchase Tab
+                                pEl.getById('div-purchase-pr2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                pEl.getById('div-purchase-po2').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
+                                pEl.getById('div-purchase-gr2').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
+                                pEl.getById('div-purchase-gr3').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
+                                pEl.getById('div-purchase-ap2').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
+                                pEl.getById('div-purchase-ap3').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
+                                pEl.getById('div-purchase-billfrom2').on('click', function(){ $om.viewport.fireEvent('click_billfrom', c); }, c);
+                                pEl.getById('div-purchase-payment2').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
+                                pEl.getById('div-purchase-payment3').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
+                                pEl.getById('div-purchase-deposit21').on('click', function(){ $om.viewport.fireEvent('click_deposit2', c); }, c);
 							}
 						}
 					}
