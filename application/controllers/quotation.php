@@ -9,7 +9,7 @@ class Quotation extends CI_Controller {
 		$this->load->model('code_model','',TRUE);
 
 		$this->load->model('email_service','',TRUE);
-
+/*
 		if(empty(XUMS::USERNAME())){
 			echo json_encode(array(
 				'success'=>false,
@@ -17,6 +17,7 @@ class Quotation extends CI_Controller {
 			));
 			return;
 		}
+*/
 	}
 
 	/*
