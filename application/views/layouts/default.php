@@ -510,13 +510,19 @@ function endsWith($haystack, $needle)
 				text: 'Initail Doc No.',
 				leaf: true
 			};
-			var nodeUser = {
-				text: 'User Define',
-				leaf: true
+			var nodeLimit = {
+				text: 'Limitation Setting',
+				leaf: true,
+				handler: function(){
+					$om.viewport.fireEvent('click_limitation_setting');
+				}
 			};
 			var nodeAuth = {
 				text: 'Authorize Setting',
-				leaf: true
+				leaf: true,
+				handler: function(){
+					$om.viewport.fireEvent('click_authorize_setting');
+				}
 			};
 			var nodeChart = {
 				text: 'Chart of Accounts',
@@ -535,7 +541,7 @@ function endsWith($haystack, $needle)
 				children: [
 				    nodeCompany,
 				    nodeInit,
-				    nodeUser,
+				    nodeLimit,
 				    nodeAuth,
 					nodeChart,
 					nodeEmployee
@@ -726,17 +732,6 @@ function endsWith($haystack, $needle)
 				if(!$om.journaltempDialog)
 				$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 				$om.journalDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Authorize Setting') > -1)
-			{
-			  	if(!UMS.CAN.DISPLAY('AU')){
-			 	UMS.ALERT("You don't have permission for Authorize Setting.");
-			  	return;
-				}
-				$om.configDialog = Ext.create('Account.UMS.MainWindow');
-				$om.configDialog.show();
-				//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-				//$om.configDialog.show();
 			}
 			if(tr.innerHTML.indexOf('Create New Materials') > -1)
 			{

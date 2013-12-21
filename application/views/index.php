@@ -23,7 +23,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Journal Template.");
 			return;
 		}
-		
+
 		if(!$om.journaltempDialog)
 			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
 		$om.journaltempDialog.show();
@@ -34,7 +34,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Journal.");
 			return;
 		}
-		
+
 		if(!$om.journalDialog)
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
@@ -58,7 +58,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Chart of Account.");
 			return;
 		}
-		
+
 		if(!$om.chartOfAccountDialog)
 			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
 		$om.chartOfAccountDialog.show();
@@ -85,7 +85,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Project.");
 			return;
 		}
-		
+
 		if(!$om.projectDialog)
 			$om.projectDialog = Ext.create('Account.Project.MainWindow');
 		$om.projectDialog.show();
@@ -105,7 +105,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Deposit Reciept.");
 			return;
 		}
-		
+
 		if(!$om.deposit1Dialog)
 			$om.deposit1Dialog = Ext.create('Account.DepositIn.MainWindow');
 		$om.deposit1Dialog.show();
@@ -115,7 +115,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Sale Order.");
 			return;
 		}
-		
+
 		if(!$om.saleorderDialog)
 			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
 		$om.saleorderDialog.show();
@@ -125,7 +125,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Invoice.");
 			return;
 		}
-		
+
 		if(!$om.invoiceDialog)
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
@@ -135,7 +135,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Billing Note.");
 			return;
 		}
-		
+
 		if(!$om.billtoDialog)
 			$om.billtoDialog = Ext.create('Account.Billto.MainWindow');
 		$om.billtoDialog.show();
@@ -145,7 +145,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Receipt.");
 			return;
 		}
-		
+
 		if(!$om.receiptDialog)
 			$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
 		$om.receiptDialog.show();
@@ -155,7 +155,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Sale Person.");
 			return;
 		}
-		
+
 		if(!$om.salepersonDialog)
 			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
 		$om.salepersonDialog.show();
@@ -186,7 +186,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Purchase Requisition.");
 			return;
 		}
-		
+
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
@@ -196,7 +196,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Purchase Order.");
 			return;
 		}
-		
+
 		if(!$om.poDialog)
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
@@ -206,7 +206,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Deposit Payment.");
 			return;
 		}
-		
+
 		if(!$om.deposit2Dialog)
 			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
 		$om.deposit2Dialog.show();
@@ -216,7 +216,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Good Reciept.");
 			return;
 		}
-		
+
 		if(!$om.grDialog)
 			$om.grDialog = Ext.create('Account.GR.MainWindow');
 		$om.grDialog.show();
@@ -226,7 +226,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Account Payable.");
 			return;
 		}
-		
+
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
 		$om.apDialog.show();
@@ -236,7 +236,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Billing Receipt.");
 			return;
 		}
-		
+
 		if(!$om.billfromDialog)
 			$om.billfromDialog = Ext.create('Account.Billfrom.MainWindow');
 		$om.billfromDialog.show();
@@ -246,7 +246,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Payment.");
 			return;
 		}
-		
+
 		if(!$om.paymentDialog)
 			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		$om.paymentDialog.show();
@@ -288,7 +288,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Material Master.");
 			return;
 		}
-		
+
 		if(!$om.materialDialog)
 			$om.materialDialog = Ext.create('Account.Material.MainWindow');
 		$om.materialDialog.show();
@@ -299,7 +299,7 @@ Ext.onReady(function() {
 			UMS.ALERT("You don't have permission for Service Master.");
 			return;
 		}
-		
+
 		if(!$om.serviceDialog)
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();
@@ -339,6 +339,26 @@ Ext.onReady(function() {
 		if(!$om.rbalanceDialog)
 			$om.rbalanceDialog = Ext.create('Account.RPP30Vat.MainWindow');
 		$om.rbalanceDialog.show();
+	});
+
+
+	// SETTINGS
+	$om.viewport.on('click_authorize_setting', function(){
+	  	if(!UMS.CAN.DISPLAY('AU')){
+	 		UMS.ALERT("You don't have permission for Authorize Setting.");
+	  		return;
+		}
+		$om.configDialog = Ext.create('Account.UMS.MainWindow');
+		$om.configDialog.show();
+	});
+
+	$om.viewport.on('click_limitation_setting', function(){
+	  	if(!UMS.CAN.DISPLAY('AU')){
+	 		UMS.ALERT("You don't have permission for Limitation Setting'.");
+	  		return;
+		}
+		$om.limitDialog = Ext.create('Account.UMSLimit.MainWindow');
+		$om.limitDialog.show();
 	});
 
 
