@@ -252,5 +252,87 @@ class Project extends CI_Controller {
 			'data'=>$id
 		));
 	}
+	
+	function load_type(){
+		//$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('jtype', $id);
+		$query = $this->db->get('jtyp');
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['jtype'];
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+
+	function loads_type(){
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'jtyp';
+		
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		//$sort = $this->input->post('sort');
+		//$dir = $this->input->post('dir');
+		//$this->db->order_by($sort, $dir);
+
+		$query = $this->db->get($tbName);
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+
+	function save_type(){
+		//echo "vendor type";
+		
+		//start transaction
+		//$this->db->trans_start();  
+		
+		// ลบ receipt item ภายใต้ id ทั้งหมด
+		$this->db->truncate('jtyp');
+		//$this->db->delete('ktyp');
+
+		// เตรียมข้อมูล payment item
+		$jtyp = $this->input->post('jtyp');
+		$item_array = json_decode($jtyp);
+		
+		if(!empty($jtyp) && !empty($item_array)){
+			// loop เพื่อ insert payment item ที่ส่งมาใหม่
+			$item_index = 0;
+		foreach($item_array AS $p){
+			$this->db->insert('jtyp', array(
+				'jtype'=>$p->ptype,
+				'jobtx'=>$p->protx//,
+				//'saknr'=>$p->saknr
+			));
+	    	}
+		}
+
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$_POST
+		));
+	}
+	
+	function remove_type(){
+		$id = $this->input->post('id');
+		$this->db->where('jtype', $id);
+		$query = $this->db->delete('jtyp');
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$id
+		));
+	}
 
 }

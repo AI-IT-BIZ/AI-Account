@@ -206,10 +206,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							//o.setValue(r.data.ktype);
-							_this.trigKtyp.setValue(record.data.custx);
-							_this.getForm().findField('ktype').setValue(record.data.ktype);
-							_this.getForm().findField('saknr').setValue(record.data.saknr);
-							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+							_this.trigKtyp.setValue(r.data.custx);
+							_this.getForm().findField('ktype').setValue(r.data.ktype);
+							_this.getForm().findField('saknr').setValue(r.data.saknr);
+							_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
 						}else{
 							o.markInvalid('Could not find customer type : '+o.getValue());
