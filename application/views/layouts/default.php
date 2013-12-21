@@ -1294,43 +1294,50 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-pr',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_pr')}
 				        },{
 				            text: 'Purchase Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-po',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_po')}
 				        },{
 				            text: 'Deposit Out',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-dep',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_deposit2')}
 				        },{
 				            text: 'Goods Receipts',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-gr',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_gr')}
 				        },{
 				            text: 'Acc-Payable',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-ap',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_ap')}
 				        },{
 				            text: 'Bill from Vendor',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-billfr',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_billfrom')}
 				        },{
 				            text: 'Payments',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-pay',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_payment')}
 				        },{
 				            text: 'Reports',
 				            scale: 'large',
@@ -1342,7 +1349,8 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-vend',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_vendor')}
 				        }]
 		            },{
 		                title: 'Accounts',
