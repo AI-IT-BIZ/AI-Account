@@ -798,6 +798,10 @@ Ext.define('Account.Invoice.Item.Form', {
 		}
         if(sum>0){
         	r_data = this.gridItem.getData();
+        	var saknr_list = [];
+        	for(var i=0;i<r_data.length;i++){
+        		saknr_list.push(r_data[i].saknr);
+        	}
             _this.gridGL.load({
             	netpr:sum,
             	vvat:vats,
@@ -805,7 +809,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	kunnr:this.trigCustomer.getValue(),
             	//ptype:'01',
             	dtype:'01',
-            	items: Ext.encode(r_data)
+            	items: saknr_list.join(',')
             });
            }
 
