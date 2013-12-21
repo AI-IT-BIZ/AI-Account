@@ -13,7 +13,8 @@ Ext.define('Account.Quotation.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'vbeln'
+					idProperty: 'vbeln',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
