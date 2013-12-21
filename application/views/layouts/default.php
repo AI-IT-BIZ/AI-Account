@@ -513,16 +513,12 @@ function endsWith($haystack, $needle)
 			var nodeLimit = {
 				text: 'Limitation Setting',
 				leaf: true,
-				handler: function(){
-					$om.viewport.fireEvent('click_limitation_setting');
-				}
+				id: 'click_limitation_setting'
 			};
 			var nodeAuth = {
 				text: 'Authorize Setting',
 				leaf: true,
-				handler: function(){
-					$om.viewport.fireEvent('click_authorize_setting');
-				}
+				id: 'click_authorize_setting'
 			};
 			var nodeChart = {
 				text: 'Chart of Accounts',
@@ -568,6 +564,10 @@ function endsWith($haystack, $needle)
 						groupConfig
 					]
 				}
+			});
+
+			tree.on('itemclick', function(tree, record, item){
+				$om.viewport.fireEvent(record.data.id);
 			});
 
 			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
@@ -767,6 +767,7 @@ function endsWith($haystack, $needle)
 			// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 			// $om.configDialog.show();
 //=======
+/*
 				if(tr.innerHTML.indexOf('Authorize Setting') > -1)
 				{
 					$om.configDialog = Ext.create('Account.UMS.MainWindow');
@@ -774,6 +775,7 @@ function endsWith($haystack, $needle)
 					//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 					//$om.configDialog.show();
 				}
+*/
 				if(tr.innerHTML.indexOf('User Define') > -1)
 				{
 					$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
