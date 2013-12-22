@@ -50,9 +50,9 @@ class Rgeneraljournal extends CI_Controller {
 		$ed = explode('-',$_GET['end_date']);
 		require_once substr(BASEPATH,0,-7).'application/libraries/jasper/rest/client/JasperClient.php'; 
 		$client = new Jasper\JasperClient(JASPERSERVER,
-						8080,
-					   'jasperadmin',
-					   'jasperadmin',
+						JASPERPORT,
+					   JASPERUSER,
+					   JASPERPASSWORD,
 					   '/jasperserver'
 				   );
 		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
