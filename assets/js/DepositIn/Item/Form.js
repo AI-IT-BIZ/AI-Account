@@ -511,18 +511,17 @@ Ext.define('Account.DepositIn.Item.Form', {
         if(sum>0){
         	//console.log(rsPM);
             _this.gridGL.load({
-            	//paym:Ext.encode(rsPM),
             	netpr:sum,
-            	kunnr:this.trigCustomer.getValue(),
-            	rate:rate,
-            	ptype:'01',
-            	dtype:'01'
+            	kunnr:this.trigCustomer.getValue()//,
+            	//ate:rate,
+            	//ptype:'01',
+            	//dtype:'01'
             }); 
            }
-	},
+	}
 	
 	// Load GL functions
-	loadGL: function(){
+	/*loadGL: function(){
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
@@ -553,6 +552,6 @@ Ext.define('Account.DepositIn.Item.Form', {
             	dtype:'01'
             }); 
            }
-	}
+	}*/
 	
 });

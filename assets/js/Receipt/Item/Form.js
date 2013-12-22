@@ -411,7 +411,7 @@ Ext.define('Account.Receipt.Item.Form', {
 	
 	// Calculate total functions
 	calculateTotal: function(){
-		//var _this=this;
+		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
@@ -430,6 +430,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
+		
 	},
 	
 	// Load GL functions
@@ -437,6 +438,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
+		var saknr_list = [];var whts=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
@@ -445,25 +447,41 @@ Ext.define('Account.Receipt.Item.Form', {
 
 			var amt = itamt - pay;
 			sum += amt;
+			
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
+        		
+				var wht = r.data['wht01'];
+				    //wht = (amt * wht) / 100;
+				    whts += wht;
 		});
 
-		// set value to grid payment
-		var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid  
+		//set value to grid payment
+		//var rsPM = _this.gridPayment.getData();
+		//Set value to GL Posting grid  
 		var currency = this.trigCurrency.getValue();
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		}   
+		
         if(sum>0){
-        	//console.log(rsPM);
+        	var r_data = _this.gridPayment.getData();
+        	var pay_list = [];
+        	for(var i=0;i<r_data.length;i++){
+        		if(r_data[i].ptype == '03' || r_data[i].ptype == '04'){
+        		    var item = r_data[i].saknr + '|' + r_data[i].payam;
+        		}else{
+        			var item = r_data[i].ptype + '|' + r_data[i].payam;
+        		}
+        		saknr_list.push(item);
+        	}
             _this.gridGL.load({
-            	paym:Ext.encode(rsPM),
             	netpr:sum,
+            	vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
-            	rate:rate,
-            	dtype:'01'
-            }); 
+            	items: saknr_list.join(',')
+            });
            }
 	}
 	

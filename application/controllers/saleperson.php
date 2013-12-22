@@ -9,19 +9,23 @@ class Saleperson extends CI_Controller {
 	}
 
 	function index(){
-		$this->phxview->RenderView('saleperson');
-		$this->phxview->RenderLayout('default');
+		//$this->phxview->RenderView('saleperson');
+		//$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
+		$this->db->set_dbprefix('v_');
 		$salnr = $this->input->post('salnr');
 		$this->db->limit(1);
 		$this->db->where('salnr', $salnr);
 		$query = $this->db->get('psal');
+		
 		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['salnr'];
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$query->first_row('array')
+				'data'=>$result_data
 			));
 		}else
 			echo json_encode(array(
@@ -30,18 +34,22 @@ class Saleperson extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'psal';
+		
+		$totalCount = $this->db->count_all_results($tbName);
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		if(isset($limit) && isset($start)) 
+		$this->db->limit($limit, $start);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 
@@ -63,22 +71,25 @@ class Saleperson extends CI_Controller {
 		
 		$formData = array(
 			//'salnr' => $this->input->post('salnr'),
-			'name1' => $this->input->post('name1'),
+			'empnr' => $this->input->post('empnr'),
 			'ctype' => $this->input->post('ctype'),
-			
+			'name1' => $this->input->post('name1'),
 			'goals' => $this->input->post('goals'),
 			'stdat' => $stdat,
 			'endat' => $endat,
 			'percs' => $this->input->post('percs')
 			
 		);
+		
+		$current_username = XUMS::USERNAME();
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('salnr', $salnr);
 			$this->db->update('psal', $formData);
 		}else{
-			$this->db->set('salnr', $this->code_model2->generate2('SP'));
-			//$this->db->set('erdat', 'NOW()', false);
-			//$this->db->set('ernam', 'somwang');
+			$id = $this->code_model2->generate2('SP');
+			$this->db->set('salnr', $id);
+			$this->db->set('erdat', 'NOW()', false);
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('psal', $formData);
 		}
 

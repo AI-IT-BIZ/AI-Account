@@ -69,7 +69,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				{name:'pramt', type: 'string'},
 				//'pramt',
 				'payam',
-				'reman'
+				'reman',
+				'saknr'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -219,7 +220,12 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 					console.log(net);
 */
 				}
-		    }
+		    },{
+			dataIndex: 'saknr',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		}
 		];
 
 		this.plugins = [this.editing];
@@ -250,6 +256,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 							rModel.set(e.field, r.data.bcode);
 							// Materail text
 							rModel.set('bname', r.data.bname);
+							// GL No
+							rModel.set('saknr', r.data.saknr);
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -267,6 +275,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				rModel.set('bcode', record.data.bcode);
 				// Materail text
 				rModel.set('bname', record.data.bname);
+				// GL No
+				rModel.set('saknr', record.data.saknr);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.bankDialog.hide();

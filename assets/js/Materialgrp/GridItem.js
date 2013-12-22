@@ -28,7 +28,7 @@ Ext.define('Account.Materialgrp.GridItem', {
            this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
-		this.tbar = [this.addAct, this.deleteAct];
+		this.tbar = [this.addAct];// this.deleteAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1

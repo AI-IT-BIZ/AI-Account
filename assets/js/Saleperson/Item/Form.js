@@ -19,51 +19,22 @@ Ext.define('Account.Saleperson.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-
-/*(1)---ComboBox-------------------------------*/
-/*---ComboBox Type-------------------------------*/
-		this.comboKtype = Ext.create('Ext.form.ComboBox', {
-							
-			fieldLabel: 'Type',
-			name: 'ktype',
-			width:320,
-			labelWidth: 180,
-			editable: false,
-			//allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
-			labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',		    
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'saleperson/loads_combo/ktyp/ktype/custx',  //loads_tycombo($tb,$pk,$like)
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ktype'
-					}
-				},
-				fields: [
-					'ktype',
-					'custx'
-				],
-				remoteSort: true,
-				sorters: 'ktype ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'custx',
-			valueField: 'ktype'
+		this.employeeDialog = Ext.create('Account.Employee.MainWindow');
+		this.trigEmployee = Ext.create('Ext.form.field.Trigger', {
+			name: 'empnr',
+			labelAlign: 'letf',
+			width:240,
+			fieldLabel: 'Employee No',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
 		});
-
 
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
 			xtype: 'hidden',
 			name: 'id'
 		},{
-			
-
 /*(3)---Start Form-------------------------------*/	
 /*---Sale Person Head fieldset 1 --------------------------*/
 /*------------------------------------------------------*/
@@ -72,34 +43,35 @@ title: 'Sale Person Head',
 //collapsible: true,
 defaultType: 'textfield',
 layout: 'anchor',
-defaults: {anchor: '100%'},
+//defaults: {anchor: '100%'},
 	items:[{
 			xtype: 'container',
             layout: 'hbox',
             margin: '0 0 5 0',
 			items :[{
-					xtype: 'textfield',
+					xtype: 'displayfield',
 					fieldLabel: 'Sale Person Code',
 					labelWidth: 130,
 					name: 'salnr',
-					//flex: 2,
-					//anchor:'90%',
 					width:200,
-					//allowBlank: false
-					readOnly: true,
-					//disabled: true,
+					value: 'XXXXX',
+					labelStyle: 'font-weight:bold',
+					readOnly: true
 					},{
-					xtype: 'textfield',
-					fieldLabel: 'Sale Person Name',
-					labelWidth: 130,
-					name: 'name1',
-					//flex: 2,
-					//anchor:'90%',
-					width:370,
-					allowBlank: false
 					
 			}]
-	}]
+	},{
+                xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigEmployee,{
+			xtype: 'displayfield',
+			name: 'name1',
+			margins: '0 0 0 6',
+			width:350,
+            allowBlank: true
+		}]
+		}]
 /*---Sale Person Data fieldset 2--------------------------*/
 /*-----------------------------*/
 },{
@@ -108,7 +80,7 @@ title: 'Commission',
 // in this section we use the form layout that will aggregate all of the fields
 // into a single table, rather than one table per field.
 layout: 'anchor',
-defaults: {anchor: '100%'},
+//defaults: {anchor: '100%'},
 collapsible: true,
         items: [{
             xtype: 'radiogroup',
@@ -354,14 +326,44 @@ defaults: {anchor: '100%'},
 
 /*---End Form--------------------------*/	
 }];
+   // event trigEmployee///
+		this.trigEmployee.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'employee/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.empnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);
+						}else{
+							o.markInvalid('Could not find Employee code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.employeeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigEmployee.setValue(record.data.empnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+
+			grid.getSelectionModel().deselectAll();
+			_this.employeeDialog.hide();
+		});
+
+		this.trigEmployee.onTriggerClick = function(){
+			_this.employeeDialog.show();
+		};     
 /*(4)---Buttons-------------------------------*/
 		this.buttons = [{
-			text: 'Cancel',
-			handler: function() {
-				this.up('form').getForm().reset();
-				this.up('window').hide();
-			}
-		}, {
 			text: 'Save',
 			handler: function() {
 				var _form_basic = this.up('form').getForm();
@@ -377,6 +379,12 @@ defaults: {anchor: '100%'},
 					});
 				}
 			}
+		},{
+			text: 'Cancel',
+			handler: function() {
+				this.up('form').getForm().reset();
+				this.up('window').hide();
+			}
 		}];
 
 		return this.callParent(arguments);
@@ -389,6 +397,12 @@ defaults: {anchor: '100%'},
 			params: { salnr: salnr },
 			url:__site_url+'saleperson/load'
 		});
+	},
+	reset: function(){
+		this.getForm().reset();
+
+		// default status = wait for approve
+		this.comboQStatus.setValue('01');
 	},
 	remove : function(salnr){
 		var _this=this;

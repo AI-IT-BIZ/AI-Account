@@ -6,7 +6,7 @@ Ext.define('Account.Saleperson.Item.Window', {
 			title: 'Create/Edit Sale Person',
 			closeAction: 'hide',
 			height: 430,
-			width: 620,
+			width: 650,
 			layout: 'border',
 			resizable: true,
 			modal: true
@@ -31,5 +31,26 @@ Ext.define('Account.Saleperson.Item.Window', {
 		//];
 
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			//this.form.gridItem.load({ebeln: id});
+
+			//this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			//this.btnPreview.setDisabled(true);
+		}
 	}
 });

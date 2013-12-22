@@ -15,7 +15,7 @@ class Bankname extends CI_Controller {
 	}
 	
 	function load(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		
@@ -37,6 +37,7 @@ class Bankname extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'bnam';
 		
 		$limit = $this->input->get('limit');
@@ -57,36 +58,24 @@ class Bankname extends CI_Controller {
 	}
 	
 	function save(){
-		//$this->db->set_dbprefix('v_');
-		$id = $this->input->post('id');
-		$query = null;
-		if(!empty($id)){
-			$this->db->limit(1);
-			$this->db->where('bcode', $id);
-			$query = $this->db->get('bnam');
-		}
+		// ลบ receipt item ภายใต้ id ทั้งหมด
+		$this->db->truncate('bnam');
 
-		$formData = array(
-			'bcode' => $this->input->post('bcode'),
-			'bname' => $this->input->post('bname'),
-			'bthai' => $this->input->post('bthai'),
-			'saknr' => $this->input->post('saknr'),
-			'addrs' => $this->input->post('addrs')
-		);
-		  //$this->db->set('erdat', 'NOW()', false);
-		  //$this->db->set('ernam', 'test');
-		  
-		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('bcode', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
-			$this->db->update('bnam', $formData);
-		}else{
-			//$this->db->set('jobnr', $this->code_model->generate('PJ',
-			//$this->input->post('bldat')));
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
-			$this->db->insert('bnam', $formData);
+		// เตรียมข้อมูล payment item
+		$bnam = $this->input->post('bnam');
+		$item_array = json_decode($bnam);
+		
+		if(!empty($bnam) && !empty($item_array)){
+			// loop เพื่อ insert payment item ที่ส่งมาใหม่
+			$item_index = 0;
+		foreach($item_array AS $p){
+			$this->db->insert('bnam', array(
+				'bcode'=>$p->bcode,
+				'bname'=>$p->bname,
+				'saknr'=>$p->saknr,
+				'addrs'=>$p->addrs
+			));
+	    	}
 		}
 
 		echo json_encode(array(

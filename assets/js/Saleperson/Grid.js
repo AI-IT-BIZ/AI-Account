@@ -20,15 +20,19 @@ Ext.define('Account.Saleperson.Grid', {
 			},
 			fields: [
 				'salnr',
-				'name1'
+				'empnr',
+				'emnam',
+				'ctype'
 			],
 			remoteSort: true,
 			sorters: ['salnr ASC']
 		});
 
 		this.columns = [
-			{text: "Code", width: 100, dataIndex: 'salnr', sortable: true},
-			{text: "Name", flex: true, dataIndex: 'name1', sortable: true}
+			{text: "Sale Person No", width: 100, dataIndex: 'salnr', sortable: true},
+			{text: "Employee No", flex: true, dataIndex: 'empnr', sortable: true},
+			{text: "Name", flex: true, dataIndex: 'emnam', sortable: true},
+			{text: "Commission Type", flex: true, dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

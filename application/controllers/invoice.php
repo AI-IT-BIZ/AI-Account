@@ -568,7 +568,7 @@ class Invoice extends CI_Controller {
 				}
 			}
 // record ที่สอง
-        //if(!empty($items)){
+        if(!empty($items)){
 			// loop เพื่อ insert
 		for($j=0;$j<count($items);$j++){
 			$item = explode('|',$items[$j]);
@@ -591,7 +591,7 @@ class Invoice extends CI_Controller {
 		$credit = $credit + $amt;	
 			}
 	    }
-		//}
+		}
 // record ที่สาม
 		if($vvat>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}

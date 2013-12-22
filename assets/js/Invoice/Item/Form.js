@@ -750,7 +750,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;var i=0;
-		//var matData= new Array();
+		var saknr_list = [];
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -769,6 +769,8 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
 			//if(r.data['chk02']==true){
 			//	var wht = _this.numberWHT.getValue();
 			//	    wht = (amt * wht) / 100;
@@ -797,12 +799,6 @@ Ext.define('Account.Invoice.Item.Form', {
 		  //whts = whts * rate;
 		}
         if(sum>0){
-        	r_data = this.gridItem.getData();
-        	var saknr_list = [];
-        	for(var i=0;i<r_data.length;i++){
-        		var item = r_data[i].saknr + '|' + r_data[i].itamt;
-        		saknr_list.push(item);
-        	}
             _this.gridGL.load({
             	netpr:sum,
             	vvat:vats,

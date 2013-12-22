@@ -1,56 +1,50 @@
-Ext.define('Account.Materialtype.GridItem', {
+//http://www.sencha.com/blog/using-ext-loader-for-your-application
+
+Ext.define('Account.Bankname.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
-		
+
 		return this.callParent(arguments);
 	},
-
 	initComponent : function() {
 		var _this=this;
-
+		
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
 
 		// INIT GL search popup ///////////////////////////////////////////////
-           //this.glnoDialog = Ext.create('Account.GL.MainWindow');
+           this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct];// this.deleteAct];
-
+		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-
+		
 		this.store = new Ext.data.JsonStore({
+			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'material/loads_type',
+				url: __site_url+'bankname/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mtype'
+					idProperty: 'id_bname'
 				}
 			},
 			fields: [
-				{ name:'id_mtype', type:'int' },
-				'mtart',
-				'matxt'
+			    { name:'id_bname', type:'int' },
+				'bcode',
+				'bname',
+				'addrs',
+				'saknr',
+				'sgtxt'
 			],
-			remoteSort: false,
-			sorters: ['id_mtype ASC']
+			remoteSort: true,
+			sorters: ['id_bname ASC']
 		});
 
 		this.columns = [{
@@ -65,32 +59,37 @@ Ext.define('Account.Materialtype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber001',
+			id : 'PMiRowNumber005',
 			header : "Type ID",
-			dataIndex : 'id_mtype',
+			dataIndex : 'id_bname',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
 			}
-		},{
-			text: "Type Code",
-		    width: 100,
-		    dataIndex: 'mtart',
-		    sortable: true,
-		    field: {
+		},
+			{text: "Bank Code", align: 'center',
+			width: 100, dataIndex: 'bcode', 
+			sortable: true,
+			field: {
 				type: 'textfield'
+			}
 			},
-		},{
-			text: "Type Description",
-		    width: 250,
-		    dataIndex: 'matxt',
-		    sortable: true,
-		    field: {
+			{text: "Bank Name", 
+			width: 150, dataIndex: 'bname', 
+			sortable: true,
+			field: {
 				type: 'textfield'
+			}
 			},
-		}/*,{
+			{text: "Address", 
+			width: 125, dataIndex: 'addrs', 
+			sortable: true,
+			field: {
+				type: 'textfield'
+			}
+			},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
@@ -108,25 +107,24 @@ Ext.define('Account.Materialtype.GridItem', {
 			sortable: false
 		},{
 			text: "GL Description", 
-			width: 150, 
+			width: 170, 
 			dataIndex: 'sgtxt', 
 			sortable: true
-		}*/];
+		}
+		];
 
 		this.plugins = [this.editing];
-
-
+		
 		// init event ///////
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 
-		/*this.editing.on('edit', function(editor, e) {
+		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
-
 				Ext.Ajax.request({
 					url: __site_url+'gl/load',
 					method: 'POST',
@@ -162,34 +160,12 @@ Ext.define('Account.Materialtype.GridItem', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
-		});*/
+		});
 
 		return this.callParent(arguments);
 	},
-	
 	load: function(options){
-		//alert("1234");
-		this.store.load({
-			params: options,
-			proxy: {
-				type: 'ajax',
-				url: __site_url+'material/loads_type',
-				reader: {
-					type: 'json',
-					root: 'rows',
-					idProperty: 'id_mtype'
-				}
-			},
-			fields: [
-				{ name:'id_mtype', type:'int' },
-				'mtart',
-				'matxt'//,
-				//'saknr',
-				//'sgtxt'
-			],
-			remoteSort: false,
-			sorters: ['id_mtype ASC']
-		});
+		this.store.load(options);
 	},
 	
 	addRecord: function(){
@@ -224,10 +200,10 @@ Ext.define('Account.Materialtype.GridItem', {
 		
 		var r_data = this.getData();
 		Ext.Ajax.request({
-			url: __site_url+'material/save_type',
+			url: __site_url+'bankname/save',
 			method: 'POST',
 			params: {
-				mtyp: Ext.encode(r_data)
+				bnam: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
@@ -247,8 +223,8 @@ Ext.define('Account.Materialtype.GridItem', {
 	
 	reset: function(){
 		//this.getForm().reset();
-		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.grid.load({ mtart: 0 });
+		//สั่ง grid load เพื่อเคลียร์ค่า
+		this.grid.load({ bcode: 0 });
 	},
 	
 	getData: function(){
@@ -262,7 +238,8 @@ Ext.define('Account.Materialtype.GridItem', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('id_mtype', row_num++);
+			r.set('id_bname', row_num++);
 		});
 	}
 });
+

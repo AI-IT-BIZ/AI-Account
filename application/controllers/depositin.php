@@ -306,9 +306,9 @@ class Depositin extends CI_Controller {
 		if(empty($iv_id)){
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   $rate = $this->input->get('rate');    //Currency Rate
-		   $ptype = $this->input->get('ptype');  //Pay Type
-		   $dtype = $this->input->get('dtype');  //Doc Type
+		   //$rate = $this->input->get('rate');    //Currency Rate
+		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   //$dtype = $this->input->get('dtype');  //Doc Type
 		   
 		   $net = $netpr;
 		   
@@ -316,13 +316,14 @@ class Depositin extends CI_Controller {
 		   $result = array();
 		   
 		// record แรก
-		if($ptype=='01'){
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
 			if($query->num_rows()>0){
 				$q_data = $query->first_row('array');
 				$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$q_data['saknr']));
+				
+				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 				$result[$i] = array(
 				    'belpr'=>$i + 1,
@@ -334,43 +335,26 @@ class Depositin extends CI_Controller {
 				$i++;
 				$debit=$net;
 			}
-		}else{
-			$query = $this->db->get_where('ptyp', array(
-			'ptype'=>$ptype));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
-					'credi'=>0
-				);
-				$i++;
 			}
-			$debit=$net;
-		}
+
 // record ที่สอง
         if($netpr>0){
-        if($dtype=='01'){
-           $doct = '411000';
-        }
-        
+        $glno = '1130-02';  
 		$qdoc = $this->db->get_where('glno', array(
-				'saknr'=>$doct));
+				'saknr'=>$glno));
+				
+		if($qdoc->num_rows()>0){
 		$q_doc = $qdoc->first_row('array');
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
-			'saknr'=>$doct,
+			'saknr'=>$glno,
 			'sgtxt'=>$q_doc['sgtxt'],
 			'debit'=>0,
 			'credi'=>$netpr
 		);
 		$i++;
 		$credit=$netpr;
+		}
 		}
 // record ที่สาม
 /*
