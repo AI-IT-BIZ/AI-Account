@@ -17,7 +17,9 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 	modal: true,
 	layout:'fit',
 	maximizable: false,
+	params: {},
 	initComponent:function(config) {
+		me = this;
 		var filters = {
 			ftype: 'filters',
 			encode: false,
@@ -105,6 +107,15 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			},filters]
 		});
 		this.items =[this.grid]
+		this.tbar = [{
+			text: "Print",
+			handler: function(){
+				start_date = me.params.start_date;
+				end_date = me.params.end_date;
+				params = "start_date="+start_date+"&end_date="+end_date;
+				window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
+			}
+		}]
 		this.callParent(arguments);
 	}
 })

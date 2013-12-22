@@ -42,6 +42,7 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 								rs =  Ext.JSON.decode(rs)
 								if (rs.success) {
 									var result = Ext.create("Account.RGeneralJournal.Result.Grid");
+									result.params = form.getValues();
 									result.storeGrid.loadData(rs.datas);
 									result.show();
 								}
