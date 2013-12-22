@@ -104,7 +104,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 60,
+			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -222,7 +222,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		},
 			{
 			dataIndex: 'saknr',
-			hidden: true,
+			width: 55,
+			//hidden: true,
 			sortable: false
 		}];
 

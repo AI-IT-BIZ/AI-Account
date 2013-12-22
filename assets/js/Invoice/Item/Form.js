@@ -800,7 +800,8 @@ Ext.define('Account.Invoice.Item.Form', {
         	r_data = this.gridItem.getData();
         	var saknr_list = [];
         	for(var i=0;i<r_data.length;i++){
-        		saknr_list.push(r_data[i].saknr);
+        		var item = r_data[i].saknr + '|' + r_data[i].itamt;
+        		saknr_list.push(item);
         	}
             _this.gridGL.load({
             	netpr:sum,
@@ -808,7 +809,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	//vwht:whts,
             	kunnr:this.trigCustomer.getValue(),
             	//ptype:'01',
-            	dtype:'01',
+            	//dtype:'01',
             	items: saknr_list.join(',')
             });
            }
