@@ -332,6 +332,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
 
 		//this.comboPay.on('select', this.selectPay, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},	
@@ -423,6 +424,11 @@ Ext.define('Account.Receipt.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 		});
+		var vattype = this.comboTax.getValue();
+		if(vattype =='02'){
+			sum = sum * 100;
+			sum = sum / 107;
+		}
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;

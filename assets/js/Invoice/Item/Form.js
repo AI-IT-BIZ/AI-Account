@@ -654,6 +654,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.numberCredit.on('keyup', this.getDuedate, this);
 		this.numberCredit.on('change', this.getDuedate, this);
+		
+		this.comboTax.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
@@ -777,6 +779,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			//	    whts += wht;
 			//}
 		});
+		var vattype = this.comboTax.getValue();
+		if(vattype =='02'){
+			sum = sum * 100;
+			sum = sum / 107;
+		}
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
