@@ -15,9 +15,7 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 
 		// INIT Customer search popup ///////////////////////////////
@@ -672,7 +670,8 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -751,8 +750,9 @@ Ext.define('Account.Invoice.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var whts=0;var i=0;
+		var amt = 0;var vats=0; var whts=0;var i=0;var sum=0;
 		var saknr_list = [];
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -764,6 +764,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
 			sum += amt;
 
 			if(r.data['chk01']==true){
@@ -779,11 +783,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			//	    whts += wht;
 			//}
 		});
-		var vattype = this.comboTax.getValue();
-		if(vattype =='02'){
-			sum = sum * 100;
-			sum = sum / 107;
-		}
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -828,7 +828,8 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:vattype
             });
         }
 	},

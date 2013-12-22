@@ -25,22 +25,22 @@ Ext.define('Account.AP.MainWindow', {
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('IP')
+			disabled: !UMS.CAN.CREATE('AP')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('IP') || UMS.CAN.CREATE('IP') || UMS.CAN.EDIT('IP'))
+			disabled: !(UMS.CAN.DISPLAY('AP') || UMS.CAN.CREATE('AP') || UMS.CAN.EDIT('AP'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('IP')
+			disabled: !UMS.CAN.DELETE('AP')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('IP')
+			disabled: !UMS.CAN.EXPORT('AP')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',

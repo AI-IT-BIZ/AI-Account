@@ -14,7 +14,8 @@ Ext.define('Account.GR.Item.Form', {
 		var _this=this;
 		
 		this.poDialog = Ext.create('Account.PO.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		// INIT other components ///////////////////////////////////

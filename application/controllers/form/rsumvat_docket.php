@@ -36,6 +36,10 @@ class Rsumvat_docket extends CI_Controller {
 		$q_sale = $this->db->query($strSQL1);
 		$r_sale = $q_sale->first_row('array');
 		
+		foreach ($rows as $key => $item) {
+			
+		}
+		
 		//Purchase
 		$strSQL2 = " select v_ebrk.*";
         $strSQL2 = $strSQL2 . " from v_ebrk ";

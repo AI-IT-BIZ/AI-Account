@@ -142,9 +142,6 @@ Ext.define('Account.PR.MainWindow', {
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
-		this.searchForm.on('reset_click', function(values){
-			_this.grid.load();
-		});
 
 		this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};

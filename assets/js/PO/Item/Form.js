@@ -14,7 +14,8 @@ Ext.define('Account.PO.Item.Form', {
 		var _this=this;
 		
 		this.prDialog = Ext.create('Account.PR.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
@@ -37,7 +38,6 @@ Ext.define('Account.PO.Item.Form', {
 			region:'south'
 		});
 		// END INIT other components ////////////////////////////////
-
 
 /*---ComboBox Tax Type----------------------------*/
 		this.comboTax = Ext.create('Ext.form.ComboBox', {

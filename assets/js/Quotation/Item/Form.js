@@ -612,7 +612,8 @@ Ext.define('Account.Quotation.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -688,6 +689,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -697,8 +699,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
 			sum += amt;
-
+         
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -710,11 +716,7 @@ Ext.define('Account.Quotation.Item.Form', {
 				    whts += wht;
 			}
 		});
-		var vattype = this.comboTax.getValue();
-		if(vattype =='02'){
-			sum = sum * 100;
-			sum = sum / 107;
-		}
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -731,7 +733,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
-
+        
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
@@ -743,7 +745,8 @@ Ext.define('Account.Quotation.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:vattype
             });
 
         }

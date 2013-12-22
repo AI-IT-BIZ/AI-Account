@@ -471,8 +471,10 @@ class Quotation extends CI_Controller {
 		$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
+		$vattype = $this->input->get('vattype');
 		$amt = $menge * $unitp;
 		$i=0;$vamt=0;
+
 		$result = array();
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
@@ -483,6 +485,10 @@ class Quotation extends CI_Controller {
 						if(empty($dismt)) $dismt=0;
 
 						$tamt = $amt - $disit;
+						if($vattype=='02'){
+			                   $tamt = $tamt * 100;
+			                   $tamt = $tamt / 107;
+		                }
 						$amt = $tamt;
 
 						$result[$i] = array(

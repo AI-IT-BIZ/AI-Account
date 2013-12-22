@@ -15,9 +15,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		
 		// INIT Customer search popup ///////////////////////////////

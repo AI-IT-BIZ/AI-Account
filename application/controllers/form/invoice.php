@@ -27,13 +27,13 @@ class Invoice extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
-		$v_amt = 0;$w_amt = 0;
+		//$v_amt = 0;$w_amt = 0;
 		foreach ($rows as $key => $item) {
 			$itamt = 0;
 			$itamt = $item['menge'] * $item['unitp'];
 			$itamt = $itamt - $item['disit'];
 			$b_amt += $itamt;
-			$v=0;$w=0;
+			/*$v=0;$w=0;
 			if(!empty($r_data['chk01']))
 			{
 			   $v = $itamt * $r_data['taxpr'];
@@ -45,7 +45,7 @@ class Invoice extends CI_Controller {
 			   $w = $itamt * $r_data['whtpr'];
 			   $w = $w / 100;
 			   $w_amt += $w;
-			}
+			}*/
 		}
 
 		function check_page($page_index, $total_page, $value){
@@ -467,10 +467,10 @@ else
 <?= $wht_str ?></span></DIV>
 
 <DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:660PX;top:799PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($w_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['wht01'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวเงินที่ต้องชำระ</span></DIV>
 

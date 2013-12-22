@@ -15,9 +15,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
@@ -608,7 +606,8 @@ Ext.define('Account.Saleorder.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -680,6 +679,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -687,9 +687,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
-
+   
 			var amt = (qty * price) - discount;
-
+            if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
 			sum += amt;
 			
 			if(r.data['chk01']==true){
@@ -703,11 +706,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 				    whts += wht;
 			}
 		});
-		var vattype = this.comboTax.getValue();
-		if(vattype =='02'){
-			sum = sum * 100;
-			sum = sum / 107;
-		}
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -736,7 +735,8 @@ Ext.define('Account.Saleorder.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:vattype
             });
 
         }

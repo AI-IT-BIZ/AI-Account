@@ -14,7 +14,8 @@ Ext.define('Account.AP.Item.Form', {
 		var _this=this;
 		
 		this.grDialog = Ext.create('Account.GR.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly:true
 		});
 		
 		// INIT other components ///////////////////////////////////
@@ -597,7 +598,7 @@ Ext.define('Account.AP.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ purnr: 0 });
+		this.gridItem.load({ invnr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
