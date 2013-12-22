@@ -49,7 +49,7 @@ class Rgeneraljournal extends CI_Controller {
 		$sd = explode('-',$_GET['start_date']);
 		$ed = explode('-',$_GET['end_date']);
 		require_once substr(BASEPATH,0,-7).'application/libraries/jasper/rest/client/JasperClient.php'; 
-		$client = new Jasper\JasperClient('localhost',
+		$client = new Jasper\JasperClient(JASPERSERVER,
 						8080,
 					   'jasperadmin',
 					   'jasperadmin',
