@@ -242,7 +242,7 @@ Ext.onReady(function() {
 		$om.billfromDialog.show();
 	});
 	$om.viewport.on('click_payment', function(){
-		if(!UMS.CAN.DISPLAY('PD')){
+		if(!UMS.CAN.DISPLAY('PY')){
 			UMS.ALERT("You don't have permission for Payment.");
 			return;
 		}
