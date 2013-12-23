@@ -51,7 +51,7 @@ class Payment extends CI_Controller {
 				OR `invnr` LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);

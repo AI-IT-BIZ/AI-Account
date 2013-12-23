@@ -249,9 +249,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบขอซื้อ</span></DIV>
 
-<DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left: 57PX; top: 128px; width: 119PX; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
-<DIV style="left:57PX;top:150PX;width:149PX;height:20PX;"><span class="fc1-2">3131231313132</span></DIV>
+<DIV style="left: 57PX; top: 147px; width: 149PX; height: 20PX;"><span class="fc1-2">3131231313132</span></DIV>
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
