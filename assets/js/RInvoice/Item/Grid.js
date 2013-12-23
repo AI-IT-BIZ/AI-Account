@@ -54,6 +54,8 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
+                
+                
 
 		this.columns = [
 		        {text: "Invoid No.", width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
@@ -64,7 +66,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			{text: "Credit Term", width: 80, align: 'center', dataIndex: 'terms', sortable: true},
                         {text: "Due Date", width: 120, dataIndex: 'duedt', sortable: true},
 			{text: "Over Due", width: 60, dataIndex: 'Over_Due', sortable: true},
-			{text: "Status", width: 100, dataIndex: 'statu', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statu',renderer:RenderStatus, sortable: true},
 			{text: "Material Code'", width: 80, align: 'right', dataIndex: 'matnr', sortable: true},
 			{text: "Item Description", width: 60, align: 'center', dataIndex: 'maktx', sortable: true},
                         {text: "Quantity", width: 60, align: 'center', dataIndex: 'menge', sortable: true},
@@ -80,13 +82,48 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			store: this.store,
 			displayInfo: true
 		};
+               
+                function RenderStatus(val)
+                {
+                    switch(val)
+                    {
+                        case "01" : return "Waiting for Approval";
+                        case "02" : return "Approved";
+                        case "03" : return "Unapproved";
+                        case "04" : return "Revised";
+                                 
+                    }
+                    return val;
+                  
+                }
 
 		return this.callParent(arguments);
 	},
 	load: function(options){
           //  alert(options.doc_start_from);
 		this.store.load({
-			params: options
+			params: options,
+                        callback: function(records, operation, success) {
+                                  var invnr_temp = ""; 
+                                  var invnr_temp_last = ""; 
+                                  for(i = 0;i<this.getCount();i++)
+                                  {
+                                      rt = this.getAt(i);
+                                      invnr_temp_last = rt.get('invnr');
+                                      if( invnr_temp == rt.get('invnr'))
+                                      {
+                                         rt.set('invnr','');
+                                         rt.set('bldat','');
+                                         rt.set('ordnr','');
+                                         rt.set('name1','');
+                                         rt.commit();
+                                      }
+                                   
+                                     invnr_temp = invnr_temp_last;
+           
+                                  }
+
+                              }
 		});
 	}
 });

@@ -152,7 +152,21 @@ class Invoice extends CI_Controller {
                       ->setCellValue('O8', 'Vat Amount(7%)')
                       ->setCellValue('P8', 'Amount Including Vat');
                 
-
+                function ChangeStatus2($txt)
+                {
+                   switch ($txt)
+                  {
+                   case 1: return "Waiting for Approval";
+                      
+                   case 2: return "Approved";
+                      
+                   case 3: return "Unapproved";
+                    
+                   case 4: return "Revised";
+                      
+                  }
+                  return $txt;
+                }
 		// Add some data
                 $invoid_temp = "";
 		$result_array = $query->result_array();
@@ -171,7 +185,7 @@ class Invoice extends CI_Controller {
 			    ->setCellValue('F'.$excel_i, $value['terms'])
 		            ->setCellValue('G'.$excel_i, $value['duedt'])
                             ->setCellValue('H'.$excel_i, '')
-		            ->setCellValue('I'.$excel_i, $value['statu']);   
+		            ->setCellValue('I'.$excel_i, ChangeStatus2($value['statu']) );   
                          }
                          else {
                                $current_sheet
@@ -410,7 +424,23 @@ class Invoice extends CI_Controller {
                       ->setCellValue('O8', 'Vat Amount(7%)')
                       ->setCellValue('P8', 'Amount Including Vat');
                 
-
+                  /***********************/
+                function ChangeStatus($txt)
+                {
+                   switch ($txt)
+                  {
+                   case 1: return "Waiting for Approval";
+                      
+                   case 2: return "Approved";
+                      
+                   case 3: return "Unapproved";
+                    
+                   case 4: return "Revised";
+                      
+                  }
+                  return $txt;
+                }
+                /***********************/
 		// Add some data
                 $invoid_temp = "";
 		$result_array = $query->result_array();
@@ -429,7 +459,7 @@ class Invoice extends CI_Controller {
 			    ->setCellValue('F'.$excel_i, $value['terms'])
 		            ->setCellValue('G'.$excel_i, $value['duedt'])
                             ->setCellValue('H'.$excel_i, '')
-		            ->setCellValue('I'.$excel_i, $value['statu']);   
+		            ->setCellValue('I'.$excel_i, ChangeStatus($value['statu']) );   
                          }
                          else {
                                $current_sheet
