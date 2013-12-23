@@ -30,6 +30,24 @@ Ext.define('Account.RInvoice.Form', {
         //this.projectDialog2 = Ext.create('Account.Project.MainWindow');
 		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
         
+        
+                this.dateDoc1 = Ext.create('Ext.form.field.Date', {
+			fieldLabel: 'Document Date',
+			name: 'bldat1',
+			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			});
+                        
+               this.dateDoc2 = Ext.create('Ext.form.field.Date', {
+			name: 'bldat1',
+			labelWidth: 100,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+			});
+        
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Invoice Status',
 			name : 'statu',
@@ -64,7 +82,7 @@ Ext.define('Account.RInvoice.Form', {
 		this.comboQStatus2 = Ext.create('Ext.form.ComboBox', {
 			name : 'statu',
 			editable: false,
-			triggerAction : 'all',
+                         hidden:true,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
@@ -151,7 +169,7 @@ Ext.define('Account.RInvoice.Form', {
 		this.trigInvoice = Ext.create('Ext.form.field.Trigger', {
 			name: 'invnr',
 			labelWidth: 100,
-			fieldLabel: 'Invoice Code',
+			fieldLabel: 'Invoice No',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -165,7 +183,7 @@ Ext.define('Account.RInvoice.Form', {
 		this.trigSaleorder = Ext.create('Ext.form.field.Trigger', {
 			name: 'ordnr',
 			labelWidth: 100,
-			fieldLabel: 'Quotation Code',
+			fieldLabel: 'So No',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -196,26 +214,12 @@ Ext.define('Account.RInvoice.Form', {
         xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[{
-			xtype: 'datefield',
-			fieldLabel: 'Document Date',
-			name: 'bldat1',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			},{
+     items :[ this.dateDoc1,{
 			xtype: 'displayfield',
 		    value: 'To',
 		    width:40,
 		    margins: '0 0 0 25'
-		   },{
-			xtype: 'datefield',
-			name: 'bldat2',
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			}]
+		   }, this.dateDoc2]
 		},{
 	    xtype: 'container',
                 layout: 'hbox',
@@ -276,6 +280,7 @@ Ext.define('Account.RInvoice.Form', {
 		{
 			xtype: 'displayfield',
 		    value: 'To',
+                    hidden:true,
 		    width:40,
 		    margins: '0 0 0 25'
 		  },
