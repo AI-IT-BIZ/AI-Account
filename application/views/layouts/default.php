@@ -315,31 +315,38 @@ function endsWith($haystack, $needle)
 
 			var nodeProject = {
 				text: 'Create New Projects',
-				leaf: true
+				leaf: true,
+				id: 'click_project'
 			};
 			var nodeQuotation = {
 				text: 'Create New Quotations',
-				leaf: true
+				leaf: true,
+				id: 'click_quotation'
 			};
 			var nodeSaleOrder = {
 				text: 'Create New Sale Orders',
-				leaf: true
+				leaf: true,
+				id: 'click_saleorder'
 			};
 			var nodeInvoice = {
 				text: 'Create New Invoices',
-				leaf: true
+				leaf: true,
+				id: 'click_invoice'
 			};
 			var nodeReceipt = {
 				text: 'Create New Receipts',
-				leaf: true
+				leaf: true,
+				id: 'click_receipt'
 			};
 			var nodeCustomer = {
 				text: 'Create New Customers',
-				leaf: true
+				leaf: true,
+				id: 'click_customer'
 			};
 			var nodeSalePerson = {
 				text: 'Create New Sale Persons',
-				leaf: true
+				leaf: true,
+				id: 'click_saleperson'
 			};
 
 			var groupSale = {
@@ -360,27 +367,33 @@ function endsWith($haystack, $needle)
 
 			var nodePR = {
 				text: 'Create New Purchase Requisitions',
-				leaf: true
+				leaf: true,
+				id: 'click_pr'
 			};
 			var nodePO = {
 				text: 'Create New Purchase Orders',
-				leaf: true
+				leaf: true,
+				id: 'click_po'
 			};
 			var nodeGR = {
 				text: 'Create New Goods Receipts',
-				leaf: true
+				leaf: true,
+				id: 'click_gr'
 			};
 			var nodeAP = {
 				text: 'Create New Account Payables',
-				leaf: true
+				leaf: true,
+				id: 'click_ap'
 			};
 			var nodePayment = {
 				text: 'Create New Payments',
-				leaf: true
+				leaf: true,
+				id: 'click_payment'
 			};
 			var nodeVendor = {
 				text: 'Create New Vendors',
-				leaf: true
+				leaf: true,
+				id: 'click_vendor'
 			};
 
 			var groupPurchase = {
@@ -404,11 +417,13 @@ function endsWith($haystack, $needle)
 			//};
 			var nodeJTemplate = {
 				text: 'Create New Journal Templates',
-				leaf: true
+				leaf: true,
+				id: 'click_journaltemp'
 			};
 			var nodeJournal = {
 				text: 'Create New Journals',
-				leaf: true
+				leaf: true,
+				id: 'click_journal'
 			};
 			//var nodeBudget = {
 			//	text: 'Create New Manage Bugets',
@@ -416,7 +431,8 @@ function endsWith($haystack, $needle)
 			//};
 			var nodeAccChart = {
 				text: 'Chart of Accounts',
-				leaf: true
+				leaf: true,
+				id: 'click_chart_account'
 			};
 
 			var groupAccount = {
@@ -451,11 +467,13 @@ function endsWith($haystack, $needle)
 			};
 			var nodeMaterial = {
 				text: 'Create New Materials',
-				leaf: true
+				leaf: true,
+				id: 'click_material'
 			};
 			var nodeService = {
 				text: 'Create New Services',
-				leaf: true
+				leaf: true,
+				id: 'click_service'
 			};
 
 			var groupMaterial = {
@@ -485,6 +503,11 @@ function endsWith($haystack, $needle)
 				text: 'Report 3',
 				leaf: true
 			};
+			var nodeReportGL = {
+				text: 'Report General Journal',
+				leaf: true,
+				id: 'click_report_gl'	
+			};
 
 			var groupReport = {
 				text: 'Reports',
@@ -495,10 +518,7 @@ function endsWith($haystack, $needle)
 					nodeReport1,
 					nodeReport2,
 					nodeReport3,
-					{
-						text: 'Report General Journal',
-						leaf: true
-					}
+					nodeReportGL
 				]
 			};
 
@@ -508,7 +528,8 @@ function endsWith($haystack, $needle)
 			};
 			var nodeInit = {
 				text: 'Initail Doc No.',
-				leaf: true
+				leaf: true,
+				id: 'click_config'
 			};
 			var nodeLimit = {
 				text: 'Limitation Setting',
@@ -522,11 +543,13 @@ function endsWith($haystack, $needle)
 			};
 			var nodeChart = {
 				text: 'Chart of Accounts',
-				leaf: true
+				leaf: true,
+				id: 'click_chart_account'
 			};
 			var nodeEmployee = {
 				text: 'Employee',
-				leaf: true
+				leaf: true,
+				id: 'click_employee'
 			};
 
 			var groupConfig = {
@@ -583,174 +606,6 @@ function endsWith($haystack, $needle)
                   return;
                }
 //<<<<<<< HEAD
-			if(tr.innerHTML.indexOf('Create New Sale Persons') > -1)
-			{
-				//if(!UMS.CAN.DISPLAY('PJ')){
-				//UMS.ALERT("You don't have permission for Project.");
-				//return;
-				//}
-				if(!$om.salepersonDialog)
-					$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
-				$om.salepersonDialog.show();
-			}
-            if(tr.innerHTML.indexOf('Create New Projects') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('PJ')){
-				UMS.ALERT("You don't have permission for Project.");
-				return;
-				}
-				if(!$om.projectDialog)
-					$om.projectDialog = Ext.create('Account.Project.MainWindow');
-				$om.projectDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Quotations') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('QT')){
-				UMS.ALERT("You don't have permission for Quotation.");
-				return;
-				}
-				if(!$om.projectDialog)
-					$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-				$om.quotationDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Sale Orders') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('SO')){
-				UMS.ALERT("You don't have permission for Sale Order.");
-				return;
-				}
-				if(!$om.saleorderDialog)
-					$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
-				$om.saleorderDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Invoices') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('IV')){
-				UMS.ALERT("You don't have permission for Invoice.");
-				return;
-				}
-				if(!$om.invoiceDialog)
-					$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
-				$om.invoiceDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Receipts') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('RD')){
-				UMS.ALERT("You don't have permission for Receipt.");
-				return;
-				}
-				if(!$om.receiptDialog)
-					$om.receiptDialog = Ext.create('Account.Receipt.MainWindow');
-				$om.receiptDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Customers') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('CS')){
-				UMS.ALERT("You don't have permission for Customer.");
-				return;
-				}
-				if(!$om.customerDialog)
-				$om.customerDialog = Ext.create('Account.Customer.MainWindow');
-				$om.customerDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Purchase Requisitions') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('PR')){
-				UMS.ALERT("You don't have permission for Purchase Requisition.");
-				return;
-				}
-				if(!$om.prDialog)
-				$om.prDialog = Ext.create('Account.PR.MainWindow');
-				$om.prDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Purchase Orders') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('PO')){
-				UMS.ALERT("You don't have permission for Purchase Order.");
-				return;
-				}
-				if(!$om.poDialog)
-				$om.poDialog = Ext.create('Account.PO.MainWindow');
-				$om.poDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Goods Receipts') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('GR')){
-				UMS.ALERT("You don't have permission for Goods Receipts.");
-				return;
-				}
-				if(!$om.grDialog)
-				$om.grDialog = Ext.create('Account.GR.MainWindow');
-				$om.grDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Account Payables') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('AP')){
-				UMS.ALERT("You don't have permission for Account Payables.");
-				return;
-				}
-				if(!$om.apDialog)
-				$om.apDialog = Ext.create('Account.AP.MainWindow');
-				$om.apDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Payments') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('PD')){
-				UMS.ALERT("You don't have permission for Account Payment.");
-				return;
-				}
-				if(!$om.paymentDialog)
-				$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
-				$om.paymentDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Account Vendors') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('VD')){
-				UMS.ALERT("You don't have permission for Vendor.");
-				return;
-				}
-				if(!$om.vendorDialog)
-				$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-				$om.vendorDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Journal Templates') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('JT')){
-				UMS.ALERT("You don't have permission for Journal Template.");
-				return;
-				}
-				if(!$om.journaltempDialog)
-				$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
-				$om.journaltempDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Journals') > -1)
-			{
-				if(!UMS.CAN.DISPLAY('JN')){
-				UMS.ALERT("You don't have permission for Journal.");
-				return;
-				}
-				if(!$om.journaltempDialog)
-				$om.journalDialog = Ext.create('Account.Journal.MainWindow');
-				$om.journalDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Materials') > -1)
-			{
-			  	if(!UMS.CAN.DISPLAY('MM')){
-			 	UMS.ALERT("You don't have permission for Material.");
-			  	return;
-				}
-				$om.materialDialog = Ext.create('Account.Material.MainWindow');
-				$om.materialDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Create New Services') > -1)
-			{
-			  	if(!UMS.CAN.DISPLAY('SV')){
-			 	UMS.ALERT("You don't have permission for Services.");
-			  	return;
-				}
-				$om.serviceDialog = Ext.create('Account.Service.MainWindow');
-				$om.serviceDialog.show();
-			}
 			if(tr.innerHTML.indexOf('User Define') > -1)
 			{
 				$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
@@ -1010,7 +865,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rap-aging', c); }, c);
 								pEl.getById('div-rmm-aging').on('click', function(){ $om.viewport.fireEvent('click_rmm-aging', c); }, c);
 								pEl.getById('div-rmm-stockcard').on('click', function(){ $om.viewport.fireEvent('click_rmm-stockcard', c); }, c);
-								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart-account', c); }, c);
+								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);

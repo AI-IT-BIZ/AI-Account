@@ -53,7 +53,7 @@ Ext.onReady(function() {
 	});
 
 
-   $om.viewport.on('click_chart-account', function(){
+   $om.viewport.on('click_chart_account', function(){
    		if(!UMS.CAN.DISPLAY('CA')){
 			UMS.ALERT("You don't have permission for Chart of Account.");
 			return;
@@ -359,6 +359,12 @@ Ext.onReady(function() {
 		}
 		$om.limitDialog = Ext.create('Account.UMSLimit.MainWindow');
 		$om.limitDialog.show();
+	});
+	
+	//Report
+	$om.viewport.on('click_report_gl', function(){
+		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
+		$om.RGeneralJournal.show();
 	});
 
 
