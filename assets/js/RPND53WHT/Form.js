@@ -1,4 +1,4 @@
-Ext.define('Account.RPP30Vat.Form', {
+Ext.define('Account.RPND53WHT.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -18,13 +18,13 @@ Ext.define('Account.RPP30Vat.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
-        this.numberBalance = Ext.create('Ext.ux.form.NumericField', {
+        /*this.numberBalance = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'ภาษีที่ชำระเกินยกมา',
 			name: 'balwr',
 			width:250,
 			align: 'right'//,
-         });
+         });*/
         
 		this.items = [{
 // Project Code
@@ -41,7 +41,7 @@ Ext.define('Account.RPP30Vat.Form', {
 			width:250,
 			allowBlank: false
 			}]  
-		},this.numberBalance];		
+		}];//,this.numberBalance];		
 
 		return this.callParent(arguments);
 	},

@@ -328,7 +328,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <DIV style="left:602PX;top:322PX;width:58PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$r_data['terms'];?></span></DIV>
 
 <!--5 Delivery date-->
-<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันครบกำหนดชำระ</span></DIV>
+<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันครบกำหนด</span></DIV>
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <?php 
@@ -426,14 +426,14 @@ endfor;
 <!--Footer Text-->
 <DIV style="left:465PX;top:664PX;width:194PX;height:23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
 <DIV style="left:660PX;top:664PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($b_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['beamt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
-<?php $d_amt = $b_amt - $r_data['dismt'] ?>
+<?php $d_amt = $r_data['beamt'] - $r_data['dismt'] ?>
 <DIV style="left:660PX;top:709PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 

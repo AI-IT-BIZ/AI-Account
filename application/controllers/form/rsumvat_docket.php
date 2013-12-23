@@ -15,6 +15,7 @@ class Rsumvat_docket extends CI_Controller {
 		//$dt_str = '2013-02-22';
 		//echo $dt_result;
 		
+		$balwr = $this->input->get('balwr');
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
@@ -27,31 +28,41 @@ class Rsumvat_docket extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		
-	    //Sale
-	    $strSQL1 = " select v_vbrk.*";
-        $strSQL1 = $strSQL1 . " from v_vbrk ";
-        $strSQL1 = $strSQL1 . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL1 .= "ORDER BY invnr ASC";
-       
-		$q_sale = $this->db->query($strSQL1);
-		$r_sale = $q_sale->first_row('array');
+		//Sale
+		$strSQL = " select v_vbrk.*";
+        $strSQL = $strSQL . " from v_vbrk ";
+        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL .= " ORDER BY invnr ASC";
 		
+		$query = $this->db->query($strSQL);
+		$r_data = $query->first_row('array');
+		// calculate sum
+		$rows = $query->result_array();
+		
+		$sale_amt=0;$sale_vat=0;
 		foreach ($rows as $key => $item) {
-			
+		   $sale_amt += $item['netwr'];
+		   $sale_vat += $item['vat01'];
 		}
 		
 		//Purchase
-		$strSQL2 = " select v_ebrk.*";
-        $strSQL2 = $strSQL2 . " from v_ebrk ";
-        $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
-		$strSQL2 .= "ORDER BY invnr ASC";
+		$strSQL="";
+		$strSQL = " select v_ebrk.*";
+        $strSQL = $strSQL . " from v_ebrk ";
+        $strSQL = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL .= " ORDER BY invnr ASC";
        
-		$q_purch = $this->db->query($strSQL2);
-		$r_purch = $q_purch->first_row('array');
-		
+		$query = $this->db->query($strSQL);
+		$r_data = $query->first_row('array');
 		// calculate sum
-		//$rows = $query->result_array();
-		$b_amt = 0;
+		$rowp = $query->result_array();
+		
+		$purch_amt=0;$purch_vat=0;
+		foreach ($rowp as $key => $item) {
+		   $purch_amt += $item['netwr'];
+		   $purch_vat += $item['vat01'];
+		}
+		
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -138,11 +149,14 @@ class Rsumvat_docket extends CI_Controller {
 </div>
 <div style="left:30PX;top:719PX;border-color:BC968C;border-style:solid;border-width:0px;border-top-width:1PX;width:719PX;">
 </div>
-<div style="left:558PX;top:691PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
-<table width="0px" height="17PX"><td>&nbsp;</td></table>
+<div style="left: 558PX; top: 690px; border-color: BC968C; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 23PX;">
+  <table width="0px" height="17PX"><td>&nbsp;</td></table>
+</div>
+<div style="left: 718px; top: 612px; border-color: BC968C; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 23PX;">
+  <table width="0px" height="17PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:558PX;top:667PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
-<table width="0px" height="17PX"><td>&nbsp;</td></table>
+  <table width="0px" height="17PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:718PX;top:563PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
 <table width="0px" height="17PX"><td>&nbsp;</td></table>
@@ -150,11 +164,8 @@ class Rsumvat_docket extends CI_Controller {
 <div style="left:718PX;top:587PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
 <table width="0px" height="17PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:718PX;top:611PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
-<table width="0px" height="17PX"><td>&nbsp;</td></table>
-</div>
 <div style="left:718PX;top:636PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
-<table width="0px" height="17PX"><td>&nbsp;</td></table>
+  <table width="0px" height="17PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:718PX;top:499PX;border-color:BC968C;border-style:solid;border-width:0px;border-left-width:1PX;height:23PX;">
 <table width="0px" height="17PX"><td>&nbsp;</td></table>
@@ -518,9 +529,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:106PX;top:433PX;width:198PX;height:25PX;"><span class="fc1-17">ยอดขายที่เสียภาษีในอัตราร้อยละ 0&nbsp;&nbsp;(ถ้ามี)</span></DIV>
 
-<DIV style="left:453PX;top:407PX;width:104PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">1,073,650</span></DIV>
-
-<DIV style="left:560PX;top:407PX;width:23PX;height:21PX;"><span class="fc1-20">00</span></DIV>
+<DIV style="left: 450px; top: 407PX; width: 124px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
 
 <DIV style="left:449PX;top:431PX;width:108PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">0</span></DIV>
 
@@ -530,9 +539,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:560PX;top:455PX;width:21PX;height:22PX;"><span class="fc1-20">00</span></DIV>
 
-<DIV style="left:560PX;top:480PX;width:21PX;height:22PX;"><span class="fc1-20">00</span></DIV>
-
-<DIV style="left:450PX;top:480PX;width:107PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">1,073,650</span></DIV>
+<DIV style="left: 446px; top: 480PX; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
 
 <DIV style="left:86PX;top:455PX;width:22PX;height:23PX;"><span class="fc1-2">ลบ</span></DIV>
 
@@ -645,33 +652,31 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:108PX;top:691PX;width:277PX;height:23PX;"><span class="fc1-19">ชำระเกิน&nbsp;&nbsp;&nbsp;((ถ้า 10. มากกว่า 8.)&nbsp;&nbsp;หรือ&nbsp;&nbsp;(9. รวมกับ 10.))</span></DIV>
 
-<DIV style="left:608PX;top:502PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">75,155</span></DIV>
+<DIV style="left: 606px; top: 502PX; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_vat,2,'.',',');?></span></DIV>
+<DIV style="left: 447px; top: 535PX; width: 127px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left:720PX;top:502PX;width:19PX;height:22PX;"><span class="fc1-20">50</span></DIV>
+<DIV style="left: 610px; top: 566PX; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($purch_vat,2,'.',',');?></span></DIV>
 
-<DIV style="left:560PX;top:535PX;width:21PX;height:22PX;"><span class="fc1-20">00</span></DIV>
+<DIV style="left: 609px; top: 639PX; width: 124px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($balwr,2,'.',',');?></span></DIV>
 
-<DIV style="left:450PX;top:535PX;width:107PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">3,100,000</span></DIV>
+<?php 
+      $net_amt=0;$over_amt=0;
+	  $net_amt = $sale_vat - $purch_vat;
+      if($net_amt<0){$over_amt = 0 - $net_amt;}
+	  elseif($net_amt==0){$net_amt = $over_amt;}
+?>
+<DIV style="left: 611px; top: 591PX; width: 123px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($net_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left:608PX;top:566PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">217,000</span></DIV>
+<DIV style="left: 608PX; top: 615PX; width: 126px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($over_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left:720PX;top:566PX;width:19PX;height:22PX;"><span class="fc1-20">00</span></DIV>
-
-<DIV style="left:608PX;top:591PX;width:108PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">0</span></DIV>
-
-<DIV style="left:720PX;top:591PX;width:19PX;height:21PX;"><span class="fc1-20">00</span></DIV>
-
-<DIV style="left:720PX;top:615PX;width:19PX;height:22PX;"><span class="fc1-20">50</span></DIV>
-
-<DIV style="left:608PX;top:639PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">0</span></DIV>
-
-<DIV style="left:720PX;top:639PX;width:19PX;height:22PX;"><span class="fc1-20">00</span></DIV>
-
-<DIV style="left:608PX;top:615PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">141,844</span></DIV>
-
-<DIV style="left:450PX;top:695PX;width:107PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">141,844</span></DIV>
-
-<DIV style="left:560PX;top:695PX;width:23PX;height:22PX;"><span class="fc1-20">50</span></DIV>
+<?php 
+      $net_amt2=0;$over_amt2=0;
+	  $net_amt2 = $sale_vat - $purch_vat;
+	  $net_amt2 = $net_amt2 - $balwr;
+      if($net_amt2<0){$over_amt2 = 0 - $net_amt2;}
+	  elseif($net_amt2==0){$net_amt2 = $over_amt2;}
+?>
+<DIV style="left: 451px; top: 695PX; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($net_amt,2,'.',',');?></span></DIV>
 
 <DIV style="left:739PX;top:589PX;width:19PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-24">8</span></DIV>
 

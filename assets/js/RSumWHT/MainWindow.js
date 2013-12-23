@@ -1,10 +1,10 @@
-Ext.define('Account.RSumVat.MainWindow', {
+Ext.define('Account.RSumWHT.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Vat Report Selection',
+			title: 'WHT Report Selection',
 			closeAction: 'hide',
 			height: 150,
 			width: 350,
@@ -21,18 +21,18 @@ Ext.define('Account.RSumVat.MainWindow', {
 		
 		//this.itemDialog = Ext.create('Account.RReceiptVat.Item.Window');
 
-		this.form = Ext.create('Account.RSumVat.Form',{ region:'center' });
+		this.form = Ext.create('Account.RSumWHT.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.RSumVat.PreviewWindow');
-        this.previewDialog2 = Ext.create('Account.RSumVat.PreviewWindow2');
-        this.previewDialog3 = Ext.create('Account.RSumVat.PreviewWindow3');
+		this.previewDialog = Ext.create('Account.RSumWHT.PreviewWindow');
+        this.previewDialog2 = Ext.create('Account.RSumWHT.PreviewWindow2');
+        this.previewDialog3 = Ext.create('Account.RSumWHT.PreviewWindow3');
         
 		this.items = [
 		     this.form
 		];
 		
 		this.btnPreview = Ext.create('Ext.Button', {
-			text: 'Sale&Purchase Vat Preview',
+			text: 'Sale&Purchase WHT Preview',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){

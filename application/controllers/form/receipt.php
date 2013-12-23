@@ -302,12 +302,13 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	//$itamt = $itamt - $item['disit'];
 	$b_amt += $itamt;
 	$invdt_str = util_helper_format_date($r_data['invdt']);
+	$duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:109px;"><?=$item['vbelp'];?></td>
 	  <td class="fc1-8" align="center" style="width:228px;"><?=$item['invnr'];?></td>
 	  <td class="fc1-8" align="center" style="width:136px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:137px;"><?=$item['txz01'];?></td>
+	  <td class="fc1-8" align="center" style="width:137px;"><?=$duedt_str;?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
