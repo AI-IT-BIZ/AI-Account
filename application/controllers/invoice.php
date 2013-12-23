@@ -202,6 +202,7 @@ class Invoice extends CI_Controller {
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01'),
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt')
@@ -332,7 +333,10 @@ class Invoice extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

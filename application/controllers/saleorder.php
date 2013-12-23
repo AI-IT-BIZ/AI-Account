@@ -236,7 +236,10 @@ class Saleorder extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

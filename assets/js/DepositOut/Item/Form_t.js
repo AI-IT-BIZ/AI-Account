@@ -33,8 +33,8 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			width:50,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			margin: '4 0 0 10',
-			allowBlank : false
+			margin: '4 0 0 10'//,
+			//allowBlank : false
 		});
 		
     this.comboWHType = Ext.create('Ext.form.ComboBox', {
@@ -196,7 +196,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
    	        xtype: 'textfield',
    	        name: 'whtxt',
    	        margin: '4 0 0 7',
-   	        allowBlank: false,
+   	        //allowBlank: false,
 			width:250
 		}]
 		}]

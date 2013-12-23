@@ -3,7 +3,7 @@ Ext.define('Account.DepositOut.Item.PreviewWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'GR preview',
+			title: 'Deposit Payment preview',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
