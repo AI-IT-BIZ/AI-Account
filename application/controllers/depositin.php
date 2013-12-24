@@ -116,7 +116,8 @@ class Depositin extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'txz01' => $this->input->post('txz01')//,
+			'txz01' => $this->input->post('txz01'),
+			'dispc' => $this->input->post('dispc')//,
 			//'duedt' => $this->input->post('duedt')
 		);
 		

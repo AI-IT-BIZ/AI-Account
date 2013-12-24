@@ -129,7 +129,8 @@ class Payment extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'dispc' => $this->input->post('dispc')
 		);
 		
 		// start transaction

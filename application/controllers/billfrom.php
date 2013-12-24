@@ -129,7 +129,8 @@ class Billfrom extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'ctype' => $ctype,
 			'statu' => $this->input->post('statu'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'dispc' => $this->input->post('dispc')
 		);
 		
 		// start transaction

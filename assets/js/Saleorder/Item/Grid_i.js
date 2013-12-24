@@ -194,14 +194,14 @@ Ext.define('Account.Saleorder.Item.Grid_i', {
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
+						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 						chk01 = r.data['chk01'],
 						chk02 = r.data['chk02'];
 						
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
-					var amt = (qty * price) - discount;
+					//discount = isNaN(discount)?0:discount;
+					var amt = qty * price;// - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},

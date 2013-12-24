@@ -482,7 +482,7 @@ class Quotation extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($dismt)) $dismt=0;
+						if(empty($disit)) $disit=0;
 
 						$tamt = $amt - $disit;
 						if($vattype=='02'){

@@ -128,7 +128,8 @@ class Billto extends CI_Controller {
 			'ctype' => $ctype,
 			//'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'dispc' => $this->input->post('dispc')
 		);  
 		
 		if (!empty($query) && $query->num_rows() > 0){
