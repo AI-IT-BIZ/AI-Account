@@ -195,8 +195,10 @@ class Depositin extends CI_Controller {
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
+			'refnr' => $id,
 			'kunnr' => $this->input->post('kunnr'),
 			'txz01' => 'Deposit Receipt No '.$id,
+			'ttype' => '04',
 			'auart' => 'AR',
 			'netwr' => $this->input->post('netwr')
 		);

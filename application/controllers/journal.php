@@ -41,6 +41,14 @@ class Journal extends CI_Controller {
 		
 		// Start for report
 		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`belnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
 			$belnr1 = $_this->input->get('belnr');
 			$belnr2 = $_this->input->get('belnr2');
 			if(!empty($belnr1) && empty($belnr2)){
@@ -83,14 +91,18 @@ class Journal extends CI_Controller {
 			
 		}
 // End for report
-
+        createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
+        
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();
@@ -151,6 +163,7 @@ class Journal extends CI_Controller {
 			'ttype' => $this->input->post('ttype'),
 			'tranr' => $this->input->post('tranr'),
 			'auart' => $modul,
+			'refnr' => $this->input->post('refnr'),
 			'netwr' => $this->input->post('debit')
 		);
 		
@@ -254,7 +267,7 @@ class Journal extends CI_Controller {
 
 		    $tr_id = $this->input->get('belnr');
 		    $this->db->where('belnr', $tr_id);
-		    $query = $this->db->get('bcus');
+		    $query = $this->db->get('uacc');
 		
 		echo json_encode(array(
 			'success'=>true,

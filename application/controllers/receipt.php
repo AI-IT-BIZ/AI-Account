@@ -219,13 +219,17 @@ class Receipt extends CI_Controller {
 		}
 		
 //*** Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('bkpf');
+			if($query->num_rows()>0){
+				$result = $query->first_row('array');
+			    $accno = $result['belnr'];
+			}
 		}
 		$date = date('Ymd');
 //Non Cheque Payment
@@ -233,10 +237,13 @@ class Receipt extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
+			'invnr' => $id,
+			'refnr' => $id,
+			'kunnr' => $this->input->post('kunnr'),
+			'txz01' => 'Receipt Journal No '.$id,
+			'ttype' => '03',
 			'auart' => 'RV',
-			'netwr' => $amt2
+			'netwr' => $this->input->post('netwr')
 		);
 		
 		// start transaction
@@ -244,22 +251,22 @@ class Receipt extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('RV', 
+			$accno = $this->code_model->generate('RV', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
@@ -272,13 +279,15 @@ class Receipt extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='1' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
+					'bldat' => $this->input->post('bldat'),
+					'kunnr' => $this->input->post('kunnr'),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'txz01' => 'Receipt Journal No '.$id
 				));
 				}
 			}
@@ -289,29 +298,31 @@ class Receipt extends CI_Controller {
 			$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
+			'invnr' => $id,
+			'refnr' => $id,
+			'txz01' => 'Receipt Journal No '.$id,
+			'ttype' => '07',
 			'auart' => 'RC',
 			'netwr' => $amt1
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('RC', 
+			$accno = $this->code_model->generate('RC', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
@@ -324,13 +335,14 @@ class Receipt extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='2' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
+					'bldat' => $this->input->post('bldat'),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'txz01' => 'Receipt Journal No '.$id
 				));
 				}
 			}
@@ -347,7 +359,10 @@ class Receipt extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 	
