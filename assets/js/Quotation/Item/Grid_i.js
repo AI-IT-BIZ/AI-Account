@@ -199,9 +199,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
+					//discount = isNaN(discount)?0:discount;
 
-					var amt = (qty * price) - discount;
+					var amt = qty * price;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},

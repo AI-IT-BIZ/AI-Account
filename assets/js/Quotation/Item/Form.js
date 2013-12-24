@@ -688,7 +688,7 @@ Ext.define('Account.Quotation.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var whts=0;
+		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
@@ -704,6 +704,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			    amt = amt / 107;
 		    }
 			sum += amt;
+			
+			discounts += discount;
          
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -720,6 +722,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 
 		// set value to grid payment

@@ -73,59 +73,101 @@ class Invoice extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'vbrk';
 		
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`invnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+	        $ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
+			}
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			$jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+// End for report
+
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 		
-                $doc_start_from = $_POST["doc_start_from"];
-                $doc_start_to = $_POST["doc_start_to"];
-                $invoice_from = $_POST["invoice_from"];
-                $invoice_to = $_POST["invoice_to"];
-                $so_no_from = $_POST["so_no_from"];
-                $so_no_to = $_POST["so_no_to"];
-                $cus_code_from = $_POST["cus_code_from"];
-                $cus_code_to = $_POST["cus_code_to"];
-                $saleperson_from = $_POST["saleperson_from"];
-                $saleperson_to = $_POST["saleperson_to"];
-                $invoice_status = $_POST["invoice_status"];
-            //    $xxx = $this->input->post('xxx');
-            
-                $sWhere = "";
-                if($doc_start_from != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And") . "  ( v_vbrk.bldat >= STR_TO_DATE('" . $doc_start_from . "','%d/%m/%Y') and  v_vbrk.bldat <= STR_TO_DATE('" . $doc_start_to . "','%d/%m/%Y') )";
-                }
-                if($invoice_from != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And ") . " ( v_vbrk.invnr >= '" . $invoice_from . "' And v_vbrk.invnr <= '" . $invoice_to . "' ) " ;
-                }
-                 if($so_no_from != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And ") . " ( v_vbrk.ordnr >= '" . $so_no_from . "' And v_vbrk.ordnr <= '" . $so_no_from . "' ) " ;
-                }
-                 if($cus_code_from != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And ") . " ( v_vbrk.kunnr >= '" . $cus_code_from . "' And v_vbrk.kunnr <= '" . $cus_code_to . "' ) " ;
-                }
-                if($saleperson_from != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And ") . " ( v_vbrk.salnr >= '" . $saleperson_from . "' And v_vbrk.salnr <= '" . $saleperson_to . "' ) " ;
-                }
-                if($invoice_status != "")
-                {
-                    $sWhere = $sWhere .($sWhere == "" ? " Where " : " And ") . " ( v_vbrk.statu = '" . $invoice_status . "' )" ;
-                }
-                
-		$sSql = "Select  v_vbrk.*,v_vbrp.* from v_vbrk ";
-                $sSql = $sSql . " Left Join v_vbrp on v_vbrk.invnr = v_vbrp.invnr ";
-                $sSql = $sSql . $sWhere;
-                $sSql = $sSql . " order by v_vbrk.invnr  "  ;
-                $query = $this->db->query($sSql);
-		
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>20
+			'totalCount'=>$totalCount
 		));
-		
 	}
 
 	function save(){
@@ -160,6 +202,7 @@ class Invoice extends CI_Controller {
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01'),
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt')
@@ -290,7 +333,10 @@ class Invoice extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

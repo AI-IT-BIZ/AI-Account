@@ -19,6 +19,7 @@ Ext.define('Account.AP.Grid', {
 			fields: [
 			    'invnr',
 				'bldat',
+				'mbeln',
 				'lifnr',
 				'name1',
 				'netwr',
@@ -34,6 +35,7 @@ Ext.define('Account.AP.Grid', {
 			xtype: 'datecolumn',
 			align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
+			{text: "GR Doc", flex: true, dataIndex: 'mbeln', sortable: true},
 			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", flex: true, 

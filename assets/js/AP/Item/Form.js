@@ -528,7 +528,9 @@ Ext.define('Account.AP.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
         
-        this.numberCredit.on('keyup', this.getDuedate, this);
+        //this.numberCredit.on('keyup', this.getDuedate, this);
+        //this.numberCredit.on('change', this.getDuedate, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
 	
@@ -613,16 +615,21 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// Add duedate functions
-	getDuedate: function(){
-		var credit = this.numberCredit.getValue();
-		var date = Date.today().add({ days: credit });
-		_this.getForm().findField('duedt').setValue(date);
-	},
+	/*getDuedate: function(){
+		var bForm = this.getForm(),
+			credit = this.numberCredit.getValue(),
+			startDate = bForm.findField('bldat').getValue(),
+			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+
+		bForm.findField('duedt').setValue(result);
+	},*/
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var i=0;
+		var saknr_list = [];
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -632,6 +639,10 @@ Ext.define('Account.AP.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
 			sum += amt;
 			
 			if(r.data['chk01']==true){
@@ -683,7 +694,7 @@ Ext.define('Account.AP.Item.Form', {
 	},
 	
 // Payments Method	
-	selectPay: function(combo, record, index){
+	/*selectPay: function(combo, record, index){
 		var _this=this;
 		var store = this.gridItem.store;
 		var vtax = combo.getValue();
@@ -722,5 +733,5 @@ Ext.define('Account.AP.Item.Form', {
             	dtype:'01'
             }); 
            }
-	}
+	}*/
 });

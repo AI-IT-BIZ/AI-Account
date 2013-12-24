@@ -84,7 +84,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 15;
+	$page_size = 17;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -92,7 +92,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		echo '<div';
 		if($real_current_page>0)
 			echo ' class="break"';
-		echo ' style="position:relative; height:1100px;">';
+		echo ' style="position:relative; height:1848px;">';
 		$real_current_page++;
 ?>
 
@@ -118,9 +118,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 518px; top: 72px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
-<DIV style="left: 637px; top: 76px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
+<DIV style="left: 637px; top: 73px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
-<DIV style="left: 679px; top: 76px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 679px; top: 72px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 <DIV style="left: 960px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 881px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
