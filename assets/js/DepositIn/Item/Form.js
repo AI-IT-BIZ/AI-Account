@@ -25,7 +25,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		this.gridItem = Ext.create('Account.DepositIn.Item.Grid_i',{
 			//title:'Invoice Items',
-			height: 320,
+			height: 200,
 			region:'center'
 		});
 		this.gridGL = Ext.create('Account.DepositIn.Item.Grid_gl',{
@@ -73,6 +73,38 @@ Ext.define('Account.DepositIn.Item.Form', {
 			valueField: 'statu'
 		});
 		
+		this.comboTax = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Vat type',
+			name : 'taxnr',
+			width: 240,
+			//margin: '0 0 0 5',
+			//labelAlign: 'right',
+			editable: false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Vat --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_taxcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'taxnr'
+					}
+				},
+				fields: [
+					'taxnr',
+					'taxtx'
+				],
+				remoteSort: true,
+				sorters: 'taxnr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'taxtx',
+			valueField: 'taxnr'
+		});
+		
 		this.hdnDpItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbdp'
 		});
@@ -110,6 +142,24 @@ Ext.define('Account.DepositIn.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+		
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
+			fieldLabel: 'WHT Value',
+			name: 'whtpr',
+			labelAlign: 'right',
+			width:200,
+			//align: 'right',
+			//margin: '0 0 0 25'
+         });
+
+         this.numberVat = Ext.create('Ext.form.field.Number', {
+			fieldLabel: 'Vat Value',
+			name: 'taxpr',
+			labelAlign: 'right',
+			width:200,
+			//align: 'right',
+			//margin: '0 0 0 25'
+         });
 		
 // Start Write Forms
 		var mainFormPanel = {
@@ -175,7 +225,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			width:400,
 			rows:3,
 			labelAlign: 'top'
-		}]
+		},this.comboTax]
 		},{
 			xtype: 'container',
                 layout: 'anchor',
@@ -208,7 +258,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-		},*/this.trigCurrency,this.comboQStatus
+		},*/this.trigCurrency,this.numberWHT,
+		this.numberVat,this.comboQStatus
 		 ]
 		}]
 		}]
@@ -220,7 +271,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:170,
+			height:200,
 			items: [
 				this.formTotal,
 				this.gridGL
@@ -475,7 +526,9 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
-		//this.comboTax.setValue('01');
+		this.comboTax.setValue('01');
+		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');

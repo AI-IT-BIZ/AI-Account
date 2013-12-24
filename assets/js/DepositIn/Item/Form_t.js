@@ -16,6 +16,43 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		var myStorecomboWHTno = Ext.create('Ext.data.Store', {
+    fields: ['idWHT', 'name'],
+    data : [
+        {"idWHT":"01", "name":"นิติบุคคล"},
+        {"idWHT":"02", "name":"บุคคลธรรมดา"}
+        //...
+    ]
+});
+		
+		this.whtDialog = Ext.create('Account.WHT.Window');
+       this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+			name: 'whtnr',
+			//fieldLabel: 'SO No',
+			labelAlign: 'letf',
+			width:50,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			margin: '4 0 0 10'//,
+			//allowBlank : false
+		});
+		
+    this.comboWHType = Ext.create('Ext.form.ComboBox', {
+    fieldLabel: 'Witholding Tax',
+	name: 'whtyp',
+	width:240,
+	triggerAction : 'all',
+	clearFilterOnReset: true,
+	emptyText: '--Select WHT Typ--',
+	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
+    margin: '4 0 0 0',
+    store: myStorecomboWHTno,
+    labelAlign: 'left',
+    queryMode: 'local',
+    displayField: 'name',
+    valueField: 'idWHT'
+    });
 
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
@@ -61,7 +98,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			readOnly: true
 		});
 		
-		this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
+		/*this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
             alwaysDisplayDecimals: true,
@@ -70,6 +107,32 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			margin: '4 0 0 0',
 			width:270,
 			labelWidth: 155,
+			readOnly: true
+
+         });*/
+        this.txtTaxValue = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'Vat Total',
+			align: 'right',
+			alwaysDisplayDecimals: true,
+			width:270,
+			labelWidth: 155,
+			name: 'vat01',
+			align: 'right',
+			margin: '4 0 0 0',
+			readOnly: true
+
+         });
+        this.txtWHTValue = Ext.create('Ext.ux.form.NumericField', {
+            xtype: 'textfield',
+            fieldLabel: 'WHT Total',
+			align: 'right',
+			alwaysDisplayDecimals: true,
+			width:270,
+			labelWidth: 155,
+			name: 'wht01',
+			align: 'right',
+			margin: '4 0 0 0',
 			readOnly: true
 
          });
@@ -144,34 +207,32 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			width:380,
 			name: 'txz01'//,
 			//anchor:'90%'
+		},{
+			xtype: 'container',
+            layout: 'hbox',
+            anchor: '100%',
+            //margin: '5 0 5 600',
+        items: [this.comboWHType,this.trigWHT,{
+   	        xtype: 'textfield',
+   	        name: 'whtxt',
+   	        margin: '4 0 0 7',
+   	        //allowBlank: false,
+			width:250
+		}]
 		}]
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 200',
+                margins: '0 0 0 20',
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
             //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
-		},this.txtDiscountSum,{
-			xtype: 'container',
-			layout: 'hbox',
-			defaultType: 'textfield',
-			//margin: '5 0 5 600',
-	items: [
-		//this.txtTax
-		//,{
-		//	xtype: 'displayfield',
-		//	align: 'right',
-		//	width:10,
-		//	margin: '4 0 0 0',
-		//	value: '%'
-		//},
-		this.txtInterest
-	]
-	},
-	this.txtNet]
+		},this.txtDiscountSum,
+		this.txtTaxValue,
+		this.txtWHTValue,
+	    this.txtNet]
 		}]
 		}];
 		
@@ -185,7 +246,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
-		this.txtInterest.on('render', setAlignRight);
+		//this.txtInterest.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
 
@@ -262,7 +323,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		var tax = this.txtInterest.getValue(),
+		/*var tax = this.txtInterest.getValue(),
 			taxValue = 0;
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
@@ -274,9 +335,16 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			//}
 		}else{
 			this.txtInterest.setValue('');
-		}
+		}*/
 
-		var net = total - discountValue + taxValue;
+		var vat = this.txtTaxValue.getValue();
+		//var vat = _this.vatValue;
+		//this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
+		
+		var wht = this.txtWHTValue.getValue();
+		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
+
+		var net = (total - discountValue) + (vat - wht);
 		this.txtNet.setValue(net);
 		
 		return net;

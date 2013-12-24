@@ -307,6 +307,7 @@ class Depositin extends CI_Controller {
 		if(empty($iv_id)){
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
+		   $vvat = $this->input->get('vvat');    //VAT amt
 		   //$rate = $this->input->get('rate');    //Currency Rate
 		   //$ptype = $this->input->get('ptype');  //Pay Type
 		   //$dtype = $this->input->get('dtype');  //Doc Type
@@ -317,18 +318,21 @@ class Depositin extends CI_Controller {
 		   $result = array();
 		   
 		// record แรก
-			$query = $this->db->get_where('kna1', array(
-				'kunnr'=>$kunnr));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
+			//$query = $this->db->get_where('kna1', array(
+			//	'kunnr'=>$kunnr));
+			//if($query->num_rows()>0){
+			//	$q_data = $query->first_row('array');
+			//	$qgl = $this->db->get_where('glno', array(
+			//	'saknr'=>$q_data['saknr']));
+				$glno = '1130-05';  
+		        $qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
 				
 				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 				$result[$i] = array(
 				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
+					'saknr'=>$glno,
 					'sgtxt'=>$q_glno['sgtxt'],
 					'debit'=>$net,
 					'credi'=>0
@@ -336,11 +340,11 @@ class Depositin extends CI_Controller {
 				$i++;
 				$debit=$net;
 			}
-			}
+			//}
 
 // record ที่สอง
         if($netpr>0){
-        $glno = '1130-02';  
+        $glno = '2133-00';  
 		$qdoc = $this->db->get_where('glno', array(
 				'saknr'=>$glno));
 				
@@ -357,11 +361,11 @@ class Depositin extends CI_Controller {
 		$credit=$netpr;
 		}
 		}
+		
 // record ที่สาม
-/*
-		if($vvat>'1'){ 
+		if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '215010';
+		$glvat = '2136-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		$q_glno = $qgl->first_row('array');
@@ -375,7 +379,7 @@ class Depositin extends CI_Controller {
 		$i++;
 		$credit = $credit + $vvat;	
 		}
-        if($vwht>'1'){ 
+/*        if($vwht>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}
 		$glwht = '215040';
 		$qgl = $this->db->get_where('glno', array(

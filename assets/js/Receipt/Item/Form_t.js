@@ -28,7 +28,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
-			name: 'dismt',
+			name: 'dispc',
 			align: 'right',
 			labelWidth: 80,
 			width:150,
@@ -45,7 +45,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			}
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
-			name: 'aaa',
+			name: 'dismt',
 			align: 'right',
 			width:110,
 			margin: '0 0 0 10',

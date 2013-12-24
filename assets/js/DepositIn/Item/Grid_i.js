@@ -43,7 +43,9 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				'duedt',
 				'perct',
 				'pramt',
-				'ctyp1'
+				'ctyp1',
+				'chk01',
+				'chk02'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -95,7 +97,35 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
                 //minText: 'Cannot have a start date before the company existed!',
                 //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
             }
-			},
+			},{
+            xtype: 'checkcolumn',
+            text: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },{
+            xtype: 'checkcolumn',
+            text: 'WHT',
+            dataIndex: 'chk02',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
 			{text: "Percent",
 			width: 70,
 			xtype: 'numbercolumn',
@@ -140,8 +170,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			editor: {
 				xtype: 'textfield'
 			},
-			}
-		];
+			}];
 
 		this.plugins = [this.editing];
 

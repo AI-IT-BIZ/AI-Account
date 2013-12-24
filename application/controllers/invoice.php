@@ -48,15 +48,12 @@ class Invoice extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrk';
 		
-		$statu = $this->input->get('statu');
-		$this->db->where('statu', $statu);
-		
 		$totalCount = $this->db->count_all_results($tbName);
 
 		//createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		//$limit = $this->input->get('limit');
+		//$start = $this->input->get('start');
+		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 		
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
@@ -202,10 +199,7 @@ class Invoice extends CI_Controller {
 			'condi' => $this->input->post('condi'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01'),
-			'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => $this->input->post('whtnr'),
-			'whtxt' => $this->input->post('whtxt')
+			'wht01' => $this->input->post('wht01')
 		);
 		
 		// start transaction
@@ -333,10 +327,7 @@ class Invoice extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				// also send id after save
-				'data'=> array(
-					'id'=>$id
-				)
+				'data'=>$_POST
 			));
 	}
 
@@ -369,7 +360,7 @@ class Invoice extends CI_Controller {
 		
         $sql="SELECT *
 			FROM tbl_apov
-			WHERE apgrp = '1'";
+			WHERE apgrp = '2'";
 		$query = $this->db->query($sql);
 		
 		echo json_encode(array(
@@ -463,33 +454,7 @@ class Invoice extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
-	public function loads_wht(){
-		$tbName = 'whty';
-		$tbPK = 'whtnr';
-		
-		$id = $this->input->post('id');
-		$this->db->limit(1);
-		$this->db->where('whtnr', $id);
 
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('whtxt', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-	
 	function remove(){
 		$id = $this->input->post('id');
 		$this->db->where('invnr', $id);
@@ -547,7 +512,6 @@ class Invoice extends CI_Controller {
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
-		   
 // record แรก
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
@@ -597,11 +561,12 @@ class Invoice extends CI_Controller {
 	    }
 		}
 // record ที่สาม
-		if($vvat>'1'){ 
+		if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
 		$glvat = '2135-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
 		$q_glno = $qgl->first_row('array');
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
@@ -612,8 +577,8 @@ class Invoice extends CI_Controller {
 		);
 		$i++;
 		$credit = $credit + $vvat;	
-		}
-		
+		}}
+	
 		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(
 		    'belpr'=>$i + 1,

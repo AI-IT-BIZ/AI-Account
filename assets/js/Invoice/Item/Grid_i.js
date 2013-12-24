@@ -104,7 +104,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -202,12 +202,12 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
+					//discount = isNaN(discount)?0:discount;
                     
-					var amt = (qty * price) - discount;
+					var amt = qty * price;//) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
@@ -218,7 +218,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			align: 'center',
 			field: {
 				type: 'textfield'
-			}
+			},
 		},
 			{
 			dataIndex: 'saknr',
@@ -255,17 +255,17 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
 							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
+							rModel.set(e.field, e.record.data.matnr);
 							// Materail text
-							rModel.set('maktx', r.data.maktx);
+							rModel.set('maktx', e.record.data.maktx);
 							// Unit
-							rModel.set('meins', r.data.meins);
+							rModel.set('meins', e.record.data.meins);
 							//rModel.set('amount', 100+Math.random());
 							// Cost
-							var cost = r.data.cost;
+							var cost = e.record.data.cost;
 							rModel.set('unitp', cost);
 							//rModel.set('amount', 100+Math.random());
-
+                            rModel.set('saknr', e.record.data.saknr);
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -302,6 +302,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							// Cost
 							var cost = r.data.cost;
 							rModel.set('unitp', cost);
+							rModel.set('saknr', r.data.saknr);
 						}
 					}
 				});
