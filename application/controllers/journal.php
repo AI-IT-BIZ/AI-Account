@@ -141,6 +141,7 @@ class Journal extends CI_Controller {
 	    if($query_type->num_rows()>0){
 			$result_type = $query_type->first_row('array');
 		    $modul = $result_type['modul'];
+			$tname = $result_type['tname'];
 		}
 		
 		$formData = array(
@@ -174,10 +175,10 @@ class Journal extends CI_Controller {
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('belnr', $id);
-		$this->db->delete('bsid');
+		$this->db->delete($tname);
 
 		// เตรียมข้อมูล tr item
-		$bsid = $this->input->post('bsid');
+		$bsid = $this->input->post($tname);
 		$tr_item_array = json_decode($bsid);
 		
 		if(!empty($bsid) && !empty($tr_item_array)){
@@ -185,7 +186,7 @@ class Journal extends CI_Controller {
 			$item_index = 0;
 		foreach($tr_item_array AS $p){
 			if(!empty($p->saknr)){
-			$this->db->insert('bsid', array(
+			$this->db->insert($tname, array(
 				'belnr'=>$id,
 				'belpr'=>++$item_index,
 				'gjahr' => substr($date,0,4),

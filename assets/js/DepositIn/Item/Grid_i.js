@@ -45,7 +45,8 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				'pramt',
 				'ctyp1',
 				'chk01',
-				'chk02'
+				'chk02',
+				'disit'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -97,6 +98,24 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
                 //minText: 'Cannot have a start date before the company existed!',
                 //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
             }
+			},
+			{text: "Discount",
+			xtype: 'numbercolumn',
+			width: 70,
+			dataIndex: 'disit',
+			sortable: false,
+			align: 'right',
+			field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}
+			},
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',

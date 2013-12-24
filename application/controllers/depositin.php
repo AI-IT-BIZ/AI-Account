@@ -117,8 +117,16 @@ class Depositin extends CI_Controller {
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'dispc' => $this->input->post('dispc')//,
-			//'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'taxnr' => $this->input->post('taxnr'),
+			'taxpr' => $this->input->post('taxpr'),
+			'whtpr' => $this->input->post('whtpr'),
+			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01'),
+			'whtyp' => $this->input->post('whtyp'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt'),
+			'terms' => $this->input->post('terms')
 		);
 		
 		// start transaction
@@ -161,26 +169,34 @@ class Depositin extends CI_Controller {
 				'pramt'=>$p->pramt,
 				'perct'=>$p->perct,
 				'duedt'=>$p->duedt,
+				'chk01'=>$p->chk01,
+				'chk02'=>$p->chk02,
+				'disit'=>$p->disit,
 				'ctyp1'=>$p->ctyp1
 			));
 	    	}
 		}
 
 // Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('bkpf');
+			if($query->num_rows()>0){
+				$result = $query->first_row('array');
+			    $accno = $result['belnr'];
+			}
 		}
 		$date = date('Ymd');
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
+			'invnr' => $id,
+			'kunnr' => $this->input->post('kunnr'),
+			'txz01' => 'Deposit Receipt No '.$id,
 			'auart' => 'AR',
 			'netwr' => $this->input->post('netwr')
 		);
@@ -190,15 +206,15 @@ class Depositin extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('AR', 
+			$accno = $this->code_model->generate('AR', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
@@ -208,7 +224,7 @@ class Depositin extends CI_Controller {
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
 		
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
@@ -221,13 +237,14 @@ class Depositin extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if(!empty($p->saknr)){
 				$this->db->insert('bcus', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'bldat'=>$this->input->post('bldat'),
+					'txz01'=>'Deposit Receipt No '.$id
 				));
 			  }
 			}
@@ -242,7 +259,10 @@ class Depositin extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 	

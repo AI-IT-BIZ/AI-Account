@@ -249,6 +249,19 @@ Ext.define('Account.Invoice.Item.Form', {
 			allowBlank : false
 		});
 		
+		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			labelAlign: 'right',
+			width:200,
+			hideTrigger:false,
+			align: 'right',
+			margin: '0 0 0 25',
+			allowDecimals: false,
+			minValue:0
+         });
+		
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbrp'
 		});
@@ -355,14 +368,7 @@ Ext.define('Account.Invoice.Item.Form', {
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.comboPSale ,{
-			xtype: 'numberfield',
-			fieldLabel: 'Credit Terms',
-			name: 'terms',
-			labelAlign: 'right',
-			width:200,
-			margin: '0 0 0 25'
-		},{
+   items: [this.comboPSale ,this.numberCredit,{
 			xtype: 'displayfield',
 			margin: '0 0 0 5',
 			width:10,
@@ -382,7 +388,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			width:200,
 			margin: '0 0 0 25',
-			readOnly: true,
+			//readOnly: true,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -639,7 +645,9 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		//this.comboPay.on('select', this.selectPay, this);
-
+        this.numberCredit.on('keyup', this.getDuedate, this);
+		this.numberCredit.on('change', this.getDuedate, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},	
 	
@@ -755,8 +763,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
-				mtart = r.data['mtart'];
+				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
 				
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
@@ -829,6 +836,16 @@ Ext.define('Account.Invoice.Item.Form', {
             });     
         }
 	},
+	
+	// Add duedate functions
+	getDuedate: function(){
+		var bForm = this.getForm(),
+			credit = this.numberCredit.getValue(),
+			startDate = bForm.findField('bldat').getValue(),
+			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+
+		bForm.findField('duedt').setValue(result);
+	}
 	
 // Payments Method	
 	/*selectPay: function(combo, record, index){

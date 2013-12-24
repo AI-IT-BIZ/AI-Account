@@ -26,7 +26,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
     ]
 });
 		
-		this.whtDialog = Ext.create('Account.WHT.Window');
+	   this.whtDialog = Ext.create('Account.WHT.Window');
        this.trigWHT = Ext.create('Ext.form.field.Trigger', {
 			name: 'whtnr',
 			//fieldLabel: 'SO No',
@@ -63,7 +63,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			//margin: '0 0 0 175',
 			readOnly: true
 		});
-		this.txtDiscount = Ext.create('Ext.form.field.Text', {
+		/*this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
 			name: 'dispc',
 			align: 'right',
@@ -80,12 +80,16 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 				}else
 					return true;
 			}
-		});
-		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
+		});*/
+		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Discount',
 			name: 'dismt',
 			align: 'right',
-			width:110,
-			margin: '0 0 0 10',
+			width:270,
+			labelWidth: 155,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
@@ -236,6 +240,47 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 		}]
 		}];
 		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							if(r.data.whtnr != '6'){
+							_this.getForm().findField('whtxt').setValue(r.data.whtxt);
+						    }
+						}else{
+							o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtxt').setValue(record.data.whtxt);
+           }
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
+		};
 		// Event /////////
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');
@@ -250,7 +295,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
 
-		this.txtDiscount.on('keyup', this.calculate, this);
+		//this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
@@ -300,8 +345,8 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 
 		if(total<=0) return;
 
-		var discount = this.txtDiscount.getValue(),
-			discountValue = 0;
+		var discountValue = this.txtDiscountValue.getValue();
+		/*	discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
@@ -314,12 +359,11 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			discountValue = isNaN(discountValue)?0:discountValue;
 
 			this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
-
-			if(discountValue>0)
-				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
+*/
+		if(discountValue>0){
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 

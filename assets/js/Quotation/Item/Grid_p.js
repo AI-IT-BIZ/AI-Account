@@ -109,7 +109,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
             },
 			{text: "Partial Amt",
 			width: 70,
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			dataIndex: 'perct',
 			sortable: true,
 			align: 'right',
