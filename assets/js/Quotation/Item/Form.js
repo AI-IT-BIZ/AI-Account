@@ -698,7 +698,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
-			var amt = (qty * price) - discount;
+			var amt = qty * price;//) - discount;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
@@ -706,7 +706,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			sum += amt;
 			
 			discounts += discount;
-         
+            
+            amt = amt - discount;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
