@@ -770,6 +770,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			discount = isNaN(discount)?0:discount;
 
 			amt = qty * price;//) - discount;
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
 			sum += amt;
 			
 			discounts += discount;

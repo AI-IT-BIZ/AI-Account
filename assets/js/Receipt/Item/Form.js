@@ -373,7 +373,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this, _this, action);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');

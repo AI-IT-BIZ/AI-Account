@@ -17,7 +17,9 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		});
 
 		// INIT Invoice search popup /////////////////////////////////
-		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
+			disableGridDoubleClick: true
+		});
 		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -47,7 +49,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'payrc',
 				'reman',
 				'belnr',
-				'ctype'
+				'ctype',
+				'wht01'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -155,6 +158,12 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
+		},
+			{
+			dataIndex: 'wht01',
+			width: 55,
+			//hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -193,6 +202,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('itamt', r.data.netwr);
 							// Currency
 							rModel.set('ctype', r.data.ctype);
+							// WHT01
+							rModel.set('wht01', r.data.wht01);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -220,6 +231,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				rModel.set('itamt', record.data.netwr);
 				// Currency
 				rModel.set('ctype', record.data.ctype);
+				// WHT01
+				rModel.set('wht01', record.data.wht01);
 				//rModel.set('amount', 100+Math.random());
                 
 			}

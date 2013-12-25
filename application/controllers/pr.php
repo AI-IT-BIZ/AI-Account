@@ -143,6 +143,7 @@ class Pr extends CI_Controller {
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
 			'terms' => $this->input->post('terms'),
+			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
@@ -151,24 +152,26 @@ class Pr extends CI_Controller {
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'ctype' => $this->input->post('ctype'),
-			'dispc' => $this->input->post('dispc')
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
 		$this->db->trans_start();
+		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('purnr', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'somwang');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('ebko', $formData);
 		}else{
 			
 			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
 			$this->db->set('purnr', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'somwang');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebko', $formData);
 		}
 
@@ -208,7 +211,10 @@ class Pr extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

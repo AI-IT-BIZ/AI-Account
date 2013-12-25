@@ -120,9 +120,13 @@ Ext.define('Account.PO.MainWindow', {
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
+
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save PO number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){

@@ -165,24 +165,28 @@ class Po extends CI_Controller {
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'ctype' => $this->input->post('ctype'),
-			'dispc' => $this->input->post('dispc')
+			'vat01' => $this->input->post('vat01'),
+			'beamt' => $this->input->post('beamt'),
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
 		$this->db->trans_start();
+		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('ebeln', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('ekko', $formData);
 		}else{
 			
 			$id = $this->code_model->generate('PO', $this->input->post('bldat'));
 			$this->db->set('ebeln', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('ekko', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -223,7 +227,10 @@ class Po extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

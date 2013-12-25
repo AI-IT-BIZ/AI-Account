@@ -126,7 +126,7 @@ Ext.define('Account.Receipt.MainWindow', {
 
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save quotation number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Receipt number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){

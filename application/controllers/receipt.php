@@ -165,8 +165,10 @@ class Receipt extends CI_Controller {
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
-			$item_index = 0;
+			$item_index = 0;$depno=0;
 		foreach($rc_item_array AS $p){
+			if(str_split($p->invnr,2) == 'DR') $depno = 1;
+
 			$this->db->insert('vbbp', array(
 				'recnr'=>$id,
 				'vbelp'=>++$item_index,
@@ -177,7 +179,8 @@ class Receipt extends CI_Controller {
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
-				'ctype'=>$p->ctype
+				'ctype'=>$p->ctype,
+				'wht01'=>$p->wht01
 			));
 	    	}
 		}
@@ -189,12 +192,13 @@ class Receipt extends CI_Controller {
 		// เตรียมข้อมูล pay item
 		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
-		$cheque='';$noncheque='';$amt1=0;$amt2=0;
+		$cheque='';$noncheque='';$amt1=0;$amt2=0;$amt3=0;
 		if(!empty($paym) && !empty($pm_item_array)){
 
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pm_item_array AS $p){
+				$amt3 += $p->payam;
 				if($p->ptype=='05'){
 					$cheque = '1';
 					$amt1 += $p->payam;
@@ -232,6 +236,9 @@ class Receipt extends CI_Controller {
 			}
 		}
 		$date = date('Ymd');
+    if($depno=='1'){
+    	
+    }
 //Non Cheque Payment
 	if($noncheque=='1'){
 		$formData = array(
@@ -488,31 +495,6 @@ class Receipt extends CI_Controller {
 				$debit+=$payam;
 				}
 			}
-//Case cheque payment				
-			/*elseif($ptype=='05'){
-					$query = $this->db->get_where('kna1', array(
-				'kunnr'=>$kunnr));
-			    if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>0,
-					'credi'=>$payam,
-					'statu'=>'2'
-				);
-				$net=$net-$payam;
-				$i++;
-				$credit+=$payam;
-				}
-			  }//Case cheque payment
-				
-			} // record แรก
-			*/
           }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
 		}//Check payment grid
 		
@@ -527,11 +509,11 @@ class Receipt extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vwht
+			'debit'=>$vwht,
+			'credi'=>0
 		);
 		$i++;
-		$credit = $credit + $vvat;	
+		$debit = $debit + $vwht;	
 		}
 
 // record ที่สาม
