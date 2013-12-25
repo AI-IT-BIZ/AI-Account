@@ -64,7 +64,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			width:270,
 			readOnly: true
 		});
-		this.txtDiscount = Ext.create('Ext.form.field.Text', {
+		/*this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
 			name: 'dismt',
 			labelWidth: 80,
@@ -81,12 +81,16 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 				}else
 					return true;
 			}
-		});
-		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
-			name: 'aaa',
+		});*/
+		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Discount',
+			name: 'dismt',
 			align: 'right',
-			width:115,
-			margin: '0 0 0 5',
+			width:270,
+			labelWidth: 150,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
@@ -115,7 +119,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			align: 'right',
 			alwaysDisplayDecimals: true,
 			width:270,
-			labelWidth: 155,
+			labelWidth: 150,
 			name: 'wht01',
 			align: 'right',
 			margin: '4 0 0 0',
@@ -204,12 +208,14 @@ Ext.define('Account.DepositOut.Item.Form_t', {
                 xtype: 'container',
                 layout: 'anchor',
                 margins: '0 0 0 15',
-        items: [this.txtTotal,{
+        items: [this.txtTotal,/*{
 			xtype: 'container',
             layout: 'hbox',
             //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
-		},this.txtDiscountSum,
+		},*/
+		this.txtDiscountValue,
+		this.txtDiscountSum,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -273,7 +279,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 		this.txtNet.on('render', setBold);
 		this.txtWHTValue.on('render', setAlignRight);
 
-		this.txtDiscount.on('keyup', this.calculate, this);
+		//this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
@@ -308,8 +314,8 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 
 		if(total<=0) return;
 
-		var discount = this.txtDiscount.getValue(),
-			discountValue = 0;
+		var discountValue = this.txtDiscountValue.getValue();
+		/*	discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
@@ -322,8 +328,8 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			discountValue = isNaN(discountValue)?0:discountValue;
 
 			this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
-
-			if(discountValue>0)
+*/
+		if(discountValue>0){
 				this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');

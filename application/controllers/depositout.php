@@ -130,7 +130,8 @@ class Depositout extends CI_Controller {
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'dispc' => $this->input->post('dispc')
+			'wht01' => $this->input->post('wht01'),
+			'vat01' => $this->input->post('vat01')
 		);
 		
 		// start transaction
@@ -256,7 +257,10 @@ class Depositout extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 	

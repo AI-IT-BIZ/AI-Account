@@ -160,13 +160,13 @@ class Gr extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
+			'beamt' => $this->input->post('beamt'),
 			'vat01' => $this->input->post('vat01'),
 			'netwr' => $this->input->post('netwr'),
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'ctype' => $this->input->post('ctype'),
-			'dispc' => $this->input->post('dispc')
+			'ctype' => $this->input->post('ctype')
 		);
 
 		// start transaction
@@ -222,7 +222,10 @@ class Gr extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

@@ -357,7 +357,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Limitation Setting'.");
 	  		return;
 		}
-		$om.limitDialog = Ext.create('Account.UMSLimit.MainWindow');
+		$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
 		$om.limitDialog.show();
 	});
 	

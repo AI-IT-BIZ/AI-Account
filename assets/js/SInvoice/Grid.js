@@ -30,7 +30,8 @@ Ext.define('Account.SInvoice.Grid', {
 				'ctype',
 				'refnr',
 				'txz01',
-				'wht01'
+				'wht01',
+				'vat01'
 			],
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}]
@@ -62,7 +63,8 @@ Ext.define('Account.SInvoice.Grid', {
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
 			{text: "1",hidden: true,width: 0, dataIndex: 'refnr', sortable: false},
 			{text: "2",hidden: true,width: 0, dataIndex: 'txz01', sortable: false},
-			{text: "3",hidden: true,width: 0, dataIndex: 'wht01', sortable: false}
+			{text: "3",hidden: true,width: 0, dataIndex: 'wht01', sortable: false},
+			{text: "4",hidden: true,width: 0, dataIndex: 'vat01', sortable: false}
 		];
 
 		this.bbar = {

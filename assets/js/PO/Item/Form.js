@@ -549,7 +549,7 @@ Ext.define('Account.PO.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['dismt']);
+				discount = parseFloat(r.data['disit']);
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
@@ -591,7 +591,8 @@ Ext.define('Account.PO.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vat:sel.get('chk01'),
+            	vattype:vattype
             });     
         }
 	}

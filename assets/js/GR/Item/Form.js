@@ -506,7 +506,8 @@ Ext.define('Account.GR.Item.Form', {
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
-
+        this.comboTax.on('change', this.calculateTotal, this);
+        
 		return this.callParent(arguments);
 	},
 	
@@ -552,7 +553,7 @@ Ext.define('Account.GR.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -589,17 +590,26 @@ Ext.define('Account.GR.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var i=0;
+		var sum = 0;var vats=0; var whts=0;var discounts=0;
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['dismt']);
+				discount = parseFloat(r.data['disit']);
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
-			var amt = (qty * price) - discount;
+			var amt = qty * price;//) - discount;
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
 			sum += amt;
+			
+			discounts += discount;
+            
+            amt = amt - discount;
 			
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -609,6 +619,7 @@ Ext.define('Account.GR.Item.Form', {
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		this.formTotal.calculate();
 		
 		this.gridItem.vattValue = this.comboTax.getValue();
@@ -627,7 +638,8 @@ Ext.define('Account.GR.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vat:sel.get('chk01'),
+            	vattype:vattype
             });     
         }
 	}
