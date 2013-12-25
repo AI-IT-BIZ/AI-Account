@@ -4,7 +4,7 @@ Ext.define('Account.UMSLimit.MainWindow', {
 
 		Ext.apply(this, {
 			title: 'Limitation setting',
-			closeAction: 'hide',
+			closeAction: 'destroy',
 			height: 500,
 			minHeight: 500,
 			width: 550,
@@ -22,15 +22,15 @@ Ext.define('Account.UMSLimit.MainWindow', {
 		var _this=this;
 
 		// --- object ---
-		this.editAct = new Ext.Action({
-			text: 'Edit',
-			iconCls: 'b-small-pencil'
+
+		this.tree = Ext.create('Account.UMSLimit.TreeDocType', {
+			region:'center',
+			border: false,
+			extraParams: this.treeExtraParams
 		});
 
-		this.tbar = [this.editAct];
 
-
-		this.items = [new Ext.Panel({region:'center', html:'xxxxxx'})];
+		this.items = [this.tree];
 /*
 		this.grid = Ext.create('Account.UMS.Grid', {
 			region:'center',
@@ -61,5 +61,14 @@ Ext.define('Account.UMSLimit.MainWindow', {
 		this.grid.load();
 */
 		return this.callParent(arguments);
+	},
+	dialogParams: null,
+	openDialog: function(params){
+		this.dialogParams = params;
+
+
+		this.show(false, function(){
+			this.tree.load(params);
+		});
 	}
 });
