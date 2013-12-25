@@ -252,7 +252,7 @@ class Journal extends CI_Controller {
 		}else{
 		    $tr_id = $this->input->get('belnr');
 		    $this->db->where('belnr', $tr_id);
-		    $query = $this->db->get('bcus');
+		    $query = $this->db->get('uacc');
 		}
 		
 		echo json_encode(array(

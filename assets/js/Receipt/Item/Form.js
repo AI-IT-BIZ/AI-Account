@@ -130,6 +130,7 @@ Ext.define('Account.Receipt.Item.Form', {
             defaults: {
                 anchor: '100%'
             },
+            
 // Customer Code            
      items:[{
      	xtype: 'container',
@@ -439,7 +440,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;
-		var saknr_list = [];var whts=0;
+		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
@@ -453,8 +454,9 @@ Ext.define('Account.Receipt.Item.Form', {
         		saknr_list.push(item);
         		
 				var wht = r.data['wht01'];
-				    //wht = (amt * wht) / 100;
 				    whts += wht;
+				var vat = r.data['vat01'];
+				    vats += vat;
 		});
 
 		//set value to grid payment

@@ -167,7 +167,7 @@ Ext.define('Account.Journal.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Reference No',
 			name: 'refnr',
-			margins: '0 0 0 6',
+			margins: '0 0 0 50',
 			width:240
 		}]		
         }]
