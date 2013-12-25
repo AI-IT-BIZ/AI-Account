@@ -180,7 +180,9 @@ class Ap extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
+			'beamt' => $this->input->post('beamt'),
 			'vat01' => $this->input->post('vat01'),
+			'wht01' => $this->input->post('wht01'),
 			'netwr' => $this->input->post('netwr'),
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
@@ -189,7 +191,7 @@ class Ap extends CI_Controller {
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'dispc' => $this->input->post('dispc')
+			'whtpr' => $this->input->post('whtpr')
 		);
 
 		// start transaction
@@ -237,7 +239,7 @@ class Ap extends CI_Controller {
 		}
 	
 		// Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
@@ -249,7 +251,7 @@ class Ap extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
+			'invnr' => $id,
 			'txz01' => $this->input->post('txz01'),
 			'auart' => 'AP',
 			'netwr' => $this->input->post('netwr')
@@ -260,15 +262,15 @@ class Ap extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('AP', 
+			$accno = $this->code_model->generate('AP', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
@@ -278,7 +280,7 @@ class Ap extends CI_Controller {
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
 		
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
@@ -291,7 +293,7 @@ class Ap extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if(!empty($p->saknr)){
 				$this->db->insert('bven', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
@@ -313,7 +315,10 @@ class Ap extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 
@@ -335,8 +340,6 @@ class Ap extends CI_Controller {
 	///////////////////////////////////////////////
 	// PR ITEM
 	///////////////////////////////////////////////
-
-
 	function loads_ap_item(){
 		$grdmbeln = $this->input->get('grdgrnr');
 		

@@ -439,7 +439,7 @@ Ext.define('Account.Receipt.Item.Form', {
 	loadGL: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var dtype='';
 		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
@@ -453,10 +453,11 @@ Ext.define('Account.Receipt.Item.Form', {
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
         		
-				var wht = r.data['wht01'];
+				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
 				    whts += wht;
-				var vat = r.data['vat01'];
+				var vat = parseFloat(r.data['vat01'].replace(/[^0-9.]/g, ''));
 				    vats += vat;
+				dtype = r.data['dtype'];
 		});
 
 		//set value to grid payment
@@ -479,9 +480,12 @@ Ext.define('Account.Receipt.Item.Form', {
         		}
         		saknr_list.push(item);
         	}
+        	//alert(dtype+'aaa'+vats);
             _this.gridGL.load({
             	netpr:sum,
             	vwht:whts,
+            	vvat:vats,
+            	dtype:dtype,
             	kunnr:this.trigCustomer.getValue(),
             	items: saknr_list.join(',')
             });

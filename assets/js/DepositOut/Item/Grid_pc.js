@@ -10,7 +10,7 @@ Ext.define('Account.DepositOut.Item.Grid_pc', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"pr/loads_conp_item",
+				url: __site_url+"invoice/loads_conp_item",
 				reader: {
 					type: 'json',
 					root: 'rows',

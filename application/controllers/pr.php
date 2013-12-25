@@ -312,6 +312,7 @@ class Pr extends CI_Controller {
 		//$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		//$wht = $this->input->get('wht');
+		$vattype = $this->input->get('vattype');
 		$amt = $menge * $unitp;
         $i=0;$vamt=0;
 		$result = array();
@@ -324,6 +325,10 @@ class Pr extends CI_Controller {
 					if($row['conty']=='01'){
 						if(empty($disit)) $disit=0;
 						$tamt = $amt - $disit;
+						if($vattype=='02'){
+			                   $tamt = $tamt * 100;
+			                   $tamt = $tamt / 107;
+		                }
 						$amt = $tamt;
 						
 						$result[$i] = array(

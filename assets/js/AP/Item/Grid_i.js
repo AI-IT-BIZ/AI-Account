@@ -191,13 +191,13 @@ Ext.define('Account.AP.Item.Grid_i', {
 				align: 'right',
 				renderer: function(v,p,r){
 					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['dismt']);
+						price = parseFloat(r.data['unitp']);
+						//discount = parseFloat(r.data['dismt']);
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
+					//discount = isNaN(discount)?0:discount;
 
-					var amt = (qty * price) - discount;
+					var amt = qty * price;//) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},

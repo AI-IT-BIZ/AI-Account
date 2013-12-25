@@ -231,6 +231,16 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			//width: 55,
 			hidden: true,
 			sortable: false
+		},{
+			dataIndex: 'vat01',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'dtype',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}
 		];
 
@@ -304,7 +314,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		// หา record ที่สร้างใหม่ล่าสุด
 		var net = _this.netValue;
 		var newId = -1;
-		var i=0;var wht=0;
+		var wht=0;var vat=0;var dtype='';
 		this.store.each(function(r){
 			if(r.get('id')<newId)
 				newId = r.get('id');
@@ -312,13 +322,15 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		newId--;
         var sel = _this.getView().getSelectionModel().getSelection()[0];
         if (sel){
-         i = parseFloat(sel.get('payam'));
+         var i = parseFloat(sel.get('payam'));
          net = net - i;
          wht = parseFloat(sel.get('wht01'));
+         vat = parseFloat(sel.get('vat01'));
+         dtype = parseFloat(sel.get('dtype'));
         }
 
 		// add new record
-		rec = { id:newId, pramt:net, wht01:wht };
+		rec = { id:newId, pramt:net, wht01:wht, vat01:vat, dtype:dtype };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

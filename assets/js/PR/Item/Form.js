@@ -540,7 +540,8 @@ Ext.define('Account.PR.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vat:sel.get('chk01'),
+            	vattype:vattype
             });     
         }
 	}

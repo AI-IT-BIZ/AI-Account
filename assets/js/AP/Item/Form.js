@@ -278,7 +278,13 @@ Ext.define('Account.AP.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat]
+				 			items :[this.comboPay,this.numberCredit,
+				 		{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -307,17 +313,7 @@ Ext.define('Account.AP.Item.Form', {
 							submitFormat:'Y-m-d',
 		                }, this.comboTax,
                 		this.trigCurrency,
-                		{
-			 				xtype: 'container',
-							layout: 'hbox',
-							margin: '0 0 5 0',
-				 			items :[
-                		this.numberCredit,{
-						xtype: 'displayfield',
-						margin: '0 0 0 5',
-						width:25,
-						value: 'Days'
-						}]},
+                		this.numberVat,
 						this.numberWHT,
 					    this.comboQStatus]
 		            }]
@@ -544,7 +540,10 @@ Ext.define('Account.AP.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:vattype
             });
 
         }
@@ -579,7 +578,7 @@ Ext.define('Account.AP.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -627,32 +626,43 @@ Ext.define('Account.AP.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var i=0;
+		var sum = 0;var vats=0;
 		var saknr_list = [];
+		var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['dismt']);
+				discount = parseFloat(r.data['disit']);
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
-			var amt = (qty * price) - discount;
+			var amt = qty * price;//) - discount;
 			if(vattype =='02'){
-			  amt = amt * 100;
-			  amt = amt / 107;
+				amt = amt * 100;
+			    amt = amt / 107;
 		    }
 			sum += amt;
 			
+			discounts += discount;
+            
+            amt = amt - discount;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt * wht) / 100;
+				    whts += wht;
+			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
         var net = this.formTotal.calculate();
 // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
@@ -667,6 +677,7 @@ Ext.define('Account.AP.Item.Form', {
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		  vats = vats * rate;
+		  whts = whts * rate;
 		} 
 		//alert(sum);  
         if(sum>0){
@@ -688,7 +699,10 @@ Ext.define('Account.AP.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });     
         }
 	},
