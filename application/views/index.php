@@ -366,7 +366,25 @@ Ext.onReady(function() {
 		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 		$om.RGeneralJournal.show();
 	});
+	
+	$om.viewport.on('click_RSumVat', function(){
+		$om.RGeneralJournal = Ext.create('Account.RSumVat.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_Rpnd1WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd1WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
 
-
+	$om.viewport.on('click_Rpnd3WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd3WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_Rpnd53WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd53WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
 });
 </script>

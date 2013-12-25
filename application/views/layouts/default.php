@@ -434,6 +434,44 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_chart_account'
 			};
+				var nodeRSumVat = {
+					text: 'รายงานภาษีมูลค่าเพิ่ม (ภพ. 30)',
+					leaf: true,
+					id : 'click_RSumVat'
+				};
+				var nodeRpnd1WHT = {
+					text: 'รายงานภาษีหัก ณ ที่จ่าย (ภงด. 1)',
+					leaf: true,
+					id : 'click_Rpnd1WHT'
+				};
+				var nodeRpnd3WHT = {
+					text: 'รายงานภาษีหัก ณ ที่จ่าย (ภงด. 3)',
+					leaf: true,
+					id : 'click_Rpnd3WHT'
+				};
+				var nodeRpnd50WHT = {
+					text: 'หนังสือรับรองการหักภาษี หัก ณ ที่จ่าย (50 ทวิ)',
+					leaf: true,
+					id : 'click_Rpnd50WHT'
+				};
+				var nodeRpnd53WHT = {
+					text: 'รายงานภาษีหัก ณ ที่จ่าย (ภงด. 53)',
+					leaf: true,
+					id : 'click_Rpnd53WHT'
+				};
+			var grouprAccount = {
+				text: 'Account Reports',
+				leaf: false,
+				expanded: true,
+				singleClickExpand : true,
+				children : [
+					nodeRSumVat,
+					nodeRpnd1WHT,
+					nodeRpnd3WHT,
+					nodeRpnd50WHT,
+					nodeRpnd53WHT
+				]
+			};
 
 			var groupAccount = {
 				text: 'Accounts',
@@ -445,7 +483,8 @@ function endsWith($haystack, $needle)
 					nodeJTemplate,
 					nodeJournal,
 					//nodeBudget,
-					nodeAccChart
+					nodeAccChart,
+					grouprAccount
 				]
 			};
 
