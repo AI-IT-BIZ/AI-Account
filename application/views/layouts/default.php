@@ -354,6 +354,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id : 'groupSale',
 				children: [
 					nodeProject,
 					nodeQuotation,
@@ -401,6 +402,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id: 'groupPurchase',
 				children: [
 					nodePR,
 					nodePO,
@@ -464,7 +466,8 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
-				children : [
+				id: 'grouprAccount',
+				children: [
 					nodeRSumVat,
 					nodeRpnd1WHT,
 					nodeRpnd3WHT,
@@ -478,6 +481,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id: 'groupAccount',
 				children: [
 					//nodeIncome,
 					nodeJTemplate,
@@ -520,6 +524,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id: 'groupMaterial',
 				children: [
 					nodeTrans,
 					nodeBalances,
@@ -553,6 +558,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id: 'groupReport',
 				children: [
 					nodeReport1,
 					nodeReport2,
@@ -596,6 +602,7 @@ function endsWith($haystack, $needle)
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
+				id: 'groupConfig',
 				children: [
 				    nodeCompany,
 				    nodeInit,
@@ -614,6 +621,7 @@ function endsWith($haystack, $needle)
 				split: true,
 				useArrows:true,
 				rootVisible: false,
+				id: 'tree',
 				root: {
 					expanded: true,
 					children: [
