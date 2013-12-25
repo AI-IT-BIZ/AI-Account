@@ -178,18 +178,18 @@ function endsWith($haystack, $needle)
 		#div-rmm-aging { position:absolute; top:730px; left:530px; width: 100px; height:100px; }
 		#div-rmm-stockcard { position:absolute; top:730px; left:640px; width: 100px; height:100px; }
 
-		#div-income2 { top:30px; left:150px; width: 100px; height:100px; }
-		#div-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
-		#div-journal2 { top:140px; left:150px; width: 210px; height:100px; }
-		#div-manage-costcenter2 { top:250px; left:150px; width: 100px; height:100px; }
-		#div-chart-account2 { position:absolute; top:250px; left:260px; width: 100px; height:100px; }
-		#div-asset-regist2 { top:360px; left:150px; width: 100px; height:100px; }
-		#div-dep-amort2 { position:absolute; top:360px; left:260px; width: 100px; height:100px; }
+		#div-account-income2 { top:30px; left:150px; width: 100px; height:100px; }
+		#div-account-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
+		#div-account-journal2 { top:140px; left:150px; width: 210px; height:100px; }
+		#div-account-manage-costcenter2 { top:250px; left:150px; width: 100px; height:100px; }
+		#div-account-chart-account2 { position:absolute; top:250px; left:260px; width: 100px; height:100px; }
+		#div-account-asset-regist2 { top:360px; left:150px; width: 100px; height:100px; }
+		#div-account-dep-amort2 { position:absolute; top:360px; left:260px; width: 100px; height:100px; }
 
-		#div-rjournal2 { position:absolute; top:510px; left:150px; width: 100px; height:100px; }
-		#div-rgl2 { position:absolute; top:510px; left:260px; width: 100px; height:100px; }
-		#div-rar-aging2 { position:absolute; top:620px; left:150px; width: 100px; height:100px; }
-		#div-rap-aging2 { position:absolute; top:620px; left:260px; width: 100px; height:100px; }
+		#div-account-rjournal2 { position:absolute; top:510px; left:150px; width: 100px; height:100px; }
+		#div-account-rgl2 { position:absolute; top:510px; left:260px; width: 100px; height:100px; }
+		#div-account-rar-aging2 { position:absolute; top:620px; left:150px; width: 100px; height:100px; }
+		#div-account-rap-aging2 { position:absolute; top:620px; left:260px; width: 100px; height:100px; }
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
@@ -203,15 +203,15 @@ function endsWith($haystack, $needle)
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
 
-		#div-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
-		#div-balance2 { top:30px; left:260px; width: 100px; height:100px; }
-		#div-material2 { top:140px; left:150px; width: 100px; height:100px; }
-		#div-service2 { top:140px; left:260px; width: 100px; height:100px; }
-		#div-otincome2 { top:250px; left:150px; width: 100px; height:100px; }
-		#div-otexpense2 { top:250px; left:260px; width: 100px; height:100px; }
+		#div-material-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
+		#div-material-balance2 { top:30px; left:260px; width: 100px; height:100px; }
+		#div-material-material2 { top:140px; left:150px; width: 100px; height:100px; }
+		#div-material-service2 { top:140px; left:260px; width: 100px; height:100px; }
+		#div-material-otincome2 { top:250px; left:150px; width: 100px; height:100px; }
+		#div-material-otexpense2 { top:250px; left:260px; width: 100px; height:100px; }
 
-		#div-rtransaction2 { position:absolute; top:400px; left:150px; width: 100px; height:100px; }
-		#div-rbalance2 { position:absolute; top:400px; left:260px; width: 100px; height:100px; }
+		#div-material-rtransaction2 { position:absolute; top:400px; left:150px; width: 100px; height:100px; }
+		#div-material-rbalance2 { position:absolute; top:400px; left:260px; width: 100px; height:100px; }
 
 		/* Toolbar */
 		/* move toolbar css into style.css  */
@@ -593,6 +593,7 @@ function endsWith($haystack, $needle)
 				$om.viewport.fireEvent(record.data.id);
 			});
 
+			/*
 			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
                if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
                {
@@ -630,7 +631,7 @@ function endsWith($haystack, $needle)
 					//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
 					//$om.configDialog.show();
 				}
-*/
+
 				if(tr.innerHTML.indexOf('User Define') > -1)
 				{
 					$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
@@ -653,6 +654,7 @@ function endsWith($haystack, $needle)
 				}
 //>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
             });
+           */ 
 
 			// CENTER PANEL
 			var centerPanel = new Ext.Panel({
@@ -840,8 +842,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-material-material2" class="box box-purple"><span>Inventories Master</span></div>',
 									'<div id="div-material-service2" class="box box-purple"><span>Services Master</span></div>',
 
-									'<div id="div-rtransaction2" class="box box-orange"><span>Transaction Report</span></div>',
-									'<div id="div-rbalance2" class="box box-orange"><span>Balance Report</span></div>',
+									'<div id="div-material-rtransaction2" class="box box-orange"><span>Transaction Report</span></div>',
+									'<div id="div-material-rbalance2" class="box box-orange"><span>Balance Report</span></div>',
 								'</div>',
 							'</div>',
 							'<div id="config-container" style="display:none;">',
@@ -923,6 +925,15 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-purchase-payment2').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
                                 pEl.getById('div-purchase-payment3').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
                                 pEl.getById('div-purchase-deposit21').on('click', function(){ $om.viewport.fireEvent('click_deposit2', c); }, c);
+                                //Material Tab
+                                //pEl.getById('div-material-transaction2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                //pEl.getById('div-material-balance2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                //pEl.getById('div-material-otincome2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                //pEl.getById('div-material-otexpense2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                pEl.getById('div-material-material2').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
+                                pEl.getById('div-material-service2').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
+                                //pEl.getById('div-material-rtransaction2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                //pEl.getById('div-material-rbalance2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
 							}
 						}
 					}
@@ -1220,13 +1231,15 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-journalt',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_journalt')}
 				        },{
 				            text: 'Journals',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-journal',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_journal')}
 				        },{
 				            text: 'Manage Cost Center',
 				            scale: 'large',
@@ -1238,7 +1251,8 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-charta',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_chart_account')}
 				        },{
 				            text: 'Fixed Asset Register',
 				            scale: 'large',
@@ -1276,17 +1290,19 @@ function endsWith($haystack, $needle)
 				            iconCls: 'm-inv-balance',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Inventories Master',
+				            text: 'Materials Master',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'm-inv-master',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_material')}
 				        },{
 				            text: 'Services Master',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'm-ser-master',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_service')}
 				        },{
 				            text: 'Other Incomes',
 				            scale: 'large',
@@ -1322,7 +1338,8 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-init',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_config')}
 				        },{
 				            text: 'User Define',
 				            scale: 'large',
@@ -1340,7 +1357,8 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-empl',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_employee')}
 				        }]
 		            },{
 		                title: 'Reports',
