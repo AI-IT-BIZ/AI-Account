@@ -1,4 +1,4 @@
-Ext.define('Account.RPP30Vat.MainWindow', {
+Ext.define('Account.Rpp30Vat.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
@@ -21,9 +21,9 @@ Ext.define('Account.RPP30Vat.MainWindow', {
 		
 		//this.itemDialog = Ext.create('Account.RReceiptVat.Item.Window');
 
-		this.form = Ext.create('Account.RPP30Vat.Form',{ region:'center' });
+		this.form = Ext.create('Account.Rpp30Vat.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.RPP30Vat.PreviewWindow');
+		this.previewDialog = Ext.create('Account.Rpp30Vat.PreviewWindow');
 
 		this.items = [
 		     this.form
