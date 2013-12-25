@@ -246,7 +246,8 @@ class Quotation extends CI_Controller {
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('vbeln', $id);
-			$this->db->set('updat', 'NOW()', false);
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('vbak', $formData);
 		}else{
@@ -482,7 +483,7 @@ class Quotation extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($dismt)) $dismt=0;
+						if(empty($disit)) $disit=0;
 
 						$tamt = $amt - $disit;
 						if($vattype=='02'){

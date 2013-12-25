@@ -70,7 +70,8 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				//'pramt',
 				'payam',
 				'reman',
-				'saknr'
+				'saknr',
+				'wht01'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -225,6 +226,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			//width: 55,
 			hidden: true,
 			sortable: false
+		},{
+			dataIndex: 'wht01',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}
 		];
 
@@ -298,7 +304,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		// หา record ที่สร้างใหม่ล่าสุด
 		var net = _this.netValue;
 		var newId = -1;
-		var i=0;
+		var i=0;var wht=0;
 		this.store.each(function(r){
 			if(r.get('id')<newId)
 				newId = r.get('id');
@@ -308,10 +314,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
         if (sel){
          i = parseFloat(sel.get('payam'));
          net = net - i;
+         wht = parseFloat(sel.get('wht01'));
         }
 
 		// add new record
-		rec = { id:newId, pramt:net };
+		rec = { id:newId, pramt:net, wht01:wht };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

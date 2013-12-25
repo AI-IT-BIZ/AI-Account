@@ -18,7 +18,8 @@ Ext.define('Account.Journal.Grid', {
 					root: 'rows',
 					idProperty: 'belnr',
 					totalProperty: 'totalCount'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 				'belnr',
@@ -26,12 +27,14 @@ Ext.define('Account.Journal.Grid', {
 				'typtx',
 				'tranr',
 				'trantx',
+				'refnr',
+				'kunnr',
 				'txz01',
 				'netwr'
 				
 			],
 			remoteSort: true,
-			sorters: ['belnr ASC']
+			sorters: [{property: 'belnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
@@ -50,10 +53,15 @@ Ext.define('Account.Journal.Grid', {
 			width: 80, dataIndex: 'tranr', sortable: true},
 			{text: "Template Name", align: 'center',
 			width: 100, dataIndex: 'trantx', sortable: true},
-			{text: "Description", 
-			width: 190, dataIndex: 'txz01', sortable: true},
-			{text: "Amount", 
-			width: 80, dataIndex: 'netwr', sortable: true}
+			{text: "Reference Doc.", 
+			width: 100, dataIndex: 'refnr', sortable: true},
+			{text: "Custumer Code", 
+			width: 100, dataIndex: 'kunnr', sortable: true},
+			{text: "Text Note", 
+			width: 200, dataIndex: 'txz01', sortable: true},
+			{text: "Amount",
+			 xtype: 'numbercolumn',
+			width: 120, dataIndex: 'netwr', sortable: true}
 		];
 
 		this.bbar = {

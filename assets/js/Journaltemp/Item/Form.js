@@ -26,7 +26,7 @@ Ext.define('Account.Journaltemp.Item.Form', {
 			name : 'ttype',
 			labelAlign: 'letf',
 			width: 240,
-			labelWidth: 90,
+			labelWidth: 100,
 			allowBlank : false,
 			editable: false,
 			triggerAction : 'all',
@@ -95,7 +95,6 @@ Ext.define('Account.Journaltemp.Item.Form', {
 			xtype: 'displayfield',
             fieldLabel: 'Template Code',
             name: 'tranr',
-            //flex: 3,
             value: 'XXXX',
             labelAlign: 'right',
 			//name: 'qt',
@@ -106,22 +105,13 @@ Ext.define('Account.Journaltemp.Item.Form', {
 
 // Customer Code
 		},{
-                xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[{
-			xtype: 'displayfield',
-            //fieldLabel: '',
-            width: 445
-		},{
 			xtype: 'textfield',
 			fieldLabel: 'Template Name',
 			name: 'txz01',
 			//anchor:'80%',
-			labelAlign: 'right',
-			width:350,
+			//labelAlign: 'right',
+			width:300,
 			allowBlank: false
-		}]
         }]
 		}]
 		};

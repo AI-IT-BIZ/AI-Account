@@ -193,7 +193,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					//alert(parseFloat(r.data['disit']));
 					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-						discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
+						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 						chk01 = r.data['chk01'],
 						chk02 = r.data['chk02'];
 

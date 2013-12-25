@@ -14,7 +14,10 @@ Ext.define('Account.Journal.Item.Form', {
 		var _this=this;
 		
 		// INIT Customer search popup ///////////////////////////////
-		this.journalDialog = Ext.create('Account.Journaltemp.MainWindow');
+		
+		this.journalDialog = Ext.create('Account.Journaltemp.MainWindow', {
+			disableGridDoubleClick: true
+		});
 		
 		this.gridItem = Ext.create('Account.Journal.Item.Grid_gl',{
 			//title:'Invoice Items',
@@ -161,9 +164,11 @@ Ext.define('Account.Journal.Item.Form', {
 			labelAlign: 'left',
 			width:450
 		},{
-			xtype: 'displayfield',
-            margins: '0 0 0 6',
-            width: 100
+			xtype: 'textfield',
+			fieldLabel: 'Reference No',
+			name: 'refnr',
+			margins: '0 0 0 6',
+			width:240
 		}]		
         }]
 		}]

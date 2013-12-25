@@ -1,4 +1,4 @@
-Ext.define('Account.Invoice.FormSearch', {
+Ext.define('Account.Journal.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -34,7 +34,7 @@ Ext.define('Account.Invoice.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Invoice, Customer, Sale Order',
+			emptyText: 'Find from Journal No, Ref Doc, Customer',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -46,6 +46,7 @@ Ext.define('Account.Invoice.FormSearch', {
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Status',
+			hidden: true,
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,

@@ -203,9 +203,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบเสร็จรับเงิน/ใบกำกำับภาษี</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสำคัญรับ</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT/TAX INVOICE</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT JOURNAL</span></DIV>
 
 <DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
@@ -327,23 +327,23 @@ endfor;
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
 $distxt='';$disamt=0;
-if(strpos($r_data['dismt'], '%') !== false)
+if(strpos($r_data['dispc'], '%') !== false)
 {
-	$distxt = $r_data['dismt'];
+	$distxt = $r_data['dispc'];
 	$disamt = strstr($distxt, '%', true);
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
-}else{$disamt = $r_data['dismt'];}
-if(empty($disamt)) $disamt = 0;
+}else{$disamt = $r_data['dispc'];}
+//if(empty($disamt)) $disamt = 0;
 ?>
 <DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, $distxt) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, $r_data['dispc']) ?></span></DIV>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($disamt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
-<?php $d_amt = $r_data['beamt'] - $disamt ?>
+<?php $d_amt = $r_data['beamt'] - $r_data['dismt']; ?>
 
 <DIV style="left:660PX;top:709PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>

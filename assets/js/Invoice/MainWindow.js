@@ -33,24 +33,20 @@ Ext.define('Account.Invoice.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('IV')
+			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('IV') || UMS.CAN.CREATE('IV') || UMS.CAN.EDIT('IV'))
+			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			disabled: true,
-			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('IV')
+			iconCls: 'b-small-minus'
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('IV')
+			iconCls: 'b-small-excel'
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -66,23 +62,10 @@ Ext.define('Account.Invoice.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		//this.searchForm = Ext.create('Account.Invoice.FormSearch', {
-		//	region: 'north',
-		//	height:100
-		//});
-		
-		var searchOptions = {
+		this.searchForm = Ext.create('Account.Invoice.FormSearch', {
 			region: 'north',
 			height:100
-		};
-		if(this.isApproveOnly){
-			searchOptions.status_options = {
-				value: '02',
-				readOnly: true
-			};
-		}
-
-		this.searchForm = Ext.create('Account.Invoice.FormSearch', searchOptions);
+		});
 
 		this.items = [this.searchForm, this.grid];
 
@@ -120,15 +103,15 @@ Ext.define('Account.Invoice.MainWindow', {
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
-			
+
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
 			Ext.Msg.alert('Status', 'Save Invoice number: '+resultId+' successfully.');
 		});
-
+		
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
@@ -139,7 +122,7 @@ Ext.define('Account.Invoice.MainWindow', {
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
-		
+
 		this.grid.store.on("beforeload", function (store, opts) {
 			opts.params = opts.params || {};
 			if(opts.params){
@@ -147,15 +130,6 @@ Ext.define('Account.Invoice.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
-		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
-			this.grid.store.on('beforeload', function (store, opts) {
-				opts.params = opts.params || {};
-				if(opts.params){
-					opts.params = Ext.apply(opts.params, _this.gridParams);
-				}
-		    });
-		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

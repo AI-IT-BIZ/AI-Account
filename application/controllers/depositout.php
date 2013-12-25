@@ -129,7 +129,8 @@ class Depositout extends CI_Controller {
 			'whtpr' => $this->input->post('whtpr'),
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
-			'whtxt' => $this->input->post('whtxt')
+			'whtxt' => $this->input->post('whtxt'),
+			'dispc' => $this->input->post('dispc')
 		);
 		
 		// start transaction

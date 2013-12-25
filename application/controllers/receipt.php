@@ -129,7 +129,8 @@ class Receipt extends CI_Controller {
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'duedt' => $this->input->post('duedt')//,
+			'duedt' => $this->input->post('duedt'),
+			'dispc' => $this->input->post('dispc')//,
 			//'whtpr' => $this->input->post('whtpr')
 			);
 		
@@ -164,8 +165,10 @@ class Receipt extends CI_Controller {
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
-			$item_index = 0;
+			$item_index = 0;$depno=0;
 		foreach($rc_item_array AS $p){
+			if(str_split($p->invnr,2) == 'DR') $depno = 1;
+
 			$this->db->insert('vbbp', array(
 				'recnr'=>$id,
 				'vbelp'=>++$item_index,
@@ -176,7 +179,8 @@ class Receipt extends CI_Controller {
 				'reman'=>$p->reman,
 				'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
-				'ctype'=>$p->ctype
+				'ctype'=>$p->ctype,
+				'wht01'=>$p->wht01
 			));
 	    	}
 		}
@@ -188,12 +192,13 @@ class Receipt extends CI_Controller {
 		// เตรียมข้อมูล pay item
 		$paym = $this->input->post('paym');
 		$pm_item_array = json_decode($paym);
-		$cheque='';$noncheque='';$amt1=0;$amt2=0;
+		$cheque='';$noncheque='';$amt1=0;$amt2=0;$amt3=0;
 		if(!empty($paym) && !empty($pm_item_array)){
 
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($pm_item_array AS $p){
+				$amt3 += $p->payam;
 				if($p->ptype=='05'){
 					$cheque = '1';
 					$amt1 += $p->payam;
@@ -218,24 +223,34 @@ class Receipt extends CI_Controller {
 		}
 		
 //*** Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('bkpf');
+			if($query->num_rows()>0){
+				$result = $query->first_row('array');
+			    $accno = $result['belnr'];
+			}
 		}
 		$date = date('Ymd');
+    if($depno=='1'){
+    	
+    }
 //Non Cheque Payment
 	if($noncheque=='1'){
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
+			'invnr' => $id,
+			'refnr' => $id,
+			'kunnr' => $this->input->post('kunnr'),
+			'txz01' => 'Receipt Journal No '.$id,
+			'ttype' => '03',
 			'auart' => 'RV',
-			'netwr' => $amt2
+			'netwr' => $this->input->post('netwr')
 		);
 		
 		// start transaction
@@ -243,22 +258,22 @@ class Receipt extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('RV', 
+			$accno = $this->code_model->generate('RV', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
@@ -271,13 +286,15 @@ class Receipt extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='1' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
+					'bldat' => $this->input->post('bldat'),
+					'kunnr' => $this->input->post('kunnr'),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'txz01' => 'Receipt Journal No '.$id
 				));
 				}
 			}
@@ -288,29 +305,31 @@ class Receipt extends CI_Controller {
 			$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
+			'invnr' => $id,
+			'refnr' => $id,
+			'txz01' => 'Receipt Journal No '.$id,
+			'ttype' => '07',
 			'auart' => 'RC',
 			'netwr' => $amt1
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('RC', 
+			$accno = $this->code_model->generate('RC', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
@@ -323,13 +342,14 @@ class Receipt extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='2' && !empty($p->saknr)){
 				$this->db->insert('bcus', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
+					'bldat' => $this->input->post('bldat'),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'txz01' => 'Receipt Journal No '.$id
 				));
 				}
 			}
@@ -346,7 +366,10 @@ class Receipt extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 	
@@ -472,31 +495,6 @@ class Receipt extends CI_Controller {
 				$debit+=$payam;
 				}
 			}
-//Case cheque payment				
-			/*elseif($ptype=='05'){
-					$query = $this->db->get_where('kna1', array(
-				'kunnr'=>$kunnr));
-			    if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>0,
-					'credi'=>$payam,
-					'statu'=>'2'
-				);
-				$net=$net-$payam;
-				$i++;
-				$credit+=$payam;
-				}
-			  }//Case cheque payment
-				
-			} // record แรก
-			*/
           }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
 		}//Check payment grid
 		
@@ -511,11 +509,11 @@ class Receipt extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vwht
+			'debit'=>$vwht,
+			'credi'=>0
 		);
 		$i++;
-		$credit = $credit + $vvat;	
+		$debit = $debit + $vwht;	
 		}
 
 // record ที่สาม

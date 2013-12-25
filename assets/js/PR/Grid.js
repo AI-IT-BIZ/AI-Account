@@ -36,15 +36,18 @@ Ext.define('Account.PR.Grid', {
 		});
 
 		this.columns = [
-			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
+			{text: "PR No", flex: true, dataIndex: 'purnr', 
+			align: 'center',sortable: true},
 			{text: "PR Date", width: 125, 
 			xtype: 'datecolumn',
 			align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Code", flex: true, dataIndex: 'lifnr',
+			align: 'center', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "PR Status", flex: true, dataIndex: 'statx', sortable: true},
-			{text: "Net Amount", xtype: 'numbercolumn',
+			{text: "PR Status", flex: true, dataIndex: 'statx',
+			align: 'center', sortable: true},
+			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
 			flex: true, dataIndex: 'netwr', sortable: true},
 			{text: "Currency", dataIndex: 'ctype', sortable: true},
 			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},

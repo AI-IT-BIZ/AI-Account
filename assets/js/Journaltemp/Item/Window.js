@@ -26,6 +26,7 @@ Ext.define('Account.Journaltemp.Item.Window', {
 
 		this.buttons = [{
 			text: 'Save',
+			disabled: !(UMS.CAN.CREATE('JT') || UMS.CAN.EDIT('JT')),
 			handler: function() {
 				//var rs = _this.grid1.getData();
 				//_this.form.hdnIvItem.setValue(Ext.encode(rs));
@@ -39,26 +40,29 @@ Ext.define('Account.Journaltemp.Item.Window', {
 				_this.hide();
 			}
 		}];
-/*		
-		// event
-		this.grid1.store.on('update', function(store, record){
-			var sum = 0;
-			store.each(function(r){
-				var qty = parseFloat(r.data['menge']),
-					price = parseFloat(r.data['unitp']),
-					discount = parseFloat(r.data['dismt']);
-				qty = isNaN(qty)?0:qty;
-				price = isNaN(price)?0:price;
-				discount = isNaN(discount)?0:discount;
 
-				var amt = (qty * price) - discount;
-
-				sum += amt;
-			});
-			_this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));
-			_this.formTotal.calculate();
-		});
-*/
 		return this.callParent(arguments);
+	},
+	dialogId: null,
+	openDialog: function(id){
+		if(id){
+			this.dialogId = id;
+			this.show(false);
+
+			this.show();
+			this.form.load(id);
+
+			// สั่ง pr_item grid load
+			this.form.gridItem.load({tranr: id});
+			//this.form.gridPayment.load({vbeln: id});
+
+			//this.btnPreview.setDisabled(false);
+		}else{
+			this.dialogId = null;
+			this.form.reset();
+			this.show(false);
+
+			//this.btnPreview.setDisabled(true);
+		}
 	}
 });

@@ -184,7 +184,7 @@ Ext.define('Account.Project.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigType,{
 						xtype: 'displayfield',
-						name: 'jobtx',
+						name: 'typtx',
 						margins: '4 0 0 6',
 						width:286//,
 						//allowBlank: false
@@ -291,7 +291,7 @@ Ext.define('Account.Project.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.mtart);
 							_this.trigType.setValue(r.data.jtype);
-			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+			_this.getForm().findField('typtx').setValue(r.data.typtx);
 			//_this.getForm().findField('saknr').setValue(r.data.saknr);
 			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -305,7 +305,7 @@ Ext.define('Account.Project.Item.Form', {
 
 		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigType.setValue(record.data.jtype);
-			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+			_this.getForm().findField('typtx').setValue(record.data.typtx);
 			//_this.getForm().findField('saknr').setValue(record.data.saknr);
 			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
