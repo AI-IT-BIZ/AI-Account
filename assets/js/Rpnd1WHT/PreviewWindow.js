@@ -1,9 +1,9 @@
-Ext.define('Account.RSalaryWHT.PreviewWindow', {
+Ext.define('Account.Rpnd1WHT.PreviewWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'WHT of Salary Report',
+			title: 'รายงานภาษีหัก ณ ที่จ่าย (ภ.ง.ด.1)',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,

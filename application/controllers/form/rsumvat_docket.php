@@ -417,7 +417,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:463PX;top:238PX;width:62PX;height:19PX;"><span class="fc1-4">(2) กุมภาพันธ์</span></DIV>
 
-<DIV style="left:543PX;top:238PX;width:59PX;height:19PX;"><span class="fc1-4">(5) พฤษภาคม</span></DIV>
+<DIV style="left: 543px; top: 238px; width: 70px; height: 19px;"><span class="fc1-4">(5) พฤษภาคม</span></DIV>
 
 <DIV style="left:619PX;top:219PX;width:59PX;height:19PX;"><span class="fc1-4">(7) กรกฎาคม</span></DIV>
 
@@ -427,33 +427,33 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:694PX;top:238PX;width:70PX;height:19PX;"><span class="fc1-4">(11) พฤศจิกายน</span></DIV>
 
-<DIV style="left:446PX;top:222PX;width:15PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:222PX;width:15PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='01'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:446PX;top:241PX;width:15PX;height:19PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:241PX;width:15PX;height:19PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='02'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:528PX;top:222PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:528PX;top:222PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='04'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:528PX;top:241PX;width:16PX;height:18PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:606PX;top:222PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:222PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='07'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:606PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='08'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:678PX;top:222PX;width:15PX;height:25PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:222PX;width:15PX;height:25PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='10'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:678PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:241PX;width:15PX;height:23PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='11'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:446PX;top:260PX;width:15PX;height:17PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:446PX;top:260PX;width:15PX;height:17PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='03'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:463PX;top:257PX;width:62PX;height:19PX;"><span class="fc1-4">(3) มีนาคม</span></DIV>
 
-<DIV style="left:528PX;top:260PX;width:16PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:528PX;top:260PX;width:16PX;height:17PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='06'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:543PX;top:257PX;width:59PX;height:19PX;"><span class="fc1-4">(6) มิถุนายน</span></DIV>
+<DIV style="left: 543px; top: 260px; width: 59PX; height: 19PX;"><span class="fc1-4">(6) มิถุนายน</span></DIV>
 
-<DIV style="left:606PX;top:260PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:606PX;top:260PX;width:15PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='09'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:678PX;top:260PX;width:13PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:678PX;top:260PX;width:13PX;height:16PX;TEXT-ALIGN:CENTER;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='12'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:621PX;top:257PX;width:59PX;height:20PX;"><span class="fc1-4">(9) กันยายน</span></DIV>
 
@@ -657,7 +657,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left: 610px; top: 566PX; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($purch_vat,2,'.',',');?></span></DIV>
 
-<DIV style="left: 609px; top: 639PX; width: 124px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($balwr,2,'.',',');?></span></DIV>
+<DIV style="left: 610px; top: 639PX; width: 124px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($balwr,2,'.',',');?></span></DIV>
 
 <?php 
       $net_amt=0;$over_amt=0;

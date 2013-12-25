@@ -1,9 +1,9 @@
-Ext.define('Account.RSumWHT.PreviewWindow3', {
+Ext.define('Account.Rpnd53WHT.PreviewWindow3', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Purchase WHT Report',
+			title: 'ใบแนบ ภ.ง.ด.53',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
@@ -108,7 +108,7 @@ Ext.define('Account.RSumWHT.PreviewWindow3', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rpurchasewht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rsumwht/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

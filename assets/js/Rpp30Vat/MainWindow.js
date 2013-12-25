@@ -1,10 +1,10 @@
-Ext.define('Account.RSumWHT.MainWindow', {
+Ext.define('Account.Rpp30Vat.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'WHT Report Selection',
+			title: 'ภ.พ.30',
 			closeAction: 'hide',
 			height: 150,
 			width: 350,
@@ -21,38 +21,16 @@ Ext.define('Account.RSumWHT.MainWindow', {
 		
 		//this.itemDialog = Ext.create('Account.RReceiptVat.Item.Window');
 
-		this.form = Ext.create('Account.RSumWHT.Form',{ region:'center' });
+		this.form = Ext.create('Account.Rpp30Vat.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.RSumWHT.PreviewWindow');
-        this.previewDialog2 = Ext.create('Account.RSumWHT.PreviewWindow2');
-        this.previewDialog3 = Ext.create('Account.RSumWHT.PreviewWindow3');
-        
+		this.previewDialog = Ext.create('Account.Rpp30Vat.PreviewWindow');
+
 		this.items = [
 		     this.form
 		];
 		
 		this.btnPreview = Ext.create('Ext.Button', {
-			text: 'Sale&Purchase WHT Preview',
-			handler: function() {
-				var form_basic = _this.form.getForm();
-				if(form_basic.isValid()){
-					_this.previewDialog.openDialog(form_basic.getValues());
-				}
-			}
-		});
-		
-		this.btnPreview2 = Ext.create('Ext.Button', {
-			text: 'Sale Preview',
-			handler: function() {
-				var form_basic = _this.form.getForm();
-				if(form_basic.isValid()){
-					_this.previewDialog.openDialog(form_basic.getValues());
-				}
-			}
-		});
-		
-		this.btnPreview3 = Ext.create('Ext.Button', {
-			text: 'Purchase Preview',
+			text: 'Preview',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
@@ -61,8 +39,7 @@ Ext.define('Account.RSumWHT.MainWindow', {
 			}
 		});
 
-		this.buttons = [this.btnPreview2,
-		this.btnPreview3,this.btnPreview, {
+		this.buttons = [this.btnPreview, {
 			text: 'Cancel',
 			handler: function() {
 				//_this.form.getForm().reset();

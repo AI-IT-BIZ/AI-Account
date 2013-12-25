@@ -3,7 +3,7 @@ Ext.define('Account.RSumVat.PreviewWindow2', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Sale Vat Report',
+			title: 'รายงานภาษีขาย',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,

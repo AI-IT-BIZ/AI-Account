@@ -222,16 +222,22 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 $rows = $q_sale->result_array();
 $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp);
-$j=0;$no=1;
-for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($alls);$i++)://$rows as $key => $item):
+$j=0;$no=1;$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;
+for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
      if($i<=count($rows)){
 	    $item = $rows[$i];
+		$s_amt += $item['beamt'];
+		$s_vat += $item['vat01'];
 	 }else{
 		$item = $rowp[$j];
 		$j++;
+		$p_amt += $item['beamt'];
+		$p_vat += $item['vat01'];
 	};
 	$itamt = $item['beamt'];
-	$b_amt += $itamt;
+	$t_amt += $itamt;
+	$t_vat += $item['vat01'];
+	
 	$invdt_str = util_helper_format_date($r_data['invdt']);
 	$adr01 = $item['adr01'].$item['distx'];
 ?>

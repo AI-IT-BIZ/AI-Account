@@ -1,9 +1,9 @@
-Ext.define('Account.RSumWHT.PreviewWindow', {
+Ext.define('Account.Rpnd53WHT.PreviewWindow4', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Sum WHT Report',
+			title: 'แบบฟอร์มนำส่ง ภ.ง.ด. 53',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
@@ -108,7 +108,7 @@ Ext.define('Account.RSumWHT.PreviewWindow', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rsumwht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rsumwht_docket/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

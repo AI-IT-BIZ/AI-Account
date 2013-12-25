@@ -6,8 +6,8 @@ Ext.define('Account.RSumVat.MainWindow', {
 		Ext.apply(this, {
 			title: 'Vat Report Selection',
 			closeAction: 'hide',
-			height: 150,
-			width: 350,
+			height: 130,
+			width: 450,
 			layout: 'border',
 			//layout: 'accordion',
 			resizable: true,
@@ -32,7 +32,7 @@ Ext.define('Account.RSumVat.MainWindow', {
 		];
 		
 		this.btnPreview = Ext.create('Ext.Button', {
-			text: 'Sale&Purchase Vat Preview',
+			text: 'รายงานภาษีมูลค่าเพิ่ม',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
@@ -42,33 +42,27 @@ Ext.define('Account.RSumVat.MainWindow', {
 		});
 		
 		this.btnPreview2 = Ext.create('Ext.Button', {
-			text: 'Sale Preview',
+			text: 'รายงานภาษีขาย',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
-					_this.previewDialog.openDialog(form_basic.getValues());
+					_this.previewDialog2.openDialog(form_basic.getValues());
 				}
 			}
 		});
 		
 		this.btnPreview3 = Ext.create('Ext.Button', {
-			text: 'Purchase Preview',
+			text: 'รายงานภาษีซื้อ',
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
-					_this.previewDialog.openDialog(form_basic.getValues());
+					_this.previewDialog3.openDialog(form_basic.getValues());
 				}
 			}
 		});
 
 		this.buttons = [this.btnPreview2,
-		this.btnPreview3,this.btnPreview, {
-			text: 'Cancel',
-			handler: function() {
-				//_this.form.getForm().reset();
-				_this.hide();
-			}
-		}];
+		this.btnPreview3,this.btnPreview];
 		
 		// set handler for item grid store
 		//this.itemDialog.grid.store.on('beforeload', function(store){

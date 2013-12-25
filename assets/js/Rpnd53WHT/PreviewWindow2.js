@@ -1,9 +1,9 @@
-Ext.define('Account.RSumWHT.PreviewWindow2', {
+Ext.define('Account.Rpnd53WHT.PreviewWindow2', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Sale WHT Report',
+			title: 'รายงานภาษีหัก ณ ที่จ่าย(ฝั่งขาย)',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,

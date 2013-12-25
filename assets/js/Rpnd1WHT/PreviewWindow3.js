@@ -1,9 +1,9 @@
-Ext.define('Account.RSalaryWHT.PreviewWindow3', {
+Ext.define('Account.Rpnd1WHT.PreviewWindow3', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'WHT of Salary Attached',
+			title: 'ใบแนบ ภ.ง.ด.1',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
