@@ -252,7 +252,7 @@ class Ap extends CI_Controller {
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
-			'txz01' => $this->input->post('txz01'),
+			'txz01' => 'GR No '.$id,
 			'auart' => 'AP',
 			'netwr' => $this->input->post('netwr')
 		);
@@ -299,6 +299,8 @@ class Ap extends CI_Controller {
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
+					'lifnr'=> $this->input->post('lifnr'),
+					'bldat'=>$this->input->post('bldat'),
 					'txz01'=>$p->txz01
 				));
 			  }
@@ -368,7 +370,7 @@ class Ap extends CI_Controller {
 		if(empty($iv_id)){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
-	       $vvat = $this->input->get('vvat');    //VAT amt
+	       $vvat  = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
 		   $ptype = $this->input->get('ptype');  //Pay Type
 		   $dtype = $this->input->get('dtype');  //Doc Type
