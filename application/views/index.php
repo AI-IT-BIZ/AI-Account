@@ -372,6 +372,11 @@ Ext.onReady(function() {
 		$om.RGeneralJournal.show();
 	});
 	
+	$om.viewport.on('click_Rpp30Vat', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpp30Vat.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
 	$om.viewport.on('click_Rpnd1WHT', function(){
 		$om.RGeneralJournal = Ext.create('Account.Rpnd1WHT.MainWindow');
 		$om.RGeneralJournal.show();
