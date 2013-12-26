@@ -16,11 +16,11 @@ class Depositin extends CI_Controller {
 		$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_payp.*";
-        $strSQL = $strSQL . " from v_payp ";
-        $strSQL = $strSQL . " Where v_payp.depnr = '$no'  ";
-		$strSQL = $strSQL . " and v_payp.payty = '1'  ";
-        $strSQL .= "ORDER BY paypr ASC";
+	    $strSQL = " select v_vbdk.*,v_vbdp.*";
+        $strSQL = $strSQL . " from v_vbdk ";
+        $strSQL = $strSQL . " left join v_vbdp on v_vbdk.depnr = v_vbdp.depnr ";
+        $strSQL = $strSQL . " Where v_vbdk.depnr = '$no'  ";
+        $strSQL .= " ORDER BY vbelp ASC";
 		
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
@@ -328,7 +328,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <?php 
-$coldt_str = util_helper_format_date($r_data['coldt']);
+$duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 <DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"></span></DIV>
 
@@ -393,7 +393,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:76px;"><?=$item['paypr'];?></td>
+		<td class="fc1-8" align="center" style="width:76px;"><?=$item['vbelp'];?></td>
 		
 		<td class="fc1-8" align="left" style="width:256px;"><?=$item['sgtxt'];?></td>
 		<td class="fc1-8" align="center" style="width:135px;"><?=$duedt_str;?></td>
@@ -467,10 +467,10 @@ else
 <?= $wht_str ?></span></DIV>
 
 <DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:660PX;top:799PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($w_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['wht01'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวเงินที่ต้องชำระ</span></DIV>
 

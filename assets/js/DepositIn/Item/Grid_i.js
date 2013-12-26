@@ -38,7 +38,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			},
 			fields: [
 			    //'vbeln',
-				'paypr',
+				'vbelp',
 				'sgtxt',
 				'duedt',
 				'perct',
@@ -67,7 +67,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			},{
 			id : 'RowNumber4',
 			text : "Periods No.",
-			dataIndex : 'paypr',
+			dataIndex : 'vbelp',
 			width : 90,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -283,7 +283,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('paypr', row_num++);
+			r.set('vbelp', row_num++);
 		});
 	},
 

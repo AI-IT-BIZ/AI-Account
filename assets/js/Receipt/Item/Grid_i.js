@@ -134,8 +134,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			align: 'right',
 			readOnly: true
 			},
-			{
-				text: "Remain Amt",
+			{   text: "Remain Amt",
 				xtype: 'numbercolumn',
 				width: 100,
 				dataIndex: 'reman',
@@ -162,18 +161,18 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			},
 		},{
 			dataIndex: 'wht01',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		},{
 			dataIndex: 'vat01',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		},{
 			dataIndex: 'dtype',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		}];
 
@@ -246,7 +245,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
-				rModel.set('ctype', record.data.ctype);
+				//rModel.set('ctype', record.data.ctype);
 				// WHT01
 				rModel.set('wht01', record.data.wht01);
 				// VAT01

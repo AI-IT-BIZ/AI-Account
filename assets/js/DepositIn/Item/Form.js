@@ -578,15 +578,18 @@ Ext.define('Account.DepositIn.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var amt = 0;var vats=0; var whts=0;
-		var i=0;var sum=0;discounts=0;
+		var i=0;var sum=0;discounts=0;discount=0;
+		var sum2=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
-			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			    discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
+				if(r.data['disit']!=null){
+			       discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+			    }
 			    amt = isNaN(amt)?0:amt;
-			    discount = isNaN(discount)?0:discount;
-
+                discount = isNaN(discount)?0:discount;
+                
 			if(vattype =='02'){
 			  amt = amt * 100;
 			  amt = amt / 107;
@@ -595,12 +598,13 @@ Ext.define('Account.DepositIn.Item.Form', {
 			
 			discounts += discount;
             amt = amt - discount;
+            sum2 += amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-
+            
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
@@ -629,7 +633,7 @@ Ext.define('Account.DepositIn.Item.Form', {
         if(sum>0){
         	//console.log(rsPM);
             _this.gridGL.load({
-            	netpr:sum,
+            	netpr:sum2,
             	vvat:vats,
             	kunnr:this.trigCustomer.getValue()//,
             	//ate:rate,

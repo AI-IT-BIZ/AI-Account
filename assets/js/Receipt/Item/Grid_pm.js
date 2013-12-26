@@ -302,8 +302,6 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 	},
 
 	load: function(options){
-		
-	
 		this.store.load({
 			params: options
 		});
@@ -320,6 +318,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				newId = r.get('id');
 		});
 		newId--;
+		//alert('111'+net);
         var sel = _this.getView().getSelectionModel().getSelection()[0];
         if (sel){
          var i = parseFloat(sel.get('payam'));
@@ -328,7 +327,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
          vat = parseFloat(sel.get('vat01'));
          dtype = parseFloat(sel.get('dtype'));
         }
-
+        //alert('222'+net);
 		// add new record
 		rec = { id:newId, pramt:net, wht01:wht, vat01:vat, dtype:dtype };
 		edit = this.editing;

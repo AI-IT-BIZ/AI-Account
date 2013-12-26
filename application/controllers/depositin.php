@@ -164,7 +164,7 @@ class Depositin extends CI_Controller {
 		foreach($dp_item_array AS $p){
 			$this->db->insert('vbdp', array(
 				'depnr'=>$id,
-				'paypr'=>++$item_index,
+				'vbelp'=>++$item_index,
 				'sgtxt'=>$p->sgtxt,
 				'pramt'=>$p->pramt,
 				'perct'=>$p->perct,
@@ -230,7 +230,7 @@ class Depositin extends CI_Controller {
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
-		$bcus = $this->input->post('belpr');//$this->input->post('vbelp');
+		$bcus = $this->input->post('bcus');//$this->input->post('vbelp');
 		$gl_item_array = json_decode($bcus);
 		if(!empty($bcus) && !empty($gl_item_array)){
 
@@ -334,7 +334,7 @@ class Depositin extends CI_Controller {
 		   //$ptype = $this->input->get('ptype');  //Pay Type
 		   //$dtype = $this->input->get('dtype');  //Doc Type
 		   
-		   $net = $netpr;
+		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();

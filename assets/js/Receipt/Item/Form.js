@@ -34,7 +34,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridPayment = Ext.create('Account.Receipt.Item.Grid_pm',{
 			border: true,
 			region:'center',
-			title: 'Payment'
+			title: 'Receipt'
 		});
 		this.formTotal = Ext.create('Account.Receipt.Item.Form_t', {
 			border: true,
@@ -400,6 +400,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ recnr: 0 });
 		this.gridPayment.load({ recnr: 0 });
+		this.gridGL.load({ belnr: 0 });
 
 		//this.gridPayment.clear.();
 		// default status = wait for approve
@@ -407,6 +408,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		//this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
+		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
@@ -423,20 +425,24 @@ Ext.define('Account.Receipt.Item.Form', {
 
 			var amt = itamt - pay;
 			sum += amt;
+			
 		});
 		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
-		
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
 		
+		//var storePay = this.gridPayment.store;
+		//storePay.each(function(r){
+		//	r.data['pramt'].set(net);
+		//});
 	},
 	
 	// Load GL functions
-	loadGL: function(){
+	loadGL: function(id){
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var dtype='';
@@ -453,10 +459,14 @@ Ext.define('Account.Receipt.Item.Form', {
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
         		
+        		if(r.data['wht01']>0 && r.data['wht01']!=null){
 				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
 				    whts += wht;
+				}
+				if(r.data['vat01']>0 && r.data['vat01']!=null){    
 				var vat = parseFloat(r.data['vat01'].replace(/[^0-9.]/g, ''));
 				    vats += vat;
+				}
 				dtype = r.data['dtype'];
 		});
 

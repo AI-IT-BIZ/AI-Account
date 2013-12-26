@@ -632,8 +632,8 @@ class Invoice extends CI_Controller {
 //In Case Edit and Display		   
 		}else{
 		   $this->db->set_dbprefix('v_');
-		   $this->db->where('belnr', $iv_id);
-		   $query = $this->db->get('bsid');
+		   $this->db->where('invnr', $iv_id);
+		   $query = $this->db->get('bcus');
 		   echo json_encode(array(
 			  'success'=>true,
 			  'rows'=>$query->result_array(),
