@@ -553,10 +553,15 @@ function endsWith($haystack, $needle)
 				text: 'Report 3',
 				leaf: true
 			};
-			var nodeReportGL = {
+			var nodeReportGJ = {
 				text: 'Report General Journal',
 				leaf: true,
-				id: 'click_report_gl'	
+				id: 'click_report_gj'	
+			};
+			var nodeReportGL = {
+				text: 'Report General Ledger',
+				leaf: true,
+				id: 'click_report_gl'
 			};
 
 			var groupReport = {
@@ -569,17 +574,8 @@ function endsWith($haystack, $needle)
 					nodeReport1,
 					nodeReport2,
 					nodeReport3,
-<<<<<<< HEAD
-					{
-						text: 'Report General Journal',
-						leaf: true
-					},{
-						text: 'Report General Ledger',
-						leaf: true
-					}
-=======
+					nodeReportGJ,
 					nodeReportGL
->>>>>>> 193c465799b00ee30394c056f4bc5a8128a3c8a9
 				]
 			};
 

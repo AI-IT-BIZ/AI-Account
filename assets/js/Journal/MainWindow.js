@@ -6,7 +6,7 @@ Ext.define('Account.Journal.MainWindow', {
 		Ext.apply(this, {
 			title: 'Journal',
 			closeAction: 'hide',
-			height: 680,
+			height: 600,
 			minHeight: 380,
 			width: 1000,
 			minWidth: 500,

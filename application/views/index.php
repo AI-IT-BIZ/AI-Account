@@ -363,6 +363,11 @@ Ext.onReady(function() {
 	
 	//Report
 	$om.viewport.on('click_report_gl', function(){
+		$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_report_gr', function(){
 		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 		$om.RGeneralJournal.show();
 	});
