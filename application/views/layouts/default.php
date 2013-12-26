@@ -556,7 +556,7 @@ function endsWith($haystack, $needle)
 			var nodeReportGJ = {
 				text: 'Report General Journal',
 				leaf: true,
-				id: 'click_report_gj'	
+				id: 'click_report_gr'	
 			};
 			var nodeReportGL = {
 				text: 'Report General Ledger',
