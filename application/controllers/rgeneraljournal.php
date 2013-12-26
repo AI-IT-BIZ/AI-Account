@@ -13,13 +13,14 @@ class Rgeneraljournal extends CI_Controller {
 				ifnull(v_bkpf.invnr,'') as invnr,
 				ifnull(v_bkpf.name1,'') as name1,
 				ifnull(v_bcus.saknr,'') as saknr,
-				ifnull(v_bcus.sgtxt,'') as sgtxt,
+				ifnull(tbl_glno.sgtxt,'') as sgtxt,
 				ifnull(v_bcus.debit,'') as debit,
 				ifnull(v_bcus.credi,'') as credi,
 				ifnull(v_bcus.statu,'') as statu
 			from 
-				v_bkpf 
-				inner JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
+				v_bkpf
+				LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
+				LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
 			where 
 				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'	
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc

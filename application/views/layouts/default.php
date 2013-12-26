@@ -498,6 +498,9 @@ function endsWith($haystack, $needle)
 					{
 						text: 'Report General Journal',
 						leaf: true
+					},{
+						text: 'Report General Ledger',
+						leaf: true
 					}
 				]
 			};
@@ -794,6 +797,11 @@ function endsWith($haystack, $needle)
 
 				if(tr.innerHTML.indexOf('Report General Journal') > -1){
 					$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
+					$om.RGeneralJournal.show();
+				}
+				
+				if(tr.innerHTML.indexOf('Report General Ledger') > -1){
+					$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
 					$om.RGeneralJournal.show();
 				}
 //>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5

@@ -1,15 +1,15 @@
-Ext.define('RGeneralJournal', {
+Ext.define('RGeneralLedger', {
 	extend: 'Ext.data.Model',
-	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu']
+	fields: ['bldat','belnr','kunnr','name1','txz01','debit','credi','statu','saknr','sgtxt','balance']
 });
 
-Ext.define('Account.RGeneralJournal.Result.Grid', {
+Ext.define('Account.RGeneralLedger.Result.Grid', {
 	extend	: 'Ext.window.Window',
 	requires: [
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report General Journal',
+	title: 'Report General Ledger',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,
@@ -25,12 +25,12 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			encode: false,
 			local: true,
 			filters: [{
-				type: 'boolean',
-				dataIndex: 'visible'
+				type: 'string',
+				dataIndex: 'saknr'
 			}]
 		};
 		this.storeGrid = Ext.create('Ext.data.ArrayStore', {
-			model: 'RGeneralJournal',
+			model: 'RGeneralLedger',
 			fields: [
 				{name: 'bldat', type: 'date', dateFormat: 'Y-m-d'},
 				{name: 'belnr'},
@@ -40,18 +40,23 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				{name: 'sgtxt'},
 				{name: 'debit', type: 'float'},
 				{name: 'credi', type: 'float'},
-				{name: 'statu'}
+				{name: 'statu'},
+				{name: 'kunnr'},
+				{name: 'txz01'},
+				{name: 'balance', type: 'float'}
+
 			],
 			data: [],
-			groupers: ['bldat', 'belnr']
+			groupers: ['saknr']
 		});
 		this.columnsGrid = [
-			{text: 'SV Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
-			{text: 'SV Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
-			{text: 'Ref. Doc. No.', sortable: false, dataIndex: 'invnr'},
-			{text: 'Customer', sortable: false, dataIndex: 'name1'},
 			{text: 'Account Code', sortable: false, dataIndex: 'saknr'},
 			{text: 'Account Name', sortable: false, dataIndex: 'sgtxt'},
+			{text: 'Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
+			{text: 'Document Number', sortable: false, dataIndex: 'belnr'},
+			{text: 'Customer/ Supplier Code', sortable: false, dataIndex: 'kunnr'},
+			{text: 'Customer/ Supplier Name', sortable: false, dataIndex: 'name1'},
+			{text: 'Description', sortable: false, dataIndex: 'txz01'},
 			{text: 'Debit', sortable: false, dataIndex: 'debit', renderer: Ext.util.Format.numberRenderer('0,000.00'),
 				summaryType: function(records){
 					var i = 0,
@@ -76,7 +81,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 						record;
 					for (i=0; i < length; ++i) {
 						record = records[i];
-						total += Number(record.get('debit'));
+						total += Number(record.get('credi'));
 					}
 					return total;
 				},
@@ -84,7 +89,24 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 					return '<b>'+Ext.util.Format.number(value,'0,000.00')+'</b>';
 				}
 			},
-			{text: 'Status', sortable: false, dataIndex: 'statu'}
+			{text: 'Balance', sortable: false, dataIndex: 'balance', renderer: Ext.util.Format.numberRenderer('0,000.00'),
+				summaryType: function(records){
+					var i = 0,
+						length = records.length,
+						total = 0,
+						record;
+					for (i=0; i < length; ++i) {
+						record = records[i];
+						total += Number(record.get('balance'));
+					}
+					return total;
+				},
+				summaryRenderer: function(value,summaryData,index){
+					return '<b>'+Ext.util.Format.number(value,'0,000.00')+'</b>';
+				}
+			},
+			{text: 'Status', sortable: false, dataIndex: 'statu'},
+			
 		];
 		
 		this.grid = Ext.create('Ext.grid.Panel',{
@@ -108,12 +130,13 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 		});
 		this.items =[this.grid]
 		this.tbar = [{
-			text: "Print",
+			text: "Excel",
+			iconCls: 'b-small-excel',
 			handler: function(){
 				start_date = me.params.start_date;
 				end_date = me.params.end_date;
 				params = "start_date="+start_date+"&end_date="+end_date;
-				window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
+				window.open(__base_url + 'index.php/rgeneralledger/excel?'+params,'_blank');
 			}
 		}]
 		this.callParent(arguments);
