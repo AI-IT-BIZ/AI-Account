@@ -17,7 +17,9 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		});
 
 		// INIT Invoice search popup /////////////////////////////////
-		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
+			disableGridDoubleClick: true
+		});
 		// END Invoice search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -47,7 +49,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'payrc',
 				'reman',
 				'belnr',
-				'ctype'
+				'ctype',
+				'wht01',
+				'vat01',
+				'dtype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -155,6 +160,21 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
+		},{
+			dataIndex: 'wht01',
+			width: 55,
+			//hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'vat01',
+			width: 55,
+			//hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'dtype',
+			width: 55,
+			//hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -193,6 +213,13 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('itamt', r.data.netwr);
 							// Currency
 							rModel.set('ctype', r.data.ctype);
+							// WHT01
+							rModel.set('wht01', r.data.wht01);
+							// VAT01
+							rModel.set('vat01', r.data.vat01);
+							// Dtype
+							var dtype = r.data.invnr.substring(0,2);
+				            rModel.set('dtype', dtype[0]);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -220,6 +247,13 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				rModel.set('itamt', record.data.netwr);
 				// Currency
 				rModel.set('ctype', record.data.ctype);
+				// WHT01
+				rModel.set('wht01', record.data.wht01);
+				// VAT01
+				rModel.set('vat01', record.data.vat01);
+				// Dtype
+				var dtype = record.data.invnr.substring(0,2);
+				rModel.set('dtype', dtype[0]);
 				//rModel.set('amount', 100+Math.random());
                 
 			}

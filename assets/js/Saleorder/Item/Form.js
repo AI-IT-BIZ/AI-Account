@@ -15,9 +15,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		// INIT other components ///////////////////////////////////
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
@@ -591,7 +589,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
-		//this.comboTax.on('select', this.selectTax, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
@@ -608,7 +606,8 @@ Ext.define('Account.Saleorder.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -638,9 +637,10 @@ Ext.define('Account.Saleorder.Item.Form', {
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
+				waitMsg: 'Save data...',
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -679,7 +679,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var whts=0;
+		var sum = 0;var vats=0; var whts=0;var discounts=0;
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -687,11 +688,17 @@ Ext.define('Account.Saleorder.Item.Form', {
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
-
-			var amt = (qty * price) - discount;
-
+   
+			var amt = qty * price;//) - discount;
+            if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
 			sum += amt;
 			
+			discounts += discount;
+			
+			amt = amt - discount;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -703,9 +710,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 				    whts += wht;
 			}
 		});
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 
 		// set value to grid payment
@@ -731,7 +740,8 @@ Ext.define('Account.Saleorder.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:vattype
             });
 
         }

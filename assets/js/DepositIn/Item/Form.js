@@ -15,9 +15,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
@@ -27,7 +25,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		this.gridItem = Ext.create('Account.DepositIn.Item.Grid_i',{
 			//title:'Invoice Items',
-			height: 320,
+			height: 200,
 			region:'center'
 		});
 		this.gridGL = Ext.create('Account.DepositIn.Item.Grid_gl',{
@@ -75,6 +73,38 @@ Ext.define('Account.DepositIn.Item.Form', {
 			valueField: 'statu'
 		});
 		
+		this.comboTax = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Vat type',
+			name : 'taxnr',
+			width: 240,
+			//margin: '0 0 0 5',
+			labelAlign: 'right',
+			editable: false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Vat --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_taxcombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'taxnr'
+					}
+				},
+				fields: [
+					'taxnr',
+					'taxtx'
+				],
+				remoteSort: true,
+				sorters: 'taxnr ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'taxtx',
+			valueField: 'taxnr'
+		});
+		
 		this.hdnDpItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbdp'
 		});
@@ -112,6 +142,37 @@ Ext.define('Account.DepositIn.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+		
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
+			fieldLabel: 'WHT Value',
+			name: 'whtpr',
+			labelAlign: 'right',
+			width:200,
+			//align: 'right',
+			//margin: '0 0 0 25'
+         });
+
+         this.numberVat = Ext.create('Ext.form.field.Number', {
+			fieldLabel: 'Vat Value',
+			name: 'taxpr',
+			labelAlign: 'right',
+			width:200,
+			//align: 'right',
+			//margin: '0 0 0 25'
+         });
+         
+         this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Credit Terms',
+			name: 'terms',
+			//labelAlign: 'right',
+			width:180,
+			hideTrigger:false,
+			//align: 'right',
+			//margin: '0 0 0 25',
+			allowDecimals: false,
+			minValue:0
+         });
 		
 // Start Write Forms
 		var mainFormPanel = {
@@ -177,7 +238,31 @@ Ext.define('Account.DepositIn.Item.Form', {
 			width:400,
 			rows:3,
 			labelAlign: 'top'
+		},{
+			xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+   items: [this.numberCredit
+   ,{
+			xtype: 'displayfield',
+			margin: '0 0 0 5',
+			width:10,
+			value: 'Days'
+		},{
+			xtype: 'datefield',
+			fieldLabel: 'Due Date',
+			name: 'duedt',
+			labelAlign: 'right',
+			width:200,
+			margin: '0 0 0 5',
+			//readOnly: true,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
 		}]
+// Tax&Ref no.
+         }]
 		},{
 			xtype: 'container',
                 layout: 'anchor',
@@ -200,17 +285,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-	    },/*{
-			xtype: 'datefield',
-			fieldLabel: 'Receipt Date',
-			name: 'duedt',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-		},*/this.trigCurrency,this.comboQStatus
+	    },this.comboTax,this.numberWHT,
+		this.numberVat,this.trigCurrency,this.comboQStatus
 		 ]
 		}]
 		}]
@@ -222,7 +298,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:170,
+			height:200,
 			items: [
 				this.formTotal,
 				this.gridGL
@@ -252,6 +328,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -284,6 +364,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			       }
 				}
 				});           
@@ -407,6 +491,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		
+		this.numberCredit.on('keyup', this.getDuedate, this);
+		this.numberCredit.on('change', this.getDuedate, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},	
@@ -448,7 +536,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -477,7 +565,9 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
-		//this.comboTax.setValue('01');
+		this.comboTax.setValue('01');
+		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
@@ -487,22 +577,50 @@ Ext.define('Account.DepositIn.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;
+		var amt = 0;var vats=0; var whts=0;
+		var i=0;var sum=0;discounts=0;
+		var vattype = this.comboTax.getValue();
 		store.each(function(r){
-			var itamt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-			itamt = isNaN(itamt)?0:itamt;
-			//pay = isNaN(pay)?0:pay;
+			    discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
+			    amt = isNaN(amt)?0:amt;
+			    discount = isNaN(discount)?0:discount;
 
-			//var amt = itamt - pay;
-			sum += itamt;
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
+			sum += amt;
+			
+			discounts += discount;
+            amt = amt - discount;
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
+
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt * wht) / 100;
+				    whts += wht;
+			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 		
+		this.formTotal.taxType = this.comboTax.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
+		this.gridItem.whtValue = this.numberWHT.getValue();
+		this.gridItem.curValue = currency;
+		this.formTotal.getForm().findField('curr1').setValue(currency);
 		var currency = this.trigCurrency.getValue();
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
@@ -512,12 +630,22 @@ Ext.define('Account.DepositIn.Item.Form', {
         	//console.log(rsPM);
             _this.gridGL.load({
             	netpr:sum,
+            	vvat:vats,
             	kunnr:this.trigCustomer.getValue()//,
             	//ate:rate,
             	//ptype:'01',
             	//dtype:'01'
             }); 
            }
+	},
+	// Add duedate functions
+	getDuedate: function(){
+		var bForm = this.getForm(),
+			credit = this.numberCredit.getValue(),
+			startDate = bForm.findField('bldat').getValue(),
+			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+
+		bForm.findField('duedt').setValue(result);
 	}
 	
 	// Load GL functions

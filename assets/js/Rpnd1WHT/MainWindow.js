@@ -1,12 +1,12 @@
-Ext.define('Account.RSalaryWHT.MainWindow', {
+Ext.define('Account.Rpnd1WHT.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'WHT of Salary Report Selection',
+			title: 'เลือกเดือนที่ต้องการดู รายงาน ภ.ง.ด. 1',
 			closeAction: 'hide',
-			height: 150,
+			height: 130,
 			width: 400,
 			layout: 'border',
 			//layout: 'accordion',
@@ -21,11 +21,11 @@ Ext.define('Account.RSalaryWHT.MainWindow', {
 		
 		//this.itemDialog = Ext.create('Account.RReceiptVat.Item.Window');
 
-		this.form = Ext.create('Account.RSalaryWHT.Form',{ region:'center' });
+		this.form = Ext.create('Account.Rpnd1WHT.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.RSalaryWHT.PreviewWindow');
-		this.previewDialog2 = Ext.create('Account.RSalaryWHT.PreviewWindow2');
-		this.previewDialog3 = Ext.create('Account.RSalaryWHT.PreviewWindow3');
+		this.previewDialog = Ext.create('Account.Rpnd1WHT.PreviewWindow');
+		this.previewDialog2 = Ext.create('Account.Rpnd1WHT.PreviewWindow2');
+		this.previewDialog3 = Ext.create('Account.Rpnd1WHT.PreviewWindow3');
 
 		this.items = [
 		     this.form

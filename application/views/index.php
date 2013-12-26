@@ -53,7 +53,7 @@ Ext.onReady(function() {
 	});
 
 
-   $om.viewport.on('click_chart-account', function(){
+   $om.viewport.on('click_chart_account', function(){
    		if(!UMS.CAN.DISPLAY('CA')){
 			UMS.ALERT("You don't have permission for Chart of Account.");
 			return;
@@ -242,7 +242,7 @@ Ext.onReady(function() {
 		$om.billfromDialog.show();
 	});
 	$om.viewport.on('click_payment', function(){
-		if(!UMS.CAN.DISPLAY('PD')){
+		if(!UMS.CAN.DISPLAY('PY')){
 			UMS.ALERT("You don't have permission for Payment.");
 			return;
 		}
@@ -357,10 +357,39 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Limitation Setting'.");
 	  		return;
 		}
-		$om.limitDialog = Ext.create('Account.UMSLimit.MainWindow');
+		$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
 		$om.limitDialog.show();
 	});
+	
+	//Report
+	$om.viewport.on('click_report_gl', function(){
+		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_RSumVat', function(){
+		$om.RGeneralJournal = Ext.create('Account.RSumVat.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_Rpp30Vat', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpp30Vat.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_Rpnd1WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd1WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
 
-
+	$om.viewport.on('click_Rpnd3WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd3WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
+	
+	$om.viewport.on('click_Rpnd53WHT', function(){
+		$om.RGeneralJournal = Ext.create('Account.Rpnd53WHT.MainWindow');
+		$om.RGeneralJournal.show();
+	});
 });
 </script>

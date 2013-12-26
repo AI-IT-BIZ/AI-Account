@@ -28,7 +28,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 		});
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
-			name: 'dismt',
+			name: 'dispc',
 			align: 'right',
 			labelWidth: 80,
 			width:150,
@@ -45,7 +45,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			}
 		});
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
-			name: 'aaa',
+			name: 'dismt',
 			align: 'right',
 			width:110,
 			margin: '0 0 0 10',
@@ -148,7 +148,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 20',
+                margins: '0 0 0 200',
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
@@ -160,9 +160,18 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			defaultType: 'textfield',
 			//margin: '5 0 5 600',
 	items: [
+		//this.txtTax
+		//,{
+		//	xtype: 'displayfield',
+		//	align: 'right',
+		//	width:10,
+		//	margin: '4 0 0 0',
+		//	value: '%'
+		//},
 		this.txtInterest
-	    ]},
-	    this.txtNet]
+	]
+	},
+	this.txtNet]
 		}]
 		}];
 		
@@ -185,12 +194,14 @@ Ext.define('Account.Receipt.Item.Form_t', {
 
 		return this.callParent(arguments);
 	},
+	
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'receipt/load'
+			url:__site_url+'depositin/load'
 		});
 	},
+	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
@@ -206,6 +217,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			});
 		}
 	},
+	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -216,6 +228,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
 			}
 		});
 	},
+	
 	// calculate function
 	calculate: function(){
 		var total = this.txtTotal.getValue();//.replace(',',''),

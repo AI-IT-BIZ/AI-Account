@@ -30,6 +30,7 @@ Ext.define('Account.RSumVat.Form', {
 			fieldLabel: 'Period Date',
 			name: 'bldat',
 			format:'d/m/Y',
+			value: new Date,
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
@@ -38,7 +39,7 @@ Ext.define('Account.RSumVat.Form', {
 
 		return this.callParent(arguments);
 	},
-
+	
 	//load : function(id){
 	//	this.getForm().load({
 	//		params: { id: id },

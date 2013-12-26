@@ -67,7 +67,7 @@ class Gr extends CI_Controller {
 				OR `ebeln` LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -160,6 +160,7 @@ class Gr extends CI_Controller {
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
+			'beamt' => $this->input->post('beamt'),
 			'vat01' => $this->input->post('vat01'),
 			'netwr' => $this->input->post('netwr'),
 			'ptype' => $this->input->post('ptype'),
@@ -221,7 +222,10 @@ class Gr extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 

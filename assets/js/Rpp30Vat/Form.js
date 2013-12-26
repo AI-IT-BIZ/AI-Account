@@ -1,4 +1,4 @@
-Ext.define('Account.RSalaryWHT.Form', {
+Ext.define('Account.Rpp30Vat.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -18,9 +18,15 @@ Ext.define('Account.RSalaryWHT.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
-
+        this.numberBalance = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'ภาษีที่ชำระเกินยกมา',
+			name: 'balwr',
+			width:250,
+			align: 'right'//,
+         });
+        
 		this.items = [{
-
 // Project Code
         xtype: 'container',
                 layout: 'hbox',
@@ -30,11 +36,13 @@ Ext.define('Account.RSalaryWHT.Form', {
 			fieldLabel: 'Period Date',
 			name: 'bldat',
 			format:'d/m/Y',
+			value: new Date,
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
+			width:250,
 			allowBlank: false
 			}]  
-		}];		
+		},this.numberBalance];		
 
 		return this.callParent(arguments);
 	},

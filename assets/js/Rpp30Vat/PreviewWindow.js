@@ -1,9 +1,9 @@
-Ext.define('Account.RSalaryWHT.PreviewWindow', {
+Ext.define('Account.Rpp30Vat.PreviewWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'WHT of Salary Report',
+			title: 'แบบฟอร์มนำส่ง ภ.พ.30',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
@@ -108,7 +108,7 @@ Ext.define('Account.RSalaryWHT.PreviewWindow', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rsalarywht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rsumvat_docket/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

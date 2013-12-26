@@ -6,7 +6,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 		Ext.apply(this, {
 			title: 'Journal Template',
 			closeAction: 'hide',
-			height: 380,
+			height: 580,
 			minHeight: 380,
 			width: 500,
 			minWidth: 500,
@@ -53,8 +53,9 @@ Ext.define('Account.Journaltemp.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
+			_this.itemDialog.openDialog();
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
 
 			// สั่ง gl_item grid load
 			//_this.itemDialog.gridItem.load({tranr: 0});
@@ -64,11 +65,12 @@ Ext.define('Account.Journaltemp.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				_this.itemDialog.show();
-				_this.itemDialog.form.load(id);
+				_this.itemDialog.openDialog(id);
+				//_this.itemDialog.show();
+				//_this.itemDialog.form.load(id);
 
 				// สั่ง gl_item grid load
-				_this.itemDialog.form.gridItem.load({tranr: id});
+				//_this.itemDialog.form.gridItem.load({tranr: id});
 			}
 		});
 
@@ -88,6 +90,12 @@ Ext.define('Account.Journaltemp.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
+		
+		if(!this.disableGridDoubleClick){
+		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+		    	_this.editAct.execute();
+		    });
+		}
 		
 		// --- after ---
 		this.grid.load();

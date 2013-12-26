@@ -5,57 +5,75 @@ Ext.define('Account.RInvoice.Item.Grid', {
 	},
 
 	initComponent : function() {
+
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
 				url: __site_url+"invoice/loads",
+                                extraParams: { doc_start_from : '',
+                                               doc_start_to : '',
+                                               invoice_from : '',
+                                               invoice_to : '',
+                                               so_no_from : '',
+                                               so_no_to : '',
+                                               cus_code_from : '',
+                                               cus_code_to : '',
+                                               saleperson_from : '',
+                                               saleperson_to : '',
+                                               invoice_status : ''
+                                             },
+                                actionMethods: {
+                                             read: 'POST' 
+                                         },
 				reader: {
 					type: 'json',
-					root: 'rows',
-					idProperty: 'invnr'
+					root: 'rows'
+                                        //ถ้าใส่ ID แล้วจะ ตัด record ที่ invnr ซํ้า
+					//,idProperty: 'invnr'
 				},
 				simpleSortMode: true
 			},
 			fields: [
-			    'invnr',
+			        'invnr',
 				'bldat',
+                                'jobk',
 				'ordnr',
-				'kunnr',
 				'name1',
-				'jobnr',
-				'jobtx',
-				'statx',
-				'sname',
-				'netwr',
-				'ctype'
+				'terms',
+				'duedt',
+				'Over_Due',
+				'statu',
+				'matnr',
+				'maktx',
+				'menge',
+                                'unitp',
+                                'beamt',
+                                'vat01',
+                                'total'
 			],
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}]
 		});
+                
+                
 
 		this.columns = [
-		    {text: "Invoice No", 
-		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
-			{text: "Invoice Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 70, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Sale Order No", 
-		    width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
-		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
-			width: 120, dataIndex: 'name1', sortable: true},
-			{text: "Project No", 
-			width: 80, align: 'center', dataIndex: 'jobnr', sortable: true},
-			{text: "Project Name", 
-			width: 120, dataIndex: 'jobtx', sortable: true},
-			{text: "Status", 
-			width: 60, dataIndex: 'statx', sortable: true},
-			{text: "Sale Name", 
-			width: 100, dataIndex: 'sname', sortable: true},
-			{text: "Amount", 
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+		        {text: "Invoid No.", width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
+			{text: "Invoid Date", xtype: 'datecolumn', format:'d/m/Y',width: 70, align: 'center', dataIndex: 'bldat', sortable: true},
+			{text: "Ref. Project No.", width: 80, align: 'center', dataIndex: 'jobk', sortable: true},
+		        {text: "Ref. sale Order No.",  width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
+			{text: "Customer Name", width: 120, dataIndex: 'name1', sortable: true},
+			{text: "Credit Term", width: 80, align: 'center', dataIndex: 'terms', sortable: true},
+                        {text: "Due Date", width: 120, dataIndex: 'duedt', sortable: true},
+			{text: "Over Due", width: 60, dataIndex: 'Over_Due', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statu',renderer:RenderStatus, sortable: true},
+			{text: "Material Code'", width: 80, align: 'right', dataIndex: 'matnr', sortable: true},
+			{text: "Item Description", width: 60, align: 'center', dataIndex: 'maktx', sortable: true},
+                        {text: "Quantity", width: 60, align: 'center', dataIndex: 'menge', sortable: true},
+                        {text: "Unit Price", width: 60, align: 'center', dataIndex: 'unitp', sortable: true},
+                        {text: "Amount (Before Vat", width: 60, align: 'center', dataIndex: 'beamt', sortable: true},
+                        {text: "Vat Amount(7%)", width: 60, align: 'center', dataIndex: 'vat01', sortable: true},
+                        {text: "Amount Including Vat", width: 80, align: 'center', dataIndex: 'total', sortable: true}
 		];
 
 		this.bbar = {
@@ -64,12 +82,48 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			store: this.store,
 			displayInfo: true
 		};
+               
+                function RenderStatus(val)
+                {
+                    switch(val)
+                    {
+                        case "01" : return "Waiting for Approval";
+                        case "02" : return "Approved";
+                        case "03" : return "Unapproved";
+                        case "04" : return "Revised";
+                                 
+                    }
+                    return val;
+                  
+                }
 
 		return this.callParent(arguments);
 	},
 	load: function(options){
+          //  alert(options.doc_start_from);
 		this.store.load({
-			params: options
+			params: options,
+                        callback: function(records, operation, success) {
+                                  var invnr_temp = ""; 
+                                  var invnr_temp_last = ""; 
+                                  for(i = 0;i<this.getCount();i++)
+                                  {
+                                      rt = this.getAt(i);
+                                      invnr_temp_last = rt.get('invnr');
+                                      if( invnr_temp == rt.get('invnr'))
+                                      {
+                                         rt.set('invnr','');
+                                         rt.set('bldat','');
+                                         rt.set('ordnr','');
+                                         rt.set('name1','');
+                                         rt.commit();
+                                      }
+                                   
+                                     invnr_temp = invnr_temp_last;
+           
+                                  }
+
+                              }
 		});
 	}
 });

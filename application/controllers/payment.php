@@ -51,7 +51,7 @@ class Payment extends CI_Controller {
 				OR `invnr` LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -129,7 +129,8 @@ class Payment extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'dispc' => $this->input->post('dispc')
 		);
 		
 		// start transaction
@@ -203,7 +204,7 @@ class Payment extends CI_Controller {
 		}
 
 //*** Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
@@ -217,7 +218,7 @@ class Payment extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
+			'invnr' => $id,
 			'txz01' => $this->input->post('txz01'),
 			'auart' => 'PV',
 			'netwr' => $amt2
@@ -228,22 +229,22 @@ class Payment extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('PV', 
+			$accno = $this->code_model->generate('PV', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
@@ -256,7 +257,7 @@ class Payment extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='1' && !empty($p->saknr)){
 				$this->db->insert('bven', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
 					'saknr'=>$p->saknr,
@@ -280,22 +281,22 @@ class Payment extends CI_Controller {
 		);
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('PC', 
+			$accno = $this->code_model->generate('PC', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
@@ -308,7 +309,7 @@ class Payment extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if($p->statu=='2' && !empty($p->saknr)){
 				$this->db->insert('bven', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
 					'gjahr'=>substr($date,0,4),
 					'saknr'=>$p->saknr,

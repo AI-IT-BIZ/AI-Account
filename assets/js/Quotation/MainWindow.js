@@ -133,9 +133,13 @@ Ext.define('Account.Quotation.MainWindow', {
 			_this.importDialog.openDialog();
 		});
 
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
+
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save quotation number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
@@ -162,7 +166,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		    	_this.editAct.execute();
 		    });
 		}
-		
+
 		if(this.gridParams && !Ext.isEmpty(this.gridParams)){
 			this.grid.store.on('beforeload', function (store, opts) {
 				opts.params = opts.params || {};

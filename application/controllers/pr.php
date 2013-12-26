@@ -65,7 +65,7 @@ class Pr extends CI_Controller {
 				OR `refnr` LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -143,6 +143,7 @@ class Pr extends CI_Controller {
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
 			'terms' => $this->input->post('terms'),
+			'beamt' => $this->input->post('beamt'),
 			'dismt' => $this->input->post('dismt'),
 			'taxpr' => $this->input->post('taxpr'),
 			'sgtxt' => $this->input->post('sgtxt'),
@@ -156,18 +157,21 @@ class Pr extends CI_Controller {
 
 		// start transaction
 		$this->db->trans_start();
+		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('purnr', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'somwang');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('ebko', $formData);
 		}else{
 			
 			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
 			$this->db->set('purnr', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'somwang');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebko', $formData);
 		}
 
@@ -207,7 +211,10 @@ class Pr extends CI_Controller {
 		else
 			echo json_encode(array(
 				'success'=>true,
-				'data'=>$_POST
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 	}
 
@@ -305,6 +312,7 @@ class Pr extends CI_Controller {
 		//$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		//$wht = $this->input->get('wht');
+		$vattype = $this->input->get('vattype');
 		$amt = $menge * $unitp;
         $i=0;$vamt=0;
 		$result = array();
@@ -317,6 +325,10 @@ class Pr extends CI_Controller {
 					if($row['conty']=='01'){
 						if(empty($disit)) $disit=0;
 						$tamt = $amt - $disit;
+						if($vattype=='02'){
+			                   $tamt = $tamt * 100;
+			                   $tamt = $tamt / 107;
+		                }
 						$amt = $tamt;
 						
 						$result[$i] = array(

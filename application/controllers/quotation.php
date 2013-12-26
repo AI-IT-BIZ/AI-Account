@@ -246,7 +246,8 @@ class Quotation extends CI_Controller {
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('vbeln', $id);
-			$this->db->set('updat', 'NOW()', false);
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('vbak', $formData);
 		}else{
@@ -325,7 +326,11 @@ class Quotation extends CI_Controller {
 			));
 		}else{
 			echo json_encode(array(
-				'success'=>true
+				'success'=>true,
+				// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 			));
 
 			try{
@@ -467,8 +472,10 @@ class Quotation extends CI_Controller {
 		$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
 		$wht = $this->input->get('wht');
+		$vattype = $this->input->get('vattype');
 		$amt = $menge * $unitp;
 		$i=0;$vamt=0;
+
 		$result = array();
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
@@ -476,9 +483,13 @@ class Quotation extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($dismt)) $dismt=0;
+						if(empty($disit)) $disit=0;
 
 						$tamt = $amt - $disit;
+						if($vattype=='02'){
+			                   $tamt = $tamt * 100;
+			                   $tamt = $tamt / 107;
+		                }
 						$amt = $tamt;
 
 						$result[$i] = array(

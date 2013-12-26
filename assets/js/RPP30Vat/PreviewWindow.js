@@ -1,9 +1,9 @@
-Ext.define('Account.RPP30Vat.PreviewWindow', {
+Ext.define('Account.Rpp30Vat.PreviewWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'ภ.พ.30',
+			title: 'แบบฟอร์มนำส่ง ภ.พ.30',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,

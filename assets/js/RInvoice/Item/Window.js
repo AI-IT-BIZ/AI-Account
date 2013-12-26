@@ -11,7 +11,7 @@ Ext.define('Account.RInvoice.Item.Window', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 1000,
+			width: 1100,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -23,6 +23,12 @@ Ext.define('Account.RInvoice.Item.Window', {
 
 	initComponent : function() {
 		var _this=this;
+                
+              this.txtParam = Ext.create('Ext.form.Text', {
+           
+                 width: 300
+      
+               });
 
 		// --- object ---
 		/*this.addAct = new Ext.Action({
@@ -39,12 +45,22 @@ Ext.define('Account.RInvoice.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
+               this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel',
+                          handler: function () {
+                            //   alert(_this.txtParam.getValue());
+                               var param = _this.txtParam.getValue();
+                               window.location = __site_url+'export/invoice/GetReportFromPageSelect?' + param;
+                          }
+		});
 		this.grid = Ext.create('Account.RInvoice.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
+                this.tbar = [this.excelAct];
 
 		// --- after ---
 		//this.grid.load();

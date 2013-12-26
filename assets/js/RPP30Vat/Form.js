@@ -1,4 +1,4 @@
-Ext.define('Account.RPP30Vat.Form', {
+Ext.define('Account.Rpp30Vat.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -22,7 +22,6 @@ Ext.define('Account.RPP30Vat.Form', {
            // xtype: 'numberfield',
 			fieldLabel: 'ภาษีที่ชำระเกินยกมา',
 			name: 'balwr',
-			//labelAlign: 'right',
 			width:250,
 			align: 'right'//,
          });
@@ -37,6 +36,7 @@ Ext.define('Account.RPP30Vat.Form', {
 			fieldLabel: 'Period Date',
 			name: 'bldat',
 			format:'d/m/Y',
+			value: new Date,
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			width:250,

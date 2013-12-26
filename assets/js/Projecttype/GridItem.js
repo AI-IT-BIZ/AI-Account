@@ -47,7 +47,7 @@ Ext.define('Account.Projecttype.GridItem', {
 			fields: [
 				{ name:'id_jtype', type:'int' },
 				'jtype',
-				'jobtx'
+				'typtx'
 			],
 			remoteSort: false,
 			sorters: ['id_jtype ASC']
@@ -85,7 +85,7 @@ Ext.define('Account.Projecttype.GridItem', {
 		},{
 			text: "Type Description",
 		    width: 250,
-		    dataIndex: 'jobtx',
+		    dataIndex: 'typtx',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
