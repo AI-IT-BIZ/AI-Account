@@ -9,14 +9,14 @@ class Rgeneralledger extends CI_Controller {
 		$datas['datas']  = array();
 		$sql = "
 			select 
-				distinct(v_bcus.saknr) as saknr,
-				(select tbl_glno.sgtxt from tbl_glno where v_bcus.saknr = tbl_glno.saknr) as  sgtxt
+				distinct(v_uacc.saknr) as saknr,
+				(select tbl_glno.sgtxt from tbl_glno where v_uacc.saknr = tbl_glno.saknr) as  sgtxt
 			from 
 				v_bkpf
-				LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
+				LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
 			where 
 				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'
-			ORDER BY v_bcus.saknr asc
+			ORDER BY v_uacc.saknr asc
 		";
 		$acc_code = $this->db->query($sql);
 		$acc_code = $acc_code->result_array();
@@ -26,16 +26,16 @@ class Rgeneralledger extends CI_Controller {
 			$val = $acc_code[$i];
 			$sql = "
 				select 
-					sum(v_bcus.debit) as debit,
-					sum(v_bcus.credi) as credi
+					sum(v_uacc.debit) as debit,
+					sum(v_uacc.credi) as credi
 					
 				from 
 					v_bkpf
-					LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
-					LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
 				where 
 					v_bkpf.bldat < '{$_POST['start_date']}' and
-					v_bcus.saknr = '{$val['saknr']}'
+					v_uacc.saknr = '{$val['saknr']}'
 			";
 			$bf = $this->db->query($sql);
 			$bf = $bf->first_row('array');
@@ -59,20 +59,20 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_bkpf.belnr,'') as belnr,
 					ifnull(v_bkpf.invnr,'') as invnr,
 					ifnull(v_bkpf.name1,'') as name1,
-					ifnull(v_bcus.saknr,'') as saknr,
+					ifnull(v_uacc.saknr,'') as saknr,
 					ifnull(tbl_glno.sgtxt,'') as sgtxt,
-					ifnull(v_bcus.debit,'') as debit,
-					ifnull(v_bcus.credi,'') as credi,
-					ifnull(v_bcus.statu,'') as statu,
+					ifnull(v_uacc.debit,'') as debit,
+					ifnull(v_uacc.credi,'') as credi,
+					ifnull(v_uacc.statu,'') as statu,
 					ifnull(v_bkpf.kunnr,'') as kunnr,
 					ifnull(v_bkpf.txz01,'') as txz01
 				from 
 					v_bkpf
-					LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
-					LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
 				where 
 					v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and
-					v_bcus.saknr = '{$val['saknr']}'
+					v_uacc.saknr = '{$val['saknr']}'
 				order by v_bkpf.bldat
 			";
 			$rs = $this->db->query($sql);
@@ -203,14 +203,14 @@ class Rgeneralledger extends CI_Controller {
 		
 		$sql = "
 			select 
-				distinct(v_bcus.saknr) as saknr,
-				(select tbl_glno.sgtxt from tbl_glno where v_bcus.saknr = tbl_glno.saknr) as  sgtxt
+				distinct(v_uacc.saknr) as saknr,
+				(select tbl_glno.sgtxt from tbl_glno where v_uacc.saknr = tbl_glno.saknr) as  sgtxt
 			from 
 				v_bkpf
-				LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
+				LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
 			where 
 				v_bkpf.bldat BETWEEN '{$_GET['start_date']}' and '{$_GET['end_date']}'
-			ORDER BY v_bcus.saknr asc
+			ORDER BY v_uacc.saknr asc
 		";
 		$data = $this->db->query($sql);
 		$data = $data->result_array();
@@ -255,16 +255,16 @@ class Rgeneralledger extends CI_Controller {
 			
 			$sql = "
 				select 
-					sum(v_bcus.debit) as debit,
-					sum(v_bcus.credi) as credi
+					sum(v_uacc.debit) as debit,
+					sum(v_uacc.credi) as credi
 					
 				from 
 					v_bkpf
-					LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
-					LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
 				where 
 					v_bkpf.bldat < '{$_GET['start_date']}' and
-					v_bcus.saknr = '{$val['saknr']}'
+					v_uacc.saknr = '{$val['saknr']}'
 			";
 			$bf = $this->db->query($sql);
 			$bf = $bf->first_row('array');
@@ -282,20 +282,20 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_bkpf.belnr,'') as belnr,
 					ifnull(v_bkpf.invnr,'') as invnr,
 					ifnull(v_bkpf.name1,'') as name1,
-					ifnull(v_bcus.saknr,'') as saknr,
+					ifnull(v_uacc.saknr,'') as saknr,
 					ifnull(tbl_glno.sgtxt,'') as sgtxt,
-					ifnull(v_bcus.debit,'') as debit,
-					ifnull(v_bcus.credi,'') as credi,
-					ifnull(v_bcus.statu,'') as statu,
+					ifnull(v_uacc.debit,'') as debit,
+					ifnull(v_uacc.credi,'') as credi,
+					ifnull(v_uacc.statu,'') as statu,
 					ifnull(v_bkpf.kunnr,'') as kunnr,
 					ifnull(v_bkpf.txz01,'') as txz01
 				from 
 					v_bkpf
-					LEFT JOIN v_bcus on v_bcus.belnr = v_bkpf.belnr
-					LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
 				where 
 					v_bkpf.bldat BETWEEN '{$_GET['start_date']}' and '{$_GET['end_date']}' and
-					v_bcus.saknr = '{$val['saknr']}'
+					v_uacc.saknr = '{$val['saknr']}'
 				order by v_bkpf.bldat
 			";
 			$rs = $this->db->query($sql);
