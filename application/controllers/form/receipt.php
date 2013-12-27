@@ -334,7 +334,7 @@ if(strpos($r_data['dispc'], '%') !== false)
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
 }else{$disamt = $r_data['dispc'];}
-//if(empty($disamt)) $disamt = 0;
+if(empty($disamt)) $disamt = 0;
 ?>
 <DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, $r_data['dispc']) ?></span></DIV>

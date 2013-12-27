@@ -267,7 +267,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'belpr',
+			name: 'bcus',
 		});
 		
 // Start Write Forms

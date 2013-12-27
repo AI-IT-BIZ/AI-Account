@@ -47,7 +47,8 @@ Ext.define('Account.AP.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				'chk02'
+				'chk02',
+				'saknr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -209,6 +210,12 @@ Ext.define('Account.AP.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
+		},
+			{
+			dataIndex: 'saknr',
+			width: 55,
+			//hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -244,6 +251,8 @@ Ext.define('Account.AP.Item.Grid_i', {
 							rModel.set('maktx', r.data.maktx);
 							// Unit
 							rModel.set('meins', r.data.meins);
+							// GL no
+							rModel.set('saknr', r.saknr);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -265,7 +274,23 @@ Ext.define('Account.AP.Item.Grid_i', {
 				// Unit
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
-
+                Ext.Ajax.request({
+					url: __site_url+'material/load',
+					method: 'POST',
+					params: {
+						id: v,
+						kunnr: cusno
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success && r.data.cost){
+							// Cost
+							var cost = r.data.cost;
+							rModel.set('unitp', cost);
+							rModel.set('saknr', r.data.saknr);
+						}
+					}
+				});
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();

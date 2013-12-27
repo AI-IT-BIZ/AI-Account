@@ -416,7 +416,8 @@ Ext.define('Account.Payment.Item.Form', {
 	loadGL: function(){
 		var _this=this;
 		var store = _this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var dtype='';
+		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
@@ -425,10 +426,23 @@ Ext.define('Account.Payment.Item.Form', {
 
 			var amt = itamt - pay;
 			sum += amt;
+			
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
+        		
+        		if(r.data['wht01']>0 && r.data['wht01']!=null){
+				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
+				    whts += wht;
+				}
+				if(r.data['vat01']>0 && r.data['vat01']!=null){    
+				var vat = parseFloat(r.data['vat01'].replace(/[^0-9.]/g, ''));
+				    vats += vat;
+				}
+				dtype = r.data['dtype'];
 		});
 
 		// set value to grid payment
-		var rsPM = _this.gridPayment.getData();
+		//var rsPM = _this.gridPayment.getData();
 		// Set value to GL Posting grid  
 		var currency = this.trigCurrency.getValue();
 		if(currency != 'THB'){
@@ -436,13 +450,25 @@ Ext.define('Account.Payment.Item.Form', {
 		  sum = sum * rate;
 		}   
         if(sum>0){
+        	var r_data = _this.gridPayment.getData();
+        	var pay_list = [];
+        	for(var i=0;i<r_data.length;i++){
+        		if(r_data[i].ptype == '03' || r_data[i].ptype == '04'){
+        		    var item = r_data[i].saknr + '|' + r_data[i].payam;
+        		}else{
+        			var item = r_data[i].ptype + '|' + r_data[i].payam;
+        		}
+        		saknr_list.push(item);
+        	}
         	//console.log(rsPM);
             _this.gridGL.load({
-            	paym:Ext.encode(rsPM),
+            	//paym:Ext.encode(rsPM),
             	netpr:sum,
+            	vwht:whts,
+            	vvat:vats,
+            	dtype:dtype,
             	lifnr:this.trigVendor.getValue(),
-            	rate:rate,
-            	dtype:'02'
+            	items: saknr_list.join(',')
             }); 
            }
 	}

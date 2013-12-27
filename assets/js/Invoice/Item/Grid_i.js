@@ -255,17 +255,17 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
 							// change cell code value (use db value)
-							rModel.set(e.field, e.record.data.matnr);
+							rModel.set(e.field, r.data.matnr);
 							// Materail text
-							rModel.set('maktx', e.record.data.maktx);
+							rModel.set('maktx', r.data.maktx);
 							// Unit
-							rModel.set('meins', e.record.data.meins);
+							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
 							// Cost
-							var cost = e.record.data.cost;
+							var cost = r.data.cost;
 							rModel.set('unitp', cost);
 							//rModel.set('amount', 100+Math.random());
-                            rModel.set('saknr', e.record.data.saknr);
+                            rModel.set('saknr', r.data.saknr);
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}

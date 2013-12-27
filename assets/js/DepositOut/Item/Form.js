@@ -611,7 +611,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
-		var store = this.gridItem.store;
+		var store = this.gridItem.store; var sum2=0;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
@@ -631,6 +631,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			discounts += discount;
             
             amt = amt - discount;
+            sum2 += amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -679,11 +680,11 @@ Ext.define('Account.DepositOut.Item.Form', {
         	//console.log(rsPM);
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),
-            	netpr:sum,
+            	netpr:sum2,
             	vvat:vats,
-            	lifnr:this.trigVendor.getValue(),
-            	ptype:'01',
-            	dtype:'01'
+            	lifnr:this.trigVendor.getValue()//,
+            	//ptype:'01',
+            	//dtype:'01'
             }); 
            }
 	}

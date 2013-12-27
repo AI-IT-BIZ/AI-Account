@@ -627,8 +627,8 @@ Ext.define('Account.AP.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0;
-		var saknr_list = [];
 		var whts=0;var discounts=0;
+		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
@@ -653,6 +653,8 @@ Ext.define('Account.AP.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
@@ -685,8 +687,9 @@ Ext.define('Account.AP.Item.Form', {
             	netpr:sum,
             	vvat:vats,
             	lifnr:this.trigVendor.getValue(),
-            	ptype:'01',
-            	dtype:'01'
+            	items: saknr_list.join(',')
+            	//ptype:'01',
+            	//dtype:'01'
             }); 
            }
 

@@ -182,7 +182,7 @@ class Depositout extends CI_Controller {
 		}
 
 // Save GL Posting	
-        $ids = $id;	
+        //$ids = $id;	
 		$id = $this->input->post('id');
 		$query = null;
 		if(!empty($id)){
@@ -194,9 +194,11 @@ class Depositout extends CI_Controller {
 		$formData = array(
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
-			'invnr' => $ids,
-			'txz01' => $this->input->post('txz01'),
-			'auart' => 'AR',
+			'invnr' => $id,
+			'refnr' => $id,
+			'lifnr' => $this->input->post('lifnr'),
+			'txz01' => 'Deposit Payment No '.$id,
+			'auart' => 'AP',
 			'netwr' => $this->input->post('netwr')
 		);
 		
@@ -205,15 +207,15 @@ class Depositout extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$q_gl = $query->first_row('array');
-			$id = $q_gl['belnr'];
-			$this->db->where('belnr', $id);
+			$accno = $q_gl['belnr'];
+			$this->db->where('belnr', $accno);
 			$this->db->set('updat', 'NOW()', false);
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
-			$id = $this->code_model->generate('AP', 
+			$accno = $this->code_model->generate('AP', 
 			$this->input->post('bldat'));
-			$this->db->set('belnr', $id);
+			$this->db->set('belnr', $accno);
 			$this->db->set('erdat', 'NOW()', false);
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
@@ -223,11 +225,11 @@ class Depositout extends CI_Controller {
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
 		
-		$this->db->where('belnr', $id);
+		$this->db->where('belnr', $accno);
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
-		$bcus = $this->input->post('belpr');//$this->input->post('vbelp');
+		$bcus = $this->input->post('bven');//$this->input->post('vbelp');
 		$gl_item_array = json_decode($bcus);
 		if(!empty($bcus) && !empty($gl_item_array)){
 
@@ -236,13 +238,14 @@ class Depositout extends CI_Controller {
 			foreach($gl_item_array AS $p){
 				if(!empty($p->saknr)){
 				$this->db->insert('bven', array(
-					'belnr'=>$id,
+					'belnr'=>$accno,
 					'belpr'=>++$item_index,
-					'gjahr'=>substr($date,0,4),
+					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'txz01'=>$p->txz01
+					'bldat'=>$this->input->post('bldat'),
+					'txz01'=>'Deposit Payment No '.$id
 				));
 			  }
 			}
@@ -324,75 +327,43 @@ class Depositout extends CI_Controller {
 		   $vvat = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
 		   //$rate = $this->input->get('rate');    //Currency Rate
-		   $ptype = $this->input->get('ptype');  //Pay Type
-		   $dtype = $this->input->get('dtype');  //Doc Type
+		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   //$dtype = $this->input->get('dtype');  //Doc Type
 		   
-		   $net = $netpr;
+		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
 		   
-		// record แรก
-		if($ptype=='01'){
-			$query = $this->db->get_where('lfa1', array(
-				'lifnr'=>$lifnr));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
+	// record แรก
+			//$query = $this->db->get_where('kna1', array(
+			//	'kunnr'=>$kunnr));
+			//if($query->num_rows()>0){
+			//	$q_data = $query->first_row('array');
+			//	$qgl = $this->db->get_where('glno', array(
+			//	'saknr'=>$q_data['saknr']));
+				$glno = '1151-06';  
+		        $qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
+				
+				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 				$result[$i] = array(
 				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
+					'saknr'=>$glno,
 					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
+					'debit'=>$netpr,
 					'credi'=>0
 				);
 				$i++;
-				$debit=$net;
+				$debit += $net;
 			}
-		}else{
-			$query = $this->db->get_where('ptyp', array(
-			'ptype'=>$ptype));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
-					'credi'=>0
-				);
-				$i++;
-			}
-			$debit=$net;
-		}
+			//}
+
 // record ที่สอง
-        if($netpr>0){
-        if($dtype=='01'){
-           $doct = '211000';
-        }
-        
-		$qdoc = $this->db->get_where('glno', array(
-				'saknr'=>$doct));
-		$q_doc = $qdoc->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$doct,
-			'sgtxt'=>$q_doc['sgtxt'],
-			'debit'=>0,
-			'credi'=>$netpr
-		);
-		$i++;
-		$credit=$netpr;
-		}
-// record ที่สาม
-		if($vvat>'1'){ 
+        if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '215010';
+		$glvat = '1155-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		$q_glno = $qgl->first_row('array');
@@ -400,13 +371,34 @@ class Depositout extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vvat
+			'debit'=>$vvat,
+			'credi'=>0
 		);
 		$i++;
-		$credit = $credit + $vvat;	
+		$debit = $debit + $vvat;	
 		}
-        /*if($vwht>'1'){ 
+        
+// record ที่สาม
+		if($netpr>0){
+        $glno = '2131-14';  
+		$qdoc = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
+				
+		if($qdoc->num_rows()>0){
+		$q_doc = $qdoc->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glno,
+			'sgtxt'=>$q_doc['sgtxt'],
+			'debit'=>0,
+			'credi'=>$net
+		);
+		$i++;
+		$credit += $netpr;
+		}
+		}
+
+/*        if($vwht>'1'){ 
 		//	$net_tax = floatval($net) * 0.07;}
 		$glwht = '215040';
 		$qgl = $this->db->get_where('glno', array(
@@ -424,7 +416,7 @@ class Depositout extends CI_Controller {
 		}
 		*/
 		
-		if(!empty($debit)){
+		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
 			'saknr'=>'',

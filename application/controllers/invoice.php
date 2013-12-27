@@ -329,7 +329,7 @@ class Invoice extends CI_Controller {
 		$this->db->delete('bcus');
 
 		// เตรียมข้อมูล pay item
-		$bcus = $this->input->post('belpr');//$this->input->post('vbelp');
+		$bcus = $this->input->post('bcus');//$this->input->post('vbelp');
 		$gl_item_array = json_decode($bcus);
 		if(!empty($bcus) && !empty($gl_item_array)){
 

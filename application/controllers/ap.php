@@ -284,13 +284,14 @@ class Ap extends CI_Controller {
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
-		$bven = $this->input->post('belpr');//$this->input->post('vbelp');
+		$bven = $this->input->post('bven');//$this->input->post('vbelp');
 		$gl_item_array = json_decode($bven);
 		if(!empty($bven) && !empty($gl_item_array)){
 
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
+				if(!empty($p->txz01))$p->txz01='GR No '.$id;
 				if(!empty($p->saknr)){
 				$this->db->insert('bven', array(
 					'belnr'=>$accno,
@@ -372,91 +373,89 @@ class Ap extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat  = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
-		   $ptype = $this->input->get('ptype');  //Pay Type
-		   $dtype = $this->input->get('dtype');  //Doc Type
+		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   $itms = $this->input->get('items');  //Doc Type
+		   $items = explode(',',$itms);
            
 		   if(empty($vvat)) $vvat=0;
+		   //if(empty($vwht)) $vwht=0;
 		   
 		   $net = $netpr + $vvat;
 		   
-           $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
+           $i=0;$n=0;$vamt=0;$debit=0;$credit;
 		   $result = array();
 // record แรก
-		if($ptype=='01'){
-			$query = $this->db->get_where('lfa1', array(
-				'lifnr'=>$lifnr));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
-					'credi'=>0
-				);
-				$i++;
-				$debit=$net;
+           if(!empty($items)){
+			// loop เพื่อ insert
+		for($j=0;$j<count($items);$j++){
+			$item = explode('|',$items[$j]);
+			if(!empty($item)){
+			$glno = $item[0];
+			$amt  = $item[1];
 			}
-		}else{
-			$query = $this->db->get_where('ptyp', array(
-			'ptype'=>$ptype));
-			if($query->num_rows()>0){
-				$q_data = $query->first_row('array');
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$q_data['saknr']));
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$q_data['saknr'],
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
-					'credi'=>0
-				);
-				$i++;
-			}
-			$debit=$net;
-		}
-// record ที่สอง
-        if($netpr>0){
-        if($dtype=='01'){
-           $doct = '211000';
-        }
-        
-		$qdoc = $this->db->get_where('glno', array(
-				'saknr'=>$doct));
-		$q_doc = $qdoc->first_row('array');
-		$result[$i] = array(
+			
+			$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
+			if($qgl->num_rows()>0){
+		    $q_glno = $qgl->first_row('array');
+			
+			$result[$i] = array(
 		    'belpr'=>$i + 1,
-			'saknr'=>$doct,
-			'sgtxt'=>$q_doc['sgtxt'],
-			'debit'=>0,
-			'credi'=>$netpr
+			'saknr'=>$glno,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$amt,
+			'credi'=>0
 		);
 		$i++;
-		$credit=$netpr;
+		$debit = $debit + $amt;	
+			}
+	    }
 		}
-// record ที่สาม
-		if($vvat>'1'){ 
+			
+// record ที่สอง
+        if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '215010';
+		$glvat = '2135-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
 		$q_glno = $qgl->first_row('array');
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vvat
+			'debit'=>$vvat,
+			'credi'=>0
 		);
 		$i++;
-		$credit = $credit + $vvat;	
-		}
-		
-		if(!empty($debit)){
+		$debit = $debit + $vvat;	
+		}}
+        
+// record ที่สาม
+		$query = $this->db->get_where('lfa1', array(
+				'lifnr'=>$kunnr));
+			if($query->num_rows()>0){
+				if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>0,
+					'credi'=>$net
+				);
+				$i++;
+				$credit+=$net;
+				}
+				}
+			}
+	
+		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
 			'saknr'=>'',
@@ -474,7 +473,7 @@ class Ap extends CI_Controller {
 		}else{
 		   $this->db->set_dbprefix('v_');
 		   $this->db->where('belnr', $iv_id);
-		   $query = $this->db->get('bsid');
+		   $query = $this->db->get('bven');
 		   echo json_encode(array(
 			  'success'=>true,
 			  'rows'=>$query->result_array(),
