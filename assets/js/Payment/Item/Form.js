@@ -94,7 +94,7 @@ Ext.define('Account.Payment.Item.Form', {
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bcus',
+			name: 'bven',
 		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
@@ -380,12 +380,14 @@ Ext.define('Account.Payment.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ payno: 0 });
 		this.gridPayment.load({ recnr: 0 });
+		this.gridGL.load({ belnr: 0 });
 
         // default status = wait for approve
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
+		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	
@@ -416,10 +418,10 @@ Ext.define('Account.Payment.Item.Form', {
 	loadGL: function(){
 		var _this=this;
 		var store = _this.gridItem.store;
-		var sum = 0;var dtype='';
+		var sum = 0;var dtype='';var itamt=0;sum2=0;
 		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
+			    itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
 				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
 			pay = isNaN(pay)?0:pay;
@@ -440,7 +442,9 @@ Ext.define('Account.Payment.Item.Form', {
 				}
 				dtype = r.data['dtype'];
 		});
-
+		
+        var discount = this.formTotal.getForm().findField('dismt').getValue();
+        sum2 = sum - discount;
 		// set value to grid payment
 		//var rsPM = _this.gridPayment.getData();
 		// Set value to GL Posting grid  
@@ -448,6 +452,7 @@ Ext.define('Account.Payment.Item.Form', {
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
+		  sum2 = sum2 * rate;
 		}   
         if(sum>0){
         	var r_data = _this.gridPayment.getData();
@@ -463,7 +468,7 @@ Ext.define('Account.Payment.Item.Form', {
         	//console.log(rsPM);
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),
-            	netpr:sum,
+            	netpr:sum2,
             	vwht:whts,
             	vvat:vats,
             	dtype:dtype,

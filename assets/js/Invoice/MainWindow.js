@@ -62,10 +62,19 @@ Ext.define('Account.Invoice.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Invoice.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.Invoice.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -106,8 +115,9 @@ Ext.define('Account.Invoice.MainWindow', {
 		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
-
+            
 			var resultId = action.result.data.id;
+			alert(resultId);
 			_this.itemDialog.openDialog(resultId);
 			Ext.Msg.alert('Status', 'Save Invoice number: '+resultId+' successfully.');
 		});
@@ -119,6 +129,7 @@ Ext.define('Account.Invoice.MainWindow', {
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
+		
 		this.searchForm.on('reset_click', function(values){
 			_this.grid.load();
 		});
@@ -130,6 +141,15 @@ Ext.define('Account.Invoice.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){

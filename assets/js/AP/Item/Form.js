@@ -543,7 +543,7 @@ Ext.define('Account.AP.Item.Form', {
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
             	wht:sel.get('chk02'),
-            	vattype:vattype
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -586,7 +586,7 @@ Ext.define('Account.AP.Item.Form', {
 			});
 		}
 	},
-	remove : function(invnr){
+	remove : function(id){
 		var _this=this;
 		this.getForm().load({
 			params: { invnr: invnr },
@@ -600,6 +600,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
+		this.gridGL.load({ belnr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
@@ -626,7 +627,7 @@ Ext.define('Account.AP.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0;
+		var sum = 0;var vats=0;sum2=0;
 		var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
@@ -648,6 +649,7 @@ Ext.define('Account.AP.Item.Form', {
 			discounts += discount;
             
             amt = amt - discount;
+            sum2+=amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -673,18 +675,20 @@ Ext.define('Account.AP.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.gridItem.vendorValue = this.trigVendor.getValue();
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
+		  sum2 = sum2 * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
 		} 
 		//alert(sum);  
         if(sum>0){
             _this.gridGL.load({
-            	netpr:sum,
+            	netpr:sum2,
             	vvat:vats,
             	lifnr:this.trigVendor.getValue(),
             	items: saknr_list.join(',')

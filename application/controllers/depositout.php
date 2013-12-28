@@ -183,11 +183,11 @@ class Depositout extends CI_Controller {
 
 // Save GL Posting	
         //$ids = $id;	
-		$id = $this->input->post('id');
+		$ids = $this->input->post('id');
 		$query = null;
-		if(!empty($id)){
+		if(!empty($ids)){
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
+			$this->db->where('invnr', $ids);
 			$query = $this->db->get('bkpf');
 		}
 		$date = date('Ymd');
@@ -196,8 +196,9 @@ class Depositout extends CI_Controller {
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
 			'refnr' => $id,
-			'lifnr' => $this->input->post('lifnr'),
+			'kunnr' => $this->input->post('lifnr'),
 			'txz01' => 'Deposit Payment No '.$id,
+			'ttype' => '05',
 			'auart' => 'AP',
 			'netwr' => $this->input->post('netwr')
 		);
@@ -229,10 +230,9 @@ class Depositout extends CI_Controller {
 		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
-		$bcus = $this->input->post('bven');//$this->input->post('vbelp');
-		$gl_item_array = json_decode($bcus);
-		if(!empty($bcus) && !empty($gl_item_array)){
-
+		$bven = $this->input->post('bven');//$this->input->post('vbelp');
+		$gl_item_array = json_decode($bven);
+		if(!empty($bven) && !empty($gl_item_array)){
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
@@ -240,7 +240,7 @@ class Depositout extends CI_Controller {
 				$this->db->insert('bven', array(
 					'belnr'=>$accno,
 					'belpr'=>++$item_index,
-					'gjahr' => substr($date,0,4),
+					'gjahr'=>substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
@@ -268,9 +268,6 @@ class Depositout extends CI_Controller {
 	}
 	
 	public function loads_pcombo(){
-		//$tbName = 'ptyp';
-		//$tbPK = 'ptype';
-
 		$sql="SELECT *
 			FROM tbl_ptyp
 			WHERE ptype <> '01'";
@@ -356,7 +353,7 @@ class Depositout extends CI_Controller {
 					'credi'=>0
 				);
 				$i++;
-				$debit += $net;
+				$debit += $netpr;
 			}
 			//}
 
@@ -394,7 +391,7 @@ class Depositout extends CI_Controller {
 			'credi'=>$net
 		);
 		$i++;
-		$credit += $netpr;
+		$credit += $net;
 		}
 		}
 

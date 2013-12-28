@@ -240,11 +240,11 @@ class Ap extends CI_Controller {
 	
 		// Save GL Posting	
         //$ids = $id;	
-		$id = $this->input->post('id');
+		$ids = $this->input->post('id');
 		$query = null;
-		if(!empty($id)){
+		if(!empty($ids)){
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
+			$this->db->where('invnr', $ids);
 			$query = $this->db->get('bkpf');
 		}
 		$date = date('Ymd');
@@ -253,6 +253,7 @@ class Ap extends CI_Controller {
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
 			'txz01' => 'GR No '.$id,
+			'ttype' => '05',
 			'auart' => 'AP',
 			'netwr' => $this->input->post('netwr')
 		);
@@ -300,7 +301,7 @@ class Ap extends CI_Controller {
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'lifnr'=> $this->input->post('lifnr'),
+					'kunnr'=> $this->input->post('lifnr'),
 					'bldat'=>$this->input->post('bldat'),
 					'txz01'=>$p->txz01
 				));
@@ -382,7 +383,7 @@ class Ap extends CI_Controller {
 		   
 		   $net = $netpr + $vvat;
 		   
-           $i=0;$n=0;$vamt=0;$debit=0;$credit;
+           $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
 // record แรก
            if(!empty($items)){
@@ -433,7 +434,7 @@ class Ap extends CI_Controller {
         
 // record ที่สาม
 		$query = $this->db->get_where('lfa1', array(
-				'lifnr'=>$kunnr));
+				'lifnr'=>$lifnr));
 			if($query->num_rows()>0){
 				if($query->num_rows()>0){
 				$q_data = $query->first_row('array');

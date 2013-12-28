@@ -49,7 +49,6 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'mtart',
 				'saknr'
 			],
 			remoteSort: true,
@@ -284,7 +283,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
-				//rModel.set('amount', 100+Math.random());
+
 				var v = record.data.matnr;
                 var cusno = _this.customerValue;
 				if(Ext.isEmpty(v)) return;
@@ -300,8 +299,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success && r.data.cost){
 							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', cost);
+							rModel.set('unitp', r.data.cost);
 							rModel.set('saknr', r.data.saknr);
 						}
 					}

@@ -13,8 +13,12 @@ Ext.define('Account.Invoice.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
+		this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly:true
+		});
 		// INIT Customer search popup ///////////////////////////////
-		this.soDialog = Ext.create('Account.Saleorder.MainWindow');
+		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
@@ -663,29 +667,17 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
     },
 
     onViewReady: function(grid) {
-    	var _this=this;
-        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];//.select(0);
-        if (sel) {
-            _this.gridPrice.load({
-            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
-            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
-            	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
-            	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
-            });
-
-        }
+        grid.getSelectionModel().select(0);
     },
-	
+    
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -696,11 +688,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 		});
 	},
-	
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
-		
+
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnIvItem.setValue(Ext.encode(rsItem));
@@ -712,7 +703,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this, _this, action);
+					alert(action.result.data.id);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -720,64 +712,70 @@ Ext.define('Account.Invoice.Item.Form', {
 			});
 		}
 	},
-	
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({
-			params: { id: id },
+			params: { invnr: invnr },
 			url:__site_url+'invoice/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
 	},
-	
 	reset: function(){
 		this.getForm().reset();
-
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
+		this.gridGL.load({ belnr: 0 });
+		
+		// สร้างรายการเปล่า 5 รายการใน grid item
+		//this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
-		this.comboQStatus.setValue('05');
-		this.comboCond.setValue('01');
+		this.comboQStatus.setValue('01');
+		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
-		this.comboPay.setValue('01');
-		//this.comboPay.setDisabled(true);
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
-		this.comboTax.setValue('01');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
-	
+	// Add duedate functions
+	/*getDuedate: function(){
+		var bForm = this.getForm(),
+			credit = this.numberCredit.getValue(),
+			startDate = bForm.findField('bldat').getValue(),
+			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+
+		bForm.findField('duedt').setValue(result);
+	},*/
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var whts=0;var i=0;
-		var discounts=0;var amt = 0;
-		var saknr_list = [];discounts=0;
+		var sum = 0;var vats=0;sum2=0;
+		var whts=0;var discounts=0;
+		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
-			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
-				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
-				
+			var qty = parseFloat(r.data['menge']),
+				price = parseFloat(r.data['unitp']),
+				discount = parseFloat(r.data['disit']);
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
-			amt = qty * price;//) - discount;
+			var amt = qty * price;//) - discount;
 			if(vattype =='02'){
-			  amt = amt * 100;
-			  amt = amt / 107;
+				amt = amt * 100;
+			    amt = amt / 107;
 		    }
 			sum += amt;
 			
 			discounts += discount;
+            
             amt = amt - discount;
+            sum2+=amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -785,12 +783,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
-        		
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
-		    	    whts += wht;
-			}		
+				    whts += wht;
+			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
@@ -801,27 +798,28 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		
-		this.gridItem.whtValue = this.numberWHT.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
-        sum = sum - discounts;
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
+		  sum2 = sum2 * rate;
 		  vats = vats * rate;
-		  //whts = whts * rate;
-		}   
+		  whts = whts * rate;
+		} 
+		//alert(sum);  
         if(sum>0){
             _this.gridGL.load({
-            	netpr:sum,
+            	netpr:sum2,
             	vvat:vats,
-            	//vwht:whts,
-            	kunnr:this.trigCustomer.getValue(),
+            	lifnr:this.trigCustomer.getValue(),
             	items: saknr_list.join(',')
+            	//ptype:'01',
+            	//dtype:'01'
             }); 
            }
 
@@ -836,7 +834,8 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });     
         }
 	},

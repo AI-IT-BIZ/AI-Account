@@ -219,7 +219,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnDpItem, 
+			items: [this.hdnDpItem, this.hdnGlItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',

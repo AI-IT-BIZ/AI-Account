@@ -22,7 +22,6 @@ Ext.define('Account.SAp.MainWindow', {
 		var _this=this;
 
 		// --- object ---
-
 		this.grid = Ext.create('Account.SAp.Grid', {
 			region:'center',
 			border: false

@@ -278,11 +278,11 @@ class Invoice extends CI_Controller {
 		}
 // Save GL Posting	
         //$ids = $id;	
-		$id = $this->input->post('id');
+		$ids = $this->input->post('id');
 		$query = null;
-		if(!empty($id)){
+		if(!empty($ids)){
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
+			$this->db->where('invnr', $ids);
 			$query = $this->db->get('bkpf');
 			if($query->num_rows()>0){
 				$result = $query->first_row('array');
@@ -574,7 +574,7 @@ class Invoice extends CI_Controller {
 // record ที่สอง
         if(!empty($items)){
 			// loop เพื่อ insert
-		for($j=0;$j<count($items);$j++){
+		/*for($j=0;$j<count($items);$j++){
 			$item = explode('|',$items[$j]);
 			$glno = $item[0];
 			$amt  = $item[1];
@@ -594,7 +594,7 @@ class Invoice extends CI_Controller {
 		$i++;
 		$credit = $credit + $amt;	
 			}
-	    }
+	    }*/
 		}
 // record ที่สาม
 		if($vvat>0){ 

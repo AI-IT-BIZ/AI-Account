@@ -67,7 +67,10 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				'chqdt',
 				'pramt',
 				'payam',
-				'reman'
+				'reman',
+				'wht01',
+				'vat01',
+				'dtype'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -214,7 +217,27 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-		    }
+		},{
+			dataIndex: 'saknr',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'wht01',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'vat01',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'dtype',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		}
 		];
 
 		this.plugins = [this.editing];
@@ -245,6 +268,8 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 							rModel.set(e.field, r.data.bcode);
 							// Materail text
 							rModel.set('bname', r.data.bname);
+							// GL No
+							rModel.set('saknr', r.data.saknr);
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -262,6 +287,8 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				rModel.set('bcode', record.data.bcode);
 				// Materail text
 				rModel.set('bname', record.data.bname);
+				// GL No
+				rModel.set('saknr', record.data.saknr)
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.bankDialog.hide();
@@ -291,9 +318,12 @@ Ext.define('Account.Payment.Item.Grid_pm', {
         if (sel){
          i = parseFloat(sel.get('payam').replace(/[^0-9.]/g, ''));
          net = net - i;
+         wht = parseFloat(sel.get('wht01'));
+         vat = parseFloat(sel.get('vat01'));
+         dtype = parseFloat(sel.get('dtype'));
         }
 		// add new record
-		rec = { id:newId, pramt:net };
+		rec = { id:newId, pramt:net, vat01:vat01, wht01:wht01, dtype:dtype };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

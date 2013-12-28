@@ -25,7 +25,9 @@ Ext.define('Account.SAp.Grid', {
 				'statx',
 				'refnr',
 				'sgtxt',
-				'ctype'
+				'ctype',
+				'wht01',
+				'vat01'
 				
 			],
 			remoteSort: true,
@@ -33,13 +35,23 @@ Ext.define('Account.SAp.Grid', {
 		});
 
 		this.columns = [
-			{text: "AP Doc", flex: true, dataIndex: 'invnr', sortable: true},
-			{text: "AP Date", width: 125, dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
+			{text: "AP Doc", flex: true, dataIndex: 'invnr',
+			align: 'center', sortable: true},
+			{text: "AP Date", width: 125, format:'d/m/Y',
+			align: 'center',dataIndex: 'bldat', sortable: true},
+			{text: "GR Doc", flex: true,dataIndex: 'mbeln', 
+			align: 'center', sortable: true},
+			{text: "Vendor Code", flex: true, 
+			align: 'center', dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Net Amount", flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "AP Status", flex: true, dataIndex: 'statx', sortable: true},
-			{text: "Currency", flex: true, dataIndex: 'ctype', sortable: true}
+			{text: "Net Amount", flex: true, 
+			align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "AP Status", width: 80, 
+			align: 'center', dataIndex: 'statx', sortable: true},
+			{text: "Currency", flex: true,
+			align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "1",hidden: true,width: 0, dataIndex: 'wht01', sortable: false},
+			{text: "2",hidden: true,width: 0, dataIndex: 'vat01', sortable: false}
 		];
 
 		this.bbar = {

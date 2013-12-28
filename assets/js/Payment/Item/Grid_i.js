@@ -47,7 +47,10 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				'payrc',
 				'reman',
 				'belnr',
-				'ctype'
+				'ctype',
+				'wht01',
+				'vat01',
+				'dtype'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -138,7 +141,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				align: 'right',
 				readOnly: true,
 				renderer: function(v,p,r){
-					var itamt = parseFloat(r.data['itamt']),
+					var //itamt = parseFloat(r.data['itamt']),
 						pay = parseFloat(r.data['payrc']);
 					itamt = isNaN(itamt)?0:itamt;
 					pay = isNaN(pay)?0:pay;
@@ -155,6 +158,21 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
+		},{
+			dataIndex: 'wht01',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'vat01',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'dtype',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -196,6 +214,13 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							rModel.set('itamt', r.data.netwr);
 							// Currency
 							rModel.set('ctype', r.data.ctype);
+							// WHT01
+							rModel.set('wht01', r.data.wht01);
+							// VAT01
+							rModel.set('vat01', r.data.vat01);
+							// Dtype
+							var dtype = r.data.invnr.substring(0,2);
+				            rModel.set('dtype', dtype[0]);
 							//rModel.set('amount', 100+Math.random());
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -221,7 +246,13 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				rModel.set('itamt', record.data.netwr);
 				// Currency
 				rModel.set('ctype', record.data.ctype);
-
+				// WHT01
+				rModel.set('wht01', record.data.wht01);
+				// VAT01
+				rModel.set('vat01', record.data.vat01);
+				// Dtype
+				var dtype = record.data.invnr.substring(0,2);
+				rModel.set('dtype', dtype[0]);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.paymentDialog.hide();

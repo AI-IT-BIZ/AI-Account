@@ -224,11 +224,11 @@ class Receipt extends CI_Controller {
 		
 //*** Save GL Posting	
         //$ids = $id;	
-		//$id = $this->input->post('id');
+		$ids = $this->input->post('id');
 		$query = null;
-		if(!empty($id)){
+		if(!empty($ids)){
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
+			$this->db->where('invnr', $ids);
 			$query = $this->db->get('bkpf');
 		}
 		$date = date('Ymd');

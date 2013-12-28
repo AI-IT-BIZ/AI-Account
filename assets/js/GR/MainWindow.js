@@ -154,12 +154,14 @@ Ext.define('Account.GR.MainWindow', {
 				}
 		    });
 		}
-
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
-	    		this.excelAct.setHandler(function(){
+	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
 				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
 			params = Ext.apply({

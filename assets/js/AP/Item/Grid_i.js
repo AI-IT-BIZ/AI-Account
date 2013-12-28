@@ -252,7 +252,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 							// Unit
 							rModel.set('meins', r.data.meins);
 							// GL no
-							rModel.set('saknr', r.saknr);
+							rModel.set('saknr', r.data.saknr);
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
@@ -274,19 +274,20 @@ Ext.define('Account.AP.Item.Grid_i', {
 				// Unit
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
+				var v = record.data.matnr;
+                var venno = _this.vendorValue;
                 Ext.Ajax.request({
 					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
 						id: v,
-						kunnr: cusno
+						kunnr: venno
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success && r.data.cost){
 							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', cost);
+							rModel.set('unitp', r.data.cost);
 							rModel.set('saknr', r.data.saknr);
 						}
 					}
