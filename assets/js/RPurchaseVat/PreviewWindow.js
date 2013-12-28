@@ -108,7 +108,7 @@ Ext.define('Account.RPurchaseVat.PreviewWindow', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rpurchasevat/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rsumvat/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

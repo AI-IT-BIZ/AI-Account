@@ -21,13 +21,14 @@ class Rsumvat extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		//Sale
-	    $strSQL1 = " select v_vbrk.*";
-        $strSQL1 = $strSQL1 . " from v_vbrk ";
-        $strSQL1 = $strSQL1 . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL1 .= "ORDER BY invnr ASC";
+	    $strSQL = " select v_vbrk.*";
+        $strSQL = $strSQL . " from v_vbrk ";
+        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL .= "ORDER BY invnr ASC";
        
-		$q_sale = $this->db->query($strSQL1);
-		$r_sale = $q_sale->first_row('array');
+		$query = $this->db->query($strSQL);
+		$r_data = $query->first_row('array');
+		
 		
 		//Purchase
 		$strSQL2 = " select v_ebrk.*";
@@ -39,8 +40,8 @@ class Rsumvat extends CI_Controller {
 		$r_purch = $q_purch->first_row('array');
 		
 		// calculate sum
-		$rows = $q_sale->result_array();
-		$b_amt = 0;
+		$rows = $query->result_array();
+		$b_amt = 0;$rows='';
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -63,7 +64,7 @@ class Rsumvat extends CI_Controller {
  DIV {
 	position: absolute;
 	z-index: 25;
-	width: 16px;
+	
 }
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
 .fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
@@ -71,6 +72,7 @@ class Rsumvat extends CI_Controller {
 .fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
 .fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:FF8600;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -123,61 +125,61 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 775px; top: 107px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
-<DIV style="left: 809px; top: 105px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 809px; top: 106px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 <DIV style="left: 960px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 881px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
 
-<DIV style="left: 595px; top: 129px; width: 57px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
+<DIV style="left: 595px; top: 129px; width: 172px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
 <DIV style="left: 343px; top: 106px; width: 57px; height: 21PX;"><span class="fc1-1">กรณียื่นเพิ่มเติมครั้งที่</span></DIV>
 
 <DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
 <DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
-<DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;">
-  <table width="500PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-3">ใบแนบ ภ.พ.30 รายละเอียดภาษีขายและภาษีซื้อของสถานประกอบการแต่ละแห่ง</td></table>
+<DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;">
+  <span class="fc1-3">ใบแนบ ภ.พ.30 รายละเอียดภาษีขายและภาษีซื้อของสถานประกอบการแต่ละแห่ง</span>
 </DIV>
-<div style="left: 53px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;">
+<div style="left: 53px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
   <table width="0px" height="205PX">
       <td>&nbsp;</td>
   </table>
 </div>
 <DIV style="left: 12px; top: 168px; width: 40px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ลำดับที่</span></DIV>
-<div style="left: 13px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;">
+<div style="left: 13px; top: 157px;  border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
   <table width="0px" height="205PX">
       <td>&nbsp;</td>
   </table>
 </div>
 <DIV style="left: 55px; top: 168px; width: 59px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">วันที่</span></DIV>
-<div style="left: 182px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;">
+<div style="left: 182px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
 <DIV style="left: 114px; top: 158px; width: 70px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">เลขที่</span></DIV>
 <DIV style="left: 113px; top: 181px; width: 70px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ใบกำกับภาษี</span></DIV>
 
-<div style="left: 113px; top: 156px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;">
+<div style="left: 113px; top: 156px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
 <DIV style="left: 183px; top: 158px; width: 61px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สำนักงาน</span></DIV>
 <DIV style="left: 182px; top: 181px; width: 63px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ใหญ่/สาขา</span></DIV>
 
-<div style="left: 245px; top: 156px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;">
+<div style="left: 245px; top: 156px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
 <DIV style="left: 244px; top: 178px; width: 133px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">และสาขา</span></DIV>
 <DIV style="left: 244px; top: 157px; width: 133px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชื่อสำนักงานใหญ่</span></DIV>
 
-<div style="left: 378px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;">
+<div style="left: 378px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
 <DIV style="left: 379px; top: 167px; width: 256px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ที่ตั้งสถานประกอบการ</span></DIV>
 
-<div style="left: 635px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 523px;">
+<div style="left: 635px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 523px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
@@ -185,7 +187,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 712px; top: 166px; width: 70px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีขาย</span></DIV>
 
-<div style="left: 782px; top: 157px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 524px;">
+<div style="left: 782px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 524px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
@@ -193,15 +195,15 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 862px; top: 167px; width: 70px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ภาษีซื้อ</span></DIV>
 
-<div style="left: 860px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 523px;">
+<div style="left: 860px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 523px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<div style="left: 711px; top: 156px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 524px;">
+<div style="left: 711px; top: 156px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 524px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<div style="left: 933px; top: 158px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 522px;">
+<div style="left: 933px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 522px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
@@ -209,7 +211,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 962px; top: 180px; width: 80px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชำระเกิน (-)</span></DIV>
 
-<div style="left: 1060px; top: 159px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 520px;">
+<div style="left: 1077px; top: 156px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 523px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
@@ -219,26 +221,29 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 13px; top: 210px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
-$rows = $q_sale->result_array();
+$rows = $query->result_array();
 $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp);
-$j=0;$no=1;$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;
+$j=0;$no=1;$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_amt=0;$t_vat=0;
+$invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
-     if($i<=count($rows)){
+     if($i<count($rows)){
 	    $item = $rows[$i];
 		$s_amt += $item['beamt'];
 		$s_vat += $item['vat01'];
+		$d_vat = $item['vat01'];
 	 }else{
 		$item = $rowp[$j];
 		$j++;
 		$p_amt += $item['beamt'];
 		$p_vat += $item['vat01'];
+		$d_vat = 0 - $item['vat01'];
 	};
 	$itamt = $item['beamt'];
 	$t_amt += $itamt;
 	$t_vat += $item['vat01'];
 	
-	$invdt_str = util_helper_format_date($r_data['invdt']);
+	$invdt_str = util_helper_format_date($r_data['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
 ?>
 	<tr>
@@ -247,17 +252,13 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:70px;"><?=$item['invnr'];?></td>
       <td class="fc1-8" align="center" style="width:65px;">0000</td>
 	  <td class="fc1-8" align="left" style="width:133px;"><?=$item['name1'];?></td>
-		<td class="fc1-8" align="left" style="width:256px;"><?=$adr01;?></td>
-        <?php if($i<=count($rows)){ ?>
-        <td class="fc1-8" align="right" style="width:75px;"><?=$item['beamt'];?></td>
-        <td class="fc1-8" align="right" style="width:70px;"><?=$item['vat01'];?></td>
-        
-        <?php }else{ ?>
-        <td class="fc1-8" align="right" style="width:75px;"><?=$item['beamt'];?></td>
-	  <td class="fc1-8" align="right" style="width:70px;"><?=$item['vat01'];?></td>
-      <?php } ?>
-      
-	  <td class="fc1-8" align="right" style="width:142px;"><?=$invdt_str;?></td>
+      <td class="fc1-8" align="left" style="width:256px;"><?=$adr01;?></td>
+
+      <td class="fc1-8" align="right" style="width:75px;"><?=$s_amt;?></td>
+      <td class="fc1-8" align="right" style="width:70px;"><?=$s_vat;?></td>
+      <td class="fc1-8" align="right" style="width:75px;"><?=$p_amt;?></td>
+	  <td class="fc1-8" align="right" style="width:75px;"><?=$p_vat;?></td>
+	  <td class="fc1-8" align="right" style="width:142px;"><?=$d_vat;?></td>
 	</tr>
 
 <?php
@@ -647,17 +648,17 @@ endfor;
 <DIV style="left: 11px; top: 660PX; width: 1065px; height: 20PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
 <table width="635PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
 </DIV>
-<DIV style="left: 634px; top: 661px; width: 76px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">1,809,639.27</span></DIV>
+<DIV style="left: 633px; top: 661px; width: 76px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?=$ts_amt;?></span></DIV>
 
-<DIV style="left: 863px; top: 661px; width: 71px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">656,161.51</span></DIV>
+<DIV style="left: 860px; top: 661px; width: 71px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?=$tp_vat;?></span></DIV>
 
-<DIV style="left: 711px; top: 660PX; width: 72px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">1,153,477.76</span></DIV>
+<DIV style="left: 708px; top: 660PX; width: 72px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?=$ts_vat;?></span></DIV>
 
-<DIV style="left:975PX;top:660PX;width:84PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">1,711,885.52</span></DIV>
+<DIV style="left: 938px; top: 660PX; width: 137px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?=$t_vat;?></span></DIV>
 
-<DIV style="left: 783px; top: 660PX; width: 76px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">97,753.75</span></DIV>
+<DIV style="left: 782px; top: 660PX; width: 76px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?=$tp_amt;?></span></DIV>
 
-<DIV style="left: 331px; top: 660PX; width: 106PX; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">รวมทั้งสิ้น</span></DIV>
+<DIV style="left: 450px; top: 660PX; width: 106PX; height: 21PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">รวมทั้งสิ้น</span></DIV>
 <BR>
 <?php
 		echo '</div>';
