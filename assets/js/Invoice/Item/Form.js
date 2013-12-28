@@ -12,7 +12,7 @@ Ext.define('Account.Invoice.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		
+
 		this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly:true
@@ -21,7 +21,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
-		
+
 		this.gridItem = Ext.create('Account.Invoice.Item.Grid_i',{
 			//title:'Invoice Items',
 			height: 320,
@@ -44,7 +44,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			title:'Item Pricing',
 			region:'south'
 		});
-		
+
 		this.comboQStatus = Ext.create('Ext.form.ComboBox',{
 			fieldLabel: 'INV Status',
 			name : 'statu',
@@ -109,7 +109,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'name1',
 			valueField: 'salnr'
 		});
-		
+
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
@@ -139,7 +139,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'paytx',
 			valueField: 'ptype'
 		});
-		
+
 		this.comboCond = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Condition',
 			name : 'condi',
@@ -171,7 +171,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'contx',
 			valueField: 'condi'
 		});
-		
+
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Vat type',
 			name : 'taxnr',
@@ -203,7 +203,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
-		
+
 		this.numberWHT = Ext.create('Ext.form.field.Number', {
 			fieldLabel: 'WHT Value',
 			name: 'whtpr',
@@ -221,7 +221,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 25'
          });
-		
+
         this.trigSO = Ext.create('Ext.form.field.Trigger', {
 			name: 'ordnr',
 			fieldLabel: 'SO No',
@@ -231,7 +231,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			labelAlign: 'letf',
@@ -241,7 +241,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
 			name: 'ctype',
 			fieldLabel: 'Currency',
@@ -252,7 +252,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			allowBlank : false
 		});
-		
+
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
@@ -265,15 +265,15 @@ Ext.define('Account.Invoice.Item.Form', {
 			allowDecimals: false,
 			minValue:0
          });
-		
+
 		this.hdnIvItem = Ext.create('Ext.form.Hidden', {
 			name: 'vbrp'
 		});
-		
+
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
 			name: 'bcus',
 		});
-		
+
 // Start Write Forms
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -294,7 +294,7 @@ Ext.define('Account.Invoice.Item.Form', {
             defaults: {
                 anchor: '100%'
             },
-// Quotation Code            
+// Quotation Code
      items:[{
      	xtype: 'container',
                 layout: 'hbox',
@@ -366,7 +366,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			editable: false,
 			margin: '0 0 0 130'
          }]
-// Sale Person         
+// Sale Person
          },{
 			xtype: 'container',
                     layout: 'hbox',
@@ -377,7 +377,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 5',
 			width:10,
 			value: 'Days'
-		},this.trigCurrency]
+		}
+		,this.trigCurrency
+		]
 // Tax&Ref no.
          },{
          xtype: 'container',
@@ -416,7 +418,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			       value: '%'
 		          },this.comboTax
          ]
-       },{  
+       },{
 			 	xtype: 'container',
 				layout: 'hbox',
 				margin: '0 0 5 0',
@@ -433,7 +435,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			}]
 		}]
 		};
-		
+
 		this.items = [mainFormPanel,this.gridItem,
 		{
 			xtype:'tabpanel',
@@ -446,9 +448,9 @@ Ext.define('Account.Invoice.Item.Form', {
 				this.gridGL
 			]
 		}
-			
+
 		];
-		
+
 		// event trigQuotation///
 		this.trigSO.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -465,23 +467,23 @@ Ext.define('Account.Invoice.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.ordnr);
-			//_this.getForm().findField('jobtx').setValue(r.data.jobtx);		
+			//_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
-			_this.getForm().findField('salnr').setValue(r.data.salnr);	
-			_this.getForm().findField('ptype').setValue(r.data.ptype);	
-			_this.getForm().findField('taxnr').setValue(r.data.taxnr);	
-			_this.getForm().findField('terms').setValue(r.data.terms);	
+			_this.getForm().findField('salnr').setValue(r.data.salnr);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-			
+
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
 			_this.gridItem.load({sonr: sonr });
-			//----------------------------------------			
+			//----------------------------------------
 						}else{
 							o.markInvalid('Could not find saleorder no : '+o.getValue());
 						}
@@ -489,18 +491,18 @@ Ext.define('Account.Invoice.Item.Form', {
 				});
 			}
 		}, this);
-		
+
 		_this.soDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigSO.setValue(record.data.ordnr);
 			//_this.getForm().findField('jobtx').setValue(record.data.jobtx);
-			
+
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
 			_this.getForm().findField('ptype').setValue(record.data.ptype);
 			_this.getForm().findField('taxnr').setValue(record.data.taxnr);
 			_this.getForm().findField('terms').setValue(record.data.terms);
-            
+
             Ext.Ajax.request({
 					url: __site_url+'saleorder/load',
 					method: 'POST',
@@ -517,8 +519,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			       }
 				}
-				});           
- 
+				});
+
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -530,7 +532,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigSO.onTriggerClick = function(){
 			_this.soDialog.show();
 		};
-		
+
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -564,7 +566,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			
+
 			var v = record.data.kunnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
@@ -592,7 +594,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
-		
+
 		// event trigCurrency///
 		this.trigCurrency.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -623,7 +625,7 @@ Ext.define('Account.Invoice.Item.Form', {
 				});
 			}
 		}, this);
-		
+
 		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCurrency.setValue(record.data.ctype);
 
@@ -641,7 +643,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
-		
+
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
@@ -653,8 +655,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
-	},	
-	
+	},
+
 	onSelectChange: function(selModel, selections){
 		var _this=this;
 		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
@@ -677,7 +679,7 @@ Ext.define('Account.Invoice.Item.Form', {
     onViewReady: function(grid) {
         grid.getSelectionModel().select(0);
     },
-    
+
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -695,15 +697,14 @@ Ext.define('Account.Invoice.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnIvItem.setValue(Ext.encode(rsItem));
-		
+
 		var rsGL = _this.gridGL.getData();
 		this.hdnGlItem.setValue(Ext.encode(rsGL));
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
-					form_basic.reset();
-					alert(action.result.data.id);
+					_this.reset();
 					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
@@ -724,10 +725,11 @@ Ext.define('Account.Invoice.Item.Form', {
 	},
 	reset: function(){
 		this.getForm().reset();
+
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
 		this.gridGL.load({ belnr: 0 });
-		
+
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
 
@@ -771,9 +773,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			    amt = amt / 107;
 		    }
 			sum += amt;
-			
+
 			discounts += discount;
-            
+
             amt = amt - discount;
             sum2+=amt;
 			if(r.data['chk01']==true){
@@ -797,21 +799,21 @@ Ext.define('Account.Invoice.Item.Form', {
 // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		
+
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		//alert(this.comboPay.getValue());
-// Set value to GL Posting grid 
+// Set value to GL Posting grid
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		  sum2 = sum2 * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
-		} 
-		//alert(sum);  
+		}
+		//alert(sum);
         if(sum>0){
             _this.gridGL.load({
             	netpr:sum2,
@@ -820,7 +822,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	items: saknr_list.join(',')
             	//ptype:'01',
             	//dtype:'01'
-            }); 
+            });
            }
 
 // Set value to Condition Price grid
@@ -836,21 +838,25 @@ Ext.define('Account.Invoice.Item.Form', {
             	vat:sel.get('chk01'),
             	wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
-            });     
+            });
         }
 	},
-	
+
 	// Add duedate functions
 	getDuedate: function(){
 		var bForm = this.getForm(),
 			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue(),
-			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+			startDate = bForm.findField('bldat').getValue();
+		if(!Ext.isEmpty(credit) && credit>0){
+			var result = Ext.Date.add(startDate, Ext.Date.DAY, credit),
+				dueDateField = bForm.findField('duedt');
 
-		bForm.findField('duedt').setValue(result);
+			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
+				dueDateField.setValue(result);
+		}
 	}
-	
-// Payments Method	
+
+// Payments Method
 	/*selectPay: function(combo, record, index){
 		var _this=this;
 		var store = this.gridItem.store;
@@ -861,13 +867,13 @@ Ext.define('Account.Invoice.Item.Form', {
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
 				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 				mtart = r.data['mtart'];
-				
+
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			discount = isNaN(discount)?0:discount;
 
 			var amt = (qty * price) - discount;
-            
+
 			sum += amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -878,15 +884,15 @@ Ext.define('Account.Invoice.Item.Form', {
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
 				    whts += wht;
-			}			
+			}
 		});
-		
+
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
-		} 
+		}
 		if(sum>0){
             _this.gridGL.load({
             	netpr:sum,
@@ -895,7 +901,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	kunnr:this.trigCustomer.getValue(),
             	ptype:combo.getValue(),
             	dtype:'01'
-            }); 
+            });
            }
 	}*/
 });
