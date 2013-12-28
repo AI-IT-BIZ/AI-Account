@@ -703,7 +703,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					alert(action.result.data.id);
+					//alert(action.result.data.id);
 					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
@@ -816,10 +816,8 @@ Ext.define('Account.Invoice.Item.Form', {
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
-            	lifnr:this.trigCustomer.getValue(),
+            	kunnr:this.trigCustomer.getValue(),
             	items: saknr_list.join(',')
-            	//ptype:'01',
-            	//dtype:'01'
             }); 
            }
 
