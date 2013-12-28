@@ -209,7 +209,7 @@ class Payment extends CI_Controller {
 //*** Save GL Posting	
         //$ids = $id;	
 		$ids = $this->input->post('id');
-		$query = null;
+		$query = null;$deposit='';
 		if(!empty($ids)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $ids);
@@ -281,10 +281,10 @@ class Payment extends CI_Controller {
 
 //Deposit Doc
 	if($deposit=='1'){
-		if(!empty($id)){
+		if(!empty($ids)){
 			$this->db->set_dbprefix('v_');
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
+			$this->db->where('invnr', $ids);
 			$this->db->where('docty', '02');
 			$query = $this->db->get('bven');
 		}
@@ -435,10 +435,11 @@ class Payment extends CI_Controller {
 		if(!empty($items)){
 			$item_index = 0;
 
-       $bamt=0;
+       $bamt=0;$novat=0;$net_vat=0;
        if($dtype == 'D'){
 // record ที่หนึ่ง
         if($net>0){
+        	$novat=$net-$vvat;
         	$gl_vat = '1151-06';
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
@@ -448,17 +449,17 @@ class Payment extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$net,
+			'debit'=>$novat,
 			'credi'=>0,
 			'statu'=>'1'
 		);
 		$i++;
-		$debit+=$net;
+		$debit+=$novat;
 		}}
 
 // record ที่สอง
         if($vvat>0){
-        	$gl_vat = '2135-00';
+        	$gl_vat = '1154-00';
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
 		if($qgl->num_rows()>0){
@@ -510,7 +511,6 @@ class Payment extends CI_Controller {
 			}
 			
 			if(!empty($glno)){
-				
 				$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glno));
 				if($qgl->num_rows()>0){
@@ -543,7 +543,7 @@ class Payment extends CI_Controller {
 		}
         		
 //record ที่ หนึ่ง -> New Deposit posting
-        $net_vat=$net+$vvat;
+        //$net_vat=$net+$vvat;
 		$debit=0;$credit=0;$j=0;
 		$gl_vat = '2131-14';
 			$qgl = $this->db->get_where('glno', array(
@@ -554,12 +554,12 @@ class Payment extends CI_Controller {
 		    'belpr'=>$j + 1,
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$net_vat,
+			'debit'=>$net,
 			'credi'=>0,
 			'statu'=>'2'
 		);
-		$i++;
-		$debit+=$bamt;
+		$i++;$j++;
+		$debit+=$net;
 		}
 //record ที่ สอง-> New Deposit posting
         if($vvat>0){
@@ -576,7 +576,7 @@ class Payment extends CI_Controller {
 			'credi'=>$vvat,
 			'statu'=>'2'
 		);
-		$i++;
+		$i++;$j++;
 		$credit+=$vvat;
 		}}
 //record ที่ สาม -> New Deposit posting
@@ -591,11 +591,11 @@ class Payment extends CI_Controller {
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
 			'debit'=>0,
-			'credi'=>$net,
+			'credi'=>$novat,
 			'statu'=>'2'
 		);
-		$i++;
-		$credit+=$net;
+		$i++;$j++;
+		$credit+=$novat;
 		}
 		
 		if(!empty($debit) || !empty($credit)){
@@ -655,10 +655,10 @@ class Payment extends CI_Controller {
 // record ที่สาม
         for($j=0;$j<count($items);$j++){
       	$item = explode('|',$items[$j]);
-			if(!empty($item)){
+			if(!empty($item[0]) && !empty($item[1])){
 			$glno = $item[0];
 			$payam  = $item[1];
-			}
+			
 			if(strlen($glno) == 2){
 		    $ptype = $glno;
             $query = $this->db->get_where('ptyp', array(
@@ -666,7 +666,7 @@ class Payment extends CI_Controller {
 			$q_data = $query->first_row('array');
 			$glno = $q_data['saknr'];
 			}
-			
+			}
 			if(!empty($glno)){
 				
 				$qgl = $this->db->get_where('glno', array(
@@ -706,7 +706,7 @@ class Payment extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
+		   //$this->db->set_dbprefix('v_');
 		   $this->db->where('belnr', $iv_id);
 		   $query = $this->db->get('bven');
 		   echo json_encode(array(

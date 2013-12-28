@@ -430,7 +430,7 @@ class Depositout extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
+		   //$this->db->set_dbprefix('v_');
 		   $this->db->where('belnr', $iv_id);
 		   $query = $this->db->get('bven');
 		   echo json_encode(array(

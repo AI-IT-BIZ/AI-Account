@@ -65,12 +65,13 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				'sgtxt',
 				'chqid',
 				'chqdt',
-				'pramt',
+				{name:'pramt', type: 'string'},
 				'payam',
 				'reman',
-				'wht01',
-				'vat01',
-				'dtype'
+				'saknr',
+				'wht01'//,
+				//'vat01',
+				//'dtype'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -174,8 +175,9 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		    {text: "Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'pramt', sortable: false,
-		    readOnly: true,
+		    width: 100, dataIndex: 'pramt', 
+		    sortable: false//,
+		    /*readOnly: true,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -186,12 +188,13 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 							field.selectText();
 					}
 				}
-			}
+			}*/
 		    },
 		    {text: "Pay Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'payam', sortable: false,
+		    width: 100, dataIndex: 'payam', 
+		    sortable: false,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -308,7 +311,8 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		// หา record ที่สร้างใหม่ล่าสุด
 		var net = _this.netValue;
 		var newId = -1;
-		var i=0;
+		var i=0;var wht01=0;var vat01=0;
+		var dtype='';
 		this.store.each(function(r){
 			if(r.get('id')<newId)
 				newId = r.get('id');
@@ -318,8 +322,8 @@ Ext.define('Account.Payment.Item.Grid_pm', {
         if (sel){
          i = parseFloat(sel.get('payam').replace(/[^0-9.]/g, ''));
          net = net - i;
-         wht = parseFloat(sel.get('wht01'));
-         vat = parseFloat(sel.get('vat01'));
+         wht01 = parseFloat(sel.get('wht01'));
+         vat01 = parseFloat(sel.get('vat01'));
          dtype = parseFloat(sel.get('dtype'));
         }
 		// add new record

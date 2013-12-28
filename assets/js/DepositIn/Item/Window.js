@@ -62,6 +62,7 @@ Ext.define('Account.DepositIn.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({depnr: id});
+			//this.formTotal.load({belnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{
