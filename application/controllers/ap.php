@@ -159,6 +159,31 @@ class Ap extends CI_Controller {
 		));
 	}
 
+    function loads_inp(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'uinp';
+		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
+		//$limit = $this->input->get('limit');
+		//$start = $this->input->get('start');
+		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
@@ -472,7 +497,7 @@ class Ap extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
+		   //$this->db->set_dbprefix('v_');
 		   $this->db->where('belnr', $iv_id);
 		   $query = $this->db->get('bven');
 		   echo json_encode(array(

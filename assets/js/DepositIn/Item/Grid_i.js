@@ -164,7 +164,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			},
 			},
 			{text: "Amount",
-			width: 150,
+			width: 100,
 			dataIndex: 'pramt',
 			xtype: 'numbercolumn',
 			//sortable: true,

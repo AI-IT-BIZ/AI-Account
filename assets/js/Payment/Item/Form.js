@@ -354,7 +354,7 @@ Ext.define('Account.Payment.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
@@ -415,7 +415,7 @@ Ext.define('Account.Payment.Item.Form', {
 	},
 	
 	// Load GL functions
-	loadGL: function(){
+	loadGL: function(id){
 		var _this=this;
 		var store = _this.gridItem.store;
 		var sum = 0;var dtype='';var itamt=0;sum2=0;

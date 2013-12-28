@@ -17,7 +17,10 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		});
 
 		// INIT PY search popup /////////////////////////////////
-		this.paymentDialog = Ext.create('Account.SAp.MainWindow');
+		this.apDialog = Ext.create('Account.SAp.MainWindow');
+		//this.apDialog = Ext.create('Account.SAp.MainWindow', {
+		//	disableGridDoubleClick: true
+		//});
 		// END Material search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -69,7 +72,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber',
+			id : 'PMiRowNumber022',
 			header : "No.",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -89,7 +92,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
-					_this.paymentDialog.show();
+					_this.apDialog.show();
 				}
 			},
 			},
@@ -141,7 +144,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				align: 'right',
 				readOnly: true,
 				renderer: function(v,p,r){
-					var //itamt = parseFloat(r.data['itamt']),
+					var itamt = parseFloat(r.data['itamt']),
 						pay = parseFloat(r.data['payrc']);
 					itamt = isNaN(itamt)?0:itamt;
 					pay = isNaN(pay)?0:pay;
@@ -230,7 +233,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			}
 		});
 
-		_this.paymentDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.apDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
@@ -255,7 +258,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				rModel.set('dtype', dtype[0]);
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.paymentDialog.hide();
+			_this.apDialog.hide();
 		});
 
 		return this.callParent(arguments);

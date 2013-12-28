@@ -8,7 +8,7 @@ Ext.define('Account.SAp.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"ap/loads",
+				url: __site_url+"ap/loads_inp",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -18,6 +18,7 @@ Ext.define('Account.SAp.Grid', {
 			},
 			fields: [
 			    'invnr',
+			    'ebeln',
 				'bldat',
 				'lifnr',
 				'name1',
@@ -35,11 +36,11 @@ Ext.define('Account.SAp.Grid', {
 		});
 
 		this.columns = [
-			{text: "AP Doc", flex: true, dataIndex: 'invnr',
+			{text: "AP Doc", flex: true,  dataIndex: 'invnr',
 			align: 'center', sortable: true},
 			{text: "AP Date", width: 125, format:'d/m/Y',
 			align: 'center',dataIndex: 'bldat', sortable: true},
-			{text: "GR Doc", flex: true,dataIndex: 'mbeln', 
+			{text: "GR Doc", flex: true,dataIndex: 'ebeln', 
 			align: 'center', sortable: true},
 			{text: "Vendor Code", flex: true, 
 			align: 'center', dataIndex: 'lifnr', sortable: true},

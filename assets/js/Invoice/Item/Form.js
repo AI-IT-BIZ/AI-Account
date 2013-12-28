@@ -818,7 +818,7 @@ Ext.define('Account.Invoice.Item.Form', {
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
-            	lifnr:this.trigCustomer.getValue(),
+            	kunnr:this.trigCustomer.getValue(),
             	items: saknr_list.join(',')
             	//ptype:'01',
             	//dtype:'01'
