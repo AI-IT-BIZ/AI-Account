@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsalewht extends CI_Controller {
+class Rpnd3wht extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -21,10 +21,10 @@ class Rsalewht extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		//Sale
-	    $strSQL1 = " select v_vbbp.*";
-        $strSQL1 = $strSQL1 . " from v_vbbp ";
-        $strSQL1 = $strSQL1 . " Where v_vbbp.bldat ".$dt_result;
-		$strSQL1 .= " ORDER BY recnr ASC";
+	    $strSQL1 = " select v_ebbp.*";
+        $strSQL1 = $strSQL1 . " from v_ebbp ";
+        $strSQL1 = $strSQL1 . " Where v_ebbp.bldat ".$dt_result;
+		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);
 		//$r_data = $query->first_row('array');
@@ -131,7 +131,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
 <DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;"><span class="fc1-3">
-  รายงานภาษีหัก ณ ที่จ่าย ของผู้มีเงินได้ ที่เป็นนิติบุคคล  (ใบแนบ ภ.ง.ด.53)
+  รายงานภาษีหัก ณ ที่จ่าย ของผู้มีเงินได้ ที่เป็นบุคคลธรรมดา  (ใบแนบ ภ.ง.ด.3)
 </span></DIV>
 <div style="left: 53px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
   <table width="0px" height="205PX">
@@ -144,30 +144,35 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
       <td>&nbsp;</td>
   </table>
 </div>
-<div style="left: 658px; top: 158px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
+<div style="left: 431px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
 <DIV style="left: 54px; top: 158px; width: 85px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">เลขที่ประจำตัว</span></DIV>
 <DIV style="left: 53px; top: 181px; width: 87px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ผู้เสียภาษีอากร</span></DIV>
 
-<DIV style="left: 659px; top: 171px; width: 41px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สาขา</span></DIV>
+<DIV style="left: 141px; top: 169px; width: 41px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">สาขา</span></DIV>
 
 <div style="left: 139px; top: 156px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
-<DIV style="left: 140px; top: 170px; width: 221px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชื่อ</span></DIV>
+<DIV style="left: 184px; top: 170px; width: 118px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ชื่อ</span></DIV>
 
-<div style="left: 361px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
+<div style="left: 302px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
 
-<DIV style="left: 361px; top: 171px; width: 297px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ที่ตั้งสถานประกอบการ</span></DIV>
+<div style="left: 183px; top: 157px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 503px;"class="ad1-0">
+  <table width="0px" height="205PX"><td>&nbsp;</td></table>
+</div>
+
+<DIV style="left: 432px; top: 171px; width: 268px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ที่อยู่</span></DIV>
+
+<DIV style="left: 303px; top: 170px; width: 127px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">นามสกุล</span></DIV>
 
 <div style="left: 700px; top: 158px; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 504px;"class="ad1-0">
   <table width="0px" height="205PX"><td>&nbsp;</td></table>
 </div>
-
 <DIV style="left: 701px; top: 158px; width: 63px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">วัน เดือน ปี</span></DIV>
 
 <DIV style="left: 701px; top: 182px; width: 64px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">ที่จ่าย</span></DIV>
@@ -215,7 +220,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 $rows = $query->result_array();
 //$rowp = $q_purch->result_array();
 //$alls = count($rows) + count($rowp);
-$j=0;$no=1;$total1=0;$total2=0;
+$j=0;$no=1;$total1=0;$total2=0;$names='';
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	
 	$item = $rows[$i];
@@ -223,15 +228,19 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$b_amt += $itamt;
 	$duedt_str = util_helper_format_date($item['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
+	$names = explode(' ',$item['name1']);
 	$total1 += $item['beamt'];
 	$total2 += $item['wht01'];
 ?>
 	<tr>
 	  <td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="center" style="width:87px;"><?=$item['taxid'];?></td>
-	  <td class="fc1-8" align="left" style="width:223px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="left" style="width:297px;"><?=$adr01;?></td>
-	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
+	  <td class="fc1-8" align="center" style="width:85px;"><?=$item['taxid'];?></td>
+      <td class="fc1-8" align="center" style="width:48px;">0000</td>
+      
+	  <td class="fc1-8" align="left" style="width:120px;"><?=$names[0];?></td>
+      <td class="fc1-8" align="left" style="width:128px;"><?=$names[1];?></td>
+      <td class="fc1-8" align="left" style="width:265px;"><?=$adr01;?></td>
+	  
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
       <td class="fc1-8" align="center" style="width:52px;"><?=$item['whtpr'];?></td>

@@ -1,9 +1,9 @@
-Ext.define('Account.Rpnd53WHT.PreviewWindow', {
+Ext.define('Account.Rpnd3WHT.PreviewWindow2', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'รายงานภาษีหัก ณ ที่จ่าย(ฝั่งซื้อ)',
+			title: 'แบบฟอร์มนำส่ง ภ.ง.ด.3',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
@@ -81,7 +81,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow', {
 			Ext.get('preview_frame').set({
 				src:_this.getFrameUrl(_this.dialogParams, newVal)
 			});
-			_this.checkFrameReady(function(){
+			    _this.checkFrameReady(function(){
 				_this.hideFrameLoad();
 			});
 		});
@@ -97,8 +97,8 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow', {
 				Ext.get('preview_frame').set({
 					src:_this.getFrameUrl(form_values, _this.copies.getValue())
 				});
-				_this.showFrameLoad();
-				_this.checkFrameReady(function(){
+				    _this.showFrameLoad();
+				    _this.checkFrameReady(function(){
 					_this.hideFrameLoad();
 				});
 			});
@@ -108,7 +108,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rpurchasewht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rpnd3wht_docket/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

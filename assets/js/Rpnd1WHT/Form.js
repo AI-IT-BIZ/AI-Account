@@ -32,6 +32,7 @@ Ext.define('Account.Rpnd1WHT.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
+			value: new Date,
 			allowBlank: false
 			}]  
 		}];		

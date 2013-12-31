@@ -108,7 +108,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow3', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rsumwht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rpnd53wht_attach/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;
