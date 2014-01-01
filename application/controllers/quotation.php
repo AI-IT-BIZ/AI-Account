@@ -334,16 +334,22 @@ class Quotation extends CI_Controller {
 			));
 
 			try{
-				$post_id = $this->input->post('id');
+				//$post_id = $this->input->post('id');
+				$total_amount = $this->input->post('beamt');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create($inserted_id);
+					$this->email_service->quotation_create('QT', $total_amount);
 				}else if(!empty($post_id)){
 					if($status_changed)
-						$this->email_service->quotation_change_status($post_id);
+						$this->email_service->quotation_change_status('QT', $total_amount);
 				}
 			}catch(exception $e){}
 		}
+	}
+
+	public function test_mail(){
+		$this->email_service->quotation_create('QT1312-1006');
+		//$this->email_service->create('QT', '16700.00', 'test');
 	}
 
     public function loads_scombo(){
