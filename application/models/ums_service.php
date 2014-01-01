@@ -24,6 +24,7 @@ class Ums_service extends CI_Model {
 		// init table name
 		$this->tbAutx = $this->db->dbprefix('autx');
 		$this->tbAutl = $this->db->dbprefix('autl');
+		$this->tbAutu = $this->db->dbprefix('autu');
 		$this->tbDoct = $this->db->dbprefix('doct');
 		$this->tbUser = $this->db->dbprefix('user');
     }
@@ -72,6 +73,7 @@ Order by d.doctx ASC";
 
 	public function load_doctype_limit_by_uname($uname){
 		$tbAutl = $this->tbAutl;
+		$tbAutu = $this->tbAutu;
 		$tbDoct = $this->tbDoct;
 		$tbUser = $this->tbUser;
 
@@ -80,9 +82,12 @@ Order by d.doctx ASC";
 		$sql = "
 SELECT
 TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
-, a.limam, a.comid
+, al.limam, au.comid
 FROM $tbDoct d
-LEFT JOIN $tbAutl a ON d.docty = a.docty AND a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
+
+LEFT JOIN $tbAutu au ON au.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
+LEFT JOIN $tbAutl al ON au.autlid=al.autlid
+
 WHERE 1=1
 ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
 		$query = $this->db->query($sql);
