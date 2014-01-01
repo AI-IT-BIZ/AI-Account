@@ -776,7 +776,7 @@ class Receipt extends CI_Controller {
 		}else{
 		   //$this->db->set_dbprefix('v_');
 		   $this->db->where('invnr', $iv_id);
-		   $query = $this->db->get('bcus');
+		   $query = $this->db->get('bkpf');
 		   echo json_encode(array(
 			  'success'=>true,
 			  'rows'=>$query->result_array(),

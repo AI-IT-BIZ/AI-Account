@@ -14,7 +14,8 @@ Ext.define('Account.Billto.Item.Form', {
 		var _this=this;
 		
 		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
@@ -263,6 +264,9 @@ Ext.define('Account.Billto.Item.Form', {
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();
+			
+			// set customer code to grid item
+			_this.gridItem.setCustomerCode(record.data.kunnr);
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
@@ -284,6 +288,9 @@ Ext.define('Account.Billto.Item.Form', {
 			url:__site_url+'billto/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
+				
+				// set customer code to grid item
+				_this.gridItem.setCustomerCode(act.result.data.kunnr);
 			}
 		});
 	},

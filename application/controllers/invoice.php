@@ -310,13 +310,86 @@ class Invoice extends CI_Controller {
     function loads_inv(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'uinv';
-		
+        
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`invnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+	        $ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
+			}
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			/*$jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}*/
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+// End for report
+
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
-		//$limit = $this->input->get('limit');
-		//$start = $this->input->get('start');
-		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 		
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');

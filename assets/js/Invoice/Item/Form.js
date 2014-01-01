@@ -729,6 +729,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
 		this.gridGL.load({ belnr: 0 });
+		this.gridPrice.load({ belnr: 0 });
 
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();

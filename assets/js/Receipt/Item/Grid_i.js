@@ -270,6 +270,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 	},
 
 	addRecord: function(){
+		var _this=this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -277,9 +278,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+        
+        var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, invnr:'' };
+		rec = { id:newId, invnr:'', ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -292,6 +294,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		});
 
 		this.runNumRow();
+		this.getSelectionModel().deselectAll();
 	},
 
 	removeRecord: function(grid, rowIndex){

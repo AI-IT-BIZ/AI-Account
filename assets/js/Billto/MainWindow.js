@@ -66,6 +66,7 @@ Ext.define('Account.Billto.MainWindow', {
 			region: 'north',
 			height:100
 		};
+		
 		if(this.isApproveOnly){
 			searchOptions.status_options = {
 				value: '02',

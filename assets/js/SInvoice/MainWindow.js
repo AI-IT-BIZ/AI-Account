@@ -29,10 +29,19 @@ Ext.define('Account.SInvoice.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.SInvoice.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+		
+		this.searchForm = Ext.create('Account.SInvoice.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 		

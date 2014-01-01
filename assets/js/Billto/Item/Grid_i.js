@@ -19,9 +19,10 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		// INIT Invoice search popup /////////////////////////////////
 		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
 			disableGridDoubleClick: true,
-			gridParams: {
-				statu: '02'
-			}
+			isApproveOnly: true
+			//gridParams: {
+			//	statu: '02'
+			//}
 		});
 		// END Invoice search popup //////////////////////////////////
 
@@ -329,5 +330,11 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			rs.push(r.getData());
 		});
 		return rs;
+	},
+	setCustomerCode: function(kunnr){
+		this.customerCode = kunnr;
+		var field = this.invoiceDialog.searchForm.form.findField('kunnr');
+		field.setValue(kunnr);
+		this.invoiceDialog.grid.load();
 	}
 });

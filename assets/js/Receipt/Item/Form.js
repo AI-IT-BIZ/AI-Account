@@ -435,10 +435,12 @@ Ext.define('Account.Receipt.Item.Form', {
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
 		
-		//var storePay = this.gridPayment.store;
-		//storePay.each(function(r){
-		//	r.data['pramt'].set(net);
-		//});
+		var storePay = this.gridPayment.store;
+		storePay.each(function(r){
+			//console.log(net);
+			//r.data['pramt'].set(net);
+			r.set('pramt', net);
+		});
 	},
 	
 	// Load GL functions
