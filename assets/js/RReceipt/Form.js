@@ -70,6 +70,37 @@ Ext.define('Account.RReceipt.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Invoice Status',
+			name : 'statu',
+			labelWidth: 100,
+			editable: false,
+			triggerAction : 'all',
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
 
 		this.items = [{
 // Doc Date
@@ -161,6 +192,19 @@ Ext.define('Account.RReceipt.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigCustomer2]   
+		},{
+			xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.comboQStatus,
+		{
+			xtype: 'displayfield',
+		    value: 'To',
+                    hidden:true,
+		    width:40,
+		    margins: '0 0 0 25'
+		  },
+		this.comboQStatus2]    
 		}
 ////////////////////////////////////////////////		
 		];

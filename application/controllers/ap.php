@@ -192,6 +192,23 @@ class Ap extends CI_Controller {
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('ebrk');
 		}
+		
+		$bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not correct';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
+		}
+		
 		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),

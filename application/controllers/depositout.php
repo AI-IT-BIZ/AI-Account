@@ -30,6 +30,10 @@ class Depositout extends CI_Controller {
 			                         $result['telfx'].
 									 PHP_EOL.'Email: '.$result['email'];
 
+			// unset calculated value
+			unset($result['beamt']);
+			unset($result['netwr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result
@@ -107,6 +111,22 @@ class Depositout extends CI_Controller {
 			$this->db->limit(1);
 			$this->db->where('depnr', $id);
 			$query = $this->db->get('ebdk');
+		}
+		
+		$bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not correct';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
 		}
 		
 		$formData = array(
