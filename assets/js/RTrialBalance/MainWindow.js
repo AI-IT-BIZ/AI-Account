@@ -9,6 +9,8 @@ Ext.define('Account.RTrialBalance.MainWindow', {
 	layout:'fit',
 	maximizable: false,
 	initComponent:function(config) {
+		var _this = this;
+		this.previewDialog = Ext.create('Account.RTrialBalance.Item.PreviewWindow');
 		var form =  Ext.create('Ext.form.Panel', {
 			layout: 'form',
 			bodyPadding: '15 15 15 15',
@@ -31,7 +33,7 @@ Ext.define('Account.RTrialBalance.MainWindow', {
 			}],
 			buttons: [{
 				text: 'ยืนยัน',
-				handler: function(){
+				/*handler: function(){
 					form = this.up('form').getForm();
 					if (form.isValid()){
 						Ext.Ajax.request({
@@ -49,6 +51,15 @@ Ext.define('Account.RTrialBalance.MainWindow', {
 							}
 						});
 					}
+				}*/
+				handler: function(){
+					start_date = form.form.findField('start_date').getValue();
+					start_date = Ext.Date.format(start_date,'Y-m-d');
+					end_date = form.form.findField('end_date').getValue();
+					end_date = Ext.Date.format(end_date,'Y-m-d');
+					params = "start_date="+start_date+"&end_date="+end_date;
+					//window.open(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
+					_this.previewDialog.openDialog(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
 				}
 			},{
 				text: 'ยกเลิก',
