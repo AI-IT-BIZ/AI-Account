@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsumvat_docket extends CI_Controller {
+class Rsumwht_docket extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -30,9 +30,9 @@ class Rsumvat_docket extends CI_Controller {
 	
 		//Purchase
 		$strSQL="";
-		$strSQL = " select v_ebbk.*";
-        $strSQL = $strSQL . " from v_ebbk ";
-        $strSQL = $strSQL . " Where v_ebbk.bldat ".$dt_result;
+		$strSQL = " select v_ebbp.*";
+        $strSQL = $strSQL . " from v_ebbp ";
+        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
@@ -319,12 +319,12 @@ class Rsumvat_docket extends CI_Controller {
 <DIV style="left:615PX;top:453PX;width:127PX;height:27PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">จำนวน......................แผ่น</span></DIV>
 
 
-<DIV style="left:658PX;top:426PX;width:66PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?= $tline; ?></span></DIV>
+<DIV style="left:658PX;top:426PX;width:66PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?=number_format($tline,0,'.',',');?></span></DIV>
 
 <?php
   $page = $tline / 6;
 ?>
-<DIV style="left:658PX;top:450PX;width:66PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?= $page; ?></span></DIV>
+<DIV style="left:658PX;top:450PX;width:66PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?=number_format($page,0,'.',',');?></span></DIV>
 
 <DIV style="left:390PX;top:500PX;width:137PX;height:23PX;"><span class="fc1-0">สื่อบันทึกในระบบคอมพิวเตอร์</span></DIV>
 

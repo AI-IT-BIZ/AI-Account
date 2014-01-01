@@ -1,9 +1,9 @@
-Ext.define('Account.Rpnd53WHT.PreviewWindow', {
+Ext.define('Account.Rpnd3WHT.PreviewWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'รายงานภาษีหัก ณ ที่จ่าย(ฝั่งซื้อ)',
+			title: 'รายงานภาษีหัก ณ ที่จ่าย (ภ.ง.ด.3)',
 			closeAction: 'hide',
 			height: 600,
 			width: 830,
@@ -108,7 +108,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow', {
 		copies = copies || 1;
 		var q_str = '';
 		params['copies'] = copies;
-		return __site_url+'form/rpurchasewht/index?'+Ext.urlEncode(params);
+		return __site_url+'form/rpnd3wht/index?'+Ext.urlEncode(params);
 	},
 	checkFrameReady: function(cb){
 		document.getElementById('preview_frame').onload = cb;

@@ -14,7 +14,6 @@ class Rsalarywht_attach extends CI_Controller {
 	{
 		//$dt_str = '2013-02-22';
 		//echo $dt_result;
-		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
@@ -25,17 +24,19 @@ class Rsalarywht_attach extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbrk.*";
-        $strSQL = $strSQL . " from v_vbrk ";
-        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+		$strSQL = " select v_bsid.*,v_bkpf.*";
+        $strSQL = $strSQL . " from v_bsid ";
+		$strSQL = $strSQL . " left join v_bkpf on v_bsid.belnr = v_bkpf.belnr ";
+        $strSQL = $strSQL . " Where (v_bsid.saknr='5131-01' or v_bsid.saknr='5132-01' or v_bsid.saknr='5310-01' or v_bsid.saknr='2132-01') and ";
+		$strSQL = $strSQL . "v_bkpf.docty = '09' and v_bkpf.bldat ".$dt_result;
+		$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
        
 		$query = $this->db->query($strSQL);
-		$r_data = $query->first_row('array');
+		//$r_data = $query->first_row('array');
 		
 		// calculate sum
 		$rows = $query->result_array();
-		$b_amt = 0;
+		$b_amt = 0; $result = array();
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -258,32 +259,43 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 
 <!--Item List-->
-<DIV style="left: 70px; top: 250px">
+<DIV style="left: 70px; top: 230px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
-//$rows = $query->result_array();
-//$rowp = $q_purch->result_array();
-//$alls = count($rows) + count($rowp);
-$j=0;$no=1;
+$rows = $query->result_array();
+$no=1;$v_amt=0;$t_amt=0;$invdt_str='';
+$j=0;$no=1;$nos='';
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
     $item = $rows[$i];
-	$itamt = $item['beamt'];
-	$b_amt += $itamt;
-	$invdt_str = util_helper_format_date($r_data['bldat']);
-	$adr01 = $item['adr01'].$item['distx'];
+	$invdt_str = util_helper_format_date($item['bldat']);
+	$names = explode(' ',$item['emnam']);
+	if($item['saknr']=='2132-01'){
+		$v_amt+=$item['credi'];
+		$t_amt+=$beamt;
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:54px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" style="width:260px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:205px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="center" style="width:152px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="right" style="width:103px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="center" style="width:30px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="right" style="width:101px;"><?=$adr01;?></td>
-      <td class="fc1-8" align="center" style="width:30px;"><?=$item['name1'];?></td>
+		<td class="fc1-8" align="center" style="width:54px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="left" style="width:260px;">ชื่อ <?=$names[0];?></td>
+	  <td class="fc1-8" align="left" style="width:205px;">ชื่อสกุล <?=$names[1];?></td>
+	  <td class="fc1-8" align="center" style="width:152px;"><?=$invdt_str;?></td>
+      <td class="fc1-8" align="right" style="width:120px;"><?=number_format($beamt,2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:130px;"><?=number_format($item['credi'],2,'.',',');?></td>
 	</tr>
 
 <?php
+   }else{ 
+      $beamt = $item['debit']; 
+?>
+      <tr>
+		<td class="fc1-8" align="center" style="width:54px;"><?=$no++;?></td>
+	  <td class="fc1-8" align="left" style="width:260px;"><?=$invdt_str;?></td>
+	  <td class="fc1-8" align="center" style="width:205px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="center" style="width:152px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:120px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:130px;"><?=$nos;?></td>
+	</tr>
+<?php   
+   }
 endfor;
 ?>
 </table>
@@ -384,19 +396,10 @@ endfor;
 
 <DIV style="left:738PX;top:662PX;width:263PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">ลงชื่อ .................................................................ผู้จ่ายเงิน</span></DIV>
 
-<DIV style="left:740PX;top:602PX;width:99PX;height:24PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8">0</span></DIV>
-
-<DIV style="left:845PX;top:602PX;width:26PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">00</span></DIV>
-
-<DIV style="left:975PX;top:602PX;width:28PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">00</span></DIV>
-
-<DIV style="left:874PX;top:602PX;width:95PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8">0</span></DIV>
+<DIV style="left: 740PX; top: 602PX; width: 121px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 874PX; top: 602PX; width: 115px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:635PX;top:667PX;width:42PX;height:42PX;TEXT-ALIGN:CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
-<DIV style="left:766PX;top:676PX;width:185PX;height:16PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">นายจ้าง&nbsp;&nbsp;แสนใจดี</span></DIV>
-
-<DIV style="left:766PX;top:696PX;width:185PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">กรรรมการผู้จัดการ</span></DIV>
-
 <DIV style="left:598PX;top:626PX;width:123PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8">ยอดรวมทั้งหมด</span></DIV>
 
 <DIV style="left:143PX;top:684PX;width:11PX;height:12PX;TEXT-ALIGN:CENTER;"><span class="fc1-13">n&nbsp;</span></DIV>

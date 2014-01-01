@@ -1,4 +1,4 @@
-Ext.define('Account.Rpnd53WHT.Form', {
+Ext.define('Account.Rpnd3WHT.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -32,7 +32,7 @@ Ext.define('Account.Rpnd53WHT.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
-			value:new Date,
+			value: new Date,
 			allowBlank: false
 			}]  
 		}];		

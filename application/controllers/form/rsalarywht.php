@@ -25,17 +25,36 @@ class Rsalarywht extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbrk.*";
-        $strSQL = $strSQL . " from v_vbrk ";
-        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+	    $strSQL = " select v_bsid.*,v_bkpf.*";
+        $strSQL = $strSQL . " from v_bsid ";
+		$strSQL = $strSQL . " left join v_bkpf on v_bsid.belnr = v_bkpf.belnr ";
+        $strSQL = $strSQL . " Where (v_bsid.saknr='5131-01' or v_bsid.saknr='5132-01' or v_bsid.saknr='5310-01' or v_bsid.saknr='2132-01') and ";
+		$strSQL = $strSQL . "v_bkpf.docty = '09' and v_bkpf.bldat ".$dt_result;
+		$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
        
 		$query = $this->db->query($strSQL);
-		$r_data = $query->first_row('array');
+		//$r_data = $query->first_row('array');
 		
 		// calculate sum
 		$rows = $query->result_array();
-		$b_amt = 0;
+		$b_amt = 0; $result = array();
+		/*foreach ($rows as $key => $item) {
+			$names = explode(' ',$item['emnam']);
+			if($item['saknr']=='5131-01'){
+				$beamt = $item['debit'];
+			}elseif($item['saknr']=='2132-01'){
+				$result[$i] = array(
+				    'taxid'=>$i + 1,
+					'name1'=>$names[0],
+					'name2'=>$names[1],
+					'bldat'=>$item['bldat'],
+					'beamt'=>$beamt,
+					'vat01'=>$item['credi']
+				);
+				$i++;
+			}
+			
+		}*/
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -88,7 +107,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
+	$page_size = 25;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -142,17 +161,17 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 672px; top: 30px; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left: 258px; top: 29px; width: 289px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">รายงานภาษีหัก ณ ที่จ่าย เงินเดือนพนักงาน (ใบแนบ ภ.ง.ด.1)</span></DIV>
+<DIV style="left: 241px; top: 29px; width: 315px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">รายงานภาษีหัก ณ ที่จ่าย เงินเดือนพนักงาน (ใบแนบ ภ.ง.ด.1)</span></DIV>
 <DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 319px; top: 58px; width: 130px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 319px; top: 58px; width: 113px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
-<DIV style="left: 460px; top: 59px; width: 61px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 509px; top: 58px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 419px; top: 58px; width: 40px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
+<DIV style="left: 460px; top: 57px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 
 <DIV style="left: 51px; top: 128px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
 <DIV style="left: 51px; top: 103px; width: 108px; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
-<DIV style="left: 162px; top: 105px; width: 74px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
+<DIV style="left: 162px; top: 105px; width: 74px; height: 20PX;"><span class="fc1-3">000</span></DIV>
 
 <DIV style="left: 461px; top: 130px; width: 45px; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
 
@@ -164,11 +183,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 608px; top: 106px; width: 36px; height: 20PX;"><span class="fc1-3">สาขาที่ </span></DIV>
 <?php 
-$bldat_str = util_helper_format_date($r_data['bldat']);
+//$bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
 <DIV style="left: 652px; top: 106px; width: 32px; height: 21PX;"><span class="fc1-3">0000</span></DIV>
 <?php 
-$duedt_str = util_helper_format_date($r_data['duedt']);
+//$duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 
 <!--Company Logo--><!--Company Text-->
@@ -223,28 +242,27 @@ $i=322+20;
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();
-$no=1;$v_amt=0;$t_amt=0;
+$no=1;$v_amt=0;$t_amt=0;$invdt_str='';
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = $item['beamt'];
-	$t_amt += $itamt;
-	$vtamt = $item['vat01'];
-	$v_amt += $vtamt;
-	$invdt_str = util_helper_format_date($r_data['bldat']);
+	$invdt_str = util_helper_format_date($item['bldat']);
+	$names = explode(' ',$item['emnam']);
+	if($item['saknr']=='2132-01'){
+		$v_amt+=$item['credi'];
+		$t_amt+=$beamt;
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:38px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="center" style="width:65px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:86px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="left" style="width:164px;"><?=$item['name1'];?></td>
-		<td class="fc1-8" align="center" style="width:68px;"><?=$item['taxid'];?></td>
-      <td class="fc1-8" align="center" style="width:51px;">0000</td>
-        <td class="fc1-8" align="center" style="width:35px;">0000</td>
-	  <td class="fc1-8" align="right" style="width:100px;"><?=number_format($item['beamt'],2,'.',',');?></td>
-	  <td class="fc1-8" align="right" style="width:93px;"><?=number_format($item['vat01'],2,'.',',');?></td>
+	  <td class="fc1-8" align="center" style="width:108px;"><?=$item['taxid'] ?></td>
+	  <td class="fc1-8" align="left" style="width:127px;"><?=$names[0];?></td>
+	  <td class="fc1-8" align="left" style="width:155px;"><?=$names[1];?></td>
+	  <td class="fc1-8" align="center" style="width:81px;"><?=$invdt_str;?></td>
+      <td class="fc1-8" align="right" style="width:99px;"><?=number_format($beamt,2,'.',',');?></td>
+        <td class="fc1-8" align="right" style="width:93px;"><?=number_format($item['credi'],2,'.',',');?></td>
 	</tr>
 
 <?php
+	}else{ $beamt = $item['debit']; }
 endfor;
 ?>
 </table>
@@ -260,7 +278,7 @@ endfor;
 <!--Payment Table-->
 
 <?php
-  $text_amt = $this->convert_amount->generate($r_data['netwr']);
+  //$text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text--><!--Signature Text--><BR>
 <?php

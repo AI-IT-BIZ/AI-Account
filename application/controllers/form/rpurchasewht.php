@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsalewht extends CI_Controller {
+class Rpurchasewht extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -21,10 +21,10 @@ class Rsalewht extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		//Sale
-	    $strSQL1 = " select v_vbbp.*";
-        $strSQL1 = $strSQL1 . " from v_vbbp ";
-        $strSQL1 = $strSQL1 . " Where v_vbbp.bldat ".$dt_result;
-		$strSQL1 .= " ORDER BY recnr ASC";
+	    $strSQL1 = " select v_ebbp.*";
+        $strSQL1 = $strSQL1 . " from v_ebbp ";
+        $strSQL1 = $strSQL1 . " Where v_ebbp.bldat ".$dt_result;
+		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);
 		//$r_data = $query->first_row('array');
