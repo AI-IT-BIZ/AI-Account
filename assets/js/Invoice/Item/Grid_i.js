@@ -261,8 +261,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
 							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', cost);
+							//var cost = r.data.cost;
+							rModel.set('unitp', r.data.cost);
 							//rModel.set('amount', 100+Math.random());
                             rModel.set('saknr', r.data.saknr);
 						}else{

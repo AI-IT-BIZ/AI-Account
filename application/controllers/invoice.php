@@ -574,7 +574,7 @@ class Invoice extends CI_Controller {
 // record ที่สอง
         if(!empty($items)){
 			// loop เพื่อ insert
-		/*for($j=0;$j<count($items);$j++){
+		for($j=0;$j<count($items);$j++){
 			$item = explode('|',$items[$j]);
 			$glno = $item[0];
 			$amt  = $item[1];
@@ -594,7 +594,7 @@ class Invoice extends CI_Controller {
 		$i++;
 		$credit = $credit + $amt;	
 			}
-	    }*/
+	    }
 		}
 // record ที่สาม
 		if($vvat>0){ 
