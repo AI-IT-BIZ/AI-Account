@@ -137,7 +137,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			$o = $query->first_row();
 
 			// get involved employee
-			$emails = $this->get_email('QT', $o->beamt, $o->ernam);
+			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
 			$emp_creater = $this->get_emp_by_username($o->ernam);
 
 			if(count($emails)>0)
@@ -159,7 +159,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			$o = $query->first_row();
 
 			// get involved employee
-			$emails = $this->get_email('QT', $o->beamt, $o->ernam);
+			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
 			$emp_creater = $this->get_emp_by_username($o->ernam);
 
 			// get new status text

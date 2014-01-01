@@ -183,7 +183,7 @@ class Quotation extends CI_Controller {
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
 					$limit = XUMS::LIMIT('QT');
-					if($limit<$row['beamt']){
+					if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change quotaion status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
@@ -334,8 +334,8 @@ class Quotation extends CI_Controller {
 			));
 
 			try{
-				//$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('beamt');
+				$post_id = $this->input->post('id');
+				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
 					$this->email_service->quotation_create('QT', $total_amount);
@@ -345,11 +345,6 @@ class Quotation extends CI_Controller {
 				}
 			}catch(exception $e){}
 		}
-	}
-
-	public function test_mail(){
-		$this->email_service->quotation_create('QT1312-1006');
-		//$this->email_service->create('QT', '16700.00', 'test');
 	}
 
     public function loads_scombo(){
