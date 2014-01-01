@@ -44,6 +44,7 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 				'gllev', //Level
 				'gltyp', //GL Type
 				'overs', //GL Over
+				'glcre', //GL Credit
 				'error' 
 			],
 			remoteSort: false

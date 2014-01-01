@@ -179,6 +179,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
          text: 'Add',
          iconCls: 'b-small-plus',
          width:60,
+         disable: !UMS.CAN.CREATE('CA'),
          handler: function() {
                    txtID.setReadOnly(false);
                    GetEnable(); 
@@ -198,6 +199,17 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                     }
                        
         }
+     });
+     
+     var btnImport = Ext.create('Ext.Button',{
+     	text: 'Import',
+     	iconCls: 'b-small-import',
+     	width:60,
+     	disable: !UMS.CAN.CREATE('CA'),
+     	handler: function() {
+     		this.importDialog = Ext.create('Account.ChartOfAccounts.Import.Window');
+			this.importDialog.show();
+     	}
      }); 
        
         var RightPanel =  Ext.create('Ext.Panel', {
@@ -217,6 +229,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
 		        }]
       
      });
+     
        
        /************************************************************/
      function WaitBox() {
@@ -479,7 +492,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
            layout:'hbox',
            maximizable: false,
            items:[LeftPanel,RightPanel],
-           tbar:[btnAdd,btnEdit],
+           tbar:[btnAdd,btnEdit,btnImport],
            buttons:[]
 		});
         

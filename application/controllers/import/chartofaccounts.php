@@ -73,6 +73,20 @@ class ChartOfAccounts extends CI_Controller {
 			}
 			return $array_import;
 		}
+		
+		function insert_glcre($array_import){
+			
+			for ($i=0;$i<count($array_import);$i++){ 
+				switch ($array_import[$i]['glgrp']){
+					case '1' : $array_import[$i]['glcre']='-1'; break;
+					case '2' : $array_import[$i]['glcre']='1'; break;
+					case '3' : $array_import[$i]['glcre']='1'; break;
+					case '4' : $array_import[$i]['glcre']='1'; break;
+					case '5' : $array_import[$i]['glcre']='-1'; break;
+				}
+			}
+			return $array_import;
+		}
 
 		$upload_file = $this->input->get('file');
 		$exel_file = FCPATH.'fileuploads/'.$upload_file;//FCPATH.'fileuploads/excelfile.xlsx';
@@ -86,7 +100,8 @@ class ChartOfAccounts extends CI_Controller {
 			3=>'glgrp',
 			4=>'gllev',
 			5=>'gltyp',
-			6=>'overs'
+			6=>'overs',
+			7=>'glcre'
 			//7=>'statu'
 		);
 
@@ -132,12 +147,16 @@ class ChartOfAccounts extends CI_Controller {
 		foreach($result AS $value){
 			array_push($gl_group, $value['glgrp']);
 		}
+		
 		$this->db->select('glgrp');
 		$this->db->where_in('glgrp', $gl_group);
 		$query = $this->db->get('ggrp');
 		$valid_gl_group = $query->result_array();
 		$result = check_exist($valid_gl_group, $result, 'glgrp', 'GL Group is not exist');
-
+		
+		//Insert glcre
+		$result = insert_glcre($result);
+		
 		// check valid GL Over
 		/*
 		$gl_over = array();
@@ -180,7 +199,8 @@ class ChartOfAccounts extends CI_Controller {
 					'glgrp'=>$data->glgrp,
 					'gllev'=>$data->gllev,
 					'gltyp'=>$data->gltyp,
-					'overs'=>$data->overs
+					'overs'=>$data->overs,
+					'glcre'=>$data->glcre
 					//'statu'=>$data->statu
 				));
 		}

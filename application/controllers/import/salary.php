@@ -196,7 +196,8 @@ class Salary extends CI_Controller {
 					'txz01'=>"จ่ายเงินเดือนให้กับพนักงาน ".+$data->empnr,
 					'refnr'=>$data->empnr,
 					'auart'=>"JV",
-					'netwr'=>$data->salar
+					'netwr'=>$data->salar,
+					'docty'=>'09'
 				));
 				$withh = $data->withh;
 				$sum_withh += $withh;
@@ -240,6 +241,7 @@ class Salary extends CI_Controller {
 					'ernam'=>$current_user,
 					'erdat'=>$date,
 					'txz01'=>'เงินเดือนพนักงาน',
+					'docty'=>'09',
 					'saknr'=>$item_data[$i]['glcod'],
 					'debit'=>$form_data[$i]['netwr'],
 					'credi'=>'0'
@@ -252,6 +254,7 @@ class Salary extends CI_Controller {
 					'ernam'=>$current_user,
 					'erdat'=>$date,
 					'txz01'=>'ภาษีหัก ณ ที่จ่าย ภงด 1',
+					'docty'=>'09',
 					'saknr'=>'2132-01',
 					'debit'=>0,
 					'credi'=>$item_data[$i]['withh']
@@ -264,6 +267,7 @@ class Salary extends CI_Controller {
 					'ernam'=>$current_user,
 					'erdat'=>$date,
 					'txz01'=>'เงินประกันสังคม',
+					'docty'=>'09',
 					'saknr'=>'2131-04',
 					'debit'=>0,
 					'credi'=>$item_data[$i]['socia']
@@ -276,6 +280,7 @@ class Salary extends CI_Controller {
 					'ernam'=>$current_user,
 					'erdat'=>$date,
 					'txz01'=>'ธนาคาร',
+					'docty'=>'09',
 					'saknr'=>$item_data[$i]['glban'],
 					'debit'=>0,
 					'credi'=>$item_data[$i]['netpa']

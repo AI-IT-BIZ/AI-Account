@@ -563,6 +563,12 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_report_gl'
 			};
+			
+			var nodeReportTB = {
+				text: 'Report Trial Balance',
+				leaf: true,
+				id: 'click_report_tb'
+			};
 
 			var groupReport = {
 				text: 'Reports',
@@ -575,7 +581,8 @@ function endsWith($haystack, $needle)
 					nodeReport2,
 					nodeReport3,
 					nodeReportGJ,
-					nodeReportGL
+					nodeReportGL,
+					nodeReportTB
 				]
 			};
 

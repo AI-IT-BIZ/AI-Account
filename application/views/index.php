@@ -372,6 +372,11 @@ Ext.onReady(function() {
 		$om.RGeneralJournal.show();
 	});
 	
+	$om.viewport.on('click_report_tb', function(){
+		$om.RTrialBalance = Ext.create('Account.RTrialBalance.MainWindow');
+		$om.RTrialBalance.show();
+	});
+	
 	$om.viewport.on('click_RSumVat', function(){
 		$om.RGeneralJournal = Ext.create('Account.RSumVat.MainWindow');
 		$om.RGeneralJournal.show();
