@@ -20,7 +20,7 @@ Ext.define('Account.Receipt.Item.Grid_gl', {
 		this.glDialog = Ext.create('Account.GL.MainWindow');
 		// END Material search popup //////////////////////////////////
 
-		this.tbar = [this.addAct, this.copyAct];
+		//this.tbar = [this.addAct, this.copyAct];
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -79,15 +79,15 @@ Ext.define('Account.Receipt.Item.Grid_gl', {
 		    dataIndex: 'saknr', 
 		    align: 'center',
 		    sortable: false,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glDialog.show();
-				}
-			}
+			//field: {
+			//	xtype: 'triggerfield',
+			//	enableKeyEvents: true,
+			//	triggerCls: 'x-form-search-trigger',
+			//	onTriggerClick: function(){
+			//		_this.editing.completeEdit();
+			//		_this.glDialog.show();
+			//	}
+			//}
 			},
 			{text: "GL Description", width: 215, 
 			dataIndex: 'sgtxt', sortable: true},
@@ -97,20 +97,20 @@ Ext.define('Account.Receipt.Item.Grid_gl', {
 		    align: 'right',
 		    xtype: 'numbercolumn',
 		    decimalPrecision: 2,
-		    field: {
-				type: 'numberfield',
-				decimalPrecision: 2
-			}
+		    //field: {
+			//	type: 'numberfield',
+			//	decimalPrecision: 2
+			//}
 		    },
 			{text: "Credit", 
 			width: 100, dataIndex: 'credi', sortable: true,
 			align: 'right',
 			xtype: 'numbercolumn',
 		    decimalPrecision: 2,
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2
-			}
+			//field: {
+			//	type: 'numberfield',
+			//	decimalPrecision: 2
+			//}
 			},
 			{text: "Comment", 
 			width: 250, dataIndex: 'txz01', sortable: true,
@@ -123,9 +123,9 @@ Ext.define('Account.Receipt.Item.Grid_gl', {
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
-			_this.addRecord2();
-		});
+		//this.addAct.setHandler(function(){
+		//	_this.addRecord2();
+		//});
 
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){

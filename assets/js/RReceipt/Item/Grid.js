@@ -19,13 +19,15 @@ Ext.define('Account.RReceipt.Item.Grid', {
 			    'recnr',
 			    'vbelp',
 			    'bldat',
-				'duedt',
-			    'invnr',
+				//'duedt',
 				'kunnr',
 				'name1',
+				'invnr',
+				'invdt',
 				'itamt',
-				'netwr'
-				//'ctype'
+				'netwr',
+				'jobnr',
+				'vbeln'
 			],
 			remoteSort: true,
 			sorters: ['recnr ASC']
@@ -38,14 +40,18 @@ Ext.define('Account.RReceipt.Item.Grid', {
 		    width: 60, align: 'center', dataIndex: 'vbelp', sortable: true},
 			{text: "Document Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Receipt Date", xtype: 'datecolumn', format:'d/m/Y',
-			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
-			{text: "Invoice No", 
+			//{text: "Receipt Date", xtype: 'datecolumn', format:'d/m/Y',
+			//width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
+		    {text: "Customer Code", 
 		    width: 90, align: 'center', dataIndex: 'invnr', sortable: true},
-		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", 
 			width: 160, dataIndex: 'name1', sortable: true},
+		    
+			{text: "Invoice No", 
+		    width: 90, align: 'center', dataIndex: 'invnr', sortable: true},
+		    {text: "Invoice Date", 
+		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
+		    
 			{text: "Amount", 
 			width: 70, align: 'right', dataIndex: 'itamt', sortable: true},
 			{text: "Net Amount", 

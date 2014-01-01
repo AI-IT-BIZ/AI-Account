@@ -31,9 +31,9 @@ Ext.define('Account.RInvoice.Form', {
 		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
         
         
-                this.dateDoc1 = Ext.create('Ext.form.field.Date', {
+           this.dateDoc1 = Ext.create('Ext.form.field.Date', {
 			fieldLabel: 'Document Date',
-			name: 'bldat1',
+			name: 'bldat',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
@@ -41,7 +41,7 @@ Ext.define('Account.RInvoice.Form', {
 			});
                         
                this.dateDoc2 = Ext.create('Ext.form.field.Date', {
-			name: 'bldat1',
+			name: 'bldat2',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
@@ -78,37 +78,8 @@ Ext.define('Account.RInvoice.Form', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});
-		
-		this.comboQStatus2 = Ext.create('Ext.form.ComboBox', {
-			name : 'statu',
-			editable: false,
-                         hidden:true,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Select Status --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'invoice/loads_acombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statu'
-		});
 
-		this.comboPSale = Ext.create('Ext.form.ComboBox', {
+		/*this.comboPSale = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Saleperson',
 			name : 'salnr',
 			labelWidth: 100,
@@ -164,7 +135,7 @@ Ext.define('Account.RInvoice.Form', {
 			queryMode: 'remote',
 			displayField: 'name1',
 			valueField: 'salnr'
-		});
+		});*/
 		
 		this.trigInvoice = Ext.create('Ext.form.field.Trigger', {
 			name: 'invnr',
@@ -203,7 +174,7 @@ Ext.define('Account.RInvoice.Form', {
 		});
 		
 		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
+			name: 'kunnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -259,7 +230,7 @@ Ext.define('Account.RInvoice.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigCustomer2]  
-		},{
+		},/*{
 			
           xtype: 'container',
                 layout: 'hbox',
@@ -272,7 +243,7 @@ Ext.define('Account.RInvoice.Form', {
 		    margins: '0 0 0 25'
 		  },
 		this.comboPSale2]  
-		},{
+		},*/{
 			xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',

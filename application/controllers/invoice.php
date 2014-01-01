@@ -34,6 +34,10 @@ class Invoice extends CI_Controller {
 			                         $result['telf2'].
 									 PHP_EOL.'Email: '.$result['emai2'];
 
+			// unset calculated value
+			unset($result['beamt']);
+			unset($result['netwr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result
@@ -159,10 +163,146 @@ class Invoice extends CI_Controller {
 		
 		$query = $this->db->get($tbName);
 
+		/*$res = $query->result_array();
+		foreach($res as $r){
+			// search item
+			$q_item = $this->db->get_where('vbrp', array(
+				'invnr'=>$r['invnr']
+			));
+			$r['items'] = $q_item->result_array();
+		}*/
+
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
+			'rows'=>$query->result_array(),//$res,
+			'totalCount'=>$totalCount
+		));
+	}
+
+    function loads_report(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'vbrp';
+		
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`invnr` LIKE '%$query%'
+				OR `kunnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+	        $ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
+			}
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+			/*$jobnr1 = $_this->input->get('jobnr');
+			$jobnr2 = $_this->input->get('jobnr2');
+			if(!empty($jobnr1) && empty($jobnr2)){
+			  $_this->db->where('jobnr', $jobnr1);
+			}
+			elseif(!empty($jobnr1) && !empty($jobnr2)){
+			  $_this->db->where('jobnr >=', $jobnr1);
+			  $_this->db->where('jobnr <=', $jobnr2);
+			}*/
+			
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
+			}
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
+			}
+
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+// End for report
+
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			$q_so = $this->db->get_where('vbok', array(
+				'ordnr'=>$r['ordnr']
+			));
+			
+			$result_data = $q_so->first_row('array');
+			$res[$i]['vbeln'] = $result_data['vbeln'];
+			$q_qt = $this->db->get_where('vbak', array(
+				'vbeln'=>$result_data['vbeln']
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$res[$i]['jobnr'] = $r_qt['jobnr'];
+			
+			//$terms='+'.$res[$i]['terms']." days";
+			$my_date = util_helper_get_time_by_date_string($res[$i]['duedt']);
+			
+			$time_diff = time() - $my_date;
+			$day = ceil($time_diff/(24 * 60 * 60));
+            
+			if($day>0){
+				$res[$i]['overd'] = $day;
+			}else{ $res[$i]['overd'] = 0; }
+		
+		}
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
 			'totalCount'=>$totalCount
 		));
 	}
@@ -200,6 +340,22 @@ class Invoice extends CI_Controller {
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('vbrk');
+		}
+		
+		$bcus = $this->input->post('bcus');
+		$gl_item_array = json_decode($bcus);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not correct';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
 		}
 		
 		$formData = array(
@@ -396,7 +552,7 @@ class Invoice extends CI_Controller {
 		
         $sql="SELECT *
 			FROM tbl_apov
-			WHERE apgrp = '2'";
+			WHERE apgrp = '1'";
 		$query = $this->db->query($sql);
 		
 		echo json_encode(array(

@@ -20,6 +20,22 @@ Ext.define('Account.RReceipt.Item.Window', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		this.txtParam = Ext.create('Ext.form.Text', {
+           
+                 width: 300
+      
+               });
+		
+		 this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel',
+                          handler: function () {
+                            //   alert(_this.txtParam.getValue());
+                               var param = _this.txtParam.getValue();
+                               window.location = __site_url+'export/rinvoice/GetReportFromPageSelect?' + param;
+                          }
+		});
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
 		this.grid = Ext.create('Account.RReceipt.Item.Grid', {
@@ -28,6 +44,7 @@ Ext.define('Account.RReceipt.Item.Window', {
 		});
 
 		this.items = [this.grid];
+		this.tbar = [this.excelAct];
 
 		// --- after ---
 		//this.grid.load();
