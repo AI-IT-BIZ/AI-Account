@@ -44,6 +44,25 @@
 	background-image: url('../images/icons/key.gif') !important;
 }
 
+.b-small-money {
+	background-image: url('../images/icons/money.gif') !important;
+}
+.b-small-money_add {
+	background-image: url('../images/icons/money_add.gif') !important;
+}
+.b-small-money_delete {
+	background-image: url('../images/icons/money_delete.gif') !important;
+}
+.b-small-page_edit {
+	background-image: url('../images/icons/page_edit.gif') !important;
+}
+.b-small-user_add {
+	background-image: url('../images/icons/user_add.gif') !important;
+}
+.b-small-user_delete {
+	background-image: url('../images/icons/user_delete.gif') !important;
+}
+
 /* grid style */
 .grid-disable .x-mask-msg-text { background-image:none; padding:5px; }
 .red-bg-row td { background-color:#ffeeee !important; }
@@ -105,3 +124,17 @@
 .r-report7 { background-image: url('../images/tb-icons/report7.png') !important; }
 
 .g-logout { background-image: url('../images/tb-icons/logout.png') !important; }
+
+/* --------------------------------------------------------------- */
+/* TREE UMS */
+.tree-node-document{
+	background-image:url('../images/icons/page.gif')!important;
+}
+.tree-node-limit{
+	background-image:url('../images/icons/money.gif')!important;
+}
+.tree-node-user{
+	background-image:url('../images/icons/user.gif')!important;
+}
+
+/* --------------------------------------------------------------- */

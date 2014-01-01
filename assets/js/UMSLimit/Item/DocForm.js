@@ -1,16 +1,16 @@
-Ext.define('Account.UMSLimit.Item.LimitForm', {
+Ext.define('Account.UMSLimit.Item.DocForm', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'umslimit/save_limit',
+			url: __site_url+'umslimit/save_document',
 			border: true,
 			bodyPadding: '15 5 0 5',
 			defaults: {
 				labelAlign: 'right',
 				msgTarget: 'qtip',
-				labelWidth: 95,
-				width: 280
+				labelWidth: 145,
+				width: 250
 			}
 		});
 
@@ -20,15 +20,22 @@ Ext.define('Account.UMSLimit.Item.LimitForm', {
 		var _this=this;
 
 		this.items = [{
-			xtype: 'numberfield',
-			fieldLabel: 'Limit amount',
-			name: 'limam',
-			allowBlank: false,
-			allowDecimals: true,
-			minValue:0
+			xtype:'combo',
+			fieldLabel:'Depend on department',
+			name : 'depdp',
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: 'Please select',
+	        fields: [ 'value', 'text' ],
+			store:[
+				['1', 'Yes'],
+				['0', 'No']
+			],
+			valueField: 'value',
+			displayField: 'text'
 		}];
-
-		// event
 
 		return this.callParent(arguments);
 	},
@@ -41,7 +48,7 @@ Ext.define('Account.UMSLimit.Item.LimitForm', {
 		this.getForm().load({
 			waitMsg: 'Loading, please wait...',
 			params: _this.form_params,
-			url:__site_url+'umslimit/load_limit',
+			url:__site_url+'umslimit/load_document',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -65,16 +72,6 @@ Ext.define('Account.UMSLimit.Item.LimitForm', {
 				}
 			});
 		}
-	},
-	remove : function(id){
-		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
-			}
-		});
 	},
 	reset: function(){
 		this.getForm().reset();

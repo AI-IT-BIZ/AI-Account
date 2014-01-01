@@ -86,10 +86,11 @@ TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
 FROM $tbDoct d
 
 LEFT JOIN $tbAutu au ON au.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
-LEFT JOIN $tbAutl al ON au.autlid=al.autlid
+LEFT JOIN $tbAutl al ON au.autlid=al.autlid AND al.docty=d.docty
 
 WHERE 1=1
-ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC";
+GROUP BY d.docty
+ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC, al.limam DESC";
 		$query = $this->db->query($sql);
 
 		$result = $query->result_array();

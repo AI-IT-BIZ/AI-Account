@@ -1,13 +1,13 @@
-Ext.define('Account.UMSLimit.Item.LimitWindow', {
+Ext.define('Account.UMSLimit.Item.DocWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Limit amount setting',
+			title: 'Document setting',
 			closeAction: 'hide',
 			height: 130,
-			width: 340,
+			width: 300,
 			layout: 'border',
 			border: false,
 			resizable: true,
@@ -19,11 +19,10 @@ Ext.define('Account.UMSLimit.Item.LimitWindow', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.UMSLimit.Item.LimitForm',{ region:'center' });
 
-		this.items = [
-		     this.form
-		];
+		this.form = Ext.create('Account.UMSLimit.Item.DocForm',{ region:'center' });
+
+		this.items = [ this.form ];
 
 		this.buttons = [{
 			text: 'Save',

@@ -6,6 +6,10 @@ class Umslimit extends CI_Controller {
 	{
 		parent::__construct();
 
+		$this->load->model('autl_model','autl',TRUE);
+		$this->load->model('autd_model','autd',TRUE);
+		$this->load->model('autu_model','autu',TRUE);
+
 		$this->load->model('ums_service','',TRUE);
 	}
 
@@ -42,20 +46,23 @@ class Umslimit extends CI_Controller {
 		}
 
 		if($this->is_node_root($node)){
-			$q = $this->db->get('doct');
+			$sql = "SELECT d.*, a.depdp FROM tbl_doct d
+LEFT JOIN tbl_autd a ON d.docty=a.docty";
+			$q = $this->db->query($sql);
 			$list = $q->result();
 			foreach($list AS $l){
 				array_push($rs, array(
-					'text'=>$l->doctx,
+					'text'=>$l->doctx.(($l->depdp==1)?' - <b>Depend on department</b>':''),
 					'id'=>$node.$this->splitter.$l->docty,
-					'expanded'=>true
+					'expanded'=>true,
+					'iconCls'=>'tree-node-document'
 				));
 			}
 		}else if($this->is_node_docty($node)){
 			$docty = $this->db->escape($this->get_id($node));
 			$comid = $this->db->escape($comid);
-			$sql = "SELECT docty, limam FROM tbl_autl
-WHERE docty=$docty AND comid=$comid
+			$sql = "SELECT autlid, docty, limam FROM tbl_autl
+WHERE docty=$docty AND comid=$comid AND limam IS NOT NULL AND limam>0
 GROUP BY limam
 ORDER BY limam DESC";
 
@@ -64,8 +71,26 @@ ORDER BY limam DESC";
 			foreach($list AS $l){
 				array_push($rs, array(
 					'text'=>number_format($l->limam),
-					'id'=>$node.$this->splitter.$l->limam,
-					'expanded'=>true
+					'id'=>$node.$this->splitter.$l->autlid,
+					'expanded'=>false,
+					'iconCls'=>'tree-node-limit'
+				));
+			}
+		}else if($this->is_node_limam($node)){
+			$autlid = $this->db->escape($this->get_id($node));
+			$comid = $this->db->escape($comid);
+			$sql = "SELECT autlid, autuid, empnr FROM tbl_autu
+WHERE autlid=$autlid
+";
+
+			$q = $this->db->query($sql);
+			$list = $q->result();
+			foreach($list AS $l){
+				array_push($rs, array(
+					'text'=>$l->empnr,
+					'id'=>$node.$this->splitter.$l->autuid,
+					'leaf'=>true,
+					'iconCls'=>'tree-node-user'
 				));
 			}
 		}
@@ -158,6 +183,108 @@ ORDER BY limam DESC";
 		*/
 	}
 
+	public function load_limit(){
+		$id = $this->input->post('id');
+		$comid = $this->input->post('comid');
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		$autlid = $this->get_id($id);
+
+		$l = $this->autl->get($autlid);
+
+		if(!empty($l)){
+			X::renderJSON(array(
+				'success'=>true,
+				'data'=>array(
+					'limam'=>$l->limam
+				)
+			));
+		}else{
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'No data(s) found.'
+			));
+		}
+
+	}
+
+	public function load_document(){
+		$id = $this->input->post('id');
+		$comid = $this->input->post('comid');
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		$docty = $this->get_id($id);
+		$doc = $this->autd->get_by(array(
+			'comid'=>$comid,
+			'docty'=>$docty
+		));
+
+		X::renderJSON(array(
+			'success'=>true,
+			'data'=>(!empty($doc))?$doc:null
+		));
+	}
+
+	public function save_document(){
+		$id = $this->input->post('id');
+		$comid = $this->input->post('comid');
+		$depdp = $this->input->post('depdp');
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		if($this->is_node_docty($id)){
+			$docty = $this->get_id($id);
+			$this->db->where('comid', $comid);
+			$this->db->where('docty', $docty);
+
+
+			$docty = $this->get_id($id);
+			$doc = $this->autd->get_by(array(
+				'comid'=>$comid,
+				'docty'=>$docty
+			));
+			if(count($doc)>0){
+				$this->autd->update_by(array(
+					'comid'=>$comid,
+					'docty'=>$docty
+				), array(
+					'depdp'=>$depdp
+				));
+			}else{
+				$this->autd->insert(array(
+					'comid'=>$comid,
+					'docty'=>$docty,
+					'depdp'=>$depdp
+				));
+			}
+
+		}
+
+		X::renderJSON(array(
+			'success'=>true
+		));
+	}
+
 	public function save_limit(){
 		$limit_amount = $this->input->post('limam');
 		$id = $this->input->post('id');
@@ -174,149 +301,92 @@ ORDER BY limam DESC";
 		if($this->is_node_docty($id)){
 			$docty = $this->get_id($id);
 
+			// check exist autd
+			$doc = $this->autd->get_by(array(
+				'comid'=>$comid,
+				'docty'=>$docty
+			));
+			if(empty($doc)){
+				$this->autd->insert(array(
+					'comid'=>$comid,
+					'docty'=>$docty,
+					'depdp'=>0
+				));
+			}
+
 			// check exist limit
-			$q = $this->db->get_where('autl', array(
+			$rows = $this->autl->get_many_by(array(
 				'docty'=>$docty,
 				'comid'=>$comid,
 				'limam'=>$limit_amount
 			));
-			if($q->num_rows()>0){
+			// ถ้าเจอให้วนลูปเช็ค
+			if(count($rows)>0){
 				X::renderJSON(array(
 					'success'=>false,
 					'message'=>'Limit amount already exist.'
 				));
 				return;
+			}else{
+				$this->autl->insert(array(
+					'comid'=>$comid,
+					'docty'=>$docty,
+					'limam'=>$limit_amount
+				));
 			}
+		}else if($this->is_node_limam($id)){
+			$autlid = $this->get_id($id);
 
-			$this->db->insert('autl', array(
-				'comid'=>$comid,
-				'docty'=>$docty,
+			$this->autl->update_by(array(
+				'autlid'=>$autlid
+			), array(
 				'limam'=>$limit_amount
 			));
-		}else if($this->is_node_limam($id)){
-			$this->db->where('comid', $comid);
-			$this->db->where('limam', $limit_amount);
-			//$this->db->where('docty', $docty)
 		}
 
-
-
-		echo json_encode(array(
+		X::renderJSON(array(
 			'success'=>true
 		));
+	}
 
-		//$this->db->insert('autl', )
-
-		/*
-
-		$tbUser = $this->ums_service->tbUser;
-		$permission_array = $this->ums_service->permission_array;
-
+	public function save_user(){
 		$id = $this->input->post('id');
+		$comid = $this->input->post('comid');
+		$empnr = $this->input->post('empnr');
 
-		$uname = $this->input->post('uname');
-		$passw = $this->input->post('passw');
-
-		$query = null;
-		$user = null;
-		if(!empty($id)){
-			$user = $this->ums_service->load_user_bypk($id);
-		}else{
-			echo json_encode(array(
+		if(empty($comid)){
+			X::renderJSON(array(
 				'success'=>false,
-				'message'=>'Username is not found.'
+				'message'=>'Company is not identified.'
 			));
 			return;
 		}
 
-		// start transaction
-		$this->db->trans_begin();
+		if($this->is_node_limam($id)){
+			$autlid = $this->get_id($id);
 
-		if (!empty($user)){
-			$this->db->where('uname', $id);
-			//db_helper_set_now($this, 'updat');
-			//$this->db->set('upnam', 'test');
-			$this->db->update('user', array(
-				'passw' => $passw
+			// check user under autl
+			$ulist = $this->autu->get_by(array(
+				'autlid'=>$autlid,
+				'empnr'=>$empnr
 			));
-		}else{
-			echo json_encode(array(
-				'success'=>false,
-				'message'=>'Username is not found.'
-			));
-			return;
-		}
-
-		// ลบ permission ภายใต้ id ทั้งหมด
-		$id_query = $this->db->escape($id);
-		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
-		$this->db->delete('autx');
-
-		// เตรียมข้อมูล permission
-		$autx = $this->input->post('autx');
-		$autx_array = json_decode($autx);
-		if(!empty($user) && !empty($autx_array)){
-			// loop เพื่อ insert autx ที่ส่งมาใหม่
-			$item_index = 0;
-			foreach($autx_array AS $p){
-				// loop เพื่อสร้างค่า autex
-				$autx_data = array(
-					'comid'=>'1000',
-					'empnr'=>$user['empnr'],
-					'docty'=>$p->docty,
-					'autex'=>''
-				);
-				$classname = "p";
-
-				$p_array = $permission_array;
-				for($i=0;$i<count($p_array);$i++){
-					$autx_data['autex'] .= $$classname->{$p_array[$i]};
-				}
-
-				// finally save each autx
-				$this->db->insert('autx', $autx_data);
-			}
-		}
-
-		// ลบ limit ภายใต้ id ทั้งหมด
-		$id_query = $this->db->escape($id);
-		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
-		$this->db->delete('autl');
-
-		// เตรียมข้อมูล permission
-		$autl = $this->input->post('autl');
-		$autl_array = json_decode($autl);
-		if(!empty($user) && !empty($autl_array)){
-			// loop เพื่อ insert autl ที่ส่งมาใหม่
-			$item_index = 0;
-			foreach($autl_array AS $p){
-				// finally save each autx
-				$this->db->insert('autl', array(
-					'comid'=>'1000',
-					'empnr'=>$user['empnr'],
-					'docty'=>$p->docty,
-					'limam'=>$p->limam
+			if(count($ulist)>0){
+				X::renderJSON(array(
+					'success'=>false,
+					'message'=>'User already exist.'
+				));
+			}else{
+				$this->autu->insert(array(
+					'comid'=>$comid,
+					'autlid'=>$autlid,
+					'empnr'=>$empnr
 				));
 			}
 		}
 
-		// end transaction
-		if ($this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			echo json_encode(array(
-				'success'=>false,
-				'message'=>'Error occured rollback.'
-			));
-		}
-		else
-		{
-			$this->db->trans_commit();
-			echo json_encode(array(
-				'success'=>true
-			));
-		}
-		*/
+		X::renderJSON(array(
+			'success'=>true
+		));
 	}
 
 	// combo

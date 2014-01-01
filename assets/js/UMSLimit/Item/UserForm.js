@@ -1,9 +1,9 @@
-Ext.define('Account.UMSLimit.Item.LimitForm', {
+Ext.define('Account.UMSLimit.Item.UserForm', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'umslimit/save_limit',
+			url: __site_url+'umslimit/save_user',
 			border: true,
 			bodyPadding: '15 5 0 5',
 			defaults: {
@@ -19,16 +19,57 @@ Ext.define('Account.UMSLimit.Item.LimitForm', {
 	initComponent : function() {
 		var _this=this;
 
-		this.items = [{
-			xtype: 'numberfield',
-			fieldLabel: 'Limit amount',
-			name: 'limam',
-			allowBlank: false,
-			allowDecimals: true,
-			minValue:0
-		}];
+		this.employeeDialog = Ext.create('Account.UMSLimit.User.Window');
+
+		this.trigEmployee = Ext.create('Ext.form.field.Trigger', {
+			name: 'empnr',
+			fieldLabel: 'Employee',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false,
+			labelAlign: 'right',
+			msgTarget: 'qtip',
+			labelWidth: 95,
+			width: 280
+		});
+
+		this.items = [this.trigEmployee/*,{
+			xtype:'combo',
+			fieldLabel:'Department',
+			hiddenName : 'depnr',
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Please select department --',
+	        fields: [ 'value', 'text' ],
+			store:[
+				['SM', 'Sale&Maketing'],
+				['PE', 'Purchase'],
+				['IT', 'IT'],
+				['AC', 'Account'],
+				['HR', 'HR']
+			],
+			valueField: 'value',
+			displayField: 'text',
+			listeners : {
+				specialkey : function(o, e) {
+					if (e.getKey() == e.ENTER)
+						_this.searchAct.execute();
+				}
+			}
+		}*/];
 
 		// event
+		this.trigEmployee.onTriggerClick = function(){
+			_this.employeeDialog.show();
+		};
+
+		this.employeeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigEmployee.setValue(record.data.empnr);
+			grid.getSelectionModel().deselectAll();
+			_this.employeeDialog.hide();
+		});
 
 		return this.callParent(arguments);
 	},

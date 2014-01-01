@@ -12,35 +12,44 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 	initComponent : function() {
 		var _this=this;
 
+		this.editDocAct = new Ext.Action({
+			text: 'Edit document',
+			iconCls: 'b-small-page_edit'
+		});
+
 		this.addLimitAct = new Ext.Action({
 			text: 'Add limit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-money_add'
 		});
 
 		this.editLimitAct = new Ext.Action({
 			text: 'Edit limit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-money'
 		});
 
 		this.removeLimitAct = new Ext.Action({
 			text: 'Remove limit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-money_delete'
 		});
 
 		this.addEmp = new Ext.Action({
 			text: 'Add employee',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-user_add'
 		});
 
 		var menuDocty = new Ext.menu.Menu({
-			items : [this.addLimitAct]
+			items : [this.editDocAct, this.addLimitAct]
         });
 
         var menuLimit = new Ext.menu.Menu({
 			items : [this.editLimitAct, this.removeLimitAct, this.addEmp]
         });
 
+        this.docWindow = Ext.create('Account.UMSLimit.Item.DocWindow');
+
         this.limitWindow = Ext.create('Account.UMSLimit.Item.LimitWindow');
+
+        this.userWindow = Ext.create('Account.UMSLimit.Item.UserWindow');
 
 		this.store = new Ext.data.TreeStore({
 			autoLoad: false,
@@ -101,6 +110,15 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 		});
 
 		// event
+		this.editDocAct.setHandler(function(){
+			var id = _this.getSelectedId();
+			if(Ext.isEmpty(id)) return;
+			_this.docWindow.openDialog('edit', {
+				id: id,
+				comid: _this.extraParams.comid
+			});
+		});
+
 		this.addLimitAct.setHandler(function(){
 			var id = _this.getSelectedId();
 			if(Ext.isEmpty(id)) return;
@@ -119,12 +137,38 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 			});
 		});
 
+		this.addEmp.setHandler(function(){
+			var id = _this.getSelectedId();
+			if(Ext.isEmpty(id)) return;
+			_this.userWindow.openDialog('add', {
+				id: id,
+				comid: _this.extraParams.comid
+			});
+		});
+
 		this.limitWindow.form.on('afterSave', function(form, action){
 			_this.limitWindow.hide();
 			var r = _this.getSelectedRecord();
-			_this.store.load({
-				node: r
-			});
+
+			if(form.form_action=='edit'){
+				var parentNode = _this.store.getById(r.data.parentId);_this.store.load({
+					node: parentNode
+				});
+			}else
+				_this.store.load({
+					node: r
+				});
+		});
+
+		this.docWindow.form.on('afterSave', function(form, action){
+			_this.docWindow.hide();
+			var r = _this.getSelectedRecord();
+
+			if(form.form_action=='edit'){
+				var parentNode = _this.store.getById(r.data.parentId);_this.store.load({
+					node: parentNode
+				});
+			}
 		});
 
 		return this.callParent(arguments);
