@@ -588,7 +588,8 @@ function endsWith($haystack, $needle)
 
             var nodeCompany = {
 				text: 'Company Define',
-				leaf: true
+				leaf: true,
+				id: 'click_company_setting'
 			};
 			var nodeInit = {
 				text: 'Initail Doc No.',

@@ -343,6 +343,15 @@ Ext.onReady(function() {
 
 
 	// SETTINGS
+	$om.viewport.on('click_company_setting', function(){
+		if(!UMS.CAN.DISPLAY('CC')){
+	 		UMS.ALERT("You don't have permission for Company Define.");
+	  		return;
+		}
+		$om.companyDialog = Ext.create('Account.Company.MainWindow');
+		$om.companyDialog.show();
+	});
+	
 	$om.viewport.on('click_authorize_setting', function(){
 	  	if(!UMS.CAN.DISPLAY('AU')){
 	 		UMS.ALERT("You don't have permission for Authorize Setting.");
