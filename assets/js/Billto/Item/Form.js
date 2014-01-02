@@ -35,6 +35,7 @@ Ext.define('Account.Billto.Item.Form', {
 		});
 		
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('BT'),
 			fieldLabel: 'Payments',
 			name : 'ptype',
 			//labelWidth: 95,

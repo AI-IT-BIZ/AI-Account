@@ -20,7 +20,10 @@ Ext.define('Account.Project.Item.Form', {
 		var _this=this;
 		
 		// INIT Warehouse search popup //////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		
 		this.typeDialog = Ext.create('Account.Projecttype.Window');
 		
@@ -35,7 +38,7 @@ Ext.define('Account.Project.Item.Form', {
 		});
 		
 		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
-			disabled: !UMS.CAN.APPROVE('PJ'),
+			readOnly: !UMS.CAN.APPROVE('PJ'),
 			fieldLabel: 'Project Status',
 			name : 'statu',
 			labelWidth: 100,

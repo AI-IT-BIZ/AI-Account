@@ -41,6 +41,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('DR'),
 			fieldLabel: 'Deposit Status',
 			name : 'statu',
 			labelAlign: 'right',

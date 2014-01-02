@@ -6,6 +6,7 @@ class Depositout extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('code_model','',TRUE);
+		$this->load->model('email_service','',TRUE);
 	}
 
 	function index(){
@@ -118,7 +119,7 @@ class Depositout extends CI_Controller {
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
 		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not correct';
+						$emsg = 'Banlance Amount not equal';
 						echo json_encode(array(
 							'success'=>false,
 							//'errors'=>array( 'statu' => $emsg ),

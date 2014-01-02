@@ -19,7 +19,10 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		// INIT Customer search popup ///////////////////////////////
 		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly:true
+		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Invoice.Item.Grid_i',{
@@ -46,6 +49,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox',{
+			readOnly: !UMS.CAN.APPROVE('IV'),
 			fieldLabel: 'INV Status',
 			name : 'statu',
 			labelAlign: 'right',

@@ -17,7 +17,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Quotation.Item.Grid_i',{

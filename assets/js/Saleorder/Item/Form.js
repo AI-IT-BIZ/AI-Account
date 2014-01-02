@@ -17,7 +17,10 @@ Ext.define('Account.Saleorder.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Saleorder.Item.Grid_i',{
@@ -40,6 +43,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('SO'),
 			fieldLabel: 'SO Status',
 			name : 'statu',
 			labelAlign: 'right',

@@ -7,6 +7,7 @@ class Po extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('code_model','',TRUE);
+		$this->load->model('email_service','',TRUE);
 	}
 
 	function index(){

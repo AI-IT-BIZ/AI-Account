@@ -7,6 +7,8 @@ class Project extends CI_Controller {
 		parent::__construct();
 		
 		$this->load->model('code_model','',TRUE);
+		
+		$this->load->model('email_service','',TRUE);
 	}
 	
 	/*
@@ -134,10 +136,50 @@ class Project extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$query = null;
+		
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('jobnr', $id);
 			$query = $this->db->get('jobk');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('PJ') && XUMS::CAN_APPROVE('PJ')){
+					$limit = XUMS::LIMIT('PJ');
+					if($limit<$row['pramt']){
+						$emsg = 'You do not have permission to change project status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+				}else{
+					$emsg = 'You do not have permission to change project status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The project that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
 
 		$formData = array(
@@ -163,13 +205,15 @@ class Project extends CI_Controller {
 		  
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('jobnr', $id);
-			$this->db->set('updat', 'NOW()', false);
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('jobk', $formData);
 		}else{
 			$this->db->set('jobnr', $this->code_model->generate('PJ',
 			$this->input->post('bldat')));
-			$this->db->set('erdat', 'NOW()', false);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('jobk', $formData);
 		}
@@ -178,6 +222,18 @@ class Project extends CI_Controller {
 			'success'=>true,
 			'data'=>$_POST
 		));
+		
+		try{
+				$post_id = $this->input->post('id');
+				$total_amount = $this->input->post('pramt');
+				// send notification email
+				if(!empty($inserted_id)){
+					$this->email_service->quotation_create('PJ', $total_amount);
+				}else if(!empty($post_id)){
+					if($status_changed)
+						$this->email_service->quotation_change_status('PJ', $total_amount);
+				}
+			}catch(exception $e){}
 	}
 
     public function loads_tcombo(){

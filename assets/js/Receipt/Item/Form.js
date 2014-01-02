@@ -14,7 +14,8 @@ Ext.define('Account.Receipt.Item.Form', {
 		var _this=this;
 		
 		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
@@ -44,6 +45,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('RD'),
 			fieldLabel: 'Receipt Status',
 			name : 'statu',
 			labelAlign: 'right',
