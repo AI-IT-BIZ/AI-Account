@@ -18,13 +18,6 @@ Ext.define('Account.UMS.Item.Form', {
 			title: 'Permission settings'
 		});
 
-		this.gridLimit = Ext.create('Account.UMS.Item.GridLimit', {
-			region:'east',
-			title: 'Approve limit amount settings',
-			width: 250,
-			split: true
-		});
-
 		var dispEmployeeCode = Ext.create('Ext.form.field.Display', {
 			fieldLabel: 'Employee',
 			labelWidth: 65,
@@ -78,19 +71,8 @@ Ext.define('Account.UMS.Item.Form', {
 
 		this.items = [
 			mainFormPanel,
-			this.grid,
-			this.gridLimit
+			this.grid
 		];
-
-		// event
-		this.grid.store.on('load', function(store, records){
-			// สั่ง grid limit load หลังจากที่ grid permission load เสร็จแล้ว
-			_this.loadGridLimit();
-		});
-
-		this.grid.on('cellclick', function (grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			_this.filterGridLimit();
-		});
 
 		return this.callParent(arguments);
 	},
@@ -119,11 +101,9 @@ Ext.define('Account.UMS.Item.Form', {
 
 		// add grid data to json
 		var rsItem = this.grid.getData();
-		var rsLimitItem = this.gridLimit.getData();
 
 		var form_params = Ext.apply(_this.form_params, {
-			autx: Ext.encode(rsItem),
-			autl: Ext.encode(rsLimitItem)
+			autx: Ext.encode(rsItem)
 		});
 
 		if (_form_basic.isValid()) {
@@ -158,31 +138,5 @@ Ext.define('Account.UMS.Item.Form', {
 		this.grid.load({
 			uname: '-1'
 		});
-		// สั่ง grid limit load
-		this.gridLimit.load({
-			uname: -1
-		});
-	},
-	filterGridLimit: function(){
-		// filter grid
-		var approvable = this.grid.getDocTypeApprovable();
-		this.gridLimit.store.filterBy(function(r) {
-			var is_match = false;
-			for(var i=0;i<approvable.length;i++){
-				if(r.data['docty']==approvable[i]){
-					is_match = true; break;
-				}
-			}
-			return is_match;
-		});
-
-	},
-	loadGridLimit: function(){
-		var _this=this;
-		this.gridLimit.load({
-			uname: this.form_params.id
-		},
-		this.filterGridLimit,
-		this);
 	}
 });

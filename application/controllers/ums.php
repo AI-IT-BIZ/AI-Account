@@ -301,28 +301,6 @@ class Ums extends CI_Controller {
 			}
 		}
 
-		// ลบ limit ภายใต้ id ทั้งหมด
-		$id_query = $this->db->escape($id);
-		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
-		$this->db->delete('autl');
-
-		// เตรียมข้อมูล permission
-		$autl = $this->input->post('autl');
-		$autl_array = json_decode($autl);
-		if(!empty($user) && !empty($autl_array)){
-			// loop เพื่อ insert autl ที่ส่งมาใหม่
-			$item_index = 0;
-			foreach($autl_array AS $p){
-				// finally save each autx
-				$this->db->insert('autl', array(
-					'comid'=>'1000',
-					'empnr'=>$user['empnr'],
-					'docty'=>$p->docty,
-					'limam'=>$p->limam
-				));
-			}
-		}
-
 		// end transaction
 		if ($this->db->trans_status() === FALSE)
 		{
