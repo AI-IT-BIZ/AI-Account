@@ -146,6 +146,26 @@ class Receipt extends CI_Controller {
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
 			
+			$recnr1 = $_this->input->get('recnr');
+			$recnr2 = $_this->input->get('recnr2');
+			if(!empty($recnr1) && empty($recnr2)){
+			  $_this->db->where('recnr', $recnr1);
+			}
+			elseif(!empty($recnr1) && !empty($recnr2)){
+			  $_this->db->where('recnr >=', $recnr1);
+			  $_this->db->where('recnr <=', $recnr2);
+			}
+			
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
@@ -227,22 +247,6 @@ class Receipt extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-		}
-		
-		$bcus = $this->input->post('bcus');
-		$gl_item_array = json_decode($bcus);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
 		}
 		
 		$formData = array(
@@ -355,7 +359,24 @@ class Receipt extends CI_Controller {
 		}
 		
 //*** Save GL Posting	
+    if($this->input->post('statu') == '02'){
         //$ids = $id;	
+        $bcus = $this->input->post('bcus');
+		$gl_item_array = json_decode($bcus);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
+		}
+		
 		$ids = $this->input->post('id');
 		$query = null;
 		if(!empty($ids)){
@@ -502,7 +523,8 @@ class Receipt extends CI_Controller {
 			}
 		  }
 		}
-		
+	}//check status approved
+	
 		// end transaction
 		$this->db->trans_complete();
 

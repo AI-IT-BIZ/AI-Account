@@ -66,13 +66,13 @@ Ext.define('Account.RReceipt.Form', {
 		});
 		
 		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
+			name: 'kunnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Invoice Status',
+			fieldLabel: 'Receipt Status',
 			name : 'statu',
 			labelWidth: 100,
 			editable: false,
@@ -110,7 +110,7 @@ Ext.define('Account.RReceipt.Form', {
      items :[{
 			xtype: 'datefield',
 			fieldLabel: 'Document Date',
-			name: 'bldat1',
+			name: 'bldat',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
@@ -127,33 +127,9 @@ Ext.define('Account.RReceipt.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-			},{
-// Receipt Date
-        xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[{
-			xtype: 'datefield',
-			fieldLabel: 'Receipt Date',
-			name: 'duedt1',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			},{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		   },{
-			xtype: 'datefield',
-			name: 'duedt2',
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			}]
+			},
 // Receipt Code			
-       },{
+       {
 	    xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',

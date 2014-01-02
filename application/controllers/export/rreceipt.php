@@ -12,16 +12,15 @@ class Receipt extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbbk';
+		$tbName = 'vbbp';
 		
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`invnr` LIKE '%$query%'
+				$_this->db->where("(`recnr` LIKE '%$query%'
 				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+				OR `name1` LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -43,13 +42,44 @@ class Receipt extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
+			
+			$recnr1 = $_this->input->get('recnr');
+			$recnr2 = $_this->input->get('recnr2');
+			if(!empty($recnr1) && empty($recnr2)){
+			  $_this->db->where('recnr', $recnr1);
+			}
+			elseif(!empty($recnr1) && !empty($recnr2)){
+			  $_this->db->where('recnr >=', $recnr1);
+			  $_this->db->where('recnr <=', $recnr2);
+			}
+			
+			$invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
 		}
+// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
 		$this->db->order_by($sort, $dir);
-
+		
 		$query = $this->db->get($tbName);
 
 		// Create new PHPExcel object
@@ -61,6 +91,65 @@ class Receipt extends CI_Controller {
 									 ->setTitle("Receipt")
 									 ->setSubject("Receipt")
 									 ->setDescription("Receipt information.");
+	    /*Font Style*****************************************************/
+          $StyleHeadCompany = array(
+                        'font'  => array(
+                        'bold'  => true,
+                        'color' => array('rgb' => 'FF0000'),
+                        'size'  => 15,
+                        'name'  => 'Verdana'
+                       ));
+            $StyleHeadReportName = array(
+                        'font'  => array(
+                        'bold'  => true,
+                        'color' => array('rgb' => '1C1C1C'),
+                        'size'  => 12,
+                        'name'  => 'Verdana'
+                       ));
+            
+            $StyleHeadReportDetail = array(
+                        'font'  => array(
+                        'bold'  => true,
+                        'color' => array('rgb' => '1C1C1C'),
+                        'size'  => 10,
+                        'name'  => 'Verdana'
+                       ));
+          /******************************************************/
+          
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D1:E1:')
+                                             // ->mergeCells('H1:J1:')
+                                              ->setCellValue('D1', 'Company Name :');
+          $objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray($StyleHeadCompany);
+          /*---------------------------------------------------------------*/
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D2:E2')
+                                              ->setCellValue('D2', 'Sale Receipt List Report');
+          $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray($StyleHeadReportName);
+          /*---------------------------------------------------------------*/
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:B4')
+                                              ->setCellValue('A4', 'Selection Report No.');
+          $objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:C5')
+                                              ->setCellValue('A5', 'Selection Period : ' .$date_select);
+          $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+        //  $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:C6')
+         //                                     ->setCellValue('A6', 'Running by Sale Tax Invoind Number');
+        //  $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
+                                              ->setCellValue('O4', 'Page:');
+           $objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G5:H5')
+                                              ->setCellValue('G5', 'Document Status : ' . $statu_tax);
+           $objPHPExcel->getActiveSheet()->getStyle('G5')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G6:H6')
+                                              ->setCellValue('G6', 'Print Date : ' . date('Y-m-d H:i:s'));
+           $objPHPExcel->getActiveSheet()->getStyle('G6')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+          /*******************************************************************/
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
@@ -68,14 +157,13 @@ class Receipt extends CI_Controller {
 		// add header data
 		$current_sheet
 	            ->setCellValue('A1', 'Receipt No')
-	            ->setCellValue('B1', 'Receipt Date')
-				->setCellValue('C1', 'Due Date')
-	            ->setCellValue('D1', 'Customer No')
-	            ->setCellValue('E1', 'Customer Name')
-	            ->setCellValue('F1', 'Text Note')
-	            ->setCellValue('G1', 'Status')
-	            ->setCellValue('H1', 'Amount')
-	            ->setCellValue('I1', 'Currency');
+	            ->setCellValue('B1', 'Document Date')
+	            ->setCellValue('C1', 'Customer No')
+	            ->setCellValue('D1', 'Customer Name')
+	            ->setCellValue('E1', 'Net Amount')
+	            ->setCellValue('F1', 'Invoice No')
+	            ->setCellValue('G1', 'Invoice Date')
+	            ->setCellValue('H1', 'Amount');
 
 		// Add some data
 		$result_array = $query->result_array();
@@ -85,18 +173,17 @@ class Receipt extends CI_Controller {
 			$current_sheet
 		            ->setCellValue('A'.$excel_i, $value['recnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['duedt'])
-		            ->setCellValue('D'.$excel_i, $value['kunnr'])
-		            ->setCellValue('E'.$excel_i, $value['name1'])
-		            ->setCellValue('F'.$excel_i, $value['vbeln'])
-		            ->setCellValue('G'.$excel_i, $value['statx'])
-		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
-		            ->setCellValue('I'.$excel_i, $value['ctype']);
+		            ->setCellValue('C'.$excel_i, $value['kunnr'])
+		            ->setCellValue('D'.$excel_i, $value['name1'])
+		            ->setCellValue('E'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('F'.$excel_i, $value['invnr'])
+		            ->setCellValue('G'.$excel_i, $value['invdt'])
+		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['itamt'], 2));
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','I') as $columnID) {
+		foreach(range('A','H') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head

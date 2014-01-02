@@ -162,22 +162,6 @@ class Payment extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-		
-		$bven = $this->input->post('bven');
-		$gl_item_array = json_decode($bven);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
 
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
@@ -271,8 +255,25 @@ class Payment extends CI_Controller {
 			}
 		}
 
-//*** Save GL Posting	
+//*** Save GL Posting
+    if($this->input->post('statu') == '02'){	
         //$ids = $id;	
+        $bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
+		}
+        
 		$ids = $this->input->post('id');
 		$query = null;$deposit='';
 		if(!empty($ids)){
@@ -418,7 +419,8 @@ class Payment extends CI_Controller {
 			}
 		  }
 		}
-		
+	}//check status approved
+	
 		// end transaction
 		$this->db->trans_complete();
 
