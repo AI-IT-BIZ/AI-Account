@@ -130,6 +130,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		});
 	
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('VD'),
 			fieldLabel: 'Vendor Status',
 			name : 'statu',
 			labelAlign: 'right',

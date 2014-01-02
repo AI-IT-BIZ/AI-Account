@@ -19,8 +19,11 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		//this.grDialog = Ext.create('Account.GR.MainWindow');
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly:true
+		});
+		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.AP.Item.Grid_i',{
@@ -46,6 +49,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('AP'),
 			fieldLabel: 'AP Status',
 			name : 'statu',
 			labelAlign: 'right',

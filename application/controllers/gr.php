@@ -143,10 +143,50 @@ class Gr extends CI_Controller {
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
+		
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('mbeln', $id);
 			$query = $this->db->get('mkpf');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('GR') && XUMS::CAN_APPROVE('GR')){
+					$limit = XUMS::LIMIT('GR');
+					if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change GR status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+				}else{
+					$emsg = 'You do not have permission to change GR status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The GR that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
 
 		$formData = array(
@@ -172,19 +212,23 @@ class Gr extends CI_Controller {
 
 		// start transaction
 		$this->db->trans_start();
+		
+		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('mbeln', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('mkpf', $formData);
 		}else{
 			
 			$id = $this->code_model->generate('GR', $this->input->post('bldat'));
 		//echo $id; exit;
 			$this->db->set('mbeln', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('mkpf', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -216,11 +260,11 @@ class Gr extends CI_Controller {
 		// end transaction
 		$this->db->trans_complete();
 
-		if ($this->db->trans_status() === FALSE)
+		if ($this->db->trans_status() === FALSE){
 			echo json_encode(array(
 				'success'=>false
 			));
-		else
+		}else{
 			echo json_encode(array(
 				'success'=>true,
 				// also send id after save
@@ -228,6 +272,19 @@ class Gr extends CI_Controller {
 					'id'=>$id
 				)
 			));
+
+			try{
+				$post_id = $this->input->post('id');
+				$total_amount = $this->input->post('netwr');
+				// send notification email
+				if(!empty($inserted_id)){
+					$this->email_service->quotation_create('GR', $total_amount);
+				}else if(!empty($post_id)){
+					if($status_changed)
+						$this->email_service->quotation_change_status('GR', $total_amount);
+				}
+			}catch(exception $e){}
+		}
 	}
 
 

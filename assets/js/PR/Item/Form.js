@@ -14,7 +14,8 @@ Ext.define('Account.PR.Item.Form', {
 		var _this=this;
 		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		//this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
@@ -38,6 +39,7 @@ Ext.define('Account.PR.Item.Form', {
 		});
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('PR'),
 			fieldLabel: 'PR Status',
 			name : 'statu',
 			labelAlign: 'right',

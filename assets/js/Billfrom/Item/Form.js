@@ -14,7 +14,8 @@ Ext.define('Account.Billfrom.Item.Form', {
 		var _this=this;
 		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		// INIT Customer search popup ///////////////////////////////
@@ -66,6 +67,7 @@ Ext.define('Account.Billfrom.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('BF'),
 			fieldLabel: 'Billing Status',
 			name : 'statu',
 			labelAlign: 'right',

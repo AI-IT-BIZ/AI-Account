@@ -44,7 +44,7 @@ Ext.define('Account.Vendor.FormSearch', {
 			}
 		});
 
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+		var statusOptions = {
 			fieldLabel: 'Status',
 			name : 'statu',
 			labelAlign: 'right',
@@ -73,8 +73,13 @@ Ext.define('Account.Vendor.FormSearch', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu'
-		});
+			valueField: 'statu',
+			value: (this.statu)?this.statu:undefined
+		};
+		if(this.status_options){
+			statusOptions = Ext.apply(statusOptions, this.status_options);
+		}
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', statusOptions);
 
 		this.items = [{
 			// column layout with 2 columns

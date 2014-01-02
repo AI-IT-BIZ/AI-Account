@@ -14,7 +14,8 @@ Ext.define('Account.Payment.Item.Form', {
 		var _this=this;
 		
 		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		
 		//this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
@@ -42,6 +43,7 @@ Ext.define('Account.Payment.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('PY'),
 			fieldLabel: 'Payment Status',
 			name : 'statu',
 			labelAlign: 'right',

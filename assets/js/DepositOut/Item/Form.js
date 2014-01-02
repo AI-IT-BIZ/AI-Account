@@ -19,8 +19,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		//this.poDialog = Ext.create('Account.PO.MainWindow');
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.DepositOut.Item.Grid_i',{
@@ -47,6 +49,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		// END INIT other components ////////////////////////////////	
 		
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('DP'),
 			fieldLabel: 'Deposit Status',
 			name : 'statu',
 			labelAlign: 'right',

@@ -189,10 +189,50 @@ class Ap extends CI_Controller {
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
+		
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
 			$query = $this->db->get('ebrk');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('AP') && XUMS::CAN_APPROVE('AP')){
+					$limit = XUMS::LIMIT('AP');
+					if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change AP status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+				}else{
+					$emsg = 'You do not have permission to change AP status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The AP that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
 		
 		$bven = $this->input->post('bven');
@@ -240,18 +280,22 @@ class Ap extends CI_Controller {
 
 		// start transaction
 		$this->db->trans_start();
+		
+		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('invnr', $id);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('ebrk', $formData);
 		}else{
 			$id = $this->code_model->generate('IP', 
 			$this->input->post('bldat'));
 			$this->db->set('invnr', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebrk', $formData);
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -309,15 +353,17 @@ class Ap extends CI_Controller {
 			$q_gl = $query->first_row('array');
 			$accno = $q_gl['belnr'];
 			$this->db->where('belnr', $accno);
-			$this->db->set('updat', 'NOW()', false);
-			$this->db->set('upnam', 'test');
+			//$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
+			$this->db->set('upnam', $current_username);
 			$this->db->update('bkpf', $formData);
 		}else{
 			$accno = $this->code_model->generate('AP', 
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $accno);
-			$this->db->set('erdat', 'NOW()', false);
-		    $this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+		    $this->db->set('ernam', $current_username);
 			$this->db->insert('bkpf', $formData);
 			
 			//$id = $this->db->insert_id();
@@ -356,11 +402,11 @@ class Ap extends CI_Controller {
 		// end transaction
 		$this->db->trans_complete();
 
-		if ($this->db->trans_status() === FALSE)
+		if ($this->db->trans_status() === FALSE){
 			echo json_encode(array(
 				'success'=>false
 			));
-		else
+		}else{
 			echo json_encode(array(
 				'success'=>true,
 				// also send id after save
@@ -368,6 +414,19 @@ class Ap extends CI_Controller {
 					'id'=>$id
 				)
 			));
+
+			try{
+				$post_id = $this->input->post('id');
+				$total_amount = $this->input->post('netwr');
+				// send notification email
+				if(!empty($inserted_id)){
+					$this->email_service->quotation_create('AP', $total_amount);
+				}else if(!empty($post_id)){
+					if($status_changed)
+						$this->email_service->quotation_change_status('AP', $total_amount);
+				}
+			}catch(exception $e){}
+		}
 	}
 
 

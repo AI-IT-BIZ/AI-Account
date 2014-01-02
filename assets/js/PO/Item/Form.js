@@ -18,8 +18,10 @@ Ext.define('Account.PO.Item.Form', {
 			isApproveOnly: true
 		});
 		
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		//this.prDialog = Ext.create('Account.PR.MainWindow');
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 
 		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
 			height: 320,
@@ -73,6 +75,7 @@ Ext.define('Account.PO.Item.Form', {
 		});	
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('PO'),
 			fieldLabel: 'PO Status',
 			name : 'statu',
 			labelAlign: 'right',
