@@ -12,34 +12,12 @@ class RInvoice extends CI_Controller {
       
       function Index()
       {
-                /*$doc_start_from = $_GET["doc_start_from"];
-                $doc_start_to = $_GET["doc_start_to"];
-                $invoice_from = $_GET["invoice_from"];
-                $invoice_to = $_GET["invoice_to"];
-                $so_no_from = $_GET["so_no_from"];
-                $so_no_to = $_GET["so_no_to"];
-                $cus_code_from = $_GET["cus_code_from"];
-                $cus_code_to = $_GET["cus_code_to"];
-                $saleperson_from = $_GET["saleperson_from"];
-                $saleperson_to = $_GET["saleperson_to"];
-                $invoice_status = $_GET["invoice_status"];*/
-            //    $xxx = $this->input->post('xxx');
-                
-                 $statu_tax = " All ";
-                
-                 
-                // $date_select = $doc_start_from . " - " . $doc_start_to;
- 
-                 $strInvoicNo = "";
-                 //if($invoice_from != "" && $invoice_to != ""  )
-                // {
-                //    $strInvoicNo = "Running by Sale Tax Invoind Number : " . $invoice_from . " To " . $invoice_to;
-                // }
                  
         $this->db->set_dbprefix('v_');
 		$tbName = 'vbrp';
 		
 		// Start for report
+		$period='';$docno='';$status='';
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
@@ -53,10 +31,12 @@ class RInvoice extends CI_Controller {
 			$invnr2 = $_this->input->get('invnr2');
 			if(!empty($invnr1) && empty($invnr2)){
 			  $_this->db->where('invnr', $invnr1);
+			  $docno=$invnr1;
 			}
 			elseif(!empty($invnr1) && !empty($invnr2)){
 			  $_this->db->where('invnr >=', $invnr1);
 			  $_this->db->where('invnr <=', $invnr2);
+			  $docno=$invnr1.' - '.$invnr2;
 			}
 			
 	        $ordnr1 = $_this->input->get('ordnr');
@@ -73,10 +53,12 @@ class RInvoice extends CI_Controller {
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
+			  $period=$bldat1;
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
+			  $period=$bldat1.' - '.$bldat2;
 			}
 			
 			$kunnr1 = $_this->input->get('kunnr');
@@ -93,6 +75,7 @@ class RInvoice extends CI_Controller {
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
 			  $_this->db->where('statu', $statu1);
+			  $status=$statu1;
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
@@ -107,7 +90,12 @@ class RInvoice extends CI_Controller {
 		
 		$query = $this->db->get($tbName);
                 
-                
+        $result_array = $query->result_array();
+		$start = $result_array[0]; 
+		$irow=count($result_array);
+		$irow=$irow-1;  
+		$end = $result_array[$irow]; 
+		if(empty($docno)) $docno=$start['invnr'].' - '.$end['invnr'];       
                 /********************************************************/
                 
                  // Create new PHPExcel object
@@ -144,33 +132,33 @@ class RInvoice extends CI_Controller {
                        ));
           /******************************************************/
           
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G1:J1:')
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G1:K1:')
                                              // ->mergeCells('H1:J1:')
-                                              ->setCellValue('G1', 'Company Name :');
+                                              ->setCellValue('G1', 'Company Name : Bangkok Media Co.,Ltd');
           $objPHPExcel->getActiveSheet()->getStyle('G1')->applyFromArray($StyleHeadCompany);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G2:J2')
-                                              ->setCellValue('G2', 'Sale Tax Invoice List Report');
-          $objPHPExcel->getActiveSheet()->getStyle('G2')->applyFromArray($StyleHeadReportName);
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H2:J2')
+                                              ->setCellValue('H2', 'Sale Tax Invoice List Report');
+          $objPHPExcel->getActiveSheet()->getStyle('H2')->applyFromArray($StyleHeadReportName);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:B4')
                                               ->setCellValue('A4', 'Selection Report No.');
           $objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:D5')
-                                              ->setCellValue('A5', 'Selection Period : ' );
+                                              ->setCellValue('A5', 'Selection Period : '.$period );
           $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:E6')
-                                              ->setCellValue('A6', $strInvoicNo);
+                                              ->setCellValue('A6', 'Running by Sale Tax Invoice No : '.$docno);
           $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
-                                              ->setCellValue('O4', 'Page:(Auto)');
-           $objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
+          //$objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
+          //                                    ->setCellValue('O4', 'Page:1');
+          //$objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
            $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O5:P5')
-                                              ->setCellValue('O5', 'Document Status : ' );
+                                              ->setCellValue('O5', 'Document Status : '.$status);
            $objPHPExcel->getActiveSheet()->getStyle('O5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
            $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O6:P6')
@@ -202,26 +190,9 @@ class RInvoice extends CI_Controller {
                       ->setCellValue('P8', 'Vat Amount(7%)')
                       ->setCellValue('Q8', 'Amount Including Vat');
                 
-                  /***********************/
-                function ChangeStatus($txt)
-                {
-                   switch ($txt)
-                  {
-                   case 1: return "Waiting for Approval";
-                      
-                   case 2: return "Approved";
-                      
-                   case 3: return "Unapproved";
-                    
-                   case 4: return "Revised";
-                      
-                  }
-                  return $txt;
-                }
-                /***********************/
 		// Add some data
                 $invoid_temp = "";
-		$result_array = $query->result_array();
+		
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
 			$excel_i = $i+9;
@@ -257,9 +228,9 @@ class RInvoice extends CI_Controller {
 					->setCellValue('E'.$excel_i, $value['kunnr'])
 		            ->setCellValue('F'.$excel_i, $value['name1'])
 			        ->setCellValue('G'.$excel_i, $value['terms'])
-		            ->setCellValue('H'.$excel_i, $value['duedt'])
+		            ->setCellValue('H'.$excel_i, util_helper_format_date($value['duedt']))
                     ->setCellValue('I'.$excel_i, $overd)
-		            ->setCellValue('J'.$excel_i, ChangeStatus2($value['statu']) );   
+		            ->setCellValue('J'.$excel_i, $value['statx']);   
                          }
                          else {
                                $current_sheet

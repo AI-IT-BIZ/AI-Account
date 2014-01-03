@@ -15,6 +15,7 @@ class Rap extends CI_Controller {
 		$tbName = 'ebrp';
 
 		// Start for report
+		$period='';$docno='';$status='';
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
@@ -28,10 +29,12 @@ class Rap extends CI_Controller {
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
+			  $period=$bldat1;
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
+			  $period=$bldat1.' - '.$bldat2;
 			}
 			
             $mbeln1 = $_this->input->get('mbeln');
@@ -48,10 +51,12 @@ class Rap extends CI_Controller {
 			$invnr2 = $_this->input->get('invnr2');
 			if(!empty($invnr1) && empty($invnr2)){
 			  $_this->db->where('invnr', $invnr1);
+				$docno=$invnr1;
 			}
 			elseif(!empty($invnr1) && !empty($invnr2)){
 			  $_this->db->where('invnr >=', $invnr1);
 			  $_this->db->where('invnr <=', $invnr2);
+			  $docno=$invnr1.' - '.$invnr2;
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -68,6 +73,7 @@ class Rap extends CI_Controller {
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
 			  $_this->db->where('statu', $statu1);
+			  $status=$statu1;
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
@@ -82,6 +88,14 @@ class Rap extends CI_Controller {
 		//$this->db->order_by($sort, $dir);
 		
 		$query = $this->db->get($tbName);
+		
+		$result_array = $query->result_array();
+		$start = $result_array[0]; 
+		$irow=count($result_array);
+		$irow=$irow-1;  
+		$end = $result_array[$irow]; 
+		if(empty($docno)) $docno=$start['invnr'].' - '.$end['invnr']; 
+		/********************************************************/
 
 		// Create new PHPExcel object
 		$objPHPExcel = new PHPExcel();
@@ -117,38 +131,38 @@ class Rap extends CI_Controller {
                        ));
           /******************************************************/
           
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G1:H1:')
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G1:K1:')
                                              // ->mergeCells('H1:J1:')
-                                              ->setCellValue('G1', 'Bangkok Media Co.,Ltd.');
+                                              ->setCellValue('G1', 'Company Name : Bangkok Media Co.,Ltd');
           $objPHPExcel->getActiveSheet()->getStyle('G1')->applyFromArray($StyleHeadCompany);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G2:H2')
-                                              ->setCellValue('G2', 'Account Payable Report');
-          $objPHPExcel->getActiveSheet()->getStyle('G2')->applyFromArray($StyleHeadReportName);
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H2:I2')
+                                              ->setCellValue('H2', 'Account Payable Report');
+          $objPHPExcel->getActiveSheet()->getStyle('H2')->applyFromArray($StyleHeadReportName);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:B4')
                                               ->setCellValue('A4', 'Selection Report No.');
           $objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:C5')
-                                              ->setCellValue('A5', 'Selection Period : ');
+                                              ->setCellValue('A5', 'Selection Period : '.$period);
           $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-        //  $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:C6')
-         //                                     ->setCellValue('A6', 'Running by Sale Tax Invoind Number');
-        //  $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:C6')
+                                              ->setCellValue('A6', 'Running by Account Payable Number : '.$docno);
+          $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O3:P3')
-                                              ->setCellValue('O3', 'Page:');
-           $objPHPExcel->getActiveSheet()->getStyle('O3')->applyFromArray($StyleHeadReportDetail);
-          /*---------------------------------------------------------------*/
-           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
-                                              ->setCellValue('O4', 'Document Status : ');
-           $objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
+          //$objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
+          //                                    ->setCellValue('O4', 'Page:');
+          //$objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
            $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O5:P5')
-                                              ->setCellValue('O5', 'Print Date : ' . date('d/m/Y H:i:s'));
+                                              ->setCellValue('O5', 'Document Status : '.$status);
            $objPHPExcel->getActiveSheet()->getStyle('O5')->applyFromArray($StyleHeadReportDetail);
+          /*---------------------------------------------------------------*/
+           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O6:P6')
+                                              ->setCellValue('O6', 'Print Date : ' . date('d/m/Y H:i:s'));
+           $objPHPExcel->getActiveSheet()->getStyle('O6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           /*******************************************************************/
 
@@ -157,30 +171,30 @@ class Rap extends CI_Controller {
 
 		// add header data
 		$current_sheet
-	                  ->setCellValue('A7', 'AP No.')
-                      ->setCellValue('B7', 'AP Date')
+	                  ->setCellValue('A8', 'AP No.')
+                      ->setCellValue('B8', 'AP Date')
                       //->setCellValue('C7', 'Ref. Project No.')
-                      ->setCellValue('C7', 'Ref. PO No.')
-					  ->setCellValue('D7', 'Vendor Code')
-                      ->setCellValue('E7', 'Vendor Name')
-                      ->setCellValue('F7', 'Credit Term')
-                      ->setCellValue('G7', 'Due Date')
-                      ->setCellValue('H7', 'Over Due')
-                      ->setCellValue('I7', 'Status')
-                      ->setCellValue('J7', 'Material Code')
-                      ->setCellValue('K7', 'Material Description')
-                      ->setCellValue('L7', 'Quantity')
-                      ->setCellValue('M7', 'Unit Price')
-                      ->setCellValue('N7', 'Amount (Before Vat')
-                      ->setCellValue('O7', 'Vat Amount(7%)')
-                      ->setCellValue('P7', 'Amount Including Vat');
+                      ->setCellValue('C8', 'Ref. PO No.')
+					  ->setCellValue('D8', 'Vendor Code')
+                      ->setCellValue('E8', 'Vendor Name')
+                      ->setCellValue('F8', 'Credit Term')
+                      ->setCellValue('G8', 'Due Date')
+                      ->setCellValue('H8', 'Over Due')
+                      ->setCellValue('I8', 'Status')
+                      ->setCellValue('J8', 'Material Code')
+                      ->setCellValue('K8', 'Material Description')
+                      ->setCellValue('L8', 'Quantity')
+                      ->setCellValue('M8', 'Unit Price')
+                      ->setCellValue('N8', 'Amount (Before Vat')
+                      ->setCellValue('O8', 'Vat Amount(7%)')
+                      ->setCellValue('P8', 'Amount Including Vat');
 
 		// Add some data
 		$inv_temp = '';$ebeln='';$my_date='';$overd='';
 		$result_array = $query->result_array();
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
-			$excel_i = $i+8;
+			$excel_i = $i+9;
 			//$current_sheet
 		            		            
 					if($inv_temp == "" || $inv_temp != $value['invnr'])   
@@ -210,7 +224,7 @@ class Rap extends CI_Controller {
 					->setCellValue('D'.$excel_i, $value['lifnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
 		            ->setCellValue('F'.$excel_i, $value['terms'])
-					->setCellValue('G'.$excel_i, $value['duedt'])
+					->setCellValue('G'.$excel_i, util_helper_format_date($value['duedt']))
 		            ->setCellValue('H'.$excel_i, $overd)
 		            ->setCellValue('I'.$excel_i, $value['statx']);  
                     }else {
@@ -245,7 +259,7 @@ class Rap extends CI_Controller {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
-			$cell_style = $current_sheet->getStyle($columnID.'7');
+			$cell_style = $current_sheet->getStyle($columnID.'8');
 			$cell_style->applyFromArray(
 				array(
 					'fill' => array(

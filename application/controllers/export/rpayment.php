@@ -15,6 +15,7 @@ class Rpayment extends CI_Controller {
 		$tbName = 'ebbp';
 		
 		// Start for report
+		$period='';$docno='';$status='';
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
@@ -28,20 +29,24 @@ class Rpayment extends CI_Controller {
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
+				$period=$bldat1;
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
+			  $period=$bldat1.' - '.$bldat2;
 			}
 			
             $payno1 = $_this->input->get('payno');
 			$payno2 = $_this->input->get('payno2');
 			if(!empty($payno1) && empty($payno2)){
 			  $_this->db->where('payno', $payno1);
+			  $docno=$payno1;
 			}
 			elseif(!empty($payno1) && !empty($payno2)){
 			  $_this->db->where('payno >=', $payno1);
 			  $_this->db->where('payno <=', $payno2);
+			  $docno=$payno1.' - '.$payno2;
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -58,6 +63,7 @@ class Rpayment extends CI_Controller {
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
 			  $_this->db->where('statu', $statu1);
+			  $status=$statu1;
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
@@ -72,7 +78,14 @@ class Rpayment extends CI_Controller {
 		//$this->db->order_by($sort, $dir);
 		
 		$query = $this->db->get($tbName);
-
+        $result_array = $query->result_array();
+		$start = $result_array[0]; 
+		$irow=count($result_array);
+		$irow=$irow-1;  
+		$end = $result_array[$irow]; 
+		if(empty($docno)) $docno=$start['payno'].' - '.$end['payno'];       
+                /********************************************************/
+                
 		// Create new PHPExcel object
 		$objPHPExcel = new PHPExcel();
 
@@ -107,12 +120,12 @@ class Rpayment extends CI_Controller {
                        ));
           /******************************************************/
           
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D1:E1:')
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D1:G1:')
                                              // ->mergeCells('H1:J1:')
-                                              ->setCellValue('D1', 'Bangkok Media Co.,Ltd.');
+                                              ->setCellValue('D1', 'Company Name : Bangkok Media Co.,Ltd');
           $objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray($StyleHeadCompany);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D2:E2')
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('D2:F2')
                                               ->setCellValue('D2', 'Purchase Payment Report');
           $objPHPExcel->getActiveSheet()->getStyle('D2')->applyFromArray($StyleHeadReportName);
           /*---------------------------------------------------------------*/
@@ -121,24 +134,24 @@ class Rpayment extends CI_Controller {
           $objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:C5')
-                                              ->setCellValue('A5', 'Selection Period : ');
+                                              ->setCellValue('A5', 'Selection Period : '.$period);
           $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-        //  $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:C6')
-         //                                     ->setCellValue('A6', 'Running by Sale Tax Invoind Number');
-        //  $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
+          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:D6')
+                                              ->setCellValue('A6', 'Running by Payment Number : '.$docno);
+          $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-          $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H3:I3')
-                                              ->setCellValue('H3', 'Page:');
-           $objPHPExcel->getActiveSheet()->getStyle('H3')->applyFromArray($StyleHeadReportDetail);
+          //$objPHPExcel->setActiveSheetIndex(0)->mergeCells('H4:I4')
+           //                                   ->setCellValue('H4', 'Page:');
+           //$objPHPExcel->getActiveSheet()->getStyle('H4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H4:I4')
-                                              ->setCellValue('H4', 'Document Status : ');
-           $objPHPExcel->getActiveSheet()->getStyle('H4')->applyFromArray($StyleHeadReportDetail);
+           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G5:I5')
+                                              ->setCellValue('G5', 'Document Status : '.$status);
+           $objPHPExcel->getActiveSheet()->getStyle('G4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
-           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H5:I5')
-                                              ->setCellValue('H5', 'Print Date : ' . date('d/m/Y H:i:s'));
-           $objPHPExcel->getActiveSheet()->getStyle('H5')->applyFromArray($StyleHeadReportDetail);
+           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('G6:I6')
+                                              ->setCellValue('G6', 'Print Date : ' . date('d/m/Y H:i:s'));
+           $objPHPExcel->getActiveSheet()->getStyle('G6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           /*******************************************************************/
 
@@ -147,22 +160,22 @@ class Rpayment extends CI_Controller {
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A7', 'Payment No')
-	            ->setCellValue('B7', 'Document Date')
-	            ->setCellValue('C7', 'Vendor No')
-	            ->setCellValue('D7', 'Vendor Name')
-	            ->setCellValue('E7', 'Net Amount')
-	            ->setCellValue('F7', 'AP No')
-	            ->setCellValue('G7', 'AP Date')
-	            ->setCellValue('H7', 'Amount')
-				->setCellValue('I7', 'Received by');
+	            ->setCellValue('A8', 'Payment No')
+	            ->setCellValue('B8', 'Document Date')
+	            ->setCellValue('C8', 'Vendor No')
+	            ->setCellValue('D8', 'Vendor Name')
+	            ->setCellValue('E8', 'Net Amount')
+	            ->setCellValue('F8', 'AP No')
+	            ->setCellValue('G8', 'AP Date')
+	            ->setCellValue('H8', 'Amount')
+				->setCellValue('I8', 'Received by');
 
 		// Add some data
 		$inv_temp='';$payment='';
 		$result_array = $query->result_array();
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
-			$excel_i = $i+8;
+			$excel_i = $i+9;
 		    
 					if($inv_temp == "" || $inv_temp != $value['payno'])   
                          {
@@ -214,7 +227,7 @@ class Rpayment extends CI_Controller {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
-			$cell_style = $current_sheet->getStyle($columnID.'7');
+			$cell_style = $current_sheet->getStyle($columnID.'8');
 			$cell_style->applyFromArray(
 				array(
 					'fill' => array(

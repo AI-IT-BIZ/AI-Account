@@ -204,10 +204,12 @@ class Receipt extends CI_Controller {
 			//echo count($result_data);
 			if($q_pm->num_rows()>0){
 				$pay = $q_pm->result_array();
+				$paytx='';
 				for($j=0;$j<count($pay);$j++){
 		            $p = $pay[$j];
 					
-			        $res[$i]['paytx'] = $res[$i]['paytx'].$p['paytx'];
+			        $paytx = $paytx.$p['paytx'];
+					$res[$i]['paytx'] = $paytx;
 			   
 			    }
 			}
@@ -216,7 +218,7 @@ class Receipt extends CI_Controller {
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
+			'rows'=>$res,
 			'totalCount'=>$totalCount
 		));
 	}

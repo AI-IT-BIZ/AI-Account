@@ -186,17 +186,18 @@ class Payment extends CI_Controller {
 			$q_pm = $this->db->get_where('paym', array(
 				'recnr'=>$r['payno']
 			));
-			
-			//$result_data = $q_pm->first_row('array');
-			//echo count($result_data);
+
 			if($q_pm->num_rows()>0){
 				$pay = $q_pm->result_array();
+				if(count($pay)>0){
+				$paytx='';
 				for($j=0;$j<count($pay);$j++){
 		            $p = $pay[$j];
-					
-			        $res[$i]['paytx'] = $res[$i]['paytx'].$p['paytx'];
+			        $paytx = $paytx.$p['paytx'];
+					$res[$i]['paytx'] = $paytx;
 			   
 			    }
+			  }
 			}
 		}
 
