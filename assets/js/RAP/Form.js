@@ -18,8 +18,7 @@ Ext.define('Account.RAP.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
-		
-		
+	
 		this.comboAPStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'AP Status',
 			name : 'statu',
@@ -31,36 +30,7 @@ Ext.define('Account.RAP.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'AP/loads_combo/apov/statu/statx',  //loads_tycombo($tb,$pk,$like)	
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statu'
-		});
-		
-		this.comboAPStatus2 = Ext.create('Ext.form.ComboBox', {
-			name : 'statu2',
-			editable: false,
-			triggerAction : 'all',
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Select Status --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'ap/loads_combo/apov/statu/statx',  //loads_tycombo($tb,$pk,$like)	
+					url: __site_url+'quotation/loads_acombo',  //loads_tycombo($tb,$pk,$like)	
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -358,8 +328,8 @@ Ext.define('Account.RAP.Form', {
                 margin: '0 0 5 0',
      items :[{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
-			name: 'bldat1',
+			fieldLabel: 'Document Date',
+			name: 'bldat',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -418,13 +388,7 @@ Ext.define('Account.RAP.Form', {
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[this.comboAPStatus,
-		{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		  },
-		this.comboAPStatus2]    
+		{}]    
 		}];		
 
 

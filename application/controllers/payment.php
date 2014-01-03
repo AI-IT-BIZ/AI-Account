@@ -114,6 +114,99 @@ class Payment extends CI_Controller {
 		));
 	}
 
+    function loads_report(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'ebbp';
+		
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`paynr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+            $payno1 = $_this->input->get('payno');
+			$payno2 = $_this->input->get('payno2');
+			if(!empty($payno1) && empty($payno2)){
+			  $_this->db->where('payno', $payno1);
+			}
+			elseif(!empty($payno1) && !empty($payno2)){
+			  $_this->db->where('payno >=', $payno1);
+			  $_this->db->where('payno <=', $payno2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+// End for report
+
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$query = $this->db->get($tbName);
+		
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			$q_pm = $this->db->get_where('paym', array(
+				'recnr'=>$r['payno']
+			));
+			
+			//$result_data = $q_pm->first_row('array');
+			//echo count($result_data);
+			if($q_pm->num_rows()>0){
+				$pay = $q_pm->result_array();
+				for($j=0;$j<count($pay);$j++){
+		            $p = $pay[$j];
+					
+			        $res[$i]['paytx'] = $res[$i]['paytx'].$p['paytx'];
+			   
+			    }
+			}
+		}
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$totalCount
+		));
+	}
+
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;

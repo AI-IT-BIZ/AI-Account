@@ -460,8 +460,8 @@ Ext.define('Account.Receipt.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 			
-			var item = r.data['saknr'] + '|' + amt;
-        		saknr_list.push(item);
+			//var item = r.data['saknr'] + '|' + amt;
+        		//saknr_list.push(item);
         		
         		if(r.data['wht01']>0 && r.data['wht01']!=null){
 				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));

@@ -200,6 +200,37 @@ Ext.define('Account.RPayment.Form', {
 		this.trigVendor2.onTriggerClick = function(){
 			_this.vendorDialog2.show();
 		};
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Payment Status',
+			name : 'statu',
+			//labelWidth: 100,
+			editable: false,
+			triggerAction : 'all',
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'invoice/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});
 //---end event triger----------------------------------------------------------------	
 
 		this.items = [{
@@ -210,8 +241,8 @@ Ext.define('Account.RPayment.Form', {
                 margin: '0 0 5 0',
      items :[{
 			xtype: 'datefield',
-			fieldLabel: 'Doc Date',
-			name: 'bldat1',
+			fieldLabel: 'Document Date',
+			name: 'bldat',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -227,7 +258,7 @@ Ext.define('Account.RPayment.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-	    },{
+	    },/*{
         xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -250,7 +281,7 @@ Ext.define('Account.RPayment.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-	    },{
+	    },*/{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -277,11 +308,15 @@ Ext.define('Account.RPayment.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigVendor2]   
+		},{
+			xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.comboQStatus,
+		{
+			
+		  }]    
 		}];		
-
-
-		
-
 
 		return this.callParent(arguments);
 	},

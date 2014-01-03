@@ -249,13 +249,8 @@ Ext.define('Account.RInvoice.Form', {
                 margin: '0 0 5 0',
      items :[this.comboQStatus,
 		{
-			xtype: 'displayfield',
-		    value: 'To',
-                    hidden:true,
-		    width:40,
-		    margins: '0 0 0 25'
-		  },
-		this.comboQStatus2]    
+			
+		  }]    
 		}
 ////////////////////////////////////////////////		
 		];

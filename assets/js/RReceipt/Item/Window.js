@@ -33,7 +33,7 @@ Ext.define('Account.RReceipt.Item.Window', {
                           handler: function () {
                             //   alert(_this.txtParam.getValue());
                                var param = _this.txtParam.getValue();
-                               window.location = __site_url+'export/rreceipt/GetReportFromPageSelect?' + param;
+                               window.location = __site_url+'export/rreceipt/Index?' + param;
                           }
 		});
 

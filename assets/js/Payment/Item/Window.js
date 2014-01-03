@@ -60,6 +60,8 @@ Ext.define('Account.Payment.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({payno: id});
+			this.form.gridPayment.load({recnr: id});
+			this.form.gridGL.load({belnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

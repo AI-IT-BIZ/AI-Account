@@ -191,6 +191,27 @@ class Receipt extends CI_Controller {
 		$this->db->order_by($sort, $dir);
 		
 		$query = $this->db->get($tbName);
+		
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			$q_pm = $this->db->get_where('paym', array(
+				'recnr'=>$r['recnr']
+			));
+			
+			//$result_data = $q_pm->first_row('array');
+			//echo count($result_data);
+			if($q_pm->num_rows()>0){
+				$pay = $q_pm->result_array();
+				for($j=0;$j<count($pay);$j++){
+		            $p = $pay[$j];
+					
+			        $res[$i]['paytx'] = $res[$i]['paytx'].$p['paytx'];
+			   
+			    }
+			}
+		}
 
 		//echo $this->db->last_query();
 		echo json_encode(array(
@@ -703,7 +724,7 @@ class Receipt extends CI_Controller {
 		if($net>0){
 			    $bamt = $net - $vvat;
 			    $bamt = $bamt + $vwht;
-			    $gl_sale = '4000-00';
+			    $gl_sale = '4100-01';
 				$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_sale));
 				if($qgl->num_rows()>0){

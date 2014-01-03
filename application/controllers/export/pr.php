@@ -145,7 +145,7 @@ class Pr extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="purchase_order_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="purchase_requisition_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

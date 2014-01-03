@@ -282,13 +282,7 @@ Ext.define('Account.AP.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberCredit,
-				 		{
-						xtype: 'displayfield',
-						margin: '0 0 0 5',
-						width:25,
-						value: 'Days'
-						}]
+				 			items :[this.comboPay,this.numberVat]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -296,9 +290,9 @@ Ext.define('Account.AP.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 450, 
+								width: 280, 
 								name: 'refnr',
-			                },{}]
+			                },this.numberWHT]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -317,8 +311,28 @@ Ext.define('Account.AP.Item.Form', {
 							submitFormat:'Y-m-d',
 		                }, this.comboTax,
                 		this.trigCurrency,
-                		this.numberVat,
-						this.numberWHT,
+                		{
+			xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+   items: [this.numberCredit,{
+			xtype: 'displayfield',
+			margin: '0 0 0 5',
+			width:25,
+			value: 'Days'
+		}]
+         },
+						{
+			xtype: 'datefield',
+			fieldLabel: 'Due Date',
+			name: 'duedt',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+		},
 					    this.comboQStatus]
 		            }]
 				}]
@@ -528,8 +542,8 @@ Ext.define('Account.AP.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
         
-        //this.numberCredit.on('keyup', this.getDuedate, this);
-        //this.numberCredit.on('change', this.getDuedate, this);
+        this.numberCredit.on('keyup', this.getDuedate, this);
+        this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
@@ -616,6 +630,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
+		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 	},
 	// Add duedate functions
@@ -717,6 +732,20 @@ Ext.define('Account.AP.Item.Form', {
             });     
         }
 	},
+	
+	// Add duedate functions
+	getDuedate: function(){
+		var bForm = this.getForm(),
+			credit = this.numberCredit.getValue(),
+			startDate = bForm.findField('bldat').getValue();
+		if(!Ext.isEmpty(credit) && credit>0){
+			var result = Ext.Date.add(startDate, Ext.Date.DAY, credit),
+				dueDateField = bForm.findField('duedt');
+
+			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
+				dueDateField.setValue(result);
+		}
+	}
 	
 // Payments Method	
 	/*selectPay: function(combo, record, index){
