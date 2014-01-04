@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rsumwht_docket extends CI_Controller {
+class Rwht_docket extends CI_Controller {
     public $query;
     public $strSQL;
 	function __construct()
@@ -12,41 +12,42 @@ class Rsumwht_docket extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
-		
+
 		//$balwr = $this->input->get('balwr');
-		$date =	$this->input->get('bldat');
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
+		$invnr =	$this->input->get('invnr');
 		$copies =	$this->input->get('copies');
+		//echo $invnr;
 		//$no = $type = $this->uri->segment(4);
 		//$copies = intval($type = $this->uri->segment(5));
-		$month = explode('-',$date);
-		$dt_result = util_helper_get_sql_between_month($date);
-		$text_month = $this->convert_amount->text_month($month[1]);
+		//$month = explode('-',$date);
+		//$dt_result = util_helper_get_sql_between_month($date);
+		//$text_month = $this->convert_amount->text_month($month[1]);
 		
-		$taxid = str_split('1234567890123');
+		$taxid = str_split($r_com['taxid']);
 		
 		if($copies<=0) $copies = 1;
 	
 		//Purchase
 		$strSQL="";
-		$strSQL = " select v_ebbp.*";
-        $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
-		$strSQL .= " ORDER BY payno ASC";
+		$strSQL = " select v_ebrk.*";
+        $strSQL = $strSQL . " from v_ebrk ";
+        $strSQL = $strSQL . " Where v_ebrk.invnr = '".$invnr."'";
+		//$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
+		if($query->num_rows()>0){
 		$r_data = $query->first_row('array');
+		
+		$cusid = str_split($r_data['taxid']);
 		// calculate sum
-		$rowp = $query->result_array();
-		$tline = $query->num_rows();
-		
-		$purch_amt=0;$purch_vat=0;
-		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['netwr'];
-		   $purch_wht += $item['wht01'];
-		}
-		
+		//$rowp = $query->result_array();
+		//$tline = $query->num_rows();	
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -192,7 +193,7 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:40PX;top:422PX;width:396PX;height:22PX;"><span class="fc1-1">4. (ก) ค่าดอกเบี้ย&nbsp;&nbsp;ฯลฯ ตามมาตรา 40 (4) ก</span></DIV>
 
-<DIV style="left:40PX;top:730PX;width:396PX;height:24PX;"><span class="fc1-1">6. อื่น ๆ (ระบุ)&nbsp;&nbsp;&nbsp;7hhhhh</span></DIV>
+<DIV style="left:40PX;top:730PX;width:396PX;height:24PX;"><span class="fc1-1">6. อื่น ๆ (ระบุ)&nbsp;&nbsp;&nbsp;<? if($r_data['whtnr']=='6') echo $r_data['whtxt']; ?></span></DIV>
 
 <DIV style="left:455PX;top:857PX;width:85PX;height:21PX;"><span class="fc1-1">จำนวนเงิน </span></DIV>
 
@@ -213,7 +214,7 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left: 41px; top: 174px; width: 32PX; height: 22PX;"><span class="fc1-3">ที่อยู่</span></DIV>
 
-<DIV style="left: 472px; top: 150px; width: 125PX; height: 20PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร </span></DIV>
+<DIV style="left: 453px; top: 150px; width: 125PX; height: 20PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร </span></DIV>
 
 
 
@@ -248,47 +249,105 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left: 673px; top: 66px; width: 62PX; height: 26PX; TEXT-ALIGN: CENTER;"><span class="fc1-3">0003</span></DIV>
 
-<DIV style="left: 76px; top: 150px; width: 364PX; height: 20PX;"><span class="fc1-3">บริษัท ตัวอย่าง จำกัด</span></DIV>
+<DIV style="left: 496px; top: 127px; width: 191PX; height: 18PX; TEXT-ALIGN: RIGHT;"><img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp02.jpg') ?>"></DIV>
 
-<DIV style="left:72PX;top:255PX;width:640PX;height:22PX;"><span class="fc1-3">oik&nbsp;&nbsp;&nbsp;กาญจนบุรี&nbsp;&nbsp;12055</span></DIV>
+<DIV style="left: 495px; top: 204px; width: 191PX; height: 18PX; TEXT-ALIGN: RIGHT;"><img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp02.jpg') ?>"></DIV>
 
-<DIV style="left: 76px; top: 174px; width: 659PX; height: 22PX;"><span class="fc1-3">555 อาคารรุ่งเรือง ถนนสามเสนใน แขวงพญาไท เขตพญาไท กรุงเทพฯ 10400</span></DIV>
+<DIV style="left:498PX;top:127PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[0];?></span></DIV>
 
-<DIV style="left: 72PX; top: 228px; width: 400PX; height: 22PX;"><span class="fc1-3">asd</span></DIV>
+<DIV style="left: 520px; top: 127PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[1];?></span></DIV>
+
+<DIV style="left: 535px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[2];?></span></DIV>
+
+<DIV style="left: 551px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[3];?></span></DIV>
+
+<DIV style="left: 567px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[4];?></span></DIV>
+
+<DIV style="left: 589px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[5];?></span></DIV>
+
+<DIV style="left: 605px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[6];?></span></DIV>
+
+<DIV style="left: 622px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[7];?></span></DIV>
+
+<DIV style="left: 636px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[8];?></span></DIV>
+
+<DIV style="left: 653px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[9];?></span></DIV>
+
+<DIV style="left:665PX;top:127PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[10];?></span></DIV>
+
+<DIV style="left:693PX;top:127PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[11];?></span></DIV>
+
+<DIV style="left:718PX;top:127PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[12];?></span></DIV>
+
+<DIV style="left: 76px; top: 150px; width: 364PX; height: 20PX;"><span class="fc1-3"><?= $r_com['name1']; ?></span></DIV>
+
+<DIV style="left:72PX;top:255PX;width:640PX;height:22PX;"><span class="fc1-3"><?=$r_data['adr01'];?>&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
+
+<DIV style="left: 76px; top: 174px; width: 659PX; height: 22PX;"><span class="fc1-3"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></span></DIV>
+
+<DIV style="left: 72PX; top: 228px; width: 379px; height: 22PX;"><span class="fc1-3"><?=$r_data['name1'];?></span></DIV>
+
+<DIV style="left:498PX;top:204PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[0];?></span></DIV>
+
+<DIV style="left: 520px; top: 204PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[1];?></span></DIV>
+
+<DIV style="left: 535px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[2];?></span></DIV>
+
+<DIV style="left: 551px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[3];?></span></DIV>
+
+<DIV style="left: 567px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[4];?></span></DIV>
+
+<DIV style="left: 589px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[5];?></span></DIV>
+
+<DIV style="left: 605px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[6];?></span></DIV>
+
+<DIV style="left: 622px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[7];?></span></DIV>
+
+<DIV style="left: 636px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[8];?></span></DIV>
+
+<DIV style="left: 653px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[9];?></span></DIV>
+
+<DIV style="left:665PX;top:204PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[10];?></span></DIV>
+
+<DIV style="left:693PX;top:204PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[11];?></span></DIV>
+
+<DIV style="left:718PX;top:204PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[12];?></span></DIV>
 
 <DIV style="left:72PX;top:904PX;width:257PX;height:22PX;"><span class="fc1-1">(X)&nbsp;&nbsp;หักภาษี ณ ที่จ่าย&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;ออกภาษีให้ตลอดไป</span></DIV>
 
 <DIV style="left:72PX;top:926PX;width:257PX;height:21PX;"><span class="fc1-1">(&nbsp;&nbsp;)&nbsp;&nbsp;ออกภาษีให้ครั้งเดียว&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;อื่นๆ (ให้ระบุ) ...............</span></DIV>
 
-<DIV style="left:417PX;top:926PX;width:76PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-3">28/11/2556</span></DIV>
+<?php
+$t_beamt=0;$t_wht=0;$posit=0; 
+$bldat_str = util_helper_format_date($r_data['bldat']); 
+$whtnr = $r_data['whtnr'];
+$t_beamt=$r_data['beamt'];
+$t_wht=$r_data['wht01'];
+switch($whtnr){
+  	case '1': $posit=365;break;
+	case '2': $posit=384;break;
+	case '3': $posit=403;break;
+	case '4': $posit=422;break;
+	case '5': $posit=646;break;
+	case '6': $posit=730;break;
+}
+?>
 
-<DIV style="left:436PX;top:730PX;width:104PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-1">28/11/2556</span></DIV>
+<DIV style="left:436PX;top:<?= $posit;?>PX;width:104PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-1"><?= $bldat_str;?></span></DIV>
 
-<DIV style="left:539PX;top:730PX;width:85PX;height:24PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">50,000</span></DIV>
-
-<DIV style="left:628PX;top:730PX;width:22PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-1">00</span></DIV>
-
-<DIV style="left:649PX;top:730PX;width:62PX;height:24PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">1,500</span></DIV>
-
-<DIV style="left:714PX;top:730PX;width:19PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-1">00</span></DIV>
-
-<DIV style="left:649PX;top:757PX;width:62PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">1,500</span></DIV>
-
-<DIV style="left:715PX;top:757PX;width:19PX;height:23PX;TEXT-ALIGN:CENTER;"><span class="fc1-3">00</span></DIV>
-
-<DIV style="left:539PX;top:757PX;width:85PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">50,000</span></DIV>
-
-<DIV style="left:628PX;top:757PX;width:22PX;height:23PX;TEXT-ALIGN:CENTER;"><span class="fc1-3">00</span></DIV>
-
+<DIV style="left: 539PX; top: <?= $posit;?>PX; width: 100px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($r_data['beamt'],2,'.',',');?></span></DIV>
+<DIV style="left: 649PX; top: <?= $posit;?>PX; width: 76px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($r_data['wht01'],2,'.',',');?></span></DIV>
+<DIV style="left: 649PX; top: 757PX; width: 76px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-3"><?= number_format($t_wht,2,'.',',');?></span></DIV>
+<DIV style="left: 539PX; top: 757PX; width: 100px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-3"><?= number_format($t_beamt,2,'.',',');?></span></DIV>
 <DIV style="left:139PX;top:813PX;width:153PX;height:22PX;"><span class="fc1-1">&nbsp;&nbsp;</span></DIV>
 
 <DIV style="left:216PX;top:783PX;width:466PX;height:24PX;background-color:D6D7D8;layer-background-color:D6D7D8;">
 <table width="461PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-2">&nbsp;&nbsp;(หนึ่งพันห้าร้อยบาทถ้วน)</td></table>
 </DIV>
 
-<DIV style="left:216PX;top:303PX;width:95PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;X&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 3 </span></DIV>
+<DIV style="left:216PX;top:303PX;width:95PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['vtype']=='02') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 3 </span></DIV>
 
-<DIV style="left:436PX;top:303PX;width:137PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 53 </span></DIV>
+<DIV style="left:436PX;top:303PX;width:137PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['vtype']=='01') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 53 </span></DIV>
 
 <DIV style="left:311PX;top:303PX;width:92PX;height:23PX;"><span class="fc1-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;ภ.ง.ด. 3 ก </span></DIV>
 
@@ -304,10 +363,10 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left: 41px; top: 126px; width: 140PX; height: 20PX;"><span class="fc1-6">ผู้มีหน้าที่หักภาษี ณ ที่จ่าย&nbsp;&nbsp;:- </span></DIV>
 
-<DIV style="left: 371px; top: 125px; width: 170PX; height: 23PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร (13 หลัก)</span></DIV>
+<DIV style="left: 333px; top: 125px; width: 156px; height: 23PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร (13 หลัก)</span></DIV>
 
 
-<DIV style="left: 472PX; top: 229px; width: 125PX; height: 22PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร </span></DIV>
+<DIV style="left: 457px; top: 229px; width: 125PX; height: 22PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร </span></DIV>
 
 <DIV style="left: 40PX; top: 203px; width: 140PX; height: 21PX;"><span class="fc1-6">ผู้ถูกหักภาษี ณ ที่จ่าย&nbsp;&nbsp;:- </span></DIV>
 
@@ -327,19 +386,14 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:86PX;top:631PX;width:349PX;height:15PX;"><span class="fc1-4">(2.4) กำไรที่รับรู้ทางบัญชีโดยวิธิส่วนได้ส่วนเสีย (equity method)</span></DIV>
 
-<DIV style="left: 368px; top: 204px; width: 170PX; height: 20PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร (13 หลัก)</span></DIV>
+<DIV style="left: 334px; top: 204px; width: 156px; height: 20PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร (13 หลัก)</span></DIV>
 
-
-
-<DIV style="left: 540px; top: 128px; width: 191PX; height: 18PX; TEXT-ALIGN: RIGHT;"><span class="fc1-7">3-1312-31313-13-2</span></DIV>
-
-<DIV style="left: 539PX; top: 205px; width: 191PX; height: 18PX; TEXT-ALIGN: RIGHT;"><span class="fc1-7">1-2345-67891-23-6</span></DIV>
 <BR>
 </BODY></HTML>
 
 <?php
 	}
-   
+  }
 }
 
 ?>

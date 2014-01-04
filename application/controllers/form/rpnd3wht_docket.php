@@ -12,8 +12,11 @@ class Rpnd3wht_docket extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		//$balwr = $this->input->get('balwr');
 		$date =	$this->input->get('bldat');
@@ -24,7 +27,7 @@ class Rpnd3wht_docket extends CI_Controller {
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
 		
-		$taxid = str_split('1234567890123');
+		//$taxid = str_split('1234567890123');
 		
 		if($copies<=0) $copies = 1;
 	
@@ -32,18 +35,18 @@ class Rpnd3wht_docket extends CI_Controller {
 		$strSQL="";
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.vtype = '02' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		// calculate sum
 		$rowp = $query->result_array();
-		$tline = $query->num_rows();
+		$tline = count($rowp);
 		
 		$purch_amt=0;$purch_wht=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['netwr'];
+		   $purch_amt += $item['beamt'];
 		   $purch_wht += $item['wht01'];
 		}
 		
@@ -248,9 +251,11 @@ class Rpnd3wht_docket extends CI_Controller {
 
 <DIV style="left:76PX;top:207PX;width:361PX;height:68PX;">
 <table width="356PX" border=0 cellpadding=0 cellspacing=0>
-<tr><td class="fc1-6">555 อาคารรุ่งเรือง ถนนสามเสนใน แขวงพญาไท เขตพญาไท กรุงเทพฯ </td></tr>
-<tr><td class="fc1-6">10400</td></tr></table>
+<tr><td class="fc1-6"><?=$r_com['adr01'];?></td></tr>
+<tr><td class="fc1-6"><?=$r_com['distx'];?></td></tr></table>
 </DIV>
+
+<DIV style="left:215PX;top:113PX;width:223PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-7"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:695PX;top:135PX;width:56PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">2556</span></DIV>
 
@@ -258,7 +263,9 @@ class Rpnd3wht_docket extends CI_Controller {
 
 <DIV style="left:97PX;top:127PX;width:112PX;height:15PX;"><span class="fc1-10"> (ของผู้มีหน้าที่หัก ภาษี ณ ที่จ่าย)</span></DIV>
 
-<DIV style="left:215PX;top:113PX;width:223PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-7">3-1312-31313-13-2</span></DIV>
+<DIV style="left: 94px; top: 280px; width: 59px; height: 26PX; TEXT-ALIGN: LEFT;"><span class="fc1-7"><?=$r_com['pstlz'];?></span></DIV>
+
+<DIV style="left: 243px; top: 281px; width: 97px; height: 26PX; TEXT-ALIGN: LEFT;"><span class="fc1-7"><?=$r_com['telf1'];?></span></DIV>
 
 <DIV style="left:456PX;top:109PX;width:135PX;height:23PX;"><span class="fc1-2">เดือนที่จ่ายเงินได้พึงประเมิน</span></DIV>
 
@@ -299,7 +306,7 @@ class Rpnd3wht_docket extends CI_Controller {
 <DIV style="left:632PX;top:455PX;width:127PX;height:27PX;TEXT-ALIGN:RIGHT;"><span class="fc1-0">จำนวน......................แผ่น</span></DIV>
 
 <?php
-  $page = $tline / 6;
+  $page = $tline / 5;
 ?>
 <DIV style="left:676PX;top:425PX;width:66PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=number_format($tline,0,'.',',');?></span></DIV>
 <DIV style="left:676PX;top:451PX;width:66PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=number_format($page,0,'.',',');?></span></DIV>

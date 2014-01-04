@@ -213,7 +213,7 @@ Ext.define('Account.RPayment.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'invoice/loads_acombo',
+					url: __site_url+'quotation/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',

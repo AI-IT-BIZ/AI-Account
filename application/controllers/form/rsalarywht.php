@@ -12,8 +12,11 @@ class Rsalarywht extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -30,7 +33,7 @@ class Rsalarywht extends CI_Controller {
 		$strSQL = $strSQL . " left join v_bkpf on v_bsid.belnr = v_bkpf.belnr ";
         $strSQL = $strSQL . " Where (v_bsid.saknr='5131-01' or v_bsid.saknr='5132-01' or v_bsid.saknr='5310-01' or v_bsid.saknr='2132-01') and ";
 		$strSQL = $strSQL . "v_bkpf.docty = '09' and v_bkpf.bldat ".$dt_result;
-		$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
+		//$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
        
 		$query = $this->db->query($strSQL);
 		//$r_data = $query->first_row('array');
@@ -38,23 +41,6 @@ class Rsalarywht extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
-		/*foreach ($rows as $key => $item) {
-			$names = explode(' ',$item['emnam']);
-			if($item['saknr']=='5131-01'){
-				$beamt = $item['debit'];
-			}elseif($item['saknr']=='2132-01'){
-				$result[$i] = array(
-				    'taxid'=>$i + 1,
-					'name1'=>$names[0],
-					'name2'=>$names[1],
-					'bldat'=>$item['bldat'],
-					'beamt'=>$beamt,
-					'vat01'=>$item['credi']
-				);
-				$i++;
-			}
-			
-		}*/
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -71,23 +57,25 @@ class Rsalarywht extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -108,7 +96,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
 	$page_size = 25;
-	$total_count = count($rows);
+	$total_count = count($rows)/2;
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
 	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
@@ -162,9 +150,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Header Text-->
 <DIV style="left: 241px; top: 29px; width: 315px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">รายงานภาษีหัก ณ ที่จ่าย เงินเดือนพนักงาน (ใบแนบ ภ.ง.ด.1)</span></DIV>
-<DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
+<DIV style="left: 273px; top: 58px; width: 72px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 319px; top: 58px; width: 113px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 346px; top: 58px; width: 87px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 419px; top: 58px; width: 40px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
 <DIV style="left: 460px; top: 57px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
@@ -191,13 +179,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 ?>
 
 <!--Company Logo--><!--Company Text-->
-<DIV style="left: 150px; top: 157px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 150px; top: 157px; width: 214px; height: 20px;"><span class="fc1-5"><?= $r_com['name1']; ?></span></DIV>
 
-<DIV style="left: 150px; top: 130px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 150px; top: 130px; width: 214px; height: 20px;"><span class="fc1-5"><?= $r_com['name1']; ?></span></DIV>
 
-<DIV style="left: 159px; top: 182px; width: 327px; height: 25px;">
+<DIV style="left: 159px; top: 183px; width: 327px; height: 25px;">
 <table width="330PX" border=0 cellpadding=0 cellspacing=0>
-  <td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110</td></table>
+  <td class="fc1-4"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
 </DIV>
 
 <!--Vendor Name-->
@@ -242,7 +230,7 @@ $i=322+20;
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();
-$no=1;$v_amt=0;$t_amt=0;$invdt_str='';
+$no=1;$v_amt=0;$t_amt=0;$invdt_str='';$beamt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$invdt_str = util_helper_format_date($item['bldat']);
