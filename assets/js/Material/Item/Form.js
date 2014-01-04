@@ -82,6 +82,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'saknr',
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
+			allowBlank: false,
 			enableKeyEvents: true,
 			//width:290,
 		});

@@ -21,7 +21,7 @@ Ext.define('Account.Service.Grid', {
 				'maktx',
 			    'mtype',
 				'mgrpp',
-				
+				'sgtxt',
 				'meins',
 				'saknr',
 				'erdat',
@@ -40,10 +40,11 @@ Ext.define('Account.Service.Grid', {
 		this.columns = [
 		    {text: "Service No", width: 100, dataIndex: 'matnr', sortable: true},
 			{text: "Service Name", width: 150, dataIndex: 'maktx', sortable: true},
-		    {text: "Service Group", width: 100, dataIndex: 'mtype', sortable: true},
-			{text: "Service Type", width: 150, dataIndex: 'mgrpp', sortable: true},
+		    {text: "Service Group", width: 100, dataIndex: 'mgrpp', sortable: true},
+			//{text: "Service Type", width: 150, dataIndex: 'mgrpp', sortable: true},
+			{text: "GL No", width: 80, dataIndex: 'saknr', sortable: true},
+			{text: "GL Description", width: 150, dataIndex: 'sgtxt', sortable: true},
 			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
-			{text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
 			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statu', sortable: true},
 			{text: "Unit 1", width: 50, dataIndex: 'unit1', sortable: true},

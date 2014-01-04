@@ -176,14 +176,18 @@ class Customer extends CI_Controller {
 			'ptype' => $this->input->post('ptype')
 			
 		);
+		
+		$this->db->trans_start();
+		$current_username = XUMS::USERNAME();
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('kunnr', $id);
 			$this->db->update('kna1', $formData);
 		}else{
 			$id = $this->code_model2->generate2('CS');
 			$this->db->set('kunnr', $id);
-			$this->db->set('erdat', 'NOW()', false);
-			$this->db->set('ernam', 'test');
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
 			$this->db->insert('kna1', $formData);
 		}
 

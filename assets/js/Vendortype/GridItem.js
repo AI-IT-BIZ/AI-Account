@@ -57,7 +57,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			}]
 		},{
 			id : 'PMiRowNumber01',
-			header : "Type ID",
+			header : "No",
 			dataIndex : 'id_vtype',
 			width : 60,
 			align : 'center',
@@ -66,7 +66,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				return rowIndex+1;
 			}
 		},{
-			text: "Type Code ",
+			text: "Vendor Type",
 		    width: 80,
 		    dataIndex: 'vtype',
 		    sortable: true,
@@ -97,6 +97,13 @@ Ext.define('Account.Vendortype.GridItem', {
 		},{
 			text: "GL Description", width: 100, dataIndex: 'sgtxt', sortable: true
 		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		this.plugins = [this.editing];
 
@@ -180,15 +187,16 @@ Ext.define('Account.Vendortype.GridItem', {
 	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
+		var newId = -1;var i=0;
 		this.store.each(function(r){
+			i++;
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
 		newId--;
 
 		// add new record
-		rec = { id:newId, invnr:'' };
+		rec = { id:newId };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -196,9 +204,9 @@ Ext.define('Account.Vendortype.GridItem', {
 		//alert(sel);
 		var selIndex = this.store.indexOf(sel);
 		//alert(selIndex);
-		this.store.insert(selIndex+1, rec);
+		this.store.insert(i, rec);
 		edit.startEditByPosition({
-			row: selIndex+1,
+			row: i,
 			column: 0
 		});
 

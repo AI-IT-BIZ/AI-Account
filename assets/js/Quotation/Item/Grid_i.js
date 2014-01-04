@@ -17,8 +17,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
+		this.materialDialog = Ext.create('Account.SMaterial.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup ///////////////////////////////////
+		
+		this.unitDialog = Ext.create('Account.Unit.Window');
 
 		this.tbar = [this.addAct, this.copyAct];
 
@@ -118,7 +123,13 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			},
 			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
 			field: {
-				type: 'textfield'
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.unitDialog.show();
+				}
 			},
 			},
 			{text: "Price/Unit",
@@ -281,7 +292,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
 		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
-			console.log(rModels);
+			//console.log(rModels);
 			if(rModels.length>0){
 				//console.log(record);
 				//console.log(rModels);
@@ -320,6 +331,17 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
 		});
+		
+		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigUnit.setValue(record.data.meins);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.unitDialog.hide();
+		});
+
+		//this.trigUnit.onTriggerClick = function(){
+		//	_this.unitDialog.show();
+		//};
 
 		return this.callParent(arguments);
 	},

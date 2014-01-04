@@ -3,7 +3,7 @@ Ext.define('Account.Customertype.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Customertype Type',
+			title: 'Create/Edit Customer Type',
 			closeAction: 'hide',
 			height: 420,
 			width: 450,
