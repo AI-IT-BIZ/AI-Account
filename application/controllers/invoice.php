@@ -39,6 +39,13 @@ class Invoice extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
+			$q_qt = $this->db->get_where('psal', array(
+				'salnr'=>$result['salnr']
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$result['emnam'] = $r_qt['emnam'];
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result

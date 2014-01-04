@@ -492,7 +492,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		_this.saleDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigSale.setValue(record.data.salnr);
-			alert(record.data.emnam);
+			//alert(record.data.emnam);
 			_this.getForm().findField('emnam').setValue(record.data.emnam);
 
 			grid.getSelectionModel().deselectAll();

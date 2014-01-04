@@ -121,7 +121,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 50, 
+			dataIndex: 'meins', 
+			sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -333,10 +335,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 		
 		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigUnit.setValue(record.data.meins);
-			
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+				// change cell code value (use db value)
+				rModel.set('meins', record.data.meins);
+			//_this.trigUnit.setValue(record.data.meins);
+			}
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
+			
 		});
 
 		//this.trigUnit.onTriggerClick = function(){

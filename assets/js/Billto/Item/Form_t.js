@@ -31,6 +31,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 		this.txtDiscount = Ext.create('Ext.form.field.Text', {
 			fieldLabel: 'Discount',
 			name: 'dispc',
+			disabled: true,
 			align: 'right',
 			labelWidth: 80,
 			width:150,
@@ -49,6 +50,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
 			name: 'dismt',
 			align: 'right',
+			disabled: true,
 			width:110,
 			margin: '0 0 0 10',
 			readOnly: true
@@ -57,6 +59,7 @@ Ext.define('Account.Billto.Item.Form_t', {
 			fieldLabel: 'After Discount',
 			name: 'bbb',
 			align: 'right',
+			disabled: true,
 			width:270,
 			labelWidth: 155,
 			margin: '4 0 0 0',
