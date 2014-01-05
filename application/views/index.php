@@ -351,7 +351,7 @@ Ext.onReady(function() {
 		$om.companyDialog = Ext.create('Account.Company.MainWindow');
 		$om.companyDialog.show();
 	});
-	
+
 	$om.viewport.on('click_authorize_setting', function(){
 	  	if(!UMS.CAN.DISPLAY('AU')){
 	 		UMS.ALERT("You don't have permission for Authorize Setting.");
@@ -366,41 +366,50 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Limitation Setting'.");
 	  		return;
 		}
-		$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
-		$om.limitDialog.show();
+		var uComid = __user_state.UserState.comid;
+		$om.mainWindow = Ext.create('Account.UMSLimit.MainWindow', {
+			treeExtraParams: {
+				comid: uComid
+			}
+		});
+		$om.mainWindow.openDialog({
+			comid: uComid
+		});
+		//$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
+		//$om.limitDialog.show();
 	});
-	
+
 	//Report
 	$om.viewport.on('click_report_gl', function(){
 		$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
 		$om.RGeneralJournal.show();
 	});
-	
+
 	$om.viewport.on('click_report_gr', function(){
 		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 		$om.RGeneralJournal.show();
 	});
-	
+
 	$om.viewport.on('click_report_tb', function(){
 		$om.RTrialBalance = Ext.create('Account.RTrialBalance.MainWindow');
 		$om.RTrialBalance.show();
 	});
-	
+
 	$om.viewport.on('click_report_income', function(){
 		$om.RIncome = Ext.create('Account.RIncome.MainWindow');
 		$om.RIncome.show();
 	});
-	
+
 	$om.viewport.on('click_RSumVat', function(){
 		$om.RSumVat = Ext.create('Account.RSumVat.MainWindow');
 		$om.RSumVat.show();
 	});
-	
+
 	$om.viewport.on('click_Rpp30Vat', function(){
 		$om.Rpp30Vat = Ext.create('Account.Rpp30Vat.MainWindow');
 		$om.Rpp30Vat.show();
 	});
-	
+
 	$om.viewport.on('click_Rpnd1WHT', function(){
 		$om.Rpnd1WHT = Ext.create('Account.Rpnd1WHT.MainWindow');
 		$om.Rpnd1WHT.show();
@@ -410,12 +419,12 @@ Ext.onReady(function() {
 		$om.Rpnd3WHT = Ext.create('Account.Rpnd3WHT.MainWindow');
 		$om.Rpnd3WHT.show();
 	});
-	
+
 	$om.viewport.on('click_Rpnd50WHT', function(){
 		$om.Rpnd50WHT = Ext.create('Account.Rpnd50WHT.MainWindow');
 		$om.Rpnd50WHT.show();
 	});
-	
+
 	$om.viewport.on('click_Rpnd53WHT', function(){
 		$om.Rpnd53WHT = Ext.create('Account.Rpnd53WHT.MainWindow');
 		$om.Rpnd53WHT.show();
