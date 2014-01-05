@@ -1,35 +1,32 @@
 Ext.define('BASE.PreviewWindow', {
 	extend	: 'Ext.window.Window',
+
+	// default attributes
+	title: 'รายงาน',
+	closeAction: 'hide',
+	height: 600,
+	width: 830,
+	minHeight: 600,
+	minWidth: 830,
+	layout: 'border',
+	border: false,
+	resizable: true,
+	modal: true,
+	buttonAlign:'center',
+	// end default
+
 	iframe_id: null, // private
 	enableCopies: true,
 	constructor:function(config) {
-
 		var _this=this;
 
 		this.iframe_id = 'preview_frame_'+Ext.id();
 
-		var _cfg = Ext.apply({
-			title: 'รายงาน',
-			closeAction: 'hide',
-			height: 600,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
-		}, config);
-
-		Ext.applyIf(this, _cfg);
-
 		if(this.enableCopies){
 			this.openDialog = function(form_values){
-				var _this=this;
 				if(form_values && !Ext.isEmpty(form_values)){
-					this.dialogParams = form_values;
-					this.show(false, function(){
+					_this.dialogParams = form_values;
+					_this.show(false, function(){
 						var frameUrl = _this.getFrameUrl(form_values, _this.copies.getValue());
 						_this.setFrameSrc(frameUrl);
 						_this.showFrameLoad();
@@ -41,9 +38,8 @@ Ext.define('BASE.PreviewWindow', {
 			};
 		}else{
 			this.openDialog = function(url){
-				var _this=this;
 				if(url){
-					this.show(false, function(){
+					_this.show(false, function(){
 						_this.setFrameSrc(url);
 						_this.showFrameLoad();
 						_this.checkFrameReady(function(){
@@ -110,9 +106,7 @@ Ext.define('BASE.PreviewWindow', {
 		}
 
 		this.on('hide', function(){
-			Ext.get(_this.iframe_id).set({
-				src:'about:blank'
-			});
+			_this.setFrameSrc('about:blank');
 			if(this.enableCopies)
 				this.copies.setValue(1);
 		});
