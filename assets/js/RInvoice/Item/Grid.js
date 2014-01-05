@@ -3,7 +3,17 @@ Ext.define('Account.RInvoice.Item.Grid', {
 	constructor:function(config) {
 		return this.callParent(arguments);
 	},
-
+	requires: [
+        'Ext.grid.feature.Grouping'
+    ],
+	features: [{
+            id: 'group',
+            ftype: 'groupingsummary',
+            groupHeaderTpl: '{name}',
+            hideGroupedHeader: true,
+            enableGroupingMenu: false,
+			startCollapsed: true
+    }],
 	initComponent : function() {
 
 		this.store = new Ext.data.JsonStore({
