@@ -289,6 +289,9 @@ Ext.define('Account.Invoice.Item.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
+		},{
+			xtype: 'hidden',
+			name: 'loekz'
 		},this.trigSO,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
@@ -471,6 +474,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -509,6 +513,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			       }
 				}
 				});

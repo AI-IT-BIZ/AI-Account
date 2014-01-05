@@ -463,6 +463,15 @@ class Invoice extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 		
+		if($this->input->post('loekz')=='2'){
+        	$emsg = 'The sale order already created invoice doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+		
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),
 			'bldat' => $this->input->post('bldat'),
@@ -509,7 +518,11 @@ class Invoice extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbrk', $formData);
 			
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
+			
+			$this->db->where('ordnr', $this->input->post('ordnr'));
+			$this->db->set('loekz', '2');
+			$this->db->update('vbok');
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด

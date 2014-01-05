@@ -235,9 +235,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 				collapsible: true,
 				defaultType: 'textfield',
 				layout: 'anchor',
-				defaults: {
-					anchor: '100%'
-				},
+				//defaults: {
+				//	anchor: '100%'
+				//},
 				items:[{
 					// Quotation Code
 	 				xtype: 'container',
@@ -246,6 +246,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 	 				items :[{
 						xtype: 'hidden',
 						name: 'id'
+					},{
+						xtype: 'hidden',
+						name: 'loekz'
 					},
 					this.trigQuotation,
 					{
@@ -508,6 +511,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -547,6 +551,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			       }
 				}
 				});           

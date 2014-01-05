@@ -200,6 +200,15 @@ class Saleorder extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        if($this->input->post('loekz')=='3'){
+        	$emsg = 'The quotation already created sale order doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -244,7 +253,11 @@ class Saleorder extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbok', $formData);
 
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
+			
+			$this->db->where('vbeln', $this->input->post('vbeln'));
+			$this->db->set('loekz', '3');
+			$this->db->update('vbak');
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด

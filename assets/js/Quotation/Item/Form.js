@@ -526,9 +526,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			//_this.getForm().findField('terms').setValue(r.data.terms);
-			//_this.getForm().findField('ptype').setValue(r.data.ptype);
-			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			//_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.trigCustomer.on('keyup', this.selectTax, this);
 
 						}else{
@@ -558,8 +557,8 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			//_this.getForm().findField('terms').setValue(r.data.terms);
-			//_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			//_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			       }
 				}

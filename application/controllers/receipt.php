@@ -271,6 +271,22 @@ class Receipt extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        $vbbp = $this->input->post('vbbp');
+		$rc_item_array = json_decode($vbbp);
+		
+		if(!empty($vbbp) && !empty($rc_item_array)){
+		foreach($rc_item_array AS $p){
+			if($p->loekz=='2'){
+				$emsg = 'The invoice already created receipt doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+		  }
+		}
 		
 		$formData = array(
 			//'recnr' => $this->input->post('recnr'),
@@ -309,7 +325,8 @@ class Receipt extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbbk', $formData);
-			//$id = $this->db->insert_id();
+			
+			$inserted_id = $id;
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
@@ -317,8 +334,8 @@ class Receipt extends CI_Controller {
 		$this->db->delete('vbbp');
 
 		// เตรียมข้อมูล receipt item
-		$vbbp = $this->input->post('vbbp');
-		$rc_item_array = json_decode($vbbp);
+		//$vbbp = $this->input->post('vbbp');
+		//$rc_item_array = json_decode($vbbp);
 		//echo $this->db->last_query();
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
@@ -340,6 +357,10 @@ class Receipt extends CI_Controller {
 				'vat01'=>$p->vat01,
 				'dtype'=>$p->dtype
 			));
+			
+			$this->db->where('invnr', $p->invnr);
+			$this->db->set('loekz', '2');
+			$this->db->update('vbrk');
 	    	}
 		}
 		
@@ -842,6 +863,7 @@ class Receipt extends CI_Controller {
       }else{
 // record ที่สาม
       	if($net>0){
+      		$net+=$vwht;
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
 			if($query->num_rows()>0){

@@ -218,6 +218,7 @@ class Quotation extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
         $net = $this->input->post('netwr');
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),

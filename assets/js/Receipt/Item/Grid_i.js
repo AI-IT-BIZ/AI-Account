@@ -18,7 +18,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 
 		// INIT Invoice search popup /////////////////////////////////
 		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
-			disableGridDoubleClick: true
+			disableGridDoubleClick: true,
+			isApproveOnly: true
 		});
 		// END Invoice search popup //////////////////////////////////
 
@@ -52,7 +53,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'ctype',
 				'wht01',
 				'vat01',
-				'dtype'
+				'dtype',
+				'loekz'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -71,6 +73,9 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
+						xtype: 'hidden',
+						name: 'loekz'
+					},{
 			id : 'RowNumber5',
 			header : "No.",
 			dataIndex : 'vbelp',
@@ -216,6 +221,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('wht01', r.data.wht01);
 							// VAT01
 							rModel.set('vat01', r.data.vat01);
+							//Flag
+							rModel.set('loekz', r.data.loekz);
 							// Dtype
 							var dtype = r.data.invnr.substring(0,2);
 				            rModel.set('dtype', dtype[0]);
@@ -250,6 +257,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				rModel.set('wht01', record.data.wht01);
 				// VAT01
 				rModel.set('vat01', record.data.vat01);
+				//Flag
+				rModel.set('loekz', record.data.loekz);
 				// Dtype
 				var dtype = record.data.invnr.substring(0,2);
 				rModel.set('dtype', dtype[0]);
@@ -316,5 +325,11 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			rs.push(r.getData());
 		});
 		return rs;
+	},
+	setCustomerCode: function(kunnr){
+		this.customerCode = kunnr;
+		var field = this.invoiceDialog.searchForm.form.findField('kunnr');
+		field.setValue(kunnr);
+		this.invoiceDialog.grid.load();
 	}
 });

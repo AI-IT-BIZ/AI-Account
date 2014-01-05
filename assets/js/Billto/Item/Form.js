@@ -30,7 +30,7 @@ Ext.define('Account.Billto.Item.Form', {
 		this.formTotal = Ext.create('Account.Billto.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'Total Bill To',
+			title:'Total Billing',
 			region:'south'
 		});
 		

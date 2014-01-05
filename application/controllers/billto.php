@@ -154,8 +154,6 @@ class Billto extends CI_Controller {
 		$bt_item_array = json_decode($vbkp);
 		
 		if(!empty($bt_item_array)){
-			//$result = $bt_item_array->first_row('array');
-			//print_r($bt_item_array);
 		    $ctype = $bt_item_array[0]->ctyp1;
 		}
 		

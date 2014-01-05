@@ -27,10 +27,19 @@ Ext.define('Account.SAp.MainWindow', {
 			border: false
 		});
 
-		this.searchForm = Ext.create('Account.SAp.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+		
+		this.searchForm = Ext.create('Account.SAp.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 		
