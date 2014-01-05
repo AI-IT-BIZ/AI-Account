@@ -6,18 +6,24 @@ class Rgeneralledger extends CI_Controller {
 	}
 	
 	public function result(){
-		$datas['datas']  = array();
+		$search = "";
+		if($_POST["start_saknr"] != "" and $_POST["end_saknr"] != ""){
+			$search = " where tbl_glno.saknr between '{$_POST["start_saknr"]}' and '{$_POST["end_saknr"]}' ";
+		}
+		$datas['datas']  = array();		
 		$sql = "
-			select 
-				distinct(v_uacc.saknr) as saknr,
-				(select tbl_glno.sgtxt from tbl_glno where v_uacc.saknr = tbl_glno.saknr) as  sgtxt
-			from 
-				v_bkpf
-				LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
-			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}'
-			ORDER BY v_uacc.saknr asc
-		";
+				select
+					 tbl_glno.saknr,
+					 tbl_glno.sgtxt,
+					 tbl_glno.glcre
+				from
+					tbl_glno
+				{$search}
+				order by
+					tbl_glno.saknr
+				limit 100;";
+		
+		
 		$acc_code = $this->db->query($sql);
 		$acc_code = $acc_code->result_array();
 		$idx = 0;
@@ -39,18 +45,21 @@ class Rgeneralledger extends CI_Controller {
 			";
 			$bf = $this->db->query($sql);
 			$bf = $bf->first_row('array');
+			$tmp1_ = (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : '';
+			$tmp2_ = (floatval($bf["debit"]) < floatval($bf["credi"]))? floatval($bf["credi"])*floatval($val["glcre"]) : '';
+			$tmp3_ = (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : floatval($bf["credi"])*floatval($val["glcre"]);
 			$datas['datas'][$idx-1] = array(
 				'',
 				'',
 				'',
 				'',
 				'B/F', 
-				(floatval($bf["debit"]) > floatval($bf["credi"]))? $bf["debit"] : '',
-				(floatval($bf["debit"]) < floatval($bf["credi"]))? $bf["credi"] : '',
+				"{$tmp1_}",
+				"{$tmp2_}",
 				'',
 				"{$val['saknr']}",
 				"{$val['sgtxt']}",				 
-				(floatval($bf["debit"]) > floatval($bf["credi"]))? $bf["debit"] : $bf["credi"],
+				"{$tmp3_}",
 			);
 			
 			$sql = "
@@ -65,7 +74,8 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_uacc.credi,'') as credi,
 					ifnull(v_uacc.statu,'') as statu,
 					ifnull(v_bkpf.kunnr,'') as kunnr,
-					ifnull(v_bkpf.txz01,'') as txz01
+					ifnull(v_bkpf.txz01,'') as txz01,
+					tbl_glno.glcre
 				from 
 					v_bkpf
 					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
@@ -81,18 +91,30 @@ class Rgeneralledger extends CI_Controller {
 			for($j=0;$j<count($rs);$j++){
 				$val2 = $rs[$j];
 				$idx++;
+				if(floatval($val2['credi']) == 0 and floatval($val2['debit']) != 0){
+					$tmp_n = floatval($val2['debit'])*floatval($val2['glcre'])*-1 + floatval($datas['datas'][$idx-2][10]);
+				}
+				if(floatval($val2['credi']) != 0 and floatval($val2['debit']) == 0){
+					$tmp_n = floatval($val2['credi'])*floatval($val2['glcre']) + floatval($datas['datas'][$idx-2][10]);
+				}
+				if(floatval($val2['credi']) != 0 and floatval($val2['debit']) != 0){
+					$tmp_n = floatval($val2['debit']) - floatval($val2['credi']) + floatval($datas['datas'][$idx-2][10]);
+				}
+				
+				$tmp_debit = $val2['debit'];
+				$tmp_credi = $val2['credi'];
 				$datas['datas'][$idx-1] = array(
 					"{$val2['bldat']}",
 					"{$val2['belnr']}",
 					"{$val2['kunnr']}",
 					"{$val2['name1']}",
 					"{$val2['txz01']}",
-					"{$val2['debit']}",
-					"{$val2['credi']}",
+					"{$tmp_debit}",
+					"{$tmp_credi}",
 					"{$val2['statu']}",
 					"{$val['saknr']}",
 					"{$val['sgtxt']}",							 
-					floatval($val2['debit']) - floatval($val2['credi']) + floatval($datas['datas'][$idx-2][10])
+					$tmp_n
 				);
 			}
 		}
@@ -101,6 +123,7 @@ class Rgeneralledger extends CI_Controller {
 	}
 	
 	public function excel(){
+		$data_tmp = array();
 		$this->load->library('PHPExcel');
 		$sd = util_helper_format_date($_GET['start_date']);
 		$ed = util_helper_format_date($_GET['end_date']);
@@ -200,21 +223,31 @@ class Rgeneralledger extends CI_Controller {
                       ->setCellValue('G9', 'Credit (B)')
                       ->setCellValue('H9', 'Balance (C) = (C(-1)+A-B)')
                       ->setCellValue('I9', 'Status');
+					  
+		$search = "";
+		if($_GET["start_saknr"] != "" and $_GET["end_saknr"] != ""){
+			$search = " where tbl_glno.saknr between '{$_GET["start_saknr"]}' and '{$_GET["end_saknr"]}' ";
+		}
 		
 		$sql = "
-			select 
-				distinct(v_uacc.saknr) as saknr,
-				(select tbl_glno.sgtxt from tbl_glno where v_uacc.saknr = tbl_glno.saknr) as  sgtxt
-			from 
-				v_bkpf
-				LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
-			where 
-				v_bkpf.bldat BETWEEN '{$_GET['start_date']}' and '{$_GET['end_date']}'
-			ORDER BY v_uacc.saknr asc
-		";
+				select
+					tbl_glno.saknr,
+					tbl_glno.sgtxt,
+					tbl_glno.glcre
+				from
+					tbl_glno
+				{$search}
+				order by
+					tbl_glno.saknr
+				limit 100;";
+		
 		$data = $this->db->query($sql);
 		$data = $data->result_array();
 		$row_idx = 9;
+		$debit = array();
+		$credit = array();
+		$balance = array();
+		$didx = 0;
 		for($i=0;$i<count($data);$i++){
 			$val = $data[$i];
 			$row_idx = $row_idx + 2;
@@ -228,30 +261,6 @@ class Rgeneralledger extends CI_Controller {
 			$current_sheet->getStyle("A{$row_idx}")->applyFromArray(array(
 				'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
 			));
-			//$current_sheet->getStyle("B{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("C{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("D{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("E{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("F{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("G{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("H{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
-			//$current_sheet->getStyle("i{$row_idx}")->applyFromArray(array(
-			//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'DAEEF3'))
-			//));
 			
 			$sql = "
 				select 
@@ -269,13 +278,16 @@ class Rgeneralledger extends CI_Controller {
 			$bf = $this->db->query($sql);
 			$bf = $bf->first_row('array');
 			$row_idx = $row_idx + 1;
+			
+			$data_tmp[] =(floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : floatval($bf["credi"])*floatval($val["glcre"]);
+			$didx = $didx + 1;
+			
 			$current_sheet
                       ->setCellValue("E{$row_idx}", 'B/F')
-                      ->setCellValue("F{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? $bf["debit"] : '')
-                      ->setCellValue("G{$row_idx}", (floatval($bf["debit"]) < floatval($bf["credi"]))? $bf["credi"] : '')
-                      ->setCellValue("H{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? $bf["debit"] : $bf["credi"]);
-						
-			
+                      ->setCellValue("F{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : '')
+                      ->setCellValue("G{$row_idx}", (floatval($bf["debit"]) < floatval($bf["credi"]))? floatval($bf["credi"])*floatval($val["glcre"]) : '')
+                      ->setCellValue("H{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : floatval($bf["credi"])*floatval($val["glcre"]) );
+									
 			$sql = "
 				select 
 					ifnull(v_bkpf.bldat,'') as bldat,
@@ -288,7 +300,8 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_uacc.credi,'') as credi,
 					ifnull(v_uacc.statu,'') as statu,
 					ifnull(v_bkpf.kunnr,'') as kunnr,
-					ifnull(v_bkpf.txz01,'') as txz01
+					ifnull(v_bkpf.txz01,'') as txz01,
+					tbl_glno.glcre
 				from 
 					v_bkpf
 					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
@@ -307,6 +320,22 @@ class Rgeneralledger extends CI_Controller {
 				$end_idx = $row_idx;
 				$r = $rs[$j];
 				$tmp_idx = $row_idx-1;
+				
+				
+				
+				if(floatval($r['credi']) == 0 and floatval($r['debit']) != 0){
+					$tmp_n = floatval($r['debit'])*floatval($r['glcre'])*-1 + floatval($data_tmp[$didx-1]);
+				}
+				if(floatval($r['credi']) != 0 and floatval($r['debit']) == 0){
+					$tmp_n = floatval($r['credi'])*floatval($r['glcre']) + floatval($data_tmp[$didx-1]);
+				}
+				if(floatval($r['credi']) != 0 and floatval($r['debit']) != 0){
+					$tmp_n = floatval($r['debit']) - floatval($r['credi']) + floatval($data_tmp[$didx-1]);
+				}
+				
+				$data_tmp[] = $tmp_n;	
+				$didx = $didx + 1;
+				
 				$current_sheet
 	              ->setCellValue("A{$row_idx}", util_helper_format_date($r["bldat"]))
                       ->setCellValue("B{$row_idx}", $r['belnr'])
@@ -315,13 +344,13 @@ class Rgeneralledger extends CI_Controller {
                       ->setCellValue("E{$row_idx}", $r['txz01'])
                       ->setCellValue("F{$row_idx}", $r['debit'])
                       ->setCellValue("G{$row_idx}", $r['credi'])
-                      ->setCellValue("H{$row_idx}", "=F{$row_idx}-G{$row_idx}+H{$tmp_idx}")
-                      ->setCellValue("I{$row_idx}", $r['statu']);					  
+                      ->setCellValue("H{$row_idx}", $tmp_n)
+                      ->setCellValue("I{$row_idx}", $r['statu']);
 					  
 					  
 				if (count($rs)-1 == $j ){
 					$row_idx = $row_idx + 2;
-					$current_sheet->setCellValue("A{$row_idx}", 'Account Code:');
+					$current_sheet->setCellValue("A{$row_idx}", 'Total:');
 					$current_sheet->setCellValue("B{$row_idx}", $val["saknr"]);
 					$current_sheet->setCellValue("C{$row_idx}", 'Account Name');
 					$current_sheet->setCellValue("D{$row_idx}", $val["sgtxt"]);
@@ -329,37 +358,37 @@ class Rgeneralledger extends CI_Controller {
 					$current_sheet->setCellValue("F{$row_idx}", "=SUM(F{$start_idx}:F{$end_idx})");
 					$current_sheet->setCellValue("G{$row_idx}", "=SUM(G{$start_idx}:G{$end_idx})");
 					$current_sheet->setCellValue("H{$row_idx}", "=SUM(H{$start_idx}:H{$end_idx})");
+					$current_sheet->setCellValue("I{$row_idx}","E/F");
+					
+					$debit[] = "F{$row_idx}";
+					$credit[] = "G{$row_idx}";
+					$balance[] = "H{$row_idx}";
 					
 					$current_sheet->getStyle("A{$row_idx}")->applyFromArray(array(
 						'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					));
-					//$current_sheet->getStyle("B{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("C{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("D{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("E{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("F{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("G{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("H{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));
-					//$current_sheet->getStyle("i{$row_idx}")->applyFromArray(array(
-					//	'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID,'color' => array('rgb' => 'A6A6A6'))
-					//));					
-				}						  
+					));				
+				}
+				
 			}
+		
+			
 		}
+		
+		$debit = "=".join("+",$debit);
+		$credit = "=".join("+",$credit);
+		$balance = "=".join("+",$balance);
+		
+		$row_idx = $row_idx + 2;
+		$current_sheet->setCellValue("A{$row_idx}", 'Grand Total:');
+		$current_sheet->setCellValue("E{$row_idx}", "Balance");
+		$current_sheet->setCellValue("F{$row_idx}", $debit);
+		$current_sheet->setCellValue("G{$row_idx}", $credit);
+		$current_sheet->setCellValue("H{$row_idx}", $balance);
+		$current_sheet->setCellValue("I{$row_idx}","E/F");
+		
+		
+		
+		
 		foreach(range('A','I') as $columnID) {
 			$current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 			// add color to head
