@@ -19,7 +19,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		// INIT Material search popup /////////////////////////////////
 		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
 		// END Material search popup //////////////////////////////////
-
+        this.unitDialog = Ext.create('Account.Unit.Window');
+        
 		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -124,7 +125,13 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			dataIndex: 'meins',
 			sortable: false,
 			field: {
-				type: 'textfield'
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.unitDialog.show();
+				}
 			},
 			},
 			{text: "Price/Unit",
@@ -308,6 +315,19 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
+		});
+		
+		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+				// change cell code value (use db value)
+				rModel.set('meins', record.data.meins);
+			//_this.trigUnit.setValue(record.data.meins);
+			}
+			grid.getSelectionModel().deselectAll();
+			_this.unitDialog.hide();
+			
 		});
 
 		return this.callParent(arguments);

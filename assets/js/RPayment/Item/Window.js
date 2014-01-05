@@ -21,6 +21,12 @@ Ext.define('Account.RPayment.Item.Window', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		this.txtParam = Ext.create('Ext.form.Text', {
+           
+                 width: 300
+      
+               });
 
 		// --- object ---
 		/*this.addAct = new Ext.Action({
@@ -37,13 +43,23 @@ Ext.define('Account.RPayment.Item.Window', {
 		});*/
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-
+         this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel',
+                          handler: function () {
+                            //   alert(_this.txtParam.getValue());
+                               var param = _this.txtParam.getValue();
+                               window.location = __site_url+'export/rpayment/Index?' + param;
+                          }
+		});
+		
 		this.grid = Ext.create('Account.RPayment.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
 		this.items = [this.grid];
+		this.tbar = [this.excelAct];
 
 		return this.callParent(arguments);
 	}

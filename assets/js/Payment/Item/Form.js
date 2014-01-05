@@ -259,6 +259,9 @@ Ext.define('Account.Payment.Item.Form', {
 
 			grid.getSelectionModel().deselectAll();
 			_this.vendorDialog.hide();
+			
+			// set vendor code to grid item
+				_this.gridItem.setVendorCode(record.data.lifnr);
 		});
 
 		this.trigVendor.onTriggerClick = function(){
@@ -334,6 +337,8 @@ Ext.define('Account.Payment.Item.Form', {
 			url:__site_url+'payment/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
+				// set vendor code to grid item
+				_this.gridItem.setVendorCode(act.result.data.lifnr);
 			}
 		});
 	},
@@ -431,8 +436,8 @@ Ext.define('Account.Payment.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 			
-			var item = r.data['saknr'] + '|' + amt;
-        		saknr_list.push(item);
+			//var item = r.data['saknr'] + '|' + amt;
+        		//saknr_list.push(item);
         		
         		if(r.data['wht01']>0 && r.data['wht01']!=null){
 				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));

@@ -13,11 +13,6 @@ class Ap extends CI_Controller {
 	{
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebrk';
-
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
 		
 		// Start for report
 		function createQuery($_this){
@@ -81,9 +76,9 @@ class Ap extends CI_Controller {
 		}
 
 		createQuery($this);
-		$sort = $this->input->get('sort');
-		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
+		//$sort = $this->input->get('sort');
+		//$dir = $this->input->get('dir');
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 

@@ -25,6 +25,11 @@ Ext.define('Account.Project.Item.Form', {
 			isApproveOnly: true
 		});
 		
+		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		
 		this.typeDialog = Ext.create('Account.Projecttype.Window');
 		
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
@@ -37,7 +42,7 @@ Ext.define('Account.Project.Item.Form', {
 			width: 250
 		});
 		
-		this.comboJStatus = Ext.create('Ext.form.ComboBox', {
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('PJ'),
 			fieldLabel: 'Project Status',
 			name : 'statu',
@@ -51,7 +56,7 @@ Ext.define('Account.Project.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'project/loads_scombo',
+					url: __site_url+'quotation/loads_scombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -71,44 +76,22 @@ Ext.define('Account.Project.Item.Form', {
 			margins: '0 0 0 2'
 		});
 		
-		this.comboPOwner = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Project Owner',
-			name : 'salnr',
-			labelWidth: 100,
-			width: 300,
-			labelAlign: 'left',
-			editable: false,
-			allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Owner --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'project/loads_ocombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
-		});
-		
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			labelAlign: 'left',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
+		
+		this.trigSale = Ext.create('Ext.form.field.Trigger', {
+			name: 'salnr',
+			fieldLabel: 'Project Owner',
+			triggerCls: 'x-form-search-trigger',
+			labelWidth: 100,
+			labelAlign: 'left',
+			width: 250,
 			enableKeyEvents: true,
 			allowBlank : false
 		});
@@ -217,10 +200,10 @@ Ext.define('Account.Project.Item.Form', {
 			xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[this.comboPOwner,{
+     items :[this.trigSale,{
 			xtype: 'displayfield',
             fieldLabel: '',
-			name: 'name1',
+			name: 'emnam',
 			margins: '0 0 0 6',
 		},{xtype: 'hidden',
 			name: 'ctype',
@@ -269,10 +252,10 @@ Ext.define('Account.Project.Item.Form', {
     else{
         if(arrPermit['PJ']['approve'] == "0")
            {
-             this.comboJStatus.setDisabled(true);
+             this.comboQStatus.setDisabled(true);
            }
            else{
-             this.comboJStatus.setDisabled(false);
+             this.comboQStatus.setDisabled(false);
         }
     }
     
@@ -319,7 +302,8 @@ Ext.define('Account.Project.Item.Form', {
 		this.trigType.onTriggerClick = function(){
 			_this.typeDialog.show();
 		};
-	// event ///
+		
+	// event Customer ///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -386,6 +370,44 @@ Ext.define('Account.Project.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
+		
+		// event Saleperson///
+		this.trigSale.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'saleperson/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.salnr);
+							_this.getForm().findField('emnam').setValue(r.data.emnam);
+							
+						}else{
+							o.markInvalid('Could not find project owner : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.saleDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigSale.setValue(record.data.salnr);
+			_this.getForm().findField('emnam').setValue(record.data.emnam);
+
+			grid.getSelectionModel().deselectAll();
+			_this.saleDialog.hide();
+		});
+
+		this.trigSale.onTriggerClick = function(){
+			_this.saleDialog.show();
+		};
 
 		return this.callParent(arguments);
 	},
@@ -435,7 +457,7 @@ Ext.define('Account.Project.Item.Form', {
 		this.getForm().reset();
 
 		// default status = wait for approve
-		this.comboJStatus.setValue('01');
+		this.comboQStatus.setValue('01');
 		this.getForm().findField('bldat').setValue(new Date());
 	}
 });

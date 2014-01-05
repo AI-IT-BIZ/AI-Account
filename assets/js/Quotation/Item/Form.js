@@ -21,6 +21,22 @@ Ext.define('Account.Quotation.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
+		
+		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		this.trigSale = Ext.create('Ext.form.field.Trigger', {
+			name: 'salnr',
+			fieldLabel: 'Sale Person',
+			triggerCls: 'x-form-search-trigger',
+			//labelWidth: 100,
+			labelAlign: 'left',
+			width: 170,
+			enableKeyEvents: true//,
+			//allowBlank : false
+		});
+		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Quotation.Item.Grid_i',{
@@ -76,36 +92,6 @@ Ext.define('Account.Quotation.Item.Form', {
 			queryMode: 'remote',
 			displayField: 'statx',
 			valueField: 'statu'
-		});
-
-		this.comboPSale = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Salesperson',
-			name : 'salnr',
-			width: 350,
-			editable: false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Salesperson --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
 		});
 
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
@@ -341,7 +327,12 @@ Ext.define('Account.Quotation.Item.Form', {
 					xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
-					items: [this.comboPSale,
+					items: [this.trigSale,{
+			xtype: 'displayfield',
+			name: 'emnam',
+			width:174,
+			margins: '0 0 0 6'
+		},
 					this.numberCredit,{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
@@ -472,6 +463,45 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
+		
+		// event Saleperson///
+		this.trigSale.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'saleperson/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.salnr);
+							_this.getForm().findField('emnam').setValue(r.data.emnam);
+							
+						}else{
+							o.markInvalid('Could not find project owner : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.saleDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigSale.setValue(record.data.salnr);
+			//alert(record.data.emnam);
+			_this.getForm().findField('emnam').setValue(record.data.emnam);
+
+			grid.getSelectionModel().deselectAll();
+			_this.saleDialog.hide();
+		});
+
+		this.trigSale.onTriggerClick = function(){
+			_this.saleDialog.show();
+		};
 
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
@@ -496,9 +526,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			//_this.getForm().findField('terms').setValue(r.data.terms);
-			//_this.getForm().findField('ptype').setValue(r.data.ptype);
-			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			//_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.trigCustomer.on('keyup', this.selectTax, this);
 
 						}else{
@@ -528,8 +557,8 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			//_this.getForm().findField('terms').setValue(r.data.terms);
-			//_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			//_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			       }
 				}

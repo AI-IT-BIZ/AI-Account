@@ -52,7 +52,12 @@ class Quotation extends CI_Controller {
 			                         $result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];
 
-			//$result['bldat']=substr($result['bldat'], 0, 10);
+			$q_qt = $this->db->get_where('psal', array(
+				'salnr'=>$result_data['salnr']
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$result_data['emnam'] = $r_qt['emnam'];
 
 			// unset calculated value
 			unset($result_data['beamt']);
@@ -213,6 +218,7 @@ class Quotation extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
         $net = $this->input->post('netwr');
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),

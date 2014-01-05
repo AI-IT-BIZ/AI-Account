@@ -7,7 +7,7 @@ Ext.define('Account.RPayment.MainWindow', {
 			title: 'Payment Selection',
 			closeAction: 'hide',
 			height: 250,
-			width: 500,
+			width: 550,
 			layout: 'border',
 			//layout: 'accordion',
 			resizable: true,

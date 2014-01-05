@@ -121,7 +121,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			_this.grid.load();
             
 			var resultId = action.result.data.id;
-			alert(resultId);
+			//alert(resultId);
 			_this.itemDialog.openDialog(resultId);
 			Ext.Msg.alert('Status', 'Save Invoice number: '+resultId+' successfully.');
 		});

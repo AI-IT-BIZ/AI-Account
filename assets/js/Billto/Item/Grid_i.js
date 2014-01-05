@@ -20,9 +20,6 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
-			//gridParams: {
-			//	statu: '02'
-			//}
 		});
 		// END Invoice search popup //////////////////////////////////
 

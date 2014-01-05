@@ -191,11 +191,34 @@ class Receipt extends CI_Controller {
 		$this->db->order_by($sort, $dir);
 		
 		$query = $this->db->get($tbName);
+		
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			$q_pm = $this->db->get_where('paym', array(
+				'recnr'=>$r['recnr']
+			));
+			
+			//$result_data = $q_pm->first_row('array');
+			//echo count($result_data);
+			if($q_pm->num_rows()>0){
+				$pay = $q_pm->result_array();
+				$paytx='';
+				for($j=0;$j<count($pay);$j++){
+		            $p = $pay[$j];
+					
+			        $paytx = $paytx.$p['paytx'];
+					$res[$i]['paytx'] = $paytx;
+			   
+			    }
+			}
+		}
 
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
-			'rows'=>$query->result_array(),
+			'rows'=>$res,
 			'totalCount'=>$totalCount
 		));
 	}
@@ -248,6 +271,22 @@ class Receipt extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        $vbbp = $this->input->post('vbbp');
+		$rc_item_array = json_decode($vbbp);
+		
+		if(!empty($vbbp) && !empty($rc_item_array)){
+		foreach($rc_item_array AS $p){
+			if($p->loekz=='2'){
+				$emsg = 'The invoice already created receipt doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+		  }
+		}
 		
 		$formData = array(
 			//'recnr' => $this->input->post('recnr'),
@@ -286,7 +325,8 @@ class Receipt extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbbk', $formData);
-			//$id = $this->db->insert_id();
+			
+			$inserted_id = $id;
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
@@ -294,8 +334,8 @@ class Receipt extends CI_Controller {
 		$this->db->delete('vbbp');
 
 		// เตรียมข้อมูล receipt item
-		$vbbp = $this->input->post('vbbp');
-		$rc_item_array = json_decode($vbbp);
+		//$vbbp = $this->input->post('vbbp');
+		//$rc_item_array = json_decode($vbbp);
 		//echo $this->db->last_query();
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
@@ -317,6 +357,10 @@ class Receipt extends CI_Controller {
 				'vat01'=>$p->vat01,
 				'dtype'=>$p->dtype
 			));
+			
+			$this->db->where('invnr', $p->invnr);
+			$this->db->set('loekz', '2');
+			$this->db->update('vbrk');
 	    	}
 		}
 		
@@ -703,7 +747,7 @@ class Receipt extends CI_Controller {
 		if($net>0){
 			    $bamt = $net - $vvat;
 			    $bamt = $bamt + $vwht;
-			    $gl_sale = '4000-00';
+			    $gl_sale = '4100-01';
 				$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_sale));
 				if($qgl->num_rows()>0){
@@ -819,6 +863,7 @@ class Receipt extends CI_Controller {
       }else{
 // record ที่สาม
       	if($net>0){
+      		$net+=$vwht;
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
 			if($query->num_rows()>0){

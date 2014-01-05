@@ -1,9 +1,5 @@
 Ext.define('Account.Saleperson.MainWindow', {
 	extend	: 'Ext.window.Window',
-	requires : [
-		'Account.Saleperson.Grid',
-		'Account.Saleperson.Item.Window'
-	],
 	constructor:function(config) {
 
 		Ext.apply(this, {
@@ -41,16 +37,36 @@ Ext.define('Account.Saleperson.MainWindow', {
 			iconCls: 'b-small-minus',
 			disabled: !UMS.CAN.DELETE('SP')
 		});
+		this.excelAct = new Ext.Action({
+			text: 'Excel',
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('SP')
+		});
 
 		this.itemDialog = Ext.create('Account.Saleperson.Item.Window');
 
 		this.grid = Ext.create('Account.Saleperson.Grid', {
-			region:'center'
+			region:'center',
+			border: false,
+			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct]
 		});
 
-		this.items = [this.grid];
+		var searchOptions = {
+			region: 'north',
+			height:100
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
 
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		this.searchForm = Ext.create('Account.Saleperson.FormSearch', searchOptions);
+
+		this.items = [this.searchForm, this.grid];
+
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
@@ -84,12 +100,38 @@ Ext.define('Account.Saleperson.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
-		
-		if(!this.disableGridDoubleClick){
+        
+        this.searchForm.on('search_click', function(values){
+			_this.grid.load();
+		});
+		this.searchForm.on('reset_click', function(values){
+			_this.grid.load();
+		});
+
+		this.grid.store.on("beforeload", function (store, opts) {
+			opts.params = opts.params || {};
+			if(opts.params){
+				var formValues = _this.searchForm.getValues();
+				Ext.apply(opts.params, formValues);
+			}
+	    });
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
 	    }
+	    
+	    this.excelAct.setHandler(function(){
+			var params = _this.searchForm.getValues(),
+				sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+				sort: sorters.property,
+				dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/saleperson/index?'+query;
+		});
 
 		// --- after ---
 		this.grid.load();

@@ -17,10 +17,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		});
 
 		// INIT PY search popup /////////////////////////////////
-		this.apDialog = Ext.create('Account.SAp.MainWindow');
-		//this.apDialog = Ext.create('Account.SAp.MainWindow', {
-		//	disableGridDoubleClick: true
-		//});
+		this.apDialog = Ext.create('Account.SAp.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+
 		// END Material search popup //////////////////////////////////
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -352,5 +353,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			rs.push(r.getData());
 		});
 		return rs;
+	},
+	setVendorCode: function(lifnr){
+		this.vendorCode = lifnr;
+		var field = this.apDialog.searchForm.form.findField('lifnr');
+		field.setValue(lifnr);
+		this.apDialog.grid.load();
 	}
 });

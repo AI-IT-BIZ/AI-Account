@@ -12,12 +12,15 @@ class Rsalarywht_attach extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
-		//$no = $type = $this->uri->segment(4);
-		//$copies = intval($type = $this->uri->segment(5));
+
 		$month = explode('-',$date);
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
@@ -29,7 +32,7 @@ class Rsalarywht_attach extends CI_Controller {
 		$strSQL = $strSQL . " left join v_bkpf on v_bsid.belnr = v_bkpf.belnr ";
         $strSQL = $strSQL . " Where (v_bsid.saknr='5131-01' or v_bsid.saknr='5132-01' or v_bsid.saknr='5310-01' or v_bsid.saknr='2132-01') and ";
 		$strSQL = $strSQL . "v_bkpf.docty = '09' and v_bkpf.bldat ".$dt_result;
-		$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
+		//$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
        
 		$query = $this->db->query($strSQL);
 		//$r_data = $query->first_row('array');
@@ -37,6 +40,17 @@ class Rsalarywht_attach extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
+		$i=0;
+		foreach ($rows as $key => $item) {
+			$result[$i]['emnam']=$item['emnam'];
+			$result[$i]['taxid']=$item['taxid'];
+			$result[$i]['bldat']=$item['bldat'];
+			if($item['saknr']=='2132-01'){
+		       $result[$i]['credi']=$item['credi'];
+			   $i++;
+		    }else{ $result[$i]['debit']= $item['debit']; }
+			
+		}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -86,21 +100,21 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
-	$total_count = count($rows);
+	$page_size = 25;
+	$total_count = count($result);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
 	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
 		echo '<div';
 		if($real_current_page>0)
 			echo ' class="break"';
-		echo ' style="position:relative; height:1100px;">';
+		echo ' style="position:relative; height:720px;">';
 		$real_current_page++;
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <DIV style="z-index:0"> &nbsp; </div>
 
-<div style="left:121PX;top:172PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:425PX;">
+<div style="left: 121PX; top: 172PX; border-color: 000000; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 419px;">
 <table width="0px" height="419PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:121PX;top:200PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:466PX;">
@@ -117,7 +131,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:738PX;top:193PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:434PX;">
 <table width="0px" height="428PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:586PX;top:172PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:425PX;">
+<div style="left: 586PX; top: 172PX; border-color: 000000; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 420px;">
 <table width="0px" height="419PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:382PX;top:172PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:29PX;">
@@ -143,22 +157,22 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 </div>
 <div style="left:70PX;top:316PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
 </div>
-<div style="left:70PX;top:361PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 360px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
 
-<div style="left:70PX;top:406PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 403px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left:70PX;top:451PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 448px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left:70PX;top:496PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 492px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left:70PX;top:541PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 537px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
 
 <div style="left:70PX;top:596PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:4PX;">
 <table width="0px" height="-2PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:70PX;top:596PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 590px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
 <div style="left:70PX;top:625PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:934PX;">
 </div>
@@ -183,7 +197,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:615PX;top:43PX;width:246PX;height:18PX;"><span class="fc1-0">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
-<DIV style="left:877PX;top:53PX;width:140PX;height:22PX;"><span class="fc1-4">999999999</span></DIV>
+<DIV style="left:877PX;top:53PX;width:140PX;height:22PX;"><span class="fc1-4"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:75PX;top:84PX;width:342PX;height:19PX;"><span class="fc1-5">( ให้แยกกรอกรายการในใบแนบนี้ตามเงินได้แต่ละประเภท โดยใส่เครื่องหมาย " </span></DIV>
 
@@ -225,9 +239,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:871PX;top:147PX;width:159PX;height:23PX;"><span class="fc1-8">แผ่นที่ ...........ในจำนวน...........แผ่น</span></DIV>
 
-<DIV style="left:904PX;top:144PX;width:22PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">1</span></DIV>
+<DIV style="left:904PX;top:144PX;width:22PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:975PX;top:144PX;width:31PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">1</span></DIV>
+<DIV style="left:975PX;top:144PX;width:31PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=$total_page;?></span></DIV>
 
 <DIV style="left:75PX;top:180PX;width:46PX;height:45PX;TEXT-ALIGN:CENTER;">
 <table width="41PX" border=0 cellpadding=0 cellspacing=0>
@@ -260,42 +274,46 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Item List-->
 <DIV style="left: 70px; top: 230px">
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="0" cellspacing="0" border="0" width="918">
 <?php
-$rows = $query->result_array();
+//$rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;$invdt_str='';
-$j=0;$no=1;$nos='';
-for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
-    $item = $rows[$i];
+$j=0;$no=1;$nos='';$beamt=0;$taxid='';
+for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($result);$i++)://$rows as $key => $item):
+    $item = $result[$i];
 	$invdt_str = util_helper_format_date($item['bldat']);
 	$names = explode(' ',$item['emnam']);
-	if($item['saknr']=='2132-01'){
+	//if($item['saknr']=='2132-01'){
 		$v_amt+=$item['credi'];
 		$t_amt+=$beamt;
+		$taxid = str_split($item['taxid']);
+		$beamt = $item['debit']; 
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:54px;"><?=$nos;?></td>
-	  <td class="fc1-8" align="left" style="width:260px;">ชื่อ <?=$names[0];?></td>
-	  <td class="fc1-8" align="left" style="width:205px;">ชื่อสกุล <?=$names[1];?></td>
-	  <td class="fc1-8" align="center" style="width:152px;"><?=$invdt_str;?></td>
-      <td class="fc1-8" align="right" style="width:120px;"><?=number_format($beamt,2,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:130px;"><?=number_format($item['credi'],2,'.',',');?></td>
+		<td align="center" class="fc1-8" style="width:54px;"><?=$no++;?></td>
+	  <td align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" class="fc1-8" style="width:250px;background-repeat: no-repeat;" >&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
+	  <td align="left" class="fc1-8" style="width:160px;"><?=$nos;?></td>
+	  <td align="center" class="fc1-8" style="width:130px;"><?=$invdt_str;?></td>
+      <td align="right" class="fc1-8" style="width:128px;"><?=number_format($beamt,2,'.',',');?></td>
+      <td align="right" class="fc1-8" style="width:120px;"><?=number_format($item['credi'],2,'.',',');?></td>
+	</tr>
+<!-- Name & Surename -->
+    <tr>
+		<td class="fc1-8" align="center" style="width:49px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="left" style="width:250px;">ชื่อ <?=$names[0];?></td>
+	  <td class="fc1-8" align="left" style="width:160px;">ชื่อสกุล <?=$names[1];?></td>
+	  <td class="fc1-8" align="center" style="width:130px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:128px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:120px;"><?=$nos;?></td>
 	</tr>
 
 <?php
-   }else{ 
-      $beamt = $item['debit']; 
+   //}else{ 
+   //  $beamt = $item['debit']; 
 ?>
-      <tr>
-		<td class="fc1-8" align="center" style="width:54px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" style="width:260px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:205px;"><?=$nos;?></td>
-	  <td class="fc1-8" align="center" style="width:152px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:120px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:130px;"><?=$nos;?></td>
-	</tr>
+      
 <?php   
-   }
+ //  }
 endfor;
 ?>
 </table>
@@ -396,11 +414,11 @@ endfor;
 
 <DIV style="left:738PX;top:662PX;width:263PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">ลงชื่อ .................................................................ผู้จ่ายเงิน</span></DIV>
 
-<DIV style="left: 740PX; top: 602PX; width: 121px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 874PX; top: 602PX; width: 115px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 736px; top: 602PX; width: 121px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 872px; top: 602PX; width: 115px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:635PX;top:667PX;width:42PX;height:42PX;TEXT-ALIGN:CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
-<DIV style="left:598PX;top:626PX;width:123PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8">ยอดรวมทั้งหมด</span></DIV>
+<DIV style="left: 596px; top: 601px; width: 123PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8">ยอดรวมทั้งหมด</span></DIV>
 
 <DIV style="left:143PX;top:684PX;width:11PX;height:12PX;TEXT-ALIGN:CENTER;"><span class="fc1-13">n&nbsp;</span></DIV>
 

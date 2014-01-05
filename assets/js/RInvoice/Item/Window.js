@@ -51,7 +51,7 @@ Ext.define('Account.RInvoice.Item.Window', {
                           handler: function () {
                             //   alert(_this.txtParam.getValue());
                                var param = _this.txtParam.getValue();
-                               window.location = __site_url+'export/rinvoice/GetReportFromPageSelect?' + param;
+                               window.location = __site_url+'export/rinvoice/Index?' + param;
                           }
 		});
 		this.grid = Ext.create('Account.RInvoice.Item.Grid', {
@@ -60,7 +60,7 @@ Ext.define('Account.RInvoice.Item.Window', {
 		});
 
 		this.items = [this.grid];
-                this.tbar = [this.excelAct];
+        this.tbar = [this.excelAct];
 
 		// --- after ---
 		//this.grid.load();

@@ -12,8 +12,11 @@ class Rsalarywht_docket extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -24,18 +27,25 @@ class Rsalarywht_docket extends CI_Controller {
 		$text_month = $this->convert_amount->text_month($month[1]);
 		
 		if($copies<=0) $copies = 1;
-		
-	    $strSQL = " select v_vbrk.*";
-        $strSQL = $strSQL . " from v_vbrk ";
-        $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+		$strSQL = " select v_bsid.*,v_bkpf.*";
+        $strSQL = $strSQL . " from v_bsid ";
+		$strSQL = $strSQL . " left join v_bkpf on v_bsid.belnr = v_bkpf.belnr ";
+        $strSQL = $strSQL . " Where (v_bsid.saknr='5131-01' or v_bsid.saknr='5132-01' or v_bsid.saknr='5310-01' or v_bsid.saknr='2132-01') and ";
+		$strSQL = $strSQL . "v_bkpf.docty = '09' and v_bkpf.bldat ".$dt_result;
+		//$strSQL .= " ORDER BY v_bsid.belnr and v_bsid.belpr ASC";
        
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		
 		// calculate sum
 		$rows = $query->result_array();
-		$b_amt = 0;
+		$pamt = count($rows)/2;
+		$beamt = 0;$wht=0;
+		foreach ($rows as $key => $item) {
+			if($item['saknr']=='2132-01'){
+		       $wht+=$item['credi'];
+		    }else{ $beamt += $item['debit']; }
+		}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -267,19 +277,19 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:320PX;top:176PX;width:45PX;height:21PX;"><span class="fc1-2">สาขาที่</span></DIV>
 
-<DIV style="left:295PX;top:142PX;width:140PX;height:32PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">999999999</span></DIV>
+<DIV style="left:295PX;top:142PX;width:140PX;height:32PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:364PX;top:174PX;width:71PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0000</span></DIV>
 
-<DIV style="left:30PX;top:198PX;width:405PX;height:28PX;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left:30PX;top:198PX;width:405PX;height:28PX;"><span class="fc1-5"><?= $r_com['name1']; ?></span></DIV>
 
-<DIV style="left:75PX;top:226PX;width:360PX;height:73PX;"><span class="fc1-6">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana Bangkok</span></DIV>
+<DIV style="left:75PX;top:226PX;width:360PX;height:73PX;"><span class="fc1-6"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?></span></DIV>
 
-<DIV style="left:101PX;top:297PX;width:52PX;height:24PX;"><span class="fc1-6">10110</span></DIV>
+<DIV style="left:101PX;top:297PX;width:52PX;height:24PX;"><span class="fc1-6"><?=$r_com['pstlz'];?></span></DIV>
 
 <DIV style="left:153PX;top:299PX;width:65PX;height:24PX;"><span class="fc1-2"> โทรศัพท์ : </span></DIV>
 
-<DIV style="left: 219px; top: 297PX; width: 146px; height: 25PX;"><span class="fc1-6">0-2224-3388</span></DIV>
+<DIV style="left: 219px; top: 297PX; width: 146px; height: 25PX;"><span class="fc1-6"><?=$r_com['telf1'];?></span></DIV>
 
 <DIV style="left:155PX;top:142PX;width:121PX;height:17PX;"><span class="fc1-1"> (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย</span></DIV>
 
@@ -439,30 +449,16 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:66PX;top:759PX;width:312PX;height:24PX;"><span class="fc1-17">8. รวมยอดภาษีที่นำส่งทั้งสิ้น&nbsp;&nbsp;และเงินเพิ่ม&nbsp;&nbsp;(6. + 7.)</span></DIV>
 
-<DIV style="left:484PX;top:521PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-6">0</span></DIV>
+<DIV style="left: 487px; top: 521PX; width: 92px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($beamt,2,'.',',');?></span></DIV>
+<DIV style="left: 608px; top: 521PX; width: 89px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($wht,2,'.',',');?></span></DIV>
+<DIV style="left: 604px; top: 704PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
+<DIV style="left: 488px; top: 704PX; width: 91px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($beamt,2,'.',',');?></span></DIV>
 
-<DIV style="left:564PX;top:521PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">00</span></DIV>
+<DIV style="left:409PX;top:521PX;width:63PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=number_format($pamt,0,'.',',');?></span></DIV>
 
-<DIV style="left:603PX;top:521PX;width:75PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-6">0</span></DIV>
+<DIV style="left:411PX;top:704PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5"><?=number_format($pamt,0,'.',',');?></span></DIV>
 
-<DIV style="left:682PX;top:521PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">00</span></DIV>
-
-<DIV style="left:600PX;top:704PX;width:78PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
-
-<DIV style="left:682PX;top:704PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
-
-<DIV style="left:564PX;top:704PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
-
-<DIV style="left:484PX;top:704PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
-
-<DIV style="left:409PX;top:521PX;width:63PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6">3</span></DIV>
-
-<DIV style="left:411PX;top:704PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">3</span></DIV>
-
-<DIV style="left:601PX;top:757PX;width:77PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">0</span></DIV>
-
-<DIV style="left:684PX;top:757PX;width:28PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">00</span></DIV>
-
+<DIV style="left: 604px; top: 757PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
 <DIV style="left:168PX;top:796PX;width:448PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ข้าพเจ้าขอรับรองว่า&nbsp;&nbsp;รายการที่แจ้งไว้ข้างต้นนี้&nbsp;&nbsp;เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ </span></DIV>
 
 <DIV style="left:194PX;top:857PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ลงชื่อ .......................................................................ผู้จ่ายเงิน</span></DIV>
@@ -470,11 +466,6 @@ class Rsalarywht_docket extends CI_Controller {
 <DIV style="left: 590px; top: 883PX; width: 42PX; height: 42PX; TEXT-ALIGN: CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
 
 <DIV style="left:194PX;top:883PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( .........................................................................)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></DIV>
-
-<DIV style="left:290PX;top:876PX;width:200PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">นายจ้าง&nbsp;&nbsp;แสนใจดี</span></DIV>
-
-<DIV style="left:290PX;top:904PX;width:213PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-20">กรรรมการผู้จัดการ</span></DIV>
-
 <DIV style="left:194PX;top:911PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ตำแหน่ง ..................................................................................</span></DIV>
 
 <DIV style="left:194PX;top:937PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ยื่นวันที่.............เดือน................................พ .ศ. .......................</span></DIV>

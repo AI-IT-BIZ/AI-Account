@@ -12,8 +12,11 @@ class Rsumvat_docket extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		$balwr = $this->input->get('balwr');
 		$date =	$this->input->get('bldat');
@@ -23,8 +26,6 @@ class Rsumvat_docket extends CI_Controller {
 		$month = explode('-',$date);
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
-		
-		$taxid = str_split('1234567890123');
 		
 		if($copies<=0) $copies = 1;
 		
@@ -36,6 +37,9 @@ class Rsumvat_docket extends CI_Controller {
 		
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
+		
+		$taxid = str_split($r_com['taxid']);
+		$posid = str_split($r_com['pstlz']);
 		// calculate sum
 		$rows = $query->result_array();
 		
@@ -79,41 +83,43 @@ class Rsumvat_docket extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-1 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-9 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-11 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-13 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-14 { COLOR:E8E1DE;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
+.fc1-0 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-1 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-6 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-9 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;;FONT-WEIGHT:NORMAL;}
+.fc1-11 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-13 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-14 { COLOR:E8E1DE;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
 .fc1-15 { COLOR:000000;FONT-SIZE:8PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
-.fc1-16 { COLOR:000000;FONT-SIZE:27PT;FONT-FAMILY:Cordia New;FONT-WEIGHT:NORMAL;}
-.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-18 { COLOR:000000;FONT-SIZE:7PT;FONT-FAMILY:New Century Schoolbook;FONT-WEIGHT:BOLD;}
-.fc1-19 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-20 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Helvetica;FONT-WEIGHT:BOLD;}
-.fc1-21 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Cordia New;FONT-WEIGHT:NORMAL;}
-.fc1-22 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-23 { COLOR:000000;FONT-SIZE:27PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-24 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:New Century Schoolbook;FONT-WEIGHT:BOLD;}
-.fc1-25 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-26 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-27 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-28 { COLOR:FFFFFF;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-29 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-30 { COLOR:808080;FONT-SIZE:6PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-16 { COLOR:000000;FONT-SIZE:27PT;FONT-WEIGHT:NORMAL;}
+.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-18 { COLOR:000000;FONT-SIZE:7PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-19 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-20 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-21 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-22 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-23 { COLOR:000000;FONT-SIZE:27PT;FONT-WEIGHT:NORMAL;}
+.fc1-24 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-25 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
+.fc1-26 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-27 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-28 { COLOR:FFFFFF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-29 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-30 { COLOR:808080;FONT-SIZE:6PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:800000;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -317,13 +323,13 @@ class Rsumvat_docket extends CI_Controller {
 <img  WIDTH=79 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp03.jpg') ?>">
 </DIV>
 
-<DIV style="left:344PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:344PX;top:126PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
-<DIV style="left:360PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:360PX;top:126PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
-<DIV style="left:375PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:375PX;top:126PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
-<DIV style="left:391PX;top:127PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:391PX;top:126PX;width:20PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
 
 <DIV style="left:30PX;top:104PX;width:154PX;height:22PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร(13หลัก)*</span></DIV>
 
@@ -331,23 +337,23 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:30PX;top:151PX;width:90PX;height:25PX;"><span class="fc1-2">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left:120PX;top:153PX;width:319PX;height:40PX;"><span class="fc1-0">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left:120PX;top:153PX;width:319PX;height:40PX;"><span class="fc1-0"><?= $r_com['name1']; ?></span></DIV>
 
 <DIV style="left:467PX;top:94PX;width:196PX;height:26PX;"><span class="fc1-2">การยื่นแบบแสดงรายการ กรณีมีสาขา</span></DIV>
 
 <DIV style="left:30PX;top:193PX;width:103PX;height:25PX;"><span class="fc1-3">ชื่อสถานประกอบการ</span></DIV>
 
-<DIV style="left:134PX;top:194PX;width:305PX;height:25PX;"><span class="fc1-0">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left:134PX;top:194PX;width:305PX;height:25PX;"><span class="fc1-0"><?= $r_com['name1']; ?></span></DIV>
 
 <DIV style="left:30PX;top:224PX;width:42PX;height:27PX;"><span class="fc1-3">ที่อยู่ :</span></DIV>
 
 <DIV style="left:85PX;top:225PX;width:354PX;height:61PX;">
 <table width="349PX" border=0 cellpadding=0 cellspacing=0>
-<tr><td class="fc1-0">555 อาคารรุ่งเรือง ถนนสามเสนใน แขวงพญาไท เขตพญาไท </td></tr>
-<tr><td class="fc1-0">กรุงเทพฯ</td></tr></table>
+<tr><td class="fc1-0"><?=$r_com['adr01'];?></td></tr>
+<tr><td class="fc1-0"><?=$r_com['distx'];?></td></tr></table>
 </DIV>
 
-<DIV style="left:87PX;top:316PX;width:239PX;height:27PX;"><span class="fc1-0">0-2224-3388</span></DIV>
+<DIV style="left:87PX;top:316PX;width:239PX;height:27PX;"><span class="fc1-0"><?=$r_com['telf1'];?></span></DIV>
 
 <DIV style="left:30PX;top:316PX;width:55PX;height:27PX;"><span class="fc1-3">โทรศัพท์</span></DIV>
 
@@ -409,7 +415,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:658PX;top:200PX;width:106PX;height:18PX;"><span class="fc1-9">" หน้าชื่อเดือน) พ.ศ. ...........</span></DIV>
 
-<DIV style="left:732PX;top:196PX;width:31PX;height:41PX;TEXT-ALIGN:CENTER;"><span class="fc1-11">2556</span></DIV>
+<DIV style="left:732PX;top:196PX;width:31PX;height:41PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $month[0]+543 ?></span></DIV>
 
 <DIV style="left:463PX;top:219PX;width:62PX;height:18PX;"><span class="fc1-4">(1) มกราคม</span></DIV>
 
@@ -461,15 +467,15 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:30PX;top:287PX;width:71PX;height:27PX;"><span class="fc1-3">รหัสไปรษณีย์</span></DIV>
 
-<DIV style="left:80PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">1</span></DIV>
+<DIV style="left: 80PX; top: 285px; width: 82PX; height: 26PX; TEXT-ALIGN: CENTER;"><span class="fc1-0"><?= $posid[0];?></span></DIV>
 
-<DIV style="left:95PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:95PX;top:285PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0"><?= $posid[1];?></span></DIV>
 
-<DIV style="left:110PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">4</span></DIV>
+<DIV style="left:110PX;top:285PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0"><?= $posid[2];?></span></DIV>
 
-<DIV style="left:125PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:125PX;top:285PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0"><?= $posid[3];?></span></DIV>
 
-<DIV style="left:140PX;top:287PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">0</span></DIV>
+<DIV style="left:140PX;top:285PX;width:82PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-0"><?= $posid[4];?></span></DIV>
 
 <DIV style="left:193PX;top:104PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[0];?></span></DIV>
 
@@ -519,47 +525,47 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:205PX;top:408PX;width:97PX;height:26PX;"><span class="fc1-17">หรือกรณียื่นเพิ่มเติม</span></DIV>
 
-<DIV style="left:63PX;top:414PX;width:19PX;height:17PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">1.</span></DIV>
+<DIV style="left: 63PX; top: 412px; width: 19PX; height: 17PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">1.</span></DIV>
 
 <DIV style="left:86PX;top:407PX;width:104PX;height:23PX;"><span class="fc1-19">ยอดขายในเดือนนี้</span></DIV>
 
-<DIV style="left:63PX;top:438PX;width:19PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">&nbsp;&nbsp;2.</span></DIV>
+<DIV style="left: 63PX; top: 437px; width: 19PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">&nbsp;&nbsp;2.</span></DIV>
 
 <DIV style="left:86PX;top:431PX;width:22PX;height:24PX;"><span class="fc1-2">ลบ</span></DIV>
 
 <DIV style="left:106PX;top:433PX;width:198PX;height:25PX;"><span class="fc1-17">ยอดขายที่เสียภาษีในอัตราร้อยละ 0&nbsp;&nbsp;(ถ้ามี)</span></DIV>
 
-<DIV style="left: 450px; top: 407PX; width: 124px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 447px; top: 403px; width: 124px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left:449PX;top:431PX;width:108PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">0</span></DIV>
+<DIV style="left:449PX;top:431PX;width:108PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-2">0</span></DIV>
 
-<DIV style="left:560PX;top:431PX;width:21PX;height:20PX;"><span class="fc1-20">00</span></DIV>
+<DIV style="left:560PX;top:431PX;width:21PX;height:20PX;"><span class="fc1-2">00</span></DIV>
 
-<DIV style="left:449PX;top:455PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-20">0</span></DIV>
+<DIV style="left:449PX;top:455PX;width:108PX;height:22PX;TEXT-ALIGN:RIGHT;"><span class="fc1-2">0</span></DIV>
 
-<DIV style="left:560PX;top:455PX;width:21PX;height:22PX;"><span class="fc1-20">00</span></DIV>
+<DIV style="left:560PX;top:455PX;width:21PX;height:22PX;"><span class="fc1-2">00</span></DIV>
 
-<DIV style="left: 446px; top: 480PX; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 443px; top: 476px; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($sale_amt,2,'.',',');?></span></DIV>
 
 <DIV style="left:86PX;top:455PX;width:22PX;height:23PX;"><span class="fc1-2">ลบ</span></DIV>
 
 <DIV style="left:106PX;top:457PX;width:140PX;height:21PX;"><span class="fc1-17">ยอดขายที่ได้รับยกเว้น&nbsp;&nbsp;(ถ้ามี)</span></DIV>
 
-<DIV style="left:63PX;top:462PX;width:19PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">3.</span></DIV>
+<DIV style="left: 63PX; top: 461px; width: 19PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">3.</span></DIV>
 
-<DIV style="left:63PX;top:485PX;width:19PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">4.</span></DIV>
+<DIV style="left: 63PX; top: 483px; width: 19PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">4.</span></DIV>
 
 <DIV style="left:193PX;top:478PX;width:63PX;height:23PX;"><span class="fc1-2">(1. - 2. - 3.)</span></DIV>
 
 <DIV style="left:86PX;top:480PX;width:108PX;height:22PX;"><span class="fc1-17">ยอดขายที่ต้องเสียภาษี</span></DIV>
 
-<DIV style="left:63PX;top:509PX;width:19PX;height:16PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">5.</span></DIV>
+<DIV style="left: 63PX; top: 505px; width: 19PX; height: 16PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">5.</span></DIV>
 
 <DIV style="left:86PX;top:500PX;width:81PX;height:20PX;"><span class="fc1-2">ภาษีขายเดือนนี้</span></DIV>
 
 <DIV style="left:170PX;top:505PX;width:404PX;height:24PX;"><span class="fc1-21">.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.&nbsp;&nbsp;.</span></DIV>
 
-<DIV style="left:64PX;top:533PX;width:18PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">6.</span></DIV>
+<DIV style="left: 64PX; top: 531px; width: 18PX; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">6.</span></DIV>
 
 <DIV style="left:88PX;top:528PX;width:120PX;height:22PX;"><span class="fc1-17">ยอดซื้อที่มีสิทธินำภาษีซื้อ</span></DIV>
 
@@ -589,7 +595,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:739PX;top:500PX;width:19PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-24">5</span></DIV>
 
-<DIV style="left:63PX;top:646PX;width:19PX;height:18PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">10.</span></DIV>
+<DIV style="left: 63PX; top: 645px; width: 19PX; height: 18PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">10.</span></DIV>
 
 <DIV style="left:86PX;top:639PX;width:108PX;height:22PX;"><span class="fc1-2">ภาษีที่ชำระเกินยกมา</span></DIV>
 
@@ -597,7 +603,7 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:205PX;top:618PX;width:19PX;height:20PX;"><span class="fc1-17">(ถ้า</span></DIV>
 
-<DIV style="left:63PX;top:623PX;width:19PX;height:18PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">9.</span></DIV>
+<DIV style="left: 63PX; top: 622px; width: 19PX; height: 18PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">9.</span></DIV>
 
 <DIV style="left:86PX;top:617PX;width:119PX;height:22PX;"><span class="fc1-2">ภาษีที่ชำระเกินเดือนนี้</span></DIV>
 
@@ -607,13 +613,13 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:86PX;top:592PX;width:121PX;height:21PX;"><span class="fc1-2">ภาษีที่ต้องชำระเดือนนี้</span></DIV>
 
-<DIV style="left:63PX;top:599PX;width:19PX;height:17PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">8.</span></DIV>
+<DIV style="left: 63PX; top: 597px; width: 19PX; height: 17PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">8.</span></DIV>
 
 <DIV style="left:169PX;top:566PX;width:232PX;height:21PX;"><span class="fc1-17">(ตามหลักฐานในใบกำกับภาษีของยอดซื้อตาม 6.) </span></DIV>
 
 <DIV style="left:88PX;top:564PX;width:79PX;height:23PX;"><span class="fc1-2">ภาษีซื้อเดือนนี้</span></DIV>
 
-<DIV style="left:64PX;top:571PX;width:18PX;height:14PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">7.</span></DIV>
+<DIV style="left: 64PX; top: 569px; width: 18PX; height: 14PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">7.</span></DIV>
 
 <DIV style="left:580PX;top:532PX;width:24PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-24">6</span></DIV>
 
@@ -644,20 +650,20 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:63PX;top:670PX;width:23PX;height:22PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
-<DIV style="left:86PX;top:674PX;width:20PX;height:15PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">11.</span></DIV>
+<DIV style="left: 86PX; top: 673px; width: 20PX; height: 15PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">11.</span></DIV>
 
-<DIV style="left:86PX;top:698PX;width:20PX;height:18PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">12.</span></DIV>
+<DIV style="left: 86PX; top: 697px; width: 20PX; height: 18PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">12.</span></DIV>
 
 <DIV style="left:108PX;top:669PX;width:151PX;height:21PX;"><span class="fc1-17">ต้องชำระ&nbsp;&nbsp;&nbsp;&nbsp;(ถ้า 8. มากกว่า 10.)</span></DIV>
 
 <DIV style="left:108PX;top:691PX;width:277PX;height:23PX;"><span class="fc1-19">ชำระเกิน&nbsp;&nbsp;&nbsp;((ถ้า 10. มากกว่า 8.)&nbsp;&nbsp;หรือ&nbsp;&nbsp;(9. รวมกับ 10.))</span></DIV>
 
-<DIV style="left: 606px; top: 502PX; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($sale_vat,2,'.',',');?></span></DIV>
-<DIV style="left: 447px; top: 535PX; width: 127px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 603px; top: 499px; width: 128px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($sale_vat,2,'.',',');?></span></DIV>
+<DIV style="left: 445px; top: 532px; width: 127px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left: 610px; top: 566PX; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($purch_vat,2,'.',',');?></span></DIV>
+<DIV style="left: 608px; top: 564px; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($purch_vat,2,'.',',');?></span></DIV>
 
-<DIV style="left: 610px; top: 639PX; width: 124px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($balwr,2,'.',',');?></span></DIV>
+<DIV style="left: 607px; top: 636px; width: 124px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($balwr,2,'.',',');?></span></DIV>
 
 <?php 
       $net_amt=0;$over_amt=0;
@@ -665,9 +671,9 @@ class Rsumvat_docket extends CI_Controller {
       if($net_amt<0){$over_amt = 0 - $net_amt;}
 	  elseif($net_amt==0){$net_amt = $over_amt;}
 ?>
-<DIV style="left: 611px; top: 591PX; width: 123px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($net_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 608px; top: 588px; width: 123px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($net_amt,2,'.',',');?></span></DIV>
 
-<DIV style="left: 608PX; top: 615PX; width: 126px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($over_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 605px; top: 612px; width: 126px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($over_amt,2,'.',',');?></span></DIV>
 
 <?php 
       $net_amt2=0;$over_amt2=0;
@@ -676,7 +682,7 @@ class Rsumvat_docket extends CI_Controller {
       if($net_amt2<0){$over_amt2 = 0 - $net_amt2;}
 	  elseif($net_amt2==0){$net_amt2 = $over_amt2;}
 ?>
-<DIV style="left: 451px; top: 695PX; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20"><?=number_format($net_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 448px; top: 692px; width: 123px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=number_format($net_amt,2,'.',',');?></span></DIV>
 
 <DIV style="left:739PX;top:589PX;width:19PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-24">8</span></DIV>
 
@@ -728,13 +734,13 @@ class Rsumvat_docket extends CI_Controller {
 
 <DIV style="left:66PX;top:721PX;width:366PX;height:22PX;"><span class="fc1-2">กรณียื่นแบบแสดงรายการและชำระภาษีเกินกำหนดเวลา หรือยื่นเพิ่มเติม</span></DIV>
 
-<DIV style="left:63PX;top:750PX;width:19PX;height:17PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">13.</span></DIV>
+<DIV style="left: 63PX; top: 749px; width: 19PX; height: 17PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">13.</span></DIV>
 
-<DIV style="left:63PX;top:774PX;width:19PX;height:17PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">14.</span></DIV>
+<DIV style="left: 63PX; top: 773px; width: 19PX; height: 17PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">14.</span></DIV>
 
-<DIV style="left:63PX;top:799PX;width:19PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">15.</span></DIV>
+<DIV style="left: 63PX; top: 796px; width: 19PX; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">15.</span></DIV>
 
-<DIV style="left:63PX;top:821PX;width:19PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-18">16.</span></DIV>
+<DIV style="left: 63PX; top: 820px; width: 19PX; height: 20PX; TEXT-ALIGN: RIGHT;"><span class="fc1-20">16.</span></DIV>
 
 <DIV style="left:86PX;top:745PX;width:42PX;height:21PX;"><span class="fc1-17">เงินเพิ่ม </span></DIV>
 

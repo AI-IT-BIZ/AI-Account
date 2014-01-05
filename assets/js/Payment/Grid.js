@@ -46,7 +46,8 @@ Ext.define('Account.Payment.Grid', {
 			width: 200, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 250, dataIndex: 'txz01', sortable: true},
-			{text: "Payment Status", flex: true, dataIndex: 'statx', sortable: true},	{text: "Amount", 
+			{text: "Payment Status", flex: true, dataIndex: 'statx', sortable: true},	
+			{text: "Amount", xtype: 'numbercolumn',
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", dataIndex: 'ctype', sortable: true}
 		];

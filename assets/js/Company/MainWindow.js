@@ -50,15 +50,17 @@ Ext.define('Account.Company.MainWindow', {
 
 		// --- event ---
 		this.addAct.setHandler(function(){
-			_this.itemDialog.show();
+			//_this.itemDialog.show();
+			_this.itemDialog.openDialog();
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				_this.itemDialog.show();
-				_this.itemDialog.form.load(id);
+				_this.itemDialog.openDialog(id);
+				//_this.itemDialog.show();
+				//_this.itemDialog.form.load(id);
 			}
 		});
 
@@ -78,6 +80,9 @@ Ext.define('Account.Company.MainWindow', {
 		this.itemDialog.form.on('afterDelete', function(form){
 			_this.grid.load();
 		});
+		this.grid.getView().on('itemdblclick', function(grid, record, item, index){
+	    	_this.editAct.execute();
+	    });
 
 		// --- after ---
 		this.grid.load();

@@ -201,6 +201,7 @@ Ext.define('Account.AP.Item.Form_t', {
    	        xtype: 'textfield',
    	        name: 'whtxt',
    	        margin: '3 0 0 7',
+   	        emptyText: 'อื่นๆ ระบุประเภทการหักภาษี ณ ที่จ่าย',
    	        //allowBlank: false,
 			width:250
 		}]

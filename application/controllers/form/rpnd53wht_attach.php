@@ -12,8 +12,12 @@ class Rpnd53wht_attach extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
@@ -26,7 +30,7 @@ class Rpnd53wht_attach extends CI_Controller {
 		
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.vtype = '01' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
@@ -35,6 +39,7 @@ class Rpnd53wht_attach extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
+		$taxid = str_split($r_com['taxid']);
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -94,7 +99,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 4;
+	$page_size = 5;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -102,7 +107,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		echo '<div';
 		if($real_current_page>0)
 			echo ' class="break"';
-		echo ' style="position:relative; height:720px;">';
+		echo ' style="position:relative; height:760px;">';
 		$real_current_page++;
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -138,11 +143,24 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:452PX;top:94PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:466PX;">
 <table width="0px" height="460PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:45PX;top:230PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+<div style="left: 45PX; top: 235px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
+
+<div style="left: 45PX; top: 301px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+</div>
+
+<div style="left: 45PX; top: 367px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+</div>
+
+<div style="left: 45PX; top: 434px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+</div>
+
+<div style="left: 45PX; top: 501px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+</div>
+
 <div style="left:45PX;top:587PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:965PX;">
 </div>
-<div style="left:628PX;top:587PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:148PX;">
+<div style="left: 628PX; top: 587PX; border-color: 000000; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 155px;">
 <table width="0px" height="142PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:45PX;top:559PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
@@ -152,7 +170,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table border=0 cellpadding=0 cellspacing=0 width=-7px height=-6px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:000000;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:45PX;top:94PX;width:984PX;height:640PX;">
+<DIV class="box" style="z-index: 10; border-color: 000000; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 45PX; top: 94PX; width: 984PX; height: 648px;">
 <table border=0 cellpadding=0 cellspacing=0 width=977px height=633px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
@@ -161,11 +179,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:852PX;top:74PX;width:178PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">แผ่นที่...............ในจำนวน...............แผ่น</span></DIV>
 
-<DIV style="left:899PX;top:69PX;width:26PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">1</span></DIV>
+<DIV style="left: 904px; top: 69PX; width: 26PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">1</span></DIV>
+<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=$total_page;?></span></DIV>
 
-<DIV style="left: 771px; top: 57PX; width: 61PX; height: 19PX;"><img  WIDTH=79 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp03.jpg') ?>"></DIV>
+<DIV style="left: 771px; top: 57px; width: 61PX; height: 19PX;"><span class="fc1-2">0000</span></DIV>
 
 <DIV style="left:45PX;top:52PX;width:52PX;height:28PX;"><span class="fc1-4"> ใบแนบ</span></DIV>
 
@@ -173,7 +191,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:234PX;top:55PX;width:175PX;height:22PX;"><span class="fc1-0">เลขประจำตัวผู้เสียภาษีอากร(13หลัก)*</span></DIV>
 
-<DIV style="left: 453px; top: 57PX; width: 235px; height: 20PX;"><img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp02.jpg') ?>"></DIV>
+<DIV style="z-index: 15; left: 424px; top: 57px; width: 235PX; height: 20PX;">
+<img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp04.jpg') ?>">
+</DIV>
+
+<DIV style="left:426PX;top:57PX;width:235PX;height:20PX;"><span class="fc1-8">&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></span></DIV>
 
 <DIV style="left:1008PX;top:122PX;width:19PX;height:32PX;">
 <table width="14PX" border=0 cellpadding=0 cellspacing=0>
@@ -202,9 +224,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left:748PX;top:124PX;width:36PX;height:40PX;TEXT-ALIGN:CENTER;">
 <table width="31PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-6">อัตรา</td></table>
 
-<table width="31PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-6">ภาษี</td></table>
-
-<table width="31PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-6">ร้อยละ</td></table>
+<table width="31PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-6">ภาษี %</td></table>
 </DIV>
 
 <DIV style="left:650PX;top:125PX;width:71PX;height:19PX;"><span class="fc1-6">ประเภทเงินได้</span></DIV>
@@ -239,30 +259,32 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Item List-->
 <DIV style="left: 42px; top: 170px">
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="0" cellspacing="0" border="0" width="960">
 <?php
-$rows = $query->result_array();
+//$rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;$invdt_str='';
 $j=0;$no=1;$nos='';
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
-    //$item = $rows[$i];
-	//$invdt_str = util_helper_format_date($item['bldat']);
-	//$v_amt+=$item['credi'];
-	//$t_amt+=$beamt;
+    $item = $rows[$i];
+	$invdt_str = util_helper_format_date($item['bldat']);
+	$v_amt+=$item['wht01'];
+	$t_amt+=$item['beamt'];
+	//$names = explode(' ',$item['name1']);
+	$taxid = str_split($item['taxid']);
 ?>
+    <tr>
+		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
+	  <td class="fc1-8" align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" style="width:370px;height:25PX;background-repeat: no-repeat;">&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
+	  <td class="fc1-8" align="center" style="width:75px;">0000</td>
+      <td class="fc1-8" align="center" style="width:78px;"><?=$invdt_str?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['beamt'],0,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['wht01'],0,'.',',');?></td>
+	</tr>
 	<tr>
 		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
-	  <td class="fc1-8" align="left" style="width:370px;">ชื่อ </td>
-	  <td class="fc1-8" align="center" style="width:75px;"><?=$invdt_str;?></td>
-      <td class="fc1-8" align="center" style="width:78px;">0000</td>
-      <td class="fc1-8" align="center" style="width:144px;">00</td>
-      <td class="fc1-8" align="center" style="width:36px;">0000</td>
-      <td class="fc1-8" align="right" style="width:110px;">0000</td>
-      <td class="fc1-8" align="right" style="width:110px;">0000</td>
-	</tr>
-      <tr>
-		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" style="width:370px;"><?=$invdt_str;?></td>
+	  <td class="fc1-8" align="left" style="width:370px;height:10PX;">ชื่อ&nbsp;<?=$item['name1']?></td>
 	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
@@ -270,6 +292,17 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
 	</tr>
+    <tr>
+		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="left" style="width:370px;height:20PX;">ที่อยู่&nbsp;<?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td>
+	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
+	</tr>
+      
 <?php   
 endfor;
 ?>
@@ -370,8 +403,8 @@ endfor;
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20"> 3. กรณีอื่นๆนอกเหนือจาก 1. และ 2. ให้ใช้เลขประจำตัวผู้เสียภาษีอากร (13หลัก)ของกรมสรรพากร</td></table>
 </DIV>
 
-<DIV style="z-index:15;left:52PX;top:736PX;width:397PX;height:24PX;">
-<img  WIDTH=397 HEIGHT=24 SRC="7a311000000g.jpg">
+<DIV style="z-index: 15; left: 52PX; top: 745px; width: 397PX; height: 24PX;">
+<img  WIDTH=397 HEIGHT=24 SRC="<?= base_url('assets/images/icons/pnd53_02.jpg') ?>">
 </DIV>
 <DIV style="left:121PX;top:606PX;width:503PX;height:55PX;">
 <table width="498PX" border=0 cellpadding=0 cellspacing=0>

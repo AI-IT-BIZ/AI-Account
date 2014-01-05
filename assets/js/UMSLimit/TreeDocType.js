@@ -37,12 +37,21 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 			iconCls: 'b-small-user_add'
 		});
 
+		this.removeEmp = new Ext.Action({
+			text: 'Remove employee',
+			iconCls: 'b-small-user_delete'
+		});
+
 		var menuDocty = new Ext.menu.Menu({
 			items : [this.editDocAct, this.addLimitAct]
         });
 
         var menuLimit = new Ext.menu.Menu({
 			items : [this.editLimitAct, this.removeLimitAct, this.addEmp]
+        });
+
+        var menuUser = new Ext.menu.Menu({
+			items : [this.removeEmp]
         });
 
         this.docWindow = Ext.create('Account.UMSLimit.Item.DocWindow');
@@ -107,6 +116,8 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 				menuDocty.showAt(e.xy);
 			else if(is_node_limam(id))
 				menuLimit.showAt(e.xy);
+			else if(is_node_empnr(id))
+				menuUser.showAt(e.xy);
 		});
 
 		// event
@@ -137,6 +148,15 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 			});
 		});
 
+		this.removeLimitAct.setHandler(function(){
+			var id = _this.getSelectedId();
+			if(Ext.isEmpty(id)) return;
+			_this.limitWindow.openDialog('remove', {
+				id: id,
+				comid: _this.extraParams.comid
+			});
+		});
+
 		this.addEmp.setHandler(function(){
 			var id = _this.getSelectedId();
 			if(Ext.isEmpty(id)) return;
@@ -146,29 +166,42 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 			});
 		});
 
+		this.removeEmp.setHandler(function(){
+			var id = _this.getSelectedId();
+			if(Ext.isEmpty(id)) return;
+			_this.userWindow.openDialog('remove', {
+				id: id,
+				comid: _this.extraParams.comid
+			});
+		});
+
 		this.limitWindow.form.on('afterSave', function(form, action){
 			_this.limitWindow.hide();
-			var r = _this.getSelectedRecord();
-
 			if(form.form_action=='edit'){
-				var parentNode = _this.store.getById(r.data.parentId);_this.store.load({
-					node: parentNode
-				});
+				_this.reloadParentNode();
 			}else
-				_this.store.load({
-					node: r
-				});
+				_this.reloadCurrentNode();
+		});
+
+		this.limitWindow.form.on('afterDelete', function(form, action){
+			_this.reloadParentNode();
 		});
 
 		this.docWindow.form.on('afterSave', function(form, action){
 			_this.docWindow.hide();
-			var r = _this.getSelectedRecord();
+			_this.reloadParentNode();
+		});
 
+		this.userWindow.form.on('afterSave', function(form, action){
+			_this.userWindow.hide();
 			if(form.form_action=='edit'){
-				var parentNode = _this.store.getById(r.data.parentId);_this.store.load({
-					node: parentNode
-				});
-			}
+				_this.reloadParentNode();
+			}else
+				_this.reloadCurrentNode();
+		});
+
+		this.userWindow.form.on('afterDelete', function(form, action){
+			_this.reloadParentNode();
 		});
 
 		return this.callParent(arguments);
@@ -198,5 +231,26 @@ Ext.define('Account.UMSLimit.TreeDocType', {
 			return rs[0].data.id;
 		else
 			return null;
+	},
+	reloadCurrentNode: function(){
+		var _this=this;
+		var r = this.getSelectedRecord();
+		this.store.load({
+			node: r,
+			callback: function(){
+				_this.expandAll();
+			}
+		});
+	},
+	reloadParentNode: function(){
+		var _this=this;
+		var r = this.getSelectedRecord();
+		var parentNode = _this.store.getById(r.data.parentId);
+		this.store.load({
+			node: parentNode,
+			callback: function(){
+				_this.expandAll();
+			}
+		});
 	}
 });

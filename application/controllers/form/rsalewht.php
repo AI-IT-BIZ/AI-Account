@@ -11,7 +11,13 @@ class Rsalewht extends CI_Controller {
 	}
 	
 	function index()
-	{
+	{    
+	    $comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+	
 		//$no = $type = $this->uri->segment(4);
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -23,7 +29,7 @@ class Rsalewht extends CI_Controller {
 		//Sale
 	    $strSQL1 = " select v_vbbp.*";
         $strSQL1 = $strSQL1 . " from v_vbbp ";
-        $strSQL1 = $strSQL1 . " Where v_vbbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_vbbp.ktype = '01' and v_vbbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY recnr ASC";
        
 		$query = $this->db->query($strSQL1);
@@ -93,7 +99,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		echo '<div';
 		if($real_current_page>0)
 			echo ' class="break"';
-		echo ' style="position:relative; height:720px;">';
+		echo ' style="position:relative; height:750px;">';
 		$real_current_page++;
 ?>
 
@@ -110,14 +116,14 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 992px; top: 49px; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Check Box 1-->
-<DIV style="left: 444px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
+<DIV style="left: 465px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 595px; top: 106px; width: 84px; height: 21PX;"><span class="fc1-1">สำนักงานใหญ่</span></DIV>
 <DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
 <DIV style="left: 743px; top: 107px; width: 39px; height: 21PX;"><span class="fc1-1">สาขา</span></DIV>
 <DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
-<DIV style="left: 515px; top: 72px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 532px; top: 72px; width: 92px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 623px; top: 73px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
@@ -129,7 +135,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 595px; top: 129px; width: 177px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 <DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
+<DIV style="left: 743px; top: 129px; width: 123px; height: 21PX;"><span class="fc1-1"><?= $r_com['taxid']; ?></span></DIV>
+
+<DIV style="left: 743px; top: 129px; width: 123px; height: 21PX;"><span class="fc1-1"><?= $r_com['taxid']; ?></span></DIV>
+
 <DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;"><span class="fc1-3">
   รายงานภาษีหัก ณ ที่จ่าย ของผู้มีเงินได้ ที่เป็นนิติบุคคล  (ใบแนบ ภ.ง.ด.53)
 </span></DIV>
@@ -234,9 +244,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=$item['whtpr'];?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=$item['beamt'];?></td>
-	  <td class="fc1-8" align="right" style="width:108px;"><?=$item['wht01'];?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 
 <?php

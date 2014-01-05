@@ -11,9 +11,12 @@ class Rsalevat extends CI_Controller {
 	}
 	
 	function index()
-	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+	{	
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -66,23 +69,25 @@ class Rsalevat extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
+.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -163,16 +168,16 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Header Text-->
 <DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีขาย</span></DIV>
-<DIV style="left: 237px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
+<DIV style="left: 278px; top: 59px; width: 81px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 314px; top: 60px; width: 107px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 355px; top: 59px; width: 87px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 421px; top: 60px; width: 45px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 466px; top: 58px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 466px; top: 60px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0]+543 ?></span></DIV>
 
 <DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
 <DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
-<DIV style="left: 159px; top: 152px; width: 74px; height: 20PX;"><span class="fc1-3"><?= $r_data['taxid']; ?></span></DIV>
+<DIV style="left: 159px; top: 152px; width: 74px; height: 20PX;"><span class="fc1-5"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left: 427px; top: 177px; width: 75PX; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
 
@@ -186,24 +191,24 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left: 357px; top: 176px; width: 60px; height: 21PX;"><span class="fc1-3">0000</span></DIV>
+<DIV style="left: 357px; top: 178px; width: 60px; height: 21PX;"><span class="fc1-5">0000</span></DIV>
 <?php 
 $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
 
 <!--Company Logo--><!--Company Text-->
-<DIV style="left: 414px; top: 129px; width: 214px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 414px; top: 129px; width: 214px; height: 20px;"><span class="fc1-5"><?= $r_com['name1']; ?></span></DIV>
 
-<DIV style="left: 129px; top: 128px; width: 248px; height: 20px;"><span class="fc1-5">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 129px; top: 128px; width: 248px; height: 20px;"><span class="fc1-5"><?= $r_com['name1']; ?></span></DIV>
 
 <DIV style="left: 420px; top: 149px; width: 327px; height: 25px;">
 <table width="330PX" border=0 cellpadding=0 cellspacing=0>
-  <td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110</td></table>
+  <td class="fc1-4"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
 </DIV>
 
 <!--Vendor Name-->
 <DIV style="left: 51px; top: 176PX; width: 79px; height: 22PX;"><span class="fc1-3">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 124px; top: 173PX; width: 181px; height: 26PX;"><span class="fc1-7">0000</span></DIV>
+<DIV style="left: 124px; top: 178px; width: 181px; height: 26PX;"><span class="fc1-5">0000</span></DIV>
 
 <!--Item Table-->
 <DIV style="left: 49PX; top: 230PX; width: 38px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>

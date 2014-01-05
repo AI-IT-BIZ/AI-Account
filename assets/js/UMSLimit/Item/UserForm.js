@@ -85,7 +85,8 @@ Ext.define('Account.UMSLimit.Item.UserForm', {
 			url:__site_url+'umslimit/load_limit',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
-			}
+			},
+			failure: _this.failureAlert
 		});
 	},
 	save : function(){
@@ -101,21 +102,53 @@ Ext.define('Account.UMSLimit.Item.UserForm', {
 					form_basic.reset();
 					_this.fireEvent('afterSave', _this, action);
 				},
-				failure: function(form_basic, action) {
-					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-				}
+				failure: _this.failureAlert
 			});
 		}
 	},
-	remove : function(id){
+	remove : function(params){
 		var _this=this;
-		this.getForm().load({
-			params: { id: id },
-			url:__site_url+'quotation/remove',
-			success: function(res){
-				_this.fireEvent('afterDelete', _this);
+		Ext.Msg.show({
+			title : "Warning",
+			msg : "Do you want to delete item?",
+			icon : Ext.Msg.WARNING,
+			buttons : Ext.Msg.YESNO,
+			fn : function(bt) {
+				if (bt == "yes") {
+					var url = __site_url+'umslimit/remove_user';
+					_this.form.load({
+						url : url,
+						success : function(form, act) {
+							_this.fireEvent('afterDelete', _this, act);
+						},
+						failure: _this.failureAlert,
+						waitMsg : 'Deleting...',
+						waitTitle : 'Please wait...',
+						params : params
+					});
+				}
 			}
 		});
+	},
+	failureAlert: function(form, action){
+		var showError = function(title, msg){
+			Ext.Msg.show({
+				title : title,
+				msg : msg,
+				icon : Ext.Msg.ERROR,
+				buttons : Ext.Msg.OK
+			});
+		};
+		switch (action.failureType) {
+			case Ext.form.action.Action.CLIENT_INVALID:
+				showError('Failure', 'Form fields may not be submitted with invalid values');
+				break;
+			case Ext.form.action.Action.CONNECT_FAILURE:
+				showError('Failure', 'Ajax communication failed');
+				break;
+			case Ext.form.action.Action.SERVER_INVALID:
+				showError('Failure', action.response.responseText);
+		}
 	},
 	reset: function(){
 		this.getForm().reset();

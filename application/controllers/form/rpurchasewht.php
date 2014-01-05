@@ -12,6 +12,12 @@ class Rpurchasewht extends CI_Controller {
 	
 	function index()
 	{
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		//$no = $type = $this->uri->segment(4);
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -20,10 +26,10 @@ class Rpurchasewht extends CI_Controller {
 		$text_month = $this->convert_amount->text_month($month[1]);
 		
 		if($copies<=0) $copies = 1;
-		//Sale
-	    $strSQL1 = " select v_ebbp.*";
+		
+		$strSQL1 = " select v_ebbp.*";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
-        $strSQL1 = $strSQL1 . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_ebbp.vtype = '01' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);
@@ -110,18 +116,18 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 992px; top: 49px; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Check Box 1-->
-<DIV style="left: 444px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
+<DIV style="left: 470px; top: 73px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 595px; top: 106px; width: 84px; height: 21PX;"><span class="fc1-1">สำนักงานใหญ่</span></DIV>
 <DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
 <DIV style="left: 743px; top: 107px; width: 39px; height: 21PX;"><span class="fc1-1">สาขา</span></DIV>
 <DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
-<DIV style="left: 515px; top: 72px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 537px; top: 73px; width: 87px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 623px; top: 73px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
-<DIV style="left: 651px; top: 72px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
+<DIV style="left: 651px; top: 73px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
 <DIV style="left: 960px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 881px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
@@ -129,7 +135,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 595px; top: 129px; width: 177px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 <DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
+<DIV style="left: 743px; top: 129px; width: 123px; height: 21PX;"><span class="fc1-1"><?= $r_com['taxid']; ?></span></DIV>
+
 <DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;"><span class="fc1-3">
   รายงานภาษีหัก ณ ที่จ่าย ของผู้มีเงินได้ ที่เป็นนิติบุคคล  (ใบแนบ ภ.ง.ด.53)
 </span></DIV>
@@ -212,9 +220,8 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 13px; top: 210px">
 <table cellpadding="0" cellspacing="0" border="0" width="1060">
 <?php
-$rows = $query->result_array();
-//$rowp = $q_purch->result_array();
-//$alls = count($rows) + count($rowp);
+//$rows = $query->result_array();
+
 $j=0;$no=1;$total1=0;$total2=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	

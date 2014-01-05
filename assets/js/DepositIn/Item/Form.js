@@ -213,6 +213,9 @@ Ext.define('Account.DepositIn.Item.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
+		},{
+			xtype: 'hidden',
+			name: 'loekz'
 		},this.trigQuotation,
 					{
 						xtype: 'displayfield',
@@ -333,6 +336,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -369,6 +373,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			       }
 				}
 				});           

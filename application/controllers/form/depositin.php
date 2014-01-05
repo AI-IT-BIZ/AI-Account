@@ -127,8 +127,8 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:157PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 569px;">
-<table width="0px" height="568PX"><td>&nbsp;</td></table>
+<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 202px;">
+<table width="0px" height="202PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:520PX;top:350PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:311PX;">
 <table width="0px" height="305PX"><td>&nbsp;</td></table>
@@ -274,7 +274,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:109PX;top:198PX;width:347PX;height:23PX;"><span class="fc1-8"><?=$r_data['adr01'];?></span></DIV>
 
-<DIV style="left:109PX;top:221PX;width:347PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
+<DIV style="left:109PX;top:221PX;width:347PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
 <DIV style="left:109PX;top:247PX;width:31PX;height:21PX;"><span class="fc1-8">Tel.</span></DIV>
 

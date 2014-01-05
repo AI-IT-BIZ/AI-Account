@@ -19,7 +19,7 @@ Ext.define('Account.Customer.Item.Form', {
 		var _this=this;
 
 /*(1)---ComboBox-------------------------------*/
-/*---ComboBox Price Level----------------------------*/	
+/*---ComboBox Price Level----------------------------*/
 var myStorecomboPleve = Ext.create('Ext.data.Store', {
     fields: ['idPleve', 'name'],
     data : [
@@ -36,7 +36,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 	triggerAction : 'all',
 	clearFilterOnReset: true,
 	emptyText: '-- Please select Level --',
-	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
+	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',
     margin: '0 0 0 56',
     store: myStorecomboPleve,
     labelAlign: 'right',
@@ -46,7 +46,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 });
 
 /*---ComboBox Tax Type----------------------------*/
-		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {		
+		this.comboTaxnr = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Vat Type',
 			name: 'taxnr',
 			width:290,
@@ -76,11 +76,11 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			queryMode: 'remote',
 			displayField: 'taxtx',
 			valueField: 'taxnr'
-		});	
+		});
 
 //---Create Selection--------------------------------------------
         this.distrDialog = Ext.create('Account.SDistrict.MainWindow');
-		
+
 		this.trigDistr = Ext.create('Ext.form.field.Trigger', {
 			name: 'distx',
 			fieldLabel: 'Province',
@@ -89,7 +89,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			labelWidth:93,
 			width:290,
 		});
-//---event triger----------------------------------------------------------------	
+//---event triger----------------------------------------------------------------
 		// event trigDistr//
 		this.trigDistr.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -127,11 +127,11 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 		this.trigDistr.onTriggerClick = function(){
 			_this.distrDialog.show();
-		};	
-		
+		};
+
 //---Create Selection--------------------------------------------
         this.distrDialog2 = Ext.create('Account.SDistrict.MainWindow');
-		
+
 		this.trigDistr2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'dis02',
 			fieldLabel: 'Province',
@@ -140,7 +140,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			labelWidth:93,
 			width:290,
 		});
-//---event triger----------------------------------------------------------------	
+//---event triger----------------------------------------------------------------
 		// event trigDis02//
 		this.trigDistr2.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -181,7 +181,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		};
 //---Create Selection--------------------------------------------
         this.ktypDialog = Ext.create('Account.Customertype.Window');
-		
+
 		this.trigKtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'custx',
 			fieldLabel: 'Customer Type',
@@ -189,7 +189,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			enableKeyEvents: true,
 			width:290,
 		});
-//---event triger----------------------------------------------------------------	
+//---event triger----------------------------------------------------------------
 		// event trigKtyp//
 		this.trigKtyp.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -230,9 +230,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		});
 
 		this.trigKtyp.onTriggerClick = function(){
+			_this.ktypDialog.grid.load();
 			_this.ktypDialog.show();
-		};	
-		
+		};
+
 		this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
@@ -243,7 +244,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			align: 'right',
 			margin: '0 0 0 56'
          });
-                
+
         this.numberMin = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Minimum Amount',
@@ -252,7 +253,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			width:290,
 			hideTrigger:false
          });
-         
+
          this.numberMax = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Maximum Amount',
@@ -263,7 +264,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			align: 'right',
 			margin: '0 0 0 56'
          });
-         
+
          this.numberLimit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Limit Amt',
@@ -273,7 +274,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			//align: 'right',
 			width:290
          });
-         
+
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Vat Value',
 			name: 'vat01',
@@ -284,7 +285,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
          });
 //---Create Selection--------------------------------------------
         this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		
+
 		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
 			name: 'saknr',
 			fieldLabel: 'GL Account',
@@ -292,10 +293,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			enableKeyEvents: true,
 			width:290,
 		});
-//---event triger----------------------------------------------------------------	
+//---event triger----------------------------------------------------------------
 		// event trigGlno//
 		this.trigGlno.on('keyup',function(o, e){
-			
+
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -323,15 +324,15 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGlno.setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
-			
+
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
 		});
 
 		this.trigGlno.onTriggerClick = function(){
 			_this.glnoDialog.show();
-		};	
-		
+		};
+
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Customer Status',
 			name : 'statu',
@@ -363,8 +364,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			queryMode: 'remote',
 			displayField: 'statx',
 			valueField: 'statu'
-		});	
-		
+		});
+
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
@@ -395,7 +396,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			displayField: 'paytx',
 			valueField: 'ptype'
 		});
-				
+
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
 			xtype: 'hidden',
@@ -407,8 +408,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			//xtype: 'hidden',
 			//name: 'distr'
 		//},{
-			
-/*(3)---Start Form-------------------------------*/	
+
+/*(3)---Start Form-------------------------------*/
 /*---Customer Head fieldset 1 --------------------------*/
 /*------------------------------------------------------*/
 
@@ -474,7 +475,7 @@ items:[{
 		            labelAlign: 'right',
             		margin: '0 0 0 48',
                 }]
-                
+
             },{
                 xtype: 'container',
                 flex: 1,
@@ -496,7 +497,7 @@ items:[{
 					name: 'email',
 					labelAlign: 'right',
             		margin: '0 0 0 50',
-                }]                
+                }]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -519,7 +520,7 @@ items:[{
 		            //regexText: 'Must be in the format xxx-xxxxxx',
             		margin: '0 0 0 50',
                 }]
-                
+
             },{
                 xtype: 'container',
                 flex: 1,
@@ -535,7 +536,7 @@ items:[{
 					xtype: 'displayfield',
             		margin: '0 0 0 5',
             }]
-}],                
+}],
             },{
 xtype:'fieldset',
 title: 'Address Ship To',
@@ -564,7 +565,7 @@ items:[{
 		            labelAlign: 'right',
             		margin: '0 0 0 48',
                 }]
-                
+
             },{
                 xtype: 'container',
                 flex: 1,
@@ -586,7 +587,7 @@ items:[{
 					name: 'emai2',
 					labelAlign: 'right',
             		margin: '0 0 0 50',
-                }]                
+                }]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -610,7 +611,7 @@ items:[{
 		            //regexText: 'Must be in the format xxx-xxxxxx',
             		margin: '0 0 0 50',
                 }]
-                
+
             },{
                 xtype: 'container',
                 flex: 1,
@@ -626,14 +627,14 @@ items:[{
                 }, {
 					xtype: 'displayfield',
             		margin: '0 0 0 5',
-            }]  
-            }]             
+            }]
+            }]
             },{
                 xtype: 'container',
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboPay, 
+                items :[this.comboPay,
 					    this.numberCredit,
 					{
 						xtype: 'displayfield',
@@ -699,7 +700,7 @@ items:[{
             }]
         }]
 //---address01 02
-//---end form------------------------------------------------------                
+//---end form------------------------------------------------------
 }] //end form
 
 /*(4)---Buttons-------------------------------*/
@@ -730,7 +731,7 @@ items:[{
 		return this.callParent(arguments);
 	},
 
-/*(5)---Call Function-------------------------------*/	
+/*(5)---Call Function-------------------------------*/
 	/*
 	load : function(kunnr){
 		this.getForm().load({
@@ -738,13 +739,13 @@ items:[{
 			url:__site_url+'customer2/load'
 		});
 	},*/
-	
+
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
 			url:__site_url+'customer/load'
-			
+
 		});
 	},
 	reset: function(){

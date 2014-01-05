@@ -12,8 +12,12 @@ class Rpnd3wht_attach extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
@@ -26,7 +30,7 @@ class Rpnd3wht_attach extends CI_Controller {
 		
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.vtype = '02' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
@@ -35,6 +39,7 @@ class Rpnd3wht_attach extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
+		$taxid = str_split($r_com['taxid']);
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -94,7 +99,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 4;
+	$page_size = 5;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -142,8 +147,22 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:323PX;top:94PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:24PX;">
 <table width="0px" height="18PX"><td>&nbsp;</td></table>
 </div>
+
 <div style="left:45PX;top:229PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
 </div>
+
+<div style="left: 45px; top: 290px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+</div>
+
+<div style="left:45PX;top:351PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+</div>
+
+<div style="left:45PX;top:412PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+</div>
+
+<div style="left:45PX;top:473PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+</div>
+
 <div style="left:45PX;top:577PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:965PX;">
 </div>
 <div style="left:614PX;top:577PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:148PX;">
@@ -168,9 +187,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:852PX;top:74PX;width:178PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">แผ่นที่...............ในจำนวน...............แผ่น</span></DIV>
 
-<DIV style="left:899PX;top:69PX;width:26PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">1</span></DIV>
+<DIV style="left:899PX;top:69PX;width:26PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">1</span></DIV>
+<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=$total_page;?></span></DIV>
 
 <DIV style="left:969PX;top:50PX;width:61PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">0000</span></DIV>
 
@@ -182,7 +201,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:426PX;top:59PX;width:125PX;height:15PX;"><span class="fc1-7">( ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย)</span></DIV>
 
-<DIV style="left:556PX;top:57PX;width:200PX;height:20PX;"><span class="fc1-8">3-1312-31313-13-2</span></DIV>
+<DIV style="z-index: 15; left: 555px; top: 55px; width: 235PX; height: 20PX;">
+<img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp04.jpg') ?>">
+</DIV>
+
+<DIV style="left:556PX;top:57PX;width:235PX;height:20PX;"><span class="fc1-8">&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></span></DIV>
 
 <DIV style="left:884PX;top:96PX;width:146PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-9">รวมเงินภาษีที่หักและนำส่งในครั้งนี้</span></DIV>
 
@@ -248,31 +271,33 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Item List-->
 <DIV style="left: 42px; top: 170px">
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="0" cellspacing="0" border="0" width="960">
 <?php
 $rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;$invdt_str='';
 $j=0;$no=1;$nos='';
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
-    //$item = $rows[$i];
-	//$invdt_str = util_helper_format_date($item['bldat']);
-	//$v_amt+=$item['credi'];
-	//$t_amt+=$beamt;
+    $item = $rows[$i];
+	$invdt_str = util_helper_format_date($item['bldat']);
+	$v_amt+=$item['wht01'];
+	$t_amt+=$item['beamt'];
+	$names = explode(' ',$item['name1']);
+	$taxid = str_split($item['taxid']);
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
-	  <td class="fc1-8" align="left" style="width:420px;">ชื่อ </td>
-	  <td class="fc1-8" align="center" style="width:75px;"><?=$invdt_str;?></td>
-      <td class="fc1-8" align="center" style="width:144px;">00</td>
-      <td class="fc1-8" align="center" style="width:36px;">0000</td>
-      <td class="fc1-8" align="right" style="width:124px;">0000</td>
-      <td class="fc1-8" align="right" style="width:124px;">0000</td>
+		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
+	  <td class="fc1-8" align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" style="width:415px;height:25PX;background-repeat: no-repeat;">&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
+	  <td class="fc1-8" align="center" style="width:80px;"><?=$invdt_str;?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
     
       <tr>
-		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" style="width:420px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
+		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="left" style="width:415px;height:10PX;">ชื่อ&nbsp;<?=$names[0];?></td>
+	  <td class="fc1-8" align="center" style="width:80px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
@@ -280,9 +305,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	</tr>
     
     <tr>
-		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" style="width:420px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
+		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
+	  <td class="fc1-8" align="left" style="width:415px;height:20PX;">นามสกุล&nbsp;<?=$names[0];?></td>
+	  <td class="fc1-8" align="center" style="width:80px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
@@ -330,9 +355,9 @@ endfor;
 
 <DIV style="left:754PX;top:702PX;width:232PX;height:19PX;"><span class="fc1-2"> ยื่นวันที่ ...... เดือน .................. พ.ศ. .......... </span></DIV>
 
-<DIV style="left:761PX;top:556PX;width:118PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-14">50,000.00</span></DIV>
+<DIV style="left:761PX;top:556PX;width:118PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-14"><?=number_format($t_amt,0,'.',',');?></span></DIV>
 
-<DIV style="left:884PX;top:556PX;width:120PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-14">1,500.00</span></DIV>
+<DIV style="left:884PX;top:556PX;width:120PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-14"><?=number_format($v_amt,0,'.',',');?></span></DIV>
 
 <DIV style="left:414PX;top:553PX;width:24PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-0">รวม </span></DIV>
 
@@ -401,7 +426,7 @@ endfor;
 </DIV>
 
 <DIV style="z-index:15;left:53PX;top:725PX;width:467PX;height:28PX;">
-<img  WIDTH=467 HEIGHT=28 SRC="7a301000000g.jpg">
+<img  WIDTH=397 HEIGHT=24 SRC="<?= base_url('assets/images/icons/pnd53_02.jpg') ?>">
 </DIV><BR>
 
 <?php

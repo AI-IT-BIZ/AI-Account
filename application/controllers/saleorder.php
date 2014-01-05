@@ -41,7 +41,12 @@ class Saleorder extends CI_Controller {
 			                         $result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];
 			 
-			//$result['bldat']=substr($result['bldat'], 0, 10);
+			$q_qt = $this->db->get_where('psal', array(
+				'salnr'=>$result_data['salnr']
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$result_data['emnam'] = $r_qt['emnam'];
 
 			// unset calculated value
 			unset($result_data['beamt']);
@@ -195,6 +200,15 @@ class Saleorder extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        if($this->input->post('loekz')=='3'){
+        	$emsg = 'The quotation already created sale order doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -239,7 +253,11 @@ class Saleorder extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbok', $formData);
 
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
+			
+			$this->db->where('vbeln', $this->input->post('vbeln'));
+			$this->db->set('loekz', '3');
+			$this->db->update('vbak');
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด

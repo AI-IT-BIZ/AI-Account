@@ -5,13 +5,13 @@ Ext.define('Account.Saleperson.Item.Form', {
 		Ext.apply(this, {
 			url: __site_url+'saleperson/save',
 			border: false,
-			bodyPadding: 10,
+			//bodyPadding: 10,
 			fieldDefaults: {
-				labelAlign: 'left',
+				//labelAlign: 'left',
 				msgTarget: 'qtip',//'side',
 				labelWidth: 130,
 				//width:300,
-				labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
+				//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:15px;'
 			}
 		});
 
@@ -19,7 +19,7 @@ Ext.define('Account.Saleperson.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		this.employeeDialog = Ext.create('Account.Employee.MainWindow');
+		this.employeeDialog = Ext.create('Account.SEmployee.MainWindow');
 		this.trigEmployee = Ext.create('Ext.form.field.Trigger', {
 			name: 'empnr',
 			labelAlign: 'letf',
@@ -29,6 +29,118 @@ Ext.define('Account.Saleperson.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+		
+		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Sale Person Status',
+			name : 'statu',
+			//labelAlign: 'right',
+			//width: 286,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			//margin: '0 0 0 54',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Status --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'quotation/loads_acombo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'statu'
+					}
+				},
+				fields: [
+					'statu',
+					'statx'
+				],
+				remoteSort: true,
+				sorters: 'statu ASC'
+			}),
+			queryMode: 'remote',
+			displayField: 'statx',
+			valueField: 'statu'
+		});	
+		
+		this.numberLevf1 = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Level 1',
+			name: 'levf1',
+			hideTrigger:false,
+			emptyText: '0',
+			width:250
+         });
+         this.numberLevf2 = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Level 2',
+			name: 'levf2',
+			hideTrigger:false,
+			emptyText: '0',
+			width:250
+         });
+         this.numberLevf3 = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Level 3',
+			name: 'levf3',
+			hideTrigger:false,
+			emptyText: '0',
+			width:250
+         });
+         this.numberLevt1 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'levt1',
+			hideTrigger:false,
+			width:120,
+		    margin: '0 0 0 5',
+			emptyText: '0'
+         });
+         this.numberLevt2 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'levt2',
+			hideTrigger:false,
+			width:120,
+		    margin: '0 0 0 5',
+			emptyText: '0'
+         });
+         this.numberLevt3 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'levt3',
+			hideTrigger:false,
+			width:120,
+		    margin: '0 0 0 5',
+			emptyText: '0'
+         });
+         
+         this.numberPerc1 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'perc1',
+			hideTrigger:false,
+			width:50,
+		    margin: '0 0 0 145',
+			emptyText: '0'
+		 });
+         this.numberPerc2 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'perc2',
+			hideTrigger:false,
+			width:50,
+		    margin: '0 0 0 145',
+			emptyText: '0'
+         });
+         this.numberPerc3 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'perc3',
+			width:50,
+		    margin: '0 0 0 145',
+			hideTrigger:false,
+			emptyText: '0'
+         });
+         this.numberPerc4 = Ext.create('Ext.ux.form.NumericField', {
+			//fieldLabel: 'Credit Limit Amt',
+			name: 'percs',
+			hideTrigger:false,
+			width:50,
+		    margin: '0 0 5 20',
+			emptyText: '0'
+         });
 
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
@@ -106,20 +218,20 @@ defaults: {anchor: '100%'},
 		    margin: '0 0 5 0',
 			items :[{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'qqq',
+		            //fieldLabel: '',
 					width:250,
 		            value: '<span style="color:green; padding-left:180px">From</span>'		
 					},{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'www',
+		            //fieldLabel: '',
 					width:250,
 		            value: '<span style="color:green; padding-left:60px">To</span>'		
 					},{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'eee',
+		            ///fieldLabel: '',
 					width:50,
 		            value: '<span style="color:green; padding-left:35px">%</span>',
 			}]
@@ -128,127 +240,19 @@ defaults: {anchor: '100%'},
 			xtype: 'container',
 		    layout: 'hbox',
 		    margin: '0 0 5 0',
-			items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Level 1',
-					name: '',
-					width:250,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'hiddenfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:50,
-		    		margin: '0 0 0 145',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-			}]
+			items :[this.numberLevf1,this.numberLevt1,this.numberPerc1]
 	/*=======================*/
 	},{
 			xtype: 'container',
 		    layout: 'hbox',
 		    margin: '0 0 5 0',
-			items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Level 2',
-					name: '',
-					width:250,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'hiddenfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:50,
-		    		margin: '0 0 0 145',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-			}]
+			items :[this.numberLevf2,this.numberLevt2,this.numberPerc2]
 	/*=======================*/
 	},{
 			xtype: 'container',
 		    layout: 'hbox',
 		    margin: '0 0 5 0',
-			items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Level 3',
-					name: '',
-					width:250,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'hiddenfield',
-					name: '',
-					width:120,
-		    		margin: '0 0 0 5',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-					},{
-					xtype: 'textfield',
-					name: '',
-					width:50,
-		    		margin: '0 0 0 145',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-			}]
+			items :[this.numberLevf3,this.numberLevt3,this.numberPerc3]
 	/*=======================*/
 	},{
 	
@@ -257,25 +261,25 @@ defaults: {anchor: '100%'},
 		    margin: '0 0 5 0',
 			items :[{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'aaa',
+		            //fieldLabel: '',
 					width:250,
 		            value: '<span style="color:green; padding-left:145px">Sale Goal (Bath)</span>'		
 					},{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'sss',
+		            //fieldLabel: '',
 					width:100,
 		            value: '<span style="color:green; padding-left:30px">Start Date</span>'		
 					},{
 					xtype: 'displayfield',
-		            name: '',
-		            fieldLabel: '',
+		            name: 'ddd',
+		            //fieldLabel: '',
 					width:120,
 		            value: '<span style="color:green; padding-left:65px">End Date</span>'	
 					},{
 					xtype: 'displayfield',
-		            name: '',
+		            name: 'fff',
 		            fieldLabel: '',
 					width:100,
 		            value: '<span style="color:green; padding-left:70px">%</span>',
@@ -291,10 +295,10 @@ defaults: {anchor: '100%'},
 					fieldLabel: 'Special rate',
 					name: 'goals',
 					width:250,
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
+		            emptyText: '0'//,
+		            //maskRe: /[\d\-]/,
 		            //regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
+		            //regexText: 'Must be in the format Number'
 					},{
 		            xtype: 'datefield',
 		            name: 'stdat',
@@ -312,20 +316,11 @@ defaults: {anchor: '100%'},
 					altFormats:'Y-m-d|d/m/Y',
 					submitFormat:'Y-m-d'
 					//allowBlank: false
-					},{
-					xtype: 'textfield',
-					name: 'percs',
-					width:50,
-		    		margin: '0 0 5 20',
-		            emptyText: '0',
-		            maskRe: /[\d\-]/,
-		            //regex: /^\d{6}$/,
-		            regexText: 'Must be in the format Number'
-			}]
+					},this.numberPerc4]
 	}]
 
 /*---End Form--------------------------*/	
-}];
+},this.comboQStatus];
    // event trigEmployee///
 		this.trigEmployee.on('keyup',function(o, e){
 			var v = o.getValue();

@@ -21,6 +21,20 @@ Ext.define('Account.Saleorder.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
+		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		this.trigSale = Ext.create('Ext.form.field.Trigger', {
+			name: 'salnr',
+			fieldLabel: 'Sale Person',
+			triggerCls: 'x-form-search-trigger',
+			//labelWidth: 100,
+			labelAlign: 'left',
+			width: 170,
+			enableKeyEvents: true//,
+			//allowBlank : false
+		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Saleorder.Item.Grid_i',{
@@ -74,36 +88,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 			queryMode: 'remote',
 			displayField: 'statx',
 			valueField: 'statu'
-		});
-
-		this.comboPSale = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Salesperson',
-			name : 'salnr',
-			width: 350,
-			editable: false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please select Salesperson --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'salnr'
-					}
-				},
-				fields: [
-					'salnr',
-					'name1'
-				],
-				remoteSort: true,
-				sorters: 'salnr ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'name1',
-			valueField: 'salnr'
 		});
 
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
@@ -251,9 +235,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 				collapsible: true,
 				defaultType: 'textfield',
 				layout: 'anchor',
-				defaults: {
-					anchor: '100%'
-				},
+				//defaults: {
+				//	anchor: '100%'
+				//},
 				items:[{
 					// Quotation Code
 	 				xtype: 'container',
@@ -262,6 +246,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 	 				items :[{
 						xtype: 'hidden',
 						name: 'id'
+					},{
+						xtype: 'hidden',
+						name: 'loekz'
 					},
 					this.trigQuotation,
 					{
@@ -336,7 +323,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 					xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
-					items: [this.comboPSale,
+					items: [this.trigSale,{
+			xtype: 'displayfield',
+			name: 'emnam',
+			width:174,
+			margins: '0 0 0 6'
+		},
 					this.numberCredit,{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
@@ -451,6 +443,45 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
+		
+		// event Saleperson///
+		this.trigSale.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'saleperson/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.salnr);
+							_this.getForm().findField('emnam').setValue(r.data.emnam);
+							
+						}else{
+							o.markInvalid('Could not find project owner : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.saleDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigSale.setValue(record.data.salnr);
+			//alert(record.data.emnam);
+			_this.getForm().findField('emnam').setValue(record.data.emnam);
+
+			grid.getSelectionModel().deselectAll();
+			_this.saleDialog.hide();
+		});
+
+		this.trigSale.onTriggerClick = function(){
+			_this.saleDialog.show();
+		};
 
 		// event trigQuotation///
 		this.trigQuotation.on('keyup',function(o, e){
@@ -480,6 +511,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -519,6 +551,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			       }
 				}
 				});           

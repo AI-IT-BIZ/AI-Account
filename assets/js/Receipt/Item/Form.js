@@ -269,6 +269,9 @@ Ext.define('Account.Receipt.Item.Form', {
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();
+			
+			// set customer code to grid item
+			_this.gridItem.setCustomerCode(record.data.kunnr);
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
@@ -346,6 +349,9 @@ Ext.define('Account.Receipt.Item.Form', {
 			url:__site_url+'receipt/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
+				
+				// set customer code to grid item
+			_this.gridItem.setCustomerCode(act.result.data.kunnr);
 			}
 		});
 	},
@@ -449,7 +455,7 @@ Ext.define('Account.Receipt.Item.Form', {
 	loadGL: function(id){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var dtype='';
+		var sum = 0;var dtype='';var sum2=0;
 		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
@@ -460,8 +466,8 @@ Ext.define('Account.Receipt.Item.Form', {
 			var amt = itamt - pay;
 			sum += amt;
 			
-			var item = r.data['saknr'] + '|' + amt;
-        		saknr_list.push(item);
+			//var item = r.data['saknr'] + '|' + amt;
+        		//saknr_list.push(item);
         		
         		if(r.data['wht01']>0 && r.data['wht01']!=null){
 				var wht = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
@@ -481,16 +487,21 @@ Ext.define('Account.Receipt.Item.Form', {
 		if(currency != 'THB'){
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
+		  whts = whts * rate;
+		  vats = vats * rate;
 		}   
+		//sum2 = sum - whts;
 		
         if(sum>0){
+        	var payam = 0;
         	var r_data = _this.gridPayment.getData();
         	var pay_list = [];
         	for(var i=0;i<r_data.length;i++){
+        		payam = r_data[i].payam - r_data[i].wht01;
         		if(r_data[i].ptype == '03' || r_data[i].ptype == '04'){
-        		    var item = r_data[i].saknr + '|' + r_data[i].payam;
+        		    var item = r_data[i].saknr + '|' + payam;
         		}else{
-        			var item = r_data[i].ptype + '|' + r_data[i].payam;
+        			var item = r_data[i].ptype + '|' + payam;
         		}
         		saknr_list.push(item);
         	}

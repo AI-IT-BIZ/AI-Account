@@ -1,4 +1,4 @@
-Ext.define('Account.SAp.FormSearch', {
+Ext.define('Account.Saleperson.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -34,7 +34,7 @@ Ext.define('Account.SAp.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from AP No., Vendor or GR No.',
+			emptyText: 'Find from Saleperson Code, Saleperson Name',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -82,9 +82,6 @@ Ext.define('Account.SAp.FormSearch', {
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', statusOptions);
 
 		this.items = [{
-			name: 'lifnr',
-			xtype: 'hiddenfield'
-		},{
 			// column layout with 2 columns
 			layout:'column',
 			border:false,
@@ -101,10 +98,10 @@ Ext.define('Account.SAp.FormSearch', {
 				// defaults for fields
 				defaults:{anchor:'100%'},
 				items:[this.txtQuery, {
-					xtype: 'datefield',
-					name: 'bldat',
+					xtype: 'textfield',
+					name: 'salnr',
 					hideLabel: false,
-					fieldLabel: 'Start Date',
+					fieldLabel: 'Sale Person Code',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',
@@ -115,10 +112,10 @@ Ext.define('Account.SAp.FormSearch', {
 				// defaults for fields
 				defaults:{anchor:'100%'},
 				items:[this.comboQStatus, {
-					xtype: 'datefield',
-					name: 'bldat2',
+					xtype: 'textfield',
+					name: 'salnr2',
 					hideLabel: false,
-					fieldLabel: 'End Date',
+					fieldLabel: 'To',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',
@@ -126,7 +123,7 @@ Ext.define('Account.SAp.FormSearch', {
 				}]
 			}]
 		}];
-
+		
 		this.buttons = [this.searchAct, this.resetAct];
 
 		return this.callParent(arguments);

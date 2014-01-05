@@ -74,11 +74,6 @@ class Ap extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebrk';
 
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
@@ -161,21 +156,192 @@ class Ap extends CI_Controller {
 		));
 	}
 
+    function loads_report(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'ebrp';
+
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`invnr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `mbeln` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+            $mbeln1 = $_this->input->get('mbeln');
+			$mbeln2 = $_this->input->get('mbeln2');
+			if(!empty($mbeln1) && empty($mbeln2)){
+			  $_this->db->where('mbeln', $mbeln1);
+			}
+			elseif(!empty($mbeln1) && !empty($mbeln2)){
+			  $_this->db->where('mbeln >=', $mbeln1);
+			  $_this->db->where('mbeln <=', $mbeln2);
+			}
+
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report	
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+		
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			$q_so = $this->db->get_where('mkpf', array(
+				'mbeln'=>$r['mbeln']
+			));
+			
+			$result_data = $q_so->first_row('array');
+			$res[$i]['ebeln'] = $result_data['ebeln'];
+			
+			//$terms='+'.$res[$i]['terms']." days";
+			$my_date = util_helper_get_time_by_date_string($res[$i]['duedt']);
+			
+			$time_diff = time() - $my_date;
+			$day = ceil($time_diff/(24 * 60 * 60));
+            
+			if($day>0){
+				$res[$i]['overd'] = $day;
+			}else{ $res[$i]['overd'] = 0; }
+		
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$totalCount
+		));
+	}
+
     function loads_inp(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'uinp';
 		
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`invnr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
+				OR `name1` LIKE '%$query%'
+				OR `mbeln` LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+            $mbeln1 = $_this->input->get('mbeln');
+			$mbeln2 = $_this->input->get('mbeln2');
+			if(!empty($mbeln1) && empty($mbeln2)){
+			  $_this->db->where('mbeln', $mbeln1);
+			}
+			elseif(!empty($mbeln1) && !empty($mbeln2)){
+			  $_this->db->where('mbeln >=', $mbeln1);
+			  $_this->db->where('mbeln <=', $mbeln2);
+			}
+
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report	
+		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
-		//$limit = $this->input->get('limit');
-		//$start = $this->input->get('start');
-		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-		
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
 		$this->db->order_by($sort, $dir);
-
+		
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();
@@ -259,7 +425,8 @@ class Ap extends CI_Controller {
 			'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'whtpr' => $this->input->post('whtpr')
+			'whtpr' => $this->input->post('whtpr'),
+			'duedt' => $this->input->post('duedt')
 		);
 
 		// start transaction

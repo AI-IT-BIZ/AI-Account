@@ -63,17 +63,19 @@ class Service extends CI_Controller {
 				->setCellValue('B1', 'Service Name')
 	            ->setCellValue('C1', 'Service Type')
 	            ->setCellValue('D1', 'Service Group')
-	            ->setCellValue('E1', 'Unit')
-	            ->setCellValue('F1', 'Create Date')
-	            ->setCellValue('G1', 'GL No')
-				->setCellValue('H1', 'Status')
+	            ->setCellValue('E1', 'GL No')
+	            ->setCellValue('F1', 'GL Description')
+	            ->setCellValue('G1', 'Unit')
+	            ->setCellValue('H1', 'Create Date')
+	            ->setCellValue('I1', 'GL No')
+				->setCellValue('J1', 'Status')
 				
-				->setCellValue('I1', 'Cost 1')
-				->setCellValue('J1', 'Unit 1')
-	            ->setCellValue('K1', 'Cost 2')
-	            ->setCellValue('L1', 'Unit 2')
-	            ->setCellValue('M1', 'Cost 3')
-	            ->setCellValue('N1', 'Unit 3');
+				->setCellValue('K1', 'Cost 1')
+				->setCellValue('L1', 'Unit 1')
+	            ->setCellValue('M1', 'Cost 2')
+	            ->setCellValue('N1', 'Unit 2')
+	            ->setCellValue('O1', 'Cost 3')
+	            ->setCellValue('P1', 'Unit 3');
 
 		// Add some data
 		$result_array = $query->result_array();
@@ -85,22 +87,24 @@ class Service extends CI_Controller {
 					->setCellValue('B'.$excel_i, $value['maktx'])
 		            ->setCellValue('C'.$excel_i, $value['mtype'])
 		            ->setCellValue('D'.$excel_i, $value['mgrpp'])
-		            ->setCellValue('E'.$excel_i, $value['meins'])
-                    ->setCellValue('F'.$excel_i, $value['erdat'])
-		            ->setCellValue('G'.$excel_i, $value['saknr'])
+		            ->setCellValue('E'.$excel_i, $value['saknr'])
+                    ->setCellValue('F'.$excel_i, $value['sgtxt'])
+		            ->setCellValue('G'.$excel_i, $value['meins'])
+                    ->setCellValue('H'.$excel_i, $value['erdat'])
+					->setCellValue('I'.$excel_i, $value['saknr'])
 					
-					->setCellValue('H'.$excel_i, $value['statu'])
-					->setCellValue('I'.$excel_i, $value['cost1'])
-		            ->setCellValue('J'.$excel_i, $value['unit1'])
-		            ->setCellValue('K'.$excel_i, $value['cost2'])
-		            ->setCellValue('L'.$excel_i, $value['unit2'])
-                    ->setCellValue('M'.$excel_i, $value['cost3'])
-		            ->setCellValue('N'.$excel_i, $value['unit3']);
+					->setCellValue('J'.$excel_i, $value['statu'])
+					->setCellValue('K'.$excel_i, $value['cost1'])
+		            ->setCellValue('L'.$excel_i, $value['unit1'])
+		            ->setCellValue('M'.$excel_i, $value['cost2'])
+		            ->setCellValue('N'.$excel_i, $value['unit2'])
+                    ->setCellValue('O'.$excel_i, $value['cost3'])
+		            ->setCellValue('P'.$excel_i, $value['unit3']);
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','N') as $columnID) {
+		foreach(range('A','P') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head

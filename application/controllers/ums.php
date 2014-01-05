@@ -19,6 +19,7 @@ class Ums extends CI_Controller {
 	{
 		$permission_array = $this->ums_service->permission_array;
 
+		$Comid = $this->input->post('comid');
 		$Username = $this->input->post('username');
 		$Password = $this->input->post('password');
 
@@ -31,7 +32,8 @@ class Ums extends CI_Controller {
 			'message' => 'User is not exist.'
 		);
 		$query=$this->db->get_where('user', array(
-			'uname'=>$Username
+			'uname'=>$Username,
+			'comid'=>$Comid
 		));
 		$users = $query->result('array');
 		if (count($users) == 1)
@@ -48,7 +50,7 @@ class Ums extends CI_Controller {
 					else
 					{
                     	// prepare PermissionState
-                    	$permission_state = $this->ums_service->load_permission_by_uname($sUser['uname']);
+                    	$permission_state = $this->ums_service->load_permission_by_uname($sUser['uname'], $Comid);
 						$permission_state_buff = array();
 						foreach($permission_state AS $v){
 							if($v['display']==1){
@@ -60,7 +62,7 @@ class Ums extends CI_Controller {
 							}
 						}
 
-						$limit_state = $this->ums_service->load_doctype_limit_by_uname($sUser['uname']);
+						$limit_state = $this->ums_service->load_doctype_limit_by_uname($sUser['uname'], $Comid);
 						$limit_state_buff = array();
 						foreach($limit_state AS $v){
 							$is_exist = false;
@@ -205,8 +207,9 @@ class Ums extends CI_Controller {
 
 	public function loads_permission(){
 		$uname = $this->input->get('uname');
+		$comid = $this->input->get('comid');
 
-		$result = $this->ums_service->load_permission_by_uname($uname);
+		$result = $this->ums_service->load_permission_by_uname($uname, $comid);
 
 		echo json_encode(array(
 			'success'=>true,
@@ -221,8 +224,9 @@ class Ums extends CI_Controller {
 		$tbUser = $this->ums_service->tbUser;
 
 		$uname = $this->input->get('uname');
+		$comid = $this->input->get('comid');
 
-		$result = $this->ums_service->load_doctype_limit_by_uname($uname);
+		$result = $this->ums_service->load_doctype_limit_by_uname($uname, $comid);
 
 		echo json_encode(array(
 			'success'=>true,

@@ -26,7 +26,8 @@ Ext.define('Account.RReceipt.Item.Grid', {
 				'invnr',
 				'invdt',
 				'itamt',
-				'netwr'//,
+				'netwr',
+				'paytx'//,
 				//'jobnr',
 				//'vbeln'
 			],
@@ -59,10 +60,10 @@ Ext.define('Account.RReceipt.Item.Grid', {
 		    
 			{text: "Amount", 
 			width: 90, align: 'right', dataIndex: 'itamt', 
-			xtype: 'numbercolumn', sortable: true}
+			xtype: 'numbercolumn', sortable: true},
 			
-			//{text: "Currency", 
-			//width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			{text: "Received by", 
+			width: 150, dataIndex: 'paytx', align: 'left', sortable: true}
 		];
 
 		this.bbar = {

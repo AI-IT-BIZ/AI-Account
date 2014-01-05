@@ -149,6 +149,15 @@ class Depositin extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('loekz')=='2'){
+        	$emsg = 'The quotation already created deposit doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
 		
 		$formData = array(
 			'vbeln' => $this->input->post('vbeln'),
@@ -195,7 +204,11 @@ class Depositin extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbdk', $formData);
 			
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
+			
+			$this->db->where('vbeln', $this->input->post('vbeln'));
+			$this->db->set('loekz', '2');
+			$this->db->update('vbak');
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด

@@ -11,7 +11,13 @@ class Rpnd3wht extends CI_Controller {
 	}
 	
 	function index()
-	{
+	{    
+	    $comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		//$no = $type = $this->uri->segment(4);
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -23,7 +29,7 @@ class Rpnd3wht extends CI_Controller {
 		//Sale
 	    $strSQL1 = " select v_ebbp.*";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
-        $strSQL1 = $strSQL1 . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_ebbp.vtype = '02' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);
@@ -48,7 +54,9 @@ class Rpnd3wht extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {
@@ -57,12 +65,12 @@ class Rpnd3wht extends CI_Controller {
 	width: 16px;
 }
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:10PT;;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:FF8600;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -85,7 +93,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
+	$page_size = 11;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -110,14 +118,14 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 992px; top: 49px; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Check Box 1-->
-<DIV style="left: 444px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
+<DIV style="left: 475px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 595px; top: 106px; width: 84px; height: 21PX;"><span class="fc1-1">สำนักงานใหญ่</span></DIV>
 <DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
 <DIV style="left: 743px; top: 107px; width: 39px; height: 21PX;"><span class="fc1-1">สาขา</span></DIV>
 <DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
 
-<DIV style="left: 515px; top: 72px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 545px; top: 74px; width: 77px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 623px; top: 73px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
@@ -126,10 +134,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 881px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
 
-<DIV style="left: 595px; top: 129px; width: 177px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
+<DIV style="left: 595px; top: 129px; width: 150px; height: 21PX;"><span class="fc1-1">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 <DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
+
+<DIV style="left: 743px; top: 129px; width: 127px; height: 21PX;"><span class="fc1-1"><?= $r_com['taxid']; ?></span></DIV>
+
 <DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;"><span class="fc1-3">
   รายงานภาษีหัก ณ ที่จ่าย ของผู้มีเงินได้ ที่เป็นบุคคลธรรมดา  (ใบแนบ ภ.ง.ด.3)
 </span></DIV>
@@ -243,9 +254,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=$item['whtpr'];?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=$item['beamt'];?></td>
-	  <td class="fc1-8" align="right" style="width:108px;"><?=$item['wht01'];?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 
 <?php

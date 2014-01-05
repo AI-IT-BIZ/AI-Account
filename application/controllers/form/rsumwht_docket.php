@@ -12,8 +12,11 @@ class Rsumwht_docket extends CI_Controller {
 	
 	function index()
 	{
-		//$dt_str = '2013-02-22';
-		//echo $dt_result;
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
 		
 		//$balwr = $this->input->get('balwr');
 		$date =	$this->input->get('bldat');
@@ -24,26 +27,32 @@ class Rsumwht_docket extends CI_Controller {
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
 		
-		$taxid = str_split('1234567890123');
+		//$taxid = str_split('1234567890123');
 		
 		if($copies<=0) $copies = 1;
 	
-		//Purchase
 		$strSQL="";
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.vtype = '01' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
+		//echo $strSQL;
        
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		// calculate sum
 		$rowp = $query->result_array();
-		$tline = $query->num_rows();
+		$tline = count($rowp);
+		
+		$purch_amt=0;$purch_wht=0;
+		foreach ($rowp as $key => $item) {
+		   $purch_amt += $item['beamt'];
+		   $purch_wht += $item['wht01'];
+		}
 		
 		$purch_amt=0;$purch_vat=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['netwr'];
+		   $purch_amt += $item['beamt'];
 		   $purch_wht += $item['wht01'];
 		}
 		
@@ -193,11 +202,11 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:43PX;top:275PX;width:71PX;height:24PX;"><span class="fc1-3"> รหัสไปรษณีย์</span></DIV>
 
-<DIV style="left: 121px; top: 277px; width: 64PX; height: 21PX; TEXT-ALIGN: CENTER;"><span class="fc1-13">0000</span></DIV>
+<DIV style="left: 121px; top: 278px; width: 54px; height: 21PX; TEXT-ALIGN: CENTER;"><span class="fc1-13"><?=$r_com['pstlz'];?></span></DIV>
 
 <DIV style="left:222PX;top:275PX;width:50PX;height:24PX;"><span class="fc1-0"> โทรศัพท์:</span></DIV>
 
-<DIV style="left: 292px; top: 278px; width: 126px; height: 21PX; TEXT-ALIGN: LEFT;"><span class="fc1-13">0000</span></DIV>
+<DIV style="left: 280px; top: 278px; width: 103px; height: 21PX; TEXT-ALIGN: LEFT;"><span class="fc1-13"><?=$r_com['telf1'];?></span></DIV>
 
 <DIV style="left:59PX;top:356PX;width:72PX;height:19PX;"><span class="fc1-4">(1) มกราคม</span></DIV>
 
@@ -241,8 +250,8 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:79PX;top:215PX;width:340PX;height:49PX;">
 <table width="335PX" border=0 cellpadding=0 cellspacing=0>
-<tr><td class="fc1-7">555 อาคารรุ่งเรือง ถนนสามเสนใน แขวงพญาไท เขตพญาไท กรุงเทพฯ </td></tr>
-<tr><td class="fc1-7">10400</td></tr></table>
+<tr><td class="fc1-7"><?=$r_com['adr01'];?></td></tr>
+<tr><td class="fc1-7"><?=$r_com['distx'];?></td></tr></table>
 </DIV>
 
 <DIV style="left:141PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
@@ -277,7 +286,6 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:529PX;top:208PX;width:213PX;height:24PX;"><span class="fc1-9"> (3) มาตรา 69 ทวิ แห่งประมวลรัษฎากร</span></DIV>
 
-<DIV style="left:333PX;top:376PX;width:13PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"></span></DIV>
 
 <DIV style="left:382PX;top:332PX;width:51PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-10">2556</span></DIV>
 
@@ -288,7 +296,7 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:85PX;top:131PX;width:112PX;height:15PX;"><span class="fc1-12"> (ของผู้มีหน้าที่หัก ภาษี ณ ที่จ่าย)</span></DIV>
 
-<DIV style="left:241PX;top:118PX;width:200PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-13">3-1312-31313-13-2</span></DIV>
+<DIV style="left:241PX;top:118PX;width:200PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-13"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:43PX;top:159PX;width:127PX;height:23PX;"><span class="fc1-0">ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย</span></DIV>
 
@@ -296,7 +304,7 @@ class Rsumwht_docket extends CI_Controller {
 
 <DIV style="left:322PX;top:159PX;width:54PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-15">สาขาที่</span></DIV>
 
-<DIV style="left:378PX;top:161PX;width:64PX;height:21PX;TEXT-ALIGN:RIGHT;"><span class="fc1-13">0000</span></DIV>
+<DIV style="left: 378PX; top: 161PX; width: 39px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-13">0000</span></DIV>
 
 <DIV style="left:71PX;top:441PX;width:231PX;height:43PX;">
 <table width="226PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-3">มีรายละเอียดการหักเป็นรายผู้มีเงินได้&nbsp;&nbsp;&nbsp;ปรากฏตาม</td></table>

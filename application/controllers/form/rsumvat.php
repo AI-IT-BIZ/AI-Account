@@ -12,6 +12,12 @@ class Rsumvat extends CI_Controller {
 	
 	function index()
 	{
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		
 		//$no = $type = $this->uri->segment(4);
 		$no=1;$j=0;
 		$date =	$this->input->get('bldat');
@@ -60,7 +66,9 @@ class Rsumvat extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {
@@ -69,12 +77,12 @@ class Rsumvat extends CI_Controller {
 	
 }
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:FF8600;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -125,11 +133,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 595px; top: 107px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 663px; top: 106px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
+<DIV style="left: 721px; top: 130px; width: 109px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $r_com['taxid']; ?></span></DIV>
+
 <DIV style="left: 775px; top: 107px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
-<DIV style="left: 801px; top: 107px; width: 61px; height: 20px; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
-<DIV style="left: 912px; top: 106px; width: 37px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"></span></DIV>
-<DIV style="left: 1033px; top: 106px; width: 45px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"></span></DIV>
+<DIV style="left: 801px; top: 107px; width: 61px; height: 20px; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0]+543 ?></span></DIV>
+<DIV style="left: 912px; top: 108px; width: 37px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?=($current_page_index+1);?></span></DIV>
+<DIV style="left: 1024px; top: 107px; width: 45px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?=$total_page;?></span></DIV>
 <DIV style="left: 949px; top: 108px; width: 94px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 874px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
@@ -140,7 +150,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 13px; top: 127px; width: 95px; height: 21PX;"><span class="fc1-1">ชื่อผู้ประกอบการ</span></DIV>
 
-<DIV style="left: 110px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left: 95px; top: 127px; width: 251px; height: 21PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
 <DIV style="left: 352px; top: 44px; width: 500px; height: 28PX; background-color: FF8600; layer-background-color: FF8600;TEXT-ALIGN: CENTER;">
   <span class="fc1-3">ใบแนบ ภ.พ.30 รายละเอียดภาษีขายและภาษีซื้อของสถานประกอบการแต่ละแห่ง</span>
 </DIV>

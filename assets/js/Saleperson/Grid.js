@@ -16,23 +16,28 @@ Ext.define('Account.Saleperson.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'salnr'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 				'salnr',
+				//'name1',
 				'empnr',
 				'emnam',
-				'ctype'
+				'ctype',
+				'statx'
 			],
 			remoteSort: true,
-			sorters: ['salnr ASC']
+			sorters: [{property: 'salnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
 			{text: "Sale Person No", width: 100, dataIndex: 'salnr', sortable: true},
-			{text: "Employee No", flex: true, dataIndex: 'empnr', sortable: true},
 			{text: "Name", flex: true, dataIndex: 'emnam', sortable: true},
-			{text: "Commission Type", flex: true, dataIndex: 'ctype', sortable: true}
+			{text: "Employee No", flex: true, dataIndex: 'empnr', sortable: true},
+			
+			{text: "Commission Type", flex: true, dataIndex: 'ctype', sortable: true},
+			{text: "Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

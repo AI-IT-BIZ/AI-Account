@@ -3,7 +3,7 @@ Ext.define('Account.Vendortype.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Vendor type Request',
+			title: 'Create/Edit Vendor Type',
 			closeAction: 'hide',
 			height: 420,
 			width: 450,
