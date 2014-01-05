@@ -1,6 +1,6 @@
 Ext.define('RGeneralJournal', {
 	extend: 'Ext.data.Model',
-	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu']
+	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu','kunnr']
 });
 
 Ext.define('Account.RGeneralJournal.Result.Grid', {
@@ -16,9 +16,13 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 	resizable: false,
 	modal: true,
 	layout:'fit',
-	maximizable: false,
+	maximizable: true,
+	maximized: true,
 	params: {},
+	loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 	initComponent:function(config) {
+		
+
 		me = this;
 		var filters = {
 			ftype: 'filters',
@@ -40,7 +44,8 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				{name: 'sgtxt'},
 				{name: 'debit', type: 'float'},
 				{name: 'credi', type: 'float'},
-				{name: 'statu'}
+				{name: 'statu'},
+				{name: 'kunnr'}
 			],
 			data: [],
 			groupers: ['bldat', 'belnr']
@@ -76,7 +81,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 						record;
 					for (i=0; i < length; ++i) {
 						record = records[i];
-						total += Number(record.get('debit'));
+						total += Number(record.get('credi'));
 					}
 					return total;
 				},
@@ -112,8 +117,17 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			handler: function(){
 				start_date = me.params.start_date;
 				end_date = me.params.end_date;
-				params = "start_date="+start_date+"&end_date="+end_date;
-				window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
+				kunnr = me.params.kunnr;
+				comid = 1000;
+				params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&comid="+comid;
+				url = __base_url + 'index.php/rgeneraljournal/pdf?'+params;
+				Ext.create("Ext.window.Window",{
+					title: "PDF",
+					width: 830,
+					height: 600,
+					html: "<iframe src='"+url+"' style='width:100%;height:100%'></iframe>"
+				}).show();
+				//window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
 			}
 		}]
 		this.callParent(arguments);

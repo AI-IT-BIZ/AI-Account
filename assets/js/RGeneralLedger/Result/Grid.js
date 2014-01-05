@@ -16,7 +16,8 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 	resizable: false,
 	modal: true,
 	layout:'fit',
-	maximizable: false,
+	maximizable: true,
+	maximized: true,
 	params: {},
 	initComponent:function(config) {
 		me = this;
@@ -135,8 +136,11 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 			handler: function(){
 				start_date = me.params.start_date;
 				end_date = me.params.end_date;
+				start_saknr = me.params.start_saknr;
+				end_saknr = me.params.end_saknr;
 				params = "start_date="+start_date+"&end_date="+end_date;
-				window.open(__base_url + 'index.php/rgeneralledger/excel?'+params,'_blank');
+				params = params + "&start_saknr="+start_saknr+"&end_saknr="+end_saknr;
+				window.location = __base_url + 'index.php/rgeneralledger/excel?'+params ;
 			}
 		}]
 		this.callParent(arguments);
