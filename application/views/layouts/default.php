@@ -569,6 +569,12 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_report_tb'
 			};
+			
+			var nodeReportIncome = {
+				text: 'Report Income Statement',
+				leaf: true,
+				id: 'click_report_income'
+			};
 
 			var groupReport = {
 				text: 'Reports',
@@ -582,7 +588,8 @@ function endsWith($haystack, $needle)
 					nodeReport3,
 					nodeReportGJ,
 					nodeReportGL,
-					nodeReportTB
+					nodeReportTB,
+					nodeReportIncome
 				]
 			};
 

@@ -58,8 +58,9 @@ Ext.define('Account.RTrialBalance.MainWindow', {
 					end_date = form.form.findField('end_date').getValue();
 					end_date = Ext.Date.format(end_date,'Y-m-d');
 					params = "start_date="+start_date+"&end_date="+end_date;
-					//window.open(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
+					url = __base_url + 'index.php/rtrialbalance/pdf?'+params;
 					_this.previewDialog.openDialog(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
+					//window.open(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
 				}
 			},{
 				text: 'ยกเลิก',

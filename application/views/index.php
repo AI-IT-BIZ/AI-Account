@@ -386,6 +386,11 @@ Ext.onReady(function() {
 		$om.RTrialBalance.show();
 	});
 	
+	$om.viewport.on('click_report_income', function(){
+		$om.RIncome = Ext.create('Account.RIncome.MainWindow');
+		$om.RIncome.show();
+	});
+	
 	$om.viewport.on('click_RSumVat', function(){
 		$om.RSumVat = Ext.create('Account.RSumVat.MainWindow');
 		$om.RSumVat.show();
