@@ -10,7 +10,7 @@ Ext.define('Account.UMS.Login.Form', {
 			defaults: {
 				allowBlank: false,
 				labelAlign: 'right',
-				width:280
+				width:380
 			}
 		});
 
@@ -19,7 +19,37 @@ Ext.define('Account.UMS.Login.Form', {
 	initComponent : function() {
 		var _this=this;
 
-		this.items = [{
+		this.comboCompany = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Company',
+			name : 'comid',
+			labelAlign: 'right',
+			width: 380,
+			editable: false,
+			allowBlank : false,
+			triggerAction : 'all',
+			clearFilterOnReset: true,
+			emptyText: '-- Select Company --',
+			store: new Ext.data.JsonStore({
+				proxy: {
+					type: 'ajax',
+					url: __site_url+'umslimit/loads_company_combo',
+					reader: {
+						type: 'json',
+						root: 'rows',
+						idProperty: 'comid'
+					}
+				},
+				fields: [
+					'comid',
+					'name1'
+				]
+			}),
+			queryMode: 'remote',
+			displayField: 'name1',
+			valueField: 'comid'
+		});
+
+		this.items = [this.comboCompany, {
 			xtype: 'textfield',
 			fieldLabel : 'Username',
 			name : "username",

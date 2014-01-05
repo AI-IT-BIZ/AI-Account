@@ -41,15 +41,16 @@ class Ums_service extends CI_Model {
 		}
 	}
 
-	public function load_permission_by_uname($uname){
+	public function load_permission_by_uname($uname, $comid){
 		$tbAutx = $this->tbAutx;
 		$tbDoct = $this->tbDoct;
 		$tbUser = $this->tbUser;
 
 		$uname = $this->db->escape($uname);
+		$comid_esc = $this->db->escape($comid);
 		$sql = "
 Select d.doctx ,d.docty,a.autex From $tbDoct d
-Left Join $tbAutx a on d.docty = a.docty and a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
+Left Join $tbAutx a on d.docty = a.docty and a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname AND u.comid=$comid_esc)
 Order by d.doctx ASC";
 		$query = $this->db->query($sql);
 
@@ -71,13 +72,14 @@ Order by d.doctx ASC";
 		return $result;
 	}
 
-	public function load_doctype_limit_by_uname($uname){
+	public function load_doctype_limit_by_uname($uname, $comid){
 		$tbAutl = $this->tbAutl;
 		$tbAutu = $this->tbAutu;
 		$tbDoct = $this->tbDoct;
 		$tbUser = $this->tbUser;
 
 		$uname = $this->db->escape($uname);
+		$comid_esc = $this->db->escape($comid);
 
 		$sql = "
 SELECT
@@ -85,7 +87,7 @@ TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
 , al.limam, au.comid
 FROM $tbDoct d
 
-LEFT JOIN $tbAutu au ON au.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname)
+LEFT JOIN $tbAutu au ON au.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname AND u.comid=$comid_esc)
 LEFT JOIN $tbAutl al ON au.autlid=al.autlid AND al.docty=d.docty
 
 WHERE 1=1
