@@ -48,6 +48,10 @@ Ext.define('Account.UMSLimit.Item.UserWindow', {
 
 			this.show();
 			this.form.load(params);
+		}else if(action=='remove'){
+			this.hide();
+
+			this.form.remove(params);
 		}else{
 			this.form.reset();
 			this.show(false);

@@ -54,7 +54,7 @@ LEFT JOIN tbl_autd a ON d.docty=a.docty";
 				array_push($rs, array(
 					'text'=>$l->doctx.(($l->depdp==1)?' - <b>Depend on department</b>':''),
 					'id'=>$node.$this->splitter.$l->docty,
-					'expanded'=>true,
+					'expanded'=>false,
 					'iconCls'=>'tree-node-document'
 				));
 			}
@@ -288,7 +288,7 @@ WHERE autlid=$autlid
 	public function save_limit(){
 		$limit_amount = $this->input->post('limam');
 		$id = $this->input->post('id');
-		$comid = $this->input->post('comid');
+		$comid = XUMS::COMPANY_ID();//$this->input->post('comid');
 
 		if(empty($comid)){
 			X::renderJSON(array(
@@ -349,9 +349,37 @@ WHERE autlid=$autlid
 		));
 	}
 
+	public function remove_limit(){
+		$id = $this->input->post('id');
+		$comid = XUMS::COMPANY_ID();//$this->input->post('comid');
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		if($this->is_node_limam($id)){
+			$autlid = $this->get_id($id);
+			$this->autl->delete($autlid);
+
+			// remove all user under autlid
+			$this->autu->delete_by(array(
+				'autlid'=>$autlid
+			));
+		}
+
+		X::renderJSON(array(
+			'success'=>true,
+			'data'=>$autlid
+		));
+	}
+
 	public function save_user(){
 		$id = $this->input->post('id');
-		$comid = $this->input->post('comid');
+		$comid = XUMS::COMPANY_ID();//$this->input->post('comid');
 		$empnr = $this->input->post('empnr');
 
 		if(empty($comid)){
@@ -366,15 +394,17 @@ WHERE autlid=$autlid
 			$autlid = $this->get_id($id);
 
 			// check user under autl
-			$ulist = $this->autu->get_by(array(
+			$u_count = $this->autu->count_by(array(
 				'autlid'=>$autlid,
 				'empnr'=>$empnr
 			));
-			if(count($ulist)>0){
+
+			if($u_count>0){
 				X::renderJSON(array(
 					'success'=>false,
 					'message'=>'User already exist.'
 				));
+				return;
 			}else{
 				$this->autu->insert(array(
 					'comid'=>$comid,
@@ -386,6 +416,29 @@ WHERE autlid=$autlid
 
 		X::renderJSON(array(
 			'success'=>true
+		));
+	}
+
+	public function remove_user(){
+		$id = $this->input->post('id');
+		$comid = XUMS::COMPANY_ID();
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		if($this->is_node_empnr($id)){
+			$autuid = $this->get_id($id);
+			$this->autu->delete($autuid);
+		}
+
+		X::renderJSON(array(
+			'success'=>true,
+			'data'=>$autuid
 		));
 	}
 

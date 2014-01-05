@@ -41,13 +41,18 @@ Ext.define('Account.UMSLimit.Item.LimitWindow', {
 		return this.callParent(arguments);
 	},
 	openDialog: function(action, params){
+		var _this=this;
+
 		this.form.form_action = action;
 		this.form.form_params = params;
 		if(action=='edit'){
 			this.show(false);
 
-			this.show();
 			this.form.load(params);
+		}else if(action=='remove'){
+			this.hide();
+
+			this.form.remove(params);
 		}else{
 			this.form.reset();
 			this.show(false);
