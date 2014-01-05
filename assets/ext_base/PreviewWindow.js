@@ -22,7 +22,7 @@ Ext.define('BASE.PreviewWindow', {
 			buttonAlign:'center'
 		}, config);
 
-		Ext.apply(this, _cfg);
+		Ext.applyIf(this, _cfg);
 
 		if(this.enableCopies){
 			this.openDialog = function(form_values){
@@ -61,7 +61,7 @@ Ext.define('BASE.PreviewWindow', {
 
 		this.items = [new Ext.Panel({
 			region:'center',
-			border: true,
+			border: false,
 			items:[{
 				xtype: 'component',
 				id: this.iframe_id,

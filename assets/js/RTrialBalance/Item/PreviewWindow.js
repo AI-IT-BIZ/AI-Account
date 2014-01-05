@@ -5,7 +5,6 @@ Ext.define('Account.RTrialBalance.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'Trial Balance preview',
-
 			enableCopies: false
 		});
 

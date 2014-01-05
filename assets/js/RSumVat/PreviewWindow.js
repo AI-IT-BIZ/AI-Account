@@ -5,15 +5,7 @@ Ext.define('Account.RSumVat.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีมูลค่าเพิ่ม',
-
-			enableCopies: true,
-
-			getFrameUrl: function(params, copies){
-				copies = copies || 1;
-				var q_str = '';
-				params['copies'] = copies;
-				return __site_url+'form/rsumvat/index?'+Ext.urlEncode(params);
-			}
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);
@@ -21,5 +13,11 @@ Ext.define('Account.RSumVat.PreviewWindow', {
 	initComponent : function() {
 
 		return this.callParent(arguments);
+	},
+	getFrameUrl: function(params, copies){
+		copies = copies || 1;
+		var q_str = '';
+		params['copies'] = copies;
+		return __site_url+'form/rsumvat/index?'+Ext.urlEncode(params);
 	}
 });
