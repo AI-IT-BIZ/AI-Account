@@ -74,6 +74,11 @@ Ext.define('Account.UMS.Login.Form', {
 			}
 		}];
 
+		this.comboCompany.on('render', function(){
+			_this.comboCompany.setValue('1000');
+			_this.comboCompany.store.load();
+		});
+
 		return this.callParent(arguments);
 	},
 	submit: function(){
