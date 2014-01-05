@@ -349,13 +349,14 @@ class Receipt extends CI_Controller {
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
 				'itamt'=>$p->itamt,
-				'reman'=>$p->reman,
-				'payrc'=>$p->payrc,
+				//'reman'=>$p->reman,
+				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
 				'ctype'=>$p->ctype,
 				'wht01'=>$p->wht01,
 				'vat01'=>$p->vat01,
-				'dtype'=>$p->dtype
+				'dtype'=>$p->dtype,
+				'jobtx'=>$p->jobtx
 			));
 			
 			$this->db->where('invnr', $p->invnr);

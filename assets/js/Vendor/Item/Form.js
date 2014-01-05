@@ -115,6 +115,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		});
 
 		this.trigVtyp.onTriggerClick = function(){
+			_this.vtypDialog.grid.load();
 			_this.vtypDialog.show();
 		};
 

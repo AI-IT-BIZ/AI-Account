@@ -404,12 +404,12 @@ Ext.define('Account.Payment.Item.Form', {
 		var store = _this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
-				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
+			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
-			pay = isNaN(pay)?0:pay;
+			//pay = isNaN(pay)?0:pay;
 
-			var amt = itamt - pay;
+			var amt = itamt; //- pay;
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
@@ -428,12 +428,12 @@ Ext.define('Account.Payment.Item.Form', {
 		var sum = 0;var dtype='';var itamt=0;sum2=0;
 		var saknr_list = [];var whts=0;var vats=0;
 		store.each(function(r){
-			    itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
-				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
+			    itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
-			pay = isNaN(pay)?0:pay;
+			//pay = isNaN(pay)?0:pay;
 
-			var amt = itamt - pay;
+			var amt = itamt; //- pay;
 			sum += amt;
 			
 			//var item = r.data['saknr'] + '|' + amt;

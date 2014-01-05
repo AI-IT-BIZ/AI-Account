@@ -257,6 +257,22 @@ class Payment extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $ebbp = $this->input->post('ebbp');
+		$py_item_array = json_decode($ebbp);
+		
+		if(!empty($ebbp) && !empty($py_item_array)){
+		foreach($py_item_array AS $p){
+			if($p->loekz=='2'){
+				$emsg = 'The AP already created payment doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+		  }
+		}
+
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -297,8 +313,8 @@ class Payment extends CI_Controller {
 		$this->db->delete('ebbp');
 
 		// เตรียมข้อมูล payment item
-		$ebbp = $this->input->post('ebbp');
-		$py_item_array = json_decode($ebbp);
+		//$ebbp = $this->input->post('ebbp');
+		//$py_item_array = json_decode($ebbp);
 		
 		if(!empty($ebbp) && !empty($py_item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
@@ -317,8 +333,14 @@ class Payment extends CI_Controller {
 				'ctype'=>$p->ctype,
 				'wht01'=>$p->wht01,
 				'vat01'=>$p->vat01,
-				'dtype'=>$p->dtype
+				'dtype'=>$p->dtype,
+				'ebeln'=>$p->ebeln
 			));
+			
+			$this->db->where('invnr', $p->invnr);
+			$this->db->set('loekz', '2');
+			$this->db->update('ebrk');
+	    	
 	    	}
 		}
 		

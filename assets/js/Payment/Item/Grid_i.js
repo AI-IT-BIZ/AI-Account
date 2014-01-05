@@ -47,14 +47,16 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				'refnr',
 				'invdt',
 				'texts',
-				'itamt',
-				'payrc',
-				'reman',
+				{name:'itamt', type: 'string'},
+				//'payrc',
+				//'reman',
 				'belnr',
 				'ctype',
 				'wht01',
 				'vat01',
-				'dtype'
+				'dtype',
+				'loekz',
+				'ebeln'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -73,6 +75,9 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
+						xtype: 'hidden',
+						name: 'loekz'
+					},{
 			id : 'PMiRowNumber022',
 			header : "No.",
 			dataIndex : 'vbelp',
@@ -86,6 +91,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		{text: "Acc-Payable No",
 		width: 110,
 		dataIndex: 'invnr',
+		align : 'center',
 		sortable: false,
 			field: {
 				xtype: 'triggerfield',
@@ -96,9 +102,17 @@ Ext.define('Account.Payment.Item.Grid_i', {
 					_this.apDialog.show();
 				}
 			},
+			},{text: "PO/GR No",
+		    width: 110,
+		    dataIndex: 'ebeln',
+		    align : 'center',
+		    sortable: false,
+		    field: {
+				type: 'textfield'
+			}
 			},
 		    {text: "Ref.No",
-		    width: 120,
+		    width: 150,
 		    dataIndex: 'refnr',
 		    sortable: false,
 		    field: {
@@ -108,6 +122,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		    {text: "Payment Date",
 		    width: 80,
 		    xtype: 'datecolumn',
+		    align : 'center',
 		    dataIndex: 'invdt',
 		    sortable: false,
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
@@ -128,7 +143,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			align: 'right',
 			readOnly: true
 			},
-			{text: "Payment Amt",
+			/*{text: "Payment Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'payrc',
@@ -153,7 +168,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
+			},*///{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -193,11 +208,16 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='invnr'){
 				var v = e.value;
+				var v_url = 'ap/load';
+				var v_str = v.substring(0,1);
+				if(v_str == 'D'){
+					v_url = 'depositout/load';
+				}
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'ap/load',
+					url: __site_url+v_url,
 					method: 'POST',
 					params: {
 						id: v
@@ -214,6 +234,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							rModel.set('invdt', r.data.bldat);
 							// Text Note
 							rModel.set('texts', r.data.sgtxt);
+							// GR No
+							rModel.set('ebeln', r.data.ebeln);
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
 							// Currency
@@ -224,7 +246,9 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							rModel.set('vat01', r.data.vat01);
 							// Dtype
 							var dtype = r.data.invnr.substring(0,2);
-				            rModel.set('dtype', dtype[0]);
+							rModel.set('dtype', dtype[0]);
+							//Flag
+							rModel.set('loekz', r.data.loekz);
 							//rModel.set('amount', 100+Math.random());
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -246,6 +270,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				rModel.set('invdt', record.data.bldat);
 				// Text note
 				rModel.set('texts', record.data.sgtxt);
+				// GR No
+				rModel.set('ebeln', record.data.ebeln);
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
@@ -257,6 +283,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				// Dtype
 				var dtype = record.data.invnr.substring(0,2);
 				rModel.set('dtype', dtype[0]);
+				//Flag
+			    rModel.set('loekz', record.data.loekz);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.apDialog.hide();

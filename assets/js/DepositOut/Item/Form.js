@@ -234,6 +234,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 					margin: '0 0 5 0',
 		 			items :[{
 						xtype: 'hidden',
+						name: 'loekz'
+					},{
+						xtype: 'hidden',
 						name: 'id'
 					},this.trigPO,{
 						xtype: 'displayfield',
@@ -363,6 +366,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -393,6 +397,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 						}
 					}
 				});

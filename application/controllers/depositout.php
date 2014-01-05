@@ -153,6 +153,15 @@ class Depositout extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('loekz')=='2'){
+        	$emsg = 'The PO already created deposit doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
 		
 		$formData = array(
 			//'depnr' => $this->input->post('depnr'),
@@ -199,7 +208,11 @@ class Depositout extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('ebdk', $formData);
 			
-			//$id = $this->db->insert_id();
+			$inserted_id = $id;
+			
+			$this->db->where('ebeln', $this->input->post('eblen'));
+			$this->db->set('loekz', '2');
+			$this->db->update('ekko');
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด

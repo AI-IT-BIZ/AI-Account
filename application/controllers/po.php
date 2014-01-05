@@ -187,6 +187,16 @@ class Po extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('loekz')=='2'){
+        	$emsg = 'The PR already created PO doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+		
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -228,6 +238,12 @@ class Po extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('ekko', $formData);
+			
+			$inserted_id = $id;
+			
+			$this->db->where('purnr', $this->input->post('purnr'));
+			$this->db->set('loekz', '2');
+			$this->db->update('ebko');
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('ebeln', $id);

@@ -189,6 +189,15 @@ class Gr extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        if($this->input->post('loekz')=='3'){
+        	$emsg = 'The po already created gr doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -230,6 +239,12 @@ class Gr extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('mkpf', $formData);
+			
+			$inserted_id = $id;
+			
+			$this->db->where('ebeln', $this->input->post('ebeln'));
+			$this->db->set('loekz', '3');
+			$this->db->update('ekko');
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('mbeln', $id);
