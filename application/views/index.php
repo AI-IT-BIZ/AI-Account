@@ -1,6 +1,12 @@
 <script type="text/javascript">
 var arrPermit;
-Ext.Loader.setPath('Account', __base_url+'assets/js');
+Ext.Loader.setConfig({
+	enabled: true,
+	paths: {
+		'BASE': __base_url+'assets/ext_base',
+		'Account': __base_url+'assets/js'
+	}
+});
 
 Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
@@ -400,12 +406,12 @@ Ext.onReady(function() {
 		$om.RIncome.show();
 	});
 
-	
+
 	$om.viewport.on('click_report_balance_sheet', function(){
 		$om.RBalanceSheet = Ext.create('Account.RBalanceSheet.MainWindow');
 		$om.RBalanceSheet.show();
 	});
-	
+
 	$om.viewport.on('click_RSumVat', function(){
 		$om.RSumVat = Ext.create('Account.RSumVat.MainWindow');
 		$om.RSumVat.show();
