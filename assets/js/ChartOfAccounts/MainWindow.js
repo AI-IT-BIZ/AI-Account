@@ -15,11 +15,24 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                  { name: 'ename', type: 'string' },
                  { name: 'accty', type: 'string' },
                  { name: 'accgr', type: 'string' },
-                 { name: 'deptx', type: 'string' }
+                 { name: 'deptx', type: 'string' },
+                 { name: 'glgrp', type: 'string' }
         ], sortInfo: { field: 'treid', direction: 'ASC' }
     });
     
-    var store_group_account = Ext.create('Ext.data.ArrayStore', {
+    var store_account_group = Ext.create('Ext.data.Store',{
+    	fields: ['group','name'],
+    	data: [
+    		{"group":"1", "name":"สินทรัพย์"},
+    		{"group":"2", "name":"หนี้สิน"},
+    		{"group":"3", "name":"ส่วนของเจ้าของ"},
+    		{"group":"4", "name":"รายได้"},
+    		{"group":"5", "name":"ค่าใช้จ่าย"}
+    	], 
+    	sortInfo: {field: 'group', direction: 'ASC'}
+    });
+    
+    var store_group_account = Ext.create('Ext.data.ArrayStore',{
         fields: [{ name: 'treid', type: 'string' },
                  { name: 'accid', type: 'string' }
         ], sortInfo: { field: 'accid', direction: 'ASC' }
@@ -116,11 +129,28 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
           inputValue: '1'
       });
       
+      var cbAccount = Ext.create('Ext.form.ComboBox', {
+        rtl: false,
+        fieldLabel: 'Account Group',
+        x:50,
+        y:225,
+        width: 300,
+        emptyText: 'Select Account Group',
+        triggerAction: 'all',
+        lazyRender: true,
+        selectOnFocus: true, 
+        store: store_account_group,
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'group'
+      
+    });
+      
        var cbAccountGroup = Ext.create('Ext.form.ComboBox', {
         rtl: false,
         fieldLabel: 'Account Under',
         x:50,
-        y:225,
+        y:255,
         width: 300,
         emptyText: 'Select Account',
         triggerAction: 'all',
@@ -137,7 +167,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         rtl: false,
         fieldLabel: 'Department',
         x:50,
-        y:255,
+        y:285,
         width: 300,
         emptyText: 'Select Department',
         triggerAction: 'all',
@@ -154,7 +184,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
          text: 'Save',
          width:80,
          x:180,
-         y:290,
+         y:320,
          handler: function() {
                    
                   SaveData();
@@ -167,7 +197,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
          text: 'Cancel',
          width:80,
          x:270,
-         y:290,
+         y:320,
          handler: function() {
                     GetDisable();
                     GetReset();
@@ -225,7 +255,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                     defaultType: 'textfield',
                     layout: 'absolute',
                     // Vendor Code            
-                    items:[txtID,txtNameT,txtNameE,rdSmallAccount,rdGroupAccount,cbAccountGroup,cbDepartment,btnSave,btnCancel]
+                    items:[txtID,txtNameT,txtNameE,rdSmallAccount,rdGroupAccount,cbAccount,cbAccountGroup,cbDepartment,btnSave,btnCancel]
 		        }]
       
      });
@@ -270,6 +300,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                      data[8] = strTemp[8];
                      data[9] = strTemp[9];
                      data[10] = strTemp[10];
+                     data[11] = strTemp[11];
                      myData[i] = data;
                   }
              }
@@ -449,6 +480,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         txtID.setReadOnly(true);
         txtNameT.setReadOnly(true);
         txtNameE.setReadOnly(true);
+        cbAccount.setReadOnly(true);
         cbAccountGroup.setReadOnly(true);
         cbDepartment.setReadOnly(true);
         rdGroupAccount.setReadOnly(true);
@@ -463,6 +495,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         //txtID.setDisabled(false);
         txtNameT.setReadOnly(false);
         txtNameE.setReadOnly(false);
+        cbAccount.setReadOnly(false);
         cbAccountGroup.setReadOnly(false);
         cbDepartment.setReadOnly(false);
         rdGroupAccount.setReadOnly(false);
@@ -518,6 +551,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                   txtID.setValue(rt.get('accid'));
                   txtNameT.setValue(rt.get('tname'));
                   txtNameE.setValue(rt.get('ename'));
+                  //cbAccount.setValue(rt.get('glgrp'));
                   cbAccountGroup.setValue(rt.get('accgr'));
                   cbDepartment.setValue(rt.get('deptx'));
                   
