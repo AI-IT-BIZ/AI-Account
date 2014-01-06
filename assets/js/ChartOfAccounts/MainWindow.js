@@ -21,15 +21,15 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
     });
     
     var store_account_group = Ext.create('Ext.data.Store',{
-    	fields: ['group','name'],
+    	fields: ['glgrp','name'],
     	data: [
-    		{"group":"1", "name":"สินทรัพย์"},
-    		{"group":"2", "name":"หนี้สิน"},
-    		{"group":"3", "name":"ส่วนของเจ้าของ"},
-    		{"group":"4", "name":"รายได้"},
-    		{"group":"5", "name":"ค่าใช้จ่าย"}
+    		{"glgrp":"1", "name":"สินทรัพย์"},
+    		{"glgrp":"2", "name":"หนี้สิน"},
+    		{"glgrp":"3", "name":"ส่วนของเจ้าของ"},
+    		{"glgrp":"4", "name":"รายได้"},
+    		{"glgrp":"5", "name":"ค่าใช้จ่าย"}
     	], 
-    	sortInfo: {field: 'group', direction: 'ASC'}
+    	sortInfo: {field: 'glgrp', direction: 'ASC'}
     });
     
     var store_group_account = Ext.create('Ext.data.ArrayStore',{
@@ -142,7 +142,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         store: store_account_group,
         queryMode: 'local',
         displayField: 'name',
-        valueField: 'group'
+        valueField: 'glgrp'
       
     });
       
@@ -386,14 +386,14 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
              Ext.MessageBox.alert('', 'please insert id');
              return;
         }
-        if(cbAccountGroup.getRawValue() == "")
+        /*if(cbAccountGroup.getRawValue() == "")
         {
             if(rdSmallAccount.getValue())
             {
               Ext.MessageBox.alert('', 'please select accout group');
               return;
             }
-        }
+        }*/
         if(cbDepartment.getRawValue() == "")
         {   
                  Ext.MessageBox.alert('', 'please select department');
@@ -415,6 +415,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         var accty = "";
         var accgr = cbAccountGroup.getRawValue();
         var deptx = cbDepartment.getRawValue();
+        var glgrp = cbAccount.getRawValue();
         
         
         
@@ -449,7 +450,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         }
         var strParam = "?treid=" + treid +  "&level=" + level + "&leaf1=" + leaf1  + "&child=" + child + "&accid=" + accid;
         strParam = strParam  + "&tname=" + tname + "&ename=" + ename + "&accty=" + accty + "&accgr=" + accgr;
-        strParam = strParam  + "&deptx=" + deptx;
+        strParam = strParam  + "&deptx=" + deptx + "&glgrp" + glgrp;
         //alert(strParam);
         Ext.Ajax.request ({
              url: __site_url +  'chartofaccounts/SaveTree' + strParam ,
@@ -471,6 +472,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         txtID.setValue('');
         txtNameT.setValue('');
         txtNameE.setValue('');
+        cboAccount.setValue('');
         cbAccountGroup.reset();
         cbDepartment.reset();
         treid_edit = "";
@@ -551,7 +553,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                   txtID.setValue(rt.get('accid'));
                   txtNameT.setValue(rt.get('tname'));
                   txtNameE.setValue(rt.get('ename'));
-                  //cbAccount.setValue(rt.get('glgrp'));
+                  cbAccount.setValue(rt.get('glgrp'));
                   cbAccountGroup.setValue(rt.get('accgr'));
                   cbDepartment.setValue(rt.get('deptx'));
                   

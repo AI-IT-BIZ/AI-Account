@@ -178,6 +178,7 @@
             $gltyp = $_GET['accty'];
             $overs = $_GET['accgr'];
             $depar = $_GET['deptx'];
+			$glgrp = $_GET['glgrp'];
             if($treid == "")
             {
                 
@@ -208,7 +209,7 @@
             {
                 $leaf1 = ($rowL1->gltyp == "1") ? "false" : "true";
                 $strResult = $strResult . $row->saknr . "+" . $row->gllev  . "+" . "" . "+" . $leaf1 . "+" . $row->overs . "+" . $row->saknr . "+";
-                $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->overs . "+"  . $row->depar . "|" ;
+                $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->overs . "+"  . $row->depar . "+" . $row->glgrp . "|" ;
             }
             if( $strResult != "" )
             {
