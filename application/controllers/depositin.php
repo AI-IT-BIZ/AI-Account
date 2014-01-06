@@ -256,7 +256,7 @@ class Depositin extends CI_Controller {
 						));
 						return;
 					}
-		}
+		      }
 		}
 		
 		$ids = $this->input->post('id');

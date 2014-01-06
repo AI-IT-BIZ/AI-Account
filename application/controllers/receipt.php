@@ -274,17 +274,27 @@ class Receipt extends CI_Controller {
 
         $vbbp = $this->input->post('vbbp');
 		$rc_item_array = json_decode($vbbp);
-		
+		$perv='';
 		if(!empty($vbbp) && !empty($rc_item_array)){
 		foreach($rc_item_array AS $p){
 			if($p->loekz=='2'){
-				$emsg = 'The invoice already created receipt doc.';
+				$emsg = 'The invoice no '.$p->invnr.' already created receipt doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
 			}
+			
+			if(substr($p->invnr,0,1)!=$perv){
+				$emsg = 'Cannot create receipt doc from differnt invoice type';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$perv = substr($p->invnr,0,1);
 		  }
 		}
 		
