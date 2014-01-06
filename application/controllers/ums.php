@@ -207,7 +207,7 @@ class Ums extends CI_Controller {
 
 	public function loads_permission(){
 		$uname = $this->input->get('uname');
-		$comid = $this->input->get('comid');
+		$comid = XUMS::COMPANY_ID();//$this->input->get('comid');
 
 		$result = $this->ums_service->load_permission_by_uname($uname, $comid);
 
@@ -240,6 +240,8 @@ class Ums extends CI_Controller {
 		$permission_array = $this->ums_service->permission_array;
 
 		$id = $this->input->post('id');
+		$comid = XUMS::COMPANY_ID();
+		$comid_esc = $this->db->escape($comid);
 
 		$uname = $this->input->post('uname');
 		$passw = $this->input->post('passw');
@@ -276,7 +278,7 @@ class Ums extends CI_Controller {
 
 		// ลบ permission ภายใต้ id ทั้งหมด
 		$id_query = $this->db->escape($id);
-		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query)");
+		$this->db->where("empnr = (SELECT empnr FROM $tbUser WHERE uname=$id_query AND comid=$comid_esc)");
 		$this->db->delete('autx');
 
 		// เตรียมข้อมูล permission
@@ -288,7 +290,7 @@ class Ums extends CI_Controller {
 			foreach($autx_array AS $p){
 				// loop เพื่อสร้างค่า autex
 				$autx_data = array(
-					'comid'=>'1000',
+					'comid'=>$comid,
 					'empnr'=>$user['empnr'],
 					'docty'=>$p->docty,
 					'autex'=>''

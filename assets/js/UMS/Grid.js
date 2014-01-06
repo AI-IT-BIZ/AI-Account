@@ -13,7 +13,7 @@ Ext.define('Account.UMS.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'uname'
+					idProperty: function(o){ return o.comid+'$'+o.uname; }
 				},
 				simpleSortMode: true
 			},
@@ -59,6 +59,11 @@ Ext.define('Account.UMS.Grid', {
 	getSelectionId: function(){
 		var sel = this.getView().getSelectionModel().getSelection()[0];
 		if(!sel) return;
-		return sel.data[sel.idField.name];
+		var retId = sel.data[sel.idField.name];
+		var retIds = retId.split('$');
+		if(retIds.length==2)
+			return retIds[1];
+		else
+			return;
 	}
 });
