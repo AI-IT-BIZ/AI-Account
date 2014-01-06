@@ -333,6 +333,16 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_invoice'
 			};
+			var nodeSaleDN = {
+				text: 'Create New Debit Note',
+				leaf: true,
+				id: 'click_sale_dn'
+			};
+			var nodeSaleCN = {
+				text: 'Create New Credit Note',
+				leaf: true,
+				id: 'click_sale_cn'
+			};
 			var nodeReceipt = {
 				text: 'Create New Receipts',
 				leaf: true,
@@ -360,6 +370,8 @@ function endsWith($haystack, $needle)
 					nodeQuotation,
 					nodeSaleOrder,
 					nodeInvoice,
+					nodeSaleDN,
+					nodeSaleCN,
 					nodeReceipt,
 					nodeCustomer,
 					nodeSalePerson
@@ -386,6 +398,16 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_ap'
 			};
+			var nodePurchaseDN = {
+				text: 'Create New Debit Note',
+				leaf: true,
+				id: 'click_purchase_dn'
+			};
+			var nodePurchaseCN = {
+				text: 'Create New Credit Note',
+				leaf: true,
+				id: 'click_purchase_cn'
+			};
 			var nodePayment = {
 				text: 'Create New Payments',
 				leaf: true,
@@ -408,6 +430,8 @@ function endsWith($haystack, $needle)
 					nodePO,
 					nodeGR,
 					nodeAP,
+					nodePurchaseDN,
+					nodePurchaseCN,
 					nodePayment,
 					nodeVendor
 				]

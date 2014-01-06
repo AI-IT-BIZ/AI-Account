@@ -136,6 +136,26 @@ Ext.onReady(function() {
 			$om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		$om.invoiceDialog.show();
 	});
+	$om.viewport.on('click_sale_dn', function(){
+		if(!UMS.CAN.DISPLAY('SN')){
+			UMS.ALERT("You don't have permission for Sale Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.saleDebitNoteDialog)
+			$om.saleDebitNoteDialog = Ext.create('Account.SaleDebitNote.MainWindow');
+		$om.saleDebitNoteDialog.show();
+	});
+	$om.viewport.on('click_sale_cn', function(){
+		if(!UMS.CAN.DISPLAY('SN')){
+			UMS.ALERT("You don't have permission for Sale Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.saleCreditNoteDialog)
+			$om.saleCreditNoteDialog = Ext.create('Account.SaleCredit.MainWindow');
+		$om.saleCreditNoteDialog.show();
+	});
 	$om.viewport.on('click_billto', function(){
 		if(!UMS.CAN.DISPLAY('BT')){
 			UMS.ALERT("You don't have permission for Billing Note.");
@@ -236,6 +256,26 @@ Ext.onReady(function() {
 		if(!$om.apDialog)
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
 		$om.apDialog.show();
+	});
+	$om.viewport.on('click_purchase_dn', function(){
+		if(!UMS.CAN.DISPLAY('PN')){
+			UMS.ALERT("You don't have permission for Purchase Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.purchaseDebitNoteDialog)
+			$om.purchaseDebitNoteDialog = Ext.create('Account.PurchaseDebitNote.MainWindow');
+		$om.purchaseDebitNoteDialog.show();
+	});
+	$om.viewport.on('click_purchase_cn', function(){
+		if(!UMS.CAN.DISPLAY('PN')){
+			UMS.ALERT("You don't have permission for urchase Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.purchaseCreditNoteDialog)
+			$om.purchaseCreditNoteDialog = Ext.create('Account.PurchaseCreditNote.MainWindow');
+		$om.purchaseCreditNoteDialog.show();
 	});
 	$om.viewport.on('click_billfrom', function(){
 		if(!UMS.CAN.DISPLAY('BF')){
