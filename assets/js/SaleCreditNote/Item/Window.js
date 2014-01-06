@@ -1,9 +1,9 @@
-Ext.define('Account.DepositOut.Item.Window', {
+Ext.define('Account.SaleCreditNote.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Deposit Payment',
+			title: 'Create/Edit Credit Note',
 			closeAction: 'hide',
 			height: 650,
 			width: 880,
@@ -18,9 +18,9 @@ Ext.define('Account.DepositOut.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.DepositOut.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.SaleCreditNote.Item.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.DepositOut.Item.PreviewWindow');
+		this.previewDialog = Ext.create('Account.SaleCreditNote.Item.PreviewWindow');
 
 		this.items = [
 		     this.form
@@ -58,7 +58,7 @@ Ext.define('Account.DepositOut.Item.Window', {
 			this.form.load(id);
 
 			// สั่ง pr_item grid load
-			this.form.gridItem.load({depnr: id});
+			this.form.gridItem.load({crenr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

@@ -1,9 +1,9 @@
-Ext.define('Account.DepositOut.Item.Form_t', {
+Ext.define('Account.SaleCreditNote.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'depositout/save',
+			url: __site_url+'creditnote/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -287,7 +287,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'depositout/load'
+			url:__site_url+'creditnote/load'
 		});
 	},
 	save : function(){

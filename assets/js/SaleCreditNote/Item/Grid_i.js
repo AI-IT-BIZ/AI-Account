@@ -1,4 +1,4 @@
-Ext.define('Account.DepositOut.Item.Grid_i', {
+Ext.define('Account.SaleCreditNote.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,11 +29,11 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"depositout/loads_dp_item",
+				url: __site_url+"creditnote/loads_dp_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr,vbelp'
+					idProperty: 'crenr,vbelp'
 				}
 			},
 			fields: [
@@ -61,12 +61,12 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Deposit Item',
+				tooltip: 'Delete Credit Note Item',
 				scope: this,
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'DPiRowNumber',
+			id : 'CNiRowNumber1',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,

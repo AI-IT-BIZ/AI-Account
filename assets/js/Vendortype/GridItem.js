@@ -177,7 +177,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			success: function(response){
 				var r = Ext.decode(response.responseText);
 				if(r && r.success){
-					Ext.Msg.alert('SUCCESS');
+					//Ext.Msg.alert('SUCCESS');
 		       }else{
 		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
 		       }

@@ -1,33 +1,30 @@
-Ext.define('Account.RSumVat.PreviewWindow', {
+Ext.define('Account.SaleCreditNote.Item.PreviewWindow', {
 	extend	: 'BASE.PreviewWindow',
 	constructor:function(config) {
-		var _this=this;
 
 		Ext.apply(this, {
-			title: 'รายงานภาษีมูลค่าเพิ่ม',
+			title: 'Credit Note preview',
 			closeAction: 'hide',
 			height: 600,
-			width: 1000,
+			width: 830,
 			minHeight: 600,
 			minWidth: 830,
 			layout: 'border',
 			border: false,
 			resizable: true,
 			modal: true,
-			buttonAlign:'center',
-			enableCopies: true
+			buttonAlign:'center'
 		});
 
 		return this.callParent(arguments);
 	},
 	initComponent : function() {
-
+		
 		return this.callParent(arguments);
 	},
-	getFrameUrl: function(params, copies){
+	
+	getFrameUrl: function(id, copies){
 		copies = copies || 1;
-		var q_str = '';
-		params['copies'] = copies;
-		return __site_url+'form/rsumvat/index?'+Ext.urlEncode(params);
+		return __site_url+'form/salecreditnote/index/'+id+'/'+copies;
 	}
 });

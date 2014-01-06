@@ -1,9 +1,9 @@
-Ext.define('Account.DepositOut.MainWindow', {
+Ext.define('Account.SaleCreditNote.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Deposit Payment',
+			title: 'Credit Note',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -34,22 +34,22 @@ Ext.define('Account.DepositOut.MainWindow', {
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('DP')
+			disabled: !UMS.CAN.CREATE('CN')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('DP') || UMS.CAN.CREATE('DP') || UMS.CAN.EDIT('DP'))
+			disabled: !(UMS.CAN.DISPLAY('CN') || UMS.CAN.CREATE('CN') || UMS.CAN.EDIT('CN'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('DP')
+			disabled: !UMS.CAN.DELETE('CN')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('DP')
+			disabled: !UMS.CAN.EXPORT('CN')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -57,8 +57,8 @@ Ext.define('Account.DepositOut.MainWindow', {
 			iconCls: 'b-small-import'
 		});
 		
-        this.itemDialog = Ext.create('Account.DepositOut.Item.Window');
-		this.grid = Ext.create('Account.DepositOut.Grid', {
+        this.itemDialog = Ext.create('Account.SaleCreditNote.Item.Window');
+		this.grid = Ext.create('Account.SaleCreditNote..Grid', {
 			region:'center',
 			border: false,
 			tbar : [this.addAct, this.editAct, this.deleteAct,
@@ -81,7 +81,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.DepositOut.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.SaleCreditNote.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -125,7 +125,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save Deposit Payment number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Credit Note number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
@@ -170,7 +170,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/depositout/index?'+query;
+			window.location = __site_url+'export/salecreditnote/index?'+query;
 		});
 
 		// --- after ---

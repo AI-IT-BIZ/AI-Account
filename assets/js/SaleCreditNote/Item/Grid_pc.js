@@ -1,4 +1,4 @@
-Ext.define('Account.DepositOut.Item.Grid_pc', {
+Ext.define('Account.SaleCreditNote.Item.Grid_pc', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);

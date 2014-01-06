@@ -62,31 +62,33 @@ class Rsalarywht_docket extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-5 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-11 { COLOR:808080;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-13 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;FONT-STYLE:ITALIC;}
-.fc1-14 { COLOR:000000;FONT-SIZE:17PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-18 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-19 { COLOR:808080;FONT-SIZE:7PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-20 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-5 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-9 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-11 { COLOR:808080;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-13 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';FONT-STYLE:ITALIC;}
+.fc1-14 { COLOR:000000;FONT-SIZE:17PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-18 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-19 { COLOR:808080;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
+.fc1-20 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:808080;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -399,7 +401,11 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:351PX;top:452PX;width:390PX;height:19PX;"><span class="fc1-12">(ตามหนังสือแสดงความประสงค์ฯ ทะเบียนรับเลขที่...............................................................)</span></DIV>
 
-<DIV style="left:665PX;top:402PX;width:42PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">1</span></DIV>
+<?php
+  $page = $pamt / 8;
+?>
+
+<DIV style="left: 658px; top: 405px; width: 42PX; height: 24PX; TEXT-ALIGN: CENTER;"><span class="fc1-5"><?=number_format($page,0,'.',',');?></span></DIV>
 
 <DIV style="left:191PX;top:454PX;width:99PX;height:21PX;">
 <table width="94PX" border=0 cellpadding=0 cellspacing=0>
@@ -449,23 +455,23 @@ class Rsalarywht_docket extends CI_Controller {
 
 <DIV style="left:66PX;top:759PX;width:312PX;height:24PX;"><span class="fc1-17">8. รวมยอดภาษีที่นำส่งทั้งสิ้น&nbsp;&nbsp;และเงินเพิ่ม&nbsp;&nbsp;(6. + 7.)</span></DIV>
 
-<DIV style="left: 487px; top: 521PX; width: 92px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($beamt,2,'.',',');?></span></DIV>
-<DIV style="left: 608px; top: 521PX; width: 89px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($wht,2,'.',',');?></span></DIV>
-<DIV style="left: 604px; top: 704PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
-<DIV style="left: 488px; top: 704PX; width: 91px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($beamt,2,'.',',');?></span></DIV>
+<DIV style="left: 485px; top: 521PX; width: 92px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($beamt,2,'.',',');?></span></DIV>
+<DIV style="left: 606px; top: 521PX; width: 89px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-6"><?=number_format($wht,2,'.',',');?></span></DIV>
+<DIV style="left: 602px; top: 704PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
+<DIV style="left: 486px; top: 704PX; width: 91px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($beamt,2,'.',',');?></span></DIV>
 
 <DIV style="left:409PX;top:521PX;width:63PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=number_format($pamt,0,'.',',');?></span></DIV>
 
 <DIV style="left:411PX;top:704PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-5"><?=number_format($pamt,0,'.',',');?></span></DIV>
 
-<DIV style="left: 604px; top: 757PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
+<DIV style="left: 602px; top: 757PX; width: 93px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?=number_format($wht,2,'.',',');?></span></DIV>
 <DIV style="left:168PX;top:796PX;width:448PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ข้าพเจ้าขอรับรองว่า&nbsp;&nbsp;รายการที่แจ้งไว้ข้างต้นนี้&nbsp;&nbsp;เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ </span></DIV>
 
 <DIV style="left:194PX;top:857PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ลงชื่อ .......................................................................ผู้จ่ายเงิน</span></DIV>
 
 <DIV style="left: 590px; top: 883PX; width: 42PX; height: 42PX; TEXT-ALIGN: CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
 
-<DIV style="left:194PX;top:883PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( .........................................................................)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></DIV>
+<DIV style="left:190PX;top:883PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( .........................................................................)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></DIV>
 <DIV style="left:194PX;top:911PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ตำแหน่ง ..................................................................................</span></DIV>
 
 <DIV style="left:194PX;top:937PX;width:392PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-17">ยื่นวันที่.............เดือน................................พ .ศ. .......................</span></DIV>

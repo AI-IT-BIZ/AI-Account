@@ -66,31 +66,33 @@ class Rpnd3wht_docket extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-6 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
 .fc1-7 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Arial;FONT-WEIGHT:BOLD;}
 .fc1-8 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Arial;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-10 { COLOR:000000;FONT-SIZE:8PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-11 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-12 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:EucrosiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-13 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-14 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:BOLD;}
-.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:EucrosiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-18 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-19 { COLOR:808080;FONT-SIZE:8PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-20 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;TEXT-DECORATION:UNDERLINE;}
+.fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-10 { COLOR:000000;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-11 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-12 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-13 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-14 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-18 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
+.fc1-19 { COLOR:808080;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
+.fc1-20 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;TEXT-DECORATION:UNDERLINE;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:808080;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
@@ -308,8 +310,8 @@ class Rpnd3wht_docket extends CI_Controller {
 <?php
   $page = $tline / 5;
 ?>
-<DIV style="left:676PX;top:425PX;width:66PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=number_format($tline,0,'.',',');?></span></DIV>
-<DIV style="left:676PX;top:451PX;width:66PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=number_format($page,0,'.',',');?></span></DIV>
+<DIV style="left: 676PX; top: 428px; width: 66PX; height: 26PX; TEXT-ALIGN: CENTER;"><span class="fc1-8"><?=number_format($tline,0,'.',',');?></span></DIV>
+<DIV style="left: 676PX; top: 454px; width: 66PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-8"><?=number_format($page,0,'.',',');?></span></DIV>
 
 <DIV style="left:409PX;top:500PX;width:137PX;height:23PX;"><span class="fc1-2">สื่อบันทึกในระบบคอมพิวเตอร์</span></DIV>
 
@@ -333,9 +335,9 @@ class Rpnd3wht_docket extends CI_Controller {
 
 <DIV style="left:144PX;top:685PX;width:274PX;height:21PX;"><span class="fc1-16">4. รวมยอดภาษีที่นำส่งทั้งสิ้น และเงินเพิ่ม (2. + 3.)</span></DIV>
 
-<DIV style="left: 601px; top: 607PX; width: 110px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
-<DIV style="left: 602px; top: 633PX; width: 109px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
-<DIV style="left: 602px; top: 685PX; width: 109px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
+<DIV style="left: 601px; top: 610px; width: 110px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 602px; top: 636px; width: 109px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
+<DIV style="left: 602px; top: 688px; width: 109px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
 <DIV style="left:622PX;top:578PX;width:79PX;height:23PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
 
 <DIV style="left:268PX;top:613PX;width:326PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span></DIV>

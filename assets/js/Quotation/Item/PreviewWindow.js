@@ -14,22 +14,7 @@ Ext.define('Account.Quotation.Item.PreviewWindow', {
 
 		return this.callParent(arguments);
 	},
-	dialogId: null,
-	openDialog:function(id){
-		var _this=this;
-		if(id){
-			this.dialogId = id;
-			this.show(false, function(){
-				Ext.get('preview_frame').set({
-					src:_this.getFrameUrl(id, _this.copies.getValue())
-				});
-				_this.showFrameLoad();
-				_this.checkFrameReady(function(){
-					_this.hideFrameLoad();
-				});
-			});
-		}
-	},
+	
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
 		return __site_url+'form/quotation/index/'+id+'/'+copies;

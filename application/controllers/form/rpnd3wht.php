@@ -88,6 +88,10 @@ body { font-family: 'angsana_newregular'; }
 <table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
 </DIV>
 
+<? if($query->num_rows()==0){ ?>
+		   <DIV style="left: 478px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
+<? }?>
+
 <?php
 $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):

@@ -67,23 +67,25 @@ class Rsalarywht_attach extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-1 { COLOR:000000;FONT-SIZE:21PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-4 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-0 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-1 { COLOR:000000;FONT-SIZE:21PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-4 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-6 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:12PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-8 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-11 { COLOR:808080;FONT-SIZE:8PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-12 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:11PT;;FONT-WEIGHT:NORMAL;}
+.fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-10 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
+.fc1-11 { COLOR:808080;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
+.fc1-12 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-13 { COLOR:000000;FONT-SIZE:7PT;FONT-FAMILY:Wingdings;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -95,12 +97,17 @@ class Rsalarywht_attach extends CI_Controller {
 </STYLE>
 
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
+
+<? if($query->num_rows()==0){ ?>
+		   <DIV style="left: 478px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">No Data was selected</span></DIV>
+<? }?>
+
 <?php
 $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 25;
+	$page_size = 8;
 	$total_count = count($result);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -155,18 +162,18 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <div style="left:70PX;top:271PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
 </div>
-<div style="left:70PX;top:316PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:960PX;">
+<div style="left: 70PX; top: 317px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left: 70PX; top: 360px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
+<div style="left: 70PX; top: 363px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
 
-<div style="left: 70PX; top: 403px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
+<div style="left: 70PX; top: 408px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left: 70PX; top: 448px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
+<div style="left: 70PX; top: 455px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left: 70PX; top: 492px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
+<div style="left: 70PX; top: 501px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
-<div style="left: 70PX; top: 537px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
+<div style="left: 70PX; top: 546px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 960PX;">
 </div>
 
 <div style="left:70PX;top:596PX;border-color:000000;border-style:solid;border-width:0px;border-left-width:1PX;height:4PX;">
@@ -241,7 +248,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:904PX;top:144PX;width:22PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:975PX;top:144PX;width:31PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=$total_page;?></span></DIV>
+<DIV style="left: 960px; top: 144PX; width: 31PX; height: 21PX; TEXT-ALIGN: CENTER;"><span class="fc1-8"><?=$total_page;?></span></DIV>
 
 <DIV style="left:75PX;top:180PX;width:46PX;height:45PX;TEXT-ALIGN:CENTER;">
 <table width="41PX" border=0 cellpadding=0 cellspacing=0>
@@ -274,7 +281,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <!--Item List-->
 <DIV style="left: 70px; top: 230px">
-<table cellpadding="0" cellspacing="0" border="0" width="918">
+<table cellpadding="0" cellspacing="0" border="0" width="916">
 <?php
 //$rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;$invdt_str='';
@@ -291,10 +298,10 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 ?>
 	<tr>
 		<td align="center" class="fc1-8" style="width:54px;"><?=$no++;?></td>
-	  <td align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" class="fc1-8" style="width:250px;background-repeat: no-repeat;" >&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
+	  <td align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" class="fc1-8" style="width:250px;background-repeat: no-repeat;" >&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
 	  <td align="left" class="fc1-8" style="width:160px;"><?=$nos;?></td>
 	  <td align="center" class="fc1-8" style="width:130px;"><?=$invdt_str;?></td>
-      <td align="right" class="fc1-8" style="width:128px;"><?=number_format($beamt,2,'.',',');?></td>
+      <td align="right" class="fc1-8" style="width:130px;"><?=number_format($beamt,2,'.',',');?></td>
       <td align="right" class="fc1-8" style="width:120px;"><?=number_format($item['credi'],2,'.',',');?></td>
 	</tr>
 <!-- Name & Surename -->
@@ -303,7 +310,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="left" style="width:250px;">ชื่อ <?=$names[0];?></td>
 	  <td class="fc1-8" align="left" style="width:160px;">ชื่อสกุล <?=$names[1];?></td>
 	  <td class="fc1-8" align="center" style="width:130px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:128px;"><?=$nos;?></td>
+      <td class="fc1-8" align="right" style="width:130px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:120px;"><?=$nos;?></td>
 	</tr>
 
@@ -410,12 +417,12 @@ endfor;
 
 <DIV style="left:738PX;top:700PX;width:263PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">ตำแหน่ง ..........................................................................</span></DIV>
 
-<DIV style="left:738PX;top:681PX;width:263PX;height:19PX;"><span class="fc1-8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( ............................................................... )</span></DIV>
+<DIV style="left:760PX;top:681PX;width:263PX;height:19PX;"><span class="fc1-8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( ............................................................... )</span></DIV>
 
 <DIV style="left:738PX;top:662PX;width:263PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">ลงชื่อ .................................................................ผู้จ่ายเงิน</span></DIV>
 
-<DIV style="left: 736px; top: 602PX; width: 121px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
-<DIV style="left: 872px; top: 602PX; width: 115px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 735px; top: 602PX; width: 121px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($t_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 871px; top: 602PX; width: 115px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8"><?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:635PX;top:667PX;width:42PX;height:42PX;TEXT-ALIGN:CENTER;"><img  WIDTH=42 HEIGHT=42 SRC="<?= base_url('assets/images/icons/seal.jpg') ?>"></DIV>
 <DIV style="left: 596px; top: 601px; width: 123PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-8">ยอดรวมทั้งหมด</span></DIV>

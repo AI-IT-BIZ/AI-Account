@@ -34,6 +34,7 @@ class Rpurchasevat extends CI_Controller {
 		$strSQL .= "ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
+		
 		$r_data = $query->first_row('array');
 		
 		// calculate sum
@@ -88,6 +89,10 @@ body { font-family: 'angsana_newregular'; }
 <!--<TITLE>Crystal Report Viewer</TITLE>-->
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<? if($query->num_rows()==0){ ?>
+		   <DIV style="left: 259px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
+<? }?>
+
 <?php
 $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):

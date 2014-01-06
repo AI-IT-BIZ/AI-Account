@@ -63,7 +63,7 @@ Ext.define('Account.Quotation.MainWindow', {
 
         this.itemDialog = Ext.create('Account.Quotation.Item.Window');
 
-        this.importDialog = Ext.create('Account.Quotation.Import.Window');
+        //this.importDialog = Ext.create('Account.Quotation.Import.Window');
 
 		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
@@ -129,9 +129,9 @@ Ext.define('Account.Quotation.MainWindow', {
 			window.location = __site_url+'export/quotation/index?'+query;
 		});
 
-		this.importAct.setHandler(function(){
-			_this.importDialog.openDialog();
-		});
+		//this.importAct.setHandler(function(){
+		//	_this.importDialog.openDialog();
+		//});
 
 		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
@@ -176,10 +176,10 @@ Ext.define('Account.Quotation.MainWindow', {
 		    });
 		}
 
-		this.importDialog.grid.on('import_success', function(){
-			_this.importDialog.hide();
-			_this.grid.load();
-		});
+		//this.importDialog.grid.on('import_success', function(){
+		//	_this.importDialog.hide();
+		//	_this.grid.load();
+		//});
 
 		// --- after ---
 		this.grid.load();

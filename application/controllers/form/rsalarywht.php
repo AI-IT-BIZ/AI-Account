@@ -16,6 +16,8 @@ class Rsalarywht extends CI_Controller {
 		$strSQL="";//echo $comid;
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
+		
+		if($q_com->num_rows()>0){
 		$r_com = $q_com->first_row('array');
 		
 		$date =	$this->input->get('bldat');
@@ -90,6 +92,10 @@ body { font-family: 'angsana_newregular'; }
 <!--<TITLE>Crystal Report Viewer</TITLE>-->
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<? if($query->num_rows()==0){ ?>
+		   <DIV style="left: 259px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
+<? }?>
+
 <?php
 $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
@@ -279,6 +285,7 @@ endfor; // end copy for
 
 
 <?php
+		}
 	}
    
 }

@@ -1,9 +1,9 @@
-Ext.define('Account.DepositOut.Item.Form', {
+Ext.define('Account.SaleCreditNote.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'depositout/save',
+			url: __site_url+'creditnote/save_cn',
 			layout: 'border',
 			border: false
 		});
@@ -13,34 +13,34 @@ Ext.define('Account.DepositOut.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.poDialog = Ext.create('Account.PO.MainWindow', {
+		this.invDialog = Ext.create('Account.Invoice.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.DepositOut.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.SaleCreditNote.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.DepositOut.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.SaleCreditNote.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.DepositOut.Item.Form_t', {
+		this.formTotal = Ext.create('Account.SaleCreditNote.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'GR Total',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.DepositOut.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.SaleCreditNote.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -50,7 +50,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('DP'),
-			fieldLabel: 'Deposit Status',
+			fieldLabel: 'Credit Note Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -145,26 +145,26 @@ Ext.define('Account.DepositOut.Item.Form', {
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
-		this.hdnDpItem = Ext.create('Ext.form.Hidden', {
-			name: 'ebdp'
+		this.hdnCnItem = Ext.create('Ext.form.Hidden', {
+			name: 'vbcp'
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bven',
+			name: 'bcus',
 		});
 
-        this.trigPO = Ext.create('Ext.form.field.Trigger', {
-			name: 'ebeln',
-			fieldLabel: 'PO No',
+        this.trigInv = Ext.create('Ext.form.field.Trigger', {
+			name: 'invnr',
+			fieldLabel: 'Invoice No',
 			labelAlign: 'letf',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
 		});
 		
-		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
-			name: 'lifnr',
-			fieldLabel: 'Vendor Code',
+		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
+			name: 'kunnr',
+			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
@@ -222,7 +222,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnDpItem, this.hdnGlItem,
+			items: [this.hdnCnItem, this.hdnGlItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -248,7 +248,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 						xtype: 'displayfield',
 					    fieldLabel: 'Deposit No',
 					    name: 'depnr',
-						value: 'DPXXXX-XXXX',
+						value: 'CNXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						readOnly: true,
@@ -357,13 +357,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 		];	
         
         // event trigPO///
-		this.trigPO.on('keyup',function(o, e){
+		this.trigInv.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'po/load',
+					url: __site_url+'invoice/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -372,7 +372,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.ebeln);
-							_this.getForm().findField('lifnr').setValue(r.data.lifnr);
+							_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);			
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
@@ -389,15 +389,15 @@ Ext.define('Account.DepositOut.Item.Form', {
 			}
 		}, this);
 		
-		_this.poDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigPO.setValue(record.data.ebeln);
-			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
+		_this.invDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigInv.setValue(record.data.ebeln);
+			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
-			var v = record.data.ebeln;
+			var v = record.data.invnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'po/load',
+					url: __site_url+'invoice/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -418,25 +418,25 @@ Ext.define('Account.DepositOut.Item.Form', {
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var grdponr = _this.trigPO.value;
+			var grdinvnr = _this.trigInv.value;
 			//alert(grdpurnr);
-			_this.gridItem.load({ponr: grdponr });
+			_this.gridItem.load({invnr: grdinvnr });
 			//----------------------------------------
-			_this.poDialog.hide();
+			_this.invDialog.hide();
 		});
 		
-		this.trigPO.onTriggerClick = function(){
-			_this.poDialog.show();
+		this.trigInv.onTriggerClick = function(){
+			_this.invDialog.show();
 		};
 		
 		// event trigVendor///
-		this.trigVendor.on('keyup',function(o, e){
+		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'vendor/load2',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -451,21 +451,21 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
-							o.markInvalid('Could not find vendor code : '+o.getValue());
+							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
 
-		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigVendor.setValue(record.data.lifnr);
+		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
-			var v = record.data.lifnr;
+			var v = record.data.kunnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'vendor/load2',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -482,11 +482,11 @@ Ext.define('Account.DepositOut.Item.Form', {
 				});
 
 			grid.getSelectionModel().deselectAll();
-			_this.vendorDialog.hide();
+			_this.customerDialog.hide();
 		});
 
-		this.trigVendor.onTriggerClick = function(){
-			_this.vendorDialog.show();
+		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.show();
 		};
 		
 		// event trigProject///

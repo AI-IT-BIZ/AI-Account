@@ -153,7 +153,7 @@ Ext.onReady(function() {
 		}
 
 		if(!$om.saleCreditNoteDialog)
-			$om.saleCreditNoteDialog = Ext.create('Account.SaleCredit.MainWindow');
+			$om.saleCreditNoteDialog = Ext.create('Account.SaleCreditNote.MainWindow');
 		$om.saleCreditNoteDialog.show();
 	});
 	$om.viewport.on('click_billto', function(){

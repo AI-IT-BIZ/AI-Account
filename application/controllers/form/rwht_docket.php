@@ -18,6 +18,8 @@ class Rwht_docket extends CI_Controller {
 		$strSQL="";//echo $comid;
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
+		
+		if($q_com->num_rows()>0){
 		$r_com = $q_com->first_row('array');
 		
 		$invnr =	$this->input->get('invnr');
@@ -64,18 +66,20 @@ class Rwht_docket extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:BOLD;}
-.fc1-4 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
-.fc1-6 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-7 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Arial;FONT-WEIGHT:NORMAL;}
+.fc1-0 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-6 { COLOR:000000;FONT-SIZE:11PT;'angsana_newbold';}
+.fc1-7 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -144,9 +148,11 @@ class Rwht_docket extends CI_Controller {
 <DIV style="left:40PX;top:329PX;width:396PX;height:36PX;TEXT-ALIGN:CENTER;"><span class="fc1-1">ประเภทเงินได้พึงประเมินที่จ่าย</span></DIV>
 
 <DIV style="left:436PX;top:329PX;width:104PX;height:30PX;TEXT-ALIGN:CENTER;">
-<table width="99PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-1">วัน เดือน </td></table>
+<span class="fc1-1">วัน เดือน </span>
+</DIV>
 
-<table width="99PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-1">หรือปีภาษี ที่จ่าย</td></table>
+<DIV style="left: 437px; top: 346px; width: 104PX; height: 30PX; TEXT-ALIGN: CENTER;">
+<span class="fc1-1">หรือปีภาษี ที่จ่าย</span>
 </DIV>
 
 <DIV style="left:539PX;top:329PX;width:110PX;height:36PX;TEXT-ALIGN:CENTER;"><span class="fc1-1">จำนวนเงินที่จ่าย</span></DIV>
@@ -171,16 +177,24 @@ class Rwht_docket extends CI_Controller {
 
 <DIV style="left:493PX;top:926PX;width:156PX;height:21PX;"><span class="fc1-1">วันเดือนปี ที่ออกหนังสือรับรอง</span></DIV>
 
-<DIV style="left:40PX;top:646PX;width:396PX;height:84PX;">
-<table width="391PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-1">5. การจ่ายเงินได้ที่ต้องหักภาษี ณ ที่จ่าย ตามคำสั่งกรมสรรพากร ที่ออกตาม</td></table>
+<DIV style="left: 40PX; top: 654px; width: 396PX; height: 21PX;">
+<span class="fc1-1">5. การจ่ายเงินได้ที่ต้องหักภาษี ณ ที่จ่าย ตามคำสั่งกรมสรรพากร ที่ออกตาม</span>
+</DIV>
 
-<table width="391PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-1">&nbsp;&nbsp;&nbsp;&nbsp;มาตรา 3 เตรส&nbsp;&nbsp;(ระบุ) .........................................................................</td></table>
+<DIV style="left: 40PX; top: 672px; width: 396PX; height: 21PX;">
+<span class="fc1-1">&nbsp;&nbsp;&nbsp;&nbsp;มาตรา 3 เตรส&nbsp;&nbsp;(ระบุ) </span>
+</DIV>
 
-<table width="391PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-1">&nbsp;&nbsp;&nbsp;&nbsp;(เช่น รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัล</td></table>
+<DIV style="left: 40PX; top: 692px; width: 396PX; height: 15PX;">
+<span class="fc1-4">&nbsp;&nbsp;&nbsp;&nbsp;(เช่น รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัล</span>
+</DIV>
 
-<table width="391PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-1">&nbsp;&nbsp;&nbsp;&nbsp;ในการประกวด การแข่งขัน การชิงโชค ค่าแสดงของนักแสดงสาธารณะ ค่าจ้างทำของ</td></table>
+<DIV style="left: 40PX; top: 706px; width: 396PX; height: 15PX;">
+<span class="fc1-4">&nbsp;&nbsp;&nbsp;&nbsp;ในการประกวด การแข่งขัน การชิงโชค ค่าแสดงของนักแสดงสาธารณะ ค่าจ้างทำของ</span>
+</DIV>
 
-<table width="391PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ค่าโฆษณา ค่าเช่า ค่าขนส่ง ค่าบริการ ค่าเบี้ยประกันวินาศภัย ฯลฯ)</td></table>
+<DIV style="left: 40PX; top: 720px; width: 396PX; height: 15PX;">
+<span class="fc1-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ค่าโฆษณา ค่าเช่า ค่าขนส่ง ค่าบริการ ค่าเบี้ยประกันวินาศภัย ฯลฯ)</span>
 </DIV>
 
 <DIV style="left:40PX;top:857PX;width:277PX;height:22PX;"><span class="fc1-1">เงินสะสมจ่ายเข้ากองทุนสำรองเลี้ยงชีพ ใบอนุญาตเลขที่&nbsp;&nbsp;</span></DIV>
@@ -193,13 +207,15 @@ class Rwht_docket extends CI_Controller {
 
 <DIV style="left:40PX;top:422PX;width:396PX;height:22PX;"><span class="fc1-1">4. (ก) ค่าดอกเบี้ย&nbsp;&nbsp;ฯลฯ ตามมาตรา 40 (4) ก</span></DIV>
 
-<DIV style="left:40PX;top:730PX;width:396PX;height:24PX;"><span class="fc1-1">6. อื่น ๆ (ระบุ)&nbsp;&nbsp;&nbsp;<? if($r_data['whtnr']=='6') echo $r_data['whtxt']; ?></span></DIV>
+<DIV style="left: 40PX; top: 735px; width: 396PX; height: 24PX;"><span class="fc1-1">6. อื่น ๆ (ระบุ)&nbsp;&nbsp;.........................................................................</span></DIV>
+
+<DIV style="left: 112px; top: 731px; width: 276px; height: 24PX;"><span class="fc1-1"><? if($r_data['whtnr']=='6') echo $r_data['whtxt']; ?></span></DIV>
 
 <DIV style="left:455PX;top:857PX;width:85PX;height:21PX;"><span class="fc1-1">จำนวนเงิน </span></DIV>
 
-<DIV style="left:697PX;top:814PX;width:29PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">บาท</span></DIV>
+<DIV style="left: 697PX; top: 831px; width: 29PX; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">บาท</span></DIV>
 
-<DIV style="left:697PX;top:837PX;width:29PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">บาท</span></DIV>
+<DIV style="left: 697PX; top: 854px; width: 29PX; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1">บาท</span></DIV>
 
 <DIV style="left:40PX;top:835PX;width:196PX;height:22PX;">
 <table width="191PX" border=0 cellpadding=0 cellspacing=0>
@@ -253,31 +269,31 @@ class Rwht_docket extends CI_Controller {
 
 <DIV style="left: 495px; top: 204px; width: 191PX; height: 18PX; TEXT-ALIGN: RIGHT;"><img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp02.jpg') ?>"></DIV>
 
-<DIV style="left:498PX;top:127PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[0];?></span></DIV>
+<DIV style="left:498PX;top:123PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $taxid[0];?></span></DIV>
 
-<DIV style="left: 520px; top: 127PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[1];?></span></DIV>
+<DIV style="left: 520px; top: 123PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[1];?></span></DIV>
 
-<DIV style="left: 535px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[2];?></span></DIV>
+<DIV style="left: 535px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[2];?></span></DIV>
 
-<DIV style="left: 551px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[3];?></span></DIV>
+<DIV style="left: 551px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[3];?></span></DIV>
 
-<DIV style="left: 567px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[4];?></span></DIV>
+<DIV style="left: 567px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[4];?></span></DIV>
 
-<DIV style="left: 589px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[5];?></span></DIV>
+<DIV style="left: 589px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[5];?></span></DIV>
 
-<DIV style="left: 605px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[6];?></span></DIV>
+<DIV style="left: 605px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[6];?></span></DIV>
 
-<DIV style="left: 622px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[7];?></span></DIV>
+<DIV style="left: 622px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[7];?></span></DIV>
 
-<DIV style="left: 636px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[8];?></span></DIV>
+<DIV style="left: 636px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[8];?></span></DIV>
 
-<DIV style="left: 653px; top: 127PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $taxid[9];?></span></DIV>
+<DIV style="left: 653px; top: 123PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $taxid[9];?></span></DIV>
 
-<DIV style="left:665PX;top:127PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[10];?></span></DIV>
+<DIV style="left:665PX;top:123PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $taxid[10];?></span></DIV>
 
-<DIV style="left:693PX;top:127PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[11];?></span></DIV>
+<DIV style="left:693PX;top:123PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $taxid[11];?></span></DIV>
 
-<DIV style="left:718PX;top:127PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $taxid[12];?></span></DIV>
+<DIV style="left:716PX;top:122PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $taxid[12];?></span></DIV>
 
 <DIV style="left: 76px; top: 150px; width: 364PX; height: 20PX;"><span class="fc1-3"><?= $r_com['name1']; ?></span></DIV>
 
@@ -287,31 +303,31 @@ class Rwht_docket extends CI_Controller {
 
 <DIV style="left: 72PX; top: 228px; width: 379px; height: 22PX;"><span class="fc1-3"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left:498PX;top:204PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[0];?></span></DIV>
+<DIV style="left:498PX;top:200PX;width:14PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $cusid[0];?></span></DIV>
 
-<DIV style="left: 520px; top: 204PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[1];?></span></DIV>
+<DIV style="left: 520px; top: 200PX; width: 14PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[1];?></span></DIV>
 
-<DIV style="left: 535px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[2];?></span></DIV>
+<DIV style="left: 535px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[2];?></span></DIV>
 
-<DIV style="left: 551px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[3];?></span></DIV>
+<DIV style="left: 551px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[3];?></span></DIV>
 
-<DIV style="left: 567px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[4];?></span></DIV>
+<DIV style="left: 567px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[4];?></span></DIV>
 
-<DIV style="left: 589px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[5];?></span></DIV>
+<DIV style="left: 589px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[5];?></span></DIV>
 
-<DIV style="left: 605px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[6];?></span></DIV>
+<DIV style="left: 605px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[6];?></span></DIV>
 
-<DIV style="left: 622px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[7];?></span></DIV>
+<DIV style="left: 622px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[7];?></span></DIV>
 
-<DIV style="left: 636px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[8];?></span></DIV>
+<DIV style="left: 636px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[8];?></span></DIV>
 
-<DIV style="left: 653px; top: 204PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-11"><?= $cusid[9];?></span></DIV>
+<DIV style="left: 653px; top: 200PX; width: 14px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $cusid[9];?></span></DIV>
 
-<DIV style="left:665PX;top:204PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[10];?></span></DIV>
+<DIV style="left:665PX;top:200PX;width:36PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $cusid[10];?></span></DIV>
 
-<DIV style="left:693PX;top:204PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[11];?></span></DIV>
+<DIV style="left:693PX;top:200PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $cusid[11];?></span></DIV>
 
-<DIV style="left:718PX;top:204PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-11"><?= $cusid[12];?></span></DIV>
+<DIV style="left:716PX;top:200PX;width:16PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $cusid[12];?></span></DIV>
 
 <DIV style="left:72PX;top:904PX;width:257PX;height:22PX;"><span class="fc1-1">(X)&nbsp;&nbsp;หักภาษี ณ ที่จ่าย&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;ออกภาษีให้ตลอดไป</span></DIV>
 
@@ -329,7 +345,7 @@ switch($whtnr){
 	case '3': $posit=403;break;
 	case '4': $posit=422;break;
 	case '5': $posit=646;break;
-	case '6': $posit=730;break;
+	case '6': $posit=734;break;
 }
 ?>
 
@@ -341,8 +357,16 @@ switch($whtnr){
 <DIV style="left: 539PX; top: 757PX; width: 100px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-3"><?= number_format($t_beamt,2,'.',',');?></span></DIV>
 <DIV style="left:139PX;top:813PX;width:153PX;height:22PX;"><span class="fc1-1">&nbsp;&nbsp;</span></DIV>
 
+<?php
+  $text_amt='';
+  if($t_wht>0){
+     $text_amt = $this->convert_amount->generate($t_wht);
+  }
+?>
+
 <DIV style="left:216PX;top:783PX;width:466PX;height:24PX;background-color:D6D7D8;layer-background-color:D6D7D8;">
-<table width="461PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-2">&nbsp;&nbsp;(หนึ่งพันห้าร้อยบาทถ้วน)</td></table>
+<table width="461PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-2">&nbsp;&nbsp;<?php 
+if(!empty($text_amt)) echo '( '.$text_amt.' )' ?></td></table>
 </DIV>
 
 <DIV style="left:216PX;top:303PX;width:95PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['vtype']=='02') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 3 </span></DIV>
@@ -356,9 +380,11 @@ switch($whtnr){
 <DIV style="left:311PX;top:284PX;width:125PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;ภ.ง.ด. 1 ก (พิเศษ)&nbsp;&nbsp;&nbsp;</span></DIV>
 
 <DIV style="left:649PX;top:329PX;width:85PX;height:30PX;TEXT-ALIGN:CENTER;">
-<table width="80PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-1">ภาษีที่หัก</td></table>
+<span class="fc1-1">ภาษีที่หัก</span>
+</DIV>
 
-<table width="80PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-1">และนำส่งไว้</td></table>
+<DIV style="left: 650px; top: 344px; width: 85PX; height: 30PX; TEXT-ALIGN: CENTER;">
+<span class="fc1-1">และนำส่งไว้</span>
 </DIV>
 
 <DIV style="left: 41px; top: 126px; width: 140PX; height: 20PX;"><span class="fc1-6">ผู้มีหน้าที่หักภาษี ณ ที่จ่าย&nbsp;&nbsp;:- </span></DIV>
@@ -392,6 +418,7 @@ switch($whtnr){
 </BODY></HTML>
 
 <?php
+	  }
 	}
   }
 }

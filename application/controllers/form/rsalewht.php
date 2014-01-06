@@ -54,7 +54,9 @@ class Rsalewht extends CI_Controller {
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
 </script>
+<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
+body { font-family: 'angsana_newregular'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {
@@ -63,12 +65,12 @@ class Rsalewht extends CI_Controller {
 	width: 16px;
 }
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
-.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:CordiaUPC;FONT-WEIGHT:BOLD;}
-.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:Angsana New;FONT-WEIGHT:NORMAL;}
+.fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:FF8600;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -85,6 +87,10 @@ class Rsalewht extends CI_Controller {
 <DIV style="left: 12px; top: 156PX; width: 1065px; height: 47PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
 <table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
 </DIV>
+
+<? if($query->num_rows()==0){ ?>
+		   <DIV style="left: 454px; top: 97px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
+<? }?>
 
 <?php
 $current_copy_index = 0;
@@ -230,7 +236,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	
 	$item = $rows[$i];
 	$itamt = $item['beamt'];
-	$b_amt += $itamt;
+	$b_amt = $itamt;
 	$duedt_str = util_helper_format_date($item['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
 	$total1 += $item['beamt'];
@@ -244,7 +250,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],2,'.',',');?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
       <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['beamt'],2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
@@ -636,8 +642,8 @@ endfor;
 <DIV style="left: 11px; top: 660PX; width: 1067px; height: 20PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
 <table width="635PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
 </DIV>
-<DIV style="left: 894px; top: 661px; width: 71px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= check_page($current_page_index, $total_page, number_format($total1,2,'.',',')) ?></span></DIV>
-<DIV style="left: 990px; top: 659px; width: 84PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= check_page($current_page_index, $total_page, number_format($total2,2,'.',',')) ?></span></DIV>
+<DIV style="left: 892px; top: 659px; width: 71px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?= check_page($current_page_index, $total_page, number_format($total1,2,'.',',')) ?></span></DIV>
+<DIV style="left: 988px; top: 659px; width: 84PX; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5"><?= check_page($current_page_index, $total_page, number_format($total2,2,'.',',')) ?></span></DIV>
 <DIV style="left: 440px; top: 662px; width: 106PX; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">รวมทั้งสิ้น</span></DIV>
 <BR>
 <?php
