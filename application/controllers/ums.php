@@ -23,6 +23,14 @@ class Ums extends CI_Controller {
 		$Username = $this->input->post('username');
 		$Password = $this->input->post('password');
 
+		if(empty($Comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
 		$resFailUsername = array(
 			'success' => false,
 			'message' => 'username','msg'=>'Username or Password incorrect!'
@@ -140,6 +148,17 @@ class Ums extends CI_Controller {
 
 	public function loads_user(){
 		$tbName = 'user';
+		$comid = XUMS::COMPANY_ID();
+
+		if(empty($comid)){
+			X::renderJSON(array(
+				'success'=>false,
+				'message'=>'Company is not identified.'
+			));
+			return;
+		}
+
+		$this->db->where('comid', $comid);
 
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
