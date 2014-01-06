@@ -64,7 +64,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			readOnly: true
 		});
 		
-		this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
+		/*this.txtInterest = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
             alwaysDisplayDecimals: true,
@@ -75,7 +75,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			labelWidth: 155,
 			readOnly: true
 
-         });
+         });*/
          
         this.txtRate = Ext.create('Ext.ux.form.NumericField', {
             xtype: 'textfield',
@@ -188,7 +188,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
-		this.txtInterest.on('render', setAlignRight);
+		//this.txtInterest.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
 
@@ -265,7 +265,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		var tax = this.txtInterest.getValue(),
+		/*var tax = this.txtInterest.getValue(),
 			taxValue = 0;
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
@@ -277,9 +277,9 @@ Ext.define('Account.Payment.Item.Form_t', {
 			//}
 		}else{
 			this.txtInterest.setValue('');
-		}
+		}*/
 
-		var net = total - discountValue + taxValue;
+		var net = total; //- discountValue + taxValue;
 		this.txtNet.setValue(net);
 		
 		return net;

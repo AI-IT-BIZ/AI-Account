@@ -1,4 +1,4 @@
-Ext.define('Account.SPosition.MainWindow', {
+Ext.define('Account.SDepartment.MainWindow', {
 	extend	: 'Ext.window.Window',
 	//requires : [
 		//'Account.SPosition.Grid',
@@ -42,7 +42,7 @@ Ext.define('Account.SPosition.MainWindow', {
 		*/
 		//this.itemDialog = Ext.create('Account.PR.Item.Window');
 
-		this.grid = Ext.create('Account.SPosition.Grid', {
+		this.grid = Ext.create('Account.SDepartment.Grid', {
 			region:'center',
 			border: false
 		});

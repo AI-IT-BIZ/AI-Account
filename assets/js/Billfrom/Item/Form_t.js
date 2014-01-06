@@ -65,7 +65,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 			margin: '4 0 0 0',
 			readOnly: true
 		});
-		this.txtInterest = Ext.create('Ext.form.field.Text', {
+		/*this.txtInterest = Ext.create('Ext.form.field.Text', {
             xtype: 'textfield',
             fieldLabel: 'Interest',
 			name: 'ccc',
@@ -75,7 +75,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 			labelWidth: 155,
 			readOnly: true
 
-         });
+         });*/
 		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
@@ -167,7 +167,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
-		this.txtInterest.on('render', setAlignRight);
+		//this.txtInterest.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
 
@@ -240,16 +240,16 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		var tax = this.txtInterest.getValue(),
+		/*var tax = this.txtInterest.getValue(),
 			taxValue = 0;
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
 			taxValue = isNaN(taxValue)?0:taxValue;
 		}else{
 			this.txtInterest.setValue('');
-		}
+		}*/
 
-		var net = total - discountValue + taxValue;
+		var net = total; //- discountValue + taxValue;
 		this.txtNet.setValue(net);
 		
 		return net;

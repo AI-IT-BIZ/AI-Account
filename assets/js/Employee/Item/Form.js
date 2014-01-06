@@ -141,6 +141,12 @@ Ext.define('Account.Employee.Item.Form', {
             },{
 			xtype: 'hidden',
 			name: 'id'
+		},{
+			xtype: 'hidden',
+			name: 'depnr'
+		},{
+			xtype: 'hidden',
+			name: 'posnr'
 		}]
 		},{
 			xtype: 'textarea',
@@ -336,6 +342,8 @@ Ext.define('Account.Employee.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							_this.trigPosit.setValue(r.data.postx);
+							_this.getForm().findField('depnr').setValue(r.data.depnr);
+							_this.getForm().findField('posnr').setValue(r.data.posnr);
 							_this.getForm().findField('deptx').setValue(r.data.deptx);
 
 						}else{
@@ -349,12 +357,15 @@ Ext.define('Account.Employee.Item.Form', {
 		_this.positDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigPosit.setValue(record.data.postx);
 			_this.getForm().findField('deptx').setValue(record.data.deptx);
+			_this.getForm().findField('depnr').setValue(record.data.depnr);
+		    _this.getForm().findField('posnr').setValue(record.data.posnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.positDialog.hide();
 		});
 
 		this.trigPosit.onTriggerClick = function(){
+			_this.positDialog.grid.load();
 			_this.positDialog.show();
 		};
 
@@ -429,6 +440,7 @@ Ext.define('Account.Employee.Item.Form', {
 		});
 
 		this.trigBank.onTriggerClick = function(){
+			_this.bankDialog.grid.load();
 			_this.bankDialog.show();
 		};
 		

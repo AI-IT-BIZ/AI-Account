@@ -14,7 +14,7 @@ class Employee extends CI_Controller {
 	}
 
 	function load(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'empl';
 		
 		$id = $this->input->post('id'); //exit;
@@ -37,7 +37,7 @@ class Employee extends CI_Controller {
 	}
 	
 	function load2(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'empl';
 		
 		$id = $this->input->post('id'); //exit;
@@ -64,7 +64,7 @@ class Employee extends CI_Controller {
 	}
 
 	function loads(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'empl';
 		
 		function createQuery($_this){
@@ -129,12 +129,12 @@ class Employee extends CI_Controller {
 			'email' => $this->input->post('email'),
 			'pson1' => $this->input->post('pson1'),
 			'cidno' => $this->input->post('cidno'),
-			'postx' => $this->input->post('postx'),
+			'posnr' => $this->input->post('posnr'),
 			'begdt' => $this->input->post('begdt'),
 			'saknr' => $this->input->post('saknr'),
 			'bcode' => $this->input->post('bcode'),
 			'salar' => $this->input->post('salar'),
-			'deptx' => $this->input->post('deptx'),
+			'depnr' => $this->input->post('depnr'),
 			'statu' => $this->input->post('statu'),
 			'supnr' => $this->input->post('supnr'),
 			//'adr02' => $this->input->post('adr02'),

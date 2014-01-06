@@ -19,6 +19,7 @@ class Rsumvat_docket extends CI_Controller {
 		$r_com = $q_com->first_row('array');
 		
 		$balwr = $this->input->get('balwr');
+		if(empty($balwr)) $balwr='0.00';
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
