@@ -400,6 +400,15 @@ class Ap extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('loekz')=='2'){
+        	$emsg = 'The GR already created AP doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
 		
 		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
@@ -448,6 +457,12 @@ class Ap extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebrk', $formData);
+			
+			$inserted_id = $id;
+			
+			$this->db->where('mbeln', $this->input->post('mbeln'));
+			$this->db->set('loekz', '2');
+			$this->db->update('mkpf');
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('invnr', $id);

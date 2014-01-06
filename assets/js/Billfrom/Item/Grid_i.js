@@ -47,8 +47,8 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				'invdt',
 				'texts',
 				'itamt',
-				'payrc',
-				'reman',
+				//'payrc',
+				//'reman',
 				//'belnr',
 				'ctyp1'
 			],
@@ -82,6 +82,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 		{text: "Billing Code",
 		width: 100,
 		dataIndex: 'invnr',
+		align : 'center',
 		sortable: false,
 			field: {
 				xtype: 'triggerfield',
@@ -94,7 +95,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 			},
 			},
 		    {text: "Ref.No",
-		    width: 120,
+		    width: 150,
 		    dataIndex: 'refnr',
 		    sortable: false,
 		    field: {
@@ -109,7 +110,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
-		    width: 180,
+		    width: 200,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {
@@ -118,13 +119,13 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 		    },
 			{text: "Billing Amt",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 120,
 			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
 			readOnly: true
 			},
-			{text: "Payment Amt",
+			/*{text: "Payment Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'payrc',
@@ -149,7 +150,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
+			},*///{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctyp1',

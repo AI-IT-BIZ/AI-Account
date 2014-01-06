@@ -1,64 +1,74 @@
-Ext.define('Account.Employee.MainWindow', {
+Ext.define('Account.DepositOut.MainWindow', {
 	extend	: 'Ext.window.Window',
-
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Employee Management',
+			title: 'Deposit Payment',
 			closeAction: 'hide',
-			height: 580,
+			height: 600,
 			minHeight: 380,
 			width: 1000,
-			minWidth: 1000,
+			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true,
-			defaultFocus: 'code'
+			maximizable: true
 		});
 
 		return this.callParent(arguments);
 	},
+
 	initComponent : function() {
 		var _this=this;
+         /*****************************************************/
 
+       var fibasic = Ext.create('Ext.form.field.File', {
+        width: 200,
+        x: 50,
+        y: 50,
+        hideLabel: true
+    });
+
+      /*****************************************************/
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('EP')
+			disabled: !UMS.CAN.CREATE('DP')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('EP') || UMS.CAN.CREATE('EP') || UMS.CAN.EDIT('EP'))
+			disabled: !(UMS.CAN.DISPLAY('DP') || UMS.CAN.CREATE('DP') || UMS.CAN.EDIT('DP'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
-			disabled: true,
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('EP')
+			disabled: !UMS.CAN.DELETE('DP')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('EP')
+			disabled: !UMS.CAN.EXPORT('DP')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			iconCls: 'b-small-import',
-			disabled: !UMS.CAN.CREATE('EP')
+			disabled: true,
+			iconCls: 'b-small-import'
 		});
-
-		this.itemDialog = Ext.create('Account.Employee.Item.Window');
 		
-		this.importDialog = Ext.create('Account.Employee.Import.Window');
-
-		this.grid = Ext.create('Account.Employee.Grid', {
+        this.itemDialog = Ext.create('Account.DepositOut.Item.Window');
+		this.grid = Ext.create('Account.DepositOut.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar : [this.addAct, this.editAct, this.deleteAct,
+		            this.excelAct,this.importAct]
 		});
+
+	    //this.searchForm = Ext.create('Account.DepositOut.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
 		
 		var searchOptions = {
 			region: 'north',
@@ -71,33 +81,31 @@ Ext.define('Account.Employee.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.Employee.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.DepositOut.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
 		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
-		//this.excelAct,this.importAct];
+		//this.excelAct, this.pdfAct,this.importAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			//_this.itemDialog.form.reset();
+			//_this.itemDialog.show();
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
-			
 			if(id){
 				_this.itemDialog.openDialog(id);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ebeln: id});
+				// สั่ง gr_item grid load
+				//_this.itemDialog.form.gridItem.load({mbeln: id});
+				//_this.itemDialog.form.gridPayment.load({purnr: id});
 			}
 		});
 
@@ -105,25 +113,19 @@ Ext.define('Account.Employee.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});
+		//console.log(this.itemDialog.form);
 		
-		this.importAct.setHandler(function(){
-			_this.importDialog.openDialog();
-		});
-
-		this.itemDialog.form.on('afterSave', function(form){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
-		});
 
-		this.itemDialog.form.on('afterDelete', function(form){
-			_this.grid.load();
-		});
-		this.itemDialog.form.on('afterSave', function(){
-			_this.itemDialog.hide();
-			_this.grid.load();
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save Deposit Payment number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
@@ -144,10 +146,21 @@ Ext.define('Account.Employee.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
+        
+        if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
 	    });
+	    }
 	    
 	    this.excelAct.setHandler(function(){
 			var params = _this.searchForm.getValues(),
@@ -157,12 +170,7 @@ Ext.define('Account.Employee.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/employee/index?'+query;
-		});
-		
-		this.importDialog.grid.on('import_success',function(){
-			_this.importDialog.hide();
-			_this.grid.load();
+			window.location = __site_url+'export/depositout/index?'+query;
 		});
 
 		// --- after ---

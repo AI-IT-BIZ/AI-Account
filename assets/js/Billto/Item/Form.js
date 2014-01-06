@@ -209,7 +209,7 @@ Ext.define('Account.Billto.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:170,
+			height:150,
 			items: [
 				this.formTotal,
 				this.gridPayment
@@ -344,12 +344,12 @@ Ext.define('Account.Billto.Item.Form', {
 		var store = this.gridItem.store;
 		var sum = 0;
 		store.each(function(r){
-			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, '')),
-				pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
+			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
-			pay = isNaN(pay)?0:pay;
+			//pay = isNaN(pay)?0:pay;
             
-			var amt = itamt - pay;
+			var amt = itamt; //- pay;
 			sum += amt;
 		});
 		this.formTotal.getForm().findField('beamt').setValue(Ext.util.Format.usMoney(sum).replace(/\$/, ''));

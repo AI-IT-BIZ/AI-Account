@@ -46,9 +46,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'refnr',
 				'invdt',
 				'texts',
-				'itamt',
-				'payrc',
-				'reman',
+				{name:'itamt', type: 'string'},
+				'jobtx',
+				//'payrc',
+				//'reman',
 				'belnr',
 				'ctype',
 				'wht01',
@@ -98,7 +99,15 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.invoiceDialog.show();
 				}
+			}
 			},
+			{text: "Project Description",
+		    width: 150,
+		    dataIndex: 'jobtx',
+		    sortable: false,
+		    field: {
+				type: 'textfield'
+			}
 			},
 		    {text: "Ref.No",
 		    width: 120,
@@ -106,7 +115,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    sortable: false,
 		    field: {
 				type: 'textfield'
-			},
+			}
 		    },
 		    {text: "Invoice Date",
 		    width: 80,
@@ -125,13 +134,13 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    },
 			{text: "Invoice Amt",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 120,
 			dataIndex: 'itamt',
 			sortable: false,
 			align: 'right',
 			readOnly: true
 			},
-			{text: "Payment Amt",
+			/*{text: "Payment Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'payrc',
@@ -155,7 +164,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 					var amt = itamt - pay;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
-			},//{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
+			},*///{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
 			dataIndex: 'ctype',
@@ -191,11 +200,16 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='invnr'){
 				var v = e.value;
+				var v_url = 'invoice/load';
+				var v_str = v.substring(0,1);
+				if(v_str == 'D'){
+					v_url = 'depositin/load';
+				}
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'invoice/load',
+					url: __site_url+v_url,
 					method: 'POST',
 					params: {
 						id: v
@@ -211,6 +225,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('refnr', r.data.refnr);
 							// Invoice date
 							rModel.set('invdt', r.data.bldat);
+							// Project No
+							rModel.set('jobtx', r.data.jobtx);
 							// Text Note
 							rModel.set('texts', r.data.txz01);
 							// Invoice amt
@@ -249,6 +265,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				rModel.set('invdt', record.data.bldat);
 				// Text note
 				rModel.set('texts', record.data.txz01);
+				// Project No
+			    rModel.set('jobtx', record.data.jobtx);
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency

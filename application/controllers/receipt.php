@@ -274,17 +274,27 @@ class Receipt extends CI_Controller {
 
         $vbbp = $this->input->post('vbbp');
 		$rc_item_array = json_decode($vbbp);
-		
+		$perv='';
 		if(!empty($vbbp) && !empty($rc_item_array)){
 		foreach($rc_item_array AS $p){
 			if($p->loekz=='2'){
-				$emsg = 'The invoice already created receipt doc.';
+				$emsg = 'The invoice no '.$p->invnr.' already created receipt doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
 			}
+			
+			if(substr($p->invnr,0,1)!=$perv){
+				$emsg = 'Cannot create receipt doc from differnt invoice type';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$perv = substr($p->invnr,0,1);
 		  }
 		}
 		
@@ -349,13 +359,14 @@ class Receipt extends CI_Controller {
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
 				'itamt'=>$p->itamt,
-				'reman'=>$p->reman,
-				'payrc'=>$p->payrc,
+				//'reman'=>$p->reman,
+				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
 				'ctype'=>$p->ctype,
 				'wht01'=>$p->wht01,
 				'vat01'=>$p->vat01,
-				'dtype'=>$p->dtype
+				'dtype'=>$p->dtype,
+				'jobtx'=>$p->jobtx
 			));
 			
 			$this->db->where('invnr', $p->invnr);

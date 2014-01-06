@@ -215,6 +215,9 @@ Ext.define('Account.PO.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
+					},{
+						xtype: 'hidden',
+						name: 'loekz'
 					},this.trigPR,{
 						xtype: 'displayfield',
 						fieldLabel: 'Purchase Order',
@@ -405,6 +408,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -435,6 +439,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 						}
 					}
 				});
