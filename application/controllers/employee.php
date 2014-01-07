@@ -159,12 +159,12 @@ class Employee extends CI_Controller {
 	}
 
 	function remove(){
-		$empnr = $this->input->post('empnr');
+		$empnr = $this->input->post('id');
 		$this->db->where('empnr', $empnr);
 		$query = $this->db->delete('empl');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$empnr
+			'data'=>$query
 		));
 	}
 	
