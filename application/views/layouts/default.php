@@ -202,6 +202,10 @@ function endsWith($haystack, $needle)
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+		
+		#div1-5-container { width: 240px; height:30px; color:white; font-weight:bold; }
+		#div1-5-container div span { position:absolute; bottom:10px; left:10px; }
+		#div-project-management
 
 		#div-material-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-material-balance2 { top:30px; left:260px; width: 100px; height:100px; }

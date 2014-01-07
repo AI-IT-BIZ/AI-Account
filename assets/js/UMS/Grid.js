@@ -34,7 +34,9 @@ Ext.define('Account.UMS.Grid', {
 				'autnr',
 
 				'posnr',
-				'depnr'
+				'depnr',
+				'postx',
+				'deptx'
 			],
 			remoteSort: true,
 			sorters: [{property: 'empnr', direction: 'ASC'}]
@@ -45,8 +47,8 @@ Ext.define('Account.UMS.Grid', {
 			{text: "Employee No", width: 100, dataIndex: 'empnr', sortable: false},
 			{text: "Username", width: 100, dataIndex: 'uname', sortable: false},
 			{text: "Name", width: 135, dataIndex: 'name1', sortable: false},
-			{text: "Position", width: 105, dataIndex: 'posnr', sortable: false},
-			{text: "Department", width: 105, dataIndex: 'depnr', sortable: false}
+			{text: "Position", width: 105, dataIndex: 'postx', sortable: false},
+			{text: "Department", width: 105, dataIndex: 'deptx', sortable: false}
 		];
 
 		this.bbar = {
