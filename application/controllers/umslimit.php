@@ -49,6 +49,7 @@ class Umslimit extends CI_Controller {
 			$sql = "SELECT d.*, a.depdp FROM tbl_doct d
 LEFT JOIN tbl_autd a ON d.docty=a.docty
 WHERE d.field='1'
+ORDER BY d.grpmo ASC
 ";
 			$q = $this->db->query($sql);
 			$list = $q->result();
