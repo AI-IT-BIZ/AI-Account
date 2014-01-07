@@ -149,6 +149,7 @@ class Ums extends CI_Controller {
 	public function loads_user(){
 		$tbName = 'user';
 		$comid = XUMS::COMPANY_ID();
+		$comid_esc = $this->db->escape($comid);
 
 		if(empty($comid)){
 			X::renderJSON(array(
@@ -158,18 +159,22 @@ class Ums extends CI_Controller {
 			return;
 		}
 
-		$this->db->where('comid', $comid);
+		$sql = "SELECT u.*,e.posnr,e.depnr FROM tbl_user u
+INNER JOIN tbl_empl e ON u.empnr=e.empnr
+WHERE u.comid=$comid_esc
+ORDER BY u.empnr";
 
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		//$this->db->where('comid', $comid);
 
-		$sort = $this->input->get('sort');
-		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
+		//$sort = $this->input->get('sort');
+		//$dir = $this->input->get('dir');
+		//$this->db->order_by($sort, $dir);
 
-		$query = $this->db->get($tbName);
+		//$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
+
+		$query = $this->db->query($sql);
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

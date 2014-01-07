@@ -31,18 +31,22 @@ Ext.define('Account.UMS.Grid', {
 				'telf1',
 				'telfx',
 				'posit',
-				'autnr'
+				'autnr',
+
+				'posnr',
+				'depnr'
 			],
 			remoteSort: true,
 			sorters: [{property: 'empnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
-		    {text: "Company ID", width: 90, dataIndex: 'comid', sortable: true},
-			{text: "Employee No", width: 100, dataIndex: 'empnr', sortable: true},
-			{text: "Username", width: 100, dataIndex: 'uname', sortable: true},
-			{text: "Name", width: 185, dataIndex: 'name1', sortable: true},
-			{text: "Position", width: 125, dataIndex: 'posit', sortable: true, hidden: true}
+		    {text: "Company ID", width: 90, dataIndex: 'comid', sortable: false},
+			{text: "Employee No", width: 100, dataIndex: 'empnr', sortable: false},
+			{text: "Username", width: 100, dataIndex: 'uname', sortable: false},
+			{text: "Name", width: 135, dataIndex: 'name1', sortable: false},
+			{text: "Position", width: 105, dataIndex: 'posnr', sortable: false},
+			{text: "Department", width: 105, dataIndex: 'depnr', sortable: false}
 		];
 
 		this.bbar = {
