@@ -1,4 +1,4 @@
-Ext.define('Account.SaleCreditNote.Item.Grid_gl', {
+Ext.define('Account.SaleDebitNote.Item.Grid_gl', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,7 +29,7 @@ Ext.define('Account.SaleCreditNote.Item.Grid_gl', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"creditnote/loads_gl_items",
+				url: __site_url+"debitnote/loads_gl_items",
 				reader: {
 					type: 'json',
 					root: 'rows',

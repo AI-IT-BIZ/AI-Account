@@ -1,9 +1,9 @@
-Ext.define('Account.SaleCreditNote.Item.Window', {
+Ext.define('Account.SaleDebitNote.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Credit Note',
+			title: 'Create/Edit Debit Note',
 			closeAction: 'hide',
 			height: 650,
 			width: 900,
@@ -18,9 +18,9 @@ Ext.define('Account.SaleCreditNote.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.SaleCreditNote.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.SaleDebitNote.Item.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.SaleCreditNote.Item.PreviewWindow');
+		this.previewDialog = Ext.create('Account.SaleDebitNote.Item.PreviewWindow');
 
 		this.items = [
 		     this.form
@@ -58,7 +58,7 @@ Ext.define('Account.SaleCreditNote.Item.Window', {
 			this.form.load(id);
 
 			// สั่ง pr_item grid load
-			this.form.gridItem.load({crenr: id});
+			this.form.gridItem.load({debnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

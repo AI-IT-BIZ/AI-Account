@@ -1,9 +1,9 @@
-Ext.define('Account.SaleCreditNote.MainWindow', {
+Ext.define('Account.SaleDebitNote.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Credit Note',
+			title: 'Debit Note',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -57,8 +57,8 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 			iconCls: 'b-small-import'
 		});
 		
-        this.itemDialog = Ext.create('Account.SaleCreditNote.Item.Window');
-		this.grid = Ext.create('Account.SaleCreditNote.Grid', {
+        this.itemDialog = Ext.create('Account.SaleDebitNote.Item.Window');
+		this.grid = Ext.create('Account.SaleDebitNote.Grid', {
 			region:'center',
 			border: false,
 			tbar : [this.addAct, this.editAct, this.deleteAct,
@@ -81,7 +81,7 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.SaleCreditNote.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.SaleDebitNote.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -125,13 +125,12 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save Credit Note number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Debit Note number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
-
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
@@ -170,7 +169,7 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/salecreditnote/index?'+query;
+			window.location = __site_url+'export/saledebitnote/index?'+query;
 		});
 
 		// --- after ---

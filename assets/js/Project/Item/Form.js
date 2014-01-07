@@ -297,9 +297,11 @@ Ext.define('Account.Project.Item.Form', {
 
 			grid.getSelectionModel().deselectAll();
 			_this.typeDialog.hide();
+			
 		});
 
 		this.trigType.onTriggerClick = function(){
+			_this.ktypDialog.grid.load();
 			_this.typeDialog.show();
 		};
 		

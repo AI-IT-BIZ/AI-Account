@@ -1,4 +1,4 @@
-Ext.define('Account.SaleCreditNote.Grid', {
+Ext.define('Account.SaleDebitNote.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,16 +8,16 @@ Ext.define('Account.SaleCreditNote.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"creditnote/loads_cns",
+				url: __site_url+"debitnote/loads_dns",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'crenr'
+					idProperty: 'debnr'
 				},
 				simpleSortMode: true
 			},
 			fields: [
-			    'crenr',
+			    'debnr',
 				'bldat',
 				'invnr',
 				'lifnr',
@@ -28,12 +28,12 @@ Ext.define('Account.SaleCreditNote.Grid', {
 				'ctype'
 			],
 			remoteSort: true,
-			sorters: [{property: 'crenr', direction: 'ASC'}]
+			sorters: [{property: 'debnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
-		    {text: "Credit Note No", 
-		    width: 100, align: 'center', dataIndex: 'crenr', sortable: true},
+		    {text: "Debit Note No", 
+		    width: 100, align: 'center', dataIndex: 'debnr', sortable: true},
 			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'bldat', sortable: true},

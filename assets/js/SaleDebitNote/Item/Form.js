@@ -1,9 +1,9 @@
-Ext.define('Account.SaleCreditNote.Item.Form', {
+Ext.define('Account.SaleDebitNote.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'creditnote/save_cns',
+			url: __site_url+'debitnote/save_dns',
 			layout: 'border',
 			border: false
 		});
@@ -25,22 +25,22 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.SaleCreditNote.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.SaleDebitNote.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.SaleCreditNote.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.SaleDebitNote.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.SaleCreditNote.Item.Form_t', {
+		this.formTotal = Ext.create('Account.SaleDebitNote.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'GR Total',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.SaleCreditNote.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.SaleDebitNote.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -50,7 +50,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('SN'),
-			fieldLabel: 'Credit Note Status',
+			fieldLabel: 'Debit Note Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -145,8 +145,8 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
-		this.hdnCnItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbcp'
+		this.hdnDnItem = Ext.create('Ext.form.Hidden', {
+			name: 'vbde'
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
@@ -220,7 +220,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnCnItem, this.hdnGlItem,
+			items: [this.hdnDnItem, this.hdnGlItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -244,9 +244,9 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'Credit Note No',
-					    name: 'crenr',
-						value: 'CNXXXX-XXXX',
+					    fieldLabel: 'Debit Note No',
+					    name: 'debnr',
+						value: 'DNXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						readOnly: true,
@@ -302,7 +302,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'Credit Note Date',
+							fieldLabel: 'Debit Note Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,
@@ -575,7 +575,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'creditnote/load',
+			url:__site_url+'debitnote/load_dn',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -587,7 +587,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
-		this.hdnCnItem.setValue(Ext.encode(rsItem));
+		this.hdnDnItem.setValue(Ext.encode(rsItem));
 		
 		var rsGL = _this.gridGL.getData();
 		this.hdnGlItem.setValue(Ext.encode(rsGL));
@@ -608,7 +608,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { mbeln: mbeln },
-			url:__site_url+'creditnote/remove',
+			url:__site_url+'debitnote/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
