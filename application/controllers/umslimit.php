@@ -47,7 +47,9 @@ class Umslimit extends CI_Controller {
 
 		if($this->is_node_root($node)){
 			$sql = "SELECT d.*, a.depdp FROM tbl_doct d
-LEFT JOIN tbl_autd a ON d.docty=a.docty";
+LEFT JOIN tbl_autd a ON d.docty=a.docty
+WHERE d.field='1'
+";
 			$q = $this->db->query($sql);
 			$list = $q->result();
 			foreach($list AS $l){
