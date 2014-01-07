@@ -51,7 +51,7 @@ class Ums_service extends CI_Model {
 		$sql = "
 Select d.doctx ,d.docty,a.autex From $tbDoct d
 Left Join $tbAutx a on d.docty = a.docty and a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname AND u.comid=$comid_esc)
-Order by d.doctx ASC";
+Order by d.grpmo ASC";
 		$query = $this->db->query($sql);
 
 		$result = $query->result_array();

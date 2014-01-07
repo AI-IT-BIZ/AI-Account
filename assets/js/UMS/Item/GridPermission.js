@@ -28,7 +28,7 @@ Ext.define('Account.UMS.Item.GridPermission', {
 	                 { name: 'uname', type: 'string' }
 	        ],
 			remoteSort: false,
-			sorters: [{property: 'doctx', direction: 'ASC'}]
+			sorters: [{property: 'grpmo', direction: 'ASC'}]
 		});
 
 		this.columns = [
