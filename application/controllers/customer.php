@@ -198,7 +198,7 @@ class Customer extends CI_Controller {
 	}
 
 	function remove(){
-		$kunnr = $this->input->post('kunnr');
+		$kunnr = $this->input->post('id');
 		$this->db->where('kunnr', $kunnr);
 		$query = $this->db->delete('kna1');
 		echo json_encode(array(
