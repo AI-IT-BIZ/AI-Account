@@ -107,9 +107,9 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 				}
 			},
 			{text: 'Status', sortable: false, dataIndex: 'statu'},
-			
+
 		];
-		
+
 		this.grid = Ext.create('Ext.grid.Panel',{
 			store: this.storeGrid,
 			columns: this.columnsGrid,
@@ -129,7 +129,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 				dock: 'bottom'
 			},filters]
 		});
-		this.items =[this.grid]
+		this.items =[this.grid];
 		this.tbar = [{
 			text: "Excel",
 			iconCls: 'b-small-excel',
@@ -142,7 +142,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 				params = params + "&start_saknr="+start_saknr+"&end_saknr="+end_saknr;
 				window.location = __base_url + 'index.php/rgeneralledger/excel?'+params ;
 			}
-		}]
-		this.callParent(arguments);
+		}];
+		return this.callParent(arguments);
 	}
-})
+});
