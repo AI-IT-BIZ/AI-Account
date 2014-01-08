@@ -350,7 +350,7 @@ class Receipt extends CI_Controller {
 		
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
-			$item_index = 0;$depno=0;
+			$item_index = 0;$depno=0;$netwr=0;$itamt=0;
 		foreach($rc_item_array AS $p){
 			$this->db->insert('vbbp', array(
 				'recnr'=>$id,
@@ -371,6 +371,11 @@ class Receipt extends CI_Controller {
 			
 			$this->db->where('invnr', $p->invnr);
 			$this->db->set('loekz', '2');
+			$netwr=$this->input->post('netwr');
+			if($p->itamt > $netwr){
+				$itamt=$p->itamt - $netwr;
+				$this->db->set('reman', $itamt);
+			}
 			$this->db->update('vbrk');
 	    	}
 		}

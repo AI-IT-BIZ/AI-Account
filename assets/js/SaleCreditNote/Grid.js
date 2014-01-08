@@ -20,7 +20,7 @@ Ext.define('Account.SaleCreditNote.Grid', {
 			    'crenr',
 				'bldat',
 				'invnr',
-				'lifnr',
+				'kunnr',
 				'name1',
 				'txz01',
 				'statx',

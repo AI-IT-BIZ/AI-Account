@@ -204,103 +204,6 @@ class Creditnote extends CI_Controller {
 		));
 	}
 
-    function loads_cnp(){
-		$this->db->set_dbprefix('v_');
-		$tbName = 'ebcn';
-		
-		// Start for report
-		function createQuery($_this){
-			$query = $_this->input->get('query');
-			if(!empty($query)){
-				$_this->db->where("(`crenr` LIKE '%$query%'
-				OR `lifnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `invnr` LIKE '%$query%')", NULL, FALSE);
-			}
-			
-			$invnr1 = $_this->input->get('invnr');
-			$invnr2 = $_this->input->get('invnr2');
-			if(!empty($invnr1) && empty($invnr2)){
-			  $_this->db->where('invnr', $invnr1);
-			}
-			elseif(!empty($invnr1) && !empty($invnr2)){
-			  $_this->db->where('invnr >=', $invnr1);
-			  $_this->db->where('invnr <=', $invnr2);
-			}
-			
-	        $crenr1 = $_this->input->get('crenr');
-			$crenr2 = $_this->input->get('crenr2');
-			if(!empty($crenr1) && empty($crenr2)){
-			  $_this->db->where('crenr', $crenr1);
-			}
-			elseif(!empty($crenr1) && !empty($crenr2)){
-			  $_this->db->where('crenr >=', $crenr1);
-			  $_this->db->where('crenr <=', $crenr2);
-			}
-			
-			$bldat1 = $_this->input->get('bldat');
-			$bldat2 = $_this->input->get('bldat2');
-			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat', $bldat1);
-			}
-			elseif(!empty($bldat1) && !empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
-			  $_this->db->where('bldat <=', $bldat2);
-			}
-			
-			$lifnr1 = $_this->input->get('lifnr');
-			$lifnr2 = $_this->input->get('lifnr2');
-			if(!empty($lifnr1) && empty($lifnr2)){
-			  $_this->db->where('lifnr', $lifnr1);
-			}
-			elseif(!empty($lifnr1) && !empty($lifnr2)){
-			  $_this->db->where('lifnr >=', $lifnr1);
-			  $_this->db->where('lifnr <=', $lifnr2);
-			}
-
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
-			}
-		}
-// End for report
-
-		createQuery($this);
-		$totalCount = $this->db->count_all_results($tbName);
-
-		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		$sort = $this->input->get('sort');
-		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
-		
-		$query = $this->db->get($tbName);
-
-		/*$res = $query->result_array();
-		foreach($res as $r){
-			// search item
-			$q_item = $this->db->get_where('vbrp', array(
-				'invnr'=>$r['invnr']
-			));
-			$r['items'] = $q_item->result_array();
-		}*/
-
-		//echo $this->db->last_query();
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),//$res,
-			'totalCount'=>$totalCount
-		));
-	}
-
     function loads_report(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vbrp';
@@ -1258,65 +1161,6 @@ class Creditnote extends CI_Controller {
 		));
 	  }
 	}
-	
-    function loads_conp_item(){
-        $menge = $this->input->get('menge');
-		$unitp = $this->input->get('unitp');
-		$disit = $this->input->get('disit');
-		$vvat = $this->input->get('vvat');
-		$vwht = $this->input->get('vwht');
-		$vat = $this->input->get('vat');
-		$wht = $this->input->get('wht');
-		$amt = $menge * $unitp;
-        $i=0;$vamt=0;
-		$result = array();
-		
-	    $query = $this->db->get('cont');
-        if($query->num_rows()>0){
-			$rows = $query->result_array();
-			foreach($rows AS $row){
-
-					if($row['conty']=='01'){
-						if(empty($disit)) $disit=0;
-						$tamt = $amt - $disit;
-						$amt = $tamt;
-						
-						$result[$i] = array(
-					    'contx'=>$row['contx'],
-				     	'vtamt'=>$disit,
-					    'ttamt'=>$tamt
-				        );
-						$i++;
-					}elseif($row['conty']=='02'){
-						if($vat=='true' || $vat=='1'){
-							$vamt = ($amt * $vvat) / 100;
-							$tamt = $amt + $vamt;
-						$result[$i] = array(
-					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vamt,
-					        'ttamt'=>$tamt
-				        );
-						$i++;
-						}
-					}elseif($row['conty']=='03'){
-						if($wht=='true' || $wht=='1'){
-							$vwht = ($amt * $vwht) / 100;
-							$tamt = $amt - $vwht;
-							$tamt = $tamt + $vamt;
-						$result[$i] = array(
-					        'contx'=>$row['contx'],
-				     	    'vtamt'=>$vwht,
-					        'ttamt'=>$tamt
-				        );$i++;
-					}
-				}
-			}}
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$result,
-			'totalCount'=>count($result)
-		));
-	}
 
     function loads_gl_itemp(){
         
@@ -1325,8 +1169,9 @@ class Creditnote extends CI_Controller {
 		if(empty($iv_id)){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
-	       $vvat  = $this->input->get('vvat');    //VAT amt
-		   $lifnr = $this->input->get('lifnr');  //Vendor Code
+	       $vvat = $this->input->get('vvat');    //VAT amt
+		   //$vwht = $this->input->get('vwht');    //WHT amt
+		   $kunnr = $this->input->get('kunnr');  //Customer Code
 		   //$ptype = $this->input->get('ptype');  //Pay Type
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
@@ -1339,55 +1184,8 @@ class Creditnote extends CI_Controller {
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
 // record แรก
-           if(!empty($items)){
-			// loop เพื่อ insert
-		for($j=0;$j<count($items);$j++){
-			$item = explode('|',$items[$j]);
-			if(!empty($item)){
-			$glno = $item[0];
-			$amt  = $item[1];
-			}
-			
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$glno));
-			if($qgl->num_rows()>0){
-		    $q_glno = $qgl->first_row('array');
-			
-			$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glno,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$amt,
-			'credi'=>0
-		);
-		$i++;
-		$debit = $debit + $amt;	
-			}
-	    }
-		}
-			
-// record ที่สอง
-        if($vvat>0){ 
-		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '2135-00';
-		$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$glvat));
-		if($qgl->num_rows()>0){
-		$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glvat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$vvat,
-			'credi'=>0
-		);
-		$i++;
-		$debit = $debit + $vvat;	
-		}}
-        
-// record ที่สาม
-		$query = $this->db->get_where('lfa1', array(
-				'lifnr'=>$lifnr));
+			$query = $this->db->get_where('kna1', array(
+				'kunnr'=>$kunnr));
 			if($query->num_rows()>0){
 				if($query->num_rows()>0){
 				$q_data = $query->first_row('array');
@@ -1400,14 +1198,57 @@ class Creditnote extends CI_Controller {
 				    'belpr'=>$i + 1,
 					'saknr'=>$q_data['saknr'],
 					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>0,
-					'credi'=>$net
+					'debit'=>$net,
+					'credi'=>0
 				);
 				$i++;
-				$credit+=$net;
+				$debit=$net;
 				}
 				}
 			}
+// record ที่สอง
+        if(!empty($items)){
+			// loop เพื่อ insert
+		for($j=0;$j<count($items);$j++){
+			$item = explode('|',$items[$j]);
+			$glno = $item[0];
+			$amt  = $item[1];
+			
+			$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
+			if($qgl->num_rows()>0){
+		    $q_glno = $qgl->first_row('array');
+			
+			$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glno,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$amt
+		);
+		$i++;
+		$credit = $credit + $amt;	
+			}
+	    }
+		}
+// record ที่สาม
+		if($vvat>0){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glvat = '2135-00';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vvat
+		);
+		$i++;
+		$credit = $credit + $vvat;	
+		}}
 	
 		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(
@@ -1425,9 +1266,9 @@ class Creditnote extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   //$this->db->set_dbprefix('v_');
-		   $this->db->where('belnr', $iv_id);
-		   $query = $this->db->get('bven');
+		   $this->db->set_dbprefix('v_');
+		   $this->db->where('invnr', $iv_id);
+		   $query = $this->db->get('bcus');
 		   echo json_encode(array(
 			  'success'=>true,
 			  'rows'=>$query->result_array(),
