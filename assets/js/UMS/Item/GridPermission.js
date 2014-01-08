@@ -34,7 +34,7 @@ Ext.define('Account.UMS.Item.GridPermission', {
 
 		this.columns = [
 			{id:'doctx', text: "Doc Type", align: 'left', width: 160, dataIndex: 'doctx', sortable: true },
-			{id:'grpmo', text: "Module", align: 'center', width: 160, dataIndex: 'grpmo', sortable: true },
+			{ text: "Module", align: 'center', width: 70, dataIndex: 'grpmo', sortable: true },
 			{ text: "Display", align: 'center', width: 70,renderer:this.renderAuthenField, dataIndex: 'display', sortable: false },
 			{ text: "Create", align: 'center', width: 70,renderer:this.renderAuthenField, dataIndex: 'create', sortable: false },
 			{ text: "Edit", align: 'center', width: 70, renderer:this.renderAuthenField,  dataIndex: 'edit', sortable: false },
