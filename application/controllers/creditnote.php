@@ -213,7 +213,7 @@ class Creditnote extends CI_Controller {
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$_this->db->where("(`crenr` LIKE '%$query%'
-				OR `kunnr` LIKE '%$query%'
+				OR `lifnr` LIKE '%$query%'
 				OR `name1` LIKE '%$query%'
 				OR `invnr` LIKE '%$query%')", NULL, FALSE);
 			}
@@ -248,24 +248,14 @@ class Creditnote extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-			$jobnr1 = $_this->input->get('jobnr');
-			$jobnr2 = $_this->input->get('jobnr2');
-			if(!empty($jobnr1) && empty($jobnr2)){
-			  $_this->db->where('jobnr', $jobnr1);
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
 			}
-			elseif(!empty($jobnr1) && !empty($jobnr2)){
-			  $_this->db->where('jobnr >=', $jobnr1);
-			  $_this->db->where('jobnr <=', $jobnr2);
-			}
-			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
-			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
 			}
 
 			$statu1 = $_this->input->get('statu');

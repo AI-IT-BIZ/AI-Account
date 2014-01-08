@@ -44,7 +44,7 @@ Ext.define('Account.UMS.Item.GridPermission', {
 		];
 
 		this.on('cellclick', function (grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			if(cellIndex>=1 && cellIndex<=6){
+			if(cellIndex>=2 && cellIndex<=6){
 				var fieldName = this.columns[cellIndex].dataIndex,
 					val = record.get(fieldName);
 				record.set(fieldName, (val=='0')?'1':'0');

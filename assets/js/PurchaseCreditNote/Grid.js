@@ -41,7 +41,7 @@ Ext.define('Account.PurchaseCreditNote.Grid', {
 		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
 		    {text: "Vendor No", 
 		    width: 80, align: 'center', dataIndex: 'lifnr', sortable: true},
-			{text: "Customer Name", 
+			{text: "Vendor Name", 
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 200, dataIndex: 'txz01', sortable: true},
