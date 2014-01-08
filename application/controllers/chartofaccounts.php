@@ -183,16 +183,16 @@
             {
                 
                 
-                $strSQL = " Insert into tbl_glno(saknr,gllev,gltyp,";
+                $strSQL = " Insert into tbl_glno(saknr,gllev,gltyp,glgrp,";
                 $strSQL = $strSQL . " sgtxt,entxt,overs,depar) Values('";
-                $strSQL = $strSQL . $saknr . "','" . $gllev . "','" . $gltyp . "','";
+                $strSQL = $strSQL . $saknr . "','" . $gllev . "','" . $gltyp . "','" . $glgrp . "','";
                 $strSQL = $strSQL . $sgtxt . "','" . $entxt . "','" . $overs . "','" . $depar . "') ";
                 $query = $this->db->query($strSQL);
             }
             else
             {
                $strSQL = " Update tbl_glno Set gllev = '" . $gllev .  "' , saknr = '" . $saknr . "' , ";
-               $strSQL = $strSQL . " sgtxt = '" . $sgtxt . "' , entxt = '" . $entxt . "' , gltyp = '" . $gltyp . "' , overs = '" . $overs . "' , depar = '" . $depar . "' ";
+               $strSQL = $strSQL . " sgtxt = '" . $sgtxt . "' , entxt = '" . $entxt . "' , gltyp = '" . $gltyp . "' , glgrp = '" . $glgrp . "' , overs = '" . $overs . "' , depar = '" . $depar . "' ";
                $strSQL = $strSQL . " Where saknr = '" . $saknr . "' ;";
         
                $query = $this->db->query($strSQL);

@@ -415,7 +415,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         var accty = "";
         var accgr = cbAccountGroup.getRawValue();
         var deptx = cbDepartment.getRawValue();
-        var glgrp = cbAccount.getRawValue();
+        var glgrp = cbAccount.getValue();
         
         
         
@@ -450,7 +450,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         }
         var strParam = "?treid=" + treid +  "&level=" + level + "&leaf1=" + leaf1  + "&child=" + child + "&accid=" + accid;
         strParam = strParam  + "&tname=" + tname + "&ename=" + ename + "&accty=" + accty + "&accgr=" + accgr;
-        strParam = strParam  + "&deptx=" + deptx + "&glgrp" + glgrp;
+        strParam = strParam  + "&deptx=" + deptx + "&glgrp=" + glgrp;
         //alert(strParam);
         Ext.Ajax.request ({
              url: __site_url +  'chartofaccounts/SaveTree' + strParam ,
@@ -472,7 +472,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
         txtID.setValue('');
         txtNameT.setValue('');
         txtNameE.setValue('');
-        cboAccount.setValue('');
+        cbAccount.setValue('');
         cbAccountGroup.reset();
         cbDepartment.reset();
         treid_edit = "";
