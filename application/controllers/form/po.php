@@ -12,6 +12,13 @@ class PO extends CI_Controller {
 	
 	function index()
 	{
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		if($q_com->num_rows()>0){
+		
 		$no = $type = $this->uri->segment(4);
 		$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
@@ -248,9 +255,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสั่งซื้อ</span></DIV>
 
-<DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
-<DIV style="left:57PX;top:150PX;width:149PX;height:20PX;"><span class="fc1-2">3131231313132</span></DIV>
+<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
@@ -268,12 +275,12 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Company Text-->
-<DIV style="left:157PX;top:26PX;width:590PX;height:26PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left:157PX;top:26PX;width:590PX;height:26PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
 
 <DIV style="left:159PX;top:52PX;width:585PX;height:56PX;">
-<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110 Thailand</td></table>
+<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
 
-<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">Tel. 0-2224-3388&nbsp;&nbsp;&nbsp;Fax. 0-224-3389</td></table>
+<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">Tel. <?=$r_com['telf1'];?>&nbsp;&nbsp;&nbsp;Fax. <?=$r_com['telfx'];?></td></table>
 </DIV>
 
 <!--Vendor Name-->
@@ -540,6 +547,7 @@ endfor; // end copy for
 
 
 <?php
+		}
 	}
    
 }

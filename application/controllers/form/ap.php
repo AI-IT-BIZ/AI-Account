@@ -17,6 +17,7 @@ class AP extends CI_Controller {
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
+		if($q_com->num_rows()>0){
 		
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
@@ -257,9 +258,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสั่งจ่าย</span></DIV>
 
-<DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
-<DIV style="left:57PX;top:150PX;width:149PX;height:20PX;"><span class="fc1-2">3131231313132</span></DIV>
+<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
@@ -562,6 +563,7 @@ endfor; // end copy for
 
 
 <?php
+		}
 	}
    
 }

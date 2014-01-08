@@ -198,9 +198,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">BILLING NOTE</span></DIV>
 
-<DIV style="left:57PX;top:133PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
-<DIV style="left:57PX;top:150PX;width:149PX;height:20PX;"><span class="fc1-2">3131231313132</span></DIV>
+<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=$r_com['taxid'];?></span></DIV>
 
 <DIV style="left:519PX;top:176PX;width:75PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
@@ -224,12 +224,12 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 </DIV>
 
 <!--Company Text-->
-<DIV style="left:157PX;top:26PX;width:590PX;height:26PX;"><span class="fc1-1">บริษัท บางกอก มีเดีย แอนด์ บรอทคาสติ้ง จำกัด</span></DIV>
+<DIV style="left:157PX;top:26PX;width:590PX;height:26PX;"><span class="fc1-1"><?= $r_com['name1']; ?></span></DIV>
 
 <DIV style="left:159PX;top:52PX;width:585PX;height:56PX;">
-<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">75/32-33 Soi Sukhumvit 19(Wattana), Klongtoey-Nua, Wattana BKK 10110 Thailand</td></table>
+<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
 
-<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">Tel. 0-2224-3388&nbsp;&nbsp;&nbsp;Fax. 0-224-3389</td></table>
+<table width="580PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-4">Tel. <?=$r_com['telf1'];?>&nbsp;&nbsp;&nbsp;Fax. <?=$r_com['telfx'];?></td></table>
 </DIV>
 
 <!--Vendor Name-->
