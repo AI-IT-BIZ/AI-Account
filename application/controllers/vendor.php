@@ -171,7 +171,7 @@ class Vendor extends CI_Controller {
 	}
 
 	function remove(){
-		$lifnr = $this->input->post('lifnr');
+		$lifnr = $this->input->post('id');
 		$this->db->where('lifnr', $lifnr);
 		$query = $this->db->delete('lfa1');
 		echo json_encode(array(
