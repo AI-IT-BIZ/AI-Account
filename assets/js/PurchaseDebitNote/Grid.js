@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.Grid', {
+Ext.define('Account.PurchaseDebitNote.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,7 +8,7 @@ Ext.define('Account.SaleDebitNote.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"debitnote/loads_dns",
+				url: __site_url+"debitnote/loads_dnp",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -39,9 +39,9 @@ Ext.define('Account.SaleDebitNote.Grid', {
 			dataIndex: 'bldat', sortable: true},
             {text: "Invoice No", 
 		    width: 80, align: 'center', dataIndex: 'invnr', sortable: true},
-		    {text: "Customer No", 
-		    width: 80, align: 'center', dataIndex: 'kunnr', sortable: true},
-			{text: "Customer Name", 
+		    {text: "Vendor No", 
+		    width: 80, align: 'center', dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", 
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
 			width: 200, dataIndex: 'txz01', sortable: true},

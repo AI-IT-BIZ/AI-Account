@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.FormSearch', {
+Ext.define('Account.PurchaseDebitNote.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -34,7 +34,7 @@ Ext.define('Account.SaleDebitNote.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Debit Note No, Customer or Invoice No.',
+			emptyText: 'Find from Debit Note No, Vendor or Invoice No.',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

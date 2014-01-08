@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Salecreditnote extends CI_Controller {
+class Saledebitnote extends CI_Controller {
         public $query;
     public $strSQL;
 	function __construct()
@@ -18,7 +18,7 @@ class Salecreditnote extends CI_Controller {
 		
 	    $strSQL = " select v_vbdn.*,v_vbde.*";
         $strSQL = $strSQL . " from v_vbcn ";
-        $strSQL = $strSQL . " left join v_vbde on v_vbdn.crenr = v_vbde.crenr ";
+        $strSQL = $strSQL . " left join v_vbde on v_vbdn.debnr = v_vbde.debnr ";
         $strSQL = $strSQL . " Where v_vbdn.debnr = '$no'  ";
         $strSQL .= "ORDER BY vbelp ASC";
 		

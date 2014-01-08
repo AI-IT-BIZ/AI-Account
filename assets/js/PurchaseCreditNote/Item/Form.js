@@ -711,7 +711,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
             	//paym:Ext.encode(rsPM),
             	netpr:sum2,
             	vvat:vats,
-            	kunnr:this.trigCustomer.getValue(),
+            	lifnr:this.trigVendor.getValue(),
             	items: saknr_list.join(',')
             	//ptype:'01',
             	//dtype:'01'

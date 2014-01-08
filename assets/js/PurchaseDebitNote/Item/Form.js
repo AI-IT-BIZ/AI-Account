@@ -1,9 +1,9 @@
-Ext.define('Account.SaleDebitNote.Item.Form', {
+Ext.define('Account.PurchaseDebitNote.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'debitnote/save_dns',
+			url: __site_url+'debitnote/save_dnp',
 			layout: 'border',
 			border: false
 		});
@@ -13,34 +13,34 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.invDialog = Ext.create('Account.Invoice.MainWindow', {
+		this.apDialog = Ext.create('Account.AP.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.SaleDebitNote.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.PurchaseDebitNote.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.SaleDebitNote.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.PurchaseDebitNote.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.SaleDebitNote.Item.Form_t', {
+		this.formTotal = Ext.create('Account.PurchaseDebitNote.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'GR Total',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.SaleDebitNote.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.PurchaseDebitNote.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -146,25 +146,25 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		});
 /*-------------------------------*/			
 		this.hdnDnItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbde'
+			name: 'ebde'
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
 			name: 'bcus',
 		});
 
-        this.trigInv = Ext.create('Ext.form.field.Trigger', {
+        this.trigAP = Ext.create('Ext.form.field.Trigger', {
 			name: 'invnr',
-			fieldLabel: 'Invoice No',
+			fieldLabel: 'AP No',
 			labelAlign: 'letf',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
 		});
 		
-		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
-			fieldLabel: 'Customer Code',
+		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
+			name: 'lifnr',
+			fieldLabel: 'Vendor Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
@@ -236,7 +236,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigInv,{
+					},this.trigAP,{
 						xtype: 'displayfield',
 						//name: 'name1',
 						//margins: '0 0 0 6',
@@ -266,7 +266,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.trigCustomer,{
+				 			items :[this.trigVendor,{
 								xtype: 'displayfield',
 								name: 'name1',
 								margins: '0 0 0 6',
@@ -275,7 +275,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			                }]
 						}, {
 							xtype: 'textarea',
-							fieldLabel: 'Customer Address',
+							fieldLabel: 'Vendor Address',
 							name: 'adr01',
 							width: 450, 
 							rows:3,
@@ -355,13 +355,13 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		];	
         
         // event trigPO///
-		this.trigInv.on('keyup',function(o, e){
+		this.trigAP.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'invoice/load',
+					url: __site_url+'ap/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -370,7 +370,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.invnr);
-							_this.getForm().findField('kunnr').setValue(r.data.kunnr);
+							_this.getForm().findField('lifnr').setValue(r.data.lifnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);			
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
@@ -387,15 +387,15 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			}
 		}, this);
 		
-		_this.invDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigInv.setValue(record.data.invnr);
-			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+		_this.apDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigAP.setValue(record.data.invnr);
+			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var v = record.data.invnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'invoice/load',
+					url: __site_url+'ap/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -416,25 +416,25 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var grdinvnr = _this.trigInv.value;
+			var grdinvnr = _this.trigAP.value;
 			//alert(grdpurnr);
 			_this.gridItem.load({invnr: grdinvnr });
 			//----------------------------------------
-			_this.invDialog.hide();
+			_this.apDialog.hide();
 		});
 		
-		this.trigInv.onTriggerClick = function(){
-			_this.invDialog.show();
+		this.trigAP.onTriggerClick = function(){
+			_this.apDialog.show();
 		};
 		
 		// event trigVendor///
-		this.trigCustomer.on('keyup',function(o, e){
+		this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
+					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -449,21 +449,21 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
+							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
 
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
+		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigVendor.setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
-			var v = record.data.kunnr;
+			var v = record.data.lifnr;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
+					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
 						id: v
@@ -480,11 +480,11 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 				});
 
 			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
+			_this.vendorDialog.hide();
 		});
 
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.show();
+		this.trigVendor.onTriggerClick = function(){
+			_this.vendorDialog.show();
 		};
 		
 		// event trigProject///
@@ -575,7 +575,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'debitnote/load_dn',
+			url:__site_url+'debitnote/load_dnp',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -608,7 +608,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { mbeln: mbeln },
-			url:__site_url+'debitnote/remove',
+			url:__site_url+'debitnote/remove_dnp',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -711,7 +711,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
             	//paym:Ext.encode(rsPM),
             	netpr:sum2,
             	vvat:vats,
-            	kunnr:this.trigCustomer.getValue(),
+            	lifnr:this.trigVendor.getValue(),
             	items: saknr_list.join(',')
             	//ptype:'01',
             	//dtype:'01'

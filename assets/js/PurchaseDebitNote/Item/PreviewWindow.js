@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.Item.PreviewWindow', {
+Ext.define('Account.PurchaseDebitNote.Item.PreviewWindow', {
 	extend	: 'BASE.PreviewWindow',
 	constructor:function(config) {
 
@@ -25,6 +25,6 @@ Ext.define('Account.SaleDebitNote.Item.PreviewWindow', {
 	
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
-		return __site_url+'form/saledebitnote/index/'+id+'/'+copies;
+		return __site_url+'form/purchasedebitnote/index/'+id+'/'+copies;
 	}
 });

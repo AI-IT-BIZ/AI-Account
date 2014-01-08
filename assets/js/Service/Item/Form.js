@@ -390,6 +390,7 @@ Ext.define('Account.Service.Item.Form', {
 		});
 
 		this.trigUnit.onTriggerClick = function(){
+			_this.unitDialog.grid.load();
 			_this.unitDialog.show();
 		};
 
@@ -429,6 +430,7 @@ Ext.define('Account.Service.Item.Form', {
 		});
 
 		this.trigUnit1.onTriggerClick = function(){
+			_this.unit1Dialog.grid.load();
 			_this.unit1Dialog.show();
 		};	
 		
@@ -468,6 +470,7 @@ Ext.define('Account.Service.Item.Form', {
 		});
 
 		this.trigUnit2.onTriggerClick = function(){
+			_this.unit2Dialog.grid.load();
 			_this.unit2Dialog.show();
 		};	
 		
@@ -507,6 +510,7 @@ Ext.define('Account.Service.Item.Form', {
 		});
 
 		this.trigUnit3.onTriggerClick = function(){
+			_this.unit3Dialog.grid.load();
 			_this.unit3Dialog.show();
 		};	
 		

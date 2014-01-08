@@ -702,7 +702,7 @@ class Ap extends CI_Controller {
 // record ที่สอง
         if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '2135-00';
+		$glvat = '1154-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		if($qgl->num_rows()>0){

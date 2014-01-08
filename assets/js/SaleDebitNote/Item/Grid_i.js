@@ -67,7 +67,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'CNiRowNumber1',
+			id : 'DNiRowNumber1',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,

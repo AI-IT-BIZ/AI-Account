@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.Item.Window', {
+Ext.define('Account.PurchaseDebitNote.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
@@ -18,9 +18,9 @@ Ext.define('Account.SaleDebitNote.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.SaleDebitNote.Item.Form',{ region:'center' });
+		this.form = Ext.create('Account.PurchaseDebitNote.Item.Form',{ region:'center' });
 
-		this.previewDialog = Ext.create('Account.SaleDebitNote.Item.PreviewWindow');
+		this.previewDialog = Ext.create('Account.PurchaseDebitNote.Item.PreviewWindow');
 
 		this.items = [
 		     this.form

@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.MainWindow', {
+Ext.define('Account.PurchaseDebitNote.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
@@ -34,22 +34,22 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('SN')
+			disabled: !UMS.CAN.CREATE('PN')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('SN') || UMS.CAN.CREATE('SN') || UMS.CAN.EDIT('SN'))
+			disabled: !(UMS.CAN.DISPLAY('PN') || UMS.CAN.CREATE('PN') || UMS.CAN.EDIT('PN'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('SN')
+			disabled: !UMS.CAN.DELETE('PN')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('SN')
+			disabled: !UMS.CAN.EXPORT('PN')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -57,8 +57,8 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 			iconCls: 'b-small-import'
 		});
 		
-        this.itemDialog = Ext.create('Account.SaleDebitNote.Item.Window');
-		this.grid = Ext.create('Account.SaleDebitNote.Grid', {
+        this.itemDialog = Ext.create('Account.PurchaseDebitNote.Item.Window');
+		this.grid = Ext.create('Account.PurchaseDebitNote.Grid', {
 			region:'center',
 			border: false,
 			tbar : [this.addAct, this.editAct, this.deleteAct,
@@ -81,7 +81,7 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.SaleDebitNote.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.PurchaseDebitNote.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -169,7 +169,7 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/saledebitnote/index?'+query;
+			window.location = __site_url+'export/purchasedebitnote/index?'+query;
 		});
 
 		// --- after ---

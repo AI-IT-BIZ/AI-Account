@@ -164,7 +164,7 @@ class Employee extends CI_Controller {
 		$query = $this->db->delete('empl');
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$query
+			'data'=>$empnr
 		));
 	}
 	

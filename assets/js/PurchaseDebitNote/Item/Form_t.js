@@ -1,9 +1,9 @@
-Ext.define('Account.SaleDebitNote.Item.Form_t', {
+Ext.define('Account.PurchaseDebitNote.Item.Form_t', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'debitnote/save',
+			url: __site_url+'debitnote/save_dnp',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -287,7 +287,7 @@ Ext.define('Account.SaleDebitNote.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'debitnote/load'
+			url:__site_url+'debitnote/load_dn'
 		});
 	},
 	save : function(){

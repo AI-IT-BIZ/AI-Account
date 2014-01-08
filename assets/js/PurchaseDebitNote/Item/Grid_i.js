@@ -1,4 +1,4 @@
-Ext.define('Account.SaleDebitNote.Item.Grid_i', {
+Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,7 +29,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"debitnote/loads_dn_items",
+				url: __site_url+"debitnote/loads_dn_itemp",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -67,7 +67,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'CNiRowNumber1',
+			id : 'DNiRowNumber2',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
