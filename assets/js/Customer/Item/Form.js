@@ -334,6 +334,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		};
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('CS'),
 			fieldLabel: 'Customer Status',
 			name : 'statu',
 			labelAlign: 'right',
