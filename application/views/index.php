@@ -417,6 +417,16 @@ Ext.onReady(function() {
 		//$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
 		//$om.limitDialog.show();
 	});
+	
+	$om.viewport.on('click_bankname_setting', function(){
+	  	/*
+	  	if(!UMS.CAN.DISPLAY('BN')){
+	 		UMS.ALERT("You don't have permission for Bank Name Setting.");
+	  		return;
+		}*/
+		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
+		$om.bankNameDialog.show();
+	});
 
 	//Report
 	$om.viewport.on('click_report_gl', function(){

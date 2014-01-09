@@ -683,6 +683,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_employee'
 			};
+			var nodeBankname = {
+				text: 'Bank Name',
+				leaf: true,
+				id: 'click_bankname_setting'
+			};
 
 			var groupConfig = {
 				text: 'Configuration',
@@ -696,7 +701,8 @@ function endsWith($haystack, $needle)
 				    nodeLimit,
 				    nodeAuth,
 					nodeChart,
-					nodeEmployee
+					nodeEmployee,
+					nodeBankname
 				]
 			};
 
