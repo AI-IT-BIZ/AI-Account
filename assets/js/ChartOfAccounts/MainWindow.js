@@ -288,7 +288,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
              if (detail != '') {
                  for (i = 0; i < arrChart.length; i++) {
                      data = new Array();
-                     strTemp = arrChart[i].split('+')
+                     strTemp = arrChart[i].split('+');
                      data[0] = strTemp[0];
                      data[1] = strTemp[1];
                      data[2] = strTemp[2];
@@ -330,7 +330,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
              if (detail != '') {
                  for (i = 0; i < arrGRACC.length; i++) {
                      data = new Array();
-                     strTemp = arrGRACC[i].split('+')
+                     strTemp = arrGRACC[i].split('+');
                      data[0] = strTemp[0];
                      data[1] = strTemp[1];
                      myData[i] = data;
@@ -362,7 +362,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
              if (detail != '') {
                  for (i = 0; i < arrDep.length; i++) {
                      data = new Array();
-                     strTemp = arrDep[i].split('+')
+                     strTemp = arrDep[i].split('+');
                      data[0] = strTemp[0];
                      data[1] = strTemp[1];
                      myData[i] = data;
@@ -546,7 +546,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
                var strText = rec.get('id');
               
                var index = store_chart_account.find('treid',strText);
-               // alert(store_chart_account.getAt(0).get('treid'));
+               //alert(store_chart_account.getAt(0).get('treid'));
                if(index > -1)
                { 
                   rt = store_chart_account.getAt(index);

@@ -164,7 +164,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
            },
            renderer: function(value) {
            	if (!isNaN(value)){
-           		return Ext.Date.format(value, 'd/m/Y')
+           		return Ext.Date.format(value, 'd/m/Y');
            	}else{
            		return "";
            	}

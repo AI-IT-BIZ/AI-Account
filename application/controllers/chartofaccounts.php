@@ -207,7 +207,7 @@
             $query = $this->db->query($strSQL);
             foreach ($query->result() as $row)
             {
-                $leaf1 = ($rowL1->gltyp == "1") ? "false" : "true";
+                $leaf1 = ($row->gltyp == "1") ? "false" : "true";
                 $strResult = $strResult . $row->saknr . "+" . $row->gllev  . "+" . "" . "+" . $leaf1 . "+" . $row->overs . "+" . $row->saknr . "+";
                 $strResult = $strResult . $row->sgtxt . "+" . $row->entxt . "+"  . $row->gltyp . "+"  . $row->overs . "+"  . $row->depar . "+" . $row->glgrp . "|" ;
             }
