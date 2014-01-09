@@ -1,8 +1,8 @@
-Ext.define('RGeneralJournal', {
+/*Ext.define('RGeneralJournal', {
 	extend: 'Ext.data.Model',
 	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu','kunnr']
 });
-
+*/
 Ext.define('Account.RGeneralJournal.Result.Grid', {
 	extend	: 'Ext.window.Window',
 	requires: [
@@ -19,9 +19,9 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 	maximizable: true,
 	maximized: true,
 	params: {},
-	loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
+	//loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 	initComponent:function(config) {
-		
+
 
 		me = this;
 		var filters = {
@@ -91,7 +91,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			},
 			{text: 'Status', sortable: false, dataIndex: 'statu'}
 		];
-		
+
 		this.grid = Ext.create('Ext.grid.Panel',{
 			store: this.storeGrid,
 			columns: this.columnsGrid,
@@ -111,7 +111,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				dock: 'bottom'
 			},filters]
 		});
-		this.items =[this.grid]
+		this.items =[this.grid];
 		this.tbar = [{
 			text: "Print",
 			handler: function(){
@@ -129,7 +129,7 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 				}).show();
 				//window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
 			}
-		}]
-		this.callParent(arguments);
+		}];
+		return this.callParent(arguments);
 	}
-})
+});

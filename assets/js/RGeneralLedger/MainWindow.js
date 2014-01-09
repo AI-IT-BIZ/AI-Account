@@ -8,11 +8,11 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 	modal: true,
 	layout:'fit',
 	maximizable: false,
-	loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
+	//loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 	initComponent:function(config) {
 		_this = this;
 		this.glnoDialog1 = Ext.create('Account.GL.MainWindow');
-		
+
 		this.trigGlno1 = Ext.create('Ext.form.field.Trigger', {
 			name: 'start_saknr',
 			fieldLabel: 'Start GL',
@@ -20,10 +20,10 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 			enableKeyEvents: true,
 			//width:290,
 		});
-		
+
 		// event trigGlno1//
 		this.trigGlno1.on('keyup',function(o, e){
-			
+
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -50,7 +50,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 
 		_this.glnoDialog1.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGlno1.setValue(record.data.saknr);
-			
+
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog1.hide();
 		});
@@ -60,7 +60,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 		};
 		/////
 		this.glnoDialog2 = Ext.create('Account.GL.MainWindow');
-		
+
 		this.trigGlno2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'end_saknr',
 			fieldLabel: 'End GL',
@@ -68,10 +68,10 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 			enableKeyEvents: true,
 			//width:290,
 		});
-		
+
 		// event trigGlno2//
 		this.trigGlno2.on('keyup',function(o, e){
-			
+
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -98,7 +98,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 
 		_this.glnoDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGlno2.setValue(record.data.saknr);
-			
+
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog2.hide();
 		});
@@ -106,8 +106,8 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 		this.trigGlno2.onTriggerClick = function(){
 			_this.glnoDialog2.show();
 		};
-		
-		
+
+
 		var form =  Ext.create('Ext.form.Panel', {
 			layout: 'form',
 			bodyPadding: '15 15 15 15',
@@ -139,7 +139,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 							params: form.getValues(),
 							success: function(response){
 								var rs = response.responseText;
-								rs =  Ext.JSON.decode(rs)
+								rs =  Ext.JSON.decode(rs);
 								if (rs.success) {
 									var result = Ext.create("Account.RGeneralLedger.Result.Grid");
 									result.params = form.getValues();
@@ -156,10 +156,10 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();
-				}	
+				}
 			}]
 		});
 		this.items = [form];
-		this.callParent(arguments);
+		return this.callParent(arguments);
 	}
 });

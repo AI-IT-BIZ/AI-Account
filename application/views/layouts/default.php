@@ -19,7 +19,23 @@ function endsWith($haystack, $needle)
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/ext/ux/NumericField.js') ?>"></script>
+	<!--
+	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-base.js') ?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-js.js') ?>"></script>
+	-->
 	<script type="text/javascript">
+		var __base_url = '<?= base_url() ?>',
+			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
+			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
+
+		Ext.Loader.setConfig({
+			enabled: true,
+			paths: {
+				'BASE': __base_url+'assets/ext_base',
+				'Account': __base_url+'assets/js'
+			}
+		});
+
 		Ext.form.field.ComboBox.override({
 			setValue: function(v) {
 				var _this=this,
@@ -39,9 +55,6 @@ function endsWith($haystack, $needle)
 		});
 	</script>
 	<script type="text/javascript">
-		var __base_url = '<?= base_url() ?>',
-			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
-			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
 
 		var UMSClass = function(){
 			function checkPermission(docty, type){
@@ -202,7 +215,7 @@ function endsWith($haystack, $needle)
 
 		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
 		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
-		
+
 		#div1-5-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-5-container div span { position:absolute; bottom:10px; left:10px; }
 		#div-project-management
@@ -289,7 +302,7 @@ function endsWith($haystack, $needle)
 <body>
 	<script type="text/javascript">
 		var $om = {};
-		requires: ['*'];
+		//requires: ['*'];
 		Ext.onReady(function() {
 
 			// MENU TREE
@@ -596,26 +609,26 @@ function endsWith($haystack, $needle)
 			var nodeReportGJ = {
 				text: 'Report General Journal',
 				leaf: true,
-				id: 'click_report_gr'	
+				id: 'click_report_gr'
 			};
 			var nodeReportGL = {
 				text: 'Report General Ledger',
 				leaf: true,
 				id: 'click_report_gl'
 			};
-			
+
 			var nodeReportTB = {
 				text: 'Report Trial Balance',
 				leaf: true,
 				id: 'click_report_tb'
 			};
-			
+
 			var nodeReportIncome = {
 				text: 'Report Income Statement',
 				leaf: true,
 				id: 'click_report_income'
 			};
-			
+
 			var nodeReportBalanceSheet = {
 				text: 'Report Balance Sheet',
 				leaf: true,
@@ -714,73 +727,6 @@ function endsWith($haystack, $needle)
 				$om.viewport.fireEvent(record.data.id);
 			});
 
-			/*
-			tree.on('cellclick', function (tree, td, cellIndex, rec, tr, rowIndex, e, eOpts ) {
-               if(tr.innerHTML.indexOf('Chart of Accounts') > -1)
-               {
-               	  if(!UMS.CAN.DISPLAY('CA')){
-				  UMS.ALERT("You don't have permission for Chart of Accounts.");
-				  return;
-				  }
-
-                  $om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow')
-                  $om.chartOfAccountDialog.show();
-                  return;
-               }
-//<<<<<<< HEAD
-			if(tr.innerHTML.indexOf('User Define') > -1)
-			{
-				$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-				$om.configDialog.show();
-				//$om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
-				//$om.configDialog.show();
-			}
-			if(tr.innerHTML.indexOf('Login') > -1)
-			{
-				//$om.configDialog = Ext.create('Account.Configauthen.Main')
-				$om.loginDialog = Ext.create('Account.Login.MainWindow');
-				$om.loginDialog.show();
-			}
-			// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-			// $om.configDialog.show();
-//=======
-/*
-				if(tr.innerHTML.indexOf('Authorize Setting') > -1)
-				{
-					$om.configDialog = Ext.create('Account.UMS.MainWindow');
-					$om.configDialog.show();
-					//$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-					//$om.configDialog.show();
-				}
-
-				if(tr.innerHTML.indexOf('User Define') > -1)
-				{
-					$om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-					$om.configDialog.show();
-					//$om.configDialog = Ext.create('Account.Configauthen.WinUserDefine')
-					//$om.configDialog.show();
-				}
-				if(tr.innerHTML.indexOf('Login') > -1)
-				{
-					//$om.configDialog = Ext.create('Account.Configauthen.Main')
-					$om.loginDialog = Ext.create('Account.Login.MainWindow');
-					$om.loginDialog.show();
-				}
-				// $om.configDialog = Ext.create('Account.Configauthen.MainWindow')
-				// $om.configDialog.show();
-
-				if(tr.innerHTML.indexOf('Report General Journal') > -1){
-					$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
-					$om.RGeneralJournal.show();
-				}
-				
-				if(tr.innerHTML.indexOf('Report General Ledger') > -1){
-					$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
-					$om.RGeneralJournal.show();
-				}
-//>>>>>>> 8f5d4b9d573dccfeabaacb36a517b16949eeebf5
-            });
-           */ 
 
 			// CENTER PANEL
 			var centerPanel = new Ext.Panel({
@@ -1551,15 +1497,6 @@ function endsWith($haystack, $needle)
 				items: [
 					centerPanel,
 					tabs
-					/*{
-						region: 'north',
-						collapsible: true,
-						title: 'North',
-						//split: true,
-						height: 100,
-						minHeight: 60,
-						html: 'north'
-					}*/
 				]
 			});
 		});
