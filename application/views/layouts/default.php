@@ -327,6 +327,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_quotation'
 			};
+			var nodeDepositReceipt = {
+				text: 'Create New Deposit Reciepts',
+				leaf: true,
+				id: 'click_deposit1'
+			};
 			var nodeSaleOrder = {
 				text: 'Create New Sale Orders',
 				leaf: true,
@@ -372,6 +377,7 @@ function endsWith($haystack, $needle)
 				children: [
 					nodeProject,
 					nodeQuotation,
+					nodeDepositReceipt,
 					nodeSaleOrder,
 					nodeInvoice,
 					nodeSaleDN,
@@ -391,6 +397,11 @@ function endsWith($haystack, $needle)
 				text: 'Create New Purchase Orders',
 				leaf: true,
 				id: 'click_po'
+			};
+			var nodeDepositPayment = {
+				text: 'Create New Deposit Payments',
+				leaf: true,
+				id: 'click_deposit2'
 			};
 			var nodeGR = {
 				text: 'Create New Goods Receipts',
@@ -432,6 +443,7 @@ function endsWith($haystack, $needle)
 				children: [
 					nodePR,
 					nodePO,
+					nodeDepositPayment,
 					nodeGR,
 					nodeAP,
 					nodePurchaseDN,
