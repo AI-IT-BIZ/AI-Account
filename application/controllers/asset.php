@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Material extends CI_Controller {
+class Asset extends CI_Controller {
 
 	function __construct()
 	{
@@ -16,23 +16,9 @@ class Material extends CI_Controller {
 	function load(){
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
-		$kunnr = $this->input->post('kunnr');
+		//$kunnr = $this->input->post('kunnr');
 		$this->db->limit(1);
 		
-		if(!empty($kunnr)){
-			//echo $kunnr;
-			$sql="select a.*,b.unit,b.cost from tbl_mara a inner join tbl_plev b
-                  on a.matnr = b.matnr
-                  inner join tbl_kna1 c on b.pleve = c.pleve
-		          WHERE a.matnr='$id'
-		          AND c.kunnr='$kunnr'";
-		    $query = $this->db->query($sql);
-			$result_data = $query->first_row('array');
-		//if($query->num_rows()==0){
-		//	$this->db->where('matnr', $id);
-		//    $query = $this->db->get('mara');
-		//}
-		}else{
 		    /*$sql="select a.*,b.unit,b.cost 
 		          from tbl_mara a 
 		          left join tbl_plev b
@@ -55,10 +41,9 @@ class Material extends CI_Controller {
 			}*/
 			
 			$this->db->set_dbprefix('v_');
-		    $tbName = 'mara';
+		    $tbName = 'fara';
 		    $this->db->where('matnr', $id);
 			$query = $this->db->get($tbName);
-		}
 		
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
@@ -77,7 +62,7 @@ class Material extends CI_Controller {
 	function loads(){
 		
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mara';
+		$tbName = 'fara';
 		
 		function createQuery($_this){
 			
@@ -85,9 +70,9 @@ class Material extends CI_Controller {
 			if(!empty($query)){
 				$_this->db->where("(`matnr` LIKE '%$query%'
 				OR `maktx` LIKE '%$query%'
-				OR `mtart` LIKE '%$query%') and `mtart` <> 'SV'", NULL, FALSE);
-			}else{
-				$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
+				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+			//}else{
+			//	$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
 			}
 			
 			$matnr1 = $_this->input->get('matnr');
@@ -126,7 +111,7 @@ class Material extends CI_Controller {
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mara';
+		$tbName = 'fara';
 		
 		function createQuery($_this){
 			
@@ -172,7 +157,7 @@ class Material extends CI_Controller {
 	}
 	
 	public function loads_tcombo(){
-		$tbName = 'mtyp';
+		$tbName = 'ftyp';
 		$tbPK = 'mtart';
 
 		$query = $this->input->post('query');
@@ -196,7 +181,7 @@ class Material extends CI_Controller {
 	}
 	
 	public function loads_gcombo(){
-		$tbName = 'mgrp';
+		$tbName = 'fgrp';
 		$tbPK = 'matkl';
 
 		$query = $this->input->post('query');
@@ -226,64 +211,52 @@ class Material extends CI_Controller {
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('matnr', $id);
-			$query = $this->db->get('mara');
+			$query = $this->db->get('fara');
 		}
 
 		$formData = array(
 			//'matnr' => $this->input->post('matnr'),
 			'maktx' => $this->input->post('maktx'),
-			//'maetx' => $this->input->post('maetx'),
 			'matkl' => $this->input->post('matkl'),
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),
-			'beqty' => $this->input->post('beqty'),
+			'brand' => $this->input->post('brand'),
 			
-			'beval' => $this->input->post('beval'),
-			'cosav' => $this->input->post('cosav'),
-			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),
-			'unit1' => $this->input->post('unit1'),
-			'cost1' => $this->input->post('cost1'),
-			'unit2' => $this->input->post('unit2'),
-			'cost2' => $this->input->post('cost2'),
-			'unit3' => $this->input->post('unit3'),
-			'cost3' => $this->input->post('cost3'),
+			'model' => $this->input->post('model'),
+			'serno' => $this->input->post('serno'),
+			'specs' => $this->input->post('specs'),		
+			'reque' => $this->input->post('reque'),
+			'holds' => $this->input->post('holds'),
+			'lastn' => $this->input->post('lastn'),
+			'depnr' => $this->input->post('depnr'),
+			'assnr' => $this->input->post('assnr'),
+			'ebeln' => $this->input->post('ebeln'),
+			'bldat' => $this->input->post('bldat'),
+			
+			'acqui' => $this->input->post('acqui'),
+			'costs' => $this->input->post('costs'),
+			'resid' => $this->input->post('resid'),
+			'lifes' => $this->input->post('lifes'),
+			'depre' => $this->input->post('depre'),
+			'keepi' => $this->input->post('keepi'),
 			'statu' => $this->input->post('statu')
 			);
 			
 			$current_username = XUMS::USERNAME();
-			
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('matnr', $id);
 			//$this->db->set('updat', 'NOW()', false);
 			db_helper_set_now($this, 'updat');
-			$this->db->set('upnam', $current_username);
-			$this->db->update('mara', $formData);
+			$this->db->set('upnam', 'test');
+			$this->db->update('fara', $formData);
 		}else{
-			$id = $this->code_model2->generate2('MM');
+			$id = $this->code_model2->generate2('FA');
 			$this->db->set('matnr', $id);
 			//$this->db->set('erdat', 'NOW()', false);
 			db_helper_set_now($this, 'erdat');
-			$this->db->set('ernam', $current_username);
-			$this->db->insert('mara', $formData);
-		}
-		
-		$this->db->where('matnr', $id);
-		$this->db->delete('plev');
-		
-		$i=0;$p=0;$u=0;$c=0;
-		for($i=1;$i<=3;$i++){
-		    $p='0'.$i;
-			$u='unit'.$i;
-			$c='cost'.$i;	
-		$formCost = array(
-		    'pleve' => $p,
-		    'matnr' => $id,
-			'unit' => $this->input->post($u),
-			'cost' => $this->input->post($c),
-			);
-		  $this->db->insert('plev', $formCost);
+			$this->db->set('ernam', 'test');
+			$this->db->insert('fara', $formData);
 		}
 
 		echo json_encode(array(
@@ -307,7 +280,7 @@ class Material extends CI_Controller {
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('mtart', $id);
-		$query = $this->db->get('mtyp');
+		$query = $this->db->get('ftyp');
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['mtart'];
@@ -323,7 +296,7 @@ class Material extends CI_Controller {
 
 	function loads_type(){
 		//$this->db->set_dbprefix('v_');
-		$tbName = 'mtyp';
+		$tbName = 'ftyp';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -349,18 +322,18 @@ class Material extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('mtyp');
+		$this->db->truncate('ftyp');
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$mtyp = $this->input->post('mtyp');
+		$mtyp = $this->input->post('ftyp');
 		$item_array = json_decode($mtyp);
 		
 		if(!empty($mtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){
-			$this->db->insert('mtyp', array(
+			$this->db->insert('ftyp', array(
 				'mtart'=>$p->mtart,
 				'matxt'=>$p->matxt//,
 				//'saknr'=>$p->saknr
@@ -377,7 +350,7 @@ class Material extends CI_Controller {
 	function remove_type(){
 		$id = $this->input->post('id');
 		$this->db->where('mtart', $id);
-		$query = $this->db->delete('mtyp');
+		$query = $this->db->delete('ftyp');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
@@ -389,7 +362,7 @@ class Material extends CI_Controller {
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('matkl', $id);
-		$query = $this->db->get('mgrp');
+		$query = $this->db->get('fgrp');
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['matkl'];
@@ -405,7 +378,7 @@ class Material extends CI_Controller {
 
 	function loads_grp(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mgrp';
+		$tbName = 'fgrp';
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -431,18 +404,18 @@ class Material extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('mgrp');
+		$this->db->truncate('fgrp');
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$mgrp = $this->input->post('mgrp');
+		$mgrp = $this->input->post('fgrp');
 		$item_array = json_decode($mgrp);
 		
 		if(!empty($mgrp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){
-			$this->db->insert('mgrp', array(
+			$this->db->insert('fgrp', array(
 				'matkl'=>$p->matkl,
 				'matxt'=>$p->matxt,
 				'saknr'=>$p->saknr
@@ -459,7 +432,7 @@ class Material extends CI_Controller {
 	function remove_grp(){
 		$id = $this->input->post('id');
 		$this->db->where('matkl', $id);
-		$query = $this->db->delete('mgrp');
+		$query = $this->db->delete('fgrp');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id

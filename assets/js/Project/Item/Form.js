@@ -47,6 +47,7 @@ Ext.define('Account.Project.Item.Form', {
 			fieldLabel: 'Project Status',
 			name : 'statu',
 			labelWidth: 100,
+			labelAlign: 'left',
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -56,7 +57,7 @@ Ext.define('Account.Project.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'quotation/loads_scombo',
+					url: __site_url+'quotation/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -72,8 +73,8 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statu',
-			margins: '0 0 0 2'
+			valueField: 'statu'//,
+			//margins: '0 0 0 2'
 		});
 		
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
@@ -238,26 +239,26 @@ Ext.define('Account.Project.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 	    }]
-		}]
+		},this.comboQStatus]
 		//}]
 		}];
 
 		//return this.callParent(arguments);
 	//},
 	/****************************************************/
-    if(arrPermit === undefined )
-    {
+    //if(arrPermit === undefined )
+    //{
        
-    }
-    else{
-        if(arrPermit['PJ']['approve'] == "0")
-           {
-             this.comboQStatus.setDisabled(true);
-           }
-           else{
-             this.comboQStatus.setDisabled(false);
-        }
-    }
+    //}
+    //else{
+        //if(arrPermit['PJ']['approve'] == "0")
+         //  {
+         //    this.comboQStatus.setDisabled(true);
+         //  }
+         //  else{
+         //    this.comboQStatus.setDisabled(false);
+        //}
+   // }
     
    	/****************************************************/
    	// event trigType//

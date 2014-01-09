@@ -38,6 +38,17 @@ Ext.onReady(function() {
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
 	});
+	
+	$om.viewport.on('click_asset-regist', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Register.");
+			return;
+		}
+
+		if(!$om.assetDialog)
+			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
+		$om.assetDialog.show();
+	});
 
 	$om.viewport.on('click_rjournal', function(){
 		if(!$om.rjournalDialog)

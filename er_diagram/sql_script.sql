@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		7/1/2014
+Modified		9/1/2014
 Project		
 Model		
 Company		
@@ -10,6 +10,24 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_ebde
+;
+
+Drop View IF EXISTS v_ebcp
+;
+
+Drop View IF EXISTS v_ebdn
+;
+
+Drop View IF EXISTS v_ebcn
+;
+
+Drop View IF EXISTS v_vbde
+;
+
+Drop View IF EXISTS v_vbcp
+;
 
 Drop View IF EXISTS v_vbdn
 ;
@@ -167,6 +185,9 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_fgrp;
+drop table IF EXISTS tbl_ftyp;
+drop table IF EXISTS tbl_fara;
 drop table IF EXISTS tbl_ebde;
 drop table IF EXISTS tbl_ebdn;
 drop table IF EXISTS tbl_ebcp;
@@ -1665,6 +1686,7 @@ Create table tbl_ebdk (
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
+	vat01 Decimal(17,2),
  Primary Key (comid,depnr)) ENGINE = InnoDB
 COMMENT = 'Deposit Out Header';
 
@@ -1801,7 +1823,6 @@ COMMENT = 'Sale Credit Note Header';
 Create table tbl_vbcp (
 	crenr Varchar(20) NOT NULL COMMENT 'Credit Note no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'Billto Item',
-	invnr Varchar(20) COMMENT 'Invoice no.',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -1811,7 +1832,6 @@ Create table tbl_vbcp (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	recbl Varchar(20) COMMENT 'Receipt billing  ',
-	invdt Date COMMENT 'Invoice Date',
 	texts Varchar(40) COMMENT 'Text Note',
 	reman Decimal(17,2) COMMENT 'Remain Amt',
 	payrc Decimal(17,2) COMMENT 'Payment receipt',
@@ -1866,13 +1886,13 @@ Create table tbl_vbdn (
 	whtxt Varchar(40),
 	dispc Varchar(10),
 	kunnr Varchar(10),
+	vat01 Decimal(17,2),
  Primary Key (comid,debnr)) ENGINE = InnoDB
 COMMENT = 'Debit Note Header';
 
 Create table tbl_vbde (
 	debnr Varchar(20) NOT NULL COMMENT 'Debit Note no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'Billto Item',
-	invnr Varchar(20) COMMENT 'Invoice no.',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -1882,7 +1902,6 @@ Create table tbl_vbde (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	recbl Varchar(20) COMMENT 'Receipt billing  ',
-	invdt Date COMMENT 'Invoice Date',
 	texts Varchar(40) COMMENT 'Text Note',
 	reman Decimal(17,2) COMMENT 'Remain Amt',
 	payrc Decimal(17,2) COMMENT 'Payment receipt',
@@ -1944,13 +1963,13 @@ Create table tbl_ebcn (
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
+	vat01 Decimal(17,2),
  Primary Key (comid,crenr)) ENGINE = InnoDB
 COMMENT = 'Purchase Credit Note Header';
 
 Create table tbl_ebcp (
 	crenr Varchar(20) NOT NULL COMMENT 'Credit Note no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'Billto Item',
-	invnr Varchar(20) COMMENT 'Invoice no.',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -1960,13 +1979,11 @@ Create table tbl_ebcp (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	recbl Varchar(20) COMMENT 'Receipt billing  ',
-	invdt Date COMMENT 'Invoice Date',
 	texts Varchar(40) COMMENT 'Text Note',
 	reman Decimal(17,2) COMMENT 'Remain Amt',
 	payrc Decimal(17,2) COMMENT 'Payment receipt',
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
-	duedt Date COMMENT 'Due Date',
 	perct Int COMMENT 'Percent of amount',
 	disit Decimal(17,2) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
@@ -2014,13 +2031,13 @@ Create table tbl_ebdn (
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
+	vat01 Decimal(17,2),
  Primary Key (comid,debnr)) ENGINE = InnoDB
 COMMENT = 'Purchase Debit Note Header';
 
 Create table tbl_ebde (
 	debnr Varchar(20) NOT NULL COMMENT 'Debit Note no.',
 	vbelp Varchar(4) NOT NULL COMMENT 'Billto Item',
-	invnr Varchar(20) COMMENT 'Invoice no.',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -2030,13 +2047,11 @@ Create table tbl_ebde (
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	recbl Varchar(20) COMMENT 'Receipt billing  ',
-	invdt Date COMMENT 'Invoice Date',
 	texts Varchar(40) COMMENT 'Text Note',
 	reman Decimal(17,2) COMMENT 'Remain Amt',
 	payrc Decimal(17,2) COMMENT 'Payment receipt',
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
-	duedt Date COMMENT 'Due Date',
 	perct Int COMMENT 'Percent of amount',
 	disit Decimal(17,2) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
@@ -2046,6 +2061,59 @@ Create table tbl_ebde (
 	chk02 Varchar(5),
  Primary Key (debnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'Purchase Deposit Out Item';
+
+Create table tbl_fara (
+	comid Varchar(4) NOT NULL,
+	matnr Varchar(10) NOT NULL COMMENT 'Material Code',
+	maktx Varchar(40) COMMENT 'Material Description',
+	maken Varchar(40) COMMENT 'Material Name EN',
+	erdat Datetime COMMENT 'Create Date',
+	ernam Varchar(10) COMMENT 'Create name',
+	lvorm Varchar(1) COMMENT 'Delete Flage',
+	matkl Varchar(4) COMMENT 'Material Group (tbl_mgrp)',
+	mtart Varchar(4) COMMENT 'Material Type (tbl_mtyp)',
+	meins Varchar(3) COMMENT 'Unit',
+	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
+	pleve Varchar(4) COMMENT 'Cost Level',
+	updat Datetime COMMENT 'Update Date',
+	upnam Varchar(10) COMMENT 'Update Name',
+	beqty Decimal(15,2) COMMENT 'Beginning Qty',
+	beval Decimal(17,2) COMMENT 'Beginning Value',
+	cosav Decimal(17,2) COMMENT 'Average Cost',
+	enqty Decimal(15,2) COMMENT 'Ending Qty',
+	enval Decimal(17,2) COMMENT 'Ending Value',
+	statu Varchar(4) COMMENT 'Asset Status',
+	brand Varchar(50) COMMENT 'Asset Brand',
+	model Varchar(50) COMMENT 'Asset model',
+	serno Varchar(50) COMMENT 'Serial no',
+	specs Varchar(50) COMMENT 'Asset Spec',
+	reque Varchar(20) COMMENT 'Request by',
+	holds Varchar(20) COMMENT 'Holder',
+	lastn Varchar(20) COMMENT 'Employee lastname',
+	depnr Varchar(4) COMMENT 'Department',
+	assnr Varchar(10) COMMENT 'Under asset',
+	ebeln Varchar(20) COMMENT 'PO No',
+	bldat Date COMMENT 'PO date',
+	costv Decimal(17,2) COMMENT 'Cost Value',
+	resid Decimal(17,2) COMMENT 'Residual Value',
+	lifes Int COMMENT 'Full life',
+	depre Decimal(17,2) COMMENT 'Depreciation %',
+	keepi Varchar(50) COMMENT 'Keeping Area',
+ Primary Key (comid,matnr)) ENGINE = InnoDB
+COMMENT = 'Material Master';
+
+Create table tbl_ftyp (
+	mtart Varchar(4) NOT NULL COMMENT 'Asset Type',
+	matxt Varchar(40) COMMENT 'Mat Type Desc',
+	saknr Varchar(10),
+ Primary Key (mtart)) ENGINE = InnoDB
+COMMENT = 'Material Type';
+
+Create table tbl_fgrp (
+	matkl Varchar(4) NOT NULL COMMENT 'Asset Group',
+	matxt Varchar(40) COMMENT 'Mat Grp Desc',
+ Primary Key (matkl)) ENGINE = InnoDB
+COMMENT = 'Material Group';
 
 
 
@@ -2516,6 +2584,64 @@ from tbl_vbdn a left join tbl_kna1 b
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype;
+create view v_vbcp as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.duedt,c.kunnr,c.name1,c.invnr,
+c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+from tbl_vbcp a left join tbl_mara b 
+on a.matnr = b.matnr
+left join v_vbcn c 
+on a.crenr = c.crenr;
+create view v_vbde as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.duedt,c.kunnr,c.name1,
+c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+from tbl_vbde a left join tbl_mara b 
+on a.matnr = b.matnr
+left join v_vbdn c 
+on a.debnr = c.debnr;
+create view v_ebcn as
+
+select a.*,b.name1,b.name2,
+b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
+b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
+b.emai2,b.dis02,b.saknr as cusgl,d.statx,
+e.paytx,e.saknr
+from tbl_ebcn a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_ptyp e on a.ptype = e.ptype;
+create view v_ebdn as
+
+select a.*,b.name1,b.name2,
+b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
+b.email,b.distx,
+b.saknr as cusgl,d.statx,
+e.paytx,e.saknr
+from tbl_ebdn a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_ptyp e on a.ptype = e.ptype;
+create view v_ebcp as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.duedt,c.kunnr,c.name1,c.invnr,
+c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+from tbl_ebcp a left join tbl_mara b 
+on a.matnr = b.matnr
+left join v_ebcn c 
+on a.crenr = c.crenr;
+create view v_ebde as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.duedt,c.lifnr,c.name1,
+c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+from tbl_ebde a left join tbl_mara b 
+on a.matnr = b.matnr
+left join v_ebdn c 
+on a.debnr = c.debnr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

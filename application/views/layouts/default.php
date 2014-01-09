@@ -938,6 +938,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
+								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
 
                                 pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
 								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
