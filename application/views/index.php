@@ -419,11 +419,11 @@ Ext.onReady(function() {
 	});
 	
 	$om.viewport.on('click_bankname_setting', function(){
-	  	/*
+	  	
 	  	if(!UMS.CAN.DISPLAY('BN')){
 	 		UMS.ALERT("You don't have permission for Bank Name Setting.");
 	  		return;
-		}*/
+		}
 		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
 		$om.bankNameDialog.show();
 	});
