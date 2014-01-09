@@ -45,9 +45,9 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 							params: form.getValues(),
 							success: function(response){
 								var rs = response.responseText;
-								rs =  Ext.JSON.decode(rs)
+								rs =  Ext.JSON.decode(rs);
 								if (rs.success) {
-									
+
 									result.params = form.getValues();
 									result.storeGrid.loadData(rs.datas);
 									result.show();
@@ -62,10 +62,10 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();
-				}	
+				}
 			}]
 		});
 		this.items = [form];
-		this.callParent(arguments);
+		return this.callParent(arguments);
 	}
 });
