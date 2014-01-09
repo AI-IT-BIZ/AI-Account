@@ -842,9 +842,9 @@ class Invoice extends CI_Controller {
 	
 	function loads_gl_item(){
         
-		$iv_id = $this->input->get('belnr');
-
-		if(empty($iv_id)){
+		$iv_id = $this->input->get('netpr');
+        $result = array();
+		if($iv_id!=0){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt
@@ -944,13 +944,18 @@ class Invoice extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
-		   $this->db->where('invnr', $iv_id);
-		   $query = $this->db->get('bcus');
+		   $i=0;
+		   $result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>0,
+			'credi'=>0
+			);
 		   echo json_encode(array(
 			  'success'=>true,
-			  'rows'=>$query->result_array(),
-			  'totalCount'=>$query->num_rows()
+			  'rows'=>$result,
+			  'totalCount'=>count($result)
 		));
 	  }
 	}

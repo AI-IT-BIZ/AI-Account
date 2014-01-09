@@ -26,6 +26,11 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.PurchaseCreditNote.Item.Grid_i',{
+			title:'Credit Items',
+			height: 320,
+			region:'center'
+		});
+		this.gridItemIT = Ext.create('Account.PurchaseCreditNote.Item.Grid_it',{
 			height: 320,
 			region:'center'
 		});
@@ -340,8 +345,22 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			}]
 		};
 		
-		this.items = [mainFormPanel,this.gridItem,
+		this.items = [mainFormPanel,{
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			border: false,
+			items: [this.gridItem,
 			{
+				xtype: 'panel',
+				border: false,
+				title: 'Invoice Items',
+				layout: 'border',
+				items:[
+					this.gridItemIT
+				]
+			  }]
+			},{
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
@@ -418,7 +437,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			//---Load PRitem to POitem Grid-----------
 			var grdinvnr = _this.trigAP.value;
 			//alert(grdpurnr);
-			_this.gridItem.load({invnr: grdinvnr });
+			_this.gridItemIT.load({invnr: grdinvnr });
 			//----------------------------------------
 			_this.apDialog.hide();
 		});
@@ -607,7 +626,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 	remove : function(mbeln){
 		var _this=this;
 		this.getForm().load({
-			params: { mbeln: mbeln },
+			params: { id: id },
 			url:__site_url+'creditnote/remove_cnp',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
@@ -617,7 +636,11 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ depnr: 0 });
+		this.gridItem.load({ crenr: 0 });
+		this.gridItemIT.load({ invnr: 0 });
+		this.gridGL.load({
+            	netpr:0
+            }); 
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
@@ -630,6 +653,8 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	// calculate total functions
 	calculateTotal: function(){
@@ -705,7 +730,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		  sum2 = sum2 * rate;
 		  vats = vats * rate;
 		}   
-        if(sum>0){
+        if(sum>0 && this.trigVendor.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),

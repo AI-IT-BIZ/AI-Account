@@ -59,6 +59,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({crenr: id});
+			this.form.gridItemIT.load({crenr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

@@ -387,7 +387,7 @@ Ext.define('Account.Payment.Item.Form', {
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ payno: 0 });
 		this.gridPayment.load({ recnr: 0 });
-		this.gridGL.load({ belnr: 0 });
+		this.gridGL.load({ netpr: 0 });
 
         // default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -396,6 +396,8 @@ Ext.define('Account.Payment.Item.Form', {
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	
 	// Calculate total functions
@@ -461,7 +463,7 @@ Ext.define('Account.Payment.Item.Form', {
 		  sum = sum * rate;
 		  sum2 = sum2 * rate;
 		}   
-        if(sum>0){
+        if(sum>0 && this.trigVendor.getValue()!=''){
         	var r_data = _this.gridPayment.getData();
         	var pay_list = [];
         	for(var i=0;i<r_data.length;i++){

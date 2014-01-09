@@ -567,7 +567,9 @@ Ext.define('Account.DepositIn.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ depnr: 0 });
-		//this.gridPayment.load({ recnr: 0 });
+		this.gridGL.load({
+            	netpr:0
+            });
 		
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -577,6 +579,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	
 	// Calculate total functions
@@ -636,7 +640,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		}   
-        if(sum>0){
+        if(sum>0 && this.trigCustomer.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({
             	netpr:sum2,

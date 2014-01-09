@@ -252,7 +252,9 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 							rModel.set('maktx', r.data.maktx);
 							// Unit
 							rModel.set('meins', r.data.meins);
+
 							//rModel.set('amount', 100+Math.random());
+                            rModel.set('saknr', r.data.saknr);
 
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -273,6 +275,8 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
+				// GL no
+				rModel.set('saknr', record.data.saknr);
 				//rModel.set('amount', 100+Math.random());
 
 			}

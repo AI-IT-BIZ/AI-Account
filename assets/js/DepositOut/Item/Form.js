@@ -620,6 +620,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ depnr: 0 });
+		this.gridGL.load({
+            	netpr:0
+            });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
@@ -632,6 +635,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	// calculate total functions
 	calculateTotal: function(){
@@ -701,15 +706,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 	      var rate = this.formTotal.getForm().findField('exchg').getValue();
 		  sum = sum * rate;
 		}   
-        if(sum>0){
+        if(sum>0 && this.trigVendor.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({
             	//paym:Ext.encode(rsPM),
             	netpr:sum2,
             	vvat:vats,
-            	lifnr:this.trigVendor.getValue()//,
-            	//ptype:'01',
-            	//dtype:'01'
+            	lifnr:this.trigVendor.getValue()
             }); 
            }
 	},

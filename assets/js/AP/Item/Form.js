@@ -623,7 +623,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
-		this.gridGL.load({ belnr: 0 });
+		this.gridGL.load({ netpr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
 		//this.gridItem.addDefaultRecord();
@@ -637,6 +637,8 @@ Ext.define('Account.AP.Item.Form', {
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	// Add duedate functions
 	/*getDuedate: function(){
@@ -710,14 +712,12 @@ Ext.define('Account.AP.Item.Form', {
 		  whts = whts * rate;
 		} 
 		//alert(sum);  
-        if(sum>0){
+        if(sum>0 && this.trigVendor.getValue()!=''){
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
             	lifnr:this.trigVendor.getValue(),
             	items: saknr_list.join(',')
-            	//ptype:'01',
-            	//dtype:'01'
             }); 
            }
 

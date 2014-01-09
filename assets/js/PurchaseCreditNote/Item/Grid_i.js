@@ -259,8 +259,8 @@ Ext.define('Account.PurchaseCreditNote.Item.Grid_i', {
 							rModel.set('maktx', r.data.maktx);
 							// Unit
 							rModel.set('meins', r.data.meins);
-							//rModel.set('amount', 100+Math.random());
-							rModel.set('unitp', r.data.cost);
+							
+							//rModel.set('unitp', r.data.cost);
 							//rModel.set('amount', 100+Math.random());
                             rModel.set('saknr', r.data.saknr);
 
@@ -283,28 +283,9 @@ Ext.define('Account.PurchaseCreditNote.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
+				// GL no
+				rModel.set('saknr', record.data.saknr);
 				//rModel.set('amount', 100+Math.random());
-				
-				var v = record.data.matnr;
-                var cusno = _this.customerValue;
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'material/load',
-					method: 'POST',
-					params: {
-						id: v,
-						kunnr: cusno
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success && r.data.cost){
-							// Cost
-							rModel.set('unitp', r.data.cost);
-							rModel.set('saknr', r.data.saknr);
-						}
-					}
-				});
 
 			}
 			grid.getSelectionModel().deselectAll();
@@ -343,7 +324,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctype:'THB' };
+		rec = { id:newId, ctyp1:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

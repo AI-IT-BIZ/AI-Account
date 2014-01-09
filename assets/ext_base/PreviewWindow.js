@@ -101,7 +101,13 @@ Ext.define('BASE.PreviewWindow', {
 
 			this.buttons = [
 				this.copies,
-				this.btnPrint
+				this.btnPrint, {
+			text: 'Cancel',
+			handler: function() {
+				//_this.form.getForm().reset();
+				_this.hide();
+			}
+		}
 			];
 		}
 

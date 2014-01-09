@@ -546,6 +546,8 @@ Ext.define('Account.PO.Item.Form', {
 		this.numberVat.setValue(7);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	
 	// calculate total functions

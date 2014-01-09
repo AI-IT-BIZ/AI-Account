@@ -421,9 +421,9 @@ class Depositin extends CI_Controller {
 	
 // GL Posting
 	function loads_gl_item(){
-		$iv_id = $this->input->get('belnr');
-
-		if(empty($iv_id)){
+		$iv_id = $this->input->get('netpr');
+        $result = array();
+		if($iv_id!=0){
 		   $netpr = $this->input->get('netpr');  //Net amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
 		   $vvat = $this->input->get('vvat');    //VAT amt
@@ -434,7 +434,6 @@ class Depositin extends CI_Controller {
 		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
-		   $result = array();
 		   
 		// record แรก
 			//$query = $this->db->get_where('kna1', array(
@@ -533,13 +532,18 @@ class Depositin extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
-		   $this->db->where('belnr', $iv_id);
-		   $query = $this->db->get('bcus');
+		  $i=0;
+		   $result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>0,
+			'credi'=>0
+			);
 		   echo json_encode(array(
 			  'success'=>true,
-			  'rows'=>$query->result_array(),
-			  'totalCount'=>$query->num_rows()
+			  'rows'=>$result,
+			  'totalCount'=>count($result)
 		));
 	  }
 	}

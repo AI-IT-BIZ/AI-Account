@@ -252,11 +252,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
-<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
+<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['invnr'];?></span></DIV>
+<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['crenr'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php 
@@ -300,20 +300,20 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:467PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Location</span></DIV>
 
-<DIV style="left: 519PX; top: 173PX; width: 233px; height: 23PX;"><span class="fc1-8"><?=$r_data['adr02'];?></span></DIV>
+<DIV style="left: 519PX; top: 173PX; width: 233px; height: 23PX;"><span class="fc1-8"></span></DIV>
 
-<DIV style="left: 519PX; top: 198PX; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
+<DIV style="left: 519PX; top: 198PX; width: 235px; height: 22PX;"><span class="fc1-8"></span></DIV>
 
 <DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
-<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
+<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"></span></DIV>
 
 <!--Reference Table-->
-<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบสั่งขาย</span></DIV>
+<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Sale Order no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">AP no.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
+<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['invnr'];?></span></DIV>
 
 <!--2 Reference-->
 <DIV style="left:157PX;top:280PX;width:302PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">อ้างถึง</span></DIV>
@@ -323,11 +323,11 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
 
 <!--3 Vendor code-->
-<DIV style="left:460PX;top:280PX;width:142PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">รหัสลูกหนี้</span></DIV>
+<DIV style="left:460PX;top:280PX;width:142PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">รหัสเจ้าหนี้</span></DIV>
 
-<DIV style="left:456PX;top:298PX;width:142PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Customer Code</span></DIV>
+<DIV style="left:456PX;top:298PX;width:142PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Vendor Code</span></DIV>
 
-<DIV style="left:460PX;top:322PX;width:142PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['kunnr'];?></span></DIV>
+<DIV style="left:460PX;top:322PX;width:142PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['lifnr'];?></span></DIV>
 
 <!--4 Credit-->
 <DIV style="left:602PX;top:280PX;width:58PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เครดิต</span></DIV>

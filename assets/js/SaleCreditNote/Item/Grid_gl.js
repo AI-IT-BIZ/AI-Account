@@ -33,7 +33,7 @@ Ext.define('Account.SaleCreditNote.Item.Grid_gl', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'belnr,belpr'
+					idProperty: function(o){ return o.belnr+o.belpr; }
 				}
 			},
 			fields: [

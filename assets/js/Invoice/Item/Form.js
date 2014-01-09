@@ -764,7 +764,9 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ invnr: 0 });
-		this.gridGL.load({ belnr: 0 });
+		this.gridGL.load({
+            	netpr:0
+            });
 		this.gridPrice.load({ belnr: 0 });
 
 		// สร้างรายการเปล่า 5 รายการใน grid item
@@ -778,6 +780,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 	// Add duedate functions
 	/*getDuedate: function(){
@@ -851,7 +855,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		  whts = whts * rate;
 		}
 		//alert(sum);
-        if(sum>0){
+        if(sum>0 && this.trigCustomer.getValue()!=''){
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,

@@ -290,6 +290,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
+				
+				rModel.set('saknr', r.data.saknr);
 
 				var v = record.data.matnr;
                 var cusno = _this.customerValue;
@@ -307,7 +309,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						if(r && r.success && r.data.cost){
 							// Cost
 							rModel.set('unitp', r.data.cost);
-							rModel.set('saknr', r.data.saknr);
+							
 						}
 					}
 				});

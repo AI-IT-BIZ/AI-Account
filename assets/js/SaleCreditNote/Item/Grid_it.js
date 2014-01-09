@@ -1,4 +1,4 @@
-Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
+Ext.define('Account.SaleCreditNote.Item.Grid_it', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -29,11 +29,11 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"debitnote/loads_dn_itemp",
+				url: __site_url+"creditnote/loads_items",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.debnr+o.vbelp; }
+					idProperty: function(o){ return o.crenr+o.vbelp; }
 				}
 			},
 			fields: [
@@ -46,7 +46,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 				'unitp',
 				'disit',
 				'itamt',
-				'ctyp1',
+				'ctype',
 				'chk01',
 				'chk02',
 				'saknr'
@@ -60,14 +60,14 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
-			items: [{
+			/*items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Debit Note Item',
+				tooltip: 'Delete Credit Note Item',
 				scope: this,
 				handler: this.removeRecord
-			}]
+			}]*/
 		},{
-			id : 'DNiRowNumber2',
+			id : 'CNiRowNumber11',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -81,7 +81,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -89,15 +89,15 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.materialDialog.show();
 				}
-			},
+			},*/
 			},
 		    {text: "Description",
 		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
-		    field: {
+		    /*field: {
 				type: 'textfield'
-			},
+			},*/
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
@@ -105,7 +105,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				listeners: {
 					focus: function(field, e){
@@ -114,10 +114,10 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -125,7 +125,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
-			},
+			},*/
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
@@ -133,7 +133,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
@@ -143,7 +143,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Discount",
 			xtype: 'numbercolumn',
@@ -151,7 +151,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
@@ -161,13 +161,14 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
+            disabled: true,
             dataIndex: 'chk01',
             width: 30,
-            field: {
+            /*field: {
                 xtype: 'checkboxfield',
                 listeners: {
 					focus: function(field, e){
@@ -175,13 +176,14 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				}}
+				}}*/
             },{
             xtype: 'checkcolumn',
             text: 'WHT',
+            disabled: true,
             dataIndex: 'chk02',
             width: 30,
-            field: {
+            /*field: {
                 xtype: 'checkboxfield',
                 listeners: {
 					focus: function(field, e){
@@ -189,7 +191,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				}}
+				}}*/
             },
 			{
 				text: "Amount",
@@ -211,24 +213,24 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			},
 			{text: "Currency",
 			width: 65,
-			dataIndex: 'ctyp1',
+			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			field: {
+			/*field: {
 				type: 'textfield'
-			},
+			},*/
 		},
 			{
 			dataIndex: 'saknr',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		}];
 
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
+		/*this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 		
@@ -260,8 +262,8 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 							// Unit
 							rModel.set('meins', r.data.meins);
 							//rModel.set('amount', 100+Math.random());
-							//rModel.set('unitp', r.data.cost);
-
+							rModel.set('unitp', r.data.cost);
+							//rModel.set('amount', 100+Math.random());
                             rModel.set('saknr', r.data.saknr);
 
 						}else{
@@ -283,10 +285,29 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
-				// GL no
-				rModel.set('saknr', record.data.saknr);
 				//rModel.set('amount', 100+Math.random());
 				
+				var v = record.data.matnr;
+                var cusno = _this.customerValue;
+				if(Ext.isEmpty(v)) return;
+
+				Ext.Ajax.request({
+					url: __site_url+'material/load',
+					method: 'POST',
+					params: {
+						id: v,
+						kunnr: cusno
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success && r.data.cost){
+							// Cost
+							rModel.set('unitp', r.data.cost);
+							rModel.set('saknr', r.data.saknr);
+						}
+					}
+				});
+
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
@@ -303,7 +324,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
-		});
+		});*/
 
 		return this.callParent(arguments);
 	},
@@ -324,7 +345,7 @@ Ext.define('Account.PurchaseDebitNote.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctyp1:'THB' };
+		rec = { id:newId, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

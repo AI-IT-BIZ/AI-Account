@@ -61,7 +61,7 @@ class Debitnote extends CI_Controller {
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('debnr', $id);
-		$query = $this->db->get('vbdn');
+		$query = $this->db->get('ebdn');
 		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
@@ -542,13 +542,13 @@ class Debitnote extends CI_Controller {
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('debnr', $id);
-		$this->db->delete('vbdp');
+		$this->db->delete('vbde');
 
 		// เตรียมข้อมูล pr item
-		$vbdp = $this->input->post('vbde');
-		$iv_item_array = json_decode($vbdp);
+		$vbde = $this->input->post('vbde');
+		$iv_item_array = json_decode($vbde);
 		
-		if(!empty($vbdp) && !empty($iv_item_array)){
+		if(!empty($vbde) && !empty($iv_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($iv_item_array AS $p){
@@ -686,10 +686,10 @@ class Debitnote extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('IV', $total_amount);
+					$this->email_service->quotation_create('SN', $total_amount);
 				}else if(!empty($post_id)){
 					if($status_changed)
-						$this->email_service->quotation_change_status('IV', $total_amount);
+						$this->email_service->quotation_change_status('SN', $total_amount);
 				}
 			}catch(exception $e){}
 		}
@@ -873,7 +873,7 @@ class Debitnote extends CI_Controller {
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
 			'refnr' => $id,
-			'kunnr' => $this->input->post('kunnr'),
+			'kunnr' => $this->input->post('lifnr'),
 			'txz01' => 'AP No '.$id,
 			'ttype' => '04',
 			'auart' => 'AP',
@@ -892,7 +892,7 @@ class Debitnote extends CI_Controller {
 			$this->db->set('upnam', $current_username);
 			$this->db->update('bkpf', $formData);
 		}else{
-			$accno = $this->code_model->generate('AR', 
+			$accno = $this->code_model->generate('AP', 
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $accno);
 			//$this->db->set('erdat', 'NOW()', false);
@@ -1111,20 +1111,54 @@ class Debitnote extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_dn_items(){
-		$invnr = $this->input->get('invnr');
+		/*$invnr = $this->input->get('invnr');
 		if(!empty($invnr)){
 			$this->db->set_dbprefix('v_');
 	     	//$iv_id = $this->input->get('vbap');
 		    $this->db->where('invnr', $invnr);
 
 		    $query = $this->db->get('vbrp');
-		}else{
+		}else{*/
             $this->db->set_dbprefix('v_');
 	     	$iv_id = $this->input->get('debnr');
 		    $this->db->where('debnr', $iv_id);
 
 		    $query = $this->db->get('vbde');
+		//}
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	function loads_items(){
+		
+		$invnr = $this->input->get('invnr');
+		if(empty($invnr) && $invnr!=0){
+			$iv_id = $this->input->get('debnr');
+			$q_qt = $this->db->get_where('vbdn', array(
+				'debnr'=>$iv_id
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$invnr = $r_qt['invnr'];
 		}
+		//if(!empty($invnr)){
+			$this->db->set_dbprefix('v_');
+	     	//$iv_id = $this->input->get('vbap');
+		    $this->db->where('invnr', $invnr);
+
+		    $query = $this->db->get('vbrp');
+		//}
+		 
+		 /*else{
+            $this->db->set_dbprefix('v_');
+	     	$iv_id = $this->input->get('crenr');
+		    $this->db->where('crenr', $iv_id);
+
+		    $query = $this->db->get('vbcp');
+		}*/
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -1133,20 +1167,54 @@ class Debitnote extends CI_Controller {
 	}
 	
 	function loads_dn_itemp(){
-		$invnr = $this->input->get('invnr');
+		/*$invnr = $this->input->get('invnr');
 		if(!empty($invnr)){
 			$this->db->set_dbprefix('v_');
 	     	//$iv_id = $this->input->get('vbap');
 		    $this->db->where('invnr', $invnr);
 
 		    $query = $this->db->get('ebrp');
-		}else{
+		}else{*/
             $this->db->set_dbprefix('v_');
 	     	$iv_id = $this->input->get('debnr');
 		    $this->db->where('debnr', $iv_id);
 
 		    $query = $this->db->get('ebde');
+		//}
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	function loads_itemp(){
+		
+		$invnr = $this->input->get('invnr');
+		if(empty($invnr) && $invnr!=0){
+			$iv_id = $this->input->get('debnr');
+			$q_qt = $this->db->get_where('ebdn', array(
+				'debnr'=>$iv_id
+			));
+			
+			$r_qt = $q_qt->first_row('array');
+			$invnr = $r_qt['invnr'];
 		}
+		//if(!empty($invnr)){
+			$this->db->set_dbprefix('v_');
+	     	//$iv_id = $this->input->get('vbap');
+		    $this->db->where('invnr', $invnr);
+
+		    $query = $this->db->get('ebrp');
+		//}
+		 
+		 /*else{
+            $this->db->set_dbprefix('v_');
+	     	$iv_id = $this->input->get('crenr');
+		    $this->db->where('crenr', $iv_id);
+
+		    $query = $this->db->get('vbcp');
+		}*/
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -1156,9 +1224,9 @@ class Debitnote extends CI_Controller {
 	
 	function loads_gl_items(){
         
-		$iv_id = $this->input->get('belnr');
-
-		if(empty($iv_id)){
+		$iv_id = $this->input->get('netpr');
+        $result = array();
+		if($iv_id!=0){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt
@@ -1174,7 +1242,6 @@ class Debitnote extends CI_Controller {
 		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
-		   $result = array();
 // record แรก
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
@@ -1258,22 +1325,27 @@ class Debitnote extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   $this->db->set_dbprefix('v_');
-		   $this->db->where('invnr', $iv_id);
-		   $query = $this->db->get('bcus');
+		  $i=0;
+		   $result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>0,
+			'credi'=>0
+			);
 		   echo json_encode(array(
 			  'success'=>true,
-			  'rows'=>$query->result_array(),
-			  'totalCount'=>$query->num_rows()
+			  'rows'=>$result,
+			  'totalCount'=>count($result)
 		));
 	  }
 	}
 
     function loads_gl_itemp(){
         
-		$iv_id = $this->input->get('belnr');
-
-		if(empty($iv_id)){
+		$iv_id = $this->input->get('netpr');
+        $result = array();
+		if($iv_id!=0){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat  = $this->input->get('vvat');    //VAT amt
@@ -1288,7 +1360,7 @@ class Debitnote extends CI_Controller {
 		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
-		   $result = array();
+		   //$result = array();
 // record แรก
            if(!empty($items)){
 			// loop เพื่อ insert
@@ -1376,13 +1448,18 @@ class Debitnote extends CI_Controller {
 		));
 //In Case Edit and Display		   
 		}else{
-		   //$this->db->set_dbprefix('v_');
-		   $this->db->where('belnr', $iv_id);
-		   $query = $this->db->get('bven');
+		   $i=0;
+		   $result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>0,
+			'credi'=>0
+			);
 		   echo json_encode(array(
 			  'success'=>true,
-			  'rows'=>$query->result_array(),
-			  'totalCount'=>$query->num_rows()
+			  'rows'=>$result,
+			  'totalCount'=>count($result)
 		));
 	  }
 	}
