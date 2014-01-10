@@ -237,7 +237,7 @@ class Material extends CI_Controller {
 			$status_changed = $row['statu']!=$this->input->post('statu');
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('MM') && XUMS::CAN_APPROVE('MM')){
-					$limit = XUMS::LIMIT('MM');
+					/*$limit = XUMS::LIMIT('MM');
 					if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change material status over than '.number_format($limit);
 						echo json_encode(array(
@@ -246,7 +246,7 @@ class Material extends CI_Controller {
 							'message'=>$emsg
 						));
 						return;
-					}
+					}*/
 				}else{
 					$emsg = 'You do not have permission to change material status.';
 					echo json_encode(array(

@@ -186,6 +186,5 @@ Ext.define('Account.Journaltemp.Item.Form', {
 		// default status = wait for approve
 		//this.comboQStatus.setValue('05');
 		//this.comboCond.setValue('01');
-	},
-	
+	}
 });

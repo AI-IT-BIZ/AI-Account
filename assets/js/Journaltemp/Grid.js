@@ -15,8 +15,10 @@ Ext.define('Account.Journaltemp.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'tranr'
-				}
+					idProperty: 'tranr',
+					totalProperty: 'totalCount'
+				},
+				simpleSortMode: true
 			},
 			fields: [
 				'typtx',
@@ -24,7 +26,7 @@ Ext.define('Account.Journaltemp.Grid', {
 				'txz01'
 			],
 			remoteSort: true,
-			sorters: ['tranr ASC']
+			sorters: [{property: 'tranr', direction: 'ASC'}]
 		});
 
 		this.columns = [

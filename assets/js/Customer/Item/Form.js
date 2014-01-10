@@ -59,7 +59,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer/loads_combo/tax1/taxnr/taxtx',
+					url: __site_url+'quotation/loads_taxcombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
@@ -271,7 +271,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			name: 'apamt',
 			//labelAlign: 'right',
 			hideTrigger:false,
-			//align: 'right',
+			allowBlank: false,
 			width:290
          });
 
@@ -730,7 +730,7 @@ items:[{
 			}
 		}];
 		
-		//this.comboPay.on('select', this.selectPay, this);
+	    this.comboTaxnr.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
@@ -772,5 +772,13 @@ items:[{
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+		}
 	}
 });
