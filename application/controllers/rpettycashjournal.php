@@ -1,5 +1,5 @@
 <?php
-class Rgeneraljournal extends CI_Controller {
+class Rpettycashjournal extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -29,7 +29,7 @@ class Rgeneraljournal extends CI_Controller {
 				   LEFT JOIN v_bkpf on v_bsid.belnr = v_bkpf.belnr
 				    LEFT JOIN tbl_glno on v_bsid.saknr = tbl_glno.saknr
 			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bsid.belnr like 'JV%' {$search}
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and vbsid.belnr like 'PE%' {$search}
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
 		$rs = $this->db->query($sql);

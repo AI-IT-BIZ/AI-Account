@@ -132,7 +132,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 				text: 'ยืนยัน',
 				handler: function(){
 					form = this.up('form').getForm();
-					_this.loadMask.show();
+					//_this.loadMask.show();
 					if (form.isValid()){
 						Ext.Ajax.request({
 							url: __base_url + "index.php/rgeneralledger/result",

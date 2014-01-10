@@ -20,8 +20,7 @@ class Rgeneralledger extends CI_Controller {
 					tbl_glno
 				{$search}
 				order by
-					tbl_glno.saknr
-				limit 100;";
+					tbl_glno.saknr;";
 		
 		
 		$acc_code = $this->db->query($sql);

@@ -235,6 +235,7 @@ class Customer extends CI_Controller {
 			'data'=>$_POST
 		));
 		
+		/*
 		try{
 				$post_id = $this->input->post('id');
 				//$total_amount = $this->input->post('netwr');
@@ -246,7 +247,7 @@ class Customer extends CI_Controller {
 					if($status_changed)
 						$this->email_service->quotation_change_status('CS', $total_amount);
 				}
-			}catch(exception $e){}
+			}catch(exception $e){}*/
 	}
 
 	function remove(){
