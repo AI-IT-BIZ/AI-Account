@@ -65,7 +65,7 @@ Ext.define('Account.UMS.Item.GridPermission', {
 	{
 		return (v == 1)
 			?"<img src='"+__base_url+"assets/images/icons/accept.png' />"
-			:"<img src='"+__base_url+"assets/images/icons/cross.png' />";
+			:"<img src='"+__base_url+"assets/images/icons/cross2.png' />";
 	},
 	getData: function(){
 		var rs = [];
