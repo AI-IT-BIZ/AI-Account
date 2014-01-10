@@ -301,7 +301,7 @@ Ext.define('Account.Journal.Item.Form', {
 		//this.gridPayment.load({ vbeln: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		this.gridItem.addDefaultRecord();
+		//this.gridItem.addDefaultRecord();
 		this.getForm().findField('bldat').setValue(new Date());
 
 		// default status = wait for approve

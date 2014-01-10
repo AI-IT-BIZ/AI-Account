@@ -44,39 +44,6 @@ Ext.define('Account.Journal.FormSearch', {
 			}
 		});
 
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Status',
-			hidden: true,
-			name : 'statu',
-			labelAlign: 'right',
-			width: 240,
-			editable: false,
-			triggerAction : 'all',
-			margin: '0 0 0 6',
-			clearFilterOnReset: true,
-			emptyText: '-- Select Status --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_acombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statu'
-		});
-
 		this.items = [{
 			// column layout with 2 columns
 			layout:'column',
@@ -107,7 +74,10 @@ Ext.define('Account.Journal.FormSearch', {
 				// right column
 				// defaults for fields
 				defaults:{anchor:'100%'},
-				items:[this.comboQStatus, {
+				items:[{
+					xtype: 'displayfield',
+					name: 'bbb'
+				}, {
 					xtype: 'datefield',
 					name: 'bldat2',
 					hideLabel: false,
