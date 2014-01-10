@@ -29,7 +29,7 @@ class Rpettycashjournal extends CI_Controller {
 				   LEFT JOIN v_bkpf on v_bsid.belnr = v_bkpf.belnr
 				    LEFT JOIN tbl_glno on v_bsid.saknr = tbl_glno.saknr
 			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and vbsid.belnr like 'PE%' {$search}
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bsid.belnr like 'PE%' {$search}
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
 		$rs = $this->db->query($sql);
@@ -75,7 +75,7 @@ class Rpettycashjournal extends CI_Controller {
 						  'kunnr' => $kunnr);
 		
 		
-		$report = $client->runReport('/ai_account/rgeneraljournal', 'pdf', null, $controls);
+		$report = $client->runReport('/ai_account/rpettycashjournal', 'pdf', null, $controls);
 		 
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
