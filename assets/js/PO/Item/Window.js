@@ -37,6 +37,7 @@ Ext.define('Account.PO.Item.Window', {
         
 		this.buttons = [{
 			text: 'Save',
+			disable: !UMS.CAN.APPROVE('PO'),
 			handler: function() {
 				_this.form.save();
 			}
