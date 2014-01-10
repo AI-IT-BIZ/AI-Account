@@ -6,8 +6,6 @@ class Customer extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('code_model2','',TRUE);
-		
-		$this->load->model('email_service','',TRUE);
 	}
 
 	function index(){
@@ -79,16 +77,6 @@ class Customer extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
-			
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
-			}
 
 		}
 		// End for report		
@@ -151,7 +139,7 @@ class Customer extends CI_Controller {
 				if(XUMS::CAN_DISPLAY('CS') && XUMS::CAN_APPROVE('CS')){
 					$limit = XUMS::LIMIT('CS');
 					/*if($limit<$row['netwr']){
-						$emsg = 'You do not have permission to change Customer status over than '.number_format($limit);
+						$emsg = 'You do not have permission to change Vendor status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -180,10 +168,11 @@ class Customer extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-
+        
+		$vat = $this->input->post('vat01');
         if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
-        	$this->input->post('vat01') = 0;
-        }
+        	$vat = 0;
+		}
 		
 		$formData = array(
 			//'kunnr' => $this->input->post('kunnr'),
@@ -216,7 +205,7 @@ class Customer extends CI_Controller {
 			'cunt1' => $this->input->post('cunt1'),
 			'cunt2' => $this->input->post('cunt2'),
 			'statu' => $this->input->post('statu'),
-			'vat01' => $this->input->post('vat01'),
+			'vat01' => $vat,
 			'ptype' => $this->input->post('ptype')
 			
 		);
@@ -259,7 +248,7 @@ class Customer extends CI_Controller {
 	}
 
 	function remove(){
-		$kunnr = $this->input->post('id');
+		$kunnr = $this->input->post('kunnr');
 		$this->db->where('kunnr', $kunnr);
 		$query = $this->db->delete('kna1');
 		echo json_encode(array(

@@ -41,6 +41,7 @@ Ext.define('Account.Service.Item.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('SV'),
 			fieldLabel: 'Service Status',
 			name : 'statu',
 			labelAlign: 'right',
@@ -54,7 +55,7 @@ Ext.define('Account.Service.Item.Form', {
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
-					url: __site_url+'customer/loads_acombo',
+					url: __site_url+'quotation/loads_acombo',
 					reader: {
 						type: 'json',
 						root: 'rows',
