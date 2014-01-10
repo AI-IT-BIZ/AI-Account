@@ -25,8 +25,8 @@ class Rgeneraljournal extends CI_Controller {
 				ifnull(v_bkpf.kunnr,'') as kunnr
 				
 			from 
-				v_bkpf
-				   LEFT JOIN v_bsid on v_bsid.belnr = v_bkpf.belnr
+				v_bsid
+				   LEFT JOIN v_bkpf on v_bsid.belnr = v_bkpf.belnr
 				    LEFT JOIN tbl_glno on v_bsid.saknr = tbl_glno.saknr
 			where 
 				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' {$search}
