@@ -671,8 +671,11 @@ items:[{
 					fieldLabel: 'Tax ID',
 					name: 'taxid',
 					allowBlank: false,
-		            maskRe: /[\d]/,
-		            width: 290,
+		            emptyText: 'xxxxxxxxxxxxx',
+		            maskRe: /[\d\-]/,
+		            regex: /^\d{13}$/,
+		            //regexText: 'Must be in the format xxxxx',
+		            width: 290
                	},{
                 }],
             },{

@@ -6,6 +6,7 @@ class Customer extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('code_model2','',TRUE);
+		$this->load->model('email_service','',TRUE);
 	}
 
 	function index(){
@@ -168,7 +169,7 @@ class Customer extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-        
+		
 		$vat = $this->input->post('vat01');
         if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
         	$vat = 0;
@@ -217,6 +218,7 @@ class Customer extends CI_Controller {
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('kunnr', $id);
 			$this->db->update('kna1', $formData);
+			
 		}else{
 			$id = $this->code_model2->generate2('CS');
 			$this->db->set('kunnr', $id);

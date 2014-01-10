@@ -24,30 +24,25 @@ Ext.define('Account.Customer.MainWindow', {
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('CS')
+			text: 'เพิ่ม',
+			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
-			text: 'Edit',
-			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('CS') || UMS.CAN.CREATE('CS') || UMS.CAN.EDIT('CS'))
+			text: 'แก้ไข',
+			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'Delete',
+			text: 'ลบ',
 			disabled: true,
-			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('CS')
+			iconCls: 'b-small-minus'
 		});
 		this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('CS')
+			iconCls: 'b-small-excel'
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			iconCls: 'b-small-import',
-			disabled: !UMS.CAN.CREATE('CS')
+			iconCls: 'b-small-import'
 		});
 
 		this.itemDialog = Ext.create('Account.Customer.Item.Window');
@@ -60,18 +55,10 @@ Ext.define('Account.Customer.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		var searchOptions = {
+		this.searchForm = Ext.create('Account.Customer.FormSearch', {
 			region: 'north',
 			height:100
-		};
-		if(this.isApproveOnly){
-			searchOptions.status_options = {
-				value: '02',
-				readOnly: true
-			};
-		}
-
-		this.searchForm = Ext.create('Account.Customer.FormSearch', searchOptions);
+		});
 
 		this.items = [this.searchForm, this.grid];
 

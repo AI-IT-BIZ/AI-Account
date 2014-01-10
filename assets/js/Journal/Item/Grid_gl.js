@@ -7,20 +7,20 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
 		this.copyAct = new Ext.Action({
 			text: 'Copy',
 			iconCls: 'b-small-copy'
-		});
+		});*/
 
 		// INIT Material search popup /////////////////////////////////
 		this.glDialog = Ext.create('Account.GL.MainWindow');
 		// END Material search popup //////////////////////////////////
 
-		this.tbar = [this.addAct, this.copyAct];
+		//this.tbar = [this.addAct, this.copyAct];
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -121,9 +121,9 @@ Ext.define('Account.Journal.Item.Grid_gl', {
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
+		//this.addAct.setHandler(function(){
+		//	_this.addRecord();
+		//});
 
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){

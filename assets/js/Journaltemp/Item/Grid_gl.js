@@ -147,10 +147,10 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 
 							// Materail text
 							rModel.set('sgtxt', r.data.sgtxt);
-							alert(r.data.gltyp);
-							if (r.data.gltyp=='1'){
+							//alert(r.data.glcre);
+							if (r.data.glcre=='-1'){
 								rModel.set('debit', '1.00');
-							}else if(record.data.gltyp=='2'){
+							}else if(record.data.glcre=='1'){
 								rModel.set('credi', '1.00');
 							}
 
@@ -173,10 +173,10 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 				// Materail text
 				rModel.set('sgtxt', record.data.sgtxt);
 				//alert(record.data.gltyp);
-				if(record.data.gltyp=='1'){
+				if (r.data.glcre=='-1'){
 					rModel.set('debit', '1.00');
-			    }else if(record.data.gltyp=='2'){
-				    rModel.set('credi', '1.00');
+				}else if(record.data.glcre=='1'){
+					rModel.set('credi', '1.00');
 				}
 
 			}
