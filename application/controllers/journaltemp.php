@@ -39,23 +39,49 @@ class Journaltemp extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'trko';
 		
-		$type = $this->input->get('ttype');
-		//echo '111'.$type;
-		if(!empty($type)){
-			$this->db->where('ttype', $type);
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`tranr` LIKE '%$query%'
+				OR `txz01` LIKE '%$query%'
+				OR `ttype` LIKE '%$query%')", NULL, FALSE);
+			}
+						
+	        $ttype1 = $_this->input->get('ttype');
+			$ttype2 = $_this->input->get('ttype2');
+			if(!empty($ttype1) && empty($ttype2)){
+			  $_this->db->where('ttype', $ttype1);
+			}
+			elseif(!empty($ttype1) && !empty($ttype2)){
+			  $_this->db->where('ttype >=', $ttype1);
+			  $_this->db->where('ttype <=', $ttype2);
+			}
+			
+			$tranr1 = $_this->input->get('tranr');
+			$tranr2 = $_this->input->get('tranr2');
+			if(!empty($tranr1) && empty($tranr2)){
+			  $_this->db->where('tranr', $tranr1);
+			}
+			elseif(!empty($tranr1) && !empty($tranr2)){
+			  $_this->db->where('tranr >=', $tranr1);
+			  $_this->db->where('tranr <=', $tranr2);
+			}
+			
 		}
-
+// End for report
+        createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
-		//createQuery($this);
+		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+        
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 		
-		if(!empty($type)){
-			$this->db->where('ttype', $type);
-		}
-
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();
@@ -99,6 +125,19 @@ class Journaltemp extends CI_Controller {
 		}
 		
 		$type = $this->input->post('ttype');
+		$txt  = $this->input->post('txz01');
+		//if($query->num_rows() > 0){
+			$this->db->where('txz01', $txt);
+			$q_txt = $this->db->get('trko');
+			if($q_txt->num_rows() > 0){
+				$emsg = 'The template name already created';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+		//}
 
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),

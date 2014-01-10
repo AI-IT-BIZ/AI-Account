@@ -180,6 +180,10 @@ class Customer extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
+        	$this->input->post('vat01') = 0;
+        }
 		
 		$formData = array(
 			//'kunnr' => $this->input->post('kunnr'),

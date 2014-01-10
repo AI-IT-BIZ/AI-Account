@@ -207,11 +207,51 @@ class Asset extends CI_Controller {
 	function save(){
 		
 		$id = $this->input->post('id');
+		
 		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('matnr', $id);
 			$query = $this->db->get('fara');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('FA') && XUMS::CAN_APPROVE('FA')){
+					/*$limit = XUMS::LIMIT('MM');
+					if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change material status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}*/
+				}else{
+					$emsg = 'You do not have permission to change asset status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The asset that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
 
 		$formData = array(
@@ -257,6 +297,8 @@ class Asset extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', 'test');
 			$this->db->insert('fara', $formData);
+			
+			$inserted_id = $id;
 		}
 
 		echo json_encode(array(

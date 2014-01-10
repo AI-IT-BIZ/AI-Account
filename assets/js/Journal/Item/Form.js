@@ -229,6 +229,8 @@ Ext.define('Account.Journal.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		
+		this.comboType.on('select', this.setJtype, this);
 
 		return this.callParent(arguments);
 	},	
@@ -327,5 +329,18 @@ Ext.define('Account.Journal.Item.Form', {
 		this.formTotal.getForm().findField('credi')
 		.setValue(Ext.util.Format.usMoney(cresum).replace(/\$/, ''));
 		this.formTotal.calculate();
+	},
+	
+	// Set type
+	setJtype: function(combo, record, index){
+		var _this=this;
+		//if(combo.getValue()=='03' || combo.getValue()=='04'){
+		//	this.numberVat.setValue(0);
+		//}
+		var ttype = combo.getValue();
+		var field = this.journalDialog.searchForm.form.findField('ttype');
+		field.setValue(ttype);
+		this.journalDialog.grid.load();
 	}
+	
 });

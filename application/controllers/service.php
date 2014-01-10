@@ -188,7 +188,7 @@ class Service extends CI_Controller {
 			$status_changed = $row['statu']!=$this->input->post('statu');
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('SV') && XUMS::CAN_APPROVE('SV')){
-					$limit = XUMS::LIMIT('SV');
+					/*$limit = XUMS::LIMIT('SV');
 					if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change service status over than '.number_format($limit);
 						echo json_encode(array(
@@ -197,7 +197,7 @@ class Service extends CI_Controller {
 							'message'=>$emsg
 						));
 						return;
-					}
+					}*/
 				}else{
 					$emsg = 'You do not have permission to change service status.';
 					echo json_encode(array(
