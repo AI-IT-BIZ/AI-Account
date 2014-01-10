@@ -45,6 +45,17 @@ Ext.onReady(function() {
 			return;
 		}
 
+		if(!$om.assetregitDialog)
+			$om.assetregitDialog = Ext.create('Account.AssetRegist.MainWindow');
+		$om.assetregitDialog.show();
+	});
+	
+	$om.viewport.on('click_asset-master', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Master.");
+			return;
+		}
+
 		if(!$om.assetDialog)
 			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
 		$om.assetDialog.show();

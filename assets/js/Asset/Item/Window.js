@@ -5,7 +5,7 @@ Ext.define('Account.Asset.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Asset',
 			closeAction: 'hide',
-			height: 570,
+			height: 670,
 			width: 550,
 			layout: 'border',
 			resizable: true,

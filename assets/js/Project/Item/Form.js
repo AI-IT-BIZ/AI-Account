@@ -302,7 +302,7 @@ Ext.define('Account.Project.Item.Form', {
 		});
 
 		this.trigType.onTriggerClick = function(){
-			_this.ktypDialog.grid.load();
+			_this.typeDialog.grid.load();
 			_this.typeDialog.show();
 		};
 		

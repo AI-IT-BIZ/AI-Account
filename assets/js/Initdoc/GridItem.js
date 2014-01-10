@@ -20,6 +20,7 @@ Ext.define('Account.Initdoc.GridItem', {
 		var _this=this;
 
 		this.addAct = new Ext.Action({
+			disabled: !UMS.CAN.CREATE('ID'),
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -28,7 +29,7 @@ Ext.define('Account.Initdoc.GridItem', {
         //this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
-		this.tbar = [this.addAct, this.deleteAct];
+		this.tbar = [this.addAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -69,6 +70,7 @@ Ext.define('Account.Initdoc.GridItem', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete Item',
 				scope: this,
+				disabled: !UMS.CAN.DELETE('ID'),
 				handler: this.removeRecord
 			}]
 		},{
@@ -186,8 +188,9 @@ Ext.define('Account.Initdoc.GridItem', {
 	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
+		var newId = -1;var i=0;
 		this.store.each(function(r){
+			i++;
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
@@ -202,9 +205,9 @@ Ext.define('Account.Initdoc.GridItem', {
 		//alert(sel);
 		var selIndex = this.store.indexOf(sel);
 		//alert(selIndex);
-		this.store.insert(selIndex+1, rec);
+		this.store.insert(i, rec);
 		edit.startEditByPosition({
-			row: selIndex+1,
+			row: i,
 			column: 0
 		});
 
@@ -224,7 +227,7 @@ Ext.define('Account.Initdoc.GridItem', {
 			success: function(response){
 				var r = Ext.decode(response.responseText);
 				if(r && r.success){
-					Ext.Msg.alert('SUCCESS');
+					//Ext.Msg.alert('SUCCESS');
 		       }else{
 		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
 		       }

@@ -1,4 +1,4 @@
-Ext.define('Account.Material.Import.Grid', {
+Ext.define('Account.Asset.Import.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -27,7 +27,7 @@ Ext.define('Account.Material.Import.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"import/material/read",
+				url: __site_url+"import/asset/read",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -74,10 +74,10 @@ Ext.define('Account.Material.Import.Grid', {
 					handler: this.removeRecord
 				}]
 			},
-			{text: "Material Code", width: 100, align: 'center',		dataIndex: 'matnr', sortable: false},
-			{text: "Material Name", width: 150, align: 'center',		dataIndex: 'maktx', sortable: false},
-			{text: "Material Group", width: 100, align: 'center',		dataIndex: 'matkl', sortable: false},
-			{text: "Material Type", width: 80, align: 'center',		dataIndex: 'mtart', sortable: false},
+			{text: "Asset Code", width: 100, align: 'center',		dataIndex: 'matnr', sortable: false},
+			{text: "Asset Name", width: 150, align: 'center',		dataIndex: 'maktx', sortable: false},
+			{text: "Asset Group", width: 100, align: 'center',		dataIndex: 'matkl', sortable: false},
+			{text: "Asset Type", width: 80, align: 'center',		dataIndex: 'mtart', sortable: false},
 			{text: "Unit", width: 80, align: 'center',		dataIndex: 'unit1', sortable: false},
 			{text: "Cost", width: 80, align: 'center',		dataIndex: 'cost1', sortable: false},
 			{

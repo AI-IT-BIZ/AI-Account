@@ -182,7 +182,7 @@ function endsWith($haystack, $needle)
 		#div-manage-costcenter { top:250px; left:530px; width: 100px; height:100px; }
 		#div-chart-account { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
 		#div-asset-regist { top:360px; left:530px; width: 100px; height:100px; }
-		#div-dep-amort { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
+		#div-asset-master { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
 
 		#div-rjournal { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
 		#div-rgl { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
@@ -197,7 +197,7 @@ function endsWith($haystack, $needle)
 		#div-account-manage-costcenter2 { top:250px; left:150px; width: 100px; height:100px; }
 		#div-account-chart-account2 { position:absolute; top:250px; left:260px; width: 100px; height:100px; }
 		#div-account-asset-regist2 { top:360px; left:150px; width: 100px; height:100px; }
-		#div-account-dep-amort2 { position:absolute; top:360px; left:260px; width: 100px; height:100px; }
+		#div-account-asset-master2 { position:absolute; top:360px; left:260px; width: 100px; height:100px; }
 
 		#div-account-rjournal2 { position:absolute; top:510px; left:150px; width: 100px; height:100px; }
 		#div-account-rgl2 { position:absolute; top:510px; left:260px; width: 100px; height:100px; }
@@ -786,7 +786,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-manage-costcenter" class="box box-blue"><span>Manage Cost Center</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
 									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
-									'<div id="div-dep-amort" class="box box-blue"><span>Depreciation& Amortization</span></div>',
+									'<div id="div-asset-master" class="box box-blue"><span>Fixed Asset Master</span></div>',
 
 									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
@@ -903,7 +903,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-account-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
 									'<div id="div-account-chart-account2" class="box box-blue"><span>Chart of Account</span></div>',
 									'<div id="div-account-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
-									'<div id="div-account-dep-amort2" class="box box-blue"><span>Depreciation& Amortization</span></div>',
+									'<div id="div-account-asset-master2" class="box box-blue"><span>Fixed Asset Master</span></div>',
 
 									'<div id="div-account-rjournal2" class="box box-orange"><span>Journal Report</span></div>',
 									'<div id="div-account-rgl2" class="box box-orange"><span>GL Report</span></div>',
@@ -939,6 +939,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
+								pEl.getById('div-asset-master').on('click', function(){ $om.viewport.fireEvent('click_asset-master', c); }, c);
 
                                 pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
 								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);

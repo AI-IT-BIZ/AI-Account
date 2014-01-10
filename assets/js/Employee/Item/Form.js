@@ -26,6 +26,7 @@ Ext.define('Account.Employee.Item.Form', {
 		this.bankDialog = Ext.create('Account.Bankname.MainWindow');
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
+			readOnly: !UMS.CAN.APPROVE('EP'),
 			fieldLabel: 'Employee Status',
 			name : 'statu',
 			//labelWidth: 100,

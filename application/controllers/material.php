@@ -222,11 +222,51 @@ class Material extends CI_Controller {
 	function save(){
 		
 		$id = $this->input->post('id');
+		
 		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('matnr', $id);
 			$query = $this->db->get('mara');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('MM') && XUMS::CAN_APPROVE('MM')){
+					$limit = XUMS::LIMIT('MM');
+					if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change material status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+				}else{
+					$emsg = 'You do not have permission to change material status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The material that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
 
 		$formData = array(
@@ -252,6 +292,9 @@ class Material extends CI_Controller {
 			'statu' => $this->input->post('statu')
 			);
 			
+			// start transaction
+		    $this->db->trans_start();
+			
 			$current_username = XUMS::USERNAME();
 			
 		if (!empty($query) && $query->num_rows() > 0){
@@ -267,6 +310,8 @@ class Material extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('mara', $formData);
+			
+			$inserted_id = $id;
 		}
 		
 		$this->db->where('matnr', $id);
@@ -290,6 +335,19 @@ class Material extends CI_Controller {
 			'success'=>true,
 			'data'=>$_POST
 		));
+		
+		try{
+				$post_id = $this->input->post('id');
+				//$total_amount = $this->input->post('netwr');
+				$total_amount = 0;
+				// send notification email
+				if(!empty($inserted_id)){
+					$this->email_service->quotation_create('MM', $total_amount);
+				}else if(!empty($post_id)){
+					if($status_changed)
+						$this->email_service->quotation_change_status('MM', $total_amount);
+				}
+			}catch(exception $e){}
 	}
 
     function remove(){

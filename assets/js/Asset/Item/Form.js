@@ -87,6 +87,58 @@ Ext.define('Account.Asset.Item.Form', {
 			//width:290,
 		});
 		
+		this.empDialog = Ext.create('Account.SEmployee.MainWindow');
+		
+		this.trigEmp = Ext.create('Ext.form.field.Trigger', {
+			name: 'reque',
+			fieldLabel: 'Requesting By',
+			triggerCls: 'x-form-search-trigger',
+			//allowBlank: false,
+			enableKeyEvents: true,
+			//width:250,
+		});
+		
+		this.emp2Dialog = Ext.create('Account.SEmployee.MainWindow');
+		
+		this.trigEmp2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'holds',
+			fieldLabel: 'Asset Holder',
+			triggerCls: 'x-form-search-trigger',
+			//allowBlank: false,
+			enableKeyEvents: true,
+			//width:250,
+		});
+		
+		this.emp3Dialog = Ext.create('Account.SEmployee.MainWindow');
+		
+		this.trigEmp3 = Ext.create('Ext.form.field.Trigger', {
+			name: 'lastn',
+			fieldLabel: 'Last Holder',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			//width:250,
+		});
+		
+		this.depDialog = Ext.create('Account.SDepartment.MainWindow');
+		
+		this.trigDep = Ext.create('Ext.form.field.Trigger', {
+			name: 'depnr',
+			fieldLabel: 'Department',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			//width:250,
+		});
+		
+		this.assetDialog = Ext.create('Account.SAsset.MainWindow');
+		
+		this.trigAsset = Ext.create('Ext.form.field.Trigger', {
+			name: 'assnr',
+			fieldLabel: 'Under Asset',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+			//width:290,
+		});
+		
 		this.unitDialog = Ext.create('Account.Unit.Window');
 		
 		this.trigUnit = Ext.create('Ext.form.field.Trigger', {
@@ -96,6 +148,36 @@ Ext.define('Account.Asset.Item.Form', {
 			enableKeyEvents: true
 			//width:290,
 		});
+		
+		this.txtResidValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Residual Value',
+			name: 'resid',
+			margins: '3 0 0 5',
+			alwaysDisplayDecimals: true
+         });
+         
+         this.txtCostValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Cost Value',
+			name: 'costs',
+			margins: '3 0 0 5',
+			alwaysDisplayDecimals: true
+         });
+         
+         this.txtLifeValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Use full life(year)',
+			name: 'costs'//,
+			//alwaysDisplayDecimals: true
+         });
+         
+         this.txtDepreValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Depreciation(%)',
+			name: 'costs'//,
+			//alwaysDisplayDecimals: true
+         });
 		
 		this.items = [{
 						xtype: 'hidden',
@@ -114,7 +196,7 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Asset Code',
 			name: 'matnr',
 			readOnly: true,
-			value: 'XXXXX'
+			value: 'FAXXXXX'
 		}, {
 			xtype: 'textfield',
 			fieldLabel: 'Asset Name',
@@ -127,7 +209,7 @@ Ext.define('Account.Asset.Item.Form', {
                 items :[this.trigType,{
 						xtype: 'displayfield',
 						name: 'matxt',
-						margins: '4 0 0 6',
+						margins: '3 0 0 5',
 						width:286//,
 						//allowBlank: false
                 }]
@@ -137,109 +219,132 @@ Ext.define('Account.Asset.Item.Form', {
                 items :[this.trigGrp,{
 						xtype: 'displayfield',
 						name: 'matxt2',
-						margins: '4 0 0 6',
+						margins: '3 0 0 5',
 						width:286//,
 						//allowBlank: false
                 }]
-            }, 
-		  this.trigUnit,{
+            },{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[this.trigGlno,{
 						xtype: 'displayfield',
 						name: 'sgtxt',
-						margins: '4 0 0 6',
+						margins: '3 0 0 5',
 						width:286//,
 						//allowBlank: false
                 }]
-            }]
+            },{
+			xtype: 'textfield',
+			fieldLabel: 'Serial No',
+			name: 'serno',
+			//width: 250
+		},{
+			xtype: 'textfield',
+			fieldLabel: 'Brand',
+			name: 'brand',
+			//width: 250
+		},{
+			xtype: 'textfield',
+			fieldLabel: 'Model',
+			name: 'model',
+			//width: 250
+		},{
+			xtype: 'textfield',
+			fieldLabel: 'Specification',
+			name: 'specs',
+			//width: 250
+		},{
+			xtype: 'textfield',
+			fieldLabel: 'Picture',
+			name: 'pictu',
+			//width: 250
+		},
+		  this.trigUnit]
 		}, {
 // Frame number 2	
 			xtype:'fieldset',
-            title: 'Balance Data',
+            title: 'General Data',
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-            //defaults: {
-            //    anchor: '100%'
-            //},
      items :[{
-		xtype: 'numberfield',
-			fieldLabel: 'Beginning Qty',
-			name: 'beqty',
-			allowBlank: true
-		},{
-			xtype: 'numberfield',
-			fieldLabel: 'Beginning Value',
-			name: 'beval',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Average Cost',
-			name: 'cosav',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Ending Qty',
-			name: 'enqty',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Ending Value',
-			name: 'enval',
-			allowBlank: true
-		}]
-	},{
-// Frame number 3	
-			xtype:'fieldset',
-            title: 'Costing Data',
-            collapsible: true,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            //defaults: {
-            //    anchor: '100%'
-            //},
-            items: [{
-            xtype: 'container',
-            //anchor: '100%',
-            layout: 'hbox',
-            items:[{
                 xtype: 'container',
-                flex: 1,
-                layout: 'anchor',
-        items :[this.trigUnit1,this.trigUnit2,this.trigUnit3]
+                layout: 'hbox',
+                items :[this.trigAsset,{
+						xtype: 'displayfield',
+						name: 'asstx',
+						margins: '3 0 0 5',
+						width:286
+                }]
             },{
                 xtype: 'container',
-                flex: 1,
-                layout: 'anchor',
-        items: [{
-			xtype: 'numberfield',
-			fieldLabel: 'Cost 1',
-			name: 'cost1',
-			//anchor:'100%',
-			labelWidth: 90,
-			allowBlank: true
-		},{
-			xtype: 'numberfield',
-			fieldLabel: 'Cost 2',
-			minValue: 0,
-			name: 'cost2',
-			//anchor:'100%',
-			labelWidth: 90,
-			allowBlank: true
-		},{
-			xtype: 'numberfield',
-			fieldLabel: 'Cost 3',
-			minValue: 0,
-			name: 'cost3',
-			//anchor:'100%',
-			labelWidth: 90,
-			allowBlank: true
+                layout: 'hbox',
+                items :[this.trigEmp,{
+						xtype: 'displayfield',
+						name: 'name1',
+						margins: '3 0 0 5',
+						width:286
+                }]
+            },{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigEmp2,{
+						xtype: 'displayfield',
+						name: 'name2',
+						margins: '3 0 0 5',
+						width:286
+                }]
+            },{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigEmp3,{
+						xtype: 'displayfield',
+						name: 'name3',
+						margins: '3 0 0 5',
+						width:286
+                }]
+            },{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigDep,{
+						xtype: 'displayfield',
+						name: 'deptx',
+						margins: '3 0 0 5',
+						width:286
+                }]
+            },{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[{
+			xtype: 'textfield',
+			fieldLabel: 'Keeping Area',
+			name: 'keepi',
+			//width: 400
+		},this.txtResidValue
+		]},{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.txtDepreValue,
+		{
+			xtype: 'textfield',
+			fieldLabel: 'PO No',
+			margins: '3 0 0 5',
+			name: 'ebeln',
+			//width: 400
 		}
-		]
-		}]
-		}]
-		},this.comboQStatus];
+		]},{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[{
+			xtype: 'datefield',
+			fieldLabel: 'PO Date',
+			name: 'bldat',
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
+		},this.txtCostValue
+		]}]
+	},this.comboQStatus];
 		
 		// event trigType//
 		this.trigType.on('keyup',function(o, e){
@@ -404,7 +509,202 @@ Ext.define('Account.Asset.Item.Form', {
 
 		this.trigGlno.onTriggerClick = function(){
 			_this.glnoDialog.show();
-		};		
+		};	
+		
+		// event trigEmployee//
+		this.trigEmp.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'employee/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.empnr);
+							_this.getForm().findField('name1').setValue(record.data.name1);
+
+						}else{
+							o.markInvalid('Could not find Employee : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.empDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigEmp.setValue(record.data.empnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.empDialog.hide();
+		});
+
+		this.trigEmp.onTriggerClick = function(){
+			_this.empDialog.show();
+		};	
+		
+		// event trigEmployee2//
+		this.trigEmp2.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'employee/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.empnr);
+							_this.getForm().findField('name2').setValue(record.data.name1);
+
+						}else{
+							o.markInvalid('Could not find Employee : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.emp2Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigEmp.setValue(record.data.empnr);
+			_this.getForm().findField('name2').setValue(record.data.name1);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.emp2Dialog.hide();
+		});
+
+		this.trigEmp2.onTriggerClick = function(){
+			_this.emp2Dialog.show();
+		};
+		
+		// event trigEmployee3//
+		this.trigEmp3.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'employee/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.empnr);
+							_this.getForm().findField('name3').setValue(record.data.name1);
+
+						}else{
+							o.markInvalid('Could not find Employee : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.emp3Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigEmp.setValue(record.data.empnr);
+			_this.getForm().findField('name3').setValue(record.data.name1);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.emp3Dialog.hide();
+		});
+
+		this.trigEmp3.onTriggerClick = function(){
+			_this.emp3Dialog.show();
+		};
+		
+		// event trigAsset//
+		this.trigAsset.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'asset/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.matnr);
+							_this.getForm().findField('asstx').setValue(record.data.maktx);
+
+						}else{
+							o.markInvalid('Could not find Fixed Asset : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.assetDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigAsset.setValue(record.data.matnr);
+			_this.getForm().findField('asstx').setValue(record.data.maktx);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.assetDialog.hide();
+		});
+
+		this.trigAsset.onTriggerClick = function(){
+			_this.assetDialog.show();
+		};
+		
+		// event trigDepartment//
+		this.trigDep.on('keyup',function(o, e){
+			
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'sdepartment/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.depnr);
+							_this.getForm().findField('deptx').setValue(record.data.deptx);
+
+						}else{
+							o.markInvalid('Could not find Department : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+			_this.depDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigDep.setValue(record.data.depnr);
+			_this.getForm().findField('deptx').setValue(record.data.deptx);
+			
+			grid.getSelectionModel().deselectAll();
+			_this.depDialog.hide();
+		});
+
+		this.trigDep.onTriggerClick = function(){
+			_this.depDialog.show();
+		};
 		
 	return this.callParent(arguments);
 	},

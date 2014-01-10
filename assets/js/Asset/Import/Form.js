@@ -1,4 +1,4 @@
-Ext.define('Account.Material.Import.Form', {
+Ext.define('Account.Asset.Import.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 

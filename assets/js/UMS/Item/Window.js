@@ -7,7 +7,7 @@ Ext.define('Account.UMS.Item.Window', {
 			title: 'User authorization setting',
 			closeAction: 'hide',
 			height: 570,
-			width: 850,
+			width: 910,
 			layout: 'border',
 			border: false,
 			resizable: true,

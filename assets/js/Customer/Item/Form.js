@@ -35,7 +35,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 	name: 'pleve',
 	triggerAction : 'all',
 	clearFilterOnReset: true,
-	emptyText: '-- Please select Level --',
+	emptyText: '-- Select Level --',
 	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',
     margin: '0 0 0 56',
     store: myStorecomboPleve,

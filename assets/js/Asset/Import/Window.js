@@ -1,4 +1,4 @@
-Ext.define('Account.Material.Import.Window', {
+Ext.define('Account.Asset.Import.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 

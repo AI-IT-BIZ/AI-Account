@@ -22,7 +22,7 @@ Ext.define('Account.GL.MainWindow', {
 		var _this=this;
 
 		// --- object ---
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -34,9 +34,9 @@ Ext.define('Account.GL.MainWindow', {
 			text: 'Delete',
 			disabled: true,
 			iconCls: 'b-small-minus'
-		});
+		});*/
 		
-		this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
 
 		this.grid = Ext.create('Account.GL.Grid', {
 			region:'center'
