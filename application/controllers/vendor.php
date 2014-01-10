@@ -137,7 +137,7 @@ class Vendor extends CI_Controller {
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('VD') && XUMS::CAN_APPROVE('VD')){
 					$limit = XUMS::LIMIT('VD');
-					if($limit<$row['netwr']){
+					/*if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change Vendor status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
@@ -145,7 +145,7 @@ class Vendor extends CI_Controller {
 							'message'=>$emsg
 						));
 						return;
-					}
+					}*/
 				}else{
 					$emsg = 'You do not have permission to change Vendor status.';
 					echo json_encode(array(

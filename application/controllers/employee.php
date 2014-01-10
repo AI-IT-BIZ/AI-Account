@@ -128,7 +128,7 @@ class Employee extends CI_Controller {
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('EP') && XUMS::CAN_APPROVE('EP')){
 					$limit = XUMS::LIMIT('EP');
-					if($limit<$row['netwr']){
+					/*if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change Employee status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
@@ -136,7 +136,7 @@ class Employee extends CI_Controller {
 							'message'=>$emsg
 						));
 						return;
-					}
+					}*/
 				}else{
 					$emsg = 'You do not have permission to change Employee status.';
 					echo json_encode(array(

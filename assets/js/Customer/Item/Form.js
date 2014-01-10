@@ -670,6 +670,7 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Tax ID',
 					name: 'taxid',
+					allowBlank: false,
 		            maskRe: /[\d]/,
 		            width: 290,
                	},{
@@ -728,6 +729,8 @@ items:[{
 				this.up('window').hide();
 			}
 		}];
+		
+		//this.comboPay.on('select', this.selectPay, this);
 
 		return this.callParent(arguments);
 	},

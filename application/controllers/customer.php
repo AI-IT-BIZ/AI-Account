@@ -150,7 +150,7 @@ class Customer extends CI_Controller {
 			if($status_changed){
 				if(XUMS::CAN_DISPLAY('CS') && XUMS::CAN_APPROVE('CS')){
 					$limit = XUMS::LIMIT('CS');
-					if($limit<$row['netwr']){
+					/*if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change Customer status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
@@ -158,7 +158,7 @@ class Customer extends CI_Controller {
 							'message'=>$emsg
 						));
 						return;
-					}
+					}*/
 				}else{
 					$emsg = 'You do not have permission to change Customer status.';
 					echo json_encode(array(
