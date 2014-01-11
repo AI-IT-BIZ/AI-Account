@@ -19,22 +19,26 @@ function endsWith($haystack, $needle)
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/ext/ux/NumericField.js') ?>"></script>
-	
+
+	<?php if(ENVIRONMENT=='production' || ENVIRONMENT=='testing'): ?>
 	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-base.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-js.js') ?>"></script>
-	
+	<?php endif; ?>
+
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
 			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
 			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
 
-		/*Ext.Loader.setConfig({
+		<?php if(ENVIRONMENT=='development'): ?>
+		Ext.Loader.setConfig({
 			enabled: true,
 			paths: {
 				'BASE': __base_url+'assets/ext_base',
 				'Account': __base_url+'assets/js'
 			}
-		});*/
+		});
+		<?php endif; ?>
 
 		Ext.form.field.ComboBox.override({
 			setValue: function(v) {
