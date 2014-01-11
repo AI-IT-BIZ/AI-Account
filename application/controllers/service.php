@@ -228,8 +228,8 @@ class Service extends CI_Controller {
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),
-			'beqty' => $this->input->post('beqty'),
 			
+			/*'beqty' => $this->input->post('beqty'),
 			'beval' => $this->input->post('beval'),
 			'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
@@ -239,7 +239,7 @@ class Service extends CI_Controller {
 			'unit2' => $this->input->post('unit2'),
 			'cost2' => $this->input->post('cost2'),
 			'unit3' => $this->input->post('unit3'),
-			'cost3' => $this->input->post('cost3'),
+			'cost3' => $this->input->post('cost3'),*/
 			'statu' => $this->input->post('statu')
 			);
 			

@@ -126,6 +126,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			name: 'saknr',
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
+			allowBlank: false,
 			enableKeyEvents: true,
 			width:290
 		});
@@ -171,7 +172,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
+			emptyText: '-- Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -252,8 +253,8 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Credit Limit Amt',
 			name: 'apamt',
 			labelAlign: 'right',
-			//width:200,
 			hideTrigger:false,
+			allowBlank: false,
 			align: 'right',
 			margin: '0 0 0 56'
          });
@@ -451,7 +452,10 @@ Ext.define('Account.Vendor.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Tax ID',
 					name: 'taxid',
-		            maskRe: /[\d]/,
+		            allowBlank: false,
+		            emptyText: 'xxxxxxxxxxxxx',
+		            maskRe: /[\d\-]/,
+		            regex: /^\d{13}$/,
 		            width: 290
                 }, this.comboQStatus]
             },{
@@ -520,6 +524,8 @@ Ext.define('Account.Vendor.Item.Form', {
 		this.trigGlno.onTriggerClick = function(){
 			_this.glnoDialog.show();
 		};	
+		
+		this.comboTax.on('select', this.selectTax, this);
 
 		return this.callParent(arguments);
 	},
@@ -566,5 +572,13 @@ Ext.define('Account.Vendor.Item.Form', {
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 });

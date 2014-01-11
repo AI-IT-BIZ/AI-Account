@@ -59,6 +59,7 @@ class Customer extends CI_Controller {
 	
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'kna1';
 		
 		function createQuery($_this){
@@ -169,6 +170,34 @@ class Customer extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('apamt')<0||$this->input->post('begin')<0
+		   ||$this->input->post('endin')<0){
+					$emsg = 'The value must be more than zero.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+
+        if($this->input->post('apamt')<$this->input->post('endin')){
+					$emsg = 'The Limit Credit must be more than Maximum Amt.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+		  
+		if($this->input->post('endin')<$this->input->post('begin')){
+					$emsg = 'The Maximum Amt must be more than Minimum Amt.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
 		
 		$vat = $this->input->post('vat01');
         if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
@@ -233,7 +262,6 @@ class Customer extends CI_Controller {
 			'data'=>$_POST
 		));
 		
-		/*
 		try{
 				$post_id = $this->input->post('id');
 				//$total_amount = $this->input->post('netwr');
@@ -245,7 +273,7 @@ class Customer extends CI_Controller {
 					if($status_changed)
 						$this->email_service->quotation_change_status('CS', $total_amount);
 				}
-			}catch(exception $e){}*/
+			}catch(exception $e){}
 	}
 
 	function remove(){

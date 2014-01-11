@@ -5,7 +5,7 @@ Ext.define('Account.Material.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Material',
 			closeAction: 'hide',
-			height: 570,
+			height: 700,
 			width: 550,
 			layout: 'border',
 			resizable: true,

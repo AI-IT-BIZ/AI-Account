@@ -1,64 +1,78 @@
-Ext.define('Account.Customer.MainWindow', {
+Ext.define('Account.OtherExpense.MainWindow', {
 	extend	: 'Ext.window.Window',
-
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Customer Management',
+			title: 'Other Expense',
 			closeAction: 'hide',
-			height: 580,
+			height: 600,
 			minHeight: 380,
-			width: 1100,
-			minWidth: 1000,
+			width: 1000,
+			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true,
-			defaultFocus: 'code'
+			maximizable: true
 		});
 
 		return this.callParent(arguments);
 	},
+
 	initComponent : function() {
 		var _this=this;
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
-			iconCls: 'b-small-plus'
+			text: 'Add',
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('OE')
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
-			iconCls: 'b-small-pencil'
+			text: 'Edit',
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.DISPLAY('OE') || UMS.CAN.CREATE('OE') || UMS.CAN.EDIT('OE'))
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
-			disabled: true,
-			iconCls: 'b-small-minus'
+			text: 'Delete',
+			iconCls: 'b-small-minus',
+			disabled: !UMS.CAN.DELETE('OE')
 		});
-		this.excelAct = new Ext.Action({
+        this.excelAct = new Ext.Action({
 			text: 'Excel',
-			iconCls: 'b-small-excel'
+			iconCls: 'b-small-excel',
+			disabled: !UMS.CAN.EXPORT('OE')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
+			disabled: true,
 			iconCls: 'b-small-import'
 		});
 
-		this.itemDialog = Ext.create('Account.Customer.Item.Window');
-		
-		this.importDialog = Ext.create('Account.Customer.Import.Window');
-
-		this.grid = Ext.create('Account.Customer.Grid', {
+        this.itemDialog = Ext.create('Account.OtherExpense.Item.Window');
+        
+		this.grid = Ext.create('Account.OtherExpense.Grid', {
 			region:'center',
 			border: false,
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.Customer.FormSearch', {
+		//this.searchForm = Ext.create('Account.AP.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.OtherExpense.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -92,23 +106,24 @@ Ext.define('Account.Customer.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});
-		
-		this.importAct.setHandler(function(){
-			_this.importDialog.openDialog();
-		});
 
-		this.itemDialog.form.on('afterSave', function(form){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
+
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save AP number: '+resultId+' successfully.');
 		});
 
-		this.itemDialog.form.on('afterDelete', function(form){
+		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
-        
+
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
@@ -123,6 +138,15 @@ Ext.define('Account.Customer.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
@@ -138,13 +162,9 @@ Ext.define('Account.Customer.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/customer/index?'+query;
+			window.location = __site_url+'export/ap/index?'+query;
 		});
 		
-		this.importDialog.grid.on('import_success',function(){
-			_this.importDialog.hide();
-			_this.grid.load();
-		});
 		// --- after ---
 		this.grid.load();
 

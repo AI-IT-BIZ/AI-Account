@@ -117,12 +117,12 @@ Ext.define('Account.Customertype.GridItem', {
 			sortable: true
 		}];
 		
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 
 		this.plugins = [this.editing];
 

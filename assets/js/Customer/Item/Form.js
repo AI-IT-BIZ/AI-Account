@@ -783,6 +783,7 @@ items:[{
 		var _this=this;
 		if(combo.getValue()=='03' || combo.getValue()=='04'){
 			this.numberVat.setValue(0);
-		}
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 });

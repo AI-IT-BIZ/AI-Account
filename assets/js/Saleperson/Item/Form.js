@@ -141,6 +141,27 @@ Ext.define('Account.Saleperson.Item.Form', {
 		    margin: '0 0 5 20',
 			emptyText: '0'
          });
+         
+         this.numberGoal= Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Special rate',
+			name: 'goals',
+		    width:250,
+		    emptyText: '0'//,
+		    //maskRe: /[\d\-]/,
+		    //regex: /^\d{6}$/,
+		    //regexText: 'Must be in the format Number'
+         });
+         
+         /*---Commission----------------------------*/
+		this.radioType = Ext.create('Ext.form.RadioGroup', {
+			//xtype: 'radiogroup',
+            fieldLabel: 'Comission type',
+            cls: 'x-check-group-alt',
+            items: [
+                {boxLabel: 'Levels', width:70, name: 'ctype', inputValue: 1},
+                {boxLabel: 'Step', width:50,  name: 'ctype', inputValue: 2, checked: true}
+            ]
+		});
 
 /*(2)---Hidden id-------------------------------*/
 		this.items = [{
@@ -189,20 +210,9 @@ layout: 'anchor',
 },{
 xtype: 'fieldset',
 title: 'Commission',
-// in this section we use the form layout that will aggregate all of the fields
-// into a single table, rather than one table per field.
 layout: 'anchor',
-//defaults: {anchor: '100%'},
 collapsible: true,
-        items: [{
-            xtype: 'radiogroup',
-            fieldLabel: 'Comission type',
-            cls: 'x-check-group-alt',
-            items: [
-                {boxLabel: 'Levels', width:70, name: 'ctype', inputValue: 1},
-                {boxLabel: 'Step', width:50,  name: 'ctype', inputValue: 2, checked: true}
-            ]
-        }]
+        items: [this.radioType]
 /*---Customer Note fieldset 3--------------------------*/
 /*-----------------------------------------------------*/
 },{
@@ -264,7 +274,7 @@ defaults: {anchor: '100%'},
 		            name: 'aaa',
 		            //fieldLabel: '',
 					width:250,
-		            value: '<span style="color:green; padding-left:145px">Sale Goal (Bath)</span>'		
+		            value: '<span style="color:green; padding-left:145px">Sale Goal (Baht)</span>'		
 					},{
 					xtype: 'displayfield',
 		            name: 'sss',
@@ -290,16 +300,7 @@ defaults: {anchor: '100%'},
 			xtype: 'container',
 		    layout: 'hbox',
 		    margin: '0 0 5 0',
-			items :[{
-					xtype: 'textfield',
-					fieldLabel: 'Special rate',
-					name: 'goals',
-					width:250,
-		            emptyText: '0'//,
-		            //maskRe: /[\d\-]/,
-		            //regex: /^\d{6}$/,
-		            //regexText: 'Must be in the format Number'
-					},{
+			items :[this.numberGoal,{
 		            xtype: 'datefield',
 		            name: 'stdat',
 					width:120,
@@ -381,6 +382,8 @@ defaults: {anchor: '100%'},
 				this.up('window').hide();
 			}
 		}];
+		
+		this.radioType.on('change', this.selectType, this);
 
 		return this.callParent(arguments);
 	},
@@ -392,6 +395,8 @@ defaults: {anchor: '100%'},
 			params: { salnr: salnr },
 			url:__site_url+'saleperson/load'
 		});
+		this.numberLevf1.setValue(0);
+		this.numberLevf1.disable();
 	},
 	reset: function(){
 		this.getForm().reset();
@@ -408,5 +413,22 @@ defaults: {anchor: '100%'},
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+// Type Value
+	selectType: function(radio, record){
+		var _this=this;
+		var selection = record['ctype'];
+		//alert(selection);
+		
+		if(selection==1){
+			this.numberLevf2.setValue(0);
+			this.numberLevf3.setValue(0);
+			this.numberLevf2.disable();
+			this.numberLevf3.disable();
+		}else{
+			this.numberLevf2.enable();
+			this.numberLevf3.enable();
+		}
 	}
 });

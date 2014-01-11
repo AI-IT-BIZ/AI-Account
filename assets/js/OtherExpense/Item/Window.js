@@ -1,13 +1,14 @@
-Ext.define('Account.Service.Item.Window', {
+Ext.define('Account.OtherExpense.Item.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Service',
+			title: 'Create/Edit Other Expense',
 			closeAction: 'hide',
-			height: 400,
-			width: 550,
+			height: 670,
+			width: 940,
 			layout: 'border',
+			border: false,
 			resizable: true,
 			modal: true
 		});
@@ -17,18 +18,20 @@ Ext.define('Account.Service.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Service.Item.Form');//, { region:'north' });
+		this.form = Ext.create('Account.OtherExpense.Item.Form',{ region:'center' });
 
-		/*this.grid = new Ext.Panel({
-			title:'this is item grid',
-			html:'item grid',
-			region: 'center'
-		});*/
+		this.previewDialog = Ext.create('Account.OtherExpense.Item.PreviewWindow');
 
-		this.items = //[
-			this.form;
-			//this.grid
-		//];
+		this.items = [
+		     this.form
+		];
+		
+		this.btnPreview = Ext.create('Ext.Button', {
+			text: 'Preview',
+			handler: function() {
+				_this.previewDialog.openDialog(_this.dialogId);
+			}
+		});
 
 		this.buttons = [{
 			text: 'Save',
@@ -41,8 +44,7 @@ Ext.define('Account.Service.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
-		}];
-
+		}, this.btnPreview];
 		return this.callParent(arguments);
 	},
 	dialogId: null,
@@ -55,15 +57,15 @@ Ext.define('Account.Service.Item.Window', {
 			this.form.load(id);
 
 			// สั่ง pr_item grid load
-			//this.form.gridItem.load({matnr: id});
+			this.form.gridItem.load({invnr: id});
 
-			//this.btnPreview.setDisabled(false);
+			this.btnPreview.setDisabled(false);
 		}else{
 			this.dialogId = null;
 			this.form.reset();
 			this.show(false);
 
-			//this.btnPreview.setDisabled(true);
+			this.btnPreview.setDisabled(true);
 		}
 	}
 });

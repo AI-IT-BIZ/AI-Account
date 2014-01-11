@@ -289,7 +289,10 @@ class Material extends CI_Controller {
 			'cost2' => $this->input->post('cost2'),
 			'unit3' => $this->input->post('unit3'),
 			'cost3' => $this->input->post('cost3'),
-			'statu' => $this->input->post('statu')
+			'statu' => $this->input->post('statu'),
+			'descr' => $this->input->post('descr'),
+			'brand' => $this->input->post('brand'),
+			'buget' => $this->input->post('buget')
 			);
 			
 			$current_username = XUMS::USERNAME();

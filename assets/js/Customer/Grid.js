@@ -28,7 +28,8 @@ Ext.define('Account.Customer.Grid', {
 				'telf1',
 				'telfx',
 				'email',
-				'pson1'
+				'pson1',
+				'statx'
 			],
 			remoteSort: true,
 			sorters: [{property: 'kunnr', direction: 'ASC'}]
@@ -43,7 +44,8 @@ Ext.define('Account.Customer.Grid', {
 			{text: "Telephon", flex: true, dataIndex: 'telf1', sortable: true},
 			{text: "Fax No", flex: true, dataIndex: 'telfx', sortable: true},
 			{text: "Email", width: 120, dataIndex: 'email', sortable: true},
-			{text: "Contact Person", flex: true, dataIndex: 'pson1', sortable: true}
+			{text: "Contact Person", flex: true, dataIndex: 'pson1', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

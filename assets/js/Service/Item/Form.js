@@ -81,7 +81,7 @@ Ext.define('Account.Service.Item.Form', {
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//width:290,
+			allowBlank : false
 		});
 		
 		this.unitDialog = Ext.create('Account.Unit.Window');
@@ -179,44 +179,7 @@ Ext.define('Account.Service.Item.Form', {
 						//allowBlank: false
                 }]
             }]
-		}, {
-// Frame number 2	
-			xtype:'fieldset',
-            title: 'Balance Data',
-            collapsible: true,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            //defaults: {
-           //     anchor: '100%'
-            //},
-     items :[{
-		
-		xtype: 'numberfield',
-			fieldLabel: 'Beginning Qty',
-			name: 'beqty',
-			allowBlank: true
 		},{
-			xtype: 'numberfield',
-			fieldLabel: 'Beginning Value',
-			name: 'beval',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Average Cost',
-			name: 'cosav',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Ending Qty',
-			name: 'enqty',
-			allowBlank: true
-		}, {
-			xtype: 'numberfield',
-			fieldLabel: 'Ending Value',
-			name: 'enval',
-			allowBlank: true
-		}]
-	},{
 // Frame number 3	
 			xtype:'fieldset',
             title: 'Costing Data',
