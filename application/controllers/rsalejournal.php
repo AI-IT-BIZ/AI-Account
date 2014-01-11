@@ -1,5 +1,5 @@
 <?php
-class Rpettycashjournal extends CI_Controller {
+class Rsalejournal extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -17,19 +17,19 @@ class Rpettycashjournal extends CI_Controller {
 				ifnull(v_bkpf.belnr,'') as belnr,
 				ifnull(v_bkpf.invnr,'') as invnr,
 				ifnull(v_bkpf.name1,'') as name1,
-				ifnull(v_bsid.saknr,'') as saknr,
+				ifnull(v_bcus.saknr,'') as saknr,
 				ifnull(tbl_glno.sgtxt,'') as sgtxt,
-				ifnull(v_bsid.debit,'') as debit,
-				ifnull(v_bsid.credi,'') as credi,
-				ifnull(v_bsid.statu,'') as statu,
+				ifnull(v_bcus.debit,'') as debit,
+				ifnull(v_bcus.credi,'') as credi,
+				ifnull(v_bcus.statu,'') as statu,
 				ifnull(v_bkpf.kunnr,'') as kunnr
 				
 			from 
-				v_bsid
-				   LEFT JOIN v_bkpf on v_bsid.belnr = v_bkpf.belnr
-				    LEFT JOIN tbl_glno on v_bsid.saknr = tbl_glno.saknr
+				v_bcus
+				   LEFT JOIN v_bkpf on v_bcus.belnr = v_bkpf.belnr
+				    LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
 			where 
-				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bsid.belnr like 'PE%' {$search}
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bcus.belnr like 'AR%' {$search}
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
 		$rs = $this->db->query($sql);
@@ -75,7 +75,7 @@ class Rpettycashjournal extends CI_Controller {
 						  'kunnr' => $kunnr);
 		
 		
-		$report = $client->runReport('/ai_account/rpettycashjournal', 'pdf', null, $controls);
+		$report = $client->runReport('/ai_account/rsalejournal', 'pdf', null, $controls);
 		 
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');

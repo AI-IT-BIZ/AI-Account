@@ -616,6 +616,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_report_pj'
 			};
+			var nodeReportSJ = {
+				text: 'Report Sale Journal',
+				leaf: true,
+				id: 'click_report_sj'
+			};
 			var nodeReportGL = {
 				text: 'Report General Ledger',
 				leaf: true,
@@ -652,6 +657,7 @@ function endsWith($haystack, $needle)
 					nodeReport3,
 					nodeReportGJ,
 					nodeReportPJ,
+					nodeReportSJ,
 					nodeReportGL,
 					nodeReportTB,
 					nodeReportIncome,
