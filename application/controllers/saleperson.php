@@ -94,11 +94,73 @@ class Saleperson extends CI_Controller {
 		
 		$id = $this->input->post('id');
 		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('salnr', $id);
 			$query = $this->db->get('psal');
+			
+			// ##### CHECK PERMISSIONS
+			$row = $query->first_row('array');
+			// status has change
+			$status_changed = $row['statu']!=$this->input->post('statu');
+			if($status_changed){
+				if(XUMS::CAN_DISPLAY('SP') && XUMS::CAN_APPROVE('SP')){
+					$limit = XUMS::LIMIT('SP');
+					/*if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change Vendor status over than '.number_format($limit);
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}*/
+				}else{
+					$emsg = 'You do not have permission to change Sale Person status.';
+					echo json_encode(array(
+						'success'=>false,
+						'errors'=>array( 'statu' => $emsg ),
+						'message'=>$emsg
+					));
+					return;
+				}
+			}else{
+				if($row['statu']=='02'||$row['statu']=='03'){
+					$emsg = 'The Sale Person that already approved or rejected cannot be update.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+			// ##### END CHECK PERMISSIONS
 		}
+		
+		if($this->input->post('goals')<$this->input->post('levt3')){
+					$emsg = 'The Sales goal must be more than Level 3 Amount.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+        
+		$sdat = explode('-',$this->input->post('stdat'));
+		$edat = explode('-',$this->input->post('endat'));
+		$stdat = $sdat[0].$sdat[1].$sdat[2];
+		$endat = $edat[0].$edat[1].$edat[2];
+		//echo $stdat.'aaa'.$endat;
+		if($stdat>$endat){
+					$emsg = 'The End date must be more than Start date.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
 		
 		if($this->input->post('ctype') == '1') $commis='Levels';
 		else $commis='Step';
@@ -137,6 +199,8 @@ class Saleperson extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('psal', $formData);
+			
+			$inserted_id = $id;
 		}
 
 		echo json_encode(array(

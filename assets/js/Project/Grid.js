@@ -25,7 +25,7 @@ Ext.define('Account.Project.Grid', {
 				'bldat',
 				'statx',
 				'salnr',
-				'sname',
+				'emnam',
 				'stdat',
 				'endat',
 				'pramt'
@@ -47,7 +47,7 @@ Ext.define('Account.Project.Grid', {
 			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
 			{text: "1", hidden: true, width: 0, dataIndex: 'salnr', sortable: true},
 			{text: "Sale Person",
-			width: 100, dataIndex: 'sname', sortable: true},
+			width: 100, dataIndex: 'emnam', sortable: true},
 			{text: "Status",
 			width: 120, dataIndex: 'statx', sortable: true},
 			{text: "Start Date", xtype: 'datecolumn', format:'d/m/Y',

@@ -1,23 +1,23 @@
-Ext.define('Account.Saleperson.MainWindow', {
+Ext.define('Account.OtherExpense.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Sale Persons Management',
+			title: 'Other Expense',
 			closeAction: 'hide',
-			height: 550,
+			height: 600,
 			minHeight: 380,
-			width: 600,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
 			layout:'border',
-			maximizable: true,
-			defaultFocus: 'code'
+			maximizable: true
 		});
 
 		return this.callParent(arguments);
 	},
+
 	initComponent : function() {
 		var _this=this;
 
@@ -25,32 +25,42 @@ Ext.define('Account.Saleperson.MainWindow', {
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('SP')
+			disabled: !UMS.CAN.CREATE('OE')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('SP') || UMS.CAN.CREATE('SP') || UMS.CAN.EDIT('SP'))
+			disabled: !(UMS.CAN.DISPLAY('OE') || UMS.CAN.CREATE('OE') || UMS.CAN.EDIT('OE'))
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('SP')
+			disabled: !UMS.CAN.DELETE('OE')
 		});
-		this.excelAct = new Ext.Action({
+        this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('SP')
+			disabled: !UMS.CAN.EXPORT('OE')
+		});
+		this.importAct = new Ext.Action({
+			text: 'Import',
+			disabled: true,
+			iconCls: 'b-small-import'
 		});
 
-		this.itemDialog = Ext.create('Account.Saleperson.Item.Window');
-
-		this.grid = Ext.create('Account.Saleperson.Grid', {
+        this.itemDialog = Ext.create('Account.OtherExpense.Item.Window');
+        
+		this.grid = Ext.create('Account.OtherExpense.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct]
+			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
-
+		
+		//this.searchForm = Ext.create('Account.AP.FormSearch', {
+		//	region: 'north',
+		//	height:100
+		//});
+		
 		var searchOptions = {
 			region: 'north',
 			height:100
@@ -62,25 +72,33 @@ Ext.define('Account.Saleperson.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.Saleperson.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.OtherExpense.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
-		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.excelAct,this.importAct];
 
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			//_this.itemDialog.show();
+			/*
+			_this.itemDialog.form.reset();
+			_this.itemDialog.show();
+			*/
 		});
 
 		this.editAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
+			
 			if(id){
 				_this.itemDialog.openDialog(id);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
+
+				// สั่ง pr_item grid load
+				//_this.itemDialog.form.gridItem.load({ebeln: id});
 			}
 		});
 
@@ -88,19 +106,24 @@ Ext.define('Account.Saleperson.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(form){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
+			_this.grid.load();
+
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save AP number: '+resultId+' successfully.');
+		});
+
+		this.itemDialog.form.on('afterDelete', function(){
 			_this.grid.load();
 		});
 
-		this.itemDialog.form.on('afterDelete', function(form){
-			_this.grid.load();
-		});
-        
         this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
@@ -115,6 +138,15 @@ Ext.define('Account.Saleperson.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
+	    
+	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
+			this.grid.store.on('beforeload', function (store, opts) {
+				opts.params = opts.params || {};
+				if(opts.params){
+					opts.params = Ext.apply(opts.params, _this.gridParams);
+				}
+		    });
+		}
         
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
@@ -130,9 +162,9 @@ Ext.define('Account.Saleperson.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/saleperson/index?'+query;
+			window.location = __site_url+'export/ap/index?'+query;
 		});
-
+		
 		// --- after ---
 		this.grid.load();
 
