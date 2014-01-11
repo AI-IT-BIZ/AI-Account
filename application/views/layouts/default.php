@@ -20,21 +20,21 @@ function endsWith($haystack, $needle)
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/ext/ux/NumericField.js') ?>"></script>
 	
-	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-base.js') ?>"></script>
-	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-js.js') ?>"></script>
+	<!--<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-base.js') ?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-js.js') ?>"></script>-->
 	
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
 			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
 			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
 
-		/*Ext.Loader.setConfig({
+		Ext.Loader.setConfig({
 			enabled: true,
 			paths: {
 				'BASE': __base_url+'assets/ext_base',
 				'Account': __base_url+'assets/js'
 			}
-		});*/
+		});
 
 		Ext.form.field.ComboBox.override({
 			setValue: function(v) {

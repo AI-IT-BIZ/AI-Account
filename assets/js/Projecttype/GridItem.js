@@ -90,79 +90,21 @@ Ext.define('Account.Projecttype.GridItem', {
 		    field: {
 				type: 'textfield'
 			},
-		}/*,{
-			text: "GL no", 
-			width: 100,
-			dataIndex: 'saknr', 
-			sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
-		},{
-			text: "GL Description", 
-			width: 150, 
-			dataIndex: 'sgtxt', 
-			sortable: true
-		}*/];
+		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		this.plugins = [this.editing];
-
 
 		// init event ///////
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-
-		/*this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'gl/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.saknr);
-							rModel.set('sgtxt', r.data.sgtxt);
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('saknr', record.data.saknr);
-				rModel.set('sgtxt', record.data.sgtxt);
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});*/
 
 		return this.callParent(arguments);
 	},
@@ -228,7 +170,7 @@ Ext.define('Account.Projecttype.GridItem', {
 			url: __site_url+'project/save_type',
 			method: 'POST',
 			params: {
-				mtyp: Ext.encode(r_data)
+				jtyp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);

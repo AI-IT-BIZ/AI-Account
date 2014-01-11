@@ -167,6 +167,39 @@ class Vendor extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('apamt')<0||$this->input->post('begin')<0
+		   ||$this->input->post('endin')<0){
+					$emsg = 'The value must be more than zero.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+
+        if($this->input->post('apamt')<$this->input->post('endin')){
+					$emsg = 'The Limit Credit must be more than Maximum Amt.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+		  
+		if($this->input->post('endin')<$this->input->post('begin')){
+					$emsg = 'The Maximum Amt must be more than Minimum Amt.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+		
+		$vat = $this->input->post('vat01');
+        if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
+        	$vat = 0;
+		}
 		
 		$formData = array(
 			//'lifnr' => $this->input->post('lifnr'),
@@ -190,7 +223,7 @@ class Vendor extends CI_Controller {
 			'retax' => $this->input->post('retax'),
 			'statu' => $this->input->post('statu'),
 			'ptype' => $this->input->post('ptype'),
-			'vat01' => $this->input->post('vat01'),
+			'vat01' => $vat,
 			'note1' => $this->input->post('note1')
 		);
 		

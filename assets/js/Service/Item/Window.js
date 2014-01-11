@@ -5,7 +5,7 @@ Ext.define('Account.Service.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Service',
 			closeAction: 'hide',
-			height: 560,
+			height: 400,
 			width: 550,
 			layout: 'border',
 			resizable: true,

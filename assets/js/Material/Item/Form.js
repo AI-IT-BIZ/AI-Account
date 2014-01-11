@@ -29,6 +29,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'mtart',
 			fieldLabel: 'Material Type',
 			triggerCls: 'x-form-search-trigger',
+			allowBlank : false,
 			enableKeyEvents: true//,
 			//width:290
 		});
@@ -39,6 +40,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'matkl',
 			fieldLabel: 'Material Group',
 			triggerCls: 'x-form-search-trigger',
+			allowBlank : false,
 			enableKeyEvents: true//,
 			//width:290
 		});
@@ -128,6 +130,12 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290,
 		});
 		
+		this.numberBudget = Ext.create('Ext.ux.form.NumericField', {
+            //xtype: 'numberfield',
+			fieldLabel: 'Budgeted Price',
+			name: 'buget'
+         });
+		
 		this.items = [{
 						xtype: 'hidden',
 						name: 'id'
@@ -159,8 +167,7 @@ Ext.define('Account.Material.Item.Form', {
 						xtype: 'displayfield',
 						name: 'matxt',
 						margins: '4 0 0 6',
-						width:286//,
-						//allowBlank: false
+						width:286
                 }]
             }, {
                 xtype: 'container',
@@ -169,10 +176,20 @@ Ext.define('Account.Material.Item.Form', {
 						xtype: 'displayfield',
 						name: 'matxt2',
 						margins: '4 0 0 6',
-						width:286//,
-						//allowBlank: false
+						width:286
                 }]
-            }, 
+            }, {
+					xtype: 'textarea',
+					fieldLabel: 'Description',
+					name: 'descr',
+					width: 400, 
+					rows:3,
+		  }, {
+			xtype: 'textfield',
+			fieldLabel: 'Brand',
+			name: 'brand',
+			width: 400
+		},this.numberBudget, 
 		  this.trigUnit,{
                 xtype: 'container',
                 layout: 'hbox',
@@ -208,16 +225,19 @@ Ext.define('Account.Material.Item.Form', {
 			xtype: 'numberfield',
 			fieldLabel: 'Average Cost',
 			name: 'cosav',
+			disabled: true,
 			allowBlank: true
 		}, {
 			xtype: 'numberfield',
 			fieldLabel: 'Ending Qty',
 			name: 'enqty',
+			disabled: true,
 			allowBlank: true
 		}, {
 			xtype: 'numberfield',
 			fieldLabel: 'Ending Value',
 			name: 'enval',
+			disabled: true,
 			allowBlank: true
 		}]
 	},{

@@ -368,8 +368,8 @@ class Project extends CI_Controller {
 			$item_index = 0;
 		foreach($item_array AS $p){
 			$this->db->insert('jtyp', array(
-				'jtype'=>$p->ptype,
-				'jobtx'=>$p->protx//,
+				'jtype'=>$p->jtype,
+				'typtx'=>$p->typtx//,
 				//'saknr'=>$p->saknr
 			));
 	    	}
