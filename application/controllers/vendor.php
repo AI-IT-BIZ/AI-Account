@@ -193,7 +193,6 @@ class Vendor extends CI_Controller {
 			'vat01' => $this->input->post('vat01'),
 			'note1' => $this->input->post('note1')
 		);
-		$this->db->trans_start();
 		
 		$current_username = XUMS::USERNAME();
 		

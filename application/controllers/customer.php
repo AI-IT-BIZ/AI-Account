@@ -211,8 +211,6 @@ class Customer extends CI_Controller {
 			
 		);
 		
-		$this->db->trans_start();
-		
 		$current_username = XUMS::USERNAME();
 		
 		if (!empty($query) && $query->num_rows() > 0){

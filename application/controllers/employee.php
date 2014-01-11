@@ -181,7 +181,6 @@ class Employee extends CI_Controller {
 			'telf2' => $this->input->post('telf2')//,
 			//'note1' => $this->input->post('note1')
 		);
-		$this->db->trans_start();
 		
 		$current_username = XUMS::USERNAME();
 		
