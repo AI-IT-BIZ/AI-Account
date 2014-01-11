@@ -711,6 +711,7 @@ items:[{
 /*(4)---Buttons-------------------------------*/
 		this.buttons = [{
 			text: 'Save',
+			disabled: !UMS.CAN.EDIT('CS'),
 			handler: function() {
 				var _form_basic = this.up('form').getForm();
 				if (_form_basic.isValid()) {

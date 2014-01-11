@@ -20,6 +20,7 @@ Ext.define('Account.Customertype.GridItem', {
 		var _this=this;
 
 		this.addAct = new Ext.Action({
+			disabled: !UMS.CAN.EDIT('CS'),
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
