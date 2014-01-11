@@ -461,6 +461,11 @@ Ext.onReady(function() {
 		$om.RPettyCashJournal = Ext.create('Account.RPettyCashJournal.MainWindow');
 		$om.RPettyCashJournal.show();
 	});
+	
+	$om.viewport.on('click_report_sj', function(){
+		$om.RSaleJournal = Ext.create('Account.RSaleJournal.MainWindow');
+		$om.RSaleJournal.show();
+	});
 
 	$om.viewport.on('click_report_tb', function(){
 		$om.RTrialBalance = Ext.create('Account.RTrialBalance.MainWindow');
