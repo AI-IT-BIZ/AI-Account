@@ -230,7 +230,7 @@ Ext.define('Account.Assetgrp.GridItem', {
 			url: __site_url+'asset/save_grp',
 			method: 'POST',
 			params: {
-				mgrp: Ext.encode(r_data)
+				fgrp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
