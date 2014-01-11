@@ -292,9 +292,6 @@ class Material extends CI_Controller {
 			'statu' => $this->input->post('statu')
 			);
 			
-			// start transaction
-		    $this->db->trans_start();
-			
 			$current_username = XUMS::USERNAME();
 			
 		if (!empty($query) && $query->num_rows() > 0){

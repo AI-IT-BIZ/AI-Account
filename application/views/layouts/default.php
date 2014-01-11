@@ -19,15 +19,18 @@ function endsWith($haystack, $needle)
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/ext/ux/NumericField.js') ?>"></script>
-	<!--
+
+	<?php if(ENVIRONMENT=='production' || ENVIRONMENT=='testing'): ?>
 	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-base.js') ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/jsdeploy/all-js.js') ?>"></script>
-	-->
+	<?php endif; ?>
+
 	<script type="text/javascript">
 		var __base_url = '<?= base_url() ?>',
 			__site_url = '<?= endsWith(site_url(), '/')?site_url().'' : site_url().'/' ?>',
 			__user_state = <?= json_encode($USER_PERMISSIONS) ?>;
 
+		<?php if(ENVIRONMENT=='development'): ?>
 		Ext.Loader.setConfig({
 			enabled: true,
 			paths: {
@@ -35,6 +38,7 @@ function endsWith($haystack, $needle)
 				'Account': __base_url+'assets/js'
 			}
 		});
+		<?php endif; ?>
 
 		Ext.form.field.ComboBox.override({
 			setValue: function(v) {
@@ -129,7 +133,6 @@ function endsWith($haystack, $needle)
 
 		#div-rinvoice { position:absolute; top:630px; left:30px; width: 100px; height:100px; }
 		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
-		#div-config { position:absolute; top:740px; left:30px; width: 210px; height:100px; }
 
 		#div-sales-saleorder2 { top:160px; left:150px; width: 130px; height:210px; }
 		#div-sales-saleorder3 { top:160px; left:310px; width: 90px; height: 90px; }
@@ -156,7 +159,6 @@ function endsWith($haystack, $needle)
 
 		#div-rap { position:absolute; top:630px; left:280px; width: 100px; height:100px; }
 		#div-rpayment { position:absolute; top:630px; left:390px; width: 100px; height:100px; }
-		#div-employee { position:absolute; top:740px; left:280px; width: 100px; height:100px; }
 
 		#div-purchase-pr2 { top:30px; left:30px; width: 210px; height:100px; }
 		#div-purchase-po2 { top:160px; left:30px; width: 90px; height:90px; }
@@ -176,20 +178,18 @@ function endsWith($haystack, $needle)
 
 		#div1-3-container { width: 240px; height:500px; color:white; font-weight:bold; }
 		#div1-3-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-income { top:30px; left:530px; width: 100px; height:100px; }
+		#div-chart-account { top:30px; left:530px; width: 100px; height:100px; }
 		#div-journaltemp { top:30px; left:640px; width: 100px; height:100px; }
 		#div-journal { top:140px; left:530px; width: 210px; height:100px; }
-		#div-manage-costcenter { top:250px; left:530px; width: 100px; height:100px; }
-		#div-chart-account { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
-		#div-asset-regist { top:360px; left:530px; width: 100px; height:100px; }
-		#div-asset-master { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
+		#div-other-income { top:250px; left:530px; width: 100px; height:100px; }
+		#div-other-expense { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
+		#div-asset-master { top:360px; left:530px; width: 100px; height:100px; }
+		#div-asset-regist { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
 
 		#div-rjournal { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
 		#div-rgl { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
 		#div-rar-aging { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
 		#div-rap-aging { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
-		#div-rmm-aging { position:absolute; top:730px; left:530px; width: 100px; height:100px; }
-		#div-rmm-stockcard { position:absolute; top:730px; left:640px; width: 100px; height:100px; }
 
 		#div-account-income2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-account-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
@@ -772,7 +772,6 @@ function endsWith($haystack, $needle)
 
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
 									'<div id="div-rreceipt" class="box box-orange"><span>Receipt Report</span></div>',
-									'<div id="div-config" class="box box-base"><span>Configure BizNet Accounts</span></div>',
 								'</div>',
 								//Purchase Module
 								'<div id="div1-2-container">',
@@ -788,14 +787,13 @@ function endsWith($haystack, $needle)
 
 									'<div id="div-rap" class="box box-orange"><span>AP Report</span></div>',
 									'<div id="div-rpayment" class="box box-orange"><span>Payment Report</span></div>',
-									'<div id="div-employee" class="box box-orange"><span>Employee</span></div>',
 								'</div>',
 								//Account Module
 								'<div id="div1-3-container">',
-									'<div id="div-income" class="box box-blue"><span>Income Statement</span></div>',
+									'<div id="div-other-income" class="box box-blue"><span>Other Incomes</span></div>',
+									'<div id="div-other-expense" class="box box-blue"><span>Other Expenses</span></div>',
 									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
-									'<div id="div-manage-costcenter" class="box box-blue"><span>Manage Cost Center</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
 									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
 									'<div id="div-asset-master" class="box box-blue"><span>Fixed Asset Master</span></div>',
@@ -804,8 +802,6 @@ function endsWith($haystack, $needle)
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
 									'<div id="div-rar-aging" class="box box-orange"><span>AR Aging Report</span></div>',
 									'<div id="div-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
-									'<div id="div-rmm-aging" class="box box-orange"><span>Inventory Aging Report</span></div>',
-									'<div id="div-rmm-stockcard" class="box box-orange"><span>Stock Card Report</span></div>',
 								'</div>',
 								//Material Module
 								'<div id="div1-4-container">',
@@ -947,7 +943,8 @@ function endsWith($haystack, $needle)
 							render : function(c) {
 								pEl = c.getEl();
 
-								pEl.getById('div-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
+								pEl.getById('div-other-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
+								pEl.getById('div-other-expense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
 								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
@@ -957,8 +954,6 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
 								pEl.getById('div-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rar-aging', c); }, c);
 								pEl.getById('div-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rap-aging', c); }, c);
-								pEl.getById('div-rmm-aging').on('click', function(){ $om.viewport.fireEvent('click_rmm-aging', c); }, c);
-								pEl.getById('div-rmm-stockcard').on('click', function(){ $om.viewport.fireEvent('click_rmm-stockcard', c); }, c);
 								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
@@ -972,7 +967,6 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
 								pEl.getById('div-rreceipt').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
-								pEl.getById('div-config').on('click', function(){ $om.viewport.fireEvent('click_config', c); }, c);
 								//Purchases Module
 								pEl.getById('div-pr').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
 								pEl.getById('div-po').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
@@ -985,7 +979,6 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
 								pEl.getById('div-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
-								pEl.getById('div-employee').on('click', function(){ $om.viewport.fireEvent('click_employee', c); }, c);
 								//Material Module
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-service').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);

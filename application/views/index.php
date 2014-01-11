@@ -5,16 +5,16 @@ Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
 
-    $om.viewport.on('click_config', function(){
-		if(!$om.initdocDialog)
-			$om.initdocDialog = Ext.create('Account.Initdoc.MainWindow');
-		$om.initdocDialog.show();
-	});
-
 	$om.viewport.on('click_income', function(){
-		if(!$om.prDialog)
-			$om.prDialog = Ext.create('Account.PR.MainWindow');
-		$om.prDialog.show();
+		if(!$om.incomeDialog)
+			$om.incomeDialog = Ext.create('Account.OtherIncome.MainWindow');
+		$om.incomeDialog.show();
+	});
+	
+	$om.viewport.on('click_expense', function(){
+		if(!$om.expenseDialog)
+			$om.expenseDialog = Ext.create('Account.OtherExpense.MainWindow');
+		$om.expenseDialog.show();
 	});
 
 	$om.viewport.on('click_journaltemp', function(){
@@ -312,11 +312,7 @@ Ext.onReady(function() {
 			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		$om.paymentDialog.show();
 	});
-	$om.viewport.on('click_employee', function(){
-		if(!$om.employeeDialog)
-			$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
-		$om.employeeDialog.show();
-	});
+
 	/*$om.viewport.on('click_rpo', function(){
 		if(!$om.rpoDialog)
 			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
