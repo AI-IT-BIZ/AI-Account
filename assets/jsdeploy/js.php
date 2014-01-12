@@ -39,6 +39,8 @@ function min_to_file($source_path, $out_file){
 
 	$output = JSMin::minify(implode(";\n", $buffer));
 
+	//echo "OUTPUT FILE: \"$out_file\"<br />";
+
 	$fh = fopen($out_file, 'w');
 	$w_result = fwrite($fh, $output);
 	if($w_result)
@@ -51,12 +53,12 @@ function min_to_file($source_path, $out_file){
 // set file below
 
 $ext_base_path = realpath('../ext_base');
-$ext_base_out_file = realpath('all-base.js');
+$ext_base_out_file = realpath('').'/all-base.js';
 
 min_to_file($ext_base_path, $ext_base_out_file);
 
 $js_path = realpath('../js');
-$js_out_file = realpath('all-js.js');
+$js_out_file = realpath('').'/all-js.js';
 
 min_to_file($js_path, $js_out_file);
 return;
