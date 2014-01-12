@@ -240,10 +240,23 @@ class Billto extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('BT', $total_amount);
+					$q_row = $this->db->get_where('vbkk', array('bilnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'BT', 'Billing Note',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('BT', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('vbkk', array('bilnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'BT', 'Billing Note',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 		}
