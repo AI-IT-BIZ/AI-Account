@@ -13,6 +13,9 @@ class Email_service extends CI_Model {
 	}
 
 	private function send_mail($mail_data){
+
+		//print_r($mail_data);
+
 		$this->load->library('email');
 		$result = $this->email
 					->from('kitipong@primebiznets.com')
@@ -57,7 +60,7 @@ INNER JOIN tbl_autl al ON au.autlid=al.autlid
 INNER JOIN tbl_empl e ON au.empnr=e.empnr
 WHERE al.autlid=(
 	SELECT l.autlid FROM tbl_autl l
-	WHERE l.limam>$amount_esc AND l.docty=$document_type_esc
+	WHERE (l.limam>=$amount_esc OR l.limam=0) AND l.docty=$document_type_esc
 	ORDER BY l.limam ASC LIMIT 1
 )
 ";
@@ -146,7 +149,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			if(empty($emails)) return;
 
 			$emp_action_user = $this->get_emp_by_username($action_user);
-			$emp_action_name = $emp_action_user->name1;
+			$emp_action_name = (!empty($emp_action_user))?$emp_action_user->name1:'Unknown';
 
 			$this->send_mail(array(
 				'to'=>implode(',', $emails),
@@ -168,7 +171,8 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 		$action_date = date('d/m/Y H:i:s');
 
 		if(empty($module_code)) return;
-		//echo 'MODULE CODE: '.$module_code.PHP_EOL;
+		//echo PHP_EOL.'MODULE CODE: '.$module_code.PHP_EOL;
+		//echo PHP_EOL.'ROW CODE: '.$row_code.PHP_EOL;
 		try{
 			// get involved employee
 			$emails = $this->get_email($module_code, $amount, $create_user);
@@ -181,7 +185,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			$status_text = $this->get_status_text($status);
 
 			$emp_action_user = $this->get_emp_by_username($action_user);
-			$emp_action_name = $emp_action_user->name1;
+			$emp_action_name = (!empty($emp_action_user))?$emp_action_user->name1:'Unknown';
 
 			$this->send_mail(array(
 				'to'=>implode(',', $emails),
