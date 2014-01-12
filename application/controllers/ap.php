@@ -526,6 +526,7 @@ class Ap extends CI_Controller {
 			'txz01' => 'GR No '.$id,
 			'ttype' => '05',
 			'auart' => 'AP',
+			'kunnr' => $this->input->post('lifnr'),
 			'netwr' => $this->input->post('netwr')
 		);
 		

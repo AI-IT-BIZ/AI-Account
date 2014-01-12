@@ -19,7 +19,7 @@ Ext.define('Account.GR.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

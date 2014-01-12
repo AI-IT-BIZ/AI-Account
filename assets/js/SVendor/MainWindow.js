@@ -1,9 +1,9 @@
-Ext.define('Account.SCustomer.MainWindow', {
+Ext.define('Account.SVendor.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Customer List',
+			title: 'Vendor List',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -23,7 +23,7 @@ Ext.define('Account.SCustomer.MainWindow', {
 
 		// --- object ---
 
-		this.grid = Ext.create('Account.SCustomer.Grid', {
+		this.grid = Ext.create('Account.SVendor.Grid', {
 			region:'center',
 			border: false//,
 			//tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
@@ -40,7 +40,7 @@ Ext.define('Account.SCustomer.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.SCustomer.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.SVendor.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 		
@@ -59,15 +59,6 @@ Ext.define('Account.SCustomer.MainWindow', {
 				Ext.apply(opts.params, formValues);
 			}
 	    });
-	    
-	    if(this.gridParams && !Ext.isEmpty(this.gridParams)){
-			this.grid.store.on('beforeload', function (store, opts) {
-				opts.params = opts.params || {};
-				if(opts.params){
-					opts.params = Ext.apply(opts.params, _this.gridParams);
-				}
-		    });
-		}
 
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();

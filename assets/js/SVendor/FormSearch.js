@@ -1,4 +1,4 @@
-Ext.define('Account.SCustomer.FormSearch', {
+Ext.define('Account.SVendor.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -35,7 +35,7 @@ Ext.define('Account.SCustomer.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Customer Code, Name or Type',
+			emptyText: 'Find from Vendor Code, Name or Type',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -98,9 +98,9 @@ Ext.define('Account.SCustomer.FormSearch', {
 				defaults:{anchor:'100%'},
 				items:[this.txtQuery, {
 					xtype: 'textfield',
-					name: 'kunnr',
+					name: 'lifnr',
 					hideLabel: false,
-					fieldLabel: 'Customer Code',
+					fieldLabel: 'Vendor Code',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',
@@ -112,7 +112,7 @@ Ext.define('Account.SCustomer.FormSearch', {
 				defaults:{anchor:'100%'},
 				items:[this.comboQStatus, {
 					xtype: 'textfield',
-					name: 'kunnr2',
+					name: 'lifnr2',
 					hideLabel: false,
 					fieldLabel: 'To',
 					labelAlign: 'right',
