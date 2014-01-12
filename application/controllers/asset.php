@@ -275,7 +275,7 @@ class Asset extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			
 			'acqui' => $this->input->post('acqui'),
-			'costs' => $this->input->post('costs'),
+			'costv' => $this->input->post('costv'),
 			'resid' => $this->input->post('resid'),
 			'lifes' => $this->input->post('lifes'),
 			'depre' => $this->input->post('depre'),

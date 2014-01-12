@@ -161,7 +161,7 @@ Ext.define('Account.Asset.Item.Form', {
          this.txtCostValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Cost Value',
-			name: 'costs',
+			name: 'costv',
 			margins: '3 0 0 5',
 			alwaysDisplayDecimals: true
          });
@@ -169,7 +169,7 @@ Ext.define('Account.Asset.Item.Form', {
          this.txtLifeValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Use full life(year)',
-			name: 'costs'//,
+			name: 'lifes'//,
 			//alwaysDisplayDecimals: true
          });
          

@@ -228,7 +228,7 @@ Ext.define('Account.Assettype.GridItem', {
 			url: __site_url+'asset/save_type',
 			method: 'POST',
 			params: {
-				mtyp: Ext.encode(r_data)
+				ftyp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
