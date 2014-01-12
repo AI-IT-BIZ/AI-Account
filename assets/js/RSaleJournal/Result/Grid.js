@@ -23,7 +23,7 @@ Ext.define('Account.RSaleJournal.Result.Grid', {
 	initComponent:function(config) {
 
 
-		me = this;
+		var me = this;
 		var filters = {
 			ftype: 'filters',
 			encode: false,

@@ -23,7 +23,7 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 	initComponent:function(config) {
 
 
-		me = this;
+		var me = this;
 		var filters = {
 			ftype: 'filters',
 			encode: false,
