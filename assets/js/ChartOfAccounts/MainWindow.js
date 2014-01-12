@@ -443,8 +443,8 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
             }
             else
             {
-                alert('NoN');
-                return;
+                level = 1;
+                child = "";
             }
             
         }
