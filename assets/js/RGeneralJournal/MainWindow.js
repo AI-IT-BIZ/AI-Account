@@ -39,7 +39,7 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 					form = this.up('form').getForm();
 					if (form.isValid()){
 						var result = Ext.create("Account.RGeneralJournal.Result.Grid");
-						//result.loadMask.show();
+						result.loadMask.show();
 						Ext.Ajax.request({
 							url: __base_url + "index.php/rgeneraljournal/result",
 							params: form.getValues(),

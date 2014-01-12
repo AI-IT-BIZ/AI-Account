@@ -8,9 +8,12 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 	modal: true,
 	layout:'fit',
 	maximizable: false,
-	//loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
+	loadMask: null,
 	initComponent:function(config) {
-		_this = this;
+		var _this = this;
+
+		this.loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
+
 		this.glnoDialog1 = Ext.create('Account.GL.MainWindow');
 
 		this.trigGlno1 = Ext.create('Ext.form.field.Trigger', {
@@ -132,7 +135,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 				text: 'ยืนยัน',
 				handler: function(){
 					form = this.up('form').getForm();
-					//_this.loadMask.show();
+					_this.loadMask.show();
 					if (form.isValid()){
 						Ext.Ajax.request({
 							url: __base_url + "index.php/rgeneralledger/result",
