@@ -12,7 +12,8 @@ Ext.define('Account.Warehouse.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'warnr'
+					idProperty: 'warnr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

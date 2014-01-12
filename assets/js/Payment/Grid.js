@@ -12,7 +12,8 @@ Ext.define('Account.Payment.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'payno'
+					idProperty: 'payno',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

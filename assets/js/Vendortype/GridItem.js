@@ -30,7 +30,8 @@ Ext.define('Account.Vendortype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_vtype'
+					idProperty: 'id_vtype',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

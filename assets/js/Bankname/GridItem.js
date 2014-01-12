@@ -32,7 +32,8 @@ Ext.define('Account.Bankname.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_bname'
+					idProperty: 'id_bname',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

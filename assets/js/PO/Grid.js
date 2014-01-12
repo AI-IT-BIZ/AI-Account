@@ -12,7 +12,8 @@ Ext.define('Account.PO.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ebeln'
+					idProperty: 'ebeln',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

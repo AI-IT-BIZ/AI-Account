@@ -12,7 +12,8 @@ Ext.define('Account.DepositOut.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr'
+					idProperty: 'depnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

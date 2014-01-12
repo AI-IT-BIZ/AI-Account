@@ -13,7 +13,8 @@ Ext.define('Account.WHT.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'whtnr'
+					idProperty: 'whtnr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
