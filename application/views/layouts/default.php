@@ -594,53 +594,57 @@ function endsWith($haystack, $needle)
 				]
 			};
 
-			var nodeReport1 = {
-				text: 'Report 1',
+			var nodeARLedger = {
+				text: 'AR Ledger',
 				leaf: true
 			};
-			var nodeReport2 = {
-				text: 'Report 2',
+			var nodeARAging = {
+				text: 'AR Aging',
 				leaf: true
 			};
-			var nodeReport3 = {
-				text: 'Report 3',
+			var nodeAPLedger = {
+				text: 'AP Ledger',
+				leaf: true
+			};
+			var nodeAPAging = {
+				text: 'AP Aging',
 				leaf: true
 			};
 			var nodeReportGJ = {
-				text: 'Report General Journal',
+				text: 'Journal Reports',
 				leaf: true,
 				id: 'click_report_gr'
 			};
 			var nodeReportPJ = {
-				text: 'Report Petty Cash Journal',
+				text: 'Petty Cash Journal Report',
 				leaf: true,
 				id: 'click_report_pj'
 			};
 			var nodeReportSJ = {
-				text: 'Report Sale Journal',
+				text: 'Sale Journal Report',
 				leaf: true,
 				id: 'click_report_sj'
 			};
 			var nodeReportGL = {
-				text: 'Report General Ledger',
+				text: 'General Ledger Report',
 				leaf: true,
 				id: 'click_report_gl'
 			};
 
 			var nodeReportTB = {
-				text: 'Report Trial Balance',
+				text: 'Trial Balance Report',
 				leaf: true,
 				id: 'click_report_tb'
 			};
 
 			var nodeReportIncome = {
-				text: 'Report Income Statement',
+				text: 'Income Statement Report',
 				leaf: true,
 				id: 'click_report_income'
 			};
 
 			var nodeReportBalanceSheet = {
-				text: 'Report Balance Sheet',
+				text: 'Balance Sheet Report',
 				leaf: true,
 				id: 'click_report_balance_sheet'
 			};
@@ -652,10 +656,10 @@ function endsWith($haystack, $needle)
 				singleClickExpand : true,
 				id: 'groupReport',
 				children: [
-					nodeReport1,
-					nodeReport2,
-					nodeReport3,
-					nodeReportGJ,
+					nodeARLedger,
+					nodeARAging,
+					nodeAPLedger,
+					nodeAPAging,
 					nodeReportPJ,
 					nodeReportSJ,
 					nodeReportGL,
@@ -691,12 +695,12 @@ function endsWith($haystack, $needle)
 				id: 'click_chart_account'
 			};
 			var nodeEmployee = {
-				text: 'Employee',
+				text: 'Employee master',
 				leaf: true,
 				id: 'click_employee'
 			};
 			var nodeBankname = {
-				text: 'Bank Name',
+				text: 'Bank master',
 				leaf: true,
 				id: 'click_bankname_setting'
 			};
@@ -793,7 +797,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-other-income" class="box box-blue"><span>Other Incomes</span></div>',
 									'<div id="div-other-expense" class="box box-blue"><span>Other Expenses</span></div>',
 									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
-									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
+									'<div id="div-journal" class="box box-blue"><span>Journals</span></div>',
 									'<div id="div-chart-account" class="box box-blue"><span>Chart of Accounting</span></div>',
 									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
 									'<div id="div-asset-master" class="box box-blue"><span>Fixed Asset Master</span></div>',
@@ -907,7 +911,7 @@ function endsWith($haystack, $needle)
 								'<div id="div1-3-container">',
 									'<div id="div-account-income2" class="box box-blue"><span>Income Statement</span></div>',
 									'<div id="div-account-journaltemp2" class="box box-blue"><span>Journal Template</span></div>',
-									'<div id="div-account-journal2" class="box box-blue"><span>Journal</span></div>',
+									'<div id="div-account-journal2" class="box box-blue"><span>Journals</span></div>',
 									'<div id="div-account-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
 									'<div id="div-account-chart-account2" class="box box-blue"><span>Chart of Accounting</span></div>',
 									'<div id="div-account-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
@@ -1142,7 +1146,7 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_payment')}
 				        },{
-				            text: 'Journal',
+				            text: 'Journals',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-journal',
