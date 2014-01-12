@@ -686,10 +686,23 @@ class Debitnote extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('SN', $total_amount);
+					$q_row = $this->db->get_where('vbde', array('debnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'SN', 'Sale Debit Note',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('SN', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('vbde', array('debnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'SN', 'Sale Debit Note',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 		}
@@ -953,10 +966,23 @@ class Debitnote extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('PN', $total_amount);
+					$q_row = $this->db->get_where('ebdn', array('debnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'PN', 'Purchase Debit Note',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('PN', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('ebdn', array('debnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'PN', 'Purchase Debit Note',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 		}
