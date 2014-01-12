@@ -65,32 +65,43 @@ ORDER BY d.grpmo ASC
 			$docty = $this->db->escape($this->get_id($node));
 			$comid = $this->db->escape($comid);
 			$sql = "SELECT autlid, docty, limam FROM tbl_autl
-WHERE docty=$docty AND comid=$comid AND limam IS NOT NULL AND limam>0
+WHERE docty=$docty AND comid=$comid AND limam IS NOT NULL AND limam>=0
 GROUP BY limam
 ORDER BY limam DESC";
 
 			$q = $this->db->query($sql);
+			$has_unlimit = FALSE;
 			$list = $q->result();
 			foreach($list AS $l){
+				if($l->limam==0 && $has_unlimit==FALSE)
+					$has_unlimit = TRUE;
 				array_push($rs, array(
-					'text'=>number_format($l->limam),
+					'text'=>($l->limam!=0)?number_format($l->limam):'Unlimit',
 					'id'=>$node.$this->splitter.$l->autlid,
 					'expanded'=>false,
 					'iconCls'=>'tree-node-limit'
 				));
 			}
+			// swap if limit
+			if($has_unlimit && count($rs)>1){
+				$buff = $rs[0];
+				$last = array_pop($rs);
+				$rs[0] = $last;
+				array_push($rs, $buff);
+			}
 		}else if($this->is_node_limam($node)){
 			$autlid = $this->db->escape($this->get_id($node));
 			$comid = $this->db->escape($comid);
-			$sql = "SELECT autlid, autuid, empnr FROM tbl_autu
-WHERE autlid=$autlid
+			$sql = "SELECT au.autlid, au.autuid, au.empnr, em.name1 FROM tbl_autu au
+LEFT JOIN tbl_empl em ON au.empnr=em.empnr
+WHERE au.autlid=$autlid
 ";
 
 			$q = $this->db->query($sql);
 			$list = $q->result();
 			foreach($list AS $l){
 				array_push($rs, array(
-					'text'=>$l->empnr,
+					'text'=>$l->name1.' ('.$l->empnr.')',
 					'id'=>$node.$this->splitter.$l->autuid,
 					'leaf'=>true,
 					'iconCls'=>'tree-node-user'
