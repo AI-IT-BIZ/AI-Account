@@ -26,6 +26,7 @@ Ext.define('Account.Projecttype.Window', {
 
 		this.buttons = [{
 			text: 'Save',
+			enabled: !(UMS.CAN.CREATE('PJ')||UMS.CAN.EDIT('PJ')),
 			handler: function() {
 				Ext.Msg.show({
 					title : "Warning",

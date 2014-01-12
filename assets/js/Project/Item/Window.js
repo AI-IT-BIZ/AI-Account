@@ -24,6 +24,7 @@ Ext.define('Account.Project.Item.Window', {
 		];
 
 		this.buttons = [{
+			enabled: !UMS.CAN.EDIT('PJ'),
 			text: 'Save',
 			handler: function() {
 				_this.form.save();

@@ -21,6 +21,7 @@ Ext.define('Account.Projecttype.GridItem', {
 
 		this.addAct = new Ext.Action({
 			text: 'Add',
+			enabled: !UMS.CAN.CREATE('PJ'),
 			iconCls: 'b-small-plus'
 		});
 

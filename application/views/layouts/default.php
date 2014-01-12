@@ -356,12 +356,12 @@ function endsWith($haystack, $needle)
 				id: 'click_invoice'
 			};
 			var nodeSaleDN = {
-				text: 'Create New Debit Note',
+				text: 'Create New Debit Notes',
 				leaf: true,
 				id: 'click_sale_dn'
 			};
 			var nodeSaleCN = {
-				text: 'Create New Credit Note',
+				text: 'Create New Credit Notes',
 				leaf: true,
 				id: 'click_sale_cn'
 			};
@@ -376,7 +376,7 @@ function endsWith($haystack, $needle)
 				id: 'click_customer'
 			};
 			var nodeSalePerson = {
-				text: 'Create New Sale Persons',
+				text: 'Create New Salesperson',
 				leaf: true,
 				id: 'click_saleperson'
 			};
@@ -422,17 +422,17 @@ function endsWith($haystack, $needle)
 				id: 'click_gr'
 			};
 			var nodeAP = {
-				text: 'Create New Account Payables',
+				text: 'Create New Accounting Payables',
 				leaf: true,
 				id: 'click_ap'
 			};
 			var nodePurchaseDN = {
-				text: 'Create New Debit Note',
+				text: 'Create New Debit Notes',
 				leaf: true,
 				id: 'click_purchase_dn'
 			};
 			var nodePurchaseCN = {
-				text: 'Create New Credit Note',
+				text: 'Create New Credit Notes',
 				leaf: true,
 				id: 'click_purchase_cn'
 			};
@@ -485,7 +485,7 @@ function endsWith($haystack, $needle)
 			//	leaf: true
 			//};
 			var nodeAccChart = {
-				text: 'Chart of Accounts',
+				text: 'Chart of Accounting',
 				leaf: true,
 				id: 'click_chart_account'
 			};
@@ -520,7 +520,7 @@ function endsWith($haystack, $needle)
 					id : 'click_Rpnd53WHT'
 				};
 			var grouprAccount = {
-				text: 'Account Reports',
+				text: 'Accounting Reports',
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
@@ -536,7 +536,7 @@ function endsWith($haystack, $needle)
 			};
 
 			var groupAccount = {
-				text: 'Accounts',
+				text: 'Accounting',
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
@@ -686,7 +686,7 @@ function endsWith($haystack, $needle)
 				id: 'click_authorize_setting'
 			};
 			var nodeChart = {
-				text: 'Chart of Accounts',
+				text: 'Chart of Accounting',
 				leaf: true,
 				id: 'click_chart_account'
 			};
@@ -779,8 +779,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-po" class="box box-red"><span>Purchase Orders</span></div>',
 									'<div id="div-gr" class="box box-red"><span>Goods Receipts</span></div>',
 									'<div id="div-vendor" class="box box-red"><span>Vendors</span></div>',
-									'<div id="div-ap" class="box box-red"><span>Account Payable</span></div>',
-									'<div id="div-apxx" style="visibility:hidden;" class="box box-red"><span>Account Payable</span></div>',
+									'<div id="div-ap" class="box box-red"><span>Accounting Payable</span></div>',
+									'<div id="div-apxx" style="visibility:hidden;" class="box box-red"><span>Accounting Payable</span></div>',
 									'<div id="div-payment" class="box box-red"><span>Payments</span></div>',
 									'<div id="div-deposit2" class="box box-red"><span>Deposit Payments</span></div>',
 									'<div id="div-billfrom" class="box box-red"><span>Billing Receipts</span></div>',
@@ -794,7 +794,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-other-expense" class="box box-blue"><span>Other Expenses</span></div>',
 									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal</span></div>',
-									'<div id="div-chart-account" class="box box-blue"><span>Chart of Account</span></div>',
+									'<div id="div-chart-account" class="box box-blue"><span>Chart of Accounting</span></div>',
 									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
 									'<div id="div-asset-master" class="box box-blue"><span>Fixed Asset Master</span></div>',
 
@@ -875,8 +875,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-purchase-po2" class="box box-red"><span>Purchase Orders</span></div>',
 									'<div id="div-purchase-gr2" class="box box-red"><span>Create New Goods Receipt</span></div>',
 									'<div id="div-purchase-gr3" class="box box-red"><span>Goods Receipts</span></div>',
-									'<div id="div-purchase-ap2" class="box box-red"><span>Account Payables</span></div>',
-									'<div id="div-purchase-ap3" class="box box-red"><span>Create New Account Payable</span></div>',
+									'<div id="div-purchase-ap2" class="box box-red"><span>Accounting Payables</span></div>',
+									'<div id="div-purchase-ap3" class="box box-red"><span>Create New Accounting Payable</span></div>',
 									'<div id="div-purchase-billfrom2" class="box box-red"><span>Bill from Vendors</span></div>',
 									'<div id="div-purchase-payment2" class="box box-red"><span>Payments</span></div>',
 									'<div id="div-purchase-payment3" class="box box-red"><span>Create New Payment</span></div>',
@@ -909,7 +909,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-account-journaltemp2" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-account-journal2" class="box box-blue"><span>Journal</span></div>',
 									'<div id="div-account-manage-costcenter2" class="box box-blue"><span>Manage Cost Center</span></div>',
-									'<div id="div-account-chart-account2" class="box box-blue"><span>Chart of Account</span></div>',
+									'<div id="div-account-chart-account2" class="box box-blue"><span>Chart of Accounting</span></div>',
 									'<div id="div-account-asset-regist2" class="box box-blue"><span>Fixed Asset Register</span></div>',
 									'<div id="div-account-asset-master2" class="box box-blue"><span>Fixed Asset Master</span></div>',
 
@@ -1055,7 +1055,7 @@ function endsWith($haystack, $needle)
 					case 'Home': homeCtnr.show(); break;
 					case 'Sales': salesCtnr.show(); break;
 					case 'Purchases': purchCtnr.show(); break;
-					case 'Accounts': accountCtnr.show(); break;
+					case 'Accounting': accountCtnr.show(); break;
 					case 'Materials': matCtnr.show(); break;
 					case 'Configuration': configCtnr.show(); break;
 					case 'Reports': reportsCtnr.show(); break;
@@ -1301,7 +1301,7 @@ function endsWith($haystack, $needle)
                 			handler: function(){$om.viewport.fireEvent('click_vendor')}
 				        }]
 		            },{
-		                title: 'Accounts',
+		                title: 'Accounting',
 		                listeners: {
 							activate: changeCenterView
 						},
@@ -1332,7 +1332,7 @@ function endsWith($haystack, $needle)
 				            iconCls: 'a-managec',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Chart of Account',
+				            text: 'Chart of Accounting',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-charta',

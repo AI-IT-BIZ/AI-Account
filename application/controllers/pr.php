@@ -143,7 +143,7 @@ class Pr extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed){
+			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('PR') && XUMS::CAN_APPROVE('PR')){
 					$limit = XUMS::LIMIT('PR');
 					if($limit<$row['netwr']){

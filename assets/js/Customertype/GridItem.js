@@ -20,7 +20,7 @@ Ext.define('Account.Customertype.GridItem', {
 		var _this=this;
 
 		this.addAct = new Ext.Action({
-			disabled: !UMS.CAN.EDIT('CS'),
+			disabled: !UMS.CAN.CREATE('CS'),
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -111,7 +111,7 @@ Ext.define('Account.Customertype.GridItem', {
 			},
 			sortable: false
 		},{
-			text: "GL Description", 
+			text: "GL Description",
 			width: 150, 
 			dataIndex: 'sgtxt', 
 			sortable: true

@@ -367,7 +367,7 @@ class Otexpense extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed){
+			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('AP') && XUMS::CAN_APPROVE('AP')){
 					$limit = XUMS::LIMIT('AP');
 					if($limit<$row['netwr']){
