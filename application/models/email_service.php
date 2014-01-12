@@ -134,9 +134,11 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 
 	public function sendmail_create($module_code, $module_name,
 									$row_code, $amount,
-									$create_user,
-									$action_user, $action_date
+									$create_user
 									){
+		$action_user = XUMS::USERNAME();
+		$action_date = date('d/m/Y H:i:s');
+
 		if(empty($module_code)) return;
 		try{
 			// get involved employee
@@ -160,9 +162,11 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 
 	public function sendmail_change_status($module_code, $module_name,
 									$row_code, $amount, $status,
-									$create_user,
-									$action_user, $action_date
+									$create_user
 									){
+		$action_user = XUMS::USERNAME();
+		$action_date = date('d/m/Y H:i:s');
+
 		if(empty($module_code)) return;
 		//echo 'MODULE CODE: '.$module_code.PHP_EOL;
 		try{
@@ -182,7 +186,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			$this->send_mail(array(
 				'to'=>implode(',', $emails),
 				'subject'=>"$module_name no: $row_code has $status_text.",
-				'message'=>"Quotation no: $row_code has $status_text at $action_date"
+				'message'=>"$module_name no: $row_code has $status_text at $action_date"
 							." by $emp_action_name."
 			));
 
@@ -191,51 +195,4 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 		}
 	}
 
-	// ***** QUOTATION *****
-	public function quotation_create($id){
-		// load quotation
-		$query = $this->db->get_where('vbak', array(
-			'vbeln'=>$id
-		));
-		if($query->num_rows()==1){
-			$o = $query->first_row();
-
-			// get involved employee
-			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
-			$emp_creater = $this->get_emp_by_username($o->ernam);
-
-			if(count($emails)>0)
-				$this->send_mail(array(
-					'to'=>implode(',', $emails),
-					'subject'=>'Quotation no: '.$o->vbeln.' has created.',
-					'message'=>'Quotation no: '.$o->vbeln.' has created at '.$o->erdat
-								.' by '.$emp_creater->name1.' and wating for approve'
-				));
-		}
-	}
-
-	public function quotation_change_status($id){
-		// load quotation
-		$query = $this->db->get_where('vbak', array(
-			'vbeln'=>$id
-		));
-		if($query->num_rows()==1){
-			$o = $query->first_row();
-
-			// get involved employee
-			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
-			$emp_creater = $this->get_emp_by_username($o->ernam);
-
-			// get new status text
-			$status = $this->get_status_text($o->statu);
-
-			$this->send_mail(array(
-				'to'=>$emp_creater->email,
-				'subject'=>'Quotation no: '.$o->vbeln.' has "'.$status.'".',
-				'message'=>'Quotation no: '.$o->vbeln.' has "'.$status.'" at '.$o->updat
-							.' by '.$emp_creater->name1.'.'
-			));
-		}
-	}
-	// ***** END QUOTATION *****
 }
