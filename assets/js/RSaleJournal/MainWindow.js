@@ -39,7 +39,7 @@ Ext.define('Account.RSaleJournal.MainWindow', {
 					form = this.up('form').getForm();
 					if (form.isValid()){
 						var result = Ext.create("Account.RSaleJournal.Result.Grid");
-						//result.loadMask.show();
+						result.loadMask.show();
 						Ext.Ajax.request({
 							url: __base_url + "index.php/rsalejournal/result",
 							params: form.getValues(),
@@ -51,7 +51,7 @@ Ext.define('Account.RSaleJournal.MainWindow', {
 									result.params = form.getValues();
 									result.storeGrid.loadData(rs.datas);
 									result.show();
-									//result.loadMask.hide();
+									result.loadMask.hide();
 								}
 							}
 						});

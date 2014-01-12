@@ -1,4 +1,4 @@
-Ext.define('Account.Customer.FormSearch', {
+Ext.define('Account.SVendor.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -22,6 +22,7 @@ Ext.define('Account.Customer.FormSearch', {
 				_this.fireEvent('search_click', formValues);
 			}
 		});
+		
 		this.resetAct = new Ext.Action({
 			text: 'Reset',
 			iconCls: 'b-small-cross',
@@ -34,7 +35,7 @@ Ext.define('Account.Customer.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from Customer Code, Customer Name',
+			emptyText: 'Find from Vendor Code, Name or Type',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {
@@ -43,7 +44,7 @@ Ext.define('Account.Customer.FormSearch', {
 				}
 			}
 		});
-
+		
 		var statusOptions = {
 			fieldLabel: 'Status',
 			name : 'statu',
@@ -94,14 +95,12 @@ Ext.define('Account.Customer.FormSearch', {
 				bodyStyle:'padding:0 18px 0 0'
 			}
 			,items:[{
-				// left column
-				// defaults for fields
 				defaults:{anchor:'100%'},
 				items:[this.txtQuery, {
 					xtype: 'textfield',
-					name: 'kunnr',
+					name: 'lifnr',
 					hideLabel: false,
-					fieldLabel: 'Customer Code',
+					fieldLabel: 'Vendor Code',
 					labelAlign: 'right',
 					format:'d/m/Y',
 					altFormats:'Y-m-d|d/m/Y',
@@ -113,7 +112,7 @@ Ext.define('Account.Customer.FormSearch', {
 				defaults:{anchor:'100%'},
 				items:[this.comboQStatus, {
 					xtype: 'textfield',
-					name: 'kunnr2',
+					name: 'lifnr2',
 					hideLabel: false,
 					fieldLabel: 'To',
 					labelAlign: 'right',
@@ -123,7 +122,7 @@ Ext.define('Account.Customer.FormSearch', {
 				}]
 			}]
 		}];
-		
+
 		this.buttons = [this.searchAct, this.resetAct];
 
 		return this.callParent(arguments);

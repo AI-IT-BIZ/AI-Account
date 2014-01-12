@@ -19,7 +19,7 @@ Ext.define('Account.RTrialBalance.Result.Grid', {
 	maximizable: false,
 	params: {},
 	initComponent:function(config) {
-		me = this;
+		var me = this;
 		var filters = {
 			ftype: 'filters',
 			encode: false,

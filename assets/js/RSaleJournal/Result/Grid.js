@@ -20,10 +20,11 @@ Ext.define('Account.RSaleJournal.Result.Grid', {
 	maximized: true,
 	params: {},
 	//loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
+	loadMask: null,
 	initComponent:function(config) {
+		this.loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
 
-
-		me = this;
+		var me = this;
 		var filters = {
 			ftype: 'filters',
 			encode: false,

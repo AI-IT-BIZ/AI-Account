@@ -17,7 +17,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -28,7 +28,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
-			fieldLabel: 'Sale Person',
+			fieldLabel: 'Salesperson',
 			triggerCls: 'x-form-search-trigger',
 			//labelWidth: 100,
 			labelAlign: 'left',
