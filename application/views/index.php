@@ -445,6 +445,16 @@ Ext.onReady(function() {
 		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
 		$om.bankNameDialog.show();
 	});
+	
+	$om.viewport.on('click_employee', function(){
+	  	
+	  	if(!UMS.CAN.DISPLAY('EP')){
+	 		UMS.ALERT("You don't have permission for Employee master.");
+	  		return;
+		}
+		$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
+		$om.employeeDialog.show();
+	});
 
 	//Report
 	$om.viewport.on('click_report_gl', function(){

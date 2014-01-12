@@ -24,15 +24,15 @@ Ext.define('Account.Customer.MainWindow', {
 
 		// --- object ---
 		this.addAct = new Ext.Action({
-			text: 'เพิ่ม',
+			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
 		this.editAct = new Ext.Action({
-			text: 'แก้ไข',
+			text: 'Edit',
 			iconCls: 'b-small-pencil'
 		});
 		this.deleteAct = new Ext.Action({
-			text: 'ลบ',
+			text: 'Delete',
 			disabled: true,
 			iconCls: 'b-small-minus'
 		});
