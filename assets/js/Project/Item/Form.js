@@ -103,6 +103,8 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'pramt',
 			labelAlign: 'left',
 			width:250,
+			minValue: 0,
+			allowBlank: false,
 			labelWidth: 100
 		});
 		
@@ -112,6 +114,7 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'esamt',
 			align: 'right',
 			width:250,
+			minValue: 0,
 			labelWidth: 100//,
 			//margins: '0 0 0 10'
 		});

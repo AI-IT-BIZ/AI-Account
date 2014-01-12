@@ -27,6 +27,8 @@ class Email_service extends CI_Model {
 
 	private function get_email($document_type, $amount, $creater_uname){
 		// prepare var
+		$comid = XUMS::COMPANY_ID();
+		$comid_esc = $this->db->escape($comid);
 		$document_type_esc = $this->db->escape($document_type);
 		$amount_esc = $this->db->escape($amount);
 		$creater_uname_esc = $this->db->escape($creater_uname);
@@ -62,7 +64,7 @@ WHERE al.autlid=(
 
 		if($is_depend){
 			// get employee department
-			$this->empl->db->where("empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=$creater_uname_esc)");
+			$this->empl->db->where("empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=$creater_uname_esc AND comid=$comid_esc)");
 			$emp = $this->empl->get_by();
 			if(empty($emp) || empty($emp->depnr)) return;
 
@@ -104,8 +106,11 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 */
 
 	private function get_emp_by_username($username){
+		$username_esc = $this->db->escape($username);
+		$comid = XUMS::COMPANY_ID();
+		$comid_esc = $this->db->escape($comid);
 		$this->db->select('email,name1');
-		$this->db->where("empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape($username).")");
+		$this->db->where("empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=$username_esc AND comid=$comid_esc)");
 		$q = $this->db->get('empl');
 		if($q->num_rows()>0){
 			$o = $q->first_row();
@@ -127,51 +132,67 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			return 'Unknown';
 	}
 
-	// ***** QUOTATION *****
-	public function quotation_create($id){
-		// load quotation
-		$query = $this->db->get_where('vbak', array(
-			'vbeln'=>$id
-		));
-		if($query->num_rows()==1){
-			$o = $query->first_row();
+	public function sendmail_create($module_code, $module_name,
+									$row_code, $amount,
+									$create_user
+									){
+		$action_user = XUMS::USERNAME();
+		$action_date = date('d/m/Y H:i:s');
 
+		if(empty($module_code)) return;
+		try{
 			// get involved employee
-			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
-			$emp_creater = $this->get_emp_by_username($o->ernam);
+			$emails = $this->get_email($module_code, $amount, $create_user);
+			if(empty($emails)) return;
 
-			if(count($emails)>0)
-				$this->send_mail(array(
-					'to'=>implode(',', $emails),
-					'subject'=>'Quotation no: '.$o->vbeln.' has created.',
-					'message'=>'Quotation no: '.$o->vbeln.' has created at '.$o->erdat
-								.' by '.$emp_creater->name1.' and wating for approve'
-				));
-		}
-	}
-
-	public function quotation_change_status($id){
-		// load quotation
-		$query = $this->db->get_where('vbak', array(
-			'vbeln'=>$id
-		));
-		if($query->num_rows()==1){
-			$o = $query->first_row();
-
-			// get involved employee
-			$emails = $this->get_email('QT', $o->netwr, $o->ernam);
-			$emp_creater = $this->get_emp_by_username($o->ernam);
-
-			// get new status text
-			$status = $this->get_status_text($o->statu);
+			$emp_action_user = $this->get_emp_by_username($action_user);
+			$emp_action_name = $emp_action_user->name1;
 
 			$this->send_mail(array(
-				'to'=>$emp_creater->email,
-				'subject'=>'Quotation no: '.$o->vbeln.' has "'.$status.'".',
-				'message'=>'Quotation no: '.$o->vbeln.' has "'.$status.'" at '.$o->updat
-							.' by '.$emp_creater->name1.'.'
+				'to'=>implode(',', $emails),
+				'subject'=>"$module_name no: $row_code has created.",
+				'message'=>"$module_name no: $row_code has created at $action_date"
+							." by $emp_action_name and wating for approve"
 			));
+
+		}catch(exception $e){
+			// do nothing
 		}
 	}
-	// ***** END QUOTATION *****
+
+	public function sendmail_change_status($module_code, $module_name,
+									$row_code, $amount, $status,
+									$create_user
+									){
+		$action_user = XUMS::USERNAME();
+		$action_date = date('d/m/Y H:i:s');
+
+		if(empty($module_code)) return;
+		//echo 'MODULE CODE: '.$module_code.PHP_EOL;
+		try{
+			// get involved employee
+			$emails = $this->get_email($module_code, $amount, $create_user);
+			//echo 'CREATE USER: '.$create_user.PHP_EOL;
+			//echo 'EMAILS: '.PHP_EOL;
+			//print_r($emails);
+			if(empty($emails)) return;
+
+			// get new status text
+			$status_text = $this->get_status_text($status);
+
+			$emp_action_user = $this->get_emp_by_username($action_user);
+			$emp_action_name = $emp_action_user->name1;
+
+			$this->send_mail(array(
+				'to'=>implode(',', $emails),
+				'subject'=>"$module_name no: $row_code has $status_text.",
+				'message'=>"$module_name no: $row_code has $status_text at $action_date"
+							." by $emp_action_name."
+			));
+
+		}catch(exception $e){
+			// do nothing
+		}
+	}
+
 }
