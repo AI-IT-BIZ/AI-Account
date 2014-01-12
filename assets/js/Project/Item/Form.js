@@ -20,7 +20,7 @@ Ext.define('Account.Project.Item.Form', {
 		var _this=this;
 		
 		// INIT Warehouse search popup //////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

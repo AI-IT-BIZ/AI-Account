@@ -20,7 +20,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		// INIT Customer search popup ///////////////////////////////
 		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
 		this.gridItem = Ext.create('Account.DepositIn.Item.Grid_i',{
