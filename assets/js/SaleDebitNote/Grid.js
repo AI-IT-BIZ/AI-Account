@@ -12,7 +12,8 @@ Ext.define('Account.SaleDebitNote.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'debnr'
+					idProperty: 'debnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

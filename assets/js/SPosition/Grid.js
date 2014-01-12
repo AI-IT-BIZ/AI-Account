@@ -32,7 +32,8 @@ Ext.define('Account.SPosition.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_depnr'
+					idProperty: 'id_depnr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

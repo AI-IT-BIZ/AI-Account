@@ -15,7 +15,8 @@ Ext.define('Account.SDistrict.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'distr'
+					idProperty: 'distr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

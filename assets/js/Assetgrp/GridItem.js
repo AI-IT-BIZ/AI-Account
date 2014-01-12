@@ -41,7 +41,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mgrp'
+					idProperty: 'id_mgrp',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

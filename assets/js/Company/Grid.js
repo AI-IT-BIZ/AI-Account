@@ -15,7 +15,8 @@ Ext.define('Account.Company.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'comid'
+					idProperty: 'comid',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

@@ -15,7 +15,8 @@ Ext.define('Account.Employee.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'empnr'
+					idProperty: 'empnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

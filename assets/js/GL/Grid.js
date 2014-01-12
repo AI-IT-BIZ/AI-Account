@@ -42,6 +42,7 @@ Ext.define('Account.GL.Grid', {
 					type: 'json',
 					root: 'rows',
 					idProperty: 'saknr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

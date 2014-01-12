@@ -36,7 +36,7 @@ Ext.define('Account.Quotation.Item.Window', {
 
 		this.buttons = [{
 			text: 'Save',
-			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')),
+			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')||UMS.CAN.APPROVE('QT')),
 			handler: function() {
 				_this.form.save();
 			}

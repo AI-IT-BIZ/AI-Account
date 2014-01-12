@@ -12,7 +12,8 @@ Ext.define('Account.Saleorder.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ordnr'
+					idProperty: 'ordnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

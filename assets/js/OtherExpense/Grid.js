@@ -12,7 +12,8 @@ Ext.define('Account.OtherExpense.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr'
+					idProperty: 'invnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
