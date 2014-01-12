@@ -3,13 +3,13 @@
 	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu','kunnr']
 });
 */
-Ext.define('Account.RPettyCashJournal.Result.Grid', {
+Ext.define('Account.RPurchaseJournal.Result.Grid', {
 	extend	: 'Ext.window.Window',
 	requires: [
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report Petty Cash Journal',
+	title: 'Report Purchase Journal',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,
@@ -19,12 +19,12 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 	maximizable: true,
 	maximized: true,
 	params: {},
+	//loadMask: new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."}),
 	loadMask: null,
 	initComponent:function(config) {
 		this.loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+		this.preview = Ext.create('Account.RPurchaseJournal.Item.PreviewWindow');
 		
-		this.preview = Ext.create('Account.RPettyCashJournal.Item.PreviewWindow');
-
 		var me = this;
 		var filters = {
 			ftype: 'filters',
@@ -36,12 +36,12 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 			}]
 		};
 		this.storeGrid = Ext.create('Ext.data.ArrayStore', {
-			model: 'RPettyCashJournal',
+			model: 'RPurchaseJournal',
 			fields: [
 				{name: 'bldat', type: 'date', dateFormat: 'Y-m-d'},
 				{name: 'belnr'},
 				{name: 'invnr'},
-				{name: 'name1'},
+				{name: 'name2'},
 				{name: 'saknr'},
 				{name: 'sgtxt'},
 				{name: 'debit', type: 'float'},
@@ -56,7 +56,7 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 			{text: 'SV Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
 			{text: 'SV Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
 			{text: 'Ref. Doc. No.', sortable: false, dataIndex: 'invnr'},
-			{text: 'Customer', sortable: false, dataIndex: 'name1'},
+			{text: 'Vendor Name', sortable: false, dataIndex: 'name2'},
 			{text: 'Account Code', sortable: false, dataIndex: 'saknr'},
 			{text: 'Account Name', sortable: false, dataIndex: 'sgtxt'},
 			{text: 'Debit', sortable: false, dataIndex: 'debit', renderer: Ext.util.Format.numberRenderer('0,000.00'),
@@ -122,17 +122,15 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 				kunnr = me.params.kunnr;
 				comid = 1000;
 				params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&comid="+comid;
-				url = __base_url + 'index.php/rpettycashjournal/pdf?'+params;
-				
-				/*
-				Ext.create("Ext.window.Window",{
+				url = __base_url + 'index.php/rpurchasejournal/pdf?'+params;
+				/*Ext.create("Ext.window.Window",{
 					title: "PDF",
 					width: 830,
 					height: 600,
 					html: "<iframe src='"+url+"' style='width:100%;height:100%'></iframe>"
 				}).show();*/
 				//window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
-				me.preview.openDialog(__base_url + 'index.php/rpettycashjournal/pdf?'+params,'_blank');
+				me.preview.openDialog(__base_url + 'index.php/rpurchasejournal/pdf?'+params,'_blank');
 			}
 		}];
 		return this.callParent(arguments);

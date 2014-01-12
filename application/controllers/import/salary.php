@@ -195,6 +195,7 @@ class Salary extends CI_Controller {
 					'erdat'=>$date,
 					'txz01'=>"จ่ายเงินเดือนให้กับพนักงาน ".+$data->empnr,
 					'refnr'=>$data->empnr,
+					'ttype'=>"01",
 					'auart'=>"JV",
 					'netwr'=>$data->salar,
 					'docty'=>'09'
@@ -299,6 +300,7 @@ class Salary extends CI_Controller {
 				'ernam'=>$current_user,
 				'erdat'=>$date,
 				'txz01'=>"จ่ายสมทบเงินประกันสังคม ",
+				'ttype'=>"01",
 				'auart'=>"JV",
 				'netwr'=>$sum_social+$sum_socialco
 			);
@@ -352,6 +354,7 @@ class Salary extends CI_Controller {
 				'ernam'=>$current_user,
 				'erdat'=>$date,
 				'txz01'=>"บันทึกเจ้าหนี้สรรพากร  ภงด 1 ",
+				'ttype'=>"01",
 				'auart'=>"JV",
 				'netwr'=>$sum_withh
 			);

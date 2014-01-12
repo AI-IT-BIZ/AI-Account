@@ -470,6 +470,11 @@ function endsWith($haystack, $needle)
 			//	text: 'Create New Income Statements',
 			//	leaf: true
 			//};
+			var nodeFixedAsset = {
+				text: 'Fixed Asset Master',
+				leaf: true,
+				id: 'click_fixedasset'
+			};
 			var nodeJTemplate = {
 				text: 'Create New Journal Templates',
 				leaf: true,
@@ -543,6 +548,7 @@ function endsWith($haystack, $needle)
 				id: 'groupAccount',
 				children: [
 					//nodeIncome,
+					nodeFixedAsset,
 					nodeJTemplate,
 					nodeJournal,
 					//nodeBudget,
@@ -625,6 +631,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_report_sj'
 			};
+			var nodeReportPurchaseJ = {
+				text: 'Purchase Journal Report',
+				leaf: true,
+				id: 'click_report_purchasej'
+			};
 			var nodeReportGL = {
 				text: 'General Ledger Report',
 				leaf: true,
@@ -663,6 +674,7 @@ function endsWith($haystack, $needle)
 					nodeReportGJ,
 					nodeReportPJ,
 					nodeReportSJ,
+					nodeReportPurchaseJ,
 					nodeReportGL,
 					nodeReportTB,
 					nodeReportIncome,

@@ -23,7 +23,8 @@ Ext.define('Account.RSaleJournal.Result.Grid', {
 	loadMask: null,
 	initComponent:function(config) {
 		this.loadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
-
+		this.preview = Ext.create('Account.RSaleJournal.Item.PreviewWindow');
+		
 		var me = this;
 		var filters = {
 			ftype: 'filters',
@@ -122,13 +123,14 @@ Ext.define('Account.RSaleJournal.Result.Grid', {
 				comid = 1000;
 				params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&comid="+comid;
 				url = __base_url + 'index.php/rsalejournal/pdf?'+params;
-				Ext.create("Ext.window.Window",{
+				/*Ext.create("Ext.window.Window",{
 					title: "PDF",
 					width: 830,
 					height: 600,
 					html: "<iframe src='"+url+"' style='width:100%;height:100%'></iframe>"
-				}).show();
+				}).show();*/
 				//window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
+				me.preview.openDialog(__base_url + 'index.php/rsalejournal/pdf?'+params,'_blank');
 			}
 		}];
 		return this.callParent(arguments);

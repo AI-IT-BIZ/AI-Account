@@ -1,6 +1,6 @@
-Ext.define('Account.RPettyCashJournal.MainWindow', {
+Ext.define('Account.RPurchaseJournal.MainWindow', {
 	extend	: 'Ext.window.Window',
-	title: 'Report Petty Cash Journal',
+	title: 'Report Purchase Journal',
 	closeAction: 'hide',
 	width: 420,
 	height: 220,
@@ -9,7 +9,6 @@ Ext.define('Account.RPettyCashJournal.MainWindow', {
 	layout:'fit',
 	maximizable: false,
 	initComponent:function(config) {
-		var result = Ext.create("Account.RPettyCashJournal.Result.Grid");
 		var form =  Ext.create('Ext.form.Panel', {
 			layout: 'form',
 			bodyPadding: '15 15 15 15',
@@ -39,9 +38,10 @@ Ext.define('Account.RPettyCashJournal.MainWindow', {
 				handler: function(){
 					form = this.up('form').getForm();
 					if (form.isValid()){
+						var result = Ext.create("Account.RPurchaseJournal.Result.Grid");
 						result.loadMask.show();
 						Ext.Ajax.request({
-							url: __base_url + "index.php/rpettycashjournal/result",
+							url: __base_url + "index.php/rpurchasejournal/result",
 							params: form.getValues(),
 							success: function(response){
 								var rs = response.responseText;
@@ -66,7 +66,6 @@ Ext.define('Account.RPettyCashJournal.MainWindow', {
 			}]
 		});
 		this.items = [form];
-		
 		return this.callParent(arguments);
 	}
 });
