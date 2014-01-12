@@ -357,7 +357,7 @@ class Quotation extends CI_Controller {
 						$row = $q_row->first_row();
 						$this->email_service->sendmail_change_status(
 							'QT', 'Quotation',
-							$inserted_id, $total_amount, $row->statu,
+							$post_id, $total_amount, $row->statu,
 							$row->ernam
 						);
 					}
