@@ -238,7 +238,7 @@ class Receipt extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed){
+			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('RD') && XUMS::CAN_APPROVE('RD')){
 					$limit = XUMS::LIMIT('RD');
 					if($limit<$row['netwr']){
