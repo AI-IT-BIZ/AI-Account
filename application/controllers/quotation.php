@@ -55,7 +55,7 @@ class Quotation extends CI_Controller {
 			$q_qt = $this->db->get_where('psal', array(
 				'salnr'=>$result_data['salnr']
 			));
-			
+
 			$r_qt = $q_qt->first_row('array');
 			$result_data['emnam'] = $r_qt['emnam'];
 
@@ -185,7 +185,7 @@ class Quotation extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed){
+			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('QT') && XUMS::CAN_APPROVE('QT')){
 					$limit = XUMS::LIMIT('QT');
 					if($limit<$row['netwr']){
@@ -344,10 +344,27 @@ class Quotation extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('QT', $total_amount);
+					//$this->email_service->quotation_create('QT', $total_amount);
+					$q_row = $this->db->get_where('vbak', array('vbeln'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'QT', 'Quotation',
+						$inserted_id, $total_amount,
+						$row->ernam,
+						$row->ernam, $row->erdat
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('QT', $total_amount);
+					if($status_changed){
+						//$this->email_service->quotation_change_status('QT', $total_amount);
+						$q_row = $this->db->get_where('vbak', array('vbeln'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'QT', 'Quotation',
+							$inserted_id, $total_amount, $row->statu,
+							$row->ernam,
+							$row->upnam, $row->updat
+						);
+					}
 				}
 			}catch(exception $e){}
 		}

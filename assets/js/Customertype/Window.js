@@ -25,7 +25,7 @@ Ext.define('Account.Customertype.Window', {
 		this.items = [this.grid];
 
 		this.buttons = [{
-			disabled: !UMS.CAN.EDIT('CS'),
+			disabled: !(UMS.CAN.EDIT('CS')||UMS.CAN.CREATE('CS')),
 			text: 'Save',
 			handler: function() {
 				//var rs = _this.grid.getData();
