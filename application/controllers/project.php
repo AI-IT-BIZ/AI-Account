@@ -5,12 +5,12 @@ class Project extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('code_model','',TRUE);
-		
+
 		$this->load->model('email_service','',TRUE);
 	}
-	
+
 	/*
 	function test_get_code(){
 		echo $this->code_model->generate('PR', '2013-05-22');
@@ -26,20 +26,20 @@ class Project extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
-		
+
 		$this->db->where('jobnr', $id);
 		$query = $this->db->get('jobk');
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
-			
+
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.$result_data['telfx'].
 									 PHP_EOL.'Email: '.$result_data['email'];
-			
+
 			$result_data['adr02'] .= ' '.$result_data['dis02'].' '.$result_data['pst02'].
 			                         PHP_EOL.'Tel: '.$result_data['tel02'].' '.'Fax: '.$result_data['telf2'].
 									 PHP_EOL.'Email: '.$result_data['emai2'];
-									 
+
 			$result_data['id'] = $result_data['jobnr'];
 
 			echo json_encode(array(
@@ -55,7 +55,7 @@ class Project extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'jobk';
-		
+
 // Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
@@ -66,7 +66,7 @@ class Project extends CI_Controller {
 				OR `name1` LIKE '%$query%'
 				OR `salnr` LIKE '%$query%')", NULL, FALSE);
 			}
-			
+
             $jobnr1 = $_this->input->get('jobnr');
 			$jobnr2 = $_this->input->get('jobnr2');
 			if(!empty($jobnr1) && empty($jobnr2)){
@@ -86,7 +86,7 @@ class Project extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-			
+
 			$kunnr1 = $_this->input->get('kunnr');
 			$kunnr2 = $_this->input->get('kunnr2');
 			if(!empty($kunnr1) && empty($kunnr2)){
@@ -106,7 +106,7 @@ class Project extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
-			
+
 		}
 // End for report
 
@@ -121,7 +121,7 @@ class Project extends CI_Controller {
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
 		$this->db->order_by($sort, $dir);
-		
+
 		$query = $this->db->get($tbName);
 
 		//echo $this->db->last_query();
@@ -136,14 +136,14 @@ class Project extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$query = null;
-		
+
 		$status_changed = false;
 		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('jobnr', $id);
 			$query = $this->db->get('jobk');
-			
+
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
 			// status has change
@@ -206,17 +206,17 @@ class Project extends CI_Controller {
 			'salnr' => $this->input->post('salnr'),
 			'stdat' => $this->input->post('stdat'),
 			'endat' => $this->input->post('endat'),
-			
+
 			'datam' => $this->input->post('datam'),
 			'kunnr' => $this->input->post('kunnr'),
-			'pson1' => $this->input->post('pson1'),		
+			'pson1' => $this->input->post('pson1'),
 			'pramt' => $this->input->post('pramt'),
 			'ctype' => $this->input->post('ctype'),
 			'esamt' => $this->input->post('esamt')
 		);
 		  //$this->db->set('erdat', 'NOW()', false);
 		  $current_username = XUMS::USERNAME();
-		  
+
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('jobnr', $id);
 			//$this->db->set('updat', 'NOW()', false);
@@ -236,7 +236,7 @@ class Project extends CI_Controller {
 			'success'=>true,
 			'data'=>$_POST
 		));
-		
+
 		try{
 				$post_id = $this->input->post('id');
 				$total_amount = $this->input->post('pramt');
@@ -273,23 +273,23 @@ class Project extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
+
 	public function loads_scombo(){
 		$tbName = 'apov';
 		$tbPK = 'statu';
-		
+
 		$sql="SELECT *
 			FROM tbl_apov
 			WHERE apgrp = '1'";
 		$query = $this->db->query($sql);
-		
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
+
 	public function loads_ocombo(){
 		$tbName = 'psal';
 		$tbPK = 'salnr';
@@ -322,7 +322,7 @@ class Project extends CI_Controller {
 			'data'=>$id
 		));
 	}
-	
+
 	function load_type(){
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
@@ -345,7 +345,7 @@ class Project extends CI_Controller {
 	function loads_type(){
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'jtyp';
-		
+
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -365,10 +365,10 @@ class Project extends CI_Controller {
 
 	function save_type(){
 		//echo "vendor type";
-		
+
 		//start transaction
-		//$this->db->trans_start();  
-		
+		//$this->db->trans_start();
+
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		$this->db->truncate('jtyp');
 		//$this->db->delete('ktyp');
@@ -376,7 +376,7 @@ class Project extends CI_Controller {
 		// เตรียมข้อมูล payment item
 		$jtyp = $this->input->post('jtyp');
 		$item_array = json_decode($jtyp);
-		
+
 		if(!empty($jtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
@@ -394,7 +394,7 @@ class Project extends CI_Controller {
 			'data'=>$_POST
 		));
 	}
-	
+
 	function remove_type(){
 		$id = $this->input->post('id');
 		$this->db->where('jtype', $id);
