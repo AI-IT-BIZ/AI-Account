@@ -165,7 +165,7 @@ Ext.define('Account.Material.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigType,{
 						xtype: 'displayfield',
-						name: 'matxt',
+						name: 'mtype',
 						margins: '4 0 0 6',
 						width:286
                 }]
@@ -174,7 +174,7 @@ Ext.define('Account.Material.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigGrp,{
 						xtype: 'displayfield',
-						name: 'matxt2',
+						name: 'mgrpp',
 						margins: '4 0 0 6',
 						width:286
                 }]

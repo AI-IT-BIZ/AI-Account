@@ -41,7 +41,8 @@ Ext.define('Account.Unit.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_unit'
+					idProperty: 'id_unit',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
@@ -169,7 +170,7 @@ Ext.define('Account.Unit.GridItem', {
 			url: __site_url+'unit/save',
 			method: 'POST',
 			params: {
-				ktyp: Ext.encode(r_data)
+				unit: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);

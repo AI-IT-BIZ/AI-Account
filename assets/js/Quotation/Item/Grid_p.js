@@ -107,44 +107,39 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 					}
 				}}
             },
-			{text: "Partial Amt",
-			width: 70,
-			//xtype: 'numbercolumn',
-			dataIndex: 'perct',
-			sortable: true,
-			align: 'right',
-			field: {
-                type: 'numberfield',
-                //decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
+			{
+				text: "Partial Amt",
+				width: 70,
+				//xtype: 'numbercolumn',
+				dataIndex: 'perct',
+				sortable: true,
+				align: 'right',
+				field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
+					var regEx = /%$/gi;
+					if(regEx.test(v))
+						return v;
+					else
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}
 			},
-			},
-			{text: "Amount",
-			width: 150,
-			dataIndex: 'pramt',
-			xtype: 'numbercolumn',
-			//sortable: true,
-			align: 'right',
-			renderer: function(v,p,r){
-				var net = _this.netValue;
-				var perc = parseFloat(r.data['perct']);
-				perc = isNaN(perc)?0:perc;
-				if(perc>0){
-                //net = isNaN(net)?0:net;
-				var amt = (perc * net) / 100;
-				
-			//discountValue = isNaN(discountValue)?0:discountValue;
-
-			//this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
-			
-				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-				}
+			{
+				text: "Amount",
+				width: 150,
+				dataIndex: 'pramt',
+				xtype: 'numbercolumn',
+				//sortable: true,
+				align: 'right',
+				renderer: function(v,p,r){
+					var net = _this.netValue,
+						percRaw = r.data['perct'],
+						regEx = /%$/gi;
+					if(regEx.test(percRaw)){
+						var perc = parseFloat(percRaw.replace(regEx, '')),
+							amt = (perc * net) / 100;
+						return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+					}else
+						return Ext.util.Format.usMoney(percRaw).replace(/\$/, '');
 				}
 			},
 			{text: "Currency",

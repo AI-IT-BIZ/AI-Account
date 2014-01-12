@@ -42,7 +42,8 @@ Ext.define('Account.Projecttype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_jtype'
+					idProperty: 'id_jtype',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

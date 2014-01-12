@@ -32,7 +32,8 @@ Ext.define('Account.SDepartment.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_depnr2'
+					idProperty: 'id_depnr2',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

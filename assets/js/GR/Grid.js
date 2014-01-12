@@ -12,7 +12,8 @@ Ext.define('Account.GR.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'mbeln'
+					idProperty: 'mbeln',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

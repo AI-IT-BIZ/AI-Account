@@ -20,7 +20,7 @@ Ext.define('Account.Service.Item.Form', {
 		// INIT Warehouse search popup ///////
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.typeDialog = Ext.create('Account.Materialtype.Window');
+		/*this.typeDialog = Ext.create('Account.Materialtype.Window');
 		
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
 			name: 'mtart',
@@ -28,7 +28,7 @@ Ext.define('Account.Service.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true//,
 			//width:290
-		});
+		});*/
 		
 		this.grpDialog = Ext.create('Account.Materialgrp.Window');
 		
@@ -150,10 +150,18 @@ Ext.define('Account.Service.Item.Form', {
 		}, {
                 xtype: 'container',
                 layout: 'hbox',
-                items :[this.trigType,{
+                items :[{
+			xtype: 'textfield',
+			name: 'mtart',
+			value: 'SV',
+			fieldLabel: 'Service Type',
+			//width: 400,
+			readOnly: true
+		   },{
 						xtype: 'displayfield',
-						name: 'matxt',
+						name: 'mtype',
 						margins: '4 0 0 6',
+						value: 'Service Material',
 						width:286//,
 						//allowBlank: false
                 }]
@@ -162,7 +170,7 @@ Ext.define('Account.Service.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigGrp,{
 						xtype: 'displayfield',
-						name: 'matxt2',
+						name: 'mgrpp',
 						margins: '4 0 0 6',
 						width:286//,
 						//allowBlank: false
@@ -233,7 +241,7 @@ Ext.define('Account.Service.Item.Form', {
 		},this.comboQStatus];
 		
 		// event trigType//
-		this.trigType.on('keyup',function(o, e){
+		/*this.trigType.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -273,7 +281,7 @@ Ext.define('Account.Service.Item.Form', {
 
 		this.trigType.onTriggerClick = function(){
 			_this.typeDialog.show();
-		};	
+		};	*/
 		
 		// event trigGrp//
 		this.trigGrp.on('keyup',function(o, e){

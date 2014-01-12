@@ -15,7 +15,8 @@ Ext.define('Account.Vendor.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'lifnr'
+					idProperty: 'lifnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

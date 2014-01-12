@@ -12,7 +12,8 @@ Ext.define('Account.Billto.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'bilnr'
+					idProperty: 'bilnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

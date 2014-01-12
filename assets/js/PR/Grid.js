@@ -12,7 +12,8 @@ Ext.define('Account.PR.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'purnr'
+					idProperty: 'purnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
