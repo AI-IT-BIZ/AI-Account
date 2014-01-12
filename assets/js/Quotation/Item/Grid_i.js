@@ -22,7 +22,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			isApproveOnly: true
 		});
 		// END Material search popup ///////////////////////////////////
-		
+
 		this.unitDialog = Ext.create('Account.Unit.Window');
 
 		this.tbar = [this.addAct, this.copyAct];
@@ -121,8 +121,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, 
-			dataIndex: 'meins', 
+			{text: "Unit", width: 50,
+			dataIndex: 'meins',
 			sortable: false,
 			field: {
 				xtype: 'triggerfield',
@@ -333,7 +333,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
 		});
-		
+
 		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
@@ -344,12 +344,28 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
-			
+
 		});
 
 		//this.trigUnit.onTriggerClick = function(){
 		//	_this.unitDialog.show();
 		//};
+
+		// for set readonly grid
+		this.store.on('load', function(store, rs){
+			if(_this.readOnly){
+				var view = _this.getView();
+				var t = _this.getView().getEl().down('table');
+				t.addCls('mask-grid-readonly');
+				_this.readOnlyMask = new Ext.LoadMask(t, {
+					msg:"..."
+				});
+				_this.readOnlyMask.show();
+			}else{
+				if(_this.readOnlyMask)
+					_this.readOnlyMask.hide();
+			}
+		});
 
 		return this.callParent(arguments);
 	},

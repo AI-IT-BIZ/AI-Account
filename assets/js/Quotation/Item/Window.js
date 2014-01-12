@@ -71,5 +71,21 @@ Ext.define('Account.Quotation.Item.Window', {
 
 			this.btnPreview.setDisabled(true);
 		}
+	},
+	setReadOnly: function(readOnly){
+		var children = this.items ? this.items.items : [];
+		for(var i=0;i<children.length;i++){
+			var child = children[i];
+			child.query('.field').forEach(function(c){c.setReadOnly(readOnly);});
+			child.query('.button').forEach(function(c){
+				if(c.xtype!='tab')
+					c.setDisabled(readOnly);
+			});
+		}
+		// ตามแต่ละ window
+		this.form.gridItem.readOnly = readOnly;
+		this.form.gridPayment.readOnly = readOnly;
+
+		this.buttons[0].setDisabled(readOnly);
 	}
 });

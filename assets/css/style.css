@@ -138,3 +138,12 @@
 }
 
 /* --------------------------------------------------------------- */
+
+/* grid mask readonly */
+.mask-grid-readonly .x-mask {
+	background-color:#FFFFFF;
+}
+.mask-grid-readonly .x-mask-loading {
+	display:none;
+}
+/**/

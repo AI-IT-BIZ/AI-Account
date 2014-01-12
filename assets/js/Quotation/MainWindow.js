@@ -34,7 +34,12 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('QT') || UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT'))
+			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT') || UMS.CAN.APPROVE('QT'))
+		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('QT')
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
@@ -68,7 +73,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		this.grid = Ext.create('Account.Quotation.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct,
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct,
 				 this.excelAct,this.importAct]
 		});
 
@@ -92,6 +97,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setReadOnly(false);
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
 		});
@@ -101,12 +107,22 @@ Ext.define('Account.Quotation.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				//_this.itemDialog.form.gridItem.load({vbeln: id});
 				//_this.itemDialog.form.gridPayment.load({vbeln: id});
+			}
+		});
+
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 
@@ -163,7 +179,10 @@ Ext.define('Account.Quotation.MainWindow', {
 
 		if(!this.disableGridDoubleClick){
 		    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
-		    	_this.editAct.execute();
+		    	if(!_this.editAct.isDisabled())
+		    		_this.editAct.execute();
+		    	else if(UMS.CAN.DISPLAY('QT'))
+		    		_this.displayAct.execute();
 		    });
 		}
 

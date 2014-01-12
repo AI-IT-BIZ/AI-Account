@@ -18,7 +18,7 @@ Ext.define('Account.PO.Item.Form', {
 			isApproveOnly: true
 		});
 		
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

@@ -17,7 +17,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -27,13 +27,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
-			fieldLabel: 'Sale Person',
+			fieldLabel: 'Salesperson',
 			triggerCls: 'x-form-search-trigger',
 			//labelWidth: 100,
 			labelAlign: 'left',
 			width: 170,
-			enableKeyEvents: true//,
-			//allowBlank : false
+			enableKeyEvents: true
 		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 

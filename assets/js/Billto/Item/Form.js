@@ -13,7 +13,7 @@ Ext.define('Account.Billto.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
