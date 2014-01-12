@@ -660,6 +660,7 @@ function endsWith($haystack, $needle)
 					nodeARAging,
 					nodeAPLedger,
 					nodeAPAging,
+					nodeReportGJ,
 					nodeReportPJ,
 					nodeReportSJ,
 					nodeReportGL,
