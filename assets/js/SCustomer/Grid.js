@@ -8,38 +8,42 @@ Ext.define('Account.SCustomer.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"customer/load2",
+				url: __site_url+"customer/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'matnr',
+					idProperty: 'kunnr',
 					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
 			fields: [
-			    'matnr',
-				'maktx',
-			    'matx2',
-				'mtart',
-				//'matx1',
-				'meins',
-				'saknr',
-				'erdat'
+				'kunnr',
+				'name1',
+				'adr01',
+				'distx',
+				'pstlz',
+				'telf1',
+				'telfx',
+				'email',
+				'pson1',
+				'statx'
 			],
 			remoteSort: true,
-			sorters: [{property: 'matnr', direction: 'ASC'}]
+			sorters: [{property: 'kunnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
-		    {text: "Asset No", width: 100, dataIndex: 'matnr', sortable: true},
-			{text: "Asset Name", width: 150, dataIndex: 'maktx', sortable: true},
-		    {text: "Asset Grp", width: 150, dataIndex: 'matx2', sortable: true},
-			{text: "Asset Type", width: 80, dataIndex: 'mtart', sortable: true},
-			//{text: "Mat Type Description", width: 150, dataIndex: 'matx1', sortable: true},
-			{text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
-			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
-			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true}
+			{text: "Customer Code", width: 100, dataIndex: 'kunnr', sortable: true},
+			{text: "Name", width: 150, dataIndex: 'name1', sortable: true},
+			{text: "Address", width: 200, dataIndex: 'adr01', sortable: true},
+			{text: "District", flex: true, dataIndex: 'distx', sortable: true},
+			{text: "Post Code", width: 60, dataIndex: 'pstlz', sortable: true},
+			{text: "Telephon", flex: true, dataIndex: 'telf1', sortable: true},
+			{text: "Fax No", flex: true, dataIndex: 'telfx', sortable: true},
+			{text: "Email", width: 120, dataIndex: 'email', sortable: true},
+			{text: "Contact Person", flex: true, dataIndex: 'pson1', sortable: true},
+			{text: "Status", width: 100, dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

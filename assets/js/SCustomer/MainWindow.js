@@ -7,7 +7,7 @@ Ext.define('Account.SCustomer.MainWindow', {
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 800,
+			width: 1000,
 			minWidth: 600,
 			resizable: true,
 			modal: true,
