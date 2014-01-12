@@ -170,16 +170,27 @@ class Customer extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-
-        if($this->input->post('apamt')<0||$this->input->post('begin')<0
-		   ||$this->input->post('endin')<0){
-					$emsg = 'The value must be more than zero.';
+        
+		/*$name1='';
+        $name = explode(' ',$this->input->post('name1'));
+	    for($i=0;$i<count($name);$i++){
+	    	$name1 = $name1.$name[$i];
+	    }*/
+		
+		//echo $stdat.'aaa'.$endat;
+		$name1=$this->input->post('name1');
+		if(!empty($name1)){
+			$this->db->where('name1', $name1);
+			$q_txt = $this->db->get('kna1');
+			if($q_txt->num_rows() > 0){
+					$emsg = 'The Customer Name already created.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
 				}
+			}
 
         if($this->input->post('apamt')<$this->input->post('endin')){
 					$emsg = 'The Limit Credit must be more than Maximum Amt.';

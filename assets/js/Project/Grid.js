@@ -46,7 +46,7 @@ Ext.define('Account.Project.Grid', {
 			{text: "Project Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', dataIndex: 'bldat', sortable: true},
 			{text: "1", hidden: true, width: 0, dataIndex: 'salnr', sortable: true},
-			{text: "Sale Person",
+			{text: "Salesperson",
 			width: 100, dataIndex: 'emnam', sortable: true},
 			{text: "Status",
 			width: 120, dataIndex: 'statx', sortable: true},

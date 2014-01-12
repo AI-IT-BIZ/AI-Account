@@ -417,7 +417,7 @@ class Otexpense extends CI_Controller {
 			'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
-			'mbeln' => $this->input->post('mbeln'),  //GR Doc.
+			//'mbeln' => $this->input->post('mbeln'),  //GR Doc.
 			'ptype' => $this->input->post('ptype'),
 			'terms' => $this->input->post('terms'),
 			'dismt' => $this->input->post('dismt'),
@@ -435,7 +435,8 @@ class Otexpense extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'whtpr' => $this->input->post('whtpr'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'docty' => $this->input->post('docty')
 		);
 
 		// start transaction

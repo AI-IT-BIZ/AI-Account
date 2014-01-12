@@ -73,6 +73,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Vendor Type',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			allowBlank : false,
 			width:290,
 		});
 //---event triger----------------------------------------------------------------	
@@ -120,7 +121,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		};
 
 //---Create Selection--------------------------------------------
-        this.glnoDialog = Ext.create('Account.GL.MainWindow');
+       /* this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		
 		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
 			name: 'saknr',
@@ -129,7 +130,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			allowBlank: false,
 			enableKeyEvents: true,
 			width:290
-		});
+		});*/
 	
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('VD'),
@@ -165,7 +166,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		});	
 		
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payments',
+			fieldLabel: 'Payment type',
 			name : 'ptype',
 			width: 290,
 			editable: false,
@@ -202,7 +203,6 @@ Ext.define('Account.Vendor.Item.Form', {
 			width:290,
 			labelWidth: 120,
 			editable: false,
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 		    emptyText: '-- Please select Type --',
@@ -235,6 +235,8 @@ Ext.define('Account.Vendor.Item.Form', {
 			labelAlign: 'right',
 			width:200,
 			hideTrigger:false,
+			allowBlank : false,
+			minValue: 0,
 			align: 'right',
 			margin: '0 0 0 56'
          });
@@ -244,6 +246,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Discount Amount',
 			name: 'disct',
 			labelAlign: 'left',
+			minValue: 0,
 			width:290,
 			hideTrigger:false
          });
@@ -254,7 +257,8 @@ Ext.define('Account.Vendor.Item.Form', {
 			name: 'apamt',
 			labelAlign: 'right',
 			hideTrigger:false,
-			allowBlank: false,
+			allowBlank : false,
+			minValue: 0,
 			align: 'right',
 			margin: '0 0 0 56'
          });
@@ -264,6 +268,8 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Minimum Amount',
 			name: 'begin',
 			labelAlign: 'left',
+			allowBlank : false,
+			minValue: 0,
 			width:290,
 			hideTrigger:false
          });
@@ -273,7 +279,8 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Maximum Amount',
 			name: 'endin',
 			labelAlign: 'right',
-			//width:200,
+			allowBlank : false,
+			minValue: 0,
 			hideTrigger:false,
 			align: 'right',
 			margin: '0 0 0 56'
@@ -284,6 +291,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			name: 'vat01',
 			labelAlign: 'right',
 			hideTrigger:false,
+			minValue: 0,
 			align: 'right',
 			margin: '0 0 0 56'
          });
@@ -346,6 +354,7 @@ Ext.define('Account.Vendor.Item.Form', {
 					xtype: 'textarea',
 					fieldLabel: 'Address',
 					name: 'adr01',
+					allowBlank : false,
 					labelWidth:110,
 					width:460
                 }]
@@ -463,7 +472,14 @@ Ext.define('Account.Vendor.Item.Form', {
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.trigGlno,{
+                items :[{
+					xtype: 'textfield',
+					name: 'saknr',
+			        fieldLabel: 'GL Account',
+                    redOnly: true,
+			        allowBlank : false,
+			        width:290
+                },{
 						xtype: 'displayfield',
 						name: 'sgtxt',
 						margins: '0 0 0 6',
@@ -489,7 +505,7 @@ Ext.define('Account.Vendor.Item.Form', {
 
 //---event triger----------------------------------------------------------------	
 		// event trigGlno//
-		this.trigGlno.on('keyup',function(o, e){
+		/*this.trigGlno.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -523,7 +539,7 @@ Ext.define('Account.Vendor.Item.Form', {
 
 		this.trigGlno.onTriggerClick = function(){
 			_this.glnoDialog.show();
-		};	
+		};*/	
 		
 		this.comboTax.on('select', this.selectTax, this);
 

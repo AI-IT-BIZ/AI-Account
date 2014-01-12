@@ -13,10 +13,10 @@ Ext.define('Account.OtherIncome.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 
-		this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
-			disableGridDoubleClick: true,
-			isApproveOnly:true
-		});
+		//this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
+		//	disableGridDoubleClick: true,
+		//	isApproveOnly:true
+		//});
 		// INIT Customer search popup ///////////////////////////////
 		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
 		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
@@ -209,7 +209,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			margin: '0 0 0 25'
          });
 
-        this.trigSO = Ext.create('Ext.form.field.Trigger', {
+        /*this.trigSO = Ext.create('Ext.form.field.Trigger', {
 			name: 'ordnr',
 			fieldLabel: 'SO No',
 			labelAlign: 'letf',
@@ -217,7 +217,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
-		});
+		});*/
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
@@ -292,10 +292,10 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		},{
 			xtype: 'hidden',
 			name: 'loekz'
-		},this.trigSO,{
+		},{
 			xtype: 'displayfield',
 			//name: 'jobtx',
-			width:350,
+			width:590,
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
@@ -447,7 +447,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		];
 
 		// event trigQuotation///
-		this.trigSO.on('keyup',function(o, e){
+		/*this.trigSO.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -528,7 +528,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 
 		this.trigSO.onTriggerClick = function(){
 			_this.soDialog.show();
-		};
+		};*/
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){

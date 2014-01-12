@@ -477,7 +477,7 @@ class Otincome extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'ordnr' => $this->input->post('ordnr'),
+			//'ordnr' => $this->input->post('ordnr'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),

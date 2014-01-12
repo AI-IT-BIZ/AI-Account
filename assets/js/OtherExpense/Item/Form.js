@@ -153,7 +153,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			name: 'bven',
 		});
 
-        this.trigGR = Ext.create('Ext.form.field.Trigger', {
+        /*this.trigGR = Ext.create('Ext.form.field.Trigger', {
 			name: 'mbeln',
 			fieldLabel: 'GR No',
 			labelAlign: 'letf',
@@ -161,7 +161,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
-		});
+		});*/
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
@@ -212,6 +212,16 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
+         
+         this.radioType = Ext.create('Ext.form.RadioGroup', {
+			//xtype: 'radiogroup',
+           // fieldLabel: 'Payable Type',
+            cls: 'x-check-group-alt',
+            items: [
+                {boxLabel: 'Account Payable', width:150, name: 'docty', inputValue: 1, checked: true},
+                {boxLabel: 'Pretty Cash', width:100,  name: 'docty', inputValue: 2}
+            ]
+		});
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -239,11 +249,15 @@ Ext.define('Account.OtherExpense.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'loekz'
-					},{
+					},{xtype: 'fieldset',
+title: 'Payable Type',
+layout: 'anchor',
+//collapsible: true,
+        items: [this.radioType]},{
 						xtype: 'displayfield',
 						//name: 'name1',
 						//margins: '0 0 0 6',
-						width:290,
+						width:240,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',

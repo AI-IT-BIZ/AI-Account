@@ -30,7 +30,7 @@ var myStorecomboPleve = Ext.create('Ext.data.Store', {
     ]
 });
 
-this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
+this.comboPleve = Ext.create('Ext.form.ComboBox', {
     fieldLabel: 'Price Level',
 	name: 'pleve',
 	triggerAction : 'all',
@@ -52,7 +52,6 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			width:290,
 			labelWidth: 105,
 			editable: false,
-			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
 		    emptyText: '-- Please select Type --',
@@ -187,6 +186,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Customer Type',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			allowBlank : false,
 			width:290,
 		});
 //---event triger----------------------------------------------------------------
@@ -241,6 +241,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			labelAlign: 'right',
 			width:200,
 			hideTrigger:false,
+			allowBlank : false,
+			minValue: 0,
 			align: 'right',
 			margin: '0 0 0 56'
          });
@@ -251,6 +253,8 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			name: 'begin',
 			labelAlign: 'left',
 			width:290,
+			minValue: 0,
+			allowBlank : false,
 			hideTrigger:false
          });
 
@@ -259,9 +263,10 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Maximum Amount',
 			name: 'endin',
 			labelAlign: 'right',
-			//width:200,
 			hideTrigger:false,
 			align: 'right',
+			minValue: 0,
+			allowBlank : false,
 			margin: '0 0 0 56'
          });
 
@@ -269,9 +274,9 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Limit Amt',
 			name: 'apamt',
-			//labelAlign: 'right',
 			hideTrigger:false,
-			allowBlank: false,
+			allowBlank : false,
+			minValue: 0,
 			width:290
          });
 
@@ -281,21 +286,23 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 			labelAlign: 'right',
 			hideTrigger:false,
 			align: 'right',
+			minValue: 0,
 			margin: '0 0 0 56'
          });
 //---Create Selection--------------------------------------------
-        this.glnoDialog = Ext.create('Account.GL.MainWindow');
+        /*this.glnoDialog = Ext.create('Account.GL.MainWindow');
 
 		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
 			name: 'saknr',
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			allowBlank : false,
 			width:290,
-		});
-//---event triger----------------------------------------------------------------
+		});*/
+//---event triger-----------------------------------------------
 		// event trigGlno//
-		this.trigGlno.on('keyup',function(o, e){
+		/*this.trigGlno.on('keyup',function(o, e){
 
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -331,7 +338,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 
 		this.trigGlno.onTriggerClick = function(){
 			_this.glnoDialog.show();
-		};
+		};*/
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('CS'),
@@ -368,7 +375,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
 		});
 
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payments',
+			fieldLabel: 'Payment type',
 			name : 'ptype',
 			width: 290,
 			editable: false,
@@ -450,7 +457,7 @@ this.comboPleve2 = Ext.create('Ext.form.ComboBox', {
                 }]
             },{
 xtype:'fieldset',
-title: 'Address Bill To',
+title: 'Bill-to address',
 items:[{
                 xtype: 'container',
                 flex: 1,
@@ -460,8 +467,9 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Address',
 					name: 'adr01',
+					allowBlank : false,
 					labelWidth: 93,
-					width:450,
+					width:450
                 }]
             },{
                 xtype: 'container',
@@ -474,7 +482,7 @@ items:[{
 					fieldLabel: 'Country',
 		            name: 'cunt1',
 		            labelAlign: 'right',
-            		margin: '0 0 0 48',
+            		margin: '0 0 0 48'
                 }]
 
             },{
@@ -491,13 +499,13 @@ items:[{
 		            regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
 					labelWidth: 93,
-		            width: 290,
+		            width: 290
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Email',
 					name: 'email',
 					labelAlign: 'right',
-            		margin: '0 0 0 50',
+            		margin: '0 0 0 50'
                 }]
             },{
                 xtype: 'container',
@@ -511,7 +519,7 @@ items:[{
 		            labelWidth: 93,
 		            width: 290,
 		            emptyText: 'xxx-xxxxxxx',
-		            maskRe: /[\d\-]/,
+		            maskRe: /[\d\-]/
                 }, {
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
@@ -519,7 +527,7 @@ items:[{
 		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
 		            //regexText: 'Must be in the format xxx-xxxxxx',
-            		margin: '0 0 0 50',
+            		margin: '0 0 0 50'
                 }]
 
             },{
@@ -540,7 +548,7 @@ items:[{
 }],
             },{
 xtype:'fieldset',
-title: 'Address Ship To',
+title: 'Ship-to address',
 items:[{
                 xtype: 'container',
                 flex: 1,
@@ -550,8 +558,9 @@ items:[{
 					xtype: 'textfield',
 					fieldLabel: 'Address',
 					name: 'adr02',
+					allowBlank : false,
 					labelWidth: 93,
-					width:450,
+					width:450
                 }]
             },{
                 xtype: 'container',
@@ -564,7 +573,7 @@ items:[{
 					fieldLabel: 'Country',
 		            name: 'cunt2',
 		            labelAlign: 'right',
-            		margin: '0 0 0 48',
+            		margin: '0 0 0 48'
                 }]
 
             },{
@@ -648,7 +657,7 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.numberLimit,this.comboPleve2]
+                items :[this.numberLimit,this.comboPleve]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -683,7 +692,14 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.trigGlno,{
+                items :[{
+					xtype: 'textfield',
+					name: 'saknr',
+			        fieldLabel: 'GL Account',
+                    redOnly: true,
+			        allowBlank : false,
+			        width:290
+                },{
 						xtype: 'displayfield',
 						name: 'sgtxt',
 						margins: '0 0 0 6',
@@ -759,13 +775,9 @@ items:[{
 	reset: function(){
 		this.getForm().reset();
 
-		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ vbeln: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
-		//this.gridPrice.load();
-
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
+		this.comboPleve.setValue('01');
 	},
 	remove : function(kunnr){
 		var _this=this;
