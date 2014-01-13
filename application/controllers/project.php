@@ -251,7 +251,7 @@ class Project extends CI_Controller {
 						'PJ', 'Project',
 						$inserted_id, $total_amount,
 						$row->ernam
-					);
+					); print_r($inserted_id);
 				}else if(!empty($post_id)){print_r($post_id);
 					if($status_changed){
 						$q_row = $this->db->get_where('jobk', array('jobnr'=>$post_id));
