@@ -567,10 +567,23 @@ class Payment extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('PY', $total_amount);
+					$q_row = $this->db->get_where('ebbk', array('payno'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'PY', 'Payment',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('PY', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('ebbk', array('payno'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'PY', 'Payment',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 		}

@@ -254,14 +254,26 @@ class Vendor extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				//$total_amount = $this->input->post('netwr');
-				$total_amount = 0;
+				$total_amount = $this->input->post('endin');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('VD', $total_amount);
+					$q_row = $this->db->get_where('vbok', array('ordnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'VD', 'Vendor',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('VD', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('vbok', array('ordnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'VD', 'Vendor',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 	}

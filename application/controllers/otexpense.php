@@ -604,10 +604,23 @@ class Otexpense extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('AP', $total_amount);
+					$q_row = $this->db->get_where('ebrk', array('invnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'OE', 'Other Expense',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('AP', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('ebrk', array('invnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'OE', 'Other Expense',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 		}
