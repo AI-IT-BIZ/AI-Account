@@ -135,7 +135,7 @@ class Employee extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed){
+			if($status_changed||$row['statu']=='02'){
 				if(XUMS::CAN_DISPLAY('EP') && XUMS::CAN_APPROVE('EP')){
 					$limit = XUMS::LIMIT('EP');
 					/*if($limit<$row['netwr']){
@@ -157,8 +157,8 @@ class Employee extends CI_Controller {
 					return;
 				}
 			}else{
-				if($row['statu']=='02'||$row['statu']=='03'){
-					$emsg = 'The Employee that already approved or rejected cannot be update.';
+				if($row['statu']=='03'){
+					$emsg = 'The Employee that already has been rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg

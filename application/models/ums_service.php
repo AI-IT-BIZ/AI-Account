@@ -84,15 +84,14 @@ Order by d.grpmo and d.docno ASC";
 		$sql = "
 SELECT
 TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
-, al.limam, au.comid
+, al.limam, al.comid
 FROM $tbDoct d
-
-LEFT JOIN $tbAutu au ON au.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname AND u.comid=$comid_esc)
-LEFT JOIN $tbAutl al ON au.autlid=al.autlid AND al.docty=d.docty
-
-WHERE 1=1
-GROUP BY d.docty
-ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC, al.limam DESC";
+LEFT JOIN $tbAutl al ON d.docty=al.docty AND al.autlid IN (
+	SELECT au.autlid FROM $tbAutu au WHERE
+	au.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=$uname AND u.comid=$comid_esc)
+)
+ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC, al.limam DESC
+";
 		$query = $this->db->query($sql);
 
 		$result = $query->result_array();
