@@ -169,7 +169,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 									){
 		$action_user = XUMS::USERNAME();
 		$action_date = date('d/m/Y H:i:s');
-
+		
 		if(empty($module_code)) return;
 		//echo PHP_EOL.'MODULE CODE: '.$module_code.PHP_EOL;
 		//echo PHP_EOL.'ROW CODE: '.$row_code.PHP_EOL;
@@ -178,7 +178,6 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			$emails = $this->get_email($module_code, $amount, $create_user);
 			//echo 'CREATE USER: '.$create_user.PHP_EOL;
 			//echo 'EMAILS: '.PHP_EOL;
-			//print_r($emails);
 			if(empty($emails)) return;
 
 			// get new status text
