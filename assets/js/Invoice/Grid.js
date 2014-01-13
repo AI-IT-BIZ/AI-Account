@@ -46,7 +46,7 @@ Ext.define('Account.Invoice.Grid', {
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Sale Order No.", 
 			width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
-			{text: "Sale Person", 
+			{text: "Salesperson", 
 			width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Status", 
 			width: 100, dataIndex: 'statx', sortable: true},

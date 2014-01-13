@@ -108,7 +108,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				}}
             },
 			{
-				text: "Partial Amt",
+				text: "Amt/ %",
 				width: 70,
 				//xtype: 'numbercolumn',
 				dataIndex: 'perct',
@@ -178,9 +178,10 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				newId = r.get('id');
 		});
 		newId--;
-
+        
+        var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, pramt:'0.00', ctyp1:'THB' };
+		rec = { id:newId, pramt:'0.00', ctyp1:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

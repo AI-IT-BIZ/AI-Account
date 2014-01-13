@@ -155,13 +155,11 @@ Ext.define('Account.DepositIn.Item.Form', {
 			//margin: '4 0 0 10'
 		});
 		
-		this.numberWHT = Ext.create('Ext.form.field.Number', {
-			fieldLabel: 'WHT Value',
+		this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			labelAlign: 'right',
-			width:200,
-			//align: 'right',
-			//margin: '0 0 0 25'
+			width:15,
+			align: 'right',
+			margin: '0 0 0 8'
          });
 
          this.numberVat = Ext.create('Ext.form.field.Number', {
@@ -305,12 +303,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 				layout: 'hbox',
 				margin: '0 0 5 0',
 				items: [
-				this.trigWHT,{
-			       xtype: 'displayfield',
-			       name: 'whtpr',
-			       width:15,
-			       margin: '0 0 0 10'
-		           },{
+				this.trigWHT,this.numberWHT,{
 			       xtype: 'displayfield',
 			       align: 'right',
 			       width:15,
@@ -583,6 +576,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		this.numberCredit.on('keyup', this.getDuedate, this);
 		this.numberCredit.on('change', this.getDuedate, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 
@@ -662,7 +657,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
-		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotal.txtRate.setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -732,8 +727,11 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		var currency = this.trigCurrency.getValue();
 		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+	      var rate = this.formTotal.txtRate.getValue();
+	      //alert(rate);
 		  sum = sum * rate;
+		  vats = vats * rate;
+		  sum2 = sum2 * rate;
 		}   
         if(sum>0 && this.trigCustomer.getValue()!=''){
         	//console.log(rsPM);
