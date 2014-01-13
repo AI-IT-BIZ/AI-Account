@@ -98,7 +98,7 @@ Ext.define('Account.Quotation.Item.Form_thb', {
             fieldLabel: 'Exchange Rate',
 			align: 'right',
 			//disabled: true,
-			//readOnly: true,
+			readOnly: true,
 			width:240,
 			alwaysDisplayDecimals: true,
 			decimalPrecision : 4,

@@ -165,7 +165,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			margin: '0 0 0 35'
          });
 
-		this.whtDialog = Ext.create('Account.WHT.Window');
+	   this.whtDialog = Ext.create('Account.WHT.Window');
        this.trigWHT = Ext.create('Ext.form.field.Trigger', {
        	    fieldLabel: 'WHT Value',
 			name: 'whtnr',
@@ -173,7 +173,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//margin: '4 0 0 10'
+			margin: '0 0 0 30'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
@@ -387,7 +387,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:220,
 			items: [
 				this.formTotal,
 				this.gridPrice
