@@ -151,7 +151,6 @@ class Project extends CI_Controller {
 			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('PJ') && XUMS::CAN_APPROVE('PJ')){
 					$limit = XUMS::LIMIT('PJ');
-					print_r($limit); return;
 					if($limit<$row['pramt']){
 						$emsg = 'You do not have permission to change project status over than '.number_format($limit);
 						echo json_encode(array(
@@ -251,8 +250,8 @@ class Project extends CI_Controller {
 						'PJ', 'Project',
 						$inserted_id, $total_amount,
 						$row->ernam
-					); print_r($inserted_id);
-				}else if(!empty($post_id)){print_r($post_id);
+					);
+				}else if(!empty($post_id)){
 					if($status_changed){
 						$q_row = $this->db->get_where('jobk', array('jobnr'=>$post_id));
 						$row = $q_row->first_row();
