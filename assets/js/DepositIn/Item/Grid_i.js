@@ -100,22 +100,19 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
             }
 			},
 			{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
+			field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
+					var regEx = /%$/gi;
+					if(regEx.test(v))
+						return v;
+					else
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}
-			},
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
@@ -145,13 +142,13 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 					}
 				}}
             },
-			{text: "Percent",
-			width: 70,
-			xtype: 'numbercolumn',
+			{text: "Amount/ %",
+			width: 100,
+			//xtype: 'textcolumn',
 			dataIndex: 'perct',
 			sortable: true,
 			align: 'right',
-			field: {
+			/*field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
 				listeners: {
@@ -161,22 +158,29 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Amount",
 			width: 100,
 			dataIndex: 'pramt',
 			xtype: 'numbercolumn',
 			//sortable: true,
-			align: 'right'/*,
-			renderer: function(v,p,r){
-				var net = _this.netValue;
-				var perc = parseFloat(r.data['perct']);
-				perc = isNaN(perc)?0:perc;
-				if(perc>0){
-                //net = isNaN(net)?0:net;
-				var amt = (perc * net) / 100;
-				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+			align: 'right',
+			/*renderer: function(v,p,r){
+				var		percRaw = r.data['disit'];
+				var net = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+				if(percRaw!='0.00'){
+				var		regEx = /%$/gi;
+					if(regEx.test(percRaw)){
+						var perc = parseFloat(percRaw.replace(regEx, '')),
+							amt = (perc * net) / 100;
+						return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+					}//else
+					//if(percRaw>0)
+						//return Ext.util.Format.usMoney(percRaw).replace(/\$/, '');
+				//}
+				}else{
+					return Ext.util.Format.usMoney(net).replace(/\$/, '');
 				}
 				}*/
 			},

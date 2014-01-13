@@ -46,6 +46,17 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 					return true;
 			}
 		});*/
+		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
+			fieldLabel: 'Deposit Receipt',
+			name: 'deamt',
+			align: 'right',
+			width:270,
+			labelWidth: 155,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
+			readOnly: true
+         });
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
@@ -58,7 +69,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
-			fieldLabel: 'After Discount',
+			fieldLabel: 'After Discount&Deposit',
 			name: 'bbb',
 			align: 'right',
 			width:270,
@@ -174,6 +185,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},*/
 		this.txtDiscountValue,
+		this.txtDepositValue,
 		this.txtDiscountSum,
 		this.txtTaxValue,
 		this.txtWHTValue,

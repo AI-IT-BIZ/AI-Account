@@ -461,6 +461,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
 		};
 		
@@ -500,6 +501,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 
 		this.trigSale.onTriggerClick = function(){
+			_this.saleDialog.grid.load();
 			_this.saleDialog.show();
 		};
 
@@ -628,6 +630,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.trigCurrency.on('change', this.changeCurrency, this);
 
 		return this.callParent(arguments);
 	},
@@ -727,21 +730,34 @@ Ext.define('Account.Quotation.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+				//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+				discountValue = 0,
+				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
-			discount = isNaN(discount)?0:discount;
+			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
+			
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
+		    
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+			
 			sum += amt;
 			
-			discounts += discount;
+			discounts += discountValue;
             
-            amt = amt - discount;
+            amt = amt - discountValue;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -779,7 +795,7 @@ Ext.define('Account.Quotation.Item.Form', {
             _this.gridPrice.load({
             	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
@@ -789,6 +805,16 @@ Ext.define('Account.Quotation.Item.Form', {
 
         }
 	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var sum = 0;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
+	}
 
 	// select tax functions
 	/*

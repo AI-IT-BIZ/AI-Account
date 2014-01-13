@@ -152,22 +152,19 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				}
 			},
 			},{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
+			field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
+					var regEx = /%$/gi;
+					if(regEx.test(v))
+						return v;
+					else
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}
-			},
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
