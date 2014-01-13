@@ -39,6 +39,12 @@ Ext.define('Account.DepositIn.Item.Form', {
 			title:'Total->Deposit',
 			region:'south'
 		});
+		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
+			border: true,
+			split: true,
+			title:'Exchange Rate->THB',
+			region:'south'
+		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('DR'),
@@ -337,6 +343,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			height:200,
 			items: [
 				this.formTotal,
+				this.formTotalthb,
 				this.gridGL
 			]
 		}
@@ -658,6 +665,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.txtRate.setValue('1.0000');
+		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -723,16 +731,23 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		this.gridItem.whtValue = this.numberWHT.getValue();
-		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
-		var currency = this.trigCurrency.getValue();
+        var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
-	      var rate = this.formTotal.txtRate.getValue();
-	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  sum2 = sum2 * rate;
+		  discounts = discounts * rate;
 		}   
+		
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
+		var net2 = this.formTotalthb.calculate();
+		
         if(sum>0 && this.trigCustomer.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({

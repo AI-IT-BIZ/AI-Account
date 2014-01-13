@@ -38,7 +38,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.vbeln+o.vbelp; }//'vbeln,vbelp'
+					idProperty: function(o){ return o.vbeln+o.vbelp; },
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

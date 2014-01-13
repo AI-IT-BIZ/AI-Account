@@ -493,9 +493,10 @@ class Invoice extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			'whtpr' => $this->input->post('whtpr'),
+			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01')
+			'wht01' => $this->input->post('wht01'),
+			'deamt' => $this->input->post('deamt')
 		);
 		
 		// start transaction

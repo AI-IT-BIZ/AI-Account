@@ -33,7 +33,8 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr,paypr'
+					idProperty: 'depnr,paypr',
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

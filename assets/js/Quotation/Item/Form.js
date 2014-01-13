@@ -852,7 +852,7 @@ Ext.define('Account.Quotation.Item.Form', {
 	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
-		  //sum2 = sum2 * rate;
+		  discounts = discounts * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -871,6 +871,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.whtValue = this.numberWHT.getValue();
 		//var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
+		this.gridPayment.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();

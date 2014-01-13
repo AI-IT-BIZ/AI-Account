@@ -307,11 +307,19 @@ class Quotation extends CI_Controller {
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			$pramt = 0;$amt = 0;
 			foreach($pp_item_array AS $p){
 				$perct = $p->perct;
-                $perct = $perct / 100;
-                $pramt = $perct * $net;
-
+				$amt = $this->input->post('beamt') - $this->input->post('dismt');
+				$pos = strpos($perct, '%');
+				if($pos==false){
+					$pramt = $disit;
+				}else{
+					$perc = explode('%',$perct);
+					$pramt = $amt * $perc[0];
+					$pramt = $pramt / 100;
+				}
+               
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,
 					'paypr'=>++$item_index,

@@ -171,6 +171,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 	},
 
 	addRecord2: function(){
+		var _this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
