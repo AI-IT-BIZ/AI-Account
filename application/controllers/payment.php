@@ -315,6 +315,8 @@ class Payment extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('ebbk', $formData);
+			
+			$inserted_id = $id;
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด

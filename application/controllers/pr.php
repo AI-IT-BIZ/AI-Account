@@ -214,6 +214,8 @@ class Pr extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebko', $formData);
+			
+			$inserted_id = $id;
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
