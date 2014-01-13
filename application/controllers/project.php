@@ -242,10 +242,23 @@ class Project extends CI_Controller {
 				$total_amount = $this->input->post('pramt');
 				// send notification email
 				if(!empty($inserted_id)){
-					$this->email_service->quotation_create('PJ', $total_amount);
+					$q_row = $this->db->get_where('jobk', array('jobnr'=>$inserted_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'PJ', 'Project',
+						$inserted_id, $total_amount,
+						$row->ernam
+					);
 				}else if(!empty($post_id)){
-					if($status_changed)
-						$this->email_service->quotation_change_status('PJ', $total_amount);
+					if($status_changed){
+						$q_row = $this->db->get_where('jobk', array('jobnr'=>$post_id));
+						$row = $q_row->first_row();
+						$this->email_service->sendmail_change_status(
+							'PJ', 'Project',
+							$post_id, $total_amount, $row->statu,
+							$row->ernam
+						);
+					}
 				}
 			}catch(exception $e){}
 	}
