@@ -264,8 +264,8 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 
 			$this->send_mail(array(
 				'to'=>implode(',', $emails),
-				'subject'=>"$module_name no: $row_code has $status_text.",
-				'message'=>"$module_name no: $row_code has $status_text at $action_date"
+				'subject'=>"$module_name no: $row_code has been $status_text.",
+				'message'=>"$module_name no: $row_code has been $status_text at $action_date"
 							." by $emp_action_name."
 			));
 
