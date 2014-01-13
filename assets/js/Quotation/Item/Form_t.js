@@ -98,7 +98,6 @@ Ext.define('Account.Quotation.Item.Form_t', {
             fieldLabel: 'Exchange Rate',
 			align: 'right',
 			width:240,
-			hideTrigger:true,
 			alwaysDisplayDecimals: true,
 			decimalPrecision : 4,
 			name: 'exchg',

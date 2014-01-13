@@ -53,7 +53,7 @@ Ext.define('Account.Quotation.Grid', {
 			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
 			{text: "",hidden: true, width: 0, dataIndex: 'salnr'},
-			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "Salesperson", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Amount", xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency",

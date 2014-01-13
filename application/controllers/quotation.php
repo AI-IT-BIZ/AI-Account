@@ -58,6 +58,8 @@ class Quotation extends CI_Controller {
 
 			$r_qt = $q_qt->first_row('array');
 			$result_data['emnam'] = $r_qt['emnam'];
+			
+			$result_data['whtpr']=number_format($result_data['whtpr']);
 
 			// unset calculated value
 			unset($result_data['beamt']);
@@ -240,7 +242,7 @@ class Quotation extends CI_Controller {
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
-			'whtpr' => $this->input->post('whtpr'),
+			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01')
 		);

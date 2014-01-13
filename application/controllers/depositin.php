@@ -176,7 +176,7 @@ class Depositin extends CI_Controller {
 			'duedt' => $this->input->post('duedt'),
 			'taxnr' => $this->input->post('taxnr'),
 			'taxpr' => $this->input->post('taxpr'),
-			'whtpr' => $this->input->post('whtpr'),
+			//'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01'),
 			//'whtyp' => $this->input->post('whtyp'),

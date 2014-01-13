@@ -49,7 +49,7 @@ Ext.define('Account.Saleorder.Grid', {
 			width: 100, align: 'center', dataIndex: 'vbeln', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},
 			{text: "1",hidden: true,width: 0, dataIndex: 'salnr', sortable: false},
-			{text: "Sale Name", width: 120, dataIndex: 'sname', sortable: true},
+			{text: "Salesperson", width: 120, dataIndex: 'sname', sortable: true},
 			{text: "Amount", 
 			xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},

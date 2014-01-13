@@ -165,15 +165,22 @@ Ext.define('Account.Saleorder.Item.Form', {
 			margin: '0 0 0 35'
          });
 
-		this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
-            //xtype: 'numberfield',
-			fieldLabel: 'WHT Value',
-			name: 'whtpr',
+		this.whtDialog = Ext.create('Account.WHT.Window');
+       this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+       	    fieldLabel: 'WHT Value',
+			name: 'whtnr',
 			labelAlign: 'right',
-			width:200,
-			hideTrigger:false,
+			width:150,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			//margin: '4 0 0 10'
+		});
+		
+		this.numberWHT = Ext.create('Ext.form.field.Display', {
+			name: 'whtpr',
+			width:15,
 			align: 'right',
-			margin: '0 0 0 35'
+			margin: '0 0 0 8'
          });
 
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
@@ -357,13 +364,19 @@ Ext.define('Account.Saleorder.Item.Form', {
 					fieldLabel: 'Reference No',
 					name: 'refnr',
 					width:350
-				   },this.numberWHT,{
+				   },{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,this.numberWHT,{
 			       xtype: 'displayfield',
 			       align: 'right',
-			       width:10,
+			       width:15,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           },this.comboQStatus]
+		           }]
+				},this.comboQStatus]
 				}]
 
 			}]
@@ -551,7 +564,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.formTotal.getForm().findField('deamt').setValue(r.data.deamt);
 			       }
 				}
@@ -619,6 +631,48 @@ Ext.define('Account.Saleorder.Item.Form', {
 
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
+		};
+		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							//if(r.data.whtnr != '6'){
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+						   //}
+						}else{
+							o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			//if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+           //}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
 		};
 
 		// grid event
