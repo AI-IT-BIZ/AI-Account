@@ -26,16 +26,14 @@ Ext.define('Account.DepositIn.Item.Form_t', {
     ]
 });
 		
-	   this.whtDialog = Ext.create('Account.WHT.Window');
+	   /*this.whtDialog = Ext.create('Account.WHT.Window');
        this.trigWHT = Ext.create('Ext.form.field.Trigger', {
 			name: 'whtnr',
-			//fieldLabel: 'SO No',
 			labelAlign: 'letf',
 			width:50,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			margin: '4 0 0 10'//,
-			//allowBlank : false
+			margin: '4 0 0 10'
 		});
 		
     this.comboWHType = Ext.create('Ext.form.ComboBox', {
@@ -52,7 +50,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
     queryMode: 'local',
     displayField: 'name',
     valueField: 'idWHT'
-    });
+    });*/
 
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
@@ -146,7 +144,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
             fieldLabel: 'Exchange Rate',
 			align: 'right',
 			width:240,
-			editable: false,
+			//editable: false,
 			hideTrigger:true,
 			alwaysDisplayDecimals: true,
 			decimalPrecision : 4,
@@ -172,7 +170,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 		this.items = [{
 			xtype: 'container',
             layout: 'hbox',
-            //anchor: '100%',
+            anchor: '100%',
             defaultType: 'textfield',
             //margin: '5 0 5 600',
         items: [{
@@ -181,7 +179,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
      items :[{
 			xtype: 'container',
             layout: 'hbox',
-            //anchor: '100%',
+            anchor: '100%',
             //margin: '5 0 5 600',
         items: [this.txtRate,{
    	        xtype: 'displayfield',
@@ -201,7 +199,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			align: 'right',
 			margin: '3 0 0 0',
 			width:380,
-			name: 'reanr1'
+			name: 'reanr'
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Text Note',
@@ -211,29 +209,19 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 			width:380,
 			name: 'txz01'//,
 			//anchor:'90%'
-		},{
-			xtype: 'container',
-            layout: 'hbox',
-            anchor: '100%',
-            //margin: '5 0 5 600',
-        items: [this.comboWHType,this.trigWHT,{
-   	        xtype: 'textfield',
-   	        name: 'whtxt',
-   	        margin: '4 0 0 7',
-   	        //allowBlank: false,
-			width:250
-		}]
 		}]
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 20',
-        items: [this.txtTotal,{
+                margins: '0 0 0 200',
+        items: [this.txtTotal,/*{
 			xtype: 'container',
             layout: 'hbox',
             //margin: '5 0 5 600',
 			items: [this.txtDiscount,this.txtDiscountValue]
-		},this.txtDiscountSum,
+		},*/
+		this.txtDiscountValue,
+		this.txtDiscountSum,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -241,7 +229,7 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 		}];
 		
 		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
+		/*this.trigWHT.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -280,7 +268,8 @@ Ext.define('Account.DepositIn.Item.Form_t', {
 
 		this.trigWHT.onTriggerClick = function(){
 			_this.whtDialog.show();
-		};
+		};*/
+		
 		// Event /////////
 		var setAlignRight = function(o){
 			o.inputEl.setStyle('text-align', 'right');

@@ -494,7 +494,7 @@ class Quotation extends CI_Controller {
 		$wht = $this->input->get('wht');
 		$vattype = $this->input->get('vattype');
 		$amt = $menge * $unitp;
-		$i=0;$vamt=0;
+		$i=0;$vamt=0;$damt=0;
 
 		$result = array();
 	    $query = $this->db->get('cont');
@@ -503,9 +503,17 @@ class Quotation extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($disit)) $disit=0;
-
-						$tamt = $amt - $disit;
+						//if(empty($disit)) $disit=0;
+                        $pos = strpos($disit, '%');
+						if($pos==false){
+							$damt = $disit;
+						}else{
+							$perc = explode('%',$disit);
+							$damt = $amt * $perc[0];
+							$damt = $damt / 100;
+						}
+						
+						$tamt = $amt - $damt;
 						if($vattype=='02'){
 			                   $tamt = $tamt * 100;
 			                   $tamt = $tamt / 107;
@@ -514,7 +522,7 @@ class Quotation extends CI_Controller {
 
 						$result[$i] = array(
 					    'contx'=>$row['contx'],
-				     	'vtamt'=>$disit,
+				     	'vtamt'=>$damt,
 					    'ttamt'=>$tamt
 				        );
 						$i++;

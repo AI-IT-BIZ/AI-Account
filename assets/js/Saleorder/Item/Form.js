@@ -551,6 +551,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			_this.formTotal.getForm().findField('deamt').setValue(r.data.deamt);
 			       }
 				}
 				});           

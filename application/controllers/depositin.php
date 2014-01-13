@@ -35,6 +35,8 @@ class Depositin extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
+			$result['whtpr']=number_format($result['whtpr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result
@@ -177,9 +179,9 @@ class Depositin extends CI_Controller {
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01'),
-			'whtyp' => $this->input->post('whtyp'),
+			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
-			'whtxt' => $this->input->post('whtxt'),
+			//'whtxt' => $this->input->post('whtxt'),
 			'terms' => $this->input->post('terms')
 		);
 		

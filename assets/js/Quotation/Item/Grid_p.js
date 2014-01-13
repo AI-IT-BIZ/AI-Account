@@ -77,7 +77,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				type: 'textfield'
 			}
 			},
-		    {text: "Period Date",
+		    {text: "Due Date",
 		    width: 100,
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
@@ -85,7 +85,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		    sortable: true,
 		    editor: {
                 xtype: 'datefield',
-                //allowBlank: false,
+                allowBlank: false,
                 format:'d/m/Y',
 			    altFormats:'Y-m-d|d/m/Y',
 			    submitFormat:'Y-m-d'

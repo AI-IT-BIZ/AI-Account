@@ -143,6 +143,17 @@ Ext.define('Account.DepositIn.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
+	   
+	   this.whtDialog = Ext.create('Account.WHT.Window');
+       this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+       	    fieldLabel: 'WHT Value',
+			name: 'whtnr',
+			labelAlign: 'right',
+			width:150,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			//margin: '4 0 0 10'
+		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Number', {
 			fieldLabel: 'WHT Value',
@@ -157,7 +168,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
 			labelAlign: 'right',
-			width:200,
+			width:150,
 			//align: 'right',
 			//margin: '0 0 0 25'
          });
@@ -289,8 +300,36 @@ Ext.define('Account.DepositIn.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-	    },this.comboTax,this.numberWHT,
-		this.numberVat,this.trigCurrency,this.comboQStatus
+	    },this.comboTax,{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,{
+			       xtype: 'displayfield',
+			       name: 'whtpr',
+			       width:15,
+			       margin: '0 0 0 10'
+		           },{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				},{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+			       }]
+		           },this.trigCurrency,this.comboQStatus
 		 ]
 		}]
 		}]
@@ -389,6 +428,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		});
 
 		this.trigQuotation.onTriggerClick = function(){
+			_this.quotationDialog.grid.load();
 			_this.quotationDialog.show();
 		};
 		
@@ -492,15 +532,59 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
+		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							//if(r.data.whtnr != '6'){
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+						   //}
+						}else{
+							o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			//if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+           //}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
+		};
 
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
+		//this.gridItem.store.on('change', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		
 		this.numberCredit.on('keyup', this.getDuedate, this);
 		this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.trigCurrency.on('change', this.changeCurrency, this);
 
 		return this.callParent(arguments);
 	},	
@@ -594,20 +678,30 @@ Ext.define('Account.DepositIn.Item.Form', {
 		store.each(function(r){
 			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
 				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
-				if(r.data['disit']!=null){
-			       discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
-			    }
+				discountValue = 0,
+				discount = r.data['disit'];
+				
 			    amt = isNaN(amt)?0:amt;
-                discount = isNaN(discount)?0:discount;
+                //discount = isNaN(discount)?0:discount;
                 
 			if(vattype =='02'){
 			  amt = amt * 100;
 			  amt = amt / 107;
 		    }
+		    
+		    if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+		    
 			sum += amt;
 			
-			discounts += discount;
-            amt = amt - discount;
+			discounts += discountValue;
+            amt = amt - discountValue;
             sum2 += amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -630,6 +724,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 		
+		//this.gridItem.netValue = net;
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		this.gridItem.whtValue = this.numberWHT.getValue();
@@ -645,10 +740,7 @@ Ext.define('Account.DepositIn.Item.Form', {
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
-            	kunnr:this.trigCustomer.getValue()//,
-            	//ate:rate,
-            	//ptype:'01',
-            	//dtype:'01'
+            	kunnr:this.trigCustomer.getValue()
             }); 
            }
 	},
@@ -660,6 +752,16 @@ Ext.define('Account.DepositIn.Item.Form', {
 			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
 
 		bForm.findField('duedt').setValue(result);
+	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var sum = 0;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
 	}
 	
 	// Load GL functions
