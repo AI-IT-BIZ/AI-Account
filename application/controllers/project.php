@@ -151,6 +151,7 @@ class Project extends CI_Controller {
 			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('PJ') && XUMS::CAN_APPROVE('PJ')){
 					$limit = XUMS::LIMIT('PJ');
+					print_r($limit); return;
 					if($limit<$row['pramt']){
 						$emsg = 'You do not have permission to change project status over than '.number_format($limit);
 						echo json_encode(array(
@@ -241,15 +242,15 @@ class Project extends CI_Controller {
 				$post_id = $this->input->post('id');
 				$total_amount = $this->input->post('pramt');
 				// send notification email
-				if(!empty($inserted_id)){
+				if(empty($inserted_id)){
 					$q_row = $this->db->get_where('jobk', array('jobnr'=>$inserted_id));
 					$row = $q_row->first_row();
 					$this->email_service->sendmail_create(
 						'PJ', 'Project',
 						$inserted_id, $total_amount,
 						$row->ernam
-					);
-				}else if(!empty($post_id)){
+					); print_r($inserted_id);
+				}else if(!empty($post_id)){print_r($post_id);
 					if($status_changed){
 						$q_row = $this->db->get_where('jobk', array('jobnr'=>$post_id));
 						$row = $q_row->first_row();
