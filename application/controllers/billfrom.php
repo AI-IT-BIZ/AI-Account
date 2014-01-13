@@ -194,6 +194,8 @@ class Billfrom extends CI_Controller {
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('ebkk', $formData);
 			//$id = $this->db->insert_id();
+			
+			$inserted_id = $id;
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
