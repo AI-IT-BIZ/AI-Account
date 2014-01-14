@@ -481,6 +481,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
 		};
 		
