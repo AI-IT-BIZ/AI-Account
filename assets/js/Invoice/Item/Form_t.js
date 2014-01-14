@@ -341,7 +341,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 
 		var discountValue = this.txtDiscountValue.getValue();
 		var depositValue = this.txtDepositValue.getValue();
-		discountValue = discountValue + depositValue;
+		//discountValue = discountValue + depositValue;
 			/*discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -372,6 +372,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
+		net = net - depositValue;
 		//alert(net);
 		this.txtNet.setValue(net);
         
