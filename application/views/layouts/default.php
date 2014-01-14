@@ -466,10 +466,6 @@ function endsWith($haystack, $needle)
 				]
 			};
 
-			//var nodeIncome = {
-			//	text: 'Create New Income Statements',
-			//	leaf: true
-			//};
 			var nodeFixedAsset = {
 				text: 'Fixed Asset Master',
 				leaf: true,
@@ -484,6 +480,16 @@ function endsWith($haystack, $needle)
 				text: 'Create New Journals',
 				leaf: true,
 				id: 'click_journal'
+			};
+			var nodeIncome = {
+				text: 'Create New Other Income',
+				leaf: true,
+				id: 'click_income'
+			};
+			var nodeExpense = {
+				text: 'Create New Other Expense',
+				leaf: true,
+				id: 'click_expense'
 			};
 			//var nodeBudget = {
 			//	text: 'Create New Manage Bugets',
@@ -551,28 +557,14 @@ function endsWith($haystack, $needle)
 					nodeFixedAsset,
 					nodeJTemplate,
 					nodeJournal,
+					nodeIncome,
+					nodeExpense,
 					//nodeBudget,
 					nodeAccChart,
 					grouprAccount
 				]
 			};
 
-			var nodeTrans = {
-				text: 'Create New Material Transactions',
-				leaf: true
-			};
-			var nodeBalances = {
-				text: 'Create New Material Balances',
-				leaf: true
-			};
-			var nodeOtherIn = {
-				text: 'Create New Other Incomes',
-				leaf: true
-			};
-			var nodeOtherEx = {
-				text: 'Create New Other Expenses',
-				leaf: true
-			};
 			var nodeMaterial = {
 				text: 'Create New Materials',
 				leaf: true,
@@ -583,6 +575,14 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_service'
 			};
+			var nodeStockLed = {
+				text: 'Create New Stock Ledger',
+				leaf: true
+			};
+			var nodeStockAg = {
+				text: 'Create New Stock Aging',
+				leaf: true
+			};
 
 			var groupMaterial = {
 				text: 'Material Management',
@@ -591,12 +591,10 @@ function endsWith($haystack, $needle)
 				singleClickExpand : true,
 				id: 'groupMaterial',
 				children: [
-					nodeTrans,
-					nodeBalances,
-					nodeOtherIn,
-					nodeOtherEx,
 					nodeMaterial,
-					nodeService
+					nodeService,
+					nodeStockLed,
+					nodeStockAg
 				]
 			};
 
@@ -614,6 +612,10 @@ function endsWith($haystack, $needle)
 			};
 			var nodeAPAging = {
 				text: 'AP Aging',
+				leaf: true
+			};
+			var nodeFixedRe = {
+				text: 'Fixed Asset Register Report',
 				leaf: true
 			};
 			var nodeReportGJ = {
@@ -671,6 +673,7 @@ function endsWith($haystack, $needle)
 					nodeARAging,
 					nodeAPLedger,
 					nodeAPAging,
+					nodeFixedRe,
 					nodeReportGJ,
 					nodeReportPJ,
 					nodeReportSJ,

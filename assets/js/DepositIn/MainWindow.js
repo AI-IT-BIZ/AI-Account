@@ -32,6 +32,11 @@ Ext.define('Account.DepositIn.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('DR') || UMS.CAN.CREATE('DR') || UMS.CAN.EDIT('DR'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('DR')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			disabled: true,
@@ -54,7 +59,7 @@ Ext.define('Account.DepositIn.MainWindow', {
 		this.grid = Ext.create('Account.DepositIn.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
 		//this.searchForm = Ext.create('Account.DepositIn.FormSearch', {
@@ -94,6 +99,22 @@ Ext.define('Account.DepositIn.MainWindow', {
 			
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
+				//_this.itemDialog.show();
+				//_this.itemDialog.form.load(id);
+
+				// สั่ง pr_item grid load
+				//_this.itemDialog.form.gridItem.load({ebeln: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 

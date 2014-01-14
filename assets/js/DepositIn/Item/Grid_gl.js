@@ -175,6 +175,7 @@ Ext.define('Account.DepositIn.Item.Grid_gl', {
 			grid.getSelectionModel().deselectAll();
 			_this.glDialog.hide();
 		});
+		
 
 		return this.callParent(arguments);
 	},

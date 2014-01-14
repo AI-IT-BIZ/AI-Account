@@ -41,6 +41,11 @@ Ext.define('Account.Project.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('PJ') || UMS.CAN.CREATE('PJ') || UMS.CAN.EDIT('PJ'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('PJ')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -64,7 +69,7 @@ Ext.define('Account.Project.MainWindow', {
 		this.grid = Ext.create('Account.Project.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct,
+			tbar: [this.addAct, this.editAct,this.displayAct, this.deleteAct,
 				this.excelAct,this.importAct]
 		});
 
@@ -96,7 +101,7 @@ Ext.define('Account.Project.MainWindow', {
 
 			if(id){
 				_this.itemDialog.openDialog(id);
-
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -105,6 +110,15 @@ Ext.define('Account.Project.MainWindow', {
 			}
 		});
 
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
+			}
+		});
+		
 		this.deleteAct.setHandler(function(){
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];

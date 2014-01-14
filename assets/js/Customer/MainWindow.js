@@ -25,11 +25,18 @@ Ext.define('Account.Customer.MainWindow', {
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
-			iconCls: 'b-small-plus'
+			iconCls: 'b-small-plus',
+			disabled: !UMS.CAN.CREATE('CS')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
-			iconCls: 'b-small-pencil'
+			iconCls: 'b-small-pencil',
+			disabled: !(UMS.CAN.CREATE('CS') || UMS.CAN.EDIT('CS') || UMS.CAN.APPROVE('CS'))
+		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('CS')
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
@@ -42,7 +49,8 @@ Ext.define('Account.Customer.MainWindow', {
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
-			iconCls: 'b-small-import'
+			iconCls: 'b-small-import',
+			disabled: true
 		});
 
 		this.itemDialog = Ext.create('Account.Customer.Item.Window');
@@ -52,7 +60,7 @@ Ext.define('Account.Customer.MainWindow', {
 		this.grid = Ext.create('Account.Customer.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
 		this.searchForm = Ext.create('Account.Customer.FormSearch', {
@@ -80,11 +88,21 @@ Ext.define('Account.Customer.MainWindow', {
 			
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				//_this.itemDialog.form.gridItem.load({ebeln: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 
