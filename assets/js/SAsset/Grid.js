@@ -8,7 +8,7 @@ Ext.define('Account.SAsset.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"asset/load2",
+				url: __site_url+"asset/loads",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -20,11 +20,13 @@ Ext.define('Account.SAsset.Grid', {
 			fields: [
 			    'matnr',
 				'maktx',
-			    'matx2',
 				'mtart',
-				//'matx1',
+				'mtype',
+				'matkl',
+				'mgrpp',
 				'meins',
 				'saknr',
+				'sgtxt',
 				'erdat'
 			],
 			remoteSort: true,
@@ -32,13 +34,15 @@ Ext.define('Account.SAsset.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Asset No", width: 100, dataIndex: 'matnr', sortable: true},
-			{text: "Asset Name", width: 150, dataIndex: 'maktx', sortable: true},
-		    {text: "Asset Grp", width: 150, dataIndex: 'matx2', sortable: true},
-			{text: "Asset Type", width: 80, dataIndex: 'mtart', sortable: true},
-			//{text: "Mat Type Description", width: 150, dataIndex: 'matx1', sortable: true},
-			{text: "GL No", width: 100, dataIndex: 'saknr', sortable: true},
-			{text: "Unit", width: 90, dataIndex: 'meins', sortable: true},
+		    {text: "Asset No", width: 80, dataIndex: 'matnr', sortable: true},
+			{text: "Asset Name", width: 130, dataIndex: 'maktx', sortable: true},
+			{text: "Asset Type", width: 50, dataIndex: 'mtart', sortable: true},
+			{text: "Asset Type Desc", width: 120, dataIndex: 'mtype', sortable: true},
+			{text: "Asset Grp", width: 50, dataIndex: 'matkl', sortable: true},
+			{text: "Asset Grp Desc", width: 120, dataIndex: 'mgrpp', sortable: true},
+			{text: "GL No", width: 80, dataIndex: 'saknr', sortable: true},
+			{text: "GL Desc", width: 130, dataIndex: 'sgtxt', sortable: true},
+			{text: "Unit", width: 50, dataIndex: 'meins', sortable: true},
 			{text: "Create Date", width: 120, dataIndex: 'erdat', sortable: true}
 		];
 

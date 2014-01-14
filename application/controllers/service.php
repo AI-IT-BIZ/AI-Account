@@ -243,13 +243,13 @@ class Service extends CI_Controller {
 			'beval' => $this->input->post('beval'),
 			'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),
+			'enval' => $this->input->post('enval'),*/
 			'unit1' => $this->input->post('unit1'),
 			'cost1' => $this->input->post('cost1'),
 			'unit2' => $this->input->post('unit2'),
 			'cost2' => $this->input->post('cost2'),
 			'unit3' => $this->input->post('unit3'),
-			'cost3' => $this->input->post('cost3'),*/
+			'cost3' => $this->input->post('cost3'),
 			'statu' => $this->input->post('statu')
 			);
 			
@@ -272,6 +272,7 @@ class Service extends CI_Controller {
 			$inserted_id = $id;
 		}
 		
+		if($this->input->post('unit1')!=''){
 		$this->db->where('matnr', $id);
 		$this->db->delete('plev');
 		
@@ -288,13 +289,14 @@ class Service extends CI_Controller {
 			);
 		  $this->db->insert('plev', $formCost);
 		}
+		}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
 		));
 		
-		try{
+		/*try{
 				$post_id = $this->input->post('id');
 				//$total_amount = $this->input->post('netwr');
 				$total_amount = 0;
@@ -305,7 +307,7 @@ class Service extends CI_Controller {
 					if($status_changed)
 						$this->email_service->quotation_change_status('SV', $total_amount);
 				}
-			}catch(exception $e){}
+			}catch(exception $e){}*/
 	}
 
     function remove(){
