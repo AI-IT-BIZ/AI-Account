@@ -437,7 +437,8 @@ class Ap extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			//'whtpr' => $this->input->post('whtpr'),
-			'duedt' => $this->input->post('duedt')
+			'duedt' => $this->input->post('duedt'),
+			'deamt' => $this->input->post('deamt')
 		);
 
 		// start transaction

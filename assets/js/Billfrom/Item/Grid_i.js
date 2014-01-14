@@ -46,7 +46,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				'refnr',
 				'invdt',
 				'texts',
-				'itamt',
+				{name:'itamt', type: 'string'},
 				//'payrc',
 				//'reman',
 				//'belnr',
@@ -94,6 +94,13 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				}
 			},
 			},
+			{text: "Billing Date",
+		    width: 80,
+		    xtype: 'datecolumn',
+		    dataIndex: 'invdt',
+		    sortable: false,
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
+		    },
 		    {text: "Ref.No",
 		    width: 150,
 		    dataIndex: 'refnr',
@@ -102,15 +109,9 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				type: 'textfield'
 			},
 		    },
-		    {text: "Billing Date",
-		    width: 80,
-		    xtype: 'datecolumn',
-		    dataIndex: 'invdt',
-		    sortable: false,
-		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
-		    },
+		    
 		    {text: "Text Note",
-		    width: 200,
+		    width: 300,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {
