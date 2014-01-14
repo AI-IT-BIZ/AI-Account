@@ -54,18 +54,6 @@ Ext.define('Account.DepositIn.Item.Grid_gl', {
 
 		this.columns = [
 		    {
-			xtype: 'actioncolumn',
-			text: " ",
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete GL Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
 			id : 'RowNumber20',
 			text: "No.",
 			dataIndex : 'belpr',
