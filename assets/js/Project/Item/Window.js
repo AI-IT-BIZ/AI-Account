@@ -22,14 +22,16 @@ Ext.define('Account.Project.Item.Window', {
 		this.items = [
 			this.form
 		];
-
-		this.buttons = [{
-			enabled: !UMS.CAN.EDIT('PJ'),
+		
+		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
+			disabled: !(UMS.CAN.CREATE('PJ') || UMS.CAN.EDIT('PJ')||UMS.CAN.APPROVE('PJ')),
 			handler: function() {
 				_this.form.save();
 			}
-		}, {
+		});
+
+		this.buttons = [this.btnSave,{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -59,5 +61,20 @@ Ext.define('Account.Project.Item.Window', {
 
 			//this.btnPreview.setDisabled(true);
 		}
+	},
+	setReadOnly: function(readOnly){
+		var children = this.items ? this.items.items : [];
+		for(var i=0;i<children.length;i++){
+			var child = children[i];
+			child.query('.field').forEach(function(c){c.setReadOnly(readOnly);});
+			child.query('.button').forEach(function(c){
+				if(c.xtype!='tab')
+					c.setDisabled(readOnly);
+			});
+		}
+		// ตามแต่ละ window
+
+		if(!this.btnSave.initialConfig.disabled)
+			this.btnSave.setDisabled(readOnly);
 	}
 });
