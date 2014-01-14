@@ -403,6 +403,15 @@ class Ap extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+
         if($this->input->post('loekz')=='2'){
         	$emsg = 'The GR already created AP doc.';
 					echo json_encode(array(

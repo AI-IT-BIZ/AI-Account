@@ -165,11 +165,18 @@ Ext.define('Account.AP.Item.Form_t', {
 			rows:2,
 			width:380,
 			name: 'txz01'
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'WHT Text',
+   	        name: 'whtxt',
+   	        margin: '3 0 0 0',
+			width:380
+		//}]
 		}]
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 145',
+                margins: '0 0 0 180',
         items: [this.txtTotal,/*{
 			xtype: 'container',
             layout: 'hbox',

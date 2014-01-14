@@ -180,7 +180,7 @@ Ext.define('Account.AP.Item.Form_thb', {
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 145',
+                margins: '0 0 0 180',
         items: [this.txtTotal,/*{
 			xtype: 'container',
             layout: 'hbox',

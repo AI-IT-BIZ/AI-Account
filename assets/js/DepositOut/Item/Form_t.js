@@ -157,7 +157,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			name: 'txz01'
 		},{
    	        xtype: 'textfield',
-   	        fieldLabel: 'WHT Note',
+   	        fieldLabel: 'WHT Text',
    	        name: 'whtxt',
    	        margin: '3 0 0 0',
 			width:380

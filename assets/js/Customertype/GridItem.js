@@ -83,9 +83,10 @@ Ext.define('Account.Customertype.GridItem', {
 			text: "Customer Type",
 		    width: 80,
 		    dataIndex: 'ktype',
+		    
 		    sortable: true,
 		    field: {
-				type: 'textfield'
+				type: 'textfield',
 			},
 		},{
 			text: "Type Description",
@@ -93,7 +94,7 @@ Ext.define('Account.Customertype.GridItem', {
 		    dataIndex: 'custx',
 		    sortable: true,
 		    field: {
-				type: 'textfield'
+				type: 'textfield',
 			},
 		},{
 			text: "GL no", 
