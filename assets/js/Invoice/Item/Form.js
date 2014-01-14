@@ -762,6 +762,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
 		
 		return this.callParent(arguments);
 	},

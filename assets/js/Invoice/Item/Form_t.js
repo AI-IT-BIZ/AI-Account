@@ -105,7 +105,7 @@ Ext.define('Account.Invoice.Item.Form_t', {
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
-			fieldLabel: 'After Discount',
+			fieldLabel: 'After Discount & Deposit',
 			name: 'bbb',
 			align: 'right',
 			width:270,

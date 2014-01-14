@@ -129,7 +129,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
-					_this.editing.completeEdit();
+					//_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
 			},
