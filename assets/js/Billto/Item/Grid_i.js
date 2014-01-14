@@ -110,7 +110,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
-		    width: 200,
+		    width: 250,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {

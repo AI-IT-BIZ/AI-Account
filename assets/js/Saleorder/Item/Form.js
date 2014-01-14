@@ -47,6 +47,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 			title:'Total->SO',
 			region:'south'
 		});
+		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
+			border: true,
+			split: true,
+			title:'Exchange Rate->THB',
+			region:'south'
+		});
 		this.gridPrice = Ext.create('Account.Saleorder.Item.Grid_pc', {
 			border: true,
 			split: true,
@@ -64,7 +70,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 6',
+			margin: '0 0 0 27',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -165,7 +171,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			margin: '0 0 0 35'
          });
 
-		this.whtDialog = Ext.create('Account.WHT.Window');
+	   this.whtDialog = Ext.create('Account.WHT.Window');
        this.trigWHT = Ext.create('Ext.form.field.Trigger', {
        	    fieldLabel: 'WHT Value',
 			name: 'whtnr',
@@ -173,7 +179,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//margin: '4 0 0 10'
+			margin: '0 0 0 35'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
@@ -387,9 +393,10 @@ Ext.define('Account.Saleorder.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:220,
 			items: [
 				this.formTotal,
+				this.formTotalthb,
 				this.gridPrice
 			]
 		}
@@ -453,6 +460,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
 		};
 		
@@ -492,6 +500,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 
 		this.trigSale.onTriggerClick = function(){
+			_this.saleDialog.grid.load();
 			_this.saleDialog.show();
 		};
 
@@ -580,6 +589,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 
 		this.trigQuotation.onTriggerClick = function(){
+			_this.quotationDialog.grid.load();
 			_this.quotationDialog.show();
 		};
 
@@ -682,6 +692,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		
+		this.trigCurrency.on('change', this.changeCurrency, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
@@ -766,6 +781,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -821,7 +837,26 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
+		
+		var rate = this.formTotal.txtRate.getValue();
+		var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		if(currency != 'THB'){
+	      //alert(rate);
+		  sum = sum * rate;
+		  vats = vats * rate;
+		  discounts = discounts * rate;
+		  deamt = deamt * rate;
+		}  
+		
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		var net2 = this.formTotalthb.calculate();
         
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
@@ -840,6 +875,15 @@ Ext.define('Account.Saleorder.Item.Form', {
 
         }
 	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
+	}
 
 	// select tax functions
 	/*

@@ -481,6 +481,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		});
 
 		this.trigCustomer.onTriggerClick = function(){
+			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
 		};
 		
@@ -587,6 +588,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},	
