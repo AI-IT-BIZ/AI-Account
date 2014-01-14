@@ -41,6 +41,11 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('SN') || UMS.CAN.CREATE('SN') || UMS.CAN.EDIT('SN'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('SN')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -61,7 +66,7 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 		this.grid = Ext.create('Account.SaleCreditNote.Grid', {
 			region:'center',
 			border: false,
-			tbar : [this.addAct, this.editAct, this.deleteAct,
+			tbar : [this.addAct, this.editAct, this.displayAct, this.deleteAct,
 		            this.excelAct,this.importAct]
 		});
 
@@ -100,12 +105,22 @@ Ext.define('Account.SaleCreditNote.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง gr_item grid load
 				//_this.itemDialog.form.gridItem.load({mbeln: id});
 				//_this.itemDialog.form.gridPayment.load({purnr: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 
