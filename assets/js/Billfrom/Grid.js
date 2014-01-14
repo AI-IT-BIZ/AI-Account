@@ -24,7 +24,7 @@ Ext.define('Account.Billfrom.Grid', {
 				'lifnr',
 				'name1',
 				'txz01',
-				'statu',
+				'statx',
 				'netwr',
 				'ctype'
 			],

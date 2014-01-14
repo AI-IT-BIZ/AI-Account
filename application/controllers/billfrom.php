@@ -148,6 +148,21 @@ class Billfrom extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        $sdat = explode('-',$this->input->post('bldat'));
+		$edat = explode('-',$this->input->post('duedt'));
+		$stdat = $sdat[0].$sdat[1].$sdat[2];
+		$endat = $edat[0].$edat[1].$edat[2];
+		//echo $stdat.'aaa'.$endat;
+		if($stdat>$endat){
+					$emsg = 'The Due date must be more than Document date.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+		
 		
 		// start transaction
 		$this->db->trans_start();

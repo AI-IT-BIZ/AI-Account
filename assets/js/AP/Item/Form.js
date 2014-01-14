@@ -35,13 +35,13 @@ Ext.define('Account.AP.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.DepositOut.Item.Form_t', {
+		this.formTotal = Ext.create('Account.AP.Item.Form_t', {
 			title:'AP Total',
 			border: true,
 			split: true,
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.DepositOut.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.AP.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -299,7 +299,13 @@ Ext.define('Account.AP.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat]
+				 			items :[this.comboPay,this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -374,7 +380,7 @@ Ext.define('Account.AP.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:195,
+			height:220,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -409,6 +415,7 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('deamt').setValue(r.data.deamt);
 						}else{
 							o.markInvalid('Could not find GR no : '+o.getValue());
 						}
@@ -440,6 +447,7 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('deamt').setValue(r.data.deamt);
 						}
 					}
 				});
@@ -781,12 +789,14 @@ Ext.define('Account.AP.Item.Form', {
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
 		var rate = this.formTotal.txtRate.getValue();
+		var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
 	      sum2 = sum2 * rate;
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
+		  deamt = deamt * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -794,6 +804,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
 		
         if(sum>0 && this.trigVendor.getValue()!=''){

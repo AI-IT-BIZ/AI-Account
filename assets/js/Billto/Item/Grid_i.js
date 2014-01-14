@@ -110,7 +110,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			},
 		    },
 		    {text: "Text Note",
-		    width: 250,
+		    width: 300,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {

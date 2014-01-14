@@ -30,13 +30,13 @@ Ext.define('Account.GR.Item.Form', {
 			height: 320,
 			region:'center'
 		});
-		this.formTotal = Ext.create('Account.PR.Item.Form_t', {
+		this.formTotal = Ext.create('Account.GR.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'GR Total',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.PR.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.GR.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -330,7 +330,7 @@ Ext.define('Account.GR.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:180,
+			height:200,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -364,6 +364,7 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.formTotal.txtDepositValue.setValue(r.data.deamt);
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -395,6 +396,7 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.formTotal.txtDepositValue.setValue(r.data.deamt);
 						}
 					}
 				});
@@ -659,16 +661,19 @@ Ext.define('Account.GR.Item.Form', {
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		
 		var rate = this.formTotal.txtRate.getValue();
+		var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  discounts = discounts * rate;
+		  deamt = deamt * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
 	  
 	  // Set value to Condition Price grid

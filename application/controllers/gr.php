@@ -187,6 +187,21 @@ class Gr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			
+			$this->db->where('ebeln', $id);
+			$this->db->where('matkl', '08');
+
+			$q_txt = $this->db->get('ekpo');
+			if($q_txt->num_rows() > 0){
+				if($this->input->post('loekz')==''){
+        	        $emsg = 'The PO is not created deposit payment yet.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+                }
+			}
 		}
 
         if($this->input->post('loekz')=='3'){
@@ -216,7 +231,8 @@ class Gr extends CI_Controller {
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
-			'ctype' => $this->input->post('ctype')
+			'ctype' => $this->input->post('ctype'),
+			'deamt' => $this->input->post('deamt')
 		);
 
 		// start transaction
