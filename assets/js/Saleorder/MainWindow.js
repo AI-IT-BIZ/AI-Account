@@ -43,6 +43,11 @@ Ext.define('Account.Saleorder.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('SO') || UMS.CAN.CREATE('SO') || UMS.CAN.EDIT('SO'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('SO')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -101,12 +106,22 @@ Ext.define('Account.Saleorder.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				//_this.itemDialog.form.gridItem.load({ordnr: id});
 				//_this.itemDialog.form.gridPayment.load({vbeln: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 

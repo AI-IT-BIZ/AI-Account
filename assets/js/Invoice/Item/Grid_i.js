@@ -331,6 +331,21 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			_this.unitDialog.hide();
 			
 		});
+		
+		this.store.on('load', function(store, rs){
+			if(_this.readOnly){
+				var view = _this.getView();
+				var t = _this.getView().getEl().down('table');
+				t.addCls('mask-grid-readonly');
+				_this.readOnlyMask = new Ext.LoadMask(t, {
+					msg:"..."
+				});
+				_this.readOnlyMask.show();
+			}else{
+				if(_this.readOnlyMask)
+					_this.readOnlyMask.hide();
+			}
+		});
 
 		return this.callParent(arguments);
 	},

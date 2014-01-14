@@ -42,6 +42,11 @@ Ext.define('Account.Receipt.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('RD') || UMS.CAN.CREATE('RD') || UMS.CAN.EDIT('RD'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('RD')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -63,7 +68,7 @@ Ext.define('Account.Receipt.MainWindow', {
 		this.grid = Ext.create('Account.Receipt.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
 		//this.searchForm = Ext.create('Account.Receipt.FormSearch', {
@@ -104,11 +109,21 @@ Ext.define('Account.Receipt.MainWindow', {
 			
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				//_this.itemDialog.form.gridItem.load({ebeln: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 
