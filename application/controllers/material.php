@@ -55,7 +55,7 @@ class Material extends CI_Controller {
 			}*/
 			
 			$this->db->set_dbprefix('v_');
-		    $tbName = 'mara';
+		    $tbName = 'umat';
 		    $this->db->where('matnr', $id);
 			$query = $this->db->get($tbName);
 		}
