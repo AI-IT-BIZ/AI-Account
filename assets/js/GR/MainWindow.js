@@ -40,6 +40,11 @@ Ext.define('Account.GR.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('GR') || UMS.CAN.CREATE('GR') || UMS.CAN.EDIT('GR'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('GR')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -60,7 +65,7 @@ Ext.define('Account.GR.MainWindow', {
 		this.grid = Ext.create('Account.GR.Grid', {
 			region:'center',
 			border: false,
-			tbar : [this.addAct, this.editAct, this.deleteAct,
+			tbar : [this.addAct, this.editAct, this.displayAct, this.deleteAct,
 		            this.excelAct,this.importAct]
 		});
 
@@ -99,12 +104,22 @@ Ext.define('Account.GR.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง gr_item grid load
 				//_this.itemDialog.form.gridItem.load({mbeln: id});
 				//_this.itemDialog.form.gridPayment.load({purnr: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 

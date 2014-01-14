@@ -32,6 +32,11 @@ Ext.define('Account.Payment.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('PY') || UMS.CAN.CREATE('PY') || UMS.CAN.EDIT('PY'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('PY')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -53,7 +58,7 @@ Ext.define('Account.Payment.MainWindow', {
 		this.grid = Ext.create('Account.Payment.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
 		//this.searchForm = Ext.create('Account.Payment.FormSearch', {
@@ -94,11 +99,21 @@ Ext.define('Account.Payment.MainWindow', {
 			
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
 				// สั่ง pr_item grid load
 				//_this.itemDialog.form.gridItem.load({ebeln: id});
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 

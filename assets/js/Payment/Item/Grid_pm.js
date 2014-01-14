@@ -296,6 +296,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			grid.getSelectionModel().deselectAll();
 			_this.bankDialog.hide();
 		});
+		
 
 		return this.callParent(arguments);
 	},

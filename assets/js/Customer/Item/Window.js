@@ -65,6 +65,5 @@ Ext.define('Account.Customer.Item.Window', {
 		}
 		// ตามแต่ละ window
 
-		this.buttons[0].setDisabled(readOnly);
 	}
 });

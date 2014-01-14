@@ -42,6 +42,11 @@ Ext.define('Account.PR.MainWindow', {
 			iconCls: 'b-small-pencil',
 			disabled: !(UMS.CAN.DISPLAY('PR') || UMS.CAN.CREATE('PR') || UMS.CAN.EDIT('PR'))
 		});
+		this.displayAct = new Ext.Action({
+			text: 'Display',
+			iconCls: 'b-small-search',
+			disabled: !UMS.CAN.DISPLAY('PR')
+		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
@@ -70,7 +75,7 @@ Ext.define('Account.PR.MainWindow', {
 		this.grid = Ext.create('Account.PR.Grid', {
 			region:'center',
 			border: false,
-			tbar : [this.addAct, this.editAct, this.deleteAct,
+			tbar : [this.addAct, this.editAct, this.displayAct, this.deleteAct,
 		    this.excelAct,this.importAct]
 		});
 		
@@ -107,6 +112,16 @@ Ext.define('Account.PR.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
+			}
+		});
+		
+		this.displayAct.setHandler(function(){
+			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
+			var id = sel.data[sel.idField.name];
+			if(id){
+				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(true);
 			}
 		});
 

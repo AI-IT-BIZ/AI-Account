@@ -30,13 +30,15 @@ Ext.define('Account.Vendor.Item.Window', {
 			//this.grid
 		//];
 		
-		this.buttons = [{
+		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
-			disabled: !(UMS.CAN.CREATE('VD') || UMS.CAN.EDIT('VD')),
+			disabled: !(UMS.CAN.CREATE('VD') || UMS.CAN.EDIT('VD')||UMS.CAN.APPROVE('VD')),
 			handler: function() {
 				_this.form.save();
 			}
-		}, {
+		});
+		
+		this.buttons = [this.btnSave, {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -66,5 +68,27 @@ Ext.define('Account.Vendor.Item.Window', {
 
 			//this.btnPreview.setDisabled(true);
 		}
+	},
+	setReadOnly: function(readOnly){
+		var children = this.items ? this.items.items : [];
+		for(var i=0;i<children.length;i++){
+			var child = children[i];
+			child.query('.field').forEach(function(c){
+				//console.log(c);
+				if(!c.initialConfig.readOnly){
+					c.setReadOnly(readOnly);
+				}
+			});
+			child.query('.button').forEach(function(c){
+				if(c.xtype!='tab'){
+					if(!c.initialConfig.disabled)
+						c.setDisabled(readOnly);
+				}
+			});
+		}
+		// ตามแต่ละ window
+
+		if(!this.btnSave.initialConfig.disabled)
+			this.btnSave.setDisabled(readOnly);
 	}
 });
