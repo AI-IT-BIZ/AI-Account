@@ -548,12 +548,11 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('vat01').setValue(r.data.vat01);
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('ptype').setValue(r.data.ptype);
-			//_this.trigCustomer.on('keyup', this.selectTax, this);
+			_this.getForm().findField('sname').setValue(r.data.sname);
 
 						}else{
 							o.markInvalid('Could not find project code : '+o.getValue());
@@ -580,13 +579,14 @@ Ext.define('Account.Quotation.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
+							//alert(r.data.terms);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('vat01').setValue(r.data.vat01);
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('sname').setValue(r.data.sname);
 			       }
 				}
 				});

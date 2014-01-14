@@ -111,7 +111,6 @@ Ext.define('Account.Service.Item.Form', {
 			fieldLabel: 'Unit 2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
-			//width:290,
 		});
 		
 		this.unit3Dialog = Ext.create('Account.Unit.Window');
@@ -300,7 +299,7 @@ Ext.define('Account.Service.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.matkl);
 							_this.trigGrp.setValue(r.data.matkl);
-			_this.getForm().findField('matxt2').setValue(r.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -314,7 +313,7 @@ Ext.define('Account.Service.Item.Form', {
 
 		_this.grpDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGrp.setValue(record.data.matkl);
-			_this.getForm().findField('matxt2').setValue(record.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(record.data.matxt);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 

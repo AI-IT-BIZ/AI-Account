@@ -121,7 +121,7 @@ class Asset extends CI_Controller {
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'fara';
+		$tbName = 'umat';
 		
 		function createQuery($_this){
 			
@@ -130,6 +130,8 @@ class Asset extends CI_Controller {
 				$_this->db->where("(`matnr` LIKE '%$query%'
 				OR `maktx` LIKE '%$query%'
 				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+			//}else{
+			//	$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
 			}
 			
 			$matnr1 = $_this->input->get('matnr');
@@ -140,6 +142,16 @@ class Asset extends CI_Controller {
 			elseif(!empty($matnr1) && !empty($matnr2)){
 			  $_this->db->where('matnr >=', $matnr1);
 			  $_this->db->where('matnr <=', $matnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
 			}
 
 		}
