@@ -205,8 +205,8 @@ class Saleorder extends CI_Controller {
 			$this->db->where('payty', '1');
 			$q_txt = $this->db->get('payp');
 			if($q_txt->num_rows() > 0){
-					if(empty($this->input->post('loekz'))){
-        	$emsg = 'The quotation is not created deposit receipt yet.';
+				if($this->input->post('loekz')==''){
+        	        $emsg = 'The quotation is not created deposit receipt yet.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
