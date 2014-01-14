@@ -93,7 +93,6 @@ Ext.define('Account.Receipt.Item.Window', {
 		}
 		// ตามแต่ละ window
 		this.form.gridItem.readOnly = readOnly;
-		this.form.gridPayment.readOnly = readOnly;
 
 		if(!this.btnSave.initialConfig.disabled)
 			this.btnSave.setDisabled(readOnly);

@@ -69,7 +69,7 @@ Ext.define('Account.Saleorder.MainWindow', {
 		this.grid = Ext.create('Account.Saleorder.Grid', {
 			region:'center',
 			border: false,
-			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
+			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 
 		//this.searchForm = Ext.create('Account.Saleorder.FormSearch', {
