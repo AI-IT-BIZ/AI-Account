@@ -27,13 +27,19 @@ Ext.define('Account.PO.Item.Form', {
 			height: 320,
 			region:'center'
 		});
-		this.formTotal = Ext.create('Account.PO.Item.Form_t', {
+		this.formTotal = Ext.create('Account.PR.Item.Form_t', {
 			title:'PO Total',
 			border: true,
 			split: true,
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.PO.Item.Grid_pc', {
+		this.formTotalthb = Ext.create('Account.PR.Item.Form_thb', {
+			border: true,
+			split: true,
+			title:'Exchange Rate->THB',
+			region:'south'
+		});
+		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -318,6 +324,7 @@ Ext.define('Account.PO.Item.Form', {
 			height:170,
 			items: [
 				this.formTotal,
+				this.formTotalthb,
 				this.gridPrice
 			]
 		}
@@ -466,6 +473,9 @@ Ext.define('Account.PO.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
         this.comboTax.on('change', this.calculateTotal, this);
+        this.trigCurrency.on('change', this.changeCurrency, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
         
 		return this.callParent(arguments);
 	},
@@ -546,6 +556,7 @@ Ext.define('Account.PO.Item.Form', {
 		this.numberVat.setValue(7);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -590,7 +601,22 @@ Ext.define('Account.PO.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
+		
+		var rate = this.formTotal.txtRate.getValue();
+		if(currency != 'THB'){
+	      //alert(rate);
+		  sum = sum * rate;
+		  vats = vats * rate;
+		  discounts = discounts * rate;
+		}  
+		
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		var net2 = this.formTotalthb.calculate();
 	  
 	  // Set value to Condition Price grid
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
@@ -605,5 +631,14 @@ Ext.define('Account.PO.Item.Form', {
             	vattype:vattype
             });     
         }
+	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
 	}
 });

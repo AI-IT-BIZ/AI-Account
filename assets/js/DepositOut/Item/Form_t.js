@@ -16,42 +16,6 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 	},
 	initComponent : function() {
 		var _this=this;
-        var myStorecomboWHTno = Ext.create('Ext.data.Store', {
-    fields: ['idWHT', 'name'],
-    data : [
-        {"idWHT":"01", "name":"นิติบุคคล"},
-        {"idWHT":"02", "name":"บุคคลธรรมดา"}
-        //...
-    ]
-});
-       
-       this.whtDialog = Ext.create('Account.WHT.Window');
-       this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-			name: 'whtnr',
-			//fieldLabel: 'SO No',
-			labelAlign: 'letf',
-			width:50,
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			margin: '4 0 0 10'//,
-			//allowBlank : false
-		});
-		
-    this.comboWHType = Ext.create('Ext.form.ComboBox', {
-    fieldLabel: 'Witholding Tax',
-	name: 'whtyp',
-	width:240,
-	triggerAction : 'all',
-	clearFilterOnReset: true,
-	emptyText: '--Select WHT Typ--',
-	//labelStyle: 'font-weight:normal; color: #000; font-style: normal; padding-left:55px;',	
-    margin: '4 0 0 0',
-    store: myStorecomboWHTno,
-    labelAlign: 'left',
-    queryMode: 'local',
-    displayField: 'name',
-    valueField: 'idWHT'
-    });
     
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
@@ -192,22 +156,17 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 			width:380,
 			name: 'txz01'
 		},{
-			xtype: 'container',
-            layout: 'hbox',
-            anchor: '100%',
-            //margin: '5 0 5 600',
-        items: [this.comboWHType,this.trigWHT,{
    	        xtype: 'textfield',
+   	        fieldLabel: 'WHT Note',
    	        name: 'whtxt',
-   	        margin: '4 0 0 7',
-   	        //allowBlank: false,
-			width:250
-		}]
+   	        margin: '3 0 0 0',
+			width:380
+		//}]
 		}]
             },{
                 xtype: 'container',
                 layout: 'anchor',
-                margins: '0 0 0 15',
+                margins: '0 0 0 145',
         items: [this.txtTotal,/*{
 			xtype: 'container',
             layout: 'hbox',
@@ -221,48 +180,6 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 	    this.txtNet]
 		}]
 		}];
-		
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							if(r.data.whtnr != '6'){
-							_this.getForm().findField('whtxt').setValue(r.data.whtxt);
-						    }
-						}else{
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-			if(record.data.whtnr != '6'){
-            _this.getForm().findField('whtxt').setValue(record.data.whtxt);
-           }
-            
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
 
 		// Event /////////
 		var setAlignRight = function(o){
@@ -277,7 +194,7 @@ Ext.define('Account.DepositOut.Item.Form_t', {
 		this.txtTaxValue.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
-		this.txtWHTValue.on('render', setAlignRight);
+		//this.txtWHTValue.on('render', setAlignRight);
 
 		//this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);

@@ -738,6 +738,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  vats = vats * rate;
+		  whts = whts * rate;
 		  sum2 = sum2 * rate;
 		  discounts = discounts * rate;
 		}   

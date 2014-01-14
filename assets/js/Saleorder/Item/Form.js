@@ -847,6 +847,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
+		  whts = whts * rate;
 		  discounts = discounts * rate;
 		  deamt = deamt * rate;
 		}  

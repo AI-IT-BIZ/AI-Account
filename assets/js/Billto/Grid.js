@@ -24,7 +24,7 @@ Ext.define('Account.Billto.Grid', {
 				'kunnr',
 				'name1',
 				'txz01',
-				'statu',
+				'statx',
 				'netwr',
 				'ctype'
 			],

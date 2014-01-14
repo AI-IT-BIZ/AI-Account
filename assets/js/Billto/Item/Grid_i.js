@@ -46,7 +46,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				'refnr',
 				'invdt',
 				'texts',
-				'itamt',
+				{name:'itamt', type: 'string'},
 				//'payrc',
 				//'reman',
 				//'belnr',
