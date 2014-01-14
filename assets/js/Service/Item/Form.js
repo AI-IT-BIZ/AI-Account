@@ -90,6 +90,7 @@ Ext.define('Account.Service.Item.Form', {
 			name: 'meins',
 			fieldLabel: 'Unit',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -100,6 +101,7 @@ Ext.define('Account.Service.Item.Form', {
 			name: 'unit1',
 			fieldLabel: 'Unit 1',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -110,6 +112,7 @@ Ext.define('Account.Service.Item.Form', {
 			name: 'unit2',
 			fieldLabel: 'Unit 2',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 		});
 		
@@ -119,6 +122,7 @@ Ext.define('Account.Service.Item.Form', {
 			name: 'unit3',
 			fieldLabel: 'Unit 3',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 		});
 

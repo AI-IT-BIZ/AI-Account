@@ -20,7 +20,9 @@ Ext.define('Account.Material.Grid', {
 			fields: [
 			    'matnr',
 				'maktx',
-			    //'mtype',
+				'mtart',
+			    'mtype',
+			    'matkl',
 				'mgrpp',
 				'saknr',
 				'meins',
@@ -39,12 +41,15 @@ Ext.define('Account.Material.Grid', {
 		});
 
 		this.columns = [
-		    {text: "Material No", width: 100, dataIndex: 'matnr', sortable: true},
-			{text: "Material Name", width: 150, dataIndex: 'maktx', sortable: true},
-			//{text: "Material Type", width: 120, dataIndex: 'mtype', sortable: true},
-		    {text: "Material Grp", width: 100, dataIndex: 'mgrpp', sortable: true},
+		    {text: "Material No", width: 80, dataIndex: 'matnr', sortable: true},
+			{text: "Material Name", width: 130, dataIndex: 'maktx', sortable: true},
+			{text: "Type", width: 50, dataIndex: 'mtart', sortable: true},
+			{text: "Type Desc", width: 100, dataIndex: 'mtype', sortable: true},
+			{text: "Group", width: 50, dataIndex: 'matkl', sortable: true},
+		    {text: "Group Dese", width: 100, dataIndex: 'mgrpp', sortable: true},
+		    
 			{text: "GL No", width: 80, dataIndex: 'saknr', sortable: true},
-			{text: "GL Description", width: 150, dataIndex: 'sgtxt', sortable: true},
+			{text: "GL Description", width: 130, dataIndex: 'sgtxt', sortable: true},
 			{text: "Unit", width: 60, dataIndex: 'meins', sortable: true},
 			{text: "Create Date", width: 100, dataIndex: 'erdat', sortable: true},
 			{text: "Status", width: 100, dataIndex: 'statx', sortable: true},

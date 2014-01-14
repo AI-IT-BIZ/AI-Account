@@ -69,7 +69,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			readOnly: true
          });
 		this.txtDiscountSum = Ext.create('Ext.form.field.Text', {
-			fieldLabel: 'After Discount & Deposit',
+			fieldLabel: 'After Discount',
 			name: 'bbb',
 			align: 'right',
 			width:270,
@@ -185,8 +185,8 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},*/
 		this.txtDiscountValue,
-		this.txtDepositValue,
 		this.txtDiscountSum,
+		this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -257,7 +257,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 
 		var discountValue = this.txtDiscountValue.getValue();
 		var depositValue = this.txtDepositValue.getValue();
-		discountValue = discountValue + depositValue;
+		//discountValue = discountValue + depositValue;
 	
 		/*	discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
@@ -277,7 +277,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			this.txtDepositValue.setValue('0.00');
+			//this.txtDepositValue.setValue('0.00');
 			//this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
@@ -290,6 +290,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
+		net = net - depositValue;
 		this.txtNet.setValue(net);
 
 		return net;

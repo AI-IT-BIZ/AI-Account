@@ -188,8 +188,8 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},*/
 		this.txtDiscountValue,
-		this.txtDepositValue,
 		this.txtDiscountSum,
+		this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -261,7 +261,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 
 		var discountValue = this.txtDiscountValue.getValue();
 		var depositValue = this.txtDepositValue.getValue();
-		discountValue = discountValue + depositValue;
+		//discountValue = discountValue + depositValue;
 			//discountValue = 0;
 		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -293,6 +293,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
+		net = net - depositValue;
 		this.txtNet.setValue(net);
         //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		//var net = total - discount;

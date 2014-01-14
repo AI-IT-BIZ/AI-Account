@@ -96,6 +96,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'meins',
 			fieldLabel: 'Unit',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -106,6 +107,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'unit1',
 			fieldLabel: 'Unit 1',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -116,6 +118,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'unit2',
 			fieldLabel: 'Unit 2',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -126,6 +129,7 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'unit3',
 			fieldLabel: 'Unit 3',
 			triggerCls: 'x-form-search-trigger',
+			editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});
@@ -309,7 +313,7 @@ Ext.define('Account.Material.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.mtart);
 							_this.trigType.setValue(r.data.mtart);
-			_this.getForm().findField('matxt').setValue(r.data.matxt);
+			_this.getForm().findField('mtype').setValue(r.data.matxt);
 			//_this.getForm().findField('saknr').setValue(r.data.saknr);
 			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -323,7 +327,7 @@ Ext.define('Account.Material.Item.Form', {
 
 		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigType.setValue(record.data.mtart);
-			_this.getForm().findField('matxt').setValue(record.data.matxt);
+			_this.getForm().findField('mtype').setValue(record.data.matxt);
 			//_this.getForm().findField('saknr').setValue(record.data.saknr);
 			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
@@ -352,7 +356,7 @@ Ext.define('Account.Material.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.matkl);
 							_this.trigGrp.setValue(r.data.matkl);
-			_this.getForm().findField('matxt2').setValue(r.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -366,7 +370,7 @@ Ext.define('Account.Material.Item.Form', {
 
 		_this.grpDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGrp.setValue(record.data.matkl);
-			_this.getForm().findField('matxt2').setValue(record.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(record.data.matxt);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
