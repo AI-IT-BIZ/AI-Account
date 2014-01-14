@@ -35,13 +35,19 @@ Ext.define('Account.AP.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.AP.Item.Form_t', {
+		this.formTotal = Ext.create('Account.DepositOut.Item.Form_t', {
 			title:'AP Total',
 			border: true,
 			split: true,
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.AP.Item.Grid_pc', {
+		this.formTotalthb = Ext.create('Account.DepositOut.Item.Form_thb', {
+			border: true,
+			split: true,
+			title:'Exchange Rate->THB',
+			region:'south'
+		});
+		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -203,14 +209,22 @@ Ext.define('Account.AP.Item.Form', {
 			//margin: '0 0 0 35'
          });
          
-         this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
-           // xtype: 'numberfield',
-			fieldLabel: 'WHT Value',
-			name: 'whtpr',
+         this.whtDialog = Ext.create('Account.WHT.Window');
+         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+       	    fieldLabel: 'WHT Value',
+			name: 'whtnr',
 			labelAlign: 'right',
-			width:170,
-			align: 'right'//,
+			width:150,
+			hideTrigger:false,
+			align: 'right',
 			//margin: '0 0 0 35'
+		 });
+		 
+		 this.numberWHT = Ext.create('Ext.form.field.Display', {
+			name: 'whtpr',
+			width:15,
+			align: 'right',
+			margin: '0 0 0 5'
          });
 		
 		var mainFormPanel = {
@@ -295,8 +309,20 @@ Ext.define('Account.AP.Item.Form', {
 								fieldLabel: 'Reference No',
 								width: 280, 
 								name: 'refnr',
-			                },this.numberWHT]
-		                }]
+			                },{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,this.numberWHT,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				   }]
+		           }]
 		            },{
 		                xtype: 'container',
 		                flex: 0,
@@ -351,6 +377,7 @@ Ext.define('Account.AP.Item.Form', {
 			height:195,
 			items: [
 				this.formTotal,
+				this.formTotalthb,
 				this.gridPrice,
 				this.gridGL
 			]
@@ -539,6 +566,48 @@ Ext.define('Account.AP.Item.Form', {
 			_this.currencyDialog.show();
 		};
 		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							//if(r.data.whtnr != '6'){
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+						   //}
+						}else{
+							o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			//if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+           //}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
+		};
+		
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -550,6 +619,11 @@ Ext.define('Account.AP.Item.Form', {
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.trigCurrency.on('change', this.changeCurrency, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
+		
 		return this.callParent(arguments);
 	},
 	
@@ -637,6 +711,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -701,17 +776,26 @@ Ext.define('Account.AP.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.vendorValue = this.trigVendor.getValue();
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
+		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+	      sum2 = sum2 * rate;
 		  sum = sum * rate;
-		  sum2 = sum2 * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
-		} 
-		//alert(sum);  
+		  discounts = discounts * rate;
+		}  
+		
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		var net2 = this.formTotalthb.calculate();
+		
         if(sum>0 && this.trigVendor.getValue()!=''){
             _this.gridGL.load({
             	netpr:sum2,
@@ -750,6 +834,15 @@ Ext.define('Account.AP.Item.Form', {
 			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
 				dueDateField.setValue(result);
 		}
+	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
 	}
 	
 // Payments Method	

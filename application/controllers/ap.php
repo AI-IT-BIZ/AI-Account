@@ -39,6 +39,8 @@ class Ap extends CI_Controller {
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
 			
+			$result_data['whtpr']=number_format($result_data['whtpr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -431,10 +433,10 @@ class Ap extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'whtyp' => $this->input->post('whtyp'),
+			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'whtpr' => $this->input->post('whtpr'),
+			//'whtpr' => $this->input->post('whtpr'),
 			'duedt' => $this->input->post('duedt')
 		);
 

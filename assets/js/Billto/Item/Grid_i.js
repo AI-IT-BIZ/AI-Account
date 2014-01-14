@@ -94,6 +94,13 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				}
 			},
 			},
+		    {text: "Invoice Date",
+		    width: 80,
+		    xtype: 'datecolumn',
+		    dataIndex: 'invdt',
+		    sortable: false,
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
+		    },
 		    {text: "Ref.No",
 		    width: 150,
 		    dataIndex: 'refnr',
@@ -101,13 +108,6 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		    field: {
 				type: 'textfield'
 			},
-		    },
-		    {text: "Invoice Date",
-		    width: 80,
-		    xtype: 'datecolumn',
-		    dataIndex: 'invdt',
-		    sortable: false,
-		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
 		    width: 250,
