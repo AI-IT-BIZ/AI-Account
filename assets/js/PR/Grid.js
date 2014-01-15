@@ -30,7 +30,8 @@ Ext.define('Account.PR.Grid', {
 				'telf1',
 				'telfx',
 				'email',
-				'ctype'
+				'ctype',
+				'deptx'
 			],
 			remoteSort: true,
 			sorters: [{property: 'purnr', direction: 'ASC'}]
@@ -51,6 +52,7 @@ Ext.define('Account.PR.Grid', {
 			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
 			flex: true, dataIndex: 'netwr', sortable: true},
 			{text: "Currency", dataIndex: 'ctype', sortable: true},
+			{text: "Department", flex: true, dataIndex: 'deptx', sortable: true},
 			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},
 			{text: "2",hidden: true, width: 0, dataIndex: 'distx', sortable: false},
 			{text: "3",hidden: true, width: 0, dataIndex: 'pstlz', sortable: false},
