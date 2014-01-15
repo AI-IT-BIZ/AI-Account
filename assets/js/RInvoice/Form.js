@@ -20,15 +20,15 @@ Ext.define('Account.RInvoice.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
-        this.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
-        this.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
+        this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+        //this.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
         //this.projectDialog = Ext.create('Account.Project.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
 		
-		this.invoiceDialog2 = Ext.create('Account.Invoice.MainWindow');
-		this.saleorderDialog2 = Ext.create('Account.Saleorder.MainWindow');
+		this.invoiceDialog2 = Ext.create('Account.SInvoice.MainWindow');
+		//this.saleorderDialog2 = Ext.create('Account.Saleorder.MainWindow');
         //this.projectDialog2 = Ext.create('Account.Project.MainWindow');
-		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
+		this.customerDialog2 = Ext.create('Account.SCustomer.MainWindow');
         
         
            this.dateDoc1 = Ext.create('Ext.form.field.Date', {
@@ -151,7 +151,7 @@ Ext.define('Account.RInvoice.Form', {
 			enableKeyEvents: true
 		});
 		
-		this.trigSaleorder = Ext.create('Ext.form.field.Trigger', {
+		/*this.trigSaleorder = Ext.create('Ext.form.field.Trigger', {
 			name: 'ordnr',
 			labelWidth: 100,
 			fieldLabel: 'So No',
@@ -163,7 +163,7 @@ Ext.define('Account.RInvoice.Form', {
 			name: 'ordnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
-		});
+		});*/
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
@@ -203,7 +203,7 @@ Ext.define('Account.RInvoice.Form', {
 		},
 		this.trigInvoice2]  
 // Quotation Code
-		},{
+		/*},{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -213,7 +213,7 @@ Ext.define('Account.RInvoice.Form', {
 		  width:40,
 		  margins: '0 0 0 25'
 		},
-		this.trigSaleorder2]
+		this.trigSaleorder2]*/
 // Customer Code
 		},{
           xtype: 'container',
@@ -328,7 +328,7 @@ Ext.define('Account.RInvoice.Form', {
 		};
 		
 		// event trigQuotation///
-		this.trigSaleorder.on('keyup',function(o, e){
+		/*this.trigSaleorder.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -397,7 +397,7 @@ Ext.define('Account.RInvoice.Form', {
 		
 		this.trigSaleorder2.onTriggerClick = function(){
 			_this.saleorderDialog2.show();
-		};
+		};*/
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
