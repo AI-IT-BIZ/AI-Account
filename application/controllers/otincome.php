@@ -46,6 +46,8 @@ class Otincome extends CI_Controller {
 			$r_qt = $q_qt->first_row('array');
 			$result['emnam'] = $r_qt['emnam'];
 			
+			$result['whtpr']=number_format($result['whtpr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result
@@ -462,9 +464,9 @@ class Otincome extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-		
-		if($this->input->post('loekz')=='2'){
-        	$emsg = 'The sale order already created invoice doc.';
+
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -519,10 +521,6 @@ class Otincome extends CI_Controller {
 			$this->db->insert('vbrk', $formData);
 			
 			$inserted_id = $id;
-			
-			$this->db->where('ordnr', $this->input->post('ordnr'));
-			$this->db->set('loekz', '2');
-			$this->db->update('vbok');
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด

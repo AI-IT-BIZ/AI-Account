@@ -161,6 +161,12 @@ Ext.define('Account.Quotation.Item.Form_t', {
 			width:380,
 			name: 'txz01'//,
 			//anchor:'90%'
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'WHT Text',
+   	        name: 'whtxt',
+   	        margin: '3 0 0 0',
+			width:380
 		}]
             },{
                 xtype: 'container',

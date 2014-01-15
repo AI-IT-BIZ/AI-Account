@@ -39,13 +39,19 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.PurchaseCreditNote.Item.Form_t', {
+		this.formTotal = Ext.create('Account.AP.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'GR Total',
+			title:'Credit Total',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.PurchaseCreditNote.Item.Grid_pc', {
+		this.formTotalthb = Ext.create('Account.AP.Item.Form_thb', {
+			border: true,
+			split: true,
+			title:'Exchange Rate->THB',
+			region:'south'
+		});
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -205,14 +211,22 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			//margin: '0 0 0 35'
          });
          
-         this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
-           // xtype: 'numberfield',
-			fieldLabel: 'WHT Value',
-			name: 'whtpr',
+         this.whtDialog = Ext.create('Account.WHT.Window');
+         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+       	    fieldLabel: 'WHT Value',
+			name: 'whtnr',
 			labelAlign: 'right',
-			width:170,
-			align: 'right'//,
-			//margin: '0 0 0 35'
+			width:150,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true//,
+			//margin: '0 0 0 25'
+		});
+		
+		this.numberWHT = Ext.create('Ext.form.field.Display', {
+			name: 'whtpr',
+			width:15,
+			align: 'right',
+			margin: '0 0 0 8'
          });
 		
 		var mainFormPanel = {
@@ -287,7 +301,13 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat]
+				 			items :[this.comboPay,this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -297,7 +317,19 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 								fieldLabel: 'Reference No',
 								width: 280, 
 								name: 'refnr',
-			                },this.numberWHT]
+			                },{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,this.numberWHT,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				}]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -364,9 +396,10 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:220,
 			items: [
 				this.formTotal,
+				this.formTotalthb,
 				this.gridPrice,
 				this.gridGL
 			]
@@ -398,6 +431,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('deamt').setValue(r.data.deamt);
 						}else{
 							o.markInvalid('Could not find AP no : '+o.getValue());
 						}
@@ -429,6 +463,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('deamt').setValue(r.data.deamt);
 						}
 					}
 				});
@@ -555,6 +590,48 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			_this.currencyDialog.show();
 		};
 		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
+							//if(r.data.whtnr != '6'){
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+						   //}
+						}else{
+							o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			//if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+           //}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
+		};
+		
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -566,6 +643,10 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.trigCurrency.on('change', this.changeCurrency, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
         
 		return this.callParent(arguments);
 	},
@@ -580,7 +661,10 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vat:sel.get('chk01')
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -653,6 +737,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
+		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
@@ -706,6 +791,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 	  
 	  // Set value to Condition Price grid
@@ -724,12 +810,25 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
             });     
         }
         
-        if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
+        var rate = this.formTotal.getForm().findField('exchg').getValue();
+        var deamt = this.formTotal.getForm().findField('deamt').getValue();
+        //alert(deamt);
+		if(currency != 'THB'){
 		  sum = sum * rate;
 		  sum2 = sum2 * rate;
 		  vats = vats * rate;
-		}   
+		  whts = whts * rate;
+		  discounts = discounts * rate;
+		  deamt = deamt * rate;
+		}
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		var net2 = this.formTotalthb.calculate();
+		 
         if(sum>0 && this.trigVendor.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({
@@ -756,5 +855,14 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
 				dueDateField.setValue(result);
 		}
+	},
+	
+	changeCurrency: function(){
+		var _this=this;
+		var store = this.gridItem.store;
+		var currency = this.trigCurrency.getValue();
+		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
 	}
 });

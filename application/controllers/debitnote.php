@@ -39,6 +39,8 @@ class Debitnote extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
+			$result['whtpr']=number_format($result['whtpr']);
+			
 			//$q_qt = $this->db->get_where('psal', array(
 			//	'salnr'=>$result['salnr']
 			//));
@@ -79,6 +81,8 @@ class Debitnote extends CI_Controller {
 			// unset calculated value
 			unset($result['beamt']);
 			unset($result['netwr']);
+			
+			$result['whtpr']=number_format($result['whtpr']);
 			
 			//$q_qt = $this->db->get_where('psal', array(
 			//	'salnr'=>$result['salnr']
@@ -476,6 +480,15 @@ class Debitnote extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
 		
 		/*if($this->input->post('loekz')=='2'){
         	$emsg = 'The invoice already created credit note doc.';
@@ -506,7 +519,7 @@ class Debitnote extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
-			//'condi' => $this->input->post('condi'),
+			'whtnr' => $this->input->post('whtnr'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01')//,
@@ -756,6 +769,15 @@ class Debitnote extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
+
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
 		
 		/*if($this->input->post('loekz')=='2'){
         	$emsg = 'The invoice already created credit note doc.';
@@ -786,7 +808,7 @@ class Debitnote extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'exchg' => $this->input->post('exchg'),
 			'duedt' => $this->input->post('duedt'),
-			//'condi' => $this->input->post('condi'),
+			'whtnr' => $this->input->post('whtnr'),
 			'whtpr' => $this->input->post('whtpr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01')//,

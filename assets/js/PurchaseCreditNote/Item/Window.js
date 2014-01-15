@@ -5,8 +5,8 @@ Ext.define('Account.PurchaseCreditNote.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Credit Note',
 			closeAction: 'hide',
-			height: 650,
-			width: 900,
+			height: 700,
+			width: 950,
 			layout: 'border',
 			border: false,
 			resizable: true,

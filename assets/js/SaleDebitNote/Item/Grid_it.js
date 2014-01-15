@@ -78,7 +78,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
 			}
 		},
 		{text: "Material Code",
-		width: 80,
+		width: 110,
 		dataIndex: 'matnr',
 		sortable: false,
 			/*field: {
@@ -101,7 +101,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -129,7 +129,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 80,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -147,7 +147,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
 			},
 			{text: "Discount",
 			xtype: 'numbercolumn',
-			width: 80,
+			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
@@ -195,7 +195,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
             },
 			{
 				text: "Amount",
-				width: 90,
+				width: 120,
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
@@ -212,7 +212,7 @@ Ext.define('Account.SaleDebitNote.Item.Grid_it', {
 				}
 			},
 			{text: "Currency",
-			width: 65,
+			width: 70,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',

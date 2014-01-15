@@ -77,7 +77,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		}
 			},{
 			text: "Period Desc.",
-			width: 340,
+			width: 320,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			field: {

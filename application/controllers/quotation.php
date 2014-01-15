@@ -290,7 +290,8 @@ class Quotation extends CI_Controller {
 			'exchg' => $this->input->post('exchg'),
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01')
+			'wht01' => $this->input->post('wht01'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 
 		// start transaction

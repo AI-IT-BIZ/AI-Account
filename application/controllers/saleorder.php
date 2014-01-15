@@ -248,7 +248,8 @@ class Saleorder extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => $this->input->post('vat01'),
 			'wht01' => $this->input->post('wht01'),
-			'deamt' => $this->input->post('deamt')
+			'deamt' => $this->input->post('deamt'),
+			'whtxt' => $this->input->post('whtxt')
 		);
 
 		// start transaction

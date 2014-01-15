@@ -228,8 +228,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		},
 			{
 			dataIndex: 'saknr',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		}];
 

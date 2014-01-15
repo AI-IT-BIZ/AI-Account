@@ -152,6 +152,15 @@ class Depositin extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }
+
         if($this->input->post('loekz')=='2'){
         	$emsg = 'The quotation already created deposit doc.';
 					echo json_encode(array(
@@ -181,7 +190,7 @@ class Depositin extends CI_Controller {
 			'wht01' => $this->input->post('wht01'),
 			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
-			//'whtxt' => $this->input->post('whtxt'),
+			'whtxt' => $this->input->post('whtxt'),
 			'terms' => $this->input->post('terms')
 		);
 		

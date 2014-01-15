@@ -39,6 +39,8 @@ class Otexpense extends CI_Controller {
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
 			
+			$result_data['whtpr']=number_format($result_data['whtpr']);
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -401,8 +403,8 @@ class Otexpense extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
-        if($this->input->post('loekz')=='2'){
-        	$emsg = 'The GR already created AP doc.';
+        if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
+        	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -460,10 +462,7 @@ class Otexpense extends CI_Controller {
 			$this->db->insert('ebrk', $formData);
 			
 			$inserted_id = $id;
-			
-			$this->db->where('mbeln', $this->input->post('mbeln'));
-			$this->db->set('loekz', '2');
-			$this->db->update('mkpf');
+
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('invnr', $id);

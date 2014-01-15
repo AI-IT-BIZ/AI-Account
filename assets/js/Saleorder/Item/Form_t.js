@@ -173,6 +173,12 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			width:380,
 			name: 'txz01'//,
 			//anchor:'90%'
+		},{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'WHT Text',
+   	        name: 'whtxt',
+   	        margin: '3 0 0 0',
+			width:380
 		}]
             },{
                 xtype: 'container',
@@ -280,6 +286,10 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			//this.txtDepositValue.setValue('0.00');
 			//this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
+		}
+		depositValue = isNaN(depositValue)?0:depositValue;
+		if(depositValue>0){}else{
+			this.txtDepositValue.setValue('0.00');
 		}
         
         var vat = this.txtTaxValue.getValue();
