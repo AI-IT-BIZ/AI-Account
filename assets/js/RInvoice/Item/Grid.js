@@ -8,7 +8,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
     ],
 	features: [{
             id: 'group',
-            ftype: 'groupingsummary',
+            ftype: 'grouping',
             groupHeaderTpl: '{name}',
             hideGroupedHeader: true,
             enableGroupingMenu: false,
@@ -98,7 +98,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
           //  alert(options.doc_start_from);
 		this.store.load({
 			params: options,
-                        /*callback: function(records, operation, success) {
+                        callback: function(records, operation, success) {
                                   var invnr_temp = ""; 
                                   var invnr_temp_last = ""; 
                                   for(i = 0;i<this.getCount();i++)
@@ -107,10 +107,12 @@ Ext.define('Account.RInvoice.Item.Grid', {
                                       invnr_temp_last = rt.get('invnr');
                                       if( invnr_temp == rt.get('invnr'))
                                       {
-                                         rt.set('invnr','');
+                                         //rt.set('invnr','');
                                          rt.set('bldat','');
                                          rt.set('jobnr','');
+                                         rt.set('vbeln','');
                                          rt.set('ordnr','');
+                                         rt.set('kunnr','');
                                          rt.set('name1','');
                                          
                                          rt.set('terms','');
@@ -124,7 +126,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
            
                                   }
 
-                              }*/
+                              }
 		});
 	}
 });

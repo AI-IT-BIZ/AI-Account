@@ -24,6 +24,7 @@ Ext.define('Account.RPayment.Item.Grid', {
 				'name1',
 				//'txz01',
 				'netwr',
+				'statx',
 				'invnr',
 				'invdt',
 				'itamt',
@@ -46,6 +47,10 @@ Ext.define('Account.RPayment.Item.Grid', {
 			width: 200, dataIndex: 'name1', sortable: true},
 			{text: "Net Amount", xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "Status", 
+			width: 120, dataIndex: 'statx', sortable: true},
+			{text: "Paymented by", 
+			width: 120, dataIndex: 'paytx', align: 'left', sortable: true},
 			
 			{text: "AP No", 
 			width: 100, align: 'center', dataIndex: 'invnr', sortable: true},
@@ -53,9 +58,8 @@ Ext.define('Account.RPayment.Item.Grid', {
 			width: 80, dataIndex: 'invdt', align: 'center', sortable: true},
 			
 			{text: "Amount", xtype: 'numbercolumn',
-			width: 100, dataIndex: 'itamt', align: 'right', sortable: true},
-			{text: "Paymented by", 
-			width: 170, dataIndex: 'paytx', align: 'left', sortable: true}
+			width: 100, dataIndex: 'itamt', align: 'right', sortable: true}
+			
 		];
 
 		this.bbar = {

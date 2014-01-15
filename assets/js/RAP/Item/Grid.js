@@ -59,7 +59,7 @@ Ext.define('Account.RAP.Item.Grid', {
             format:'d/m/Y', sortable: true},
 			{text: "Over Due", width: 60, dataIndex: 'overd', sortable: true},
 			{text: "Status", width: 80, dataIndex: 'statx',
-			align: 'center', align: 'center', sortable: true},
+			align: 'left', sortable: true},
 			{text: "Material Code", width: 80, align: 'center', dataIndex: 'matnr', 
 			sortable: true},
 			{text: "Item Description", width: 60, align: 'center', 
@@ -87,7 +87,36 @@ Ext.define('Account.RAP.Item.Grid', {
 	},
 	load: function(options){
 		this.store.load({
-			params: options
+			params: options,
+                        callback: function(records, operation, success) {
+                                  var invnr_temp = ""; 
+                                  var invnr_temp_last = ""; 
+                                  for(i = 0;i<this.getCount();i++)
+                                  {
+                                      rt = this.getAt(i);
+                                      invnr_temp_last = rt.get('invnr');
+                                      if( invnr_temp == rt.get('invnr'))
+                                      {
+                                         rt.set('invnr','');
+                                         rt.set('bldat','');
+                                         //rt.set('jobnr','');
+                                         rt.set('ebeln','');
+                                         //rt.set('ordnr','');
+                                         rt.set('lifnr','');
+                                         rt.set('name1','');
+                                         
+                                         rt.set('terms','');
+                                         rt.set('duedt','');
+                                         rt.set('overd','');
+                                         rt.set('statx','');
+                                         rt.commit();
+                                      }
+                                   
+                                     invnr_temp = invnr_temp_last;
+           
+                                  }
+
+                              }
 		});
 	}
 });
