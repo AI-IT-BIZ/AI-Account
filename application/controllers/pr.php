@@ -105,6 +105,17 @@ class Pr extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			//Get PR by Userlogin Department
+			$uname = XUMS::USERNAME();
+			$sql = "select t1.uname, t1.empnr, t2.name1, t2.depnr
+					from tbl_user t1
+					join tbl_empl t2 on t1.empnr=t2.empnr
+					join tbl_depn t3 on t2.depnr=t3.depnr
+					where t1.uname = '$uname'";
+			$query = $_this->db->query($sql);
+
+			$result = $query->result_array();
+			$_this->db->where('depnr',$result[0]['depnr']);
 		}
 		// End for report	
 		createQuery($this);
