@@ -13,7 +13,7 @@ Ext.define('Account.PO.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.prDialog = Ext.create('Account.PR.MainWindow', {
+		this.prDialog = Ext.create('Account.SPR.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
