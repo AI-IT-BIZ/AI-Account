@@ -430,7 +430,7 @@ endfor;
 <?= check_page($current_page_index, $total_page, number_format($r_data['beamt'],2,'.',',')) ?></span></DIV>
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
-$distxt='';$disamt=0;
+$distxt='';$disamt=0;$a_amt=0;
 /*if(strpos($r_data['dismt'], '%') !== false)
 {
 	$distxt = $r_data['dismt'];
@@ -447,23 +447,31 @@ if(empty($r_data['dismt'])) $r_data['dismt'] = 0;
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
-<?php $d_amt = $r_data['beamt'] - $r_data['dismt']; ?>
+<?php $d_amt = $r_data['beamt'] - $r_data['dismt']; 
+      $a_amt=$d_amt - $r_data['deamt'];
+?>
 
-<DIV style="left:660PX;top:709PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left: 660PX; top: 707px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
-<DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
+<DIV style="left: 660PX; top: 729px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($r_data['deamt'],2,'.',',')) ?></span></DIV>
+
+<DIV style="left: 660PX; top: 752px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($a_amt,2,'.',',')) ?></span></DIV>
+
+<DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Deposit Payment</span></DIV>
 
 <DIV style="left:660PX;top:753PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
 
-<DIV style="left:465PX;top:753PX;width:194PX;height:19PX;"><span class="fc1-4">หลังหักมัดจำ&nbsp;&nbsp;After Advance payment</span></DIV>
+<DIV style="left:465PX;top:753PX;width:194PX;height:19PX;"><span class="fc1-4">หลังหักมัดจำ&nbsp;&nbsp;After Deposit payment</span></DIV>
 
 <DIV style="left:465PX;top:776PX;width:136PX;height:23PX;"><span class="fc1-4">ภาษีมูลค่าเพิ่ม&nbsp;&nbsp;VAT Amount</span></DIV>
 
 <?php
 $tax_str = "";
 if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
-	$tax_str = $r_data['taxpr'].'%';
+	$tax_str = number_format($r_data['taxpr'],0,'.',',').'%';
 else
 	$tax_str = '';
 ?>

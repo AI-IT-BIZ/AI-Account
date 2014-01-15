@@ -731,7 +731,7 @@ Ext.define('Account.GR.Item.Form', {
             });  
             
             var v = sel.get('matnr');
-            alert(v);
+
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
 					url: __site_url+'asset/load',
