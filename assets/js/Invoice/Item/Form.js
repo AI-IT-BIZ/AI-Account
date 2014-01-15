@@ -50,7 +50,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.Invoice.Item.Form_t',{
+		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t',{
 			border: true,
 			split: true,
 			title:'Total->Invoice',
@@ -62,7 +62,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.Invoice.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',

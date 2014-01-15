@@ -222,6 +222,52 @@ class Quotation extends CI_Controller {
 		}
 
         $net = $this->input->post('netwr');
+		$kunnr = $this->input->post('kunnr');
+		$this->db->where('kunnr', $kunnr);
+		$q_limit = $this->db->get('kna1');
+		
+		if($q_limit->num_rows()>0){
+			$r_limit = $q_limit->first_row('array');
+			$limit = $r_limit['endin'];
+			if($net>$limit){
+            	$emsg = 'The quotation total have amount more than limit amount.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+		}
+		
+        $payp = $this->input->post('payp');//$this->input->post('vbelp');
+		$pp_item_array = json_decode($payp);
+		if(!empty($payp) && !empty($pp_item_array)){
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			$pramt = 0;$amt = 0;$total=0;
+			foreach($pp_item_array AS $p){
+				$perct = $p->perct;
+				$amt = $this->input->post('beamt') - $this->input->post('dismt');
+				$pos = strpos($perct, '%');
+				if($pos==false){
+					$pramt = $disit;
+				}else{
+					$perc = explode('%',$perct);
+					$pramt = $amt * $perc[0];
+					$pramt = $pramt / 100;
+				}
+				$total+=$pramt;
+			}
+            if($total>$net){
+            	$emsg = 'The patial payment total have amount more than quotation total.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+		}
+
+        
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
@@ -273,8 +319,6 @@ class Quotation extends CI_Controller {
 		$this->db->delete('vbap');
 
 		// เตรียมข้อมูล  qt item
-		$vbap = $this->input->post('vbap');//$this->input->post('vbelp');
-		$qt_item_array = json_decode($vbap);
 		if(!empty($vbap) && !empty($qt_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;

@@ -460,20 +460,34 @@ if(empty($r_data['dismt'])) $r_data['dismt'] = 0;
 
 <DIV style="left:465PX;top:776PX;width:136PX;height:23PX;"><span class="fc1-4">ภาษีมูลค่าเพิ่ม&nbsp;&nbsp;VAT Amount</span></DIV>
 
+<DIV style="left: 465PX; top: 799PX; width: 168px; height: 23PX;"><span class="fc1-4">ภาษีหัก ณ ที่จ่าย &nbsp;&nbsp;WHT Amount</span></DIV>
+
 <?php
 $tax_str = "";
 if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
-	$tax_str = $r_data['taxpr'].'%';
+	$tax_str = number_format($r_data['taxpr'],0,'.',',').'%';
 else
 	$tax_str = '';
+
+$wht_str = "";
+if(!empty($r_data['whtpr']) && intval($r_data['whtpr'])>0)
+	$wht_str = number_format($r_data['whtpr'],0,'.',',').'%';
+else
+	$wht_str = '';
 ?>
 <DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= $tax_str ?></span></DIV>
 
-<DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left:602PX;top:799PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= $wht_str ?></span></DIV>
 
-<DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
+<DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
+
+<DIV style="left:660PX;top:799PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($r_data['wht01'],2,'.',',')) ?></span></DIV>
+
+<DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวเงินที่ต้องชำระ</span></DIV>
 
 <DIV style="left:660PX;top:821PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
