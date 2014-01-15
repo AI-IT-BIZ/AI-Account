@@ -686,7 +686,7 @@ class Debitnote extends CI_Controller {
 				$total_amount = $this->input->post('netwr');
 				// send notification email
 				if(!empty($inserted_id)){
-					$q_row = $this->db->get_where('vbde', array('debnr'=>$inserted_id));
+					$q_row = $this->db->get_where('vbdn', array('debnr'=>$inserted_id));
 					$row = $q_row->first_row();
 					$this->email_service->sendmail_create(
 						'SN', 'Sale Debit Note',
@@ -695,7 +695,7 @@ class Debitnote extends CI_Controller {
 					);
 				}else if(!empty($post_id)){
 					if($status_changed){
-						$q_row = $this->db->get_where('vbde', array('debnr'=>$post_id));
+						$q_row = $this->db->get_where('vbdn', array('debnr'=>$post_id));
 						$row = $q_row->first_row();
 						$this->email_service->sendmail_change_status(
 							'SN', 'Sale Debit Note',
