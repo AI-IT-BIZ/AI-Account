@@ -1,8 +1,8 @@
-/*Ext.define('RGeneralJournal', {
+Ext.define('RPaymentJournal', {
 	extend: 'Ext.data.Model',
 	fields: ['bldat','belnr','invnr','name1','saknr','sgtxt','debit','credi','statu','kunnr']
 });
-*/
+
 Ext.define('Account.RPaymentJournal.Result.Grid', {
 	extend	: 'Ext.window.Window',
 	requires: [
