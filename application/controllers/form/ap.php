@@ -474,13 +474,13 @@ if(empty($r_data['dismt'])) $r_data['dismt'] = 0;
 <?php
 $tax_str = "";
 if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
-	$tax_str = $r_data['taxpr'].'%';
+	$tax_str = number_format($r_data['taxpr'],0,'.',',').'%';
 else
 	$tax_str = '';
 	
 $wht_str = "";
 if(!empty($r_data['whtpr']) && intval($r_data['whtpr'])>0)
-	$wht_str = $r_data['whtpr'].'%';
+	$wht_str = number_format($r_data['whtpr'],0,'.',',').'%';
 else
 	$wht_str = '';
 ?>

@@ -175,10 +175,11 @@ class Rreceipt extends CI_Controller {
 	            ->setCellValue('C8', 'Customer No')
 	            ->setCellValue('D8', 'Customer Name')
 	            ->setCellValue('E8', 'Net Amount')
-	            ->setCellValue('F8', 'Invoice No')
-	            ->setCellValue('G8', 'Invoice Date')
-	            ->setCellValue('H8', 'Amount')
-				->setCellValue('I8', 'Receipted by');
+				->setCellValue('F8', 'Status')
+				->setCellValue('G8', 'Receipted by')
+	            ->setCellValue('H8', 'Invoice No')
+	            ->setCellValue('I8', 'Invoice Date')
+	            ->setCellValue('J8', 'Amount');
 
 		// Add some data
 		$inv_temp='';$payment='';
@@ -189,13 +190,27 @@ class Rreceipt extends CI_Controller {
 		    
 					if($inv_temp == "" || $inv_temp != $value['recnr'])   
                          {
-                             $current_sheet
-                            
+                       $q_pm = $this->db->get_where('paym', array(
+				       'recnr'=>$value['recnr']
+			           ));
+			
+			if($q_pm->num_rows()>0){
+				$pay = $q_pm->result_array();
+				$payment='';
+				for($j=0;$j<count($pay);$j++){
+		            $p = $pay[$j];
+					if($j==0) $payment = $p['paytx'];
+					else $payment = $payment.','.$p['paytx'];
+			    }
+			}  
+                             $current_sheet      
 		            ->setCellValue('A'.$excel_i, $value['recnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
 		            ->setCellValue('C'.$excel_i, $value['kunnr'])
 		            ->setCellValue('D'.$excel_i, $value['name1'])
-		            ->setCellValue('E'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2));
+		            ->setCellValue('E'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+					->setCellValue('F'.$excel_i, $value['statx'])
+		            ->setCellValue('G'.$excel_i, $payment);
    
                          }
                          else {
@@ -205,27 +220,18 @@ class Rreceipt extends CI_Controller {
 		               ->setCellValue('B'.$excel_i, "")
 		               ->setCellValue('C'.$excel_i, "")
 		               ->setCellValue('D'.$excel_i, "")
-		               ->setCellValue('E'.$excel_i, "");  
+		               ->setCellValue('E'.$excel_i, "")
+					   ->setCellValue('F'.$excel_i, "")
+		               ->setCellValue('G'.$excel_i, "");  
                              
                          }
 			       //$total = $value['beamt'] + $value['vat01'];
-			           $q_pm = $this->db->get_where('paym', array(
-				       'recnr'=>$value['recnr']
-			           ));
-			
-			if($q_pm->num_rows()>0){
-				$pay = $q_pm->result_array();
-				$payment='';
-				for($j=0;$j<count($pay);$j++){
-		            $p = $pay[$j];
-			        $payment = $payment.$p['paytx'];
-			    }
-			} 
+			            
                        $current_sheet     
-                       ->setCellValue('F'.$excel_i, $value['invnr'])
-		               ->setCellValue('G'.$excel_i, util_helper_format_date($value['invdt']))
-		               ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['itamt'], 2))
-                        ->setCellValue('I'.$excel_i, $payment);
+                       ->setCellValue('H'.$excel_i, $value['invnr'])
+		               ->setCellValue('I'.$excel_i, util_helper_format_date($value['invdt']))
+		               ->setCellValue('J'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['itamt'], 2));
+                       // ->setCellValue('I'.$excel_i, $payment);
 						    
                         $inv_temp = $value['recnr'];
 		
@@ -233,7 +239,7 @@ class Rreceipt extends CI_Controller {
 
 
 		// Adjust header cell format
-		foreach(range('A','I') as $columnID) {
+		foreach(range('A','J') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head

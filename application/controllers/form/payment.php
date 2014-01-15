@@ -364,7 +364,7 @@ if($r_data['dispc'] == '0') $r_data['dispc'] = '';
 <?php
 $tax_str = "";
 if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
-	$tax_str = $r_data['taxpr'].'%';
+	$tax_str = number_format($r_data['taxpr'],0,'.',',').'%';
 else
 	$tax_str = '';
 ?>

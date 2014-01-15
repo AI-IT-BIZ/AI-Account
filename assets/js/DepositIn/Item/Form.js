@@ -33,7 +33,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.DepositIn.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->Deposit',
@@ -43,6 +43,12 @@ Ext.define('Account.DepositIn.Item.Form', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
+			region:'south'
+		});
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+			border: true,
+			split: true,
+			title:'Item Pricing',
 			region:'south'
 		});
 		
@@ -344,6 +350,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			items: [
 				this.formTotal,
 				this.formTotalthb,
+				this.gridPrice,
 				this.gridGL
 			]
 		}
@@ -581,7 +588,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 		//this.gridItem.store.on('change', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
-		
+		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.numberCredit.on('keyup', this.getDuedate, this);
 		this.numberCredit.on('change', this.getDuedate, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
@@ -592,6 +600,28 @@ Ext.define('Account.DepositIn.Item.Form', {
 
 		return this.callParent(arguments);
 	},	
+	
+	onSelectChange: function(selModel, selections){
+		var _this=this;
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        if (sel) {
+            _this.gridPrice.load({
+            	menge:1,
+            	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
+            });
+
+        }
+    },
+    
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
+    },
 	
 	load : function(id){
 		var _this=this;
@@ -734,6 +764,22 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.gridItem.vatValue = this.numberVat.getValue();
 		this.gridItem.whtValue = this.numberWHT.getValue();
 		this.formTotal.getForm().findField('curr1').setValue(currency);
+		
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        if (sel) {
+        	//_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({
+            	menge:1,
+            	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:vattype
+            });
+
+        }
         var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
 		  sum = sum * rate;
