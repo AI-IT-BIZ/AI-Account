@@ -42,6 +42,12 @@ Ext.define('Account.GR.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
+		this.formSpec = Ext.create('Account.GR.Item.Form_spec', {
+			border: true,
+			split: true,
+			title:'Asset Detail',
+			region:'south'
+		});
 		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
 			border: true,
 			split: true,
@@ -334,7 +340,8 @@ Ext.define('Account.GR.Item.Form', {
 			items: [
 				this.formTotal,
 				this.formTotalthb,
-				this.gridPrice
+				this.gridPrice,
+				this.formSpec
 			]
 		}
 		];	
@@ -550,6 +557,40 @@ Ext.define('Account.GR.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vat:sel.get('chk01')
             });
+            
+            var v = sel.get('matnr');
+            
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'asset/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.formSpec.getForm().findField('saknr').setValue(r.data.saknr);
+						    _this.formSpec.getForm().findField('brand').setValue(r.data.brand);
+			                _this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('model').setValue(r.data.model);
+						    _this.formSpec.getForm().findField('specs').setValue(r.data.specs);
+			                _this.formSpec.getForm().findField('assnr').setValue(r.data.assnr);
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('holds').setValue(r.data.holds);
+			                _this.formSpec.getForm().findField('depnr').setValue(r.data.depnr);
+						    _this.formSpec.getForm().findField('keepi').setValue(r.data.keepi);
+			                _this.formSpec.getForm().findField('resid').setValue(r.data.resid);
+			                
+			                _this.formSpec.getForm().findField('gltxt').setValue(r.data.sgtxt);
+			                _this.formSpec.getForm().findField('asstx').setValue(r.data.asstx);
+			                _this.formSpec.getForm().findField('reqtx').setValue(r.data.reqtx);
+			                _this.formSpec.getForm().findField('hodtx').setValue(r.data.hodtx);
+			                _this.formSpec.getForm().findField('deptx').setValue(r.data.deptx);
+						}
+					}
+				});
 
         }
     },
@@ -687,7 +728,41 @@ Ext.define('Account.GR.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vat:sel.get('chk01'),
             	vattype:vattype
-            });     
+            });  
+            
+            var v = sel.get('matnr');
+            alert(v);
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'asset/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.formSpec.getForm().findField('saknr').setValue(r.data.saknr);
+						    _this.formSpec.getForm().findField('brand').setValue(r.data.brand);
+			                _this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('model').setValue(r.data.model);
+						    _this.formSpec.getForm().findField('specs').setValue(r.data.specs);
+			                _this.formSpec.getForm().findField('assnr').setValue(r.data.assnr);
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('holds').setValue(r.data.holds);
+			                _this.formSpec.getForm().findField('depnr').setValue(r.data.depnr);
+						    _this.formSpec.getForm().findField('keepi').setValue(r.data.keepi);
+			                _this.formSpec.getForm().findField('resid').setValue(r.data.resid);
+			                
+			                _this.formSpec.getForm().findField('gltxt').setValue(r.data.sgtxt);
+			                _this.formSpec.getForm().findField('asstx').setValue(r.data.asstx);
+			                _this.formSpec.getForm().findField('reqtx').setValue(r.data.reqtx);
+			                _this.formSpec.getForm().findField('hodtx').setValue(r.data.hodtx);
+			                _this.formSpec.getForm().findField('deptx').setValue(r.data.deptx);
+						}
+					}
+				});   
         }
 	},
 	

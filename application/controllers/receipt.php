@@ -286,7 +286,7 @@ class Receipt extends CI_Controller {
 					return;
 			}
 			
-			if(substr($p->invnr,0,1)!=$perv){
+			if(substr($p->invnr,0,1)!=$perv && $perv!=''){
 				$emsg = 'Cannot create receipt doc from differnt invoice type';
 					echo json_encode(array(
 						'success'=>false,

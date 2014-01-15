@@ -16,38 +16,50 @@ class Asset extends CI_Controller {
 	function load(){
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
-		//$kunnr = $this->input->post('kunnr');
+
 		$this->db->limit(1);
-		
-		    /*$sql="select a.*,b.unit,b.cost 
-		          from tbl_mara a 
-		          left join tbl_plev b
-                  on a.matnr = b.matnr
-		          WHERE a.matnr='$id'";
-		    $query = $this->db->query($sql);
 			
-			if($query->num_rows()>0){
-			$result_data = $query->first_row('array');	
-			$rows = $query->result_array();
-			
-			$i=0;$u='';
-			foreach($rows AS $row){
-				$i++;
-				$u = 'unit'.$i;
-				$c = 'cost'.$i;
-				$result_data[$u] = $row['unit'];
-				$result_data[$c] = $row['cost'];
-			}
-			}*/
-			
-			$this->db->set_dbprefix('v_');
-		    $tbName = 'fara';
-		    $this->db->where('matnr', $id);
-			$query = $this->db->get($tbName);
+		$this->db->set_dbprefix('v_');
+		$tbName = 'fara';
+		$this->db->where('matnr', $id);
+	    $query = $this->db->get($tbName);
 		
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['matnr'];
+			//Under asset
+			$this->db->set_dbprefix('tbl_');
+			$q_qt = $this->db->get_where('fara', array(
+				'matnr'=>$result_data['assnr']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$result_data['asstx'] = $r_qt['maktx'];
+			}
+			//Request by
+			$q_qt = $this->db->get_where('empl', array(
+				'empnr'=>$result_data['reque']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$result_data['reqtx'] = $r_qt['name1'];
+			}
+			//Holder
+			$q_qt = $this->db->get_where('empl', array(
+				'empnr'=>$result_data['holds']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$result_data['hodtx'] = $r_qt['name1'];
+			}
+			//Department
+			$q_qt = $this->db->get_where('depn', array(
+				'depnr'=>$result_data['depnr']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$result_data['deptx'] = $r_qt['deptx'];
+			}
 
 			echo json_encode(array(
 				'success'=>true,
