@@ -458,42 +458,73 @@ Ext.onReady(function() {
 
 	//Report
 	$om.viewport.on('click_report_gl', function(){
+		if(!UMS.CAN.DISPLAY('FI')){
+	 		UMS.ALERT("You don't have permission for Financial Statement Report.");
+	  		return;
+		}		
 		$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
 		$om.RGeneralJournal.show();
 	});
 
 	$om.viewport.on('click_report_gr', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}		
 		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 		$om.RGeneralJournal.show();
 	});
 	
 	$om.viewport.on('click_report_pj', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}	
 		$om.RPettyCashJournal = Ext.create('Account.RPettyCashJournal.MainWindow');
 		$om.RPettyCashJournal.show();
 	});
 	
 	$om.viewport.on('click_report_sj', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}	
 		$om.RSaleJournal = Ext.create('Account.RSaleJournal.MainWindow');
 		$om.RSaleJournal.show();
 	});
 	
 	$om.viewport.on('click_report_purchasej', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}	
 		$om.RPurchaseJournal = Ext.create('Account.RPurchaseJournal.MainWindow');
 		$om.RPurchaseJournal.show();
 	});
 
 	$om.viewport.on('click_report_tb', function(){
+		if(!UMS.CAN.DISPLAY('FI')){
+	 		UMS.ALERT("You don't have permission for Financial Statement Report.");
+	  		return;
+		}
 		$om.RTrialBalance = Ext.create('Account.RTrialBalance.MainWindow');
 		$om.RTrialBalance.show();
 	});
 
 	$om.viewport.on('click_report_income', function(){
+		if(!UMS.CAN.DISPLAY('FI')){
+	 		UMS.ALERT("You don't have permission for Financial Statement Report.");
+	  		return;
+		}
 		$om.RIncome = Ext.create('Account.RIncome.MainWindow');
 		$om.RIncome.show();
 	});
 
-
 	$om.viewport.on('click_report_balance_sheet', function(){
+		if(!UMS.CAN.DISPLAY('FI')){
+	 		UMS.ALERT("You don't have permission for Financial Statement Report.");
+	  		return;
+		}
 		$om.RBalanceSheet = Ext.create('Account.RBalanceSheet.MainWindow');
 		$om.RBalanceSheet.show();
 	});
