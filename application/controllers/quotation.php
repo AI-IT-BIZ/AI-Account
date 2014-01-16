@@ -242,7 +242,7 @@ class Quotation extends CI_Controller {
             }
             
 			if($reman>$apamt){
-            	$emsg = 'The quotation total have amount more than limit amount.';
+            	$emsg = 'The customer have amount more than credit limit.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -338,7 +338,9 @@ class Quotation extends CI_Controller {
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('vbeln', $id);
 		$this->db->delete('vbap');
-
+		
+        $vbap = $this->input->post('vbap');//$this->input->post('vbelp');
+		$qt_item_array = json_decode($vbap);
 		// เตรียมข้อมูล  qt item
 		if(!empty($vbap) && !empty($qt_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
@@ -367,8 +369,8 @@ class Quotation extends CI_Controller {
 		$this->db->delete('payp');
 
 		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('payp');//$this->input->post('vbelp');
-		$pp_item_array = json_decode($payp);
+		//$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		//$pp_item_array = json_decode($payp);
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่

@@ -387,7 +387,24 @@ class Receipt extends CI_Controller {
 				$this->db->set('reman', $itamt);
 			}
 			$this->db->update('vbrk');
-	    	}
+			
+			if($p->itamt <= $netwr){
+			$kunnr = $this->input->post('kunnr');
+		    $this->db->where('kunnr', $kunnr);
+		    $q_limit = $this->db->get('kna1');
+			$reman=0;$upamt=0;
+			if($q_limit->num_rows()>0){
+			  $r_limit = $q_limit->first_row('array');
+			  $reman = $r_limit['reman'] - $p->itamt;
+			  $upamt = $p->itamt;
+			  
+			  $this->db->where('kunnr', $kunnr);
+			  $this->db->set('upamt', $upamt);
+			  $this->db->set('reman', $reman);
+			  $this->db->update('kna1');
+			} 
+			}
+	      }
 		}
 		
 		// ลบ pay_item ภายใต้ id ทั้งหมด
