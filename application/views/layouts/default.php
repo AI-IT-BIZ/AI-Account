@@ -690,6 +690,41 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_company_setting'
 			};
+			var nodeCustomerType = {
+				text: 'Create New Customer Type',
+				leaf: true,
+				id: 'click_customer_type'
+			};
+			var nodeVendorType = {
+				text: 'Create New Vendor Type',
+				leaf: true,
+				id: 'click_vendor_type'
+			};
+			var nodeMaterialType = {
+				text: 'Create New Material Type',
+				leaf: true,
+				id: 'click_material_type'
+			};
+			var nodeMaterialGroup = {
+				text: 'Create New Material Group',
+				leaf: true,
+				id: 'click_material_group'
+			};
+			var nodeAssetType = {
+				text: 'Create New Asset Type',
+				leaf: true,
+				id: 'click_asset_type'
+			};
+			var nodeAssetGroup = {
+				text: 'Create New Asset Group',
+				leaf: true,
+				id: 'click_asset_group'
+			};
+			var nodeUnit = {
+				text: 'Create New Unit',
+				leaf: true,
+				id: 'click_unit'
+			};
 			var nodeInit = {
 				text: 'Initail Doc No.',
 				leaf: true,
@@ -730,6 +765,13 @@ function endsWith($haystack, $needle)
 				children: [
 				    nodeCompany,
 				    nodeInit,
+				    nodeCustomerType,
+				    nodeVendorType,
+				    nodeMaterialType,
+				    nodeMaterialGroup,
+				    nodeAssetType,
+				    nodeAssetGroup,
+				    nodeUnit,
 				    nodeLimit,
 				    nodeAuth,
 					nodeChart,

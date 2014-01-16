@@ -88,12 +88,20 @@ Ext.onReady(function() {
 //<<<<<<< HEAD
 
 	$om.viewport.on('click_customer', function(){
+		if(!UMS.CAN.DISPLAY('CS')){
+			UMS.ALERT("You don't have permission for Customer Master.");
+			return;
+		}
 		if(!$om.customerDialog)
 			$om.customerDialog = Ext.create('Account.Customer.MainWindow');
 		$om.customerDialog.show();
 	});
 
 	$om.viewport.on('click_vendor', function(){
+		if(!UMS.CAN.DISPLAY('VD')){
+			UMS.ALERT("You don't have permission for Vendor Master.");
+			return;
+		}
 		if(!$om.vendorDialog)
 			$om.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		$om.vendorDialog.show();
@@ -407,6 +415,69 @@ Ext.onReady(function() {
 		}
 		$om.companyDialog = Ext.create('Account.Company.MainWindow');
 		$om.companyDialog.show();
+	});
+	
+	$om.viewport.on('click_customer_type', function(){
+		if(!UMS.CAN.DISPLAY('CT')){
+	 		UMS.ALERT("You don't have permission for Customer Type.");
+	  		return;
+		}
+		$om.customertypeDialog = Ext.create('Account.Customertype.MainWindow');
+		$om.customertypeDialog.show();
+	});
+	
+	$om.viewport.on('click_vendor_type', function(){
+		if(!UMS.CAN.DISPLAY('VT')){
+	 		UMS.ALERT("You don't have permission for Vendor Type.");
+	  		return;
+		}
+		$om.vendortypeDialog = Ext.create('Account.Vendortype.MainWindow');
+		$om.vendortypeDialog.show();
+	});
+	
+	$om.viewport.on('click_material_type', function(){
+		if(!UMS.CAN.DISPLAY('MT')){
+	 		UMS.ALERT("You don't have permission for Material Type.");
+	  		return;
+		}
+		$om.materialtypeDialog = Ext.create('Account.Materialtype.MainWindow');
+		$om.materialtypeDialog.show();
+	});
+	
+	$om.viewport.on('click_material_group', function(){
+		if(!UMS.CAN.DISPLAY('MG')){
+	 		UMS.ALERT("You don't have permission for Material Group.");
+	  		return;
+		}
+		$om.materialgrpDialog = Ext.create('Account.Materialgrp.MainWindow');
+		$om.materialgrpDialog.show();
+	});
+	
+	$om.viewport.on('click_asset_type', function(){
+		if(!UMS.CAN.DISPLAY('AT')){
+	 		UMS.ALERT("You don't have permission for Asset Type.");
+	  		return;
+		}
+		$om.assettypeDialog = Ext.create('Account.Assettype.MainWindow');
+		$om.assettypeDialog.show();
+	});
+	
+	$om.viewport.on('click_asset_group', function(){
+		if(!UMS.CAN.DISPLAY('AH')){
+	 		UMS.ALERT("You don't have permission for Asset Group.");
+	  		return;
+		}
+		$om.assetgrpDialog = Ext.create('Account.Assetgrp.MainWindow');
+		$om.assetgrpDialog.show();
+	});
+	
+	$om.viewport.on('click_unit', function(){
+		if(!UMS.CAN.DISPLAY('UN')){
+	 		UMS.ALERT("You don't have permission for Unit.");
+	  		return;
+		}
+		$om.unitDialog = Ext.create('Account.Unit.MainWindow');
+		$om.unitDialog.show();
 	});
 
 	$om.viewport.on('click_authorize_setting', function(){
