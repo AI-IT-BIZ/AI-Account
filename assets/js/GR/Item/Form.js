@@ -571,9 +571,14 @@ Ext.define('Account.GR.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
+							if(sel.get('serno')==''){
+								_this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+							}else{
+								_this.formSpec.getForm().findField('serno').setValue(sel.get('serno'));
+							}
 							_this.formSpec.getForm().findField('saknr').setValue(r.data.saknr);
 						    _this.formSpec.getForm().findField('brand').setValue(r.data.brand);
-			                _this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+			                
 			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
 			                _this.formSpec.getForm().findField('model').setValue(r.data.model);
 						    _this.formSpec.getForm().findField('specs').setValue(r.data.specs);
@@ -755,9 +760,14 @@ Ext.define('Account.GR.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
+							if(sel.get('serno')==''){
+								_this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+							}else{
+								_this.formSpec.getForm().findField('serno').setValue(sel.get('serno'));
+							}
 							_this.formSpec.getForm().findField('saknr').setValue(r.data.saknr);
 						    _this.formSpec.getForm().findField('brand').setValue(r.data.brand);
-			                _this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+			 
 			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
 			                _this.formSpec.getForm().findField('model').setValue(r.data.model);
 						    _this.formSpec.getForm().findField('specs').setValue(r.data.specs);

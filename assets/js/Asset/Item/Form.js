@@ -162,6 +162,7 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Cost Value',
 			name: 'costv',
 			minValue: 0,
+			readOnly: true,
 			alwaysDisplayDecimals: true
          });
          
@@ -179,7 +180,7 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Depreciation(%)',
 			minValue:0,
 			maxValue:100,
-			name: 'costs'//,
+			name: 'depre'//,
 			//alwaysDisplayDecimals: true
          });
 		
@@ -328,28 +329,25 @@ Ext.define('Account.Asset.Item.Form', {
                 layout: 'hbox',
                 items :[this.txtDepreValue,this.txtLifeValue
 		]},{
-			xtype: 'textfield',
-			fieldLabel: 'PO No',
-			//margins: '3 0 0 5',
-			name: 'ebeln',
-			//width: 400
-		},{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[{
+			xtype: 'textfield',
+			fieldLabel: 'GR No',
+			readOnly: true,
+			name: 'ebeln'
+			//width: 400
+		},{
 			xtype: 'datefield',
-			fieldLabel: 'PO Date',
+			fieldLabel: 'GR Date',
 			name: 'bldat',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			margins: '3 0 0 5',
+			readOnly: true,
 			submitFormat:'Y-m-d'
 		}
-		]},{
-                xtype: 'container',
-                layout: 'hbox',
-                items :[this.txtCostValue,{}
-		]},]
+		]},this.txtCostValue,]
 	},this.comboQStatus];
 		
 		// event trigType//
@@ -413,6 +411,7 @@ Ext.define('Account.Asset.Item.Form', {
 			_this.getForm().findField('mtart').setValue(r.data.mtart);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+			_this.getForm().findField('depre').setValue(r.data.depre);
 
 						}else{
 							o.markInvalid('Could not find asset group : '+o.getValue());
@@ -428,6 +427,7 @@ Ext.define('Account.Asset.Item.Form', {
 			_this.getForm().findField('mtart').setValue(record.data.mtart);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			_this.getForm().findField('depre').setValue(record.data.depre);
 
 			grid.getSelectionModel().deselectAll();
 			_this.grpDialog.hide();
@@ -711,6 +711,8 @@ Ext.define('Account.Asset.Item.Form', {
 			_this.depDialog.show();
 		};
 		
+		this.txtDepreValue.on('change', this.getLife, this);
+		
 	return this.callParent(arguments);
 	},
 	
@@ -759,7 +761,12 @@ Ext.define('Account.Asset.Item.Form', {
 	
 	getLife: function(){
 		var _this=this;
+		var life = 0;
 		var dep = this.txtDepreValue.getValue();
+		if(dep>0){
+		life = 1 / ( dep / 100 );
+		this.txtLifeValue.setValue(life);
+		}
 		
 	}
 });

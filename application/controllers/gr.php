@@ -187,7 +187,7 @@ class Gr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-			
+			$this->db->set_dbprefix('v_');
 			$this->db->where('ebeln', $id);
 			$this->db->where('matkl', '08');
 
@@ -239,7 +239,7 @@ class Gr extends CI_Controller {
 		$this->db->trans_start();
 		
 		$current_username = XUMS::USERNAME();
-
+        $this->db->set_dbprefix('tbl_');
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('mbeln', $id);
 			//$this->db->set('updat', 'NOW()', false);
@@ -283,8 +283,18 @@ class Gr extends CI_Controller {
 					'unitp'=>$p->unitp,
 					'itamt'=>$p->itamt,
 					'chk01'=>$p->chk01,
-					'ctype'=>$p->ctype
+					'ctype'=>$p->ctype,
+					'serno'=>$p->serno
 				));
+				
+				if($this->input->post('statu')=='02'){
+				$this->db->where('matnr', $p->matnr);
+			    $this->db->set('ebeln', $id);
+				$this->db->set('bldat', $this->input->post('bldat'));
+				$this->db->set('serno', $p->serno);
+				$this->db->set('costv', $p->itamt);
+			    $this->db->update('fara');
+				}
 			}
 		}
 	

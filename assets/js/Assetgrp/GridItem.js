@@ -52,7 +52,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 				'mtart',
 				//'mtype',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mgrp ASC']
@@ -130,6 +131,11 @@ Ext.define('Account.Assetgrp.GridItem', {
 			width: 170, 
 			dataIndex: 'sgtxt', 
 			sortable: true
+		},{
+			text: "Depreciation(%)", 
+			width: 100, 
+			dataIndex: 'depre', 
+			sortable: true
 		}];
 		
 		this.bbar = {
@@ -166,8 +172,9 @@ Ext.define('Account.Assetgrp.GridItem', {
 
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.mtart);
-							rModel.set(e.field, r.data.saknr);
+							rModel.set('saknr', r.data.saknr);
 							rModel.set('sgtxt', r.data.sgtxt);
+							rModel.set('depre', r.data.depre);
 
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -186,6 +193,7 @@ Ext.define('Account.Assetgrp.GridItem', {
 				rModel.set('mtart', record.data.mtart);
 				rModel.set('saknr', record.data.saknr);
 				rModel.set('sgtxt', record.data.sgtxt);
+				rModel.set('depre', record.data.depre);
 
 			}
 			grid.getSelectionModel().deselectAll();
@@ -214,7 +222,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 				'matxt',
 				'mtart',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mgrp ASC']

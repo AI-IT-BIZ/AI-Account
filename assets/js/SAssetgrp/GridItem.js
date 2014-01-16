@@ -36,7 +36,8 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				'matxt',
 				'mtart',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mgrp ASC']
@@ -86,6 +87,11 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			width: 200, 
 			dataIndex: 'sgtxt', 
 			sortable: true
+		},{
+			text: "Depreciation(%)", 
+			width: 100, 
+			dataIndex: 'depre', 
+			sortable: true
 		}];
 		
 		this.bbar = {
@@ -116,7 +122,8 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				'mtart',
 				'matxt',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mgrp ASC']

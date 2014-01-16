@@ -50,7 +50,8 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'disit',
 				'itamt',
 				'ctype',
-				'chk01'
+				'chk01',
+				'serno'
 			],
 			remoteSort: true,
 			sorters: ['mbelp ASC']
@@ -201,7 +202,15 @@ Ext.define('Account.GR.Item.Grid_i', {
 			field: {
 				type: 'textfield'
 			},
-		}];
+		},
+		{text: "Serial No",
+		width: 80,
+		dataIndex: 'serno',
+		sortable: false,
+			field: {
+				type: 'textfield'
+			}
+			}];
 
 		this.plugins = [this.editing];
 
