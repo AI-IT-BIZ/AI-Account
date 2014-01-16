@@ -18,7 +18,6 @@ Ext.define('Account.PR.Item.Form', {
 			isApproveOnly: true
 		});
 		
-		//this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.PR.Item.Grid_i',{
@@ -436,7 +435,7 @@ Ext.define('Account.PR.Item.Form', {
             _this.gridPrice.load({
             	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vat:sel.get('chk01')
             });
@@ -515,20 +514,33 @@ Ext.define('Account.PR.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = parseFloat(r.data['disit']);
+				discountValue = 0,
+				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
-			discount = isNaN(discount)?0:discount;
+			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
+			
 			if(vattype =='02'){
-			  amt = amt * 100;
-			  amt = amt / 107;
+				amt = amt * 100;
+			    amt = amt / 107;
 		    }
+		    
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+			
 			sum += amt;
 			
-			discounts += discount;
-            amt = amt - discount;
+			discounts += discountValue;
+            
+            amt = amt - discountValue;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -569,7 +581,7 @@ Ext.define('Account.PR.Item.Form', {
             _this.gridPrice.load({
             	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vat:sel.get('chk01'),
             	vattype:vattype

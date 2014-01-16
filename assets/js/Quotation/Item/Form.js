@@ -713,7 +713,7 @@ Ext.define('Account.Quotation.Item.Form', {
             _this.gridPrice.load({
             	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),

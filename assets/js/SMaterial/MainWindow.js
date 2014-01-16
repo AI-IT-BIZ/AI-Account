@@ -29,10 +29,20 @@ Ext.define('Account.SMaterial.MainWindow', {
 			//tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.SMaterial.FormSearch', {
+		var searchOptions = {
 			region: 'north',
 			height:100
-		});
+		};
+		if(this.isApproveOnly){
+			searchOptions.status_options = {
+				value: '02',
+				readOnly: true
+			};
+		}
+
+		this.searchForm = Ext.create('Account.SMaterial.FormSearch', searchOptions);
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct,
+		//this.printAct, this.excelAct, this.pdfAct,this.importAct];
 
 		this.items = [this.searchForm, this.grid];
 		

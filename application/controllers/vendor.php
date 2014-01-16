@@ -166,10 +166,9 @@ class Vendor extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-		}
-
-        $name1=$this->input->post('name1');
-		if(!empty($name1)){
+			
+			$name1=$this->input->post('name1');
+		    if(!empty($name1)){
 			$this->db->where('name1', $name1);
 			$q_txt = $this->db->get('lfa1');
 			if($q_txt->num_rows() > 0){
@@ -181,6 +180,7 @@ class Vendor extends CI_Controller {
 					return;
 				}
 			}
+		}
 
         if($this->input->post('apamt')<$this->input->post('endin')){
 					$emsg = 'The Limit Credit must be more than Maximum Amt.';

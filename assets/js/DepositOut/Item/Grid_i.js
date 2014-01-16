@@ -19,7 +19,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
 		// END Material search popup ///////////////////////////////////
-        this.unitDialog = Ext.create('Account.Unit.Window');
+        this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -150,17 +150,14 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
+			field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
+					var regEx = /%$/gi;
+					if(regEx.test(v))
+						return v;
+					else
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}
-			},
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',

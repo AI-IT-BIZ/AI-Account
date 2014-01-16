@@ -23,7 +23,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 		});
 		// END Material search popup ///////////////////////////////////
 
-		this.unitDialog = Ext.create('Account.Unit.Window');
+		this.unitDialog = Ext.create('Account.SUnit.Window');
 
 		this.tbar = [this.addAct, this.copyAct];
 
