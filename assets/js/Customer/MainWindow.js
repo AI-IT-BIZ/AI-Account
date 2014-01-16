@@ -76,6 +76,7 @@ Ext.define('Account.Customer.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.setReadOnly(false);
 			/*
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();

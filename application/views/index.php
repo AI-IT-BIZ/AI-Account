@@ -422,7 +422,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Customer Type.");
 	  		return;
 		}
-		$om.customertypeDialog = Ext.create('Account.Customertype.MainWindow');
+		$om.customertypeDialog = Ext.create('Account.Customertype.Window');
 		$om.customertypeDialog.show();
 	});
 	
@@ -431,7 +431,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Vendor Type.");
 	  		return;
 		}
-		$om.vendortypeDialog = Ext.create('Account.Vendortype.MainWindow');
+		$om.vendortypeDialog = Ext.create('Account.Vendortype.Window');
 		$om.vendortypeDialog.show();
 	});
 	
@@ -440,7 +440,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Material Type.");
 	  		return;
 		}
-		$om.materialtypeDialog = Ext.create('Account.Materialtype.MainWindow');
+		$om.materialtypeDialog = Ext.create('Account.Materialtype.Window');
 		$om.materialtypeDialog.show();
 	});
 	
@@ -449,7 +449,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Material Group.");
 	  		return;
 		}
-		$om.materialgrpDialog = Ext.create('Account.Materialgrp.MainWindow');
+		$om.materialgrpDialog = Ext.create('Account.Materialgrp.Window');
 		$om.materialgrpDialog.show();
 	});
 	
@@ -458,7 +458,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Asset Type.");
 	  		return;
 		}
-		$om.assettypeDialog = Ext.create('Account.Assettype.MainWindow');
+		$om.assettypeDialog = Ext.create('Account.Assettype.Window');
 		$om.assettypeDialog.show();
 	});
 	
@@ -467,7 +467,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Asset Group.");
 	  		return;
 		}
-		$om.assetgrpDialog = Ext.create('Account.Assetgrp.MainWindow');
+		$om.assetgrpDialog = Ext.create('Account.Assetgrp.Window');
 		$om.assetgrpDialog.show();
 	});
 	
@@ -476,7 +476,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Unit.");
 	  		return;
 		}
-		$om.unitDialog = Ext.create('Account.Unit.MainWindow');
+		$om.unitDialog = Ext.create('Account.Unit.Window');
 		$om.unitDialog.show();
 	});
 
