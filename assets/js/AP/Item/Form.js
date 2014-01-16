@@ -462,6 +462,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 		
 		this.trigGR.onTriggerClick = function(){
+			_this.grDialog.grid.load();
 			_this.grDialog.show();
 		};
 		
@@ -522,6 +523,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 
 		this.trigVendor.onTriggerClick = function(){
+			_this.vendorDialog.grid.load();
 			_this.vendorDialog.show();
 		};
 		
@@ -571,6 +573,7 @@ Ext.define('Account.AP.Item.Form', {
 		});
 
 		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.grid.load();
 			_this.currencyDialog.show();
 		};
 		

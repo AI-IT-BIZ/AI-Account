@@ -27,11 +27,18 @@ Ext.define('Account.Materialgrp.Window', {
 		this.buttons = [{
 			text: 'Save',
 			handler: function() {
-				//var rs = _this.grid.getData();
-				//_this.grid.hdnItem.setValue(Ext.encode(rs));
-
-				_this.grid.save();
-				//_this.grid.load();
+				Ext.Msg.show({
+					title : "Warning",
+					msg : "Are you sure you want to update item(s) ?",
+					icon : Ext.Msg.WARNING,
+					buttons : Ext.Msg.YESNO,
+					fn : function(bt) {
+						if (bt == "yes") {
+							_this.grid.save();
+							//_this.grid.load();
+						}
+					}
+				});
 			}
 		},{
 			text: 'Cancel',

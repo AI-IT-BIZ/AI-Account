@@ -1,4 +1,4 @@
-Ext.define('Account.Vendortype.GridItem', {
+Ext.define('Account.SVendortype.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 
@@ -7,21 +7,6 @@ Ext.define('Account.Vendortype.GridItem', {
 
 	initComponent : function() {
 		var _this=this;
-
-		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-
-		// INIT GL search popup ///////////////////////////////////////////////
-        this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
-
-		this.tbar = [this.addAct, this.deleteAct];
-
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit: 1
-		});
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -46,17 +31,6 @@ Ext.define('Account.Vendortype.GridItem', {
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
 			id : 'PMiRowNumber01',
 			header : "No",
 			dataIndex : 'id_vtype',
@@ -71,32 +45,21 @@ Ext.define('Account.Vendortype.GridItem', {
 		    width: 80,
 		    dataIndex: 'vtype',
 		    sortable: true,
-		    field: {
-				type: 'textfield',
-				readOnly: true
-			},
+		    //field: {
+			//	type: 'textfield',
+			//	readOnly: true
+			//},
 		},{
 			text: "Type Description",
 		    width: 150,
 		    dataIndex: 'ventx',
 		    sortable: true,
-		    field: {
-				type: 'textfield',
-				disabled: true
-			},
+		    //field: {
+			//	type: 'textfield',
+			//	disabled: true
+			//},
 		},{
-			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
+			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true
 		},{
 			text: "GL Description", width: 170, dataIndex: 'sgtxt', sortable: true
 		}];
@@ -107,56 +70,6 @@ Ext.define('Account.Vendortype.GridItem', {
 			store: this.store,
 			displayInfo: true
 		};
-
-		this.plugins = [this.editing];
-
-
-		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.saknr);
-							rModel.set('sgtxt', r.data.sgtxt);
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('saknr', record.data.saknr);
-				rModel.set('sgtxt', record.data.sgtxt);
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});
 
 		return this.callParent(arguments);
 	},

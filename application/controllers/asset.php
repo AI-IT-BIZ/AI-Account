@@ -52,6 +52,14 @@ class Asset extends CI_Controller {
 			$r_qt = $q_qt->first_row('array');
 			$result_data['hodtx'] = $r_qt['name1'];
 			}
+			//Last Holder
+			$q_qt = $this->db->get_where('empl', array(
+				'empnr'=>$result_data['lastn']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$result_data['lastx'] = $r_qt['name1'];
+			}
 			//Department
 			$q_qt = $this->db->get_where('depn', array(
 				'depnr'=>$result_data['depnr']

@@ -179,7 +179,7 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 			_this.distrDialog2.show();
 		};
 //---Create Selection--------------------------------------------
-        this.ktypDialog = Ext.create('Account.Customertype.Window');
+        this.ktypDialog = Ext.create('Account.SCustomertype.Window');
 
 		this.trigKtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'custx',

@@ -1,4 +1,4 @@
-Ext.define('Account.Customertype.GridItem', {
+Ext.define('Account.SCustomertype.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
         /*Ext.apply(this, {
@@ -19,21 +19,16 @@ Ext.define('Account.Customertype.GridItem', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
-			disabled: !UMS.CAN.CREATE('CS'),
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
 
 		// INIT GL search popup ///////////////////////////////////////////////
-        this.glnoDialog = Ext.create('Account.GL.MainWindow');
+        //this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
-		this.tbar = [this.addAct, this.deleteAct];
+		//this.tbar = [this.addAct, this.deleteAct];
 
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit: 1
-		});
+		//this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+		//	clicksToEdit: 1
+		//});
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -57,19 +52,7 @@ Ext.define('Account.Customertype.GridItem', {
 			sorters: ['id_ktype ASC']
 		});
 
-		this.columns = [{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
-			id : 'PMiRowNumber',
+		this.columns = [{id : 'CTiRowNumber',
 			header : "No",
 			dataIndex : 'id_ktype',
 			width : 60,
@@ -83,35 +66,23 @@ Ext.define('Account.Customertype.GridItem', {
 			text: "Customer Type",
 		    width: 80,
 		    dataIndex: 'ktype',
-		    
 		    sortable: true,
-		    field: {
-				type: 'textfield',
-			},
+		    //field: {
+			//	type: 'textfield',
+			//},
 		},{
 			text: "Type Description",
 		    width: 150,
 		    dataIndex: 'custx',
 		    sortable: true,
-		    field: {
-				type: 'textfield',
-			},
+		    //field: {
+			//	type: 'textfield',
+			//},
 		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
-			sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
+			sortable: true
 		},{
 			text: "GL Description",
 			width: 170, 
@@ -126,55 +97,12 @@ Ext.define('Account.Customertype.GridItem', {
 			displayInfo: true
 		};*/
 
-		this.plugins = [this.editing];
+		//this.plugins = [this.editing];
 
 		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'gl/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.saknr);
-							rModel.set('sgtxt', r.data.sgtxt);
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('saknr', record.data.saknr);
-				rModel.set('sgtxt', record.data.sgtxt);
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});
+		//this.addAct.setHandler(function(){
+		//	_this.addRecord();
+		//});
 
 		return this.callParent(arguments);
 	},

@@ -1,9 +1,9 @@
-Ext.define('Account.Vendortype.Window', {
+Ext.define('Account.SVendortype.Window', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Vendor Type',
+			title: 'Vendor Type List',
 			closeAction: 'hide',
 			height: 420,
 			width: 550,
@@ -18,29 +18,13 @@ Ext.define('Account.Vendortype.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.grid = Ext.create('Account.Vendortype.GridItem', {
+		this.grid = Ext.create('Account.SVendortype.GridItem', {
 			region:'center'
 		});
 
 		this.items = [this.form, this.grid];
 
 		this.buttons = [{
-			text: 'Save',
-			handler: function() {
-				Ext.Msg.show({
-					title : "Warning",
-					msg : "Are you sure you want to update item(s) ?",
-					icon : Ext.Msg.WARNING,
-					buttons : Ext.Msg.YESNO,
-					fn : function(bt) {
-						if (bt == "yes") {
-							_this.grid.save();
-							//_this.grid.load();
-						}
-					}
-				});
-			}
-		},{
 			text: 'Cancel',
 			handler: function() {
 				//_this.form.getForm().reset();

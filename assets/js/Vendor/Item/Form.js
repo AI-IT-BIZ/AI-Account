@@ -66,7 +66,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			_this.distrDialog.show();
 		};	
 //---Create Selection--------------------------------------------
-        this.vtypDialog = Ext.create('Account.Vendortype.Window');
+        this.vtypDialog = Ext.create('Account.SVendortype.Window');
 		
 		this.trigVtyp = Ext.create('Ext.form.field.Trigger', {
 			name: 'ventx',

@@ -1,4 +1,4 @@
-Ext.define('Account.Materialgrp.GridItem', {
+Ext.define('Account.SAssetgrp.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
         /*Ext.apply(this, {
@@ -19,25 +19,10 @@ Ext.define('Account.Materialgrp.GridItem', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-
-		// INIT GL search popup ///////////////////////////////////////////////
-           this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
-
-		this.tbar = [this.addAct];// this.deleteAct];
-
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit: 1
-		});
-
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'material/loads_grp',
+				url: __site_url+'asset/loads_grp',
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -57,18 +42,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
-			id : 'PMiRowNumber002',
+			id : 'FAiRowNumber004',
 			header : "Type ID",
 			dataIndex : 'id_mgrp',
 			width : 60,
@@ -82,90 +56,28 @@ Ext.define('Account.Materialgrp.GridItem', {
 		    width: 80,
 		    dataIndex: 'matkl',
 		    sortable: true,
-		    field: {
-				type: 'textfield'
-			},
+		    //field: {
+			//	type: 'textfield'
+			//},
 		},{
 			text: "Group Description",
 		    width: 150,
 		    dataIndex: 'matxt',
 		    sortable: true,
-		    field: {
-				type: 'textfield'
-			},
+		    //field: {
+			//	type: 'textfield'
+			//},
 		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
-			sortable: true,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.glnoDialog.show();
-				}
-			},
-			sortable: false
+			sortable: true
 		},{
 			text: "GL Description", 
 			width: 170, 
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
-
-		this.plugins = [this.editing];
-
-
-		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'gl/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.saknr);
-							rModel.set('sgtxt', r.data.sgtxt);
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('saknr', record.data.saknr);
-				rModel.set('sgtxt', record.data.sgtxt);
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});
 
 		return this.callParent(arguments);
 	},
@@ -176,7 +88,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 			params: options,
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'material/loads_grp',
+				url: __site_url+'asset/loads_grp',
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -197,8 +109,9 @@ Ext.define('Account.Materialgrp.GridItem', {
 	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
+		var newId = -1;var i=0;
 		this.store.each(function(r){
+			i++;
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
@@ -213,9 +126,9 @@ Ext.define('Account.Materialgrp.GridItem', {
 		//alert(sel);
 		var selIndex = this.store.indexOf(sel);
 		//alert(selIndex);
-		this.store.insert(selIndex+1, rec);
+		this.store.insert(i, rec);
 		edit.startEditByPosition({
-			row: selIndex+1,
+			row: i,
 			column: 0
 		});
 
@@ -227,10 +140,10 @@ Ext.define('Account.Materialgrp.GridItem', {
 		
 		var r_data = this.getData();
 		Ext.Ajax.request({
-			url: __site_url+'material/save_grp',
+			url: __site_url+'asset/save_grp',
 			method: 'POST',
 			params: {
-				mgrp: Ext.encode(r_data)
+				fgrp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);

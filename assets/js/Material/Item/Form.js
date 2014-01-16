@@ -23,7 +23,7 @@ Ext.define('Account.Material.Item.Form', {
 		// INIT Warehouse search popup ///////
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.typeDialog = Ext.create('Account.Materialtype.Window');
+		this.typeDialog = Ext.create('Account.SMaterialtype.Window');
 		
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
 			name: 'mtart',
@@ -34,7 +34,7 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290
 		});
 		
-		this.grpDialog = Ext.create('Account.Materialgrp.Window');
+		this.grpDialog = Ext.create('Account.SMaterialgrp.Window');
 		
 		this.trigGrp = Ext.create('Ext.form.field.Trigger', {
 			name: 'matkl',
@@ -90,7 +90,7 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290,
 		});
 		
-		this.unitDialog = Ext.create('Account.Unit.Window');
+		this.unitDialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit = Ext.create('Ext.form.field.Trigger', {
 			name: 'meins',
@@ -101,7 +101,7 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290,
 		});
 		
-		this.unit1Dialog = Ext.create('Account.Unit.Window');
+		this.unit1Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit1 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit1',
@@ -112,7 +112,7 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290,
 		});
 		
-		this.unit2Dialog = Ext.create('Account.Unit.Window');
+		this.unit2Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit2',
@@ -123,7 +123,7 @@ Ext.define('Account.Material.Item.Form', {
 			//width:290,
 		});
 		
-		this.unit3Dialog = Ext.create('Account.Unit.Window');
+		this.unit3Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit3 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit3',

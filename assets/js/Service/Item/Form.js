@@ -30,7 +30,7 @@ Ext.define('Account.Service.Item.Form', {
 			//width:290
 		});*/
 		
-		this.grpDialog = Ext.create('Account.Materialgrp.Window');
+		this.grpDialog = Ext.create('Account.SMaterialgrp.Window');
 		
 		this.trigGrp = Ext.create('Ext.form.field.Trigger', {
 			name: 'matkl',
@@ -84,7 +84,7 @@ Ext.define('Account.Service.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.unitDialog = Ext.create('Account.Unit.Window');
+		this.unitDialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit = Ext.create('Ext.form.field.Trigger', {
 			name: 'meins',

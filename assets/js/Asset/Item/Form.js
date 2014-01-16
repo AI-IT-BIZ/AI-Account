@@ -23,7 +23,7 @@ Ext.define('Account.Asset.Item.Form', {
 		// INIT Warehouse search popup ///////
 		//this.customerDialog = Ext.create('Account.Customer.MainWindow');
 		
-		this.typeDialog = Ext.create('Account.Assettype.Window');
+		this.typeDialog = Ext.create('Account.SAssettype.Window');
 		
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
 			name: 'mtart',
@@ -33,7 +33,7 @@ Ext.define('Account.Asset.Item.Form', {
 			//width:290
 		});
 		
-		this.grpDialog = Ext.create('Account.Assetgrp.Window');
+		this.grpDialog = Ext.create('Account.SAssetgrp.Window');
 		
 		this.trigGrp = Ext.create('Ext.form.field.Trigger', {
 			name: 'matkl',
@@ -140,7 +140,7 @@ Ext.define('Account.Asset.Item.Form', {
 			//width:290,
 		});
 		
-		this.unitDialog = Ext.create('Account.Unit.Window');
+		this.unitDialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit = Ext.create('Ext.form.field.Trigger', {
 			name: 'meins',
@@ -283,7 +283,7 @@ Ext.define('Account.Asset.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigEmp,{
 						xtype: 'displayfield',
-						name: 'name1',
+						name: 'reqtx',
 						margins: '3 0 0 5',
 						width:286
                 }]
@@ -292,7 +292,7 @@ Ext.define('Account.Asset.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigEmp2,{
 						xtype: 'displayfield',
-						name: 'name2',
+						name: 'hodtx',
 						margins: '3 0 0 5',
 						width:286
                 }]
@@ -301,7 +301,7 @@ Ext.define('Account.Asset.Item.Form', {
                 layout: 'hbox',
                 items :[this.trigEmp3,{
 						xtype: 'displayfield',
-						name: 'name3',
+						name: 'lastx',
 						margins: '3 0 0 5',
 						width:286
                 }]
@@ -365,9 +365,8 @@ Ext.define('Account.Asset.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.mtart);
 							_this.trigType.setValue(r.data.mtart);
-			_this.getForm().findField('matxt').setValue(r.data.matxt);
-			//_this.getForm().findField('saknr').setValue(r.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
+			_this.getForm().findField('mtype').setValue(r.data.matxt);
+
 
 						}else{
 							o.markInvalid('Could not find asset type : '+o.getValue());
@@ -379,9 +378,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigType.setValue(record.data.mtart);
-			_this.getForm().findField('matxt').setValue(record.data.matxt);
-			//_this.getForm().findField('saknr').setValue(record.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
+			_this.getForm().findField('mtype').setValue(record.data.matxt);
 
 			grid.getSelectionModel().deselectAll();
 			_this.typeDialog.hide();
@@ -408,7 +405,7 @@ Ext.define('Account.Asset.Item.Form', {
 						if(r && r.success){
 							//o.setValue(r.data.matkl);
 							_this.trigGrp.setValue(r.data.matkl);
-			_this.getForm().findField('matxt2').setValue(r.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -422,7 +419,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 		_this.grpDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGrp.setValue(record.data.matkl);
-			_this.getForm().findField('matxt2').setValue(record.data.matxt);
+			_this.getForm().findField('mgrpp').setValue(record.data.matxt);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
@@ -530,10 +527,10 @@ Ext.define('Account.Asset.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.empnr);
-							_this.getForm().findField('name1').setValue(record.data.name1);
+							_this.getForm().findField('reqtx').setValue(record.data.name1);
 
 						}else{
-							o.markInvalid('Could not find Employee : '+o.getValue());
+							o.markInvalid('Could not find Requesting by : '+o.getValue());
 						}
 					}
 				});
@@ -542,7 +539,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			_this.empDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigEmp.setValue(record.data.empnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('reqtx').setValue(record.data.name1);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.empDialog.hide();
@@ -569,10 +566,10 @@ Ext.define('Account.Asset.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.empnr);
-							_this.getForm().findField('name2').setValue(record.data.name1);
+							_this.getForm().findField('hodtx').setValue(record.data.name1);
 
 						}else{
-							o.markInvalid('Could not find Employee : '+o.getValue());
+							o.markInvalid('Could not find Holder : '+o.getValue());
 						}
 					}
 				});
@@ -581,7 +578,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			_this.emp2Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigEmp.setValue(record.data.empnr);
-			_this.getForm().findField('name2').setValue(record.data.name1);
+			_this.getForm().findField('hodtx').setValue(record.data.name1);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.emp2Dialog.hide();
@@ -608,10 +605,10 @@ Ext.define('Account.Asset.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.empnr);
-							_this.getForm().findField('name3').setValue(record.data.name1);
+							_this.getForm().findField('lastx').setValue(record.data.name1);
 
 						}else{
-							o.markInvalid('Could not find Employee : '+o.getValue());
+							o.markInvalid('Could not find Last Holder : '+o.getValue());
 						}
 					}
 				});
@@ -620,7 +617,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			_this.emp3Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigEmp.setValue(record.data.empnr);
-			_this.getForm().findField('name3').setValue(record.data.name1);
+			_this.getForm().findField('lastx').setValue(record.data.name1);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.emp3Dialog.hide();
