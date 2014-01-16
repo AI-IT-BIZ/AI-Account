@@ -274,7 +274,7 @@ class Receipt extends CI_Controller {
 
         $vbbp = $this->input->post('vbbp');
 		$rc_item_array = json_decode($vbbp);
-		$perv='';
+		$perv='';$kerv='';
 		if(!empty($vbbp) && !empty($rc_item_array)){
 		foreach($rc_item_array AS $p){
 			if($p->loekz=='2'){
@@ -295,6 +295,16 @@ class Receipt extends CI_Controller {
 					return;
 			}
 			$perv = substr($p->invnr,0,1);
+			
+			if($p->kunnr!=$kerv && $kerv!=''){
+				$emsg = 'Cannot create receipt doc from differnt customer';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$kerv = $p->kunnr;
 		  }
 		}
 		

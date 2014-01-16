@@ -50,7 +50,8 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				//'payrc',
 				//'reman',
 				//'belnr',
-				'ctyp1'
+				'ctyp1',
+				'kunnr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -156,9 +157,11 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			dataIndex: 'ctyp1',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+		    },{
+			dataIndex: 'kunnr',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -202,6 +205,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							// Currency
 							rModel.set('ctyp1', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
+							rModel.set('kunnr', r.data.kunnr);
 
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -229,6 +233,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				// Currency
 				rModel.set('ctyp1', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
+				rModel.set('kunnr', record.data.kunnr);
 
 			}
 			grid.getSelectionModel().deselectAll();

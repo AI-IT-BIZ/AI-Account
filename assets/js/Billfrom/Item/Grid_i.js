@@ -49,7 +49,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				{name:'itamt', type: 'string'},
 				//'payrc',
 				//'reman',
-				//'belnr',
+				'lifnr',
 				'ctyp1'
 			],
 			remoteSort: true,
@@ -156,10 +156,13 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 			width: 55,
 			dataIndex: 'ctyp1',
 			sortable: false,
-			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			align: 'center'
+		},
+			{
+			dataIndex: 'lifnr',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -203,6 +206,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 							// Currency
 							rModel.set('ctyp1', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
+							rModel.set('lifnr', r.data.lifnr);
 
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -230,6 +234,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				// Currency
 				rModel.set('ctyp1', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
+				rModel.set('lifnr', record.data.lifnr);
 
 			}
 			grid.getSelectionModel().deselectAll();
@@ -350,6 +355,7 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 		this.vendorCode = lifnr;
 		var field = this.apDialog.searchForm.form.findField('lifnr');
 		field.setValue(lifnr);
+		//field.setReadOnly(true);
 		this.apDialog.grid.load();
 	}
 });

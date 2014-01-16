@@ -16,7 +16,10 @@ Ext.define('Account.AP.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow');
+		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];

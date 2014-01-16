@@ -56,7 +56,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				'vat01',
 				'dtype',
 				'loekz',
-				'ebeln'
+				'ebeln',
+				'lifnr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -173,10 +174,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
-			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			align: 'center'
 		},{
 			dataIndex: 'wht01',
 			//width: 55,
@@ -189,6 +187,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			sortable: false
 		},{
 			dataIndex: 'dtype',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'lifnr',
 			//width: 55,
 			hidden: true,
 			sortable: false
@@ -250,6 +253,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							//Flag
 							rModel.set('loekz', r.data.loekz);
 							//rModel.set('amount', 100+Math.random());
+							rModel.set('lifnr', r.data.lifnr);
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -285,6 +289,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				rModel.set('dtype', dtype[0]);
 				//Flag
 			    rModel.set('loekz', record.data.loekz);
+			    rModel.set('lifnr', record.data.lifnr);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.apDialog.hide();
