@@ -179,14 +179,17 @@
             $overs = $_GET['accgr'];
             $depar = $_GET['deptx'];
 			$glgrp = $_GET['glgrp'];
+			
+			$glcre = 1;
+			if($glgrp=='1'||$glgrp=='5'){$glcre = '-1';}
             if($treid == "")
             {
                 
                 
-                $strSQL = " Insert into tbl_glno(saknr,gllev,gltyp,glgrp,";
+                $strSQL = " Insert into tbl_glno(saknr,gllev,gltyp,glgrp,glcre,";
                 $strSQL = $strSQL . " sgtxt,entxt,overs,depar) Values('";
                 $strSQL = $strSQL . $saknr . "','" . $gllev . "','" . $gltyp . "','" . $glgrp . "','";
-                $strSQL = $strSQL . $sgtxt . "','" . $entxt . "','" . $overs . "','" . $depar . "') ";
+                $strSQL = $strSQL . $glcre . "','" . $sgtxt . "','" . $entxt . "','" . $overs . "','" . $depar . "') ";
                 $query = $this->db->query($strSQL);
             }
             else
