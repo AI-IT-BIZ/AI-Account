@@ -597,6 +597,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},	

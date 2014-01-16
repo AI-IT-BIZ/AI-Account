@@ -266,7 +266,7 @@ Ext.define('Account.Vendor.Item.Form', {
          this.numberMin = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Minimum Amount',
-			name: 'begin',
+			name: 'began',
 			labelAlign: 'left',
 			allowBlank : false,
 			minValue: 0,

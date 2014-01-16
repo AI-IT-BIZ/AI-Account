@@ -47,7 +47,9 @@ Ext.define('Account.SAssettype.GridItem', {
 			fields: [
 				{ name:'id_mtype', type:'int' },
 				'mtart',
-				'matxt'
+				'matxt',
+				'saknr',
+				'sgtxt'
 			],
 			remoteSort: false,
 			sorters: ['id_mtype ASC']
@@ -73,18 +75,18 @@ Ext.define('Account.SAssettype.GridItem', {
 			//},
 		},{
 			text: "Type Description",
-		    width: 250,
+		    width: 150,
 		    dataIndex: 'matxt',
 		    sortable: true,
 		    //field: {
 			//	type: 'textfield'
 			//},
-		}/*,{
+		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
-			sortable: true,
-			field: {
+			sortable: true
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				allowBlank : false,
@@ -94,13 +96,13 @@ Ext.define('Account.SAssettype.GridItem', {
 					_this.glnoDialog.show();
 				}
 			},
-			sortable: false
+			sortable: false*/
 		},{
 			text: "GL Description", 
 			width: 150, 
 			dataIndex: 'sgtxt', 
 			sortable: true
-		}*/];
+		}];
 
 		//this.plugins = [this.editing];
 
@@ -152,6 +154,13 @@ Ext.define('Account.SAssettype.GridItem', {
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
 		});*/
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		return this.callParent(arguments);
 	},

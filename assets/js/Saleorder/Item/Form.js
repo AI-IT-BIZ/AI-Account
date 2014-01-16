@@ -698,6 +698,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
@@ -807,7 +808,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
-		    
+
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -819,8 +820,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 		    
 			sum += amt;
 			
-			discounts += discount;
-			
+			discounts += discountValue;
+
 			amt = amt - discountValue;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();

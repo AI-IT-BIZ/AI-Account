@@ -6,7 +6,7 @@ Ext.define('Account.SAssettype.Window', {
 			title: 'Asset Type List',
 			closeAction: 'hide',
 			height: 420,
-			width: 450,
+			width: 550,
 			layout: 'border',
 			resizable: true,
 			modal: true,

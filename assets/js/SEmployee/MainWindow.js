@@ -4,7 +4,7 @@ Ext.define('Account.SEmployee.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Position',
+			title: 'Employee List',
 			closeAction: 'hide',
 			height: 500,
 			minHeight: 380,

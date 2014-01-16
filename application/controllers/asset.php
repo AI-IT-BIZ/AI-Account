@@ -379,7 +379,7 @@ class Asset extends CI_Controller {
 	}
 
 	function loads_type(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$tbName = 'ftyp';
 		
 		$limit = $this->input->get('limit');
@@ -419,8 +419,8 @@ class Asset extends CI_Controller {
 		foreach($item_array AS $p){
 			$this->db->insert('ftyp', array(
 				'mtart'=>$p->mtart,
-				'matxt'=>$p->matxt//,
-				//'saknr'=>$p->saknr
+				'matxt'=>$p->matxt,
+				'saknr'=>$p->saknr
 			));
 	    	}
 		}
@@ -502,6 +502,7 @@ class Asset extends CI_Controller {
 			$this->db->insert('fgrp', array(
 				'matkl'=>$p->matkl,
 				'matxt'=>$p->matxt,
+				'mtart'=>$p->mtart,
 				'saknr'=>$p->saknr
 			));
 	    	}

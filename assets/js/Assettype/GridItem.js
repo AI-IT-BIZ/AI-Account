@@ -25,7 +25,7 @@ Ext.define('Account.Assettype.GridItem', {
 		});
 
 		// INIT GL search popup ///////////////////////////////////////////////
-           //this.glnoDialog = Ext.create('Account.GL.MainWindow');
+           this.glnoDialog = Ext.create('Account.GL.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct];// this.deleteAct];
@@ -47,7 +47,9 @@ Ext.define('Account.Assettype.GridItem', {
 			fields: [
 				{ name:'id_mtype', type:'int' },
 				'mtart',
-				'matxt'
+				'matxt',
+				'saknr',
+				'sgtxt'
 			],
 			remoteSort: false,
 			sorters: ['id_mtype ASC']
@@ -65,7 +67,7 @@ Ext.define('Account.Assettype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'FAiRowNumber001',
+			id : 'FAiRowNumber010',
 			header : "Type ID",
 			dataIndex : 'id_mtype',
 			width : 60,
@@ -84,13 +86,13 @@ Ext.define('Account.Assettype.GridItem', {
 			},
 		},{
 			text: "Type Description",
-		    width: 250,
+		    width: 150,
 		    dataIndex: 'matxt',
 		    sortable: true,
 		    field: {
 				type: 'textfield'
 			},
-		}/*,{
+		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
@@ -111,7 +113,14 @@ Ext.define('Account.Assettype.GridItem', {
 			width: 150, 
 			dataIndex: 'sgtxt', 
 			sortable: true
-		}*/];
+		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		this.plugins = [this.editing];
 
@@ -121,7 +130,7 @@ Ext.define('Account.Assettype.GridItem', {
 			_this.addRecord();
 		});
 
-		/*this.editing.on('edit', function(editor, e) {
+		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='saknr'){
 				var v = e.value;
 
@@ -162,13 +171,12 @@ Ext.define('Account.Assettype.GridItem', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.glnoDialog.hide();
-		});*/
+		});
 
 		return this.callParent(arguments);
 	},
 	
 	load: function(options){
-		//alert("1234");
 		this.store.load({
 			params: options,
 			proxy: {
@@ -183,9 +191,9 @@ Ext.define('Account.Assettype.GridItem', {
 			fields: [
 				{ name:'id_mtype', type:'int' },
 				'mtart',
-				'matxt'//,
-				//'saknr',
-				//'sgtxt'
+				'matxt',
+				'saknr',
+				'sgtxt'
 			],
 			remoteSort: false,
 			sorters: ['id_mtype ASC']

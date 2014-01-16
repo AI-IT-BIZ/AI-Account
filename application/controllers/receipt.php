@@ -388,6 +388,7 @@ class Receipt extends CI_Controller {
 			}
 			$this->db->update('vbrk');
 			
+			if($this->input->post('statu') == '02'){
 			if($p->itamt <= $netwr){
 			$kunnr = $this->input->post('kunnr');
 		    $this->db->where('kunnr', $kunnr);
@@ -402,6 +403,7 @@ class Receipt extends CI_Controller {
 			  $this->db->set('upamt', $upamt);
 			  $this->db->set('reman', $reman);
 			  $this->db->update('kna1');
+			  }
 			} 
 			}
 	      }

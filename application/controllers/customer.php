@@ -239,7 +239,7 @@ class Customer extends CI_Controller {
 			'pson1' => $this->input->post('pson1'),
 			'apamt' => $this->input->post('apamt'),
 			'taxid' => $this->input->post('taxid'),
-			'begin' => $this->input->post('begin'),
+			'began' => $this->input->post('began'),
 			'saknr' => $this->input->post('saknr'),
 			'endin' => $this->input->post('endin'),
 			'taxnr' => $this->input->post('taxnr'),

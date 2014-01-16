@@ -29,8 +29,8 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'mtart',
 			fieldLabel: 'Asset Type',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true//,
-			//width:290
+			allowBlank: false,
+			enableKeyEvents: true
 		});
 		
 		this.grpDialog = Ext.create('Account.SAssetgrp.Window');
@@ -39,8 +39,8 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'matkl',
 			fieldLabel: 'Asset Group',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true//,
-			//width:290
+			allowBlank: false,
+			enableKeyEvents: true
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
@@ -74,6 +74,7 @@ Ext.define('Account.Asset.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			allowBlank: false,
 			valueField: 'statu'
 		});	
 		
@@ -84,8 +85,7 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'GL Account',
 			triggerCls: 'x-form-search-trigger',
 			allowBlank: false,
-			enableKeyEvents: true,
-			//width:290,
+			enableKeyEvents: true
 		});
 		
 		this.empDialog = Ext.create('Account.SEmployee.MainWindow');
@@ -94,9 +94,8 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'reque',
 			fieldLabel: 'Requesting By',
 			triggerCls: 'x-form-search-trigger',
-			//allowBlank: false,
-			enableKeyEvents: true,
-			//width:250,
+			allowBlank: false,
+			enableKeyEvents: true
 		});
 		
 		this.emp2Dialog = Ext.create('Account.SEmployee.MainWindow');
@@ -105,9 +104,8 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'holds',
 			fieldLabel: 'Asset Holder',
 			triggerCls: 'x-form-search-trigger',
-			//allowBlank: false,
-			enableKeyEvents: true,
-			//width:250,
+			allowBlank: false,
+			enableKeyEvents: true
 		});
 		
 		this.emp3Dialog = Ext.create('Account.SEmployee.MainWindow');
@@ -116,8 +114,7 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'lastn',
 			fieldLabel: 'Last Holder',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			//width:250,
+			enableKeyEvents: true
 		});
 		
 		this.depDialog = Ext.create('Account.SDepartment.MainWindow');
@@ -126,8 +123,8 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'depnr',
 			fieldLabel: 'Department',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			//width:250,
+			allowBlank: false,
+			enableKeyEvents: true
 		});
 		
 		this.assetDialog = Ext.create('Account.SAsset.MainWindow');
@@ -155,6 +152,7 @@ Ext.define('Account.Asset.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Residual Value',
 			name: 'resid',
+			minValue: 0,
 			margins: '3 0 0 5',
 			alwaysDisplayDecimals: true
          });
@@ -163,13 +161,15 @@ Ext.define('Account.Asset.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Cost Value',
 			name: 'costv',
-			margins: '3 0 0 5',
+			minValue: 0,
 			alwaysDisplayDecimals: true
          });
          
          this.txtLifeValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Use full life(year)',
+			readOnly: true,
+			margins: '3 0 0 5',
 			name: 'lifes'//,
 			//alwaysDisplayDecimals: true
          });
@@ -177,6 +177,8 @@ Ext.define('Account.Asset.Item.Form', {
          this.txtDepreValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Depreciation(%)',
+			minValue:0,
+			maxValue:100,
 			name: 'costs'//,
 			//alwaysDisplayDecimals: true
          });
@@ -212,8 +214,7 @@ Ext.define('Account.Asset.Item.Form', {
 						xtype: 'displayfield',
 						name: 'mtype',
 						margins: '3 0 0 5',
-						width:286//,
-						//allowBlank: false
+						width:286
                 }]
             }, {
                 xtype: 'container',
@@ -222,8 +223,7 @@ Ext.define('Account.Asset.Item.Form', {
 						xtype: 'displayfield',
 						name: 'mgrpp',
 						margins: '3 0 0 5',
-						width:286//,
-						//allowBlank: false
+						width:286
                 }]
             },{
                 xtype: 'container',
@@ -321,20 +321,19 @@ Ext.define('Account.Asset.Item.Form', {
 			xtype: 'textfield',
 			fieldLabel: 'Keeping Area',
 			name: 'keepi',
-			//width: 400
+			allowBlank: false
 		},this.txtResidValue
 		]},{
                 xtype: 'container',
                 layout: 'hbox',
-                items :[this.txtDepreValue,
-		{
+                items :[this.txtDepreValue,this.txtLifeValue
+		]},{
 			xtype: 'textfield',
 			fieldLabel: 'PO No',
-			margins: '3 0 0 5',
+			//margins: '3 0 0 5',
 			name: 'ebeln',
 			//width: 400
-		}
-		]},{
+		},{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[{
@@ -343,9 +342,14 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'bldat',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
+			margins: '3 0 0 5',
 			submitFormat:'Y-m-d'
-		},this.txtCostValue
-		]}]
+		}
+		]},{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.txtCostValue,{}
+		]},]
 	},this.comboQStatus];
 		
 		// event trigType//
@@ -406,6 +410,7 @@ Ext.define('Account.Asset.Item.Form', {
 							//o.setValue(r.data.matkl);
 							_this.trigGrp.setValue(r.data.matkl);
 			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
+			_this.getForm().findField('mtart').setValue(r.data.mtart);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
@@ -420,6 +425,7 @@ Ext.define('Account.Asset.Item.Form', {
 		_this.grpDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigGrp.setValue(record.data.matkl);
 			_this.getForm().findField('mgrpp').setValue(record.data.matxt);
+			_this.getForm().findField('mtart').setValue(record.data.mtart);
 			_this.getForm().findField('saknr').setValue(record.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
@@ -518,7 +524,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'employee/load',
+					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -557,7 +563,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'employee/load',
+					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -577,7 +583,7 @@ Ext.define('Account.Asset.Item.Form', {
 		}, this);
 
 			_this.emp2Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigEmp.setValue(record.data.empnr);
+			_this.trigEmp2.setValue(record.data.empnr);
 			_this.getForm().findField('hodtx').setValue(record.data.name1);
 			
 			grid.getSelectionModel().deselectAll();
@@ -596,7 +602,7 @@ Ext.define('Account.Asset.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'employee/load',
+					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -616,7 +622,7 @@ Ext.define('Account.Asset.Item.Form', {
 		}, this);
 
 			_this.emp3Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigEmp.setValue(record.data.empnr);
+			_this.trigEmp3.setValue(record.data.empnr);
 			_this.getForm().findField('lastx').setValue(record.data.name1);
 			
 			grid.getSelectionModel().deselectAll();
@@ -749,5 +755,11 @@ Ext.define('Account.Asset.Item.Form', {
 				_this.fireEvent('afterDelete', _this);
 			}
 		});
+	},
+	
+	getLife: function(){
+		var _this=this;
+		var dep = this.txtDepreValue.getValue();
+		
 	}
 });

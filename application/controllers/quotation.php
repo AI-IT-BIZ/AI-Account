@@ -178,6 +178,8 @@ class Quotation extends CI_Controller {
 
 		$status_changed = false;
 		$inserted_id = false;
+		$net = $this->input->post('netwr');
+		$kunnr = $this->input->post('kunnr');
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('vbeln', $id);
@@ -219,10 +221,8 @@ class Quotation extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-		}
+		}else{
 
-        $net = $this->input->post('netwr');
-		$kunnr = $this->input->post('kunnr');
 		$this->db->where('kunnr', $kunnr);
 		$q_limit = $this->db->get('kna1');
 		$reman=0;
@@ -249,7 +249,8 @@ class Quotation extends CI_Controller {
 					));
 					return;
             }
-		}
+		  }
+	 	}
 		
         $payp = $this->input->post('payp');//$this->input->post('vbelp');
 		$pp_item_array = json_decode($payp);
@@ -261,7 +262,7 @@ class Quotation extends CI_Controller {
 				$amt = $this->input->post('beamt') - $this->input->post('dismt');
 				$pos = strpos($perct, '%');
 				if($pos==false){
-					$pramt = $disit;
+					$pramt = $perct;
 				}else{
 					$perc = explode('%',$perct);
 					$pramt = $amt * $perc[0];
@@ -317,6 +318,26 @@ class Quotation extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('vbak', $formData);
+			
+// Credit limit -> Reject case
+        if($this->input->post('statu') == '03'){
+        	$this->db->where('kunnr', $kunnr);
+		    $q_limit = $this->db->get('kna1');
+		    $reman=0;
+		
+		if($q_limit->num_rows()>0){
+			$r_limit = $q_limit->first_row('array');
+			$reman = $r_limit['reman'] - $net;
+			
+			if(!empty($kunnr)){	
+			$this->db->where('kunnr', $kunnr);
+			$this->db->set('upamt', $net);
+			$this->db->set('reman', $reman);
+			$this->db->update('kna1');
+			}
+		}	
+        }
+
 		}else{
 			$id = $this->code_model->generate('QT', $this->input->post('bldat'));
 			$this->db->set('vbeln', $id);
@@ -380,7 +401,7 @@ class Quotation extends CI_Controller {
 				$amt = $this->input->post('beamt') - $this->input->post('dismt');
 				$pos = strpos($perct, '%');
 				if($pos==false){
-					$pramt = $disit;
+					$pramt = $perct;
 				}else{
 					$perc = explode('%',$perct);
 					$pramt = $amt * $perc[0];

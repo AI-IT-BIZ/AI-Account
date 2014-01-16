@@ -6,7 +6,7 @@ Ext.define('Account.Assettype.Window', {
 			title: 'Create/Edit Asset Type',
 			closeAction: 'hide',
 			height: 420,
-			width: 450,
+			width: 600,
 			layout: 'border',
 			resizable: true,
 			modal: true,

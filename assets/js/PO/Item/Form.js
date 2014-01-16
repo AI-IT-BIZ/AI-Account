@@ -112,7 +112,6 @@ Ext.define('Account.PO.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			readOnly: true,
 			valueField: 'statu'
 		});
 /*---ComboBox Payment type----------------------------*/
@@ -487,6 +486,7 @@ Ext.define('Account.PO.Item.Form', {
         this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
         
 		return this.callParent(arguments);
 	},

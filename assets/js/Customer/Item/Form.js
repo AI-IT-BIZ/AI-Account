@@ -250,7 +250,7 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
         this.numberMin = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Minimum Amount',
-			name: 'begin',
+			name: 'began',
 			labelAlign: 'left',
 			width:290,
 			minValue: 0,

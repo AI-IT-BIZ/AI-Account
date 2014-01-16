@@ -34,6 +34,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				{ name:'id_mgrp', type:'int' },
 				'matkl',
 				'matxt',
+				'mtart',
 				'saknr',
 				'sgtxt'
 			],
@@ -68,16 +69,31 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			//	type: 'textfield'
 			//},
 		},{
+			text: "Type Code",
+		    width: 80,
+		    dataIndex: 'mtart',
+		    sortable: true,
+		    //field: {
+			//	type: 'textfield'
+			//},
+		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
 			sortable: true
 		},{
 			text: "GL Description", 
-			width: 170, 
+			width: 200, 
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		return this.callParent(arguments);
 	},

@@ -634,6 +634,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
 		
 		return this.callParent(arguments);
 	},

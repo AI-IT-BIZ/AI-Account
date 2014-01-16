@@ -24,8 +24,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 			iconCls: 'b-small-plus'
 		});
 
-		// INIT GL search popup ///////////////////////////////////////////////
-           this.glnoDialog = Ext.create('Account.GL.MainWindow');
+		// INIT Type search popup ///////////////////////////////////////////////
+           this.typeDialog = Ext.create('Account.SAssettype.Window');
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct];// this.deleteAct];
@@ -49,6 +49,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 				{ name:'id_mgrp', type:'int' },
 				'matkl',
 				'matxt',
+				'mtart',
+				//'mtype',
 				'saknr',
 				'sgtxt'
 			],
@@ -68,8 +70,8 @@ Ext.define('Account.Assetgrp.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'FAiRowNumber002',
-			header : "Type ID",
+			id : 'FAiRowNumber022',
+			header : "Group ID",
 			dataIndex : 'id_mgrp',
 			width : 60,
 			align : 'center',
@@ -94,11 +96,26 @@ Ext.define('Account.Assetgrp.GridItem', {
 				type: 'textfield'
 			},
 		},{
+			text: "Type Code",
+		    width: 80,
+		    dataIndex: 'mtart',
+		    sortable: true,
+		    field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				allowBlank : false,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.typeDialog.show();
+				}
+			}
+		},{
 			text: "GL no", 
 			width: 100,
 			dataIndex: 'saknr', 
 			sortable: true,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				allowBlank : false,
@@ -107,14 +124,20 @@ Ext.define('Account.Assetgrp.GridItem', {
 					_this.editing.completeEdit();
 					_this.glnoDialog.show();
 				}
-			},
-			sortable: false
+			}*/
 		},{
 			text: "GL Description", 
 			width: 170, 
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 
 		this.plugins = [this.editing];
 
@@ -125,13 +148,13 @@ Ext.define('Account.Assetgrp.GridItem', {
 		});
 
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='saknr'){
+			if(e.column.dataIndex=='mtart'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'gl/load',
+					url: __site_url+'SAssettype/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -142,6 +165,7 @@ Ext.define('Account.Assetgrp.GridItem', {
 							var rModel = _this.store.getById(e.record.data.id);
 
 							// change cell code value (use db value)
+							rModel.set(e.field, r.data.mtart);
 							rModel.set(e.field, r.data.saknr);
 							rModel.set('sgtxt', r.data.sgtxt);
 
@@ -153,18 +177,19 @@ Ext.define('Account.Assetgrp.GridItem', {
 			}
 		});
 
-		_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
 
 				// change cell code value (use db value)
+				rModel.set('mtart', record.data.mtart);
 				rModel.set('saknr', record.data.saknr);
 				rModel.set('sgtxt', record.data.sgtxt);
 
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
+			_this.typeDialog.hide();
 		});
 
 		return this.callParent(arguments);
@@ -187,6 +212,7 @@ Ext.define('Account.Assetgrp.GridItem', {
 				{ name:'id_mgrp', type:'int' },
 				'mtart',
 				'matxt',
+				'mtart',
 				'saknr',
 				'sgtxt'
 			],
