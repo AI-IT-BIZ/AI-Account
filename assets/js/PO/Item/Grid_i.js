@@ -9,10 +9,12 @@ Ext.define('Account.PO.Item.Grid_i', {
 
 		this.addAct = new Ext.Action({
 			text: 'Add',
+			disabled: true,
 			iconCls: 'b-small-plus'
 		});
 		this.copyAct = new Ext.Action({
 			text: 'Copy',
+			disabled: true,
 			iconCls: 'b-small-copy'
 		});
 		// INIT Material search popup //////////////////////////////////
@@ -64,6 +66,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete PO Item',
 				scope: this,
+				disabled: true,
 				handler: this.removeRecord
 			}]
 		},{
@@ -81,7 +84,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -89,15 +92,15 @@ Ext.define('Account.PO.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.materialDialog.show();
 				}
-			},
+			},*/
 			},
 		    {text: "Description",
 		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
+		    //field: {
+			//	type: 'textfield'
+			//},
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
@@ -105,7 +108,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				//decimalPrecision: 2,
 				listeners: {
@@ -115,10 +118,10 @@ Ext.define('Account.PO.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -126,7 +129,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
-			},
+			},*/
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
@@ -147,7 +150,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'disit',
 			sortable: false,
@@ -198,9 +201,9 @@ Ext.define('Account.PO.Item.Grid_i', {
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			}
+			//field: {
+			//	type: 'textfield'
+			//}
 		}];
 
 		this.plugins = [this.editing];

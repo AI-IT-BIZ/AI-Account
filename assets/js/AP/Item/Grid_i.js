@@ -148,7 +148,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'disit',
 			sortable: false,

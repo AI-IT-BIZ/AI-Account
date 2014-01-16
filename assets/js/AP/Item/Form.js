@@ -47,7 +47,7 @@ Ext.define('Account.AP.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',

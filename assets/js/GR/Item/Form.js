@@ -48,7 +48,7 @@ Ext.define('Account.GR.Item.Form', {
 			title:'Asset Detail',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',

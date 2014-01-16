@@ -166,7 +166,7 @@ class Vendor extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-			
+		}else{
 			$name1=$this->input->post('name1');
 		    if(!empty($name1)){
 			$this->db->where('name1', $name1);
