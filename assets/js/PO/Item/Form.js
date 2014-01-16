@@ -39,7 +39,7 @@ Ext.define('Account.PO.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.PR.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -77,6 +77,7 @@ Ext.define('Account.PO.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			readOnly: true,
 			valueField: 'taxnr'
 		});	
 		
@@ -111,6 +112,7 @@ Ext.define('Account.PO.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			readOnly: true,
 			valueField: 'statu'
 		});
 /*---ComboBox Payment type----------------------------*/
@@ -142,6 +144,7 @@ Ext.define('Account.PO.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'paytx',
+			readOnly: true,
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
@@ -164,6 +167,7 @@ Ext.define('Account.PO.Item.Form', {
 			fieldLabel: 'Vendor Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			readOnly: true,
 			allowBlank : false
 		});
 		
@@ -174,8 +178,8 @@ Ext.define('Account.PO.Item.Form', {
 			labelAlign: 'right',
 			width:170,
 			hideTrigger:false,
-			align: 'right'//,
-			//margin: '0 0 0 35'
+			readOnly: true,
+			align: 'right'
          });
          
          this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
@@ -186,6 +190,7 @@ Ext.define('Account.PO.Item.Form', {
 			width: 240,
 			//margin: '0 0 0 6',
 			labelAlign: 'right',
+			readOnly: true,
 			allowBlank : false
 		});
 
@@ -195,8 +200,8 @@ Ext.define('Account.PO.Item.Form', {
 			name: 'taxpr',
 			labelAlign: 'right',
 			width:170,
-			align: 'right'//,
-			//margin: '0 0 0 35'
+			readOnly: true,
+			align: 'right'
          });
 		
 		var mainFormPanel = {
@@ -258,6 +263,7 @@ Ext.define('Account.PO.Item.Form', {
 						}, {
 							xtype: 'textarea',
 							fieldLabel: 'Vendor Address',
+							readOnly: true,
 							name: 'adr01',
 							width: 450, 
 							rows:3,
@@ -296,6 +302,7 @@ Ext.define('Account.PO.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
+							allowBlank: false
 		                }, {
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
@@ -305,6 +312,7 @@ Ext.define('Account.PO.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
+							allowBlank: false
                 		}, this.comboTax,
                 		this.trigCurrency,
 					    this.comboQStatus]
@@ -416,6 +424,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -447,6 +456,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 						}
 					}
 				});
@@ -462,6 +472,7 @@ Ext.define('Account.PO.Item.Form', {
 
 		
 		this.trigPR.onTriggerClick = function(){
+			_this.prDialog.grid.load();
 			_this.prDialog.show();
 		};
 		

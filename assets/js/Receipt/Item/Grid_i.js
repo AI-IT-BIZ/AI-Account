@@ -55,7 +55,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'wht01',
 				'vat01',
 				'dtype',
-				'loekz'
+				'loekz',
+				'kunnr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -188,6 +189,11 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			//width: 55,
 			hidden: true,
 			sortable: false
+		},{
+			dataIndex: 'kunnr',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -243,6 +249,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							var dtype = r.data.invnr.substring(0,2);
 				            rModel.set('dtype', dtype[0]);
 							//rModel.set('amount', 100+Math.random());
+							rModel.set('kunnr', r.data.kunnr);
 
 						}else{
 							_this.editing.startEdit(e.record, e.column);
@@ -281,6 +288,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				var dtype = record.data.invnr.substring(0,2);
 				rModel.set('dtype', dtype[0]);
 				//rModel.set('amount', 100+Math.random());
+				rModel.set('kunnr', record.data.kunnr);
                 
 			}
 			grid.getSelectionModel().deselectAll();

@@ -188,6 +188,20 @@ class Po extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $sdat = explode('-',$this->input->post('bldat'));
+		$edat = explode('-',$this->input->post('lfdat'));
+		$stdat = $sdat[0].$sdat[1].$sdat[2];
+		$endat = $edat[0].$edat[1].$edat[2];
+		//echo $stdat.'aaa'.$endat;
+		if($stdat>$endat){
+					$emsg = 'The Delivery date must be more than Document date.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+
         if($this->input->post('loekz')=='2'){
         	$emsg = 'The PR already created PO doc.';
 					echo json_encode(array(

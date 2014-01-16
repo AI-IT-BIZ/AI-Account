@@ -17,7 +17,10 @@ Ext.define('Account.GR.Item.Grid_i', {
 		});
 
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow');
+		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];
@@ -144,7 +147,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 80,
 			dataIndex: 'disit',
 			sortable: false,

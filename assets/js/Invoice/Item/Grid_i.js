@@ -153,7 +153,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},
 			},
 			{text: "Discount",
-			xtype: 'numbercolumn',
+			//xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
 			sortable: false,

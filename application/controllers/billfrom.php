@@ -169,11 +169,21 @@ class Billfrom extends CI_Controller {
 		// เตรียมข้อมูล receipt item
 		$ebkp = $this->input->post('ebkp');
 		$bt_item_array = json_decode($ebkp);
-		$ctype='';
+		$ctype='';$perv='';
 		if(!empty($bt_item_array)){
-			//$result = $bt_item_array->first_row('array');
-			//print_r($bt_item_array);
 		    $ctype = $bt_item_array[0]->ctyp1;
+			
+			foreach($bt_item_array AS $p){
+			if($p->lifnr!=$perv && $perv!=''){
+				$emsg = 'Cannot create billing doc from differnt vendor';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$perv = $p->lifnr;
+			}
 		}
 		
 		$formData = array(

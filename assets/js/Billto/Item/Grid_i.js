@@ -50,7 +50,8 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				//'payrc',
 				//'reman',
 				//'belnr',
-				'ctyp1'
+				'ctyp1',
+				'kunnr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -156,9 +157,11 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			dataIndex: 'ctyp1',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+		    },{
+			dataIndex: 'kunnr',
+			//width: 55,
+			hidden: true,
+			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -185,10 +188,17 @@ Ext.define('Account.Billto.Item.Grid_i', {
 						id: v
 					},
 					success: function(response){
+						var checks='';
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-
+                            /*this.store.each(function(v){
+				  	          if(v.data['invnr'] == r.data.invnr){
+				  		        Ext.Msg.alert('Warning', 'The invoice no already on list.');
+				  		        checks='1';
+				  	          }
+				            });
+				            if(checks==''){*/
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
 							// Ref no
@@ -202,7 +212,9 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							// Currency
 							rModel.set('ctyp1', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
-
+							rModel.set('kunnr', r.data.kunnr);
+							//}
+                          //  check='';
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -212,10 +224,21 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		});
 
 		_this.invoiceDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var checks='';
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-
+				
+				/*this.store.each(function(v){
+					alert(v.data['invnr']+'/')
+				  	if(v.data['invnr'] == record.data.invnr){
+				  		Ext.Msg.alert('Warning', 'The invoice no already on list.');
+				  		checks='1';
+				  		//return;
+				  	}
+				});
+                //alert(checks);
+                if(checks==''){*/
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no
@@ -229,7 +252,9 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				// Currency
 				rModel.set('ctyp1', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
-
+				rModel.set('kunnr', record.data.kunnr);
+				//}
+                //checks=='';
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.invoiceDialog.hide();

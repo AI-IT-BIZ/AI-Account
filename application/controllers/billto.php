@@ -153,7 +153,7 @@ class Billto extends CI_Controller {
 		$endat = $edat[0].$edat[1].$edat[2];
 		//echo $stdat.'aaa'.$endat;
 		if($stdat>$endat){
-					$emsg = 'The Due date must be more than Document date.';
+					$emsg = 'The Billing date must be more than Document date.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -166,9 +166,21 @@ class Billto extends CI_Controller {
 		// เตรียมข้อมูล receipt item
 		$vbkp = $this->input->post('vbkp');
 		$bt_item_array = json_decode($vbkp);
-		
+		$kerv='';
 		if(!empty($bt_item_array)){
 		    $ctype = $bt_item_array[0]->ctyp1;
+			
+			foreach($bt_item_array AS $p){
+			if($p->kunnr!=$kerv && $kerv!=''){
+				$emsg = 'Cannot create billing doc from differnt customer';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$kerv = $p->kunnr;
+			}
 		}
 		
 		$formData = array(

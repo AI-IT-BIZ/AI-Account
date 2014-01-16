@@ -225,12 +225,24 @@ class Quotation extends CI_Controller {
 		$kunnr = $this->input->post('kunnr');
 		$this->db->where('kunnr', $kunnr);
 		$q_limit = $this->db->get('kna1');
+		$reman=0;
 		
 		if($q_limit->num_rows()>0){
 			$r_limit = $q_limit->first_row('array');
+			$reman = $r_limit['reman'] + $net;
 			$limit = $r_limit['endin'];
+			$apamt = $r_limit['apamt'];
 			if($net>$limit){
             	$emsg = 'The quotation total have amount more than limit amount.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+            
+			if($reman>$apamt){
+            	$emsg = 'The customer have amount more than credit limit.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -313,12 +325,22 @@ class Quotation extends CI_Controller {
 			$this->db->insert('vbak', $formData);
 
 			$inserted_id = $id;
+			
+//Upate limit remain			
+		    if(!empty($kunnr)){	
+			$this->db->where('kunnr', $kunnr);
+			$this->db->set('upamt', $net);
+			$this->db->set('reman', $reman);
+			$this->db->update('kna1');
+			}
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('vbeln', $id);
 		$this->db->delete('vbap');
-
+		
+        $vbap = $this->input->post('vbap');//$this->input->post('vbelp');
+		$qt_item_array = json_decode($vbap);
 		// เตรียมข้อมูล  qt item
 		if(!empty($vbap) && !empty($qt_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
@@ -347,8 +369,8 @@ class Quotation extends CI_Controller {
 		$this->db->delete('payp');
 
 		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('payp');//$this->input->post('vbelp');
-		$pp_item_array = json_decode($payp);
+		//$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		//$pp_item_array = json_decode($payp);
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่

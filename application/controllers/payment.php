@@ -259,7 +259,7 @@ class Payment extends CI_Controller {
 
         $ebbp = $this->input->post('ebbp');
 		$py_item_array = json_decode($ebbp);
-		$perv='';
+		$perv='';$lerv='';
 		if(!empty($ebbp) && !empty($py_item_array)){
 		foreach($py_item_array AS $p){
 			if($p->loekz=='2'){
@@ -279,6 +279,16 @@ class Payment extends CI_Controller {
 					return;
 			}
 			$perv = substr($p->invnr,0,1);
+			
+			if($p->lifnr!=$lerv && $lerv!=''){
+				$emsg = 'Cannot create payment doc from differnt vendor';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			$lerv = $p->lifnr;
 		  }
 		}
 

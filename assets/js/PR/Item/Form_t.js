@@ -237,6 +237,8 @@ Ext.define('Account.PR.Item.Form_t', {
 
 		var net = (total - discountValue) + vat;
 		this.txtNet.setValue(net);
-		//return net;
+		
+		var net = total - discountValue;
+		return net;
 	}
 });
