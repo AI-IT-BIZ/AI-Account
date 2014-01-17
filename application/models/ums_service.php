@@ -51,7 +51,7 @@ class Ums_service extends CI_Model {
 		$sql = "
 Select d.doctx,d.docty,d.grpmo,a.autex From $tbDoct d
 Left Join $tbAutx a on d.docty = a.docty and a.empnr=(SELECT u.empnr FROM $tbUser u WHERE u.uname=$uname AND u.comid=$comid_esc)
-Order by d.grpmo and d.docno ASC";
+Order by d.grpmo, d.docno ASC";
 		$query = $this->db->query($sql);
 
 		$result = $query->result_array();
@@ -83,14 +83,14 @@ Order by d.grpmo and d.docno ASC";
 
 		$sql = "
 SELECT
-TRIM(d.grptx) grptx,TRIM(d.doctx) doctx,TRIM(d.docty) docty,TRIM(d.grpmo) grpmo
+LTRIM(RTRIM(d.grptx)) grptx,LTRIM(RTRIM(d.doctx)) doctx,LTRIM(RTRIM(d.docty)) docty,LTRIM(RTRIM(d.grpmo)) grpmo
 , al.limam, al.comid
 FROM $tbDoct d
 LEFT JOIN $tbAutl al ON d.docty=al.docty AND al.autlid IN (
 	SELECT au.autlid FROM $tbAutu au WHERE
 	au.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=$uname AND u.comid=$comid_esc)
 )
-ORDER BY TRIM(d.grptx) , TRIM(d.docty) ASC, al.limam DESC
+ORDER BY LTRIM(RTRIM(d.grptx)) , LTRIM(RTRIM(d.docty)) ASC, al.limam DESC
 ";
 		$query = $this->db->query($sql);
 
