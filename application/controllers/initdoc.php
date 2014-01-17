@@ -61,7 +61,8 @@ class Initdoc extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ Init doc ภายใต้ id ทั้งหมด
-		$this->db->truncate('init'); 
+		$this->db->where('1=1');
+		$this->db->delete('init'); 
 
 		// เตรียมข้อมูล payment item
 		$init = $this->input->post('init');

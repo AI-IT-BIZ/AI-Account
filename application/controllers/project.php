@@ -385,7 +385,8 @@ class Project extends CI_Controller {
 		//$this->db->trans_start();
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('jtyp');
+		$this->db->where('1=1');
+		$this->db->delete('jtyp');
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
