@@ -18,7 +18,7 @@ Ext.define('Account.Rpnd50WHT.Form', {
 	initComponent : function() {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
-        this.paymentDialog = Ext.create('Account.AP.MainWindow', {
+        this.paymentDialog = Ext.create('Account.SAp.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

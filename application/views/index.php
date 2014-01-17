@@ -5,86 +5,6 @@ Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
 
-	$om.viewport.on('click_income', function(){
-		if(!$om.incomeDialog)
-			$om.incomeDialog = Ext.create('Account.OtherIncome.MainWindow');
-		$om.incomeDialog.show();
-	});
-	
-	$om.viewport.on('click_expense', function(){
-		if(!$om.expenseDialog)
-			$om.expenseDialog = Ext.create('Account.OtherExpense.MainWindow');
-		$om.expenseDialog.show();
-	});
-
-	$om.viewport.on('click_journaltemp', function(){
-		if(!UMS.CAN.DISPLAY('JT')){
-			UMS.ALERT("You don't have permission for Journal Template.");
-			return;
-		}
-
-		if(!$om.journaltempDialog)
-			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
-		$om.journaltempDialog.show();
-	});
-
-	$om.viewport.on('click_journal', function(){
-		if(!UMS.CAN.DISPLAY('JN')){
-			UMS.ALERT("You don't have permission for Journal.");
-			return;
-		}
-
-		if(!$om.journalDialog)
-			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
-		$om.journalDialog.show();
-	});
-	
-	$om.viewport.on('click_asset-regist', function(){
-		if(!UMS.CAN.DISPLAY('FA')){
-			UMS.ALERT("You don't have permission for Asset Register.");
-			return;
-		}
-
-		if(!$om.assetregitDialog)
-			$om.assetregitDialog = Ext.create('Account.AssetRegist.MainWindow');
-		$om.assetregitDialog.show();
-	});
-	
-	$om.viewport.on('click_asset-master', function(){
-		if(!UMS.CAN.DISPLAY('FA')){
-			UMS.ALERT("You don't have permission for Asset Master.");
-			return;
-		}
-
-		if(!$om.assetDialog)
-			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
-		$om.assetDialog.show();
-	});
-
-	$om.viewport.on('click_rjournal', function(){
-		if(!$om.rjournalDialog)
-			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
-		$om.rjournalDialog.show();
-	});
-
-	$om.viewport.on('click_rgl', function(){
-		if(!$om.rglDialog)
-			$om.rglDialog = Ext.create('Account.RGL.MainWindow');
-		$om.rglDialog.show();
-	});
-
-
-   $om.viewport.on('click_chart_account', function(){
-   		if(!UMS.CAN.DISPLAY('CA')){
-			UMS.ALERT("You don't have permission for Chart of Account.");
-			return;
-		}
-
-		if(!$om.chartOfAccountDialog)
-			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
-		$om.chartOfAccountDialog.show();
-	});
-
 //<<<<<<< HEAD
 
 	$om.viewport.on('click_customer', function(){
@@ -209,16 +129,7 @@ Ext.onReady(function() {
 			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
 		$om.salepersonDialog.show();
 	});
-	/*$om.viewport.on('click_rproject', function(){
-		if(!$om.rprojectDialog)
-			$om.rprojectDialog = Ext.create('Account.RProject.MainWindow');
-		$om.rprojectDialog.show();
-	});
-	$om.viewport.on('click_rquotation', function(){
-		if(!$om.rquotationDialog)
-			$om.rquotationDialog = Ext.create('Account.RQuotation.MainWindow');
-		$om.rquotationDialog.show();
-	});*/
+	
 	$om.viewport.on('click_rinvoice', function(){
 		if(!$om.rinvoiceDialog)
 			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
@@ -321,16 +232,6 @@ Ext.onReady(function() {
 		$om.paymentDialog.show();
 	});
 
-	/*$om.viewport.on('click_rpo', function(){
-		if(!$om.rpoDialog)
-			$om.rpoDialog = Ext.create('Account.RPO.MainWindow');
-		$om.rpoDialog.show();
-	});
-	$om.viewport.on('click_rpr', function(){
-		if(!$om.rprDialog)
-			$om.rprDialog = Ext.create('Account.RPR.MainWindow');
-		$om.rprDialog.show();
-	});*/
 	$om.viewport.on('click_rgr', function(){
 		if(!$om.rgrDialog)
 			$om.rgrDialog = Ext.create('Account.RGR.MainWindow');
@@ -346,6 +247,69 @@ Ext.onReady(function() {
 			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
 		$om.rpaymentDialog.show();
 	});
+//Account Module
+    $om.viewport.on('click_chart_account', function(){
+   		if(!UMS.CAN.DISPLAY('CA')){
+			UMS.ALERT("You don't have permission for Chart of Account.");
+			return;
+		}
+
+		if(!$om.chartOfAccountDialog)
+			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
+		$om.chartOfAccountDialog.show();
+	});
+	
+	$om.viewport.on('click_journaltemp', function(){
+		if(!UMS.CAN.DISPLAY('JT')){
+			UMS.ALERT("You don't have permission for Journal Template.");
+			return;
+		}
+
+		if(!$om.journaltempDialog)
+			$om.journaltempDialog = Ext.create('Account.Journaltemp.MainWindow');
+		$om.journaltempDialog.show();
+	});
+
+	$om.viewport.on('click_journal', function(){
+		if(!UMS.CAN.DISPLAY('JN')){
+			UMS.ALERT("You don't have permission for Journal.");
+			return;
+		}
+
+		if(!$om.journalDialog)
+			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
+		$om.journalDialog.show();
+	});
+	
+    $om.viewport.on('click_income', function(){
+		if(!$om.incomeDialog)
+			$om.incomeDialog = Ext.create('Account.OtherIncome.MainWindow');
+		$om.incomeDialog.show();
+	});
+	
+	$om.viewport.on('click_expense', function(){
+		if(!$om.expenseDialog)
+			$om.expenseDialog = Ext.create('Account.OtherExpense.MainWindow');
+		$om.expenseDialog.show();
+	});
+	
+	$om.viewport.on('click_asset-regist', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Register.");
+			return;
+		}
+
+		if(!$om.assetregitDialog)
+			$om.assetregitDialog = Ext.create('Account.AssetRegist.MainWindow');
+		$om.assetregitDialog.show();
+	});
+	
+	$om.viewport.on('click_rjournal', function(){
+		if(!$om.rjournalDialog)
+			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
+		$om.rjournalDialog.show();
+	});
+
 
 //Material Module
 	$om.viewport.on('click_material', function(){
@@ -369,43 +333,17 @@ Ext.onReady(function() {
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();
 	});
+	
+	$om.viewport.on('click_asset-master', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Master.");
+			return;
+		}
 
-	$om.viewport.on('click_transaction', function(){
-		if(!$om.transactionDialog)
-			$om.transactionDialog = Ext.create('Account.Transaction.MainWindow');
-		$om.transactionDialog.show();
+		if(!$om.assetDialog)
+			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
+		$om.assetDialog.show();
 	});
-
-	$om.viewport.on('click_balance', function(){
-		if(!$om.balanceDialog)
-			$om.balanceDialog = Ext.create('Account.Balance.MainWindow');
-		$om.balanceDialog.show();
-	});
-
-	$om.viewport.on('click_otincome', function(){
-		if(!$om.otincomeDialog)
-			$om.otincomeDialog = Ext.create('Account.Otincome.MainWindow');
-		$om.otincomeDialog.show();
-	});
-
-	$om.viewport.on('click_otexpense', function(){
-		if(!$om.otexpenseDialog)
-			$om.otexpenseDialog = Ext.create('Account.Otexpense.MainWindow');
-		$om.otexpenseDialog.show();
-	});
-
-	$om.viewport.on('click_rtransaction', function(){
-		if(!$om.rtransactionDialog)
-			$om.rtransactionDialog = Ext.create('Account.RPurchaseVat.MainWindow');
-		$om.rtransactionDialog.show();
-	});
-
-	$om.viewport.on('click_rbalance', function(){
-		if(!$om.rbalanceDialog)
-			$om.rbalanceDialog = Ext.create('Account.RPP30Vat.MainWindow');
-		$om.rbalanceDialog.show();
-	});
-
 
 	// SETTINGS
 	$om.viewport.on('click_company_setting', function(){

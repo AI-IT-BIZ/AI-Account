@@ -183,13 +183,13 @@ function endsWith($haystack, $needle)
 		#div-journal { top:140px; left:530px; width: 210px; height:100px; }
 		#div-other-income { top:250px; left:530px; width: 100px; height:100px; }
 		#div-other-expense { position:absolute; top:250px; left:640px; width: 100px; height:100px; }
-		#div-asset-master { top:360px; left:530px; width: 100px; height:100px; }
-		#div-asset-regist { position:absolute; top:360px; left:640px; width: 100px; height:100px; }
-
-		#div-rjournal { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
-		#div-rgl { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
-		#div-rar-aging { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
-		#div-rap-aging { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
+		
+		#div-rgl { top:400px; left:530px; width: 100px; height:100px; }
+		#div-rjournal { position:absolute; top:400px; left:640px; width: 100px; height:100px; }
+		#div-asset-regist { position:absolute; top:510px; left:530px; width: 100px; height:100px; }
+		#div-rtrail-balance { position:absolute; top:510px; left:640px; width: 100px; height:100px; }
+		#div-rbalance-sheet { position:absolute; top:620px; left:530px; width: 100px; height:100px; }
+		#div-rincome-statment { position:absolute; top:620px; left:640px; width: 100px; height:100px; }
 
 		#div-account-income2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-account-journaltemp2 { top:30px; left:260px; width: 100px; height:100px; }
@@ -206,19 +206,22 @@ function endsWith($haystack, $needle)
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-transaction { top:30px; left:780px; width: 100px; height:100px; }
-		#div-balance { top:30px; left:890px; width: 100px; height:100px; }
-		#div-material { top:140px; left:780px; width: 100px; height:100px; }
-		#div-service { top:140px; left:890px; width: 100px; height:100px; }
-		#div-otincome { top:250px; left:780px; width: 100px; height:100px; }
-		#div-otexpense { top:250px; left:890px; width: 100px; height:100px; }
+		#div-material { top:30px; left:780px; width: 100px; height:100px; }
+		#div-service { top:30px; left:890px; width: 100px; height:100px; }
+		#div-asset-master { top:140px; left:780px; width: 100px; height:100px; }
+		#div-bankname { top:140px; left:890px; width: 100px; height:100px; }
+		#div-employee { top:250px; left:780px; width: 100px; height:100px; }
+		#div-saleperson { top:250px; left:890px; width: 100px; height:100px; }
 
-		#div-rtransaction { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
-		#div-rbalance { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+		#div-rpp30 { position:absolute; top:400px; left:780px; width: 100px; height:100px; }
+		#div-rpp30-form { position:absolute; top:400px; left:890px; width: 100px; height:100px; }
+		#div-rpnd1 { position:absolute; top:510px; left:780px; width: 100px; height:100px; }
+		#div-rpnd3 { position:absolute; top:510px; left:890px; width: 100px; height:100px; }
+		#div-rpnd53 { position:absolute; top:620px; left:780px; width: 100px; height:100px; }
+		#div-rpnd50-form { position:absolute; top:620px; left:890px; width: 100px; height:100px; }
 
 		#div1-5-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-5-container div span { position:absolute; bottom:10px; left:10px; }
-		#div-project-management
 
 		#div-material-transaction2 { top:30px; left:150px; width: 100px; height:100px; }
 		#div-material-balance2 { top:30px; left:260px; width: 100px; height:100px; }
@@ -852,30 +855,34 @@ function endsWith($haystack, $needle)
 								'</div>',
 								//Account Module
 								'<div id="div1-3-container">',
+								    '<div id="div-chart-account" class="box box-blue"><span>Chart of Accounting</span></div>',
+									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
+									'<div id="div-journal" class="box box-blue"><span>Journal Posting</span></div>',
 									'<div id="div-other-income" class="box box-blue"><span>Other Incomes</span></div>',
 									'<div id="div-other-expense" class="box box-blue"><span>Other Expenses</span></div>',
-									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
-									'<div id="div-journal" class="box box-blue"><span>Journals</span></div>',
-									'<div id="div-chart-account" class="box box-blue"><span>Chart of Accounting</span></div>',
-									'<div id="div-asset-regist" class="box box-blue"><span>Fixed Asset Register</span></div>',
-									'<div id="div-asset-master" class="box box-blue"><span>Fixed Asset Master</span></div>',
-
-									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
+									
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
-									'<div id="div-rar-aging" class="box box-orange"><span>AR Aging Report</span></div>',
-									'<div id="div-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
+									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
+									'<div id="div-asset-regist" class="box box-orange"><span>Fixed Asset Register</span></div>',
+									'<div id="div-rtrail-balance" class="box box-orange"><span>Trail Balance</span></div>',
+									'<div id="div-rbalance-sheet" class="box box-orange"><span>Balance Sheet</span></div>',
+									'<div id="div-rincome-statment" class="box box-orange"><span>Income Statment</span></div>',
 								'</div>',
 								//Material Module
 								'<div id="div1-4-container">',
-								    '<div id="div-transaction" class="box box-purple"><span>Inventory Transactions</span></div>',
-									'<div id="div-balance" class="box box-purple"><span>Inventory Balances</span></div>',
-									'<div id="div-otincome" class="box box-purple"><span>Other Incomes</span></div>',
-									'<div id="div-otexpense" class="box box-purple"><span>Other Expenses</span></div>',
-									'<div id="div-material" class="box box-purple"><span>Materials Master</span></div>',
+								    '<div id="div-material" class="box box-purple"><span>Materials Master</span></div>',
 									'<div id="div-service" class="box box-purple"><span>Services Master</span></div>',
-
-									'<div id="div-rtransaction" class="box box-orange"><span>Transaction Report</span></div>',
-									'<div id="div-rbalance" class="box box-orange"><span>Balance Report</span></div>',
+								    '<div id="div-asset-master" class="box box-purple"><span>Fixed Asset Master</span></div>',
+									'<div id="div-employee" class="box box-purple"><span>Employee Master</span></div>',
+									'<div id="div-bankname" class="box box-purple"><span>Bank Master</span></div>',
+									'<div id="div-saleperson" class="box box-purple"><span>Salesperson Master</span></div>',
+									
+									'<div id="div-rpp30" class="box box-orange"><span>ภ.พ.30</span></div>',
+									'<div id="div-rpp30-form" class="box box-orange"><span>ฟอร์ม ภ.พ.30</span></div>',
+									'<div id="div-rpnd1" class="box box-orange"><span>ภ.ง.ด.1</span></div>',
+									'<div id="div-rpnd3" class="box box-orange"><span>ภ.ง.ด.3</span></div>',
+									'<div id="div-rpnd53" class="box box-orange"><span>ภ.ง.ด.53</span></div>',
+									'<div id="div-rpnd50-form" class="box box-orange"><span>ฟอร์ม ภ.พ.50 ทวิ</span></div>',
 								'</div>',
 								// arrow
 								'<div id="arrow-home-01" class="arrow arrow-down"><span></span></div>',
@@ -1004,19 +1011,7 @@ function endsWith($haystack, $needle)
 						listeners : {
 							render : function(c) {
 								pEl = c.getEl();
-
-								pEl.getById('div-other-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
-								pEl.getById('div-other-expense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
-								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
-								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
-								pEl.getById('div-asset-master').on('click', function(){ $om.viewport.fireEvent('click_asset-master', c); }, c);
-
-                                pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
-								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
-								pEl.getById('div-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rar-aging', c); }, c);
-								pEl.getById('div-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rap-aging', c); }, c);
-								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
+                                
 								//Sales Module
 								pEl.getById('div-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
 								pEl.getById('div-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
@@ -1041,15 +1036,34 @@ function endsWith($haystack, $needle)
 
 								pEl.getById('div-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
 								pEl.getById('div-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
-								//Material Module
+								//Account Module
+								pEl.getById('div-chart-account').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
+								pEl.getById('div-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
+								pEl.getById('div-journal').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
+								pEl.getById('div-other-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
+								pEl.getById('div-other-expense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
+								
+								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
+								pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
+								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
+								pEl.getById('div-rtrail-balance').on('click', function(){ $om.viewport.fireEvent('click_rtrail-balance', c); }, c);
+								pEl.getById('div-rbalance-sheet').on('click', function(){ $om.viewport.fireEvent('click_rbalance-sheet', c); }, c);
+								pEl.getById('div-rincome-statment').on('click', function(){ $om.viewport.fireEvent('click_rincome-statment', c); }, c);
+								
+								//Master Module
 								pEl.getById('div-material').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-service').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
-								pEl.getById('div-otincome').on('click', function(){ $om.viewport.fireEvent('click_otincome', c); }, c);
-                                pEl.getById('div-otexpense').on('click', function(){ $om.viewport.fireEvent('click_otexpense', c); }, c);
-                                pEl.getById('div-transaction').on('click', function(){ $om.viewport.fireEvent('click_transaction', c); }, c);
-                                pEl.getById('div-balance').on('click', function(){ $om.viewport.fireEvent('click_balance', c); }, c);
-                                pEl.getById('div-rtransaction').on('click', function(){ $om.viewport.fireEvent('click_rtransaction', c); }, c);
-                                pEl.getById('div-rbalance').on('click', function(){ $om.viewport.fireEvent('click_rbalance', c); }, c);
+                                pEl.getById('div-asset-master').on('click', function(){ $om.viewport.fireEvent('click_asset-master', c); }, c);
+                                pEl.getById('div-employee').on('click', function(){ $om.viewport.fireEvent('click_employee', c); }, c);
+                                pEl.getById('div-bankname').on('click', function(){ $om.viewport.fireEvent('click_bankname_setting', c); }, c);
+                                pEl.getById('div-saleperson').on('click', function(){ $om.viewport.fireEvent('click_saleperson', c); }, c);
+                                
+                                pEl.getById('div-rpp30').on('click', function(){ $om.viewport.fireEvent('click_RSumVat', c); }, c);
+								pEl.getById('div-rpp30-form').on('click', function(){ $om.viewport.fireEvent('click_Rpp30Vat', c); }, c);
+								pEl.getById('div-rpnd1').on('click', function(){ $om.viewport.fireEvent('click_Rpnd1WHT', c); }, c);
+                                pEl.getById('div-rpnd3').on('click', function(){ $om.viewport.fireEvent('click_Rpnd3WHT', c); }, c);
+                                pEl.getById('div-rpnd53').on('click', function(){ $om.viewport.fireEvent('click_Rpnd53WHT', c); }, c);
+                                pEl.getById('div-rpnd50-form').on('click', function(){ $om.viewport.fireEvent('click_Rpnd50WHT', c); }, c);
                                 //Sales Tab
                                 pEl.getById('div-sales-project').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
                                 pEl.getById('div-sales-quotation').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
@@ -1155,6 +1169,34 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
+				            text: 'Customer',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-cust',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_customer')}
+				        },{
+				            text: 'Projects',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-proj',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_project')}
+				        },{
+				            text: 'Quotations',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-quot',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_quotation')}
+				        },{
+				            text: 'Deposit In',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-dep',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_deposit1')}
+				        },{
 				            text: 'Sale Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1176,12 +1218,33 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_receipt')}
 				        },{
+				            text: 'Vendor',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-vend',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_vendor')}
+				        },{
+				            text: 'Purchase Req',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-pr',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_pr')}
+				        },{
 				            text: 'Purchase Orders',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'p-po',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_po')}
+				        },{
+				            text: 'Deposit Out',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-dep',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_deposit2')}
 				        },{
 				            text: 'Goods Receipts',
 				            scale: 'large',
@@ -1203,19 +1266,6 @@ function endsWith($haystack, $needle)
 				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_payment')}
-				        },{
-				            text: 'Journals',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'h-journal',
-                			cls: 'x-btn-as-arrow',
-                			handler: function(){$om.viewport.fireEvent('click_journal')}
-				        },{
-				            text: 'Reports',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'h-report',
-                			cls: 'x-btn-as-arrow'
 				        },
 				        '->', lblUserName, '-', btnLogout]
 		            },{
@@ -1259,6 +1309,20 @@ function endsWith($haystack, $needle)
 				            iconCls: 's-inv',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_invoice')}
+				        },{
+				            text: 'Debit Note',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-sdn',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_sale_dn')}
+				        },{
+				            text: 'Credit Note',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-scn',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_sale_cn')}
 				        },{
 				            text: 'Bill to Cust',
 				            scale: 'large',
@@ -1335,6 +1399,20 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_ap')}
 				        },{
+				            text: 'Debit Note',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-pdn',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_purchase_dn')}
+				        },{
+				            text: 'Credit Note',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'p-pcn',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_purchase_cn')}
+				        },{
 				            text: 'Bill from Vendor',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1368,11 +1446,12 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Income Statement',
+				            text: 'Chart of Accounting',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'a-income',
-                			cls: 'x-btn-as-arrow'
+				            iconCls: 'a-chart',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_chart_account')}
 				        },{
 				            text: 'Journal Template',
 				            scale: 'large',
@@ -1381,42 +1460,64 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_journalt')}
 				        },{
-				            text: 'Journals',
+				            text: 'Journal Posting',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-journal',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_journal')}
 				        },{
-				            text: 'Manage Cost Center',
+				            text: 'Other Income',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'a-managec',
-                			cls: 'x-btn-as-arrow'
-				        },{
-				            text: 'Chart of Accounting',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'a-charta',
+				            iconCls: 'a-income',
                 			cls: 'x-btn-as-arrow',
-                			handler: function(){$om.viewport.fireEvent('click_chart_account')}
+                			handler: function(){$om.viewport.fireEvent('click_income')}
+				        },{
+				            text: 'Other Expense',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-expense',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_expense')}
+				        },{
+				            text: 'GL Report',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'h-report',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_gl')}
+				        },{
+				            text: 'Journal Report',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-rjournal',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_rjournal')}
 				        },{
 				            text: 'Fixed Asset Register',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-fixasset',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_asset-regist')}
 				        },{
-				            text: 'Depreciation&Amortization',
+				            text: 'Trail Balance',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'a-deprec',
+				            iconCls: 'a-rtb',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Report',
+				            text: 'Balance Sheet',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'h-report',
+				            iconCls: 'a-rbalance',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Income Statment',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'a-rincome',
                 			cls: 'x-btn-as-arrow'
 				        }]
 		            },{
@@ -1425,18 +1526,6 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Inventory Transactions',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'm-inv-trans',
-                			cls: 'x-btn-as-arrow'
-				        },{
-				            text: 'Inventory Balances',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'm-inv-balance',
-                			cls: 'x-btn-as-arrow'
-				        },{
 				            text: 'Materials Master',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1451,23 +1540,40 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_service')}
 				        },{
-				            text: 'Other Incomes',
+				            text: 'Fixed Asset Master',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'm-oth-income',
-                			cls: 'x-btn-as-arrow'
+				            iconCls: 'm-ass-master',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_asset-master')}
 				        },{
-				            text: 'Other Expenses',
+				            text: 'Bank Master',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'm-oth-expense',
-                			cls: 'x-btn-as-arrow'
+				            iconCls: 'm-bank-master',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_bankname_setting')}
+				        },{
+				            text: 'Employee Master',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'ms-empl',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_employee')}
+				        },{
+				            text: 'Salesperson',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'm-sale-master',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_saleperson')}
 				        },{
 				            text: 'Reports',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_asset-master')}
 				        }]
 		            },{
 		                title: 'Configuration',
@@ -1499,13 +1605,6 @@ function endsWith($haystack, $needle)
 				            iconAlign: 'top',
 				            iconCls: 'ms-auth',
                 			cls: 'x-btn-as-arrow'
-				        },{
-				            text: 'Employee',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'ms-empl',
-                			cls: 'x-btn-as-arrow',
-                			handler: function(){$om.viewport.fireEvent('click_employee')}
 				        }]
 		            },{
 		                title: 'Reports',

@@ -17,7 +17,7 @@ class Rpnd3wht_attach extends CI_Controller {
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
-		
+		if($q_com->num_rows()>0){
 		$date =	$this->input->get('bldat');
 		$copies =	$this->input->get('copies');
 		//$no = $type = $this->uri->segment(4);
@@ -445,7 +445,7 @@ endfor; // end copy for
 
 <?php
 	}
-   
+	}
 }
 
 ?>
