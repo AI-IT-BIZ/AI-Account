@@ -72,8 +72,7 @@ Ext.define('Account.Vendortype.GridItem', {
 		    dataIndex: 'vtype',
 		    sortable: true,
 		    field: {
-				type: 'textfield',
-				readOnly: true
+				type: 'textfield'
 			},
 		},{
 			text: "Type Description",
@@ -81,8 +80,7 @@ Ext.define('Account.Vendortype.GridItem', {
 		    dataIndex: 'ventx',
 		    sortable: true,
 		    field: {
-				type: 'textfield',
-				disabled: true
+				type: 'textfield'
 			},
 		},{
 			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,

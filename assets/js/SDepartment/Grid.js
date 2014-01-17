@@ -58,7 +58,7 @@ Ext.define('Account.SDepartment.Grid', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber05',
+			id : 'DPiRowNumber05',
 			header : "No",
 			dataIndex : 'id_depnr2',
 			width : 60,

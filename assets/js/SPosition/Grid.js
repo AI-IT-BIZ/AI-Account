@@ -60,7 +60,7 @@ Ext.define('Account.SPosition.Grid', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber005',
+			id : 'PTiRowNumber001',
 			header : "No",
 			dataIndex : 'id_depnr',
 			width : 60,
