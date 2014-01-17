@@ -57,7 +57,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber01',
+			id : 'VDiRowNumber1',
 			header : "No",
 			dataIndex : 'id_vtype',
 			width : 60,
@@ -67,13 +67,12 @@ Ext.define('Account.Vendortype.GridItem', {
 				return rowIndex+1;
 			}
 		},{
-			text: "Vendor Type",
+			text: "Type Code",
 		    width: 80,
 		    dataIndex: 'vtype',
 		    sortable: true,
 		    field: {
-				type: 'textfield',
-				readOnly: true
+				type: 'textfield'
 			},
 		},{
 			text: "Type Description",
@@ -81,8 +80,7 @@ Ext.define('Account.Vendortype.GridItem', {
 		    dataIndex: 'ventx',
 		    sortable: true,
 		    field: {
-				type: 'textfield',
-				disabled: true
+				type: 'textfield'
 			},
 		},{
 			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,

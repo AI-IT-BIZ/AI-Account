@@ -29,6 +29,16 @@ Ext.onReady(function() {
 
 //=======
 	//Sale Module
+	$om.viewport.on('click_projectnew', function(){
+		if(!UMS.CAN.DISPLAY('PJ')){
+			UMS.ALERT("You don't have permission for Project.");
+			return;
+		}
+
+		if(!$om.projectnewDialog)
+			$om.projectnewDialog = Ext.create('Account.Project.Item.Window');
+		$om.projectnewDialog.show();
+	});
 	$om.viewport.on('click_project', function(){
 		if(!UMS.CAN.DISPLAY('PJ')){
 			UMS.ALERT("You don't have permission for Project.");
@@ -309,51 +319,6 @@ Ext.onReady(function() {
 			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
 		$om.rjournalDialog.show();
 	});
-
-
-//Material Module
-	$om.viewport.on('click_material', function(){
-		if(!UMS.CAN.DISPLAY('MM')){
-			UMS.ALERT("You don't have permission for Material Master.");
-			return;
-		}
-
-		if(!$om.materialDialog)
-			$om.materialDialog = Ext.create('Account.Material.MainWindow');
-		$om.materialDialog.show();
-	});
-
-	$om.viewport.on('click_service', function(){
-		if(!UMS.CAN.DISPLAY('SV')){
-			UMS.ALERT("You don't have permission for Service Master.");
-			return;
-		}
-
-		if(!$om.serviceDialog)
-			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
-		$om.serviceDialog.show();
-	});
-	
-	$om.viewport.on('click_asset-master', function(){
-		if(!UMS.CAN.DISPLAY('FA')){
-			UMS.ALERT("You don't have permission for Asset Master.");
-			return;
-		}
-
-		if(!$om.assetDialog)
-			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
-		$om.assetDialog.show();
-	});
-
-	// SETTINGS
-	$om.viewport.on('click_company_setting', function(){
-		if(!UMS.CAN.DISPLAY('CC')){
-	 		UMS.ALERT("You don't have permission for Company Define.");
-	  		return;
-		}
-		$om.companyDialog = Ext.create('Account.Company.MainWindow');
-		$om.companyDialog.show();
-	});
 	
 	$om.viewport.on('click_customer_type', function(){
 		if(!UMS.CAN.DISPLAY('CT')){
@@ -409,6 +374,46 @@ Ext.onReady(function() {
 		$om.assetgrpDialog.show();
 	});
 	
+	$om.viewport.on('click_bankname_setting', function(){
+	  	
+	  	if(!UMS.CAN.DISPLAY('BN')){
+	 		UMS.ALERT("You don't have permission for Bank Name Setting.");
+	  		return;
+		}
+		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
+		$om.bankNameDialog.show();
+	});
+	
+	$om.viewport.on('click_department', function(){
+	  	
+	  	if(!UMS.CAN.DISPLAY('DM')){
+	 		UMS.ALERT("You don't have permission for Department master.");
+	  		return;
+		}
+		$om.departDialog = Ext.create('Account.SDepartment.MainWindow');
+		$om.departDialog.show();
+	});
+	
+	$om.viewport.on('click_position', function(){
+	  	
+	  	if(!UMS.CAN.DISPLAY('PS')){
+	 		UMS.ALERT("You don't have permission for Position master.");
+	  		return;
+		}
+		$om.positionDialog = Ext.create('Account.SPosition.MainWindow');
+		$om.positionDialog.show();
+	});
+	
+	$om.viewport.on('click_employee', function(){
+	  	
+	  	if(!UMS.CAN.DISPLAY('EP')){
+	 		UMS.ALERT("You don't have permission for Employee master.");
+	  		return;
+		}
+		$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
+		$om.employeeDialog.show();
+	});
+	
 	$om.viewport.on('click_unit', function(){
 		if(!UMS.CAN.DISPLAY('UN')){
 	 		UMS.ALERT("You don't have permission for Unit.");
@@ -416,6 +421,51 @@ Ext.onReady(function() {
 		}
 		$om.unitDialog = Ext.create('Account.Unit.Window');
 		$om.unitDialog.show();
+	});
+
+
+//Master Module
+	$om.viewport.on('click_material', function(){
+		if(!UMS.CAN.DISPLAY('MM')){
+			UMS.ALERT("You don't have permission for Material Master.");
+			return;
+		}
+
+		if(!$om.materialDialog)
+			$om.materialDialog = Ext.create('Account.Material.MainWindow');
+		$om.materialDialog.show();
+	});
+
+	$om.viewport.on('click_service', function(){
+		if(!UMS.CAN.DISPLAY('SV')){
+			UMS.ALERT("You don't have permission for Service Master.");
+			return;
+		}
+
+		if(!$om.serviceDialog)
+			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
+		$om.serviceDialog.show();
+	});
+	
+	$om.viewport.on('click_asset-master', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Master.");
+			return;
+		}
+
+		if(!$om.assetDialog)
+			$om.assetDialog = Ext.create('Account.Asset.MainWindow');
+		$om.assetDialog.show();
+	});
+
+	// SETTINGS
+	$om.viewport.on('click_company_setting', function(){
+		if(!UMS.CAN.DISPLAY('CC')){
+	 		UMS.ALERT("You don't have permission for Company Define.");
+	  		return;
+		}
+		$om.companyDialog = Ext.create('Account.Company.MainWindow');
+		$om.companyDialog.show();
 	});
 
 	$om.viewport.on('click_authorize_setting', function(){
@@ -445,25 +495,7 @@ Ext.onReady(function() {
 		//$om.limitDialog.show();
 	});
 	
-	$om.viewport.on('click_bankname_setting', function(){
-	  	
-	  	if(!UMS.CAN.DISPLAY('BN')){
-	 		UMS.ALERT("You don't have permission for Bank Name Setting.");
-	  		return;
-		}
-		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
-		$om.bankNameDialog.show();
-	});
 	
-	$om.viewport.on('click_employee', function(){
-	  	
-	  	if(!UMS.CAN.DISPLAY('EP')){
-	 		UMS.ALERT("You don't have permission for Employee master.");
-	  		return;
-		}
-		$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
-		$om.employeeDialog.show();
-	});
 
 	//Report
 	$om.viewport.on('click_report_gl', function(){
