@@ -135,7 +135,6 @@ function endsWith($haystack, $needle)
 		#div-rreceipt { position:absolute; top:630px; left:140px; width: 100px; height:100px; }
 
 
-
 		#div-sales-customer { top:30px; left:30px; width: 210px; height:100px; }
 		#div-sales-projectnew { top:170px; left:30px; width: 180px; height:90px; }
 		#div-sales-projectlist { top:300px; left:30px; width: 180px; height: 90px; }

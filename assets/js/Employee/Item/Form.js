@@ -242,6 +242,9 @@ Ext.define('Account.Employee.Item.Form', {
 		            name: 'begdt',
 		            labelAlign: 'left',
 		            labelWidth:110,
+		            format:'d/m/Y',
+					altFormats:'Y-m-d|d/m/Y',
+					submitFormat:'Y-m-d',
 		            width: 290
                 }, 
                 this.numberSalary]
