@@ -23,20 +23,34 @@ Ext.define('Account.RPayment.Form', {
 //---Create Selection--------------------------------------------
         this.paymentDialog = Ext.create('Account.Payment.MainWindow');
 		this.paymentDialog2 = Ext.create('Account.Payment.MainWindow');
+		this.apDialog = Ext.create('Account.SAp.MainWindow');
+		this.apDialog2 = Ext.create('Account.SAp.MainWindow');
 		
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow');
-		this.vendorDialog2 = Ext.create('Account.Vendor.MainWindow');
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow');
+		this.vendorDialog2 = Ext.create('Account.SVendor.MainWindow');
 		
 		this.trigPayment = Ext.create('Ext.form.field.Trigger', {
 			name: 'payno',
-			//labelWidth: 90,
-			fieldLabel: 'Payment no',
+			fieldLabel: 'Payment No',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
 		
 		this.trigPayment2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'payno2',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+		
+		this.trigAP = Ext.create('Ext.form.field.Trigger', {
+			name: 'invnr',
+			fieldLabel: 'AP No',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true
+		});
+		
+		this.trigAP2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'invnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -128,7 +142,78 @@ Ext.define('Account.RPayment.Form', {
 			_this.paymentDialog2.show();
 		};
 		
+        // event trigAP//
+		this.trigAP.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
 
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'ap/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.invnr);
+
+						}else{
+							o.markInvalid('Could not find Invoice : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.apDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigAP.setValue(record.data.invnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.apDialog.hide();
+		});
+
+		this.trigAP.onTriggerClick = function(){
+			_this.apDialog.show();
+		};
+		
+		// event trigPayment2//
+		this.trigAP2.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'ap/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.invnr);
+
+						}else{
+							o.markInvalid('Could not find AP : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.apDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigAP2.setValue(record.data.invnr);
+
+			grid.getSelectionModel().deselectAll();
+			_this.apDialog2.hide();
+		});
+
+		this.trigAP2.onTriggerClick = function(){
+			_this.apDialog2.show();
+		};
+		
 		// event trigVendor//
 		this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -258,30 +343,7 @@ Ext.define('Account.RPayment.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
 			}]
-	    },/*{
-        xtype: 'container',
-                layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[{
-			xtype: 'datefield',
-			fieldLabel: 'Payment Date ',
-			name: 'duedt1',
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			},{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		   },{
-			xtype: 'datefield',
-			name: 'duedt2',
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-			}]
-	    },*/{
+	    },{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -292,6 +354,18 @@ Ext.define('Account.RPayment.Form', {
 		  margins: '0 0 0 25'
 		},
 		this.trigPayment2]
+// Vendor Code
+		},{
+     	xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigAP,
+		{xtype: 'displayfield',
+		  value: 'To',
+		  width:40,
+		  margins: '0 0 0 25'
+		},
+		this.trigAP2]
 // Vendor Code
 		},{
           xtype: 'container',

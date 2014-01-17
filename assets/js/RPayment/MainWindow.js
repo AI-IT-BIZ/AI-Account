@@ -6,7 +6,7 @@ Ext.define('Account.RPayment.MainWindow', {
 		Ext.apply(this, {
 			title: 'Payment Selection',
 			closeAction: 'hide',
-			height: 200,
+			height: 220,
 			width: 550,
 			layout: 'border',
 			//layout: 'accordion',

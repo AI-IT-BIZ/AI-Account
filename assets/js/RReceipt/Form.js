@@ -21,12 +21,12 @@ Ext.define('Account.RReceipt.Form', {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
         this.receiptDialog = Ext.create('Account.Receipt.MainWindow');
-        this.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow');
+        this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
 		
 		this.receiptDialog2 = Ext.create('Account.Receipt.MainWindow');
-		this.invoiceDialog2 = Ext.create('Account.Invoice.MainWindow');
-		this.customerDialog2 = Ext.create('Account.Customer.MainWindow');
+		this.invoiceDialog2 = Ext.create('Account.SInvoice.MainWindow');
+		this.customerDialog2 = Ext.create('Account.SCustomer.MainWindow');
 		
 		this.trigReceipt = Ext.create('Ext.form.field.Trigger', {
 			name: 'recnr',

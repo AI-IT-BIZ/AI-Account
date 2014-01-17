@@ -28,6 +28,14 @@ Ext.define('Account.GR.Item.Form_spec', {
                 xtype: 'container',
                 layout: 'anchor',
      items :[{
+   	        xtype: 'textfield',
+   	        fieldLabel: 'Serial No',
+			align: 'right',
+			readOnly: true,
+			margin: '3 0 0 0',
+			width:400,
+			name: 'serno'
+		},{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[{
@@ -45,14 +53,6 @@ Ext.define('Account.GR.Item.Form_spec', {
 			width:200
                 }]
             },{
-   	        xtype: 'textfield',
-   	        fieldLabel: 'Serial No',
-			align: 'right',
-			readOnly: true,
-			margin: '3 0 0 0',
-			width:400,
-			name: 'serno'
-		},{
    	        xtype: 'textfield',
    	        fieldLabel: 'Brand',
 			align: 'right',

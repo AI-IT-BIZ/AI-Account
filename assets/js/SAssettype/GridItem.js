@@ -49,7 +49,8 @@ Ext.define('Account.SAssettype.GridItem', {
 				'mtart',
 				'matxt',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mtype ASC']
@@ -101,6 +102,11 @@ Ext.define('Account.SAssettype.GridItem', {
 			text: "GL Description", 
 			width: 150, 
 			dataIndex: 'sgtxt', 
+			sortable: true
+		},{
+			text: "Depreciation(%)", 
+			width: 100, 
+			dataIndex: 'depre', 
 			sortable: true
 		}];
 
@@ -181,9 +187,10 @@ Ext.define('Account.SAssettype.GridItem', {
 			fields: [
 				{ name:'id_mtype', type:'int' },
 				'mtart',
-				'matxt'//,
-				//'saknr',
-				//'sgtxt'
+				'matxt',
+				'saknr',
+				'sgtxt',
+				'depre'
 			],
 			remoteSort: false,
 			sorters: ['id_mtype ASC']

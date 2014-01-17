@@ -81,9 +81,11 @@
 
 .s-proj { background-image: url('../images/tb-icons/doc_excel.png') !important; }
 .s-quot { background-image: url('../images/tb-icons/doc_new2.png') !important; }
-.s-dep { background-image: url('../images/tb-icons/doc_depin.png') !important; }
+.s-dep { background-image: url('../images/tb-icons/doc_import.png') !important; }
 .s-sale { background-image: url('../images/tb-icons/doc_new3.png') !important; }
 .s-inv { background-image: url('../images/tb-icons/doc_add.png') !important; }
+.s-scn { background-image: url('../images/tb-icons/doc_depin.png') !important; }
+.s-sdn { background-image: url('../images/tb-icons/doc_depout.png') !important; }
 .s-billto { background-image: url('../images/tb-icons/doc_save2.png') !important; }
 .s-recp { background-image: url('../images/tb-icons/doc_save.png') !important; }
 
@@ -92,28 +94,33 @@
 
 .p-pr { background-image: url('../images/tb-icons/doc_pr.png') !important; }
 .p-po { background-image: url('../images/tb-icons/doc_order.png') !important; }
-.p-dep { background-image: url('../images/tb-icons/doc_depout.png') !important; }
+.p-dep { background-image: url('../images/tb-icons/doc_depout3.png') !important; }
 .p-gr { background-image: url('../images/tb-icons/doc_gr.png') !important; }
 .p-ap { background-image: url('../images/tb-icons/doc_ap.png') !important; }
+.p-pdn { background-image: url('../images/tb-icons/doc_dnout.png') !important; }
+.p-pcn { background-image: url('../images/tb-icons/doc_cnin.png') !important; }
 .p-billfr { background-image: url('../images/tb-icons/doc_open.png') !important; }
 .p-pay { background-image: url('../images/tb-icons/doc_payment.png') !important; }
 
 .p-vend { background-image: url('../images/tb-icons/doc_user6.png') !important; }
 
+.a-chart { background-image: url('../images/tb-icons/doc_blue4.png') !important; }
 .a-income { background-image: url('../images/tb-icons/doc_add2.png') !important; }
+.a-expense { background-image: url('../images/tb-icons/doc_minus.png') !important; }
 .a-journalt { background-image: url('../images/tb-icons/doc_setting.png') !important; }
-.a-journal { background-image: url('../images/tb-icons/doc_notes.png') !important; }
-.a-managec { background-image: url('../images/tb-icons/doc_blue2.png') !important; }
-.a-charta { background-image: url('../images/tb-icons/doc_blue3.png') !important; }
-.a-fixasset { background-image: url('../images/tb-icons/doc_blue1.png') !important; }
-.a-deprec { background-image: url('../images/tb-icons/doc_blue5.png') !important; }
+.a-journal { background-image: url('../images/tb-icons/doc_blue1.png') !important; }
+.a-rjournal { background-image: url('../images/tb-icons/doc_information.png') !important; }
+.a-rgl { background-image: url('../images/tb-icons/doc_connect.png') !important; }
+.a-rtb { background-image: url('../images/tb-icons/doc_blue3.png') !important; }
+.a-fixasset { background-image: url('../images/tb-icons/doc_notes.png') !important; }
+.a-rbalance { background-image: url('../images/tb-icons/doc_blue2.png') !important; }
+.a-rincome { background-image: url('../images/tb-icons/doc_blue5.png') !important; }
 
-.m-inv-trans { background-image: url('../images/tb-icons/doc_purple2.png') !important; }
-.m-inv-balance { background-image: url('../images/tb-icons/doc_purple1.png') !important; }
 .m-inv-master { background-image: url('../images/tb-icons/doc_purple5.png') !important; }
 .m-ser-master { background-image: url('../images/tb-icons/doc_purple10.png') !important; }
-.m-oth-expense { background-image: url('../images/tb-icons/doc_purple4.png') !important; }
-.m-oth-income { background-image: url('../images/tb-icons/doc_purple3.png') !important; }
+.m-ass-master { background-image: url('../images/tb-icons/doc_purple3.png') !important; }
+.m-bank-master { background-image: url('../images/tb-icons/doc_purple4.png') !important; }
+.m-sale-master { background-image: url('../images/tb-icons/doc_user7.png') !important; }
 
 .r-report1 { background-image: url('../images/tb-icons/report2.png') !important; }
 .r-report2 { background-image: url('../images/tb-icons/report3.png') !important; }
