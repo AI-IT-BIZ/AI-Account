@@ -245,11 +245,11 @@ class Service extends CI_Controller {
 			'enqty' => $this->input->post('enqty'),		
 			'enval' => $this->input->post('enval'),*/
 			'unit1' => $this->input->post('unit1'),
-			'cost1' => $this->input->post('cost1'),
+			'cost1' => floatval($this->input->post('cost1')),
 			'unit2' => $this->input->post('unit2'),
-			'cost2' => $this->input->post('cost2'),
+			'cost2' => floatval($this->input->post('cost2')),
 			'unit3' => $this->input->post('unit3'),
-			'cost3' => $this->input->post('cost3'),
+			'cost3' => floatval($this->input->post('cost3')),
 			'statu' => $this->input->post('statu')
 			);
 			
@@ -298,7 +298,7 @@ class Service extends CI_Controller {
 		
 		/*try{
 				$post_id = $this->input->post('id');
-				//$total_amount = $this->input->post('netwr');
+				//$total_amount = floatval($this->input->post('netwr'));
 				$total_amount = 0;
 				// send notification email
 				if(!empty($inserted_id)){

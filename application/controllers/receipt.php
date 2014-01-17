@@ -312,11 +312,11 @@ class Receipt extends CI_Controller {
 			//'recnr' => $this->input->post('recnr'),
 			'bldat' => $this->input->post('bldat'),
 			'kunnr' => $this->input->post('kunnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
@@ -368,20 +368,20 @@ class Receipt extends CI_Controller {
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
-				'itamt'=>$p->itamt,
+				'itamt'=>floatval($p->itamt),
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
 				'ctype'=>$p->ctype,
-				'wht01'=>$p->wht01,
-				'vat01'=>$p->vat01,
+				'wht01'=>floatval($p->wht01),
+				'vat01'=>floatval($p->vat01),
 				'dtype'=>$p->dtype,
 				'jobtx'=>$p->jobtx
 			));
 			
 			$this->db->where('invnr', $p->invnr);
 			$this->db->set('loekz', '2');
-			$netwr=$this->input->post('netwr');
+			$netwr=floatval($this->input->post('netwr'));
 			if($p->itamt > $netwr){
 				$itamt=$p->itamt - $netwr;
 				$this->db->set('reman', $itamt);
@@ -485,7 +485,7 @@ class Receipt extends CI_Controller {
 			'txz01' => 'Receipt No '.$id,
 			'ttype' => '03',
 			'auart' => 'RV',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -559,7 +559,7 @@ class Receipt extends CI_Controller {
 			'txz01' => 'Receipt No '.$id,
 			'ttype' => '03',
 			'auart' => 'RV',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -632,7 +632,7 @@ class Receipt extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('vbbk', array('recnr'=>$inserted_id));

@@ -164,7 +164,7 @@ class Journal extends CI_Controller {
 			'tranr' => $this->input->post('tranr'),
 			'auart' => $modul,
 			'refnr' => $this->input->post('refnr'),
-			'netwr' => $this->input->post('debit')
+			'netwr' => floatval($this->input->post('debit'))
 		);
 		
 		// start transaction
@@ -204,8 +204,8 @@ class Journal extends CI_Controller {
 				'belpr'=>++$item_index,
 				'gjahr' => substr($date,0,4),
 				'saknr'=>$p->saknr,
-				'debit'=>$p->debit,
-				'credi'=>$p->credi,
+				'debit'=>floatval($p->debit),
+				'credi'=>floatval($p->credi),
 				'txz01'=>$p->txz01
 			));
 	    	}

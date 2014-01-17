@@ -218,7 +218,7 @@ class Customer extends CI_Controller {
 					return;
 				}
 
-		$vat = $this->input->post('vat01');
+		$vat = floatval($this->input->post('vat01'));
         if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
         	$vat = 0;
 		}

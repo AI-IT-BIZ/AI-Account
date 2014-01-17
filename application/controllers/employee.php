@@ -183,7 +183,7 @@ class Employee extends CI_Controller {
 			'begdt' => $this->input->post('begdt'),
 			'saknr' => $this->input->post('saknr'),
 			'bcode' => $this->input->post('bcode'),
-			'salar' => $this->input->post('salar'),
+			'salar' => floatval($this->input->post('salar')),
 			'depnr' => $this->input->post('depnr'),
 			'statu' => $this->input->post('statu'),
 			'supnr' => $this->input->post('supnr'),
@@ -213,9 +213,10 @@ class Employee extends CI_Controller {
 			'data'=>$_POST
 		));
 		
+		/*
 		try{
 				$post_id = $this->input->post('id');
-				//$total_amount = $this->input->post('netwr');
+				//$total_amount = floatval($this->input->post('netwr'));
 				$total_amount = 0;
 				// send notification email
 				if(!empty($inserted_id)){
@@ -224,7 +225,7 @@ class Employee extends CI_Controller {
 					if($status_changed)
 						$this->email_service->quotation_change_status('EP', $total_amount);
 				}
-			}catch(exception $e){}
+			}catch(exception $e){}*/
 	}
 
 	function remove(){

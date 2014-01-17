@@ -412,7 +412,7 @@ class Otexpense extends CI_Controller {
 					return;
         }
 		
-		$netwr = str_replace(",","",$this->input->post('netwr'));
+		$netwr = str_replace(",","",floatval($this->input->post('netwr')));
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -421,16 +421,16 @@ class Otexpense extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			//'mbeln' => $this->input->post('mbeln'),  //GR Doc.
 			'ptype' => $this->input->post('ptype'),
-			'terms' => $this->input->post('terms'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'terms' => intval($this->input->post('terms')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'sgtxt' => $this->input->post('sgtxt'),
-			'beamt' => $this->input->post('beamt'),
-			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01'),
-			'netwr' => $this->input->post('netwr'),
+			'beamt' => floatval($this->input->post('beamt')),
+			'vat01' => floatval($this->input->post('vat01')),
+			'wht01' => floatval($this->input->post('wht01')),
+			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
 			'whtyp' => $this->input->post('whtyp'),
@@ -526,7 +526,7 @@ class Otexpense extends CI_Controller {
 			'txz01' => 'GR No '.$id,
 			'ttype' => '05',
 			'auart' => 'AP',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -600,7 +600,7 @@ class Otexpense extends CI_Controller {
 
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('ebrk', array('invnr'=>$inserted_id));

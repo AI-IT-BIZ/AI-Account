@@ -269,22 +269,22 @@ class Pr extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-		//$netwr = str_replace(",","",$this->input->post('netwr'));
+		//$netwr = str_replace(",","",floatval($this->input->post('netwr')));
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
 			'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
-			'terms' => $this->input->post('terms'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'terms' => intval($this->input->post('terms')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'sgtxt' => $this->input->post('sgtxt'),
-			'vat01' => $this->input->post('vat01'),
-			'netwr' => $this->input->post('netwr'),
+			'vat01' => floatval($this->input->post('vat01')),
+			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype')
 		);
@@ -355,7 +355,7 @@ class Pr extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('ebko', array('purnr'=>$inserted_id));
