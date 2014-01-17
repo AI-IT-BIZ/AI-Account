@@ -168,7 +168,7 @@ class Customer extends CI_Controller {
 					return;
 				}
 			}else{
-				if($row['statu']=='02'||$row['statu']=='03'){
+				if($row['statu']=='03'){
 					$emsg = 'The Customer that already approved or rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
