@@ -121,6 +121,8 @@
 .m-ass-master { background-image: url('../images/tb-icons/doc_purple3.png') !important; }
 .m-bank-master { background-image: url('../images/tb-icons/doc_purple4.png') !important; }
 .m-sale-master { background-image: url('../images/tb-icons/doc_user7.png') !important; }
+.m-depart-master { background-image: url('../images/tb-icons/doc_purple6.png') !important; }
+.m-posit-master { background-image: url('../images/tb-icons/doc_purple7.png') !important; }
 .m-unit { background-image: url('../images/tb-icons/doc_user4.png') !important; }
 
 .r-report1 { background-image: url('../images/tb-icons/report2.png') !important; }
@@ -130,6 +132,16 @@
 .r-report5 { background-image: url('../images/tb-icons/report5.png') !important; }
 .r-report6 { background-image: url('../images/tb-icons/report4.png') !important; }
 .r-report7 { background-image: url('../images/tb-icons/report7.png') !important; }
+
+.r-report8 { background-image: url('../images/tb-icons/note2.png') !important; }
+.r-report9 { background-image: url('../images/tb-icons/note3.png') !important; }
+.r-report10 { background-image: url('../images/tb-icons/note4.png') !important; }
+.r-report11 { background-image: url('../images/tb-icons/note5.png') !important; }
+.r-report12 { background-image: url('../images/tb-icons/note6.png') !important; }
+.r-report13 { background-image: url('../images/tb-icons/note7.png') !important; }
+.r-report14 { background-image: url('../images/tb-icons/note1.png') !important; }
+
+.r-report15 { background-image: url('../images/tb-icons/report11.png') !important; }
 
 .g-logout { background-image: url('../images/tb-icons/logout.png') !important; }
 

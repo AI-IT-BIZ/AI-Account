@@ -240,31 +240,35 @@ function endsWith($haystack, $needle)
 		#div-rpnd53 { position:absolute; top:620px; left:780px; width: 100px; height:100px; }
 		#div-rpnd50-form { position:absolute; top:620px; left:890px; width: 100px; height:100px; }
 		
-		#div-master-custype { top:30px; left:30px; width: 180px; height:90px; }
-		#div-master-cusgrp { top:30px; left:250px; width: 180px; height: 90px; }
+		#div-master-custype { top:30px; left:250px; width: 180px; height: 90px; }
 		#div-master-cusnew { top:30px; left:470px; width: 180px; height: 90px; }
-		#div-master-ventype { top:160px; left:30px; width: 180px; height:90px; }
-		#div-master-vengrp { top:160px; left:250px; width: 180px; height: 90px; }
+
+		#div-master-ventype { top:160px; left:250px; width: 180px; height: 90px; }
 		#div-master-vennew { top:160px; left:470px; width: 180px; height: 90px; }
-		#div-master-mattype { top:330px; left:30px; width: 180px; height:90px; }
-		#div-master-matgrp { top:330px; left:250px; width: 180px; height: 90px; }
+		#div-master-mattype { top:345px; left:30px; width: 180px; height:90px; }
+		#div-master-matgrp { top:345px; left:250px; width: 180px; height: 90px; }
 		#div-master-matnew { top:280px; left:470px; width: 180px; height: 90px; }
 		#div-master-sernew { top:410px; left:470px; width: 180px; height: 90px; }
 		
-		#div-master-assettype { top:480px; left:30px; width: 180px; height:90px; }
-		#div-master-assetgrp { top:480px; left:250px; width: 180px; height: 90px; }
-		#div-master-assetnew { top:480px; left:470px; width: 180px; height: 90px; }
-		#div-master-depart { top:610px; left:30px; width: 180px; height:90px; }
-		#div-master-position { top:610px; left:250px; width: 180px; height: 90px; }
-		#div-master-employee { top:610px; left:470px; width: 180px; height: 90px; }
+		#div-master-assettype { top:530px; left:30px; width: 180px; height:90px; }
+		#div-master-assetgrp { top:530px; left:250px; width: 180px; height: 90px; }
+		#div-master-assetnew { top:530px; left:470px; width: 180px; height: 90px; }
+		#div-master-depart { top:660px; left:30px; width: 180px; height:90px; }
+		#div-master-position { top:660px; left:250px; width: 180px; height: 90px; }
+		#div-master-employee { top:660px; left:470px; width: 180px; height: 90px; }
+		#div-master-saleperson { top:660px; left:690px; width: 180px; height: 90px; }
 		
 		#div-master-bankname { top:30px; left:720px; width: 150px; height: 90px; }
-		#div-master-unit { top:330px; left:720px; width: 150px; height: 90px; }
+		#div-master-unit { top:350px; left:720px; width: 150px; height: 90px; }
 
 		#div1-5-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-5-container div span { position:absolute; bottom:10px; left:10px; }
 
-
+        #div-config-company { top:30px; left:30px; width: 180px; height:90px; }
+		#div-config-initial { top:30px; left:250px; width: 180px; height: 90px; }
+		#div-config-user { top:160px; left:30px; width: 180px; height:90px; }
+		#div-config-authorize { top:160px; left:250px; width: 180px; height: 90px; }
+		
 		/* Toolbar */
 		/* move toolbar css into style.css  */
 
@@ -358,9 +362,9 @@ function endsWith($haystack, $needle)
 		#arrow-purc-15 { width:40px; top:470px; left:520px; }
 		#arrow-purc-16 { width:40px; top:470px; left:990px; }
 		
-		#arrow-acc-01 { width:40px; top:75px; left:210px; }
-		#arrow-acc-02 { width:40px; top:75px; left:430px; }
-		#arrow-acc-03 { width:40px; top:75px; left:650px; }
+		#arrow-acc-01 { width:40px; top:70px; left:210px; }
+		#arrow-acc-02 { width:40px; top:70px; left:430px; }
+		#arrow-acc-03 { width:40px; top:70px; left:650px; }
 		#arrow-acc-04 { height:115px; top:120px; left:550px; }
 		#arrow-acc-05 { height:40px; top:325px; left:550px; }
 		#arrow-acc-06 { height:80px; top:455px; left:550px; }
@@ -369,19 +373,21 @@ function endsWith($haystack, $needle)
 		#arrow-acc-09 { width:130px; top:275px; left:340px; }
 		#arrow-acc-10 { height:40px; top:260px; left:340px; }
 		
-		#arrow-mas-01 { width:40px; top:75px; left:210px; }
-		#arrow-mas-02 { width:40px; top:75px; left:430px; }
-		#arrow-mas-03 { width:60px; top:75px; left:650px; }
 		
-		#arrow-mas-04 { width:40px; top:130px; left:210px; }
-		#arrow-mas-05 { width:40px; top:130px; left:430px; }
+		#arrow-mas-02 { width:40px; top:70px; left:430px; }
+		#arrow-mas-03 { width:70px; top:70px; left:650px; }
 		
-		#arrow-mas-06 { width:40px; top:250px; left:210px; }
-		#arrow-mas-07 { width:40px; top:250px; left:430px; }
-		
-		#arrow-mas-08 { width:40px; top:250px; left:555px; }
-		#arrow-mas-09 { width:40px; top:250px; left:340px; }
-		#arrow-mas-10 { height:100px; top:260px; left:340px; }
+		#arrow-mas-05 { width:40px; top:200px; left:430px; }
+		#arrow-mas-06 { width:40px; top:385px; left:210px; }
+		#arrow-mas-07 { width:125px; top:385px; left:430px; }
+		#arrow-mas-08 { width:155px; top:385px; left:565px; }
+		#arrow-mas-09 { width:40px; top:575px; left:210px; }
+		#arrow-mas-10 { width:40px; top:575px; left:430px; }
+		#arrow-mas-11 { width:40px; top:705px; left:210px; }
+		#arrow-mas-12 { width:40px; top:705px; left:430px; }
+		#arrow-mas-14 { height:20px; top:370px; left:555px; }
+		#arrow-mas-13 { height:20px; top:390px; left:555px; }
+		#arrow-mas-15 { width:40px; top:705px; left:650px; }
 
 	</style>
 </head>
@@ -551,11 +557,10 @@ function endsWith($haystack, $needle)
 					nodeVendor
 				]
 			};
-
-			var nodeFixedAsset = {
-				text: 'Fixed Asset Master',
+			var nodeAccChart = {
+				text: 'Chart of Accounting',
 				leaf: true,
-				id: 'click_fixedasset'
+				id: 'click_chart_account'
 			};
 			var nodeJTemplate = {
 				text: 'Create New Journal Templates',
@@ -577,15 +582,7 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_expense'
 			};
-			//var nodeBudget = {
-			//	text: 'Create New Manage Bugets',
-			//	leaf: true
-			//};
-			var nodeAccChart = {
-				text: 'Chart of Accounting',
-				leaf: true,
-				id: 'click_chart_account'
-			};
+			
 				var nodeRSumVat = {
 					text: 'รายงานภาษีมูลค่าเพิ่ม (ภ.พ. 30)',
 					leaf: true,
@@ -639,48 +636,127 @@ function endsWith($haystack, $needle)
 				singleClickExpand : true,
 				id: 'groupAccount',
 				children: [
-					//nodeIncome,
-					nodeFixedAsset,
+					
+					nodeAccChart,
 					nodeJTemplate,
 					nodeJournal,
 					nodeIncome,
 					nodeExpense,
-					//nodeBudget,
-					nodeAccChart,
 					grouprAccount
 				]
 			};
-
+			
+            var nodeCustomertype = {
+				text: 'Customer Type',
+				leaf: true,
+				id: 'click_customer_type'
+			};
+			var nodeCustomer = {
+				text: 'Customer Master',
+				leaf: true,
+				id: 'click_customer'
+			};
+			var nodeVendortype = {
+				text: 'Vendor Type',
+				leaf: true,
+				id: 'click_vendor_type'
+			};
+			var nodeVendor = {
+				text: 'Vendor Master',
+				leaf: true,
+				id: 'click_vendor'
+			};
+			var nodeMaterialtype = {
+				text: 'Material type',
+				leaf: true,
+				id: 'click_material_tpye'
+			};
+			var nodeMaterialgrp = {
+				text: 'Material group',
+				leaf: true,
+				id: 'click_material_group'
+			};
 			var nodeMaterial = {
-				text: 'Create New Materials',
+				text: 'Material Master',
 				leaf: true,
 				id: 'click_material'
 			};
 			var nodeService = {
-				text: 'Create New Services',
+				text: 'Service Master',
 				leaf: true,
 				id: 'click_service'
 			};
-			var nodeStockLed = {
-				text: 'Create New Stock Ledger',
-				leaf: true
+			var nodeAssettype = {
+				text: 'Fixed Asset type',
+				leaf: true,
+				id: 'click_asset_tpye'
 			};
-			var nodeStockAg = {
-				text: 'Create New Stock Aging',
-				leaf: true
+			var nodeAssetgrp = {
+				text: 'Fixed Asset group',
+				leaf: true,
+				id: 'click_asset_group'
 			};
+			var nodeFixedAsset = {
+				text: 'Fixed Asset Master',
+				leaf: true,
+				id: 'click_fixedasset'
+			};
+			var nodeDepartment = {
+				text: 'Deparment Master',
+				leaf: true,
+				id: 'click_department'
+			};
+			var nodePosition = {
+				text: 'Position Master',
+				leaf: true,
+				id: 'click_position'
+			};
+			var nodeEmployee = {
+				text: 'Employee Master',
+				leaf: true,
+				id: 'click_employee'
+			};
+			var nodeSaleperson = {
+				text: 'Salesperson Master',
+				leaf: true,
+				id: 'click_saleperson'
+			};
+			var nodeBankname = {
+				text: 'Bank Master',
+				leaf: true,
+				id: 'click_bankname'
+			};
+			var nodeUnit = {
+				text: 'Unit Master',
+				leaf: true,
+				id: 'click_unit'
+			};
+			
 
-			var groupMaterial = {
-				text: 'Material Management',
+			var groupMaster = {
+				text: 'Master Data',
 				leaf: false,
 				expanded: true,
 				singleClickExpand : true,
-				id: 'groupMaterial',
+				id: 'groupMaster',
 				children: [
+				    nodeCustomertype,
+				    nodeCustomer,
+				    nodeVendortype,
+				    nodeVendor,
+				    nodeMaterialtype,
+					nodeMaterialgrp,
 					nodeMaterial,
 					nodeService,
-					nodeStockLed,
-					nodeStockAg
+					nodeAssettype,
+					nodeAssetgrp,
+					nodeFixedAsset,
+					nodeDepartment,
+					nodePosition,
+					nodeEmployee,
+					nodeSaleperson,
+					nodeUnit,
+					nodeBankname
 				]
 			};
 
@@ -859,10 +935,7 @@ function endsWith($haystack, $needle)
 				    nodeAssetGroup,
 				    nodeUnit,
 				    nodeLimit,
-				    nodeAuth,
-					nodeChart,
-					nodeEmployee,
-					nodeBankname
+				    nodeAuth
 				]
 			};
 
@@ -882,7 +955,7 @@ function endsWith($haystack, $needle)
 						groupSale,
 						groupPurchase,
 						groupAccount,
-						groupMaterial,
+						groupMaster,
 						groupReport,
 						groupConfig
 					]
@@ -1109,10 +1182,10 @@ function endsWith($haystack, $needle)
 							'<div id="master-container" style="display:none;">',
 								'<div id="div1-4-container">',
 								    '<div id="div-master-custype" class="box box-purple"><span>Customer Type</span></div>',
-									'<div id="div-master-cusgrp" class="box box-purple"><span>Customer Group</span></div>',
+									
 									'<div id="div-master-cusnew" class="box box-purple"><span>Customer Master</span></div>',
 									'<div id="div-master-ventype" class="box box-purple"><span>Vendor Type</span></div>',
-									'<div id="div-master-vengrp" class="box box-purple"><span>Vendor Group</span></div>',
+									
 									'<div id="div-master-vennew" class="box box-purple"><span>Vendor Master</span></div>',
 
 									'<div id="div-master-mattype" class="box box-purple"><span>Material Type</span></div>',
@@ -1126,24 +1199,36 @@ function endsWith($haystack, $needle)
 									'<div id="div-master-depart" class="box box-purple"><span>Department</span></div>',
 									'<div id="div-master-position" class="box box-purple"><span>Position</span></div>',
 									'<div id="div-master-employee" class="box box-purple"><span>Employee Master</span></div>',
+									'<div id="div-master-saleperson" class="box box-purple"><span>Salesperson Master</span></div>',
 									
 									'<div id="div-master-bankname" class="box box-purple"><span>Bank Master</span></div>',
 									'<div id="div-master-unit" class="box box-purple"><span>Unit Master</span></div>',
 								'</div>',
 								// arrow
-								'<div id="arrow-mas-01" class="arrow arrow-right"><span></span></div>',
+								
 								'<div id="arrow-mas-02" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-mas-03" class="arrow arrow-left2"><span></span></div>',
-								'<div id="arrow-mas-04" class="arrow arrow-right"><span></span></div>',
+								
 								'<div id="arrow-mas-05" class="arrow arrow-right"><span></span></div>',
-								'<div id="arrow-mas-06" class="arrow arrow-down"><span></span></div>',
-								'<div id="arrow-mas-07" class="arrow arrow-left"><span></span></div>',
-								'<div id="arrow-mas-08" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-06" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-07" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-08" class="arrow arrow-left2"><span></span></div>',
 								'<div id="arrow-mas-09" class="arrow arrow-right"><span></span></div>',
-								'<div id="arrow-mas-10" class="arrow arrow2"><span></span></div>',
+								'<div id="arrow-mas-10" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-11" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-12" class="arrow arrow-right"><span></span></div>',
+								'<div id="arrow-mas-13" class="arrow arrow-down"><span></span></div>',
+								'<div id="arrow-mas-14" class="arrow arrow-up"><span></span></div>',
+								'<div id="arrow-mas-15" class="arrow arrow-right"><span></span></div>',
 							'</div>',
 							'<div id="config-container" style="display:none;">',
 								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
+								'<div id="div1-4-container">',
+								      '<div id="div-config-company" class="box box-base"><span>Company Define</span></div>',
+									  '<div id="div-config-initial" class="box box-base"><span>Initial Document No</span></div>',
+									  '<div id="div-config-user" class="box box-base"><span>User Define</span></div>',
+									  '<div id="div-config-authorize" class="box box-base"><span>Authorize Setting</span></div>',
+								'</div>',
 							'</div>',
 							'<div id="reports-container" style="display:none;">',
 								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
@@ -1209,29 +1294,80 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-sales-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
                                 pEl.getById('div-sales-projectnew').on('click', function(){ $om.viewport.fireEvent('click_projectnew', c); }, c);
                                 pEl.getById('div-sales-projectlist').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
-                                pEl.getById('div-sales-qtnew').on('click', function(){ $om.viewport.fireEvent('click_qtnew', c); }, c);
+                                pEl.getById('div-sales-qtnew').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
                                 pEl.getById('div-sales-qtlist').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
+
+                                pEl.getById('div-sales-dpnew').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
+                                pEl.getById('div-sales-dplist').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
+                                pEl.getById('div-sales-sonew').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
+                                pEl.getById('div-sales-solist').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
+                                
+                                pEl.getById('div-sales-invnew').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+                                pEl.getById('div-sales-invlist').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+                                pEl.getById('div-sales-dnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_dn', c); }, c);
+                                pEl.getById('div-sales-dnlist').on('click', function(){ $om.viewport.fireEvent('click_sale_dn', c); }, c);
+                                pEl.getById('div-sales-cnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_cn', c); }, c);
+                                pEl.getById('div-sales-cnlist').on('click', function(){ $om.viewport.fireEvent('click_sale_cn', c); }, c);
+                                pEl.getById('div-sales-recnew').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+                                pEl.getById('div-sales-reclist').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+                                
+                                pEl.getById('div-sales-rar-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+                                pEl.getById('div-sales-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
+                                
 
                                 //Purchase Tab
                                 pEl.getById('div-purchase-prnew').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                pEl.getById('div-purchase-prlist').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
+                                pEl.getById('div-purchase-prlist').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                pEl.getById('div-purchase-ponew').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
+                                pEl.getById('div-purchase-polist').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
                                 pEl.getById('div-purchase-grnew').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
                                 pEl.getById('div-purchase-grlist').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
                                 pEl.getById('div-purchase-apnew').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
                                 pEl.getById('div-purchase-aplist').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
-                       
+                                pEl.getById('div-purchase-dnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_dn', c); }, c);
+                                pEl.getById('div-purchase-dnlist').on('click', function(){ $om.viewport.fireEvent('click_purchase_dn', c); }, c);
+                                pEl.getById('div-purchase-cnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_cn', c); }, c);
+                                pEl.getById('div-purchase-cnlist').on('click', function(){ $om.viewport.fireEvent('click_purchase_cn', c); }, c);
                                 pEl.getById('div-purchase-paynew').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
                                 pEl.getById('div-purchase-paylist').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
                                 
-                                //Material Tab
-                                //pEl.getById('div-material-transaction2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                //pEl.getById('div-material-balance2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                //pEl.getById('div-material-otincome2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                //pEl.getById('div-material-otexpense2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                pEl.getById('div-purchase-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
+                                pEl.getById('div-purchase-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
+                                
+                                
+                                //Account Tab                                
+                                pEl.getById('div-account-chart').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
+								pEl.getById('div-account-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
+								pEl.getById('div-account-journalnew').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
+								pEl.getById('div-account-journallist').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
+								pEl.getById('div-account-otincome').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
+								pEl.getById('div-account-otexpense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
+								
+								pEl.getById('div-account-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
+								
+								pEl.getById('div-account-assetlist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
+								pEl.getById('div-account-rtb').on('click', function(){ $om.viewport.fireEvent('click_rtrail-balance', c); }, c);
+								pEl.getById('div-account-rbs').on('click', function(){ $om.viewport.fireEvent('click_rbalance-sheet', c); }, c);
+								pEl.getById('div-account-rincome').on('click', function(){ $om.viewport.fireEvent('click_rincome-statment', c); }, c);
+								
+                                //Master Tab
+                                pEl.getById('div-master-custype').on('click', function(){ $om.viewport.fireEvent('click_customer_type', c); }, c);
+                     
+                                pEl.getById('div-master-cusnew').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
+                                pEl.getById('div-master-ventype').on('click', function(){ $om.viewport.fireEvent('click_vendor_type', c); }, c);
+
+                                pEl.getById('div-master-matnew').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+                                pEl.getById('div-master-mattype').on('click', function(){ $om.viewport.fireEvent('click_material_type', c); }, c);
+                                pEl.getById('div-master-matgrp').on('click', function(){ $om.viewport.fireEvent('click_material_group', c); }, c);
                                 pEl.getById('div-master-matnew').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
-                                pEl.getById('div-master-sernew').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
-                                //pEl.getById('div-material-rtransaction2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                //pEl.getById('div-material-rbalance2').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+								pEl.getById('div-master-sernew').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
+                                pEl.getById('div-master-assetnew').on('click', function(){ $om.viewport.fireEvent('click_asset-master', c); }, c);
+                                pEl.getById('div-master-depart').on('click', function(){ $om.viewport.fireEvent('click_department', c); }, c);
+                                pEl.getById('div-master-position').on('click', function(){ $om.viewport.fireEvent('click_position', c); }, c);
+                                pEl.getById('div-master-employee').on('click', function(){ $om.viewport.fireEvent('click_employee', c); }, c);
+                                pEl.getById('div-master-bankname').on('click', function(){ $om.viewport.fireEvent('click_bankname_setting', c); }, c);
+                                pEl.getById('div-master-saleperson').on('click', function(){ $om.viewport.fireEvent('click_saleperson', c); }, c);
+                                pEl.getById('div-master-unit').on('click', function(){ $om.viewport.fireEvent('click_unit', c); }, c);
 							}
 						}
 					}
@@ -1475,12 +1611,6 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_receipt')}
 				        },{
-				            text: 'Reports',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'h-report',
-                			cls: 'x-btn-as-arrow'
-				        },{
 				            text: 'Customer',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1563,12 +1693,6 @@ function endsWith($haystack, $needle)
 				            iconCls: 'p-pay',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_payment')}
-				        },{
-				            text: 'Reports',
-				            scale: 'large',
-				            iconAlign: 'top',
-				            iconCls: 'h-report',
-                			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Vendor',
 				            scale: 'large',
@@ -1691,6 +1815,20 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_bankname_setting')}
 				        },{
+				            text: 'Department Master',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'm-depart-master',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_department')}
+				        },{
+				            text: 'Position Master',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'm-posit-master',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_position')}
+				        },{
 				            text: 'Employee Master',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1722,7 +1860,8 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-comp',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_company_setting')}
 				        },{
 				            text: 'Initial Doc No',
 				            scale: 'large',
@@ -1735,13 +1874,15 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-user',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_config')}
 				        },{
-				            text: 'Autorize Setting',
+				            text: 'Authorize Setting',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-auth',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_authorize_setting')}
 				        }]
 		            },{
 		                title: 'Reports',
@@ -1749,43 +1890,89 @@ function endsWith($haystack, $needle)
 							activate: changeCenterView
 						},
 		                tbar: [{
-				            text: 'Reports1',
+				            text: 'Invoice Report',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report1',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_rinvoice')}
 				        },{
-				            text: 'Reports2',
+				            text: 'Receipt Report',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report2',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_rreceipt')}
 				        },{
-				            text: 'Reports3',
+				            text: 'AP Report',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'r-report3',
-                			cls: 'x-btn-as-arrow'
+				            iconCls: 'r-report5',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_rap')}
 				        },{
-				            text: 'Reports4',
+				            text: 'Payment Report',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'r-report4',
-                			cls: 'x-btn-as-arrow'
+				            iconCls: 'r-report15',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_rpayment')}
 				        },{
-				            text: 'Reports5',
+				            text: 'AR Ledger',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report5',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reports6',
+				            text: 'AR Aging',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report6',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Reports7',
+				            text: 'AP Ledger',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report7',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'AP Aging',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report7',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Fixed Asset Register',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report14',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Journal Report',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report8',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Pretty Cash Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report9',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Sale Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report10',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'Purchase Journal',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 'r-report11',
+                			cls: 'x-btn-as-arrow'
+				        },{
+				            text: 'General Ledger Report',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report7',
