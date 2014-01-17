@@ -287,22 +287,22 @@ class Material extends CI_Controller {
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),
-			'beqty' => $this->input->post('beqty'),
+			'beqty' => floatval($this->input->post('beqty')),
 			
-			'beval' => $this->input->post('beval'),
-			'cosav' => $this->input->post('cosav'),
-			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),
+			'beval' => floatval($this->input->post('beval')),
+			'cosav' => floatval($this->input->post('cosav')),
+			'enqty' => floatval($this->input->post('enqty')),		
+			'enval' => floatval($this->input->post('enval')),
 			'unit1' => $this->input->post('unit1'),
-			'cost1' => $this->input->post('cost1'),
+			'cost1' => floatval($this->input->post('cost1')),
 			'unit2' => $this->input->post('unit2'),
-			'cost2' => $this->input->post('cost2'),
+			'cost2' => floatval($this->input->post('cost2')),
 			'unit3' => $this->input->post('unit3'),
-			'cost3' => $this->input->post('cost3'),
+			'cost3' => floatval($this->input->post('cost3')),
 			'statu' => $this->input->post('statu'),
 			'descr' => $this->input->post('descr'),
 			'brand' => $this->input->post('brand'),
-			'buget' => $this->input->post('buget')
+			'buget' => floatval($this->input->post('buget'))
 			);
 			
 			$current_username = XUMS::USERNAME();
@@ -348,7 +348,7 @@ class Material extends CI_Controller {
 		
 		try{
 				$post_id = $this->input->post('id');
-				//$total_amount = $this->input->post('netwr');
+				//$total_amount = floatval($this->input->post('netwr'));
 				$total_amount = 0;
 				// send notification email
 				if(!empty($inserted_id)){

@@ -207,12 +207,12 @@ class Project extends CI_Controller {
 			'stdat' => $this->input->post('stdat'),
 			'endat' => $this->input->post('endat'),
 
-			'datam' => $this->input->post('datam'),
+			'datam' => intval($this->input->post('datam')),
 			'kunnr' => $this->input->post('kunnr'),
 			'pson1' => $this->input->post('pson1'),
-			'pramt' => $this->input->post('pramt'),
+			'pramt' => floatval($this->input->post('pramt')),
 			'ctype' => $this->input->post('ctype'),
-			'esamt' => $this->input->post('esamt')
+			'esamt' => floatval($this->input->post('esamt'))
 		);
 		  //$this->db->set('erdat', 'NOW()', false);
 		  $current_username = XUMS::USERNAME();

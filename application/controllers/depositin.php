@@ -174,24 +174,24 @@ class Depositin extends CI_Controller {
 			'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'kunnr' => $this->input->post('kunnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
 			'duedt' => $this->input->post('duedt'),
 			'taxnr' => $this->input->post('taxnr'),
-			'taxpr' => $this->input->post('taxpr'),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			//'whtpr' => $this->input->post('whtpr'),
-			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01'),
+			'vat01' => floatval($this->input->post('vat01')),
+			'wht01' => floatval($this->input->post('wht01')),
 			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'terms' => $this->input->post('terms')
+			'terms' => intval($this->input->post('terms'))
 		);
 		
 		// start transaction
@@ -291,7 +291,7 @@ class Depositin extends CI_Controller {
 			'txz01' => 'Deposit Receipt No '.$id,
 			'ttype' => '04',
 			'auart' => 'AR',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -364,7 +364,7 @@ class Depositin extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('vbdk', array('depnr'=>$inserted_id));

@@ -295,12 +295,12 @@ class Payment extends CI_Controller {
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
 			'txz01' => $this->input->post('txz01'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt'),
@@ -429,7 +429,7 @@ class Payment extends CI_Controller {
 			'txz01' => 'Payment No '.$id,
 			'ttype' => '03',
 			'auart' => 'PV',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -503,7 +503,7 @@ class Payment extends CI_Controller {
 			'txz01' => 'Payment No '.$id,
 			'ttype' => '03',
 			'auart' => 'PV',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -576,7 +576,7 @@ class Payment extends CI_Controller {
 
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('ebbk', array('payno'=>$inserted_id));

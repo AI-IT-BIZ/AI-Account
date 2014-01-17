@@ -221,18 +221,18 @@ class Gr extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ebeln' => $this->input->post('ebeln'),  //PO no.
 			'ptype' => $this->input->post('ptype'),
-			'terms' => $this->input->post('terms'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'terms' => intval($this->input->post('terms')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'sgtxt' => $this->input->post('sgtxt'),
-			'beamt' => $this->input->post('beamt'),
-			'vat01' => $this->input->post('vat01'),
-			'netwr' => $this->input->post('netwr'),
+			'beamt' => floatval($this->input->post('beamt')),
+			'vat01' => floatval($this->input->post('vat01')),
+			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'deamt' => $this->input->post('deamt')
+			'deamt' => floatval($this->input->post('deamt'))
 		);
 
 		// start transaction
@@ -316,7 +316,7 @@ class Gr extends CI_Controller {
 
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('mkpf', array('mbeln'=>$inserted_id));

@@ -48,8 +48,8 @@ class Matbegin extends CI_Controller {
 		$formData = array(
 			'matnr' => $this->input->post('matnr'),
 			'maktx' => $this->input->post('maktx'),
-			'beqty' => $this->input->post('beqty'),
-			'beval' => $this->input->post('beval'),
+			'beqty' => floatval($this->input->post('beqty')),
+			'beval' => floatval($this->input->post('beval')),
 			);
 			
 		/*if ($query->num_rows() > 0){

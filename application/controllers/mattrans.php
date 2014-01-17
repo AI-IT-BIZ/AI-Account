@@ -52,8 +52,8 @@ class Mattrans extends CI_Controller {
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),*/
-			'beqty' => $this->input->post('beqty'),
-			'beval' => $this->input->post('beval')
+			'beqty' => floatval($this->input->post('beqty')),
+			'beval' => floatval($this->input->post('beval'))
 			/*'cosav' => $this->input->post('cosav'),
 			'enqty' => $this->input->post('enqty'),		
 			'enval' => $this->input->post('enval'),

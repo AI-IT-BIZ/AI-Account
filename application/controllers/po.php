@@ -219,18 +219,18 @@ class Po extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'purnr' => $this->input->post('purnr'),
 			'ptype' => $this->input->post('ptype'),
-			'terms' => $this->input->post('terms'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'terms' => intval($this->input->post('terms')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'sgtxt' => $this->input->post('sgtxt'),
 			'statu' => $this->input->post('statu'),
-			'netwr' => $this->input->post('netwr'),
+			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
-			'vat01' => $this->input->post('vat01'),
-			'beamt' => $this->input->post('beamt'),
+			'vat01' => floatval($this->input->post('vat01')),
+			'beamt' => floatval($this->input->post('beamt')),
 			'ctype' => $this->input->post('ctype')
 		);
 
@@ -304,7 +304,7 @@ class Po extends CI_Controller {
 			));
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('ekko', array('ebeln'=>$inserted_id));

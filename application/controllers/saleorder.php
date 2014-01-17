@@ -236,19 +236,19 @@ class Saleorder extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'terms' => $this->input->post('terms'),
+			'terms' => intval($this->input->post('terms')),
 			'kunnr' => $this->input->post('kunnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'whtnr' => $this->input->post('whtnr'),
-			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01'),
-			'deamt' => $this->input->post('deamt'),
+			'vat01' => floatval($this->input->post('vat01')),
+			'wht01' => floatval($this->input->post('wht01')),
+			'deamt' => floatval($this->input->post('deamt')),
 			'whtxt' => $this->input->post('whtxt')
 		);
 
@@ -325,7 +325,7 @@ class Saleorder extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('vbok', array('ordnr'=>$inserted_id));

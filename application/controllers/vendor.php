@@ -200,7 +200,7 @@ class Vendor extends CI_Controller {
 					return;
 				}
 		
-		$vat = $this->input->post('vat01');
+		$vat = floatval($this->input->post('vat01'));
         if($this->input->post('taxnr')=='03' || $this->input->post('taxnr')=='04'){
         	$vat = 0;
 		}
@@ -212,17 +212,17 @@ class Vendor extends CI_Controller {
 			'vtype' => $this->input->post('vtype'),
 			'distx' => $this->input->post('distx'),
 			'pstlz' => $this->input->post('pstlz'),
-			'terms' => $this->input->post('terms'),
+			'terms' => intval($this->input->post('terms')),
 			'telf1' => $this->input->post('telf1'),
-			'disct' => $this->input->post('disct'),
+			'disct' => floatval($this->input->post('disct')),
 			'telfx' => $this->input->post('telfx'),
 			'email' => $this->input->post('email'),
 			'pson1' => $this->input->post('pson1'),
-			'apamt' => $this->input->post('apamt'),
+			'apamt' => floatval($this->input->post('apamt')),
 			'taxid' => $this->input->post('taxid'),
-			'began' => $this->input->post('began'),
+			'began' => floatval($this->input->post('began')),
 			'saknr' => $this->input->post('saknr'),
-			'endin' => $this->input->post('endin'),
+			'endin' => floatval($this->input->post('endin')),
 			'taxnr' => $this->input->post('taxnr'),
 			'retax' => $this->input->post('retax'),
 			'statu' => $this->input->post('statu'),

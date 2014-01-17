@@ -179,24 +179,24 @@ class Depositout extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'ebeln' => $this->input->post('ebeln'),
 			'lifnr' => $this->input->post('lifnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
 			'taxnr' => $this->input->post('taxnr'),
-			'terms' => $this->input->post('terms'),
+			'terms' => intval($this->input->post('terms')),
 			'ptype' => $this->input->post('ptype'),
-			'taxpr' => $this->input->post('taxpr'),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			//'whtpr' => $this->input->post('whtpr'),
 			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'wht01' => $this->input->post('wht01'),
-			'vat01' => $this->input->post('vat01'),
+			'wht01' => floatval($this->input->post('wht01')),
+			'vat01' => floatval($this->input->post('vat01')),
 			'duedt' => $this->input->post('duedt')
 		);
 		
@@ -292,7 +292,7 @@ class Depositout extends CI_Controller {
 			'txz01' => 'Deposit Payment No '.$id,
 			'ttype' => '05',
 			'auart' => 'AP',
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -363,7 +363,7 @@ class Depositout extends CI_Controller {
 			
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('ebdk', array('depnr'=>$inserted_id));

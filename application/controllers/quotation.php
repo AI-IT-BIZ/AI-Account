@@ -178,7 +178,7 @@ class Quotation extends CI_Controller {
 
 		$status_changed = false;
 		$inserted_id = false;
-		$net = $this->input->post('netwr');
+		$net = floatval($this->input->post('netwr'));
 		$kunnr = $this->input->post('kunnr');
 		if(!empty($id)){
 			$this->db->limit(1);
@@ -259,7 +259,7 @@ class Quotation extends CI_Controller {
 			$pramt = 0;$amt = 0;$total=0;
 			foreach($pp_item_array AS $p){
 				$perct = $p->perct;
-				$amt = $this->input->post('beamt') - $this->input->post('dismt');
+				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
 				$pos = strpos($perct, '%');
 				if($pos==false){
 					$pramt = $perct;
@@ -292,18 +292,18 @@ class Quotation extends CI_Controller {
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
 			'taxnr' => $this->input->post('taxnr'),
-			'terms' => $this->input->post('terms'),
+			'terms' => intval($this->input->post('terms')),
 			'kunnr' => $this->input->post('kunnr'),
-			'netwr' => $this->input->post('netwr'),
-			'beamt' => $this->input->post('beamt'),
-			'dismt' => $this->input->post('dismt'),
-			'taxpr' => $this->input->post('taxpr'),
+			'netwr' => floatval($this->input->post('netwr')),
+			'beamt' => floatval($this->input->post('beamt')),
+			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
-			'exchg' => $this->input->post('exchg'),
+			'exchg' => floatval($this->input->post('exchg')),
 			'whtnr' => $this->input->post('whtnr'),
-			'vat01' => $this->input->post('vat01'),
-			'wht01' => $this->input->post('wht01'),
+			'vat01' => floatval($this->input->post('vat01')),
+			'wht01' => floatval($this->input->post('wht01')),
 			'whtxt' => $this->input->post('whtxt')
 		);
 
@@ -398,7 +398,7 @@ class Quotation extends CI_Controller {
 			$pramt = 0;$amt = 0;
 			foreach($pp_item_array AS $p){
 				$perct = $p->perct;
-				$amt = $this->input->post('beamt') - $this->input->post('dismt');
+				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
 				$pos = strpos($perct, '%');
 				if($pos==false){
 					$pramt = $perct;
@@ -439,7 +439,7 @@ class Quotation extends CI_Controller {
 
 			try{
 				$post_id = $this->input->post('id');
-				$total_amount = $this->input->post('netwr');
+				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
 					$q_row = $this->db->get_where('vbak', array('vbeln'=>$inserted_id));
