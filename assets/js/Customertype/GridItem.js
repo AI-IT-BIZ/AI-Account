@@ -80,7 +80,7 @@ Ext.define('Account.Customertype.GridItem', {
 				return rowIndex+1;
 			}
 		},{
-			text: "Customer Type",
+			text: "Type Code",
 		    width: 80,
 		    dataIndex: 'ktype',
 		    
