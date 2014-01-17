@@ -97,7 +97,7 @@ function endsWith($haystack, $needle)
 
 		var UMS = new UMSClass();
 
-		//console.log(UMS);//#d34827
+		//console.log(UMS);//#d34827 4e9af1
 	</script>
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style.css') ?>" />
 
@@ -117,6 +117,8 @@ function endsWith($haystack, $needle)
 		.box-green:hover { background-color:#0fa52f; }
 		.box-red { background-color:#e04444; }
 		.box-red:hover { background-color:#de5151; }
+		.box-blue2 { background-color:#4e9af1; }
+		.box-blue2:hover { background-color:#418eff; }
 		.box-base { background-color:#004d61; }
 		.box-base:hover { background-color:#0c6177; }
 
@@ -851,41 +853,6 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_company_setting'
 			};
-			var nodeCustomerType = {
-				text: 'Create New Customer Type',
-				leaf: true,
-				id: 'click_customer_type'
-			};
-			var nodeVendorType = {
-				text: 'Create New Vendor Type',
-				leaf: true,
-				id: 'click_vendor_type'
-			};
-			var nodeMaterialType = {
-				text: 'Create New Material Type',
-				leaf: true,
-				id: 'click_material_type'
-			};
-			var nodeMaterialGroup = {
-				text: 'Create New Material Group',
-				leaf: true,
-				id: 'click_material_group'
-			};
-			var nodeAssetType = {
-				text: 'Create New Asset Type',
-				leaf: true,
-				id: 'click_asset_type'
-			};
-			var nodeAssetGroup = {
-				text: 'Create New Asset Group',
-				leaf: true,
-				id: 'click_asset_group'
-			};
-			var nodeUnit = {
-				text: 'Create New Unit',
-				leaf: true,
-				id: 'click_unit'
-			};
 			var nodeInit = {
 				text: 'Initail Doc No.',
 				leaf: true,
@@ -901,21 +868,6 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_authorize_setting'
 			};
-			var nodeChart = {
-				text: 'Chart of Accounting',
-				leaf: true,
-				id: 'click_chart_account'
-			};
-			var nodeEmployee = {
-				text: 'Employee master',
-				leaf: true,
-				id: 'click_employee'
-			};
-			var nodeBankname = {
-				text: 'Bank master',
-				leaf: true,
-				id: 'click_bankname_setting'
-			};
 
 			var groupConfig = {
 				text: 'Configuration',
@@ -926,13 +878,6 @@ function endsWith($haystack, $needle)
 				children: [
 				    nodeCompany,
 				    nodeInit,
-				    nodeCustomerType,
-				    nodeVendorType,
-				    nodeMaterialType,
-				    nodeMaterialGroup,
-				    nodeAssetType,
-				    nodeAssetGroup,
-				    nodeUnit,
 				    nodeLimit,
 				    nodeAuth
 				]
