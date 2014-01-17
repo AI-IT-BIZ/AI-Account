@@ -59,7 +59,8 @@ class Bankname extends CI_Controller {
 	
 	function save(){
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('bnam');
+		$this->db->where('1=1');
+		$this->db->delete('bnam');
 
 		// เตรียมข้อมูล payment item
 		$bnam = $this->input->post('bnam');

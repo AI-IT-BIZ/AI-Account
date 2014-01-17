@@ -61,7 +61,8 @@ class Vendortype extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('vtyp'); 
+		$this->db->where('1=1');
+		$this->db->delete('vtyp'); 
 
 		// เตรียมข้อมูล payment item
 		$vtyp = $this->input->post('vtyp');

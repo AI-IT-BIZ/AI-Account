@@ -122,11 +122,11 @@ class Journaltemp extends CI_Controller {
 			$this->db->limit(1);
 			$this->db->where('tranr', $id);
 			$query = $this->db->get('trko');
+				
 		}
-		
-		$type = $this->input->post('ttype');
-		$txt  = $this->input->post('txz01');
-		//if($query->num_rows() > 0){
+		else {
+			$type = $this->input->post('ttype');
+			$txt  = $this->input->post('txz01');
 			$this->db->where('txz01', $txt);
 			$q_txt = $this->db->get('trko');
 			if($q_txt->num_rows() > 0){
@@ -137,6 +137,11 @@ class Journaltemp extends CI_Controller {
 					));
 					return;
 			}
+		}
+		//if($query->num_rows() > 0){
+			//$this->db->where('txz01', $txt);
+			//$q_txt = $this->db->get('trko');
+			
 		//}
 
 		$formData = array(
@@ -151,7 +156,7 @@ class Journaltemp extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('tranr', $id);
-			$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', 'test');
 			$this->db->update('trko', $formData);
 		}else{
@@ -166,7 +171,7 @@ class Journaltemp extends CI_Controller {
 			}
 			$id = $this->code_model3->generate3($modul,$tname,$tcode);
 			$this->db->set('tranr', $id);
-			$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('trko', $formData);
 			
@@ -190,8 +195,8 @@ class Journaltemp extends CI_Controller {
 				'tranr'=>$id,
 				'trapr'=>++$item_index,
 				'saknr'=>$p->saknr,
-				'debit'=>$p->debit,
-				'credi'=>$p->credi,
+				'debit'=>floatval($p->debit),
+				'credi'=>floatval($p->credi),
 				'txz01'=>$p->txz01
 			));
 	    	}

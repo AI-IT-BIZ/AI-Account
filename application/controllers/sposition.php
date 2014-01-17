@@ -63,7 +63,8 @@ class Sposition extends CI_Controller {
 		
 		if(!empty($posi) && !empty($item_array)){
 			// ลบ receipt item ภายใต้ id ทั้งหมด
-		    $this->db->truncate('posi');
+			$this->db->where('1=1');
+		    $this->db->delete('posi');
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){
@@ -112,7 +113,8 @@ class Sposition extends CI_Controller {
 		
 		if(!empty($depn) && !empty($item_array)){
 			// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('depn');
+		$this->db->where('1=1');
+		$this->db->delete('depn');
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){

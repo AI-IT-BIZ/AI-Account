@@ -406,7 +406,8 @@ class Asset extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('ftyp');
+		$this->db->where('1=1');
+		$this->db->delete('ftyp');
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
@@ -489,7 +490,8 @@ class Asset extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		$this->db->truncate('fgrp');
+		$this->db->where('1=1');
+		$this->db->delete('fgrp');
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
