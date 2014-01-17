@@ -267,8 +267,31 @@ function endsWith($haystack, $needle)
 
         #div-config-company { top:30px; left:30px; width: 180px; height:90px; }
 		#div-config-initial { top:30px; left:250px; width: 180px; height: 90px; }
-		#div-config-user { top:160px; left:30px; width: 180px; height:90px; }
-		#div-config-authorize { top:160px; left:250px; width: 180px; height: 90px; }
+		#div-config-authorize { top:160px; left:30px; width: 180px; height:90px; }
+		#div-config-limit { top:160px; left:250px; width: 180px; height: 90px; }
+		
+		#div1-6-container { width: 240px; height:30px; color:white; font-weight:bold; }
+		#div1-6-container div span { position:absolute; bottom:10px; left:10px; }
+
+        #div-report-rinvoice { top:30px; left:30px; width: 180px; height:90px; }
+		#div-report-rreceipt { top:30px; left:250px; width: 180px; height: 90px; }
+		#div-report-rap { top:30px; left:470px; width: 180px; height:90px; }
+		#div-report-rpayment { top:30px; left:690px; width: 180px; height: 90px; }
+		#div-report-rar-ledger { top:160px; left:30px; width: 180px; height:90px; }
+		#div-report-rar-aging { top:160px; left:250px; width: 180px; height: 90px; }
+		#div-report-rap-ledger { top:160px; left:470px; width: 180px; height:90px; }
+		#div-report-rap-aging { top:160px; left:690px; width: 180px; height: 90px; }
+		
+		#div-report-rassetlist { top:290px; left:30px; width: 180px; height:90px; }
+		#div-report-rjounrnal { top:290px; left:250px; width: 180px; height: 90px; }
+		#div-report-rpretty { top:290px; left:470px; width: 180px; height:90px; }
+		#div-report-rsalej { top:290px; left:690px; width: 180px; height: 90px; }
+		#div-report-rpurchasej { top:420px; left:30px; width: 180px; height:90px; }
+		#div-report-rgeneral { top:420px; left:250px; width: 180px; height: 90px; }
+		#div-report-rtb { top:420px; left:470px; width: 180px; height:90px; }
+		#div-report-rbs { top:420px; left:690px; width: 180px; height: 90px; }
+		
+		#div-report-rincome { top:550px; left:30px; width: 180px; height: 90px; }
 		
 		/* Toolbar */
 		/* move toolbar css into style.css  */
@@ -1167,15 +1190,38 @@ function endsWith($haystack, $needle)
 							'</div>',
 							'<div id="config-container" style="display:none;">',
 								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
-								'<div id="div1-4-container">',
+								'<div id="div1-5-container">',
 								      '<div id="div-config-company" class="box box-base"><span>Company Define</span></div>',
 									  '<div id="div-config-initial" class="box box-base"><span>Initial Document No</span></div>',
-									  '<div id="div-config-user" class="box box-base"><span>User Define</span></div>',
+									  
 									  '<div id="div-config-authorize" class="box box-base"><span>Authorize Setting</span></div>',
+									  '<div id="div-config-limit" class="box box-base"><span>Limitation Setting</span></div>',
 								'</div>',
 							'</div>',
 							'<div id="reports-container" style="display:none;">',
 								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
+								'<div id="div1-6-container">',
+								      '<div id="div-report-rinvoice" class="box box-blue2"><span>Invoice Report</span></div>',
+									  '<div id="div-report-rreceipt" class="box box-blue2"><span>Receipt Report</span></div>',
+									  '<div id="div-report-rap" class="box box-blue2"><span>Account Payable Report</span></div>',
+									  '<div id="div-report-rpayment" class="box box-blue2"><span>Payment Report/span></div>',
+									  
+									  '<div id="div-report-rar-ledger" class="box box-blue2"><span>AR Ledger Report</span></div>',
+									  '<div id="div-report-rar-aging" class="box box-blue2"><span>AR Aging Report</span></div>',
+									  '<div id="div-report-rap-ledger" class="box box-blue2"><span>AP Ledger Report</span></div>',
+									  '<div id="div-report-rap-aging" class="box box-blue2"><span>AP Aging Report/span></div>',
+									  '<div id="div-report-rassetlist" class="box box-blue2"><span>Fixed Asset Register Report</span></div>',
+									  '<div id="div-report-rjounrnal" class="box box-blue2"><span>Journal Report</span></div>',
+									  '<div id="div-report-rpretty" class="box box-blue2"><span>Pretty Cash Journal Payable Report</span></div>',
+									  '<div id="div-report-rsalej" class="box box-blue2"><span>Sale Report</span></div>',
+									  
+									  '<div id="div-report-rpurchasej" class="box box-blue2"><span>Purchase Journal Report</span></div>',
+									  '<div id="div-report-rgeneral" class="box box-blue2"><span>General Report</span></div>',
+									  '<div id="div-report-rtb" class="box box-blue2"><span>Trail Balance Report</span></div>',
+									  '<div id="div-report-rbs" class="box box-blue2"><span>Balance Sheet Report/span></div>',
+									  
+									  '<div id="div-report-rincome" class="box box-blue2"><span>Income Statment Report/span></div>',
+								'</div>',
 							'</div>'
 						].join(''),
 						listeners : {
@@ -1312,6 +1358,22 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-master-bankname').on('click', function(){ $om.viewport.fireEvent('click_bankname_setting', c); }, c);
                                 pEl.getById('div-master-saleperson').on('click', function(){ $om.viewport.fireEvent('click_saleperson', c); }, c);
                                 pEl.getById('div-master-unit').on('click', function(){ $om.viewport.fireEvent('click_unit', c); }, c);
+                                //Config Tab
+                                pEl.getById('div-config-company').on('click', function(){ $om.viewport.fireEvent('click_company_setting', c); }, c);
+                                pEl.getById('div-config-initial').on('click', function(){ $om.viewport.fireEvent('click_initail_setting', c); }, c);
+                                pEl.getById('div-config-authorize').on('click', function(){ $om.viewport.fireEvent('click_authorize_setting', c); }, c);
+                                pEl.getById('div-config-limit').on('click', function(){ $om.viewport.fireEvent('click_limitation_setting', c); }, c);
+                                //Report Tab
+                                pEl.getById('div-report-rinvoice').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+                                pEl.getById('div-report-rreceipt').on('click', function(){ $om.viewport.fireEvent('click_rreceipt', c); }, c);
+                                pEl.getById('div-report-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
+                                pEl.getById('div-report-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
+                                
+                                pEl.getById('div-report-rar-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+                                pEl.getById('div-report-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+                                pEl.getById('div-report-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+								pEl.getById('div-report-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+
 							}
 						}
 					}
@@ -1814,12 +1876,12 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_config')}
 				        },{
-				            text: 'User Define',
+				            text: 'Limitation Setting',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'ms-user',
                 			cls: 'x-btn-as-arrow',
-                			handler: function(){$om.viewport.fireEvent('click_config')}
+                			handler: function(){$om.viewport.fireEvent('click_limitation_setting')}
 				        },{
 				            text: 'Authorize Setting',
 				            scale: 'large',

@@ -23,6 +23,7 @@ Ext.define('Account.Customer.Grid', {
 			fields: [
 				'kunnr',
 				'name1',
+				'custx',
 				'adr01',
 				'distx',
 				'pstlz',
@@ -39,6 +40,7 @@ Ext.define('Account.Customer.Grid', {
 		this.columns = [
 			{text: "Customer Code", width: 100, dataIndex: 'kunnr', sortable: true},
 			{text: "Name", width: 150, dataIndex: 'name1', sortable: true},
+			{text: "Customer Type", width: 150, dataIndex: 'custx', sortable: true},
 			{text: "Address", width: 200, dataIndex: 'adr01', sortable: true},
 			{text: "Province", flex: true, dataIndex: 'distx', sortable: true},
 			{text: "Postcode", width: 60, dataIndex: 'pstlz', sortable: true},
