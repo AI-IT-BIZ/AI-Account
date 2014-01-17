@@ -20,9 +20,18 @@ Class Code_model2 extends CI_Model
 			$tb_code = $result_init['tcode'];
 			$prefix  = $result_init['short'];
 			
-			$sql = "SELECT ".$tb_code." FROM ".$tb_name.
-			" WHERE ".$tb_code." LIKE '".$prefix."%'"
-			." ORDER BY ".$tb_code." DESC LIMIT 1";
+			if(db_helper_is_mysql($this)){
+				$sql = "SELECT ".$tb_code." FROM ".$tb_name.
+				" WHERE ".$tb_code." LIKE '".$prefix."%'"
+				." ORDER BY ".$tb_code." DESC LIMIT 1";
+			}
+			
+			if(db_helper_is_mssql($this)){
+				$sql = "SELECT TOP 1 ".$tb_code." FROM ".$tb_name.
+				" WHERE ".$tb_code." LIKE '".$prefix."%'"
+				." ORDER BY ".$tb_code." DESC ";
+			}
+			
 			$query_code = $this->db->query($sql);
             
 			if($query_code->num_rows()>0){

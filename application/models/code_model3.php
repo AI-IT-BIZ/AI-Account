@@ -17,8 +17,16 @@ Class Code_model3 extends CI_Model
 			$tb_code = $pkey;
 			$short_code = $result_init['short'];
 
-			$sql = "SELECT ".$tb_code." FROM ".$tb_name." WHERE ".$pkey." LIKE '".$short_code."%'".
-			" ORDER BY ".$tb_code." DESC LIMIT 1";
+			if(db_helper_is_mysql($this)){
+				$sql = "SELECT ".$tb_code." FROM ".$tb_name." WHERE ".$pkey." LIKE '".$short_code."%'".
+				" ORDER BY ".$tb_code." DESC LIMIT 1";
+			}
+			
+			if(db_helper_is_mssql($this)){
+			$sql = "SELECT TOP 1 ".$tb_code." FROM ".$tb_name." WHERE ".$pkey." LIKE '".$short_code."%'".
+			" ORDER BY ".$tb_code." DESC";
+			}
+			
 			$query_code = $this->db->query($sql);
 
 			if($query_code->num_rows()>0){

@@ -3,6 +3,10 @@
 	function db_helper_is_mysql($_this){
 		return ($_this->db->dbdriver=='mysql');
 	}
+	
+	function db_helper_is_mssql ($_this){
+		return ($_this->db->dbdriver=='sqlsrv');
+	}
 
 	function db_helper_set_now($_this, $field){
 		if(db_helper_is_mysql($_this)){
