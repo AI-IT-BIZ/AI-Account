@@ -47,7 +47,7 @@ ORDER BY ".$tb_code." DESC";
 				if(db_helper_is_mysql($this)){
 					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix";
 				}else if(db_helper_is_mssql($this)){
-					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0') AS prefix";
+					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0')) AS prefix";
 				}
 
 				$query_prefix = $this->db->query($sql, array(
