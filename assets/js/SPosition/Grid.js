@@ -60,7 +60,7 @@ Ext.define('Account.SPosition.Grid', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PTiRowNumber001',
+			id : 'PTiRowNumber011',
 			header : "No",
 			dataIndex : 'id_depnr',
 			width : 60,
@@ -105,12 +105,12 @@ Ext.define('Account.SPosition.Grid', {
 			}
 		];
 
-		//this.bbar = {
-		//	xtype: 'pagingtoolbar',
-		//	pageSize: 10,
-		//	store: this.store,
-		//	displayInfo: true
-		//};
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 		
 		this.plugins = [this.editing];
 		
