@@ -13,7 +13,7 @@ class Vendortype extends CI_Controller {
 		$this->phxview->RenderView('Vendortype');
 		$this->phxview->RenderLayout('default');
 	}
-	
+
 	function load(){
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
@@ -36,7 +36,7 @@ class Vendortype extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'vtyp';
-		
+
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -56,23 +56,23 @@ class Vendortype extends CI_Controller {
 
 	function save(){
 		//echo "vendor type";
-		
+
 		// start transaction
-		//$this->db->trans_start();  
-		
+		//$this->db->trans_start();
+
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
-		$this->db->where('1=1');
-		$this->db->delete('vtyp'); 
+		if(db_helper_is_mssql($this)){
+			$this->db->where('1=1');
+			$this->db->delete('vtyp');
 		}
-		if(db_helper_is_mysql($_this)){
-		$this->db->truncate('vtyp'); 
+		if(db_helper_is_mysql($this)){
+			$this->db->truncate('vtyp');
 		}
 
 		// เตรียมข้อมูล payment item
 		$vtyp = $this->input->post('vtyp');
 		$item_array = json_decode($vtyp);
-		
+
 		if(!empty($vtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
