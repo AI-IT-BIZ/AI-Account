@@ -173,7 +173,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			url: __site_url+'vendortype/save',
 			method: 'POST',
 			params: {
-				ktyp: Ext.encode(r_data)
+				vtyp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
