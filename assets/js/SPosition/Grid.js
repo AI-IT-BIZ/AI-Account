@@ -44,7 +44,8 @@ Ext.define('Account.SPosition.Grid', {
 				'deptx'
 			],
 			remoteSort: true,
-			sorters: ['id_depnr ASC']
+			sorters: ['id_depnr ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [
@@ -105,12 +106,12 @@ Ext.define('Account.SPosition.Grid', {
 			}
 		];
 
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 		
 		this.plugins = [this.editing];
 		

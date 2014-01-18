@@ -54,7 +54,8 @@ Ext.define('Account.Customertype.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_ktype ASC']
+			sorters: ['id_ktype ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
