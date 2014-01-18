@@ -147,21 +147,21 @@ class Saleperson extends CI_Controller {
 					));
 					return;
 				}
-        
-		$sdat = explode('-',$this->input->post('stdat'));
-		$edat = explode('-',$this->input->post('endat'));
-		$stdat = $sdat[0].$sdat[1].$sdat[2];
-		$endat = $edat[0].$edat[1].$edat[2];
-		//echo $stdat.'aaa'.$endat;
-		if($stdat>$endat){
+        if(!empty($this->input->post('stdat'))){
+			$sdat = explode('-',$this->input->post('stdat'));
+			$edat = explode('-',$this->input->post('endat'));
+			$stdat = $sdat[0].$sdat[1].$sdat[2];
+			$endat = $edat[0].$edat[1].$edat[2];
+			//echo $stdat.'aaa'.$endat;
+			if($stdat>$endat){
 					$emsg = 'The End date must be more than Start date.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-				}
-		
+			}
+		}
 		if($this->input->post('ctype') == '1') $commis='Levels';
 		else $commis='Step';
 		
