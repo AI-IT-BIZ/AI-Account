@@ -1675,14 +1675,14 @@ function endsWith($haystack, $needle)
 				            text: 'Debit Note',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'p-pdn',
+				            iconCls: 'p-pcn',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_purchase_dn')}
 				        },{
 				            text: 'Credit Note',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'p-pcn',
+				            iconCls: 'p-pdn',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_purchase_cn')}
 				        },{
@@ -1939,13 +1939,13 @@ function endsWith($haystack, $needle)
 				            text: 'AP Ledger',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'r-report7',
+				            iconCls: 'r-report16',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'AP Aging',
 				            scale: 'large',
 				            iconAlign: 'top',
-				            iconCls: 'r-report7',
+				            iconCls: 'r-report17',
                 			cls: 'x-btn-as-arrow'
 				        },{
 				            text: 'Fixed Asset Register',

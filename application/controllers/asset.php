@@ -138,6 +138,66 @@ class Asset extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+
+    function loads_report(){
+		
+		$this->db->set_dbprefix('v_');
+		$tbName = 'fara';
+		
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(`matnr` LIKE '%$query%'
+				OR `maktx` LIKE '%$query%'
+				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+			//}else{
+			//	$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
+			}
+			
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
+			}
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');

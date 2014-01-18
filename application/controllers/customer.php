@@ -255,7 +255,8 @@ class Customer extends CI_Controller {
 			'cunt2' => $this->input->post('cunt2'),
 			'statu' => $this->input->post('statu'),
 			'vat01' => floatval($vat),
-			'ptype' => $this->input->post('ptype')
+			'ptype' => $this->input->post('ptype'),
+			'type1' => $this->input->post('type1')
 
 		);
 
