@@ -66,8 +66,8 @@ class Customer extends CI_Controller {
 
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(kunnr LIKE '%$query%'
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 
 			$kunnr1 = $_this->input->get('kunnr');

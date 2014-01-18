@@ -21,10 +21,10 @@ class RInvoice extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`invnr` LIKE '%$query%'
-				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `ordnr` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(invnr LIKE '%$query%'
+				OR kunnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR ordnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$invnr1 = $_this->input->get('invnr');

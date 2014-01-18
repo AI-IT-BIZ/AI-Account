@@ -60,11 +60,11 @@ class Project extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`jobnr` LIKE '%$query%'
-				OR `jobtx` LIKE '%$query%'
-				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `salnr` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%'
+				OR kunnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR salnr LIKE '%$query%')", NULL, FALSE);
 			}
 
             $jobnr1 = $_this->input->get('jobnr');

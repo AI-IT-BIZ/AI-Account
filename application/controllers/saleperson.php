@@ -42,8 +42,8 @@ class Saleperson extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`salnr` LIKE '%$query%'
-				OR `emnam` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(salnr LIKE '%$query%'
+				OR emnam LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$salnr1 = $_this->input->get('salnr');

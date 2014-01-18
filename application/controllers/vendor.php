@@ -72,8 +72,8 @@ class Vendor extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`lifnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(lifnr LIKE '%$query%'
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');

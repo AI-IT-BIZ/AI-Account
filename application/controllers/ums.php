@@ -199,8 +199,8 @@ ORDER BY u.empnr";
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$query = $_this->db->escape_str($query);
-				$_this->db->where("(`empnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(empnr LIKE '%$query%'
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 
 			$empnr1 = $_this->input->get('empnr');

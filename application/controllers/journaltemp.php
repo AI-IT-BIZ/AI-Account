@@ -43,9 +43,9 @@ class Journaltemp extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`tranr` LIKE '%$query%'
-				OR `txz01` LIKE '%$query%'
-				OR `ttype` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(tranr LIKE '%$query%'
+				OR txz01 LIKE '%$query%'
+				OR ttype LIKE '%$query%')", NULL, FALSE);
 			}
 						
 	        $ttype1 = $_this->input->get('ttype');
