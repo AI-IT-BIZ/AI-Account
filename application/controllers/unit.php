@@ -61,11 +61,11 @@ class Unit extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 		$this->db->where('1=1');
 		$this->db->delete('unit');
 		}
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 		$this->db->truncate('unit');
 		}
 		//$this->db->delete('ktyp');

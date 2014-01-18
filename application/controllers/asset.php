@@ -466,11 +466,11 @@ class Asset extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 			$this->db->where('1=1');
 			$this->db->delete('ftyp');
 		}
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 			$this->db->truncate('ftyp');
 		}
 		//$this->db->delete('ktyp');
@@ -555,12 +555,12 @@ class Asset extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 			$this->db->where('1=1');
 			$this->db->delete('fgrp');
 		}
 
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 			$this->db->turncate('fgrp');
 		}
 		//$this->db->delete('ktyp');

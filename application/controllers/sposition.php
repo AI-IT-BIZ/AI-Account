@@ -63,11 +63,11 @@ class Sposition extends CI_Controller {
 		
 		if(!empty($posi) && !empty($item_array)){
 			// ลบ receipt item ภายใต้ id ทั้งหมด
-			if(db_helper_is_mssql($_this)){
+			if(db_helper_is_mssql($this)){
 			$this->db->where('1=1');
 		    $this->db->delete('posi');
 			}
-			if(db_helper_is_mysql($_this)){
+			if(db_helper_is_mysql($this)){
 		    $this->db->truncate('posi');
 			}
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
@@ -118,11 +118,11 @@ class Sposition extends CI_Controller {
 		
 		if(!empty($depn) && !empty($item_array)){
 			// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 		$this->db->where('1=1');
 		$this->db->delete('depn');
 		}
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 		$this->db->truncate('depn');
 		}
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่

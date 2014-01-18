@@ -59,11 +59,11 @@ class Bankname extends CI_Controller {
 	
 	function save(){
 		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 			$this->db->where('1=1');
 			$this->db->delete('bnam');
 		}
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 			$this->db->truncate('bnam');
 		}
 

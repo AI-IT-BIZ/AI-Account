@@ -61,11 +61,11 @@ class Initdoc extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ Init doc ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($_this)){
+		if(db_helper_is_mssql($this)){
 		$this->db->where('1=1');
 		$this->db->delete('init'); 
 		}
-		if(db_helper_is_mysql($_this)){
+		if(db_helper_is_mysql($this)){
 		$this->db->truncate('init'); 
 		}
 		

@@ -51,7 +51,8 @@ Ext.define('Account.Unit.GridItem', {
 				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['id_unit ASC']
+			sorters: ['id_unit ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
