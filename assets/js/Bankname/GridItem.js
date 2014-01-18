@@ -45,7 +45,8 @@ Ext.define('Account.Bankname.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: true,
-			sorters: ['id_bname ASC']
+			sorters: ['id_bname ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{

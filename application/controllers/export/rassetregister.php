@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class RInvoice extends CI_Controller {
+class RAssetregister extends CI_Controller {
       
      
       function __construct()
@@ -14,74 +14,51 @@ class RInvoice extends CI_Controller {
       {
                  
         $this->db->set_dbprefix('v_');
-		$tbName = 'vbrp';
+		$tbName = 'fara';
 		
-		// Start for report
-		$period='';$docno='';$status='';
 		function createQuery($_this){
+			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(invnr LIKE '%$query%'
-				OR kunnr LIKE '%$query%'
-				OR name1 LIKE '%$query%'
-				OR ordnr LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(`matnr` LIKE '%$query%'
+				OR `maktx` LIKE '%$query%'
+				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+			//}else{
+			//	$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
 			}
 			
-			$invnr1 = $_this->input->get('invnr');
-			$invnr2 = $_this->input->get('invnr2');
-			if(!empty($invnr1) && empty($invnr2)){
-			  $_this->db->where('invnr', $invnr1);
-			  $docno=$invnr1;
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
 			}
-			elseif(!empty($invnr1) && !empty($invnr2)){
-			  $_this->db->where('invnr >=', $invnr1);
-			  $_this->db->where('invnr <=', $invnr2);
-			  $docno=$invnr1.' - '.$invnr2;
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
 			}
 			
-	        $ordnr1 = $_this->input->get('ordnr');
-			$ordnr2 = $_this->input->get('ordnr2');
-			if(!empty($ordnr1) && empty($ordnr2)){
-			  $_this->db->where('ordnr', $ordnr1);
-			}
-			elseif(!empty($ordnr1) && !empty($ordnr2)){
-			  $_this->db->where('ordnr >=', $ordnr1);
-			  $_this->db->where('ordnr <=', $ordnr2);
-			}
-			
-			$bldat1 = $_this->input->get('bldat');
-			$bldat2 = $_this->input->get('bldat2');
-			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat', $bldat1);
-			  $period=$bldat1;
-			}
-			elseif(!empty($bldat1) && !empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
-			  $_this->db->where('bldat <=', $bldat2);
-			  $period=$bldat1.' - '.$bldat2;
-			}
-			
-			$kunnr1 = $_this->input->get('kunnr');
-			$kunnr2 = $_this->input->get('kunnr2');
-			if(!empty($kunnr1) && empty($kunnr2)){
-			  $_this->db->where('kunnr', $kunnr1);
-			}
-			elseif(!empty($kunnr1) && !empty($kunnr2)){
-			  $_this->db->where('kunnr >=', $kunnr1);
-			  $_this->db->where('kunnr <=', $kunnr2);
-			}
-
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
 			  $_this->db->where('statu', $statu1);
-			  $status=$statu1;
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+
+            $bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+
 		}
+		// End for report	
 
         createQuery($this);
 		//$sort = $this->input->get('sort');
@@ -95,7 +72,7 @@ class RInvoice extends CI_Controller {
 		$irow=count($result_array);
 		$irow=$irow-1;  
 		$end = $result_array[$irow]; 
-		if(empty($docno)) $docno=$start['invnr'].' - '.$end['invnr'];       
+		if(empty($docno)) $docno=$start['matnr'].' - '.$end['matnr'];       
                 /********************************************************/
                 
                  // Create new PHPExcel object
@@ -104,9 +81,9 @@ class RInvoice extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Invoice")
-									 ->setSubject("Invoice")
-									 ->setDescription("Invoice information.");
+									 ->setTitle("Fixed Asset")
+									 ->setSubject("Fixed Asset")
+									 ->setDescription("Fixed Asset information.");
                  /*Font Style*****************************************************/
           $StyleHeadCompany = array(
                         'font'  => array(
@@ -138,7 +115,7 @@ class RInvoice extends CI_Controller {
           $objPHPExcel->getActiveSheet()->getStyle('G1')->applyFromArray($StyleHeadCompany);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H2:J2')
-                                              ->setCellValue('H2', 'Sale Tax Invoice List Report');
+                                              ->setCellValue('H2', 'Fixed Asset List Report');
           $objPHPExcel->getActiveSheet()->getStyle('H2')->applyFromArray($StyleHeadReportName);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:B4')
@@ -150,7 +127,7 @@ class RInvoice extends CI_Controller {
           $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:E6')
-                                              ->setCellValue('A6', 'Running by Sale Tax Invoice No : '.$docno);
+                                              ->setCellValue('A6', 'Running by Fixed Asset No : '.$docno);
           $objPHPExcel->getActiveSheet()->getStyle('A6')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           //$objPHPExcel->setActiveSheetIndex(0)->mergeCells('O4:P4')
@@ -172,23 +149,25 @@ class RInvoice extends CI_Controller {
 
 		// add header data
 		$current_sheet
-	              ->setCellValue('A8', 'Invoice No.')
-                      ->setCellValue('B8', 'Invoice Date')
-                      ->setCellValue('C8', 'Ref. Project No.')
-                      ->setCellValue('D8', 'Ref. Sale Order No.')
-					  ->setCellValue('E8', 'Customer Code')
-                      ->setCellValue('F8', 'Customer Name')
-                      ->setCellValue('G8', 'Credit Term')
-                      ->setCellValue('H8', 'Due Date')
-                      ->setCellValue('I8', 'Over Due')
-                      ->setCellValue('J8', 'Status')
-                      ->setCellValue('K8', 'Material Code')
-                      ->setCellValue('L8', 'Item Description')
-                      ->setCellValue('M8', 'Quantity')
-                      ->setCellValue('N8', 'Unit Price')
-                      ->setCellValue('O8', 'Amount (Before Vat')
-                      ->setCellValue('P8', 'Vat Amount(7%)')
-                      ->setCellValue('Q8', 'Amount Including Vat');
+	                  ->setCellValue('A8', 'Fixed Asset No.')
+                      ->setCellValue('B8', 'Fixed Asset Type')
+                      ->setCellValue('C8', 'Fixed Asset Group')
+                      ->setCellValue('D8', 'Under Asset No.')
+					  ->setCellValue('E8', 'Fixed Asset Name')
+                      ->setCellValue('F8', 'Serial No')
+                      ->setCellValue('G8', 'Acquisition Date')
+                      ->setCellValue('H8', 'Cost Value')
+					  ->setCellValue('I8', 'GL Account Code')
+                      ->setCellValue('J8', 'Residual Value')
+                      ->setCellValue('K8', 'Use ful life (year)')
+                      ->setCellValue('L8', '% of depreciation')
+                      ->setCellValue('M8', 'Monthly Depreciation')
+                      ->setCellValue('N8', 'Yearly Depreciation')
+                      ->setCellValue('O8', 'The Current Date')
+                      ->setCellValue('P8', 'Days for Depreciation')
+                      ->setCellValue('Q8', 'Accummulated Depreciation')
+                      ->setCellValue('R8', 'GL Account Code')
+					  ->setCellValue('S8', 'Book Value');
                 
 		// Add some data
                 $invoid_temp = "";
@@ -196,8 +175,6 @@ class RInvoice extends CI_Controller {
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
 			$excel_i = $i+9;
-                         if($invoid_temp == "" || $invoid_temp != $value['invnr'])   
-                         {
                      	
 					$q_so = $this->db->get_where('vbok', array(
 				    'ordnr'=>$value['ordnr']
@@ -221,43 +198,25 @@ class RInvoice extends CI_Controller {
 			        }else{ $overd = 0; }
 					
                     $current_sheet
-		            ->setCellValue('A'.$excel_i, $value['invnr'])
-		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $jobnr)
+		            ->setCellValue('A'.$excel_i, $value['matnr'])
+		            ->setCellValue('B'.$excel_i, $value['matnr'])
+		            ->setCellValue('C'.$excel_i, $value['matnr'])
 		            ->setCellValue('D'.$excel_i, $value['ordnr'])
 					->setCellValue('E'.$excel_i, $value['kunnr'])
 		            ->setCellValue('F'.$excel_i, $value['name1'])
 			        ->setCellValue('G'.$excel_i, $value['terms'])
 		            ->setCellValue('H'.$excel_i, util_helper_format_date($value['duedt']))
-                    ->setCellValue('I'.$excel_i, $overd)
-		            ->setCellValue('J'.$excel_i, $value['statx']);   
-                         }
-                         else {
-                               $current_sheet
+                    ->setCellValue('I'.$excel_i, $value['matnr'])
+		            ->setCellValue('J'.$excel_i, $value['statx'])   
+   
+                    ->setCellValue('K'.$excel_i, $value['matnr'])
+                    ->setCellValue('L'.$excel_i, $value['maktx'])
+                    ->setCellValue('M'.$excel_i, $value['menge'])
+                    ->setCellValue('N'.$excel_i, $value['unitp'])
+                    ->setCellValue('O'.$excel_i, $value['beamt'])
+                    ->setCellValue('P'.$excel_i, $value['vat01'])
+                    ->setCellValue('Q'.$excel_i,  $total);
                             
-		               ->setCellValue('A'.$excel_i, "")
-		               ->setCellValue('B'.$excel_i, "")
-		               ->setCellValue('C'.$excel_i, "")
-		               ->setCellValue('D'.$excel_i, "")
-		               ->setCellValue('E'.$excel_i, "")
-			       ->setCellValue('F'.$excel_i, "")
-		               ->setCellValue('G'.$excel_i, "")
-                               ->setCellValue('H'.$excel_i, "")
-		               ->setCellValue('I'.$excel_i, "") 
-					   ->setCellValue('J'.$excel_i, "");  
-                             
-                         }
-			    $total = $value['beamt'] + $value['vat01'];
-                            $current_sheet     
-                            ->setCellValue('K'.$excel_i, $value['matnr'])
-                            ->setCellValue('L'.$excel_i, $value['maktx'])
-                            ->setCellValue('M'.$excel_i, $value['menge'])
-                            ->setCellValue('N'.$excel_i, $value['unitp'])
-                            ->setCellValue('O'.$excel_i, $value['beamt'])
-                            ->setCellValue('P'.$excel_i, $value['vat01'])
-                            ->setCellValue('Q'.$excel_i,  $total);
-                            
-                            $invoid_temp = $value['invnr'];
 		}
 
 

@@ -175,6 +175,16 @@ class Asset extends CI_Controller {
 			  $_this->db->where('statu <=', $statu2);
 			}
 
+            $bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+
 		}
 		// End for report		
 		

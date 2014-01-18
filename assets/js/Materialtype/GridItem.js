@@ -51,7 +51,8 @@ Ext.define('Account.Materialtype.GridItem', {
 				'matxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mtype ASC']
+			sorters: ['id_mtype ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{

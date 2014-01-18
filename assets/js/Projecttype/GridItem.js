@@ -52,7 +52,8 @@ Ext.define('Account.Projecttype.GridItem', {
 				'typtx'
 			],
 			remoteSort: false,
-			sorters: ['id_jtype ASC']
+			sorters: ['id_jtype ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
