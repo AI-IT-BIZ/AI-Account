@@ -64,10 +64,16 @@ ORDER BY d.grpmo ASC
 		}else if($this->is_node_docty($node)){
 			$docty = $this->db->escape($this->get_id($node));
 			$comid = $this->db->escape($comid);
-			$sql = "SELECT autlid, docty, limam FROM tbl_autl
+			if(db_helper_is_mysql($this)){
+				$sql = "SELECT autlid, docty, limam FROM tbl_autl
 WHERE docty=$docty AND comid=$comid AND limam IS NOT NULL AND limam>=0
 GROUP BY limam
 ORDER BY limam DESC";
+			}else if(db_helper_is_mssql($this)){
+				$sql = "SELECT autlid, docty, limam FROM tbl_autl
+WHERE docty=$docty AND comid=$comid AND limam IS NOT NULL AND limam>=0
+ORDER BY limam DESC";
+			}
 
 			$q = $this->db->query($sql);
 			$has_unlimit = FALSE;
@@ -113,88 +119,6 @@ WHERE au.autlid=$autlid
 			'success'=>true,
 			'rows'=>$rs
 		));
-
-		/*
-		$permission_array = $this->ums_service->permission_array;
-
-		$Username = $this->input->post('username');
-		$Password = $this->input->post('password');
-
-		$resFailUsername = array(
-			'success' => false,
-			'message' => 'username','msg'=>'Username or Password incorrect!'
-		);
-		$resFailStatus = array(
-			'success' => false,
-			'message' => 'User is not exist.'
-		);
-		$query=$this->db->get_where('user', array(
-			'uname'=>$Username
-		));
-		$users = $query->result('array');
-		if (count($users) == 1)
-		{
-			$sUser = $users[0];
-			if (!isset($sUser['passw']))
-				X::renderJSON($resFailStatus);
-			else
-				if(!isset($Password))
-					X::renderJSON($resFailUsername);
-				else{
-					if ($sUser['passw']!=$Password)
-						X::renderJSON($resFailUsername);
-					else
-					{
-                    	// prepare PermissionState
-                    	$permission_state = $this->ums_service->load_permission_by_uname($sUser['uname']);
-						$permission_state_buff = array();
-						foreach($permission_state AS $v){
-							if($v['display']==1){
-								$perm = array('docty'=>$v['docty']);
-								foreach($permission_array AS $p){
-									$perm[$p] = $v[$p];
-								}
-								array_push($permission_state_buff, $perm);
-							}
-						}
-
-						$limit_state = $this->ums_service->load_doctype_limit_by_uname($sUser['uname']);
-						$limit_state_buff = array();
-						foreach($limit_state AS $v){
-							$is_exist = false;
-							foreach($permission_state_buff AS $p){
-								if($p['docty']==$v['docty']){
-									$is_exist=true; break;
-								}
-							}
-							if($is_exist){
-								$lim = array(
-									'limam'=>empty($v['limam'])?0:$v['limam'],
-									'docty'=>$v['docty']
-								);
-								array_push($limit_state_buff, $lim);
-							}
-						}
-
-						X::setSession('currentStateJson',json_encode(array(
-							'UserState'=>array(
-								'uname'=>$sUser['uname'],
-								'name1'=>$sUser['name1'],
-								'comid'=>$sUser['comid']
-							),
-							'Permission'=>$permission_state_buff,
-							'Limit'=>$limit_state_buff
-						)));
-						X::renderJSON(array(
-							'success'=>true,
-							'data'=>json_decode(X::getSession('currentStateJson'))
-						));
-					}
-				}
-		}
-		else
-			X::renderJSON($resFailUsername);
-		*/
 	}
 
 	public function load_limit(){
