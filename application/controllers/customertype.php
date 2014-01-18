@@ -62,8 +62,13 @@ class Customertype extends CI_Controller {
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
+		if(db_helper_is_mssql($_this)){
 		$this->db->where('1=1');
 		$this->db->delete('ktyp');
+		}
+		if(db_helper_is_mysql($_this)){
+		$this->db->turncate('ktyp');
+		}
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item

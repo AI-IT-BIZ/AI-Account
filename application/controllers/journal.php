@@ -172,14 +172,14 @@ class Journal extends CI_Controller {
 		
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('belnr', $id);
-			$this->db->set('updat', 'NOW()', false);
+			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', 'test');
 			$this->db->update('bkpf', $formData);
 		}else{
 			$id = $this->code_model->generate($modul,
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $id);
-			$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
 		    $this->db->set('ernam', 'test');
 			$this->db->insert('bkpf', $formData);
 			

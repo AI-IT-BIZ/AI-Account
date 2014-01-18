@@ -385,8 +385,13 @@ class Project extends CI_Controller {
 		//$this->db->trans_start();
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
+		if(db_helper_is_mssql($_this)){
 		$this->db->where('1=1');
 		$this->db->delete('jtyp');
+		}
+		if(db_helper_is_mysql($_this)){
+		$this->db->truncate('jtyp');
+		}
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item

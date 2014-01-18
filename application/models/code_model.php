@@ -26,10 +26,9 @@ WHERE ".$tb_code." LIKE (SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0
 ORDER BY ".$tb_code." DESC
 LIMIT 1";
 			}else if(db_helper_is_mssql($this)){
-				$sql = "SELECT ".$tb_code.", CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0')) AS prefix FROM ".$tb_name."
+				$sql = "SELECT TOP 1 ".$tb_code.", CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0')) AS prefix FROM ".$tb_name."
 WHERE ".$tb_code." LIKE (SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0'), '%'))
-ORDER BY ".$tb_code." DESC
-LIMIT 1";
+ORDER BY ".$tb_code." DESC";
 			}
 			$query_code = $this->db->query($sql, array(
 				$short_code, $date, $date,
@@ -48,7 +47,7 @@ LIMIT 1";
 				if(db_helper_is_mysql($this)){
 					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix";
 				}else if(db_helper_is_mssql($this)){
-					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0') AS prefix";
+					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0')) AS prefix";
 				}
 
 				$query_prefix = $this->db->query($sql, array(
