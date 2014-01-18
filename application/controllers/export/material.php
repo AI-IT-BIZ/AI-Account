@@ -18,12 +18,12 @@ class Material extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`matnr` LIKE '%$query%'
-				OR `maktx` LIKE '%$query%'
-				OR `mtart` LIKE '%$query%'
-				and `mtart` <> 'SV')", NULL, FALSE);
+				$_this->db->where("(matnr LIKE '%$query%'
+				OR maktx LIKE '%$query%'
+				OR mtart LIKE '%$query%'
+				and mtart <> 'SV')", NULL, FALSE);
 			}else{
-				$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
+				$_this->db->where("mtart <> 'SV'", NULL, FALSE);
 			}
 			
 			$matnr1 = $_this->input->get('matnr');

@@ -28,8 +28,8 @@ class Currency extends CI_Controller {
 			$query = $_this->input->get('query');
 			//echo $query;
 			if(!empty($query)){
-				$_this->db->where("(`ctype` LIKE '%$query%'
-				OR `curtx` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(ctype LIKE '%$query%'
+				OR curtx LIKE '%$query%')", NULL, FALSE);
 			}
 		}
 

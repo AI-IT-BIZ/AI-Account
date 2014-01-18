@@ -42,7 +42,8 @@ Ext.define('Account.Vendortype.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_vtype ASC']
+			sorters: ['id_vtype ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
@@ -98,7 +99,7 @@ Ext.define('Account.Vendortype.GridItem', {
 		},{
 			text: "GL Description", width: 170, dataIndex: 'sgtxt', sortable: true
 		}];
-		
+
 		this.plugins = [this.editing];
 
 		// init event ///////
@@ -150,16 +151,16 @@ Ext.define('Account.Vendortype.GridItem', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	load: function(options){
 		this.store.load({
 			params: options
 		});
 	},
-	
+
 	save : function(){
 		var _this=this;
-		
+
 		var r_data = this.getData();
 		Ext.Ajax.request({
 			url: __site_url+'vendortype/save',
@@ -177,7 +178,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			}
 		});
 	},
-	
+
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;var i=0;
@@ -205,7 +206,7 @@ Ext.define('Account.Vendortype.GridItem', {
 
 		this.runNumRow();
 	},
-	
+
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 	},

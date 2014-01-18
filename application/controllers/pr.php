@@ -60,10 +60,10 @@ class Pr extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`purnr` LIKE '%$query%'
-				OR `lifnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `refnr` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(purnr LIKE '%$query%'
+				OR lifnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR refnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -152,10 +152,10 @@ class Pr extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`purnr` LIKE '%$query%'
-				OR `lifnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `refnr` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(purnr LIKE '%$query%'
+				OR lifnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR refnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');

@@ -43,10 +43,10 @@ class Journal extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`belnr` LIKE '%$query%'
-				OR `kunnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `invnr` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(belnr LIKE '%$query%'
+				OR kunnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR invnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$belnr1 = $_this->input->get('belnr');

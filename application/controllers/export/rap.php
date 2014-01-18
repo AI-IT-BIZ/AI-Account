@@ -19,10 +19,10 @@ class Rap extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`invnr` LIKE '%$query%'
-				OR `lifnr` LIKE '%$query%'
-				OR `name1` LIKE '%$query%'
-				OR `mbeln` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(invnr LIKE '%$query%'
+				OR lifnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR mbeln LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
