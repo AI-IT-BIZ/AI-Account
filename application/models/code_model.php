@@ -1,7 +1,7 @@
 <?php
 Class Code_model extends CI_Model
 {
-	// Generate No from period -> Document No	
+	// Generate No from period -> Document No
 	function generate($modul, $date){
 		$this->db->where('modul', $modul);
 
@@ -15,14 +15,22 @@ Class Code_model extends CI_Model
 			$min_code_length = strlen($min_code);
 
 			$short_code = $result_init['short'];
-			
+
 			$tb_name = $result_init['tname'];
 			$tb_code = $result_init['tcode'];
 
-			$sql = "SELECT ".$tb_code.", CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix FROM ".$tb_name."
+			$sql = '';
+			if(db_helper_is_mysql($this)){
+				$sql = "SELECT ".$tb_code.", CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix FROM ".$tb_name."
 WHERE ".$tb_code." LIKE (SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0'), '%'))
 ORDER BY ".$tb_code." DESC
 LIMIT 1";
+			}else if(db_helper_is_mssql($this)){
+				$sql = "SELECT ".$tb_code.", CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0')) AS prefix FROM ".$tb_name."
+WHERE ".$tb_code." LIKE (SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0'), '%'))
+ORDER BY ".$tb_code." DESC
+LIMIT 1";
+			}
 			$query_code = $this->db->query($sql, array(
 				$short_code, $date, $date,
 				$short_code, $date, $date
@@ -36,7 +44,13 @@ LIMIT 1";
 
 				return $result_code['prefix'].'-'.str_pad($last_no, $min_code_length, '0', STR_PAD_LEFT);
 			}else{
-				$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix";
+				$sql = '';
+				if(db_helper_is_mysql($this)){
+					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,LPAD(MONTH(?), 2, '0')) AS prefix";
+				}else if(db_helper_is_mssql($this)){
+					$sql = "SELECT CONCAT(?, RIGHT(YEAR(?),2) ,REPLACE(STR(MONTH(?), 2), SPACE(1), '0') AS prefix";
+				}
+
 				$query_prefix = $this->db->query($sql, array(
 					$short_code, $date, $date
 				));
