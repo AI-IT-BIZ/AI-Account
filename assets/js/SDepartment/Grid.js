@@ -85,12 +85,12 @@ Ext.define('Account.SDepartment.Grid', {
 			}
 		];
 
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 		
 		this.plugins = [this.editing];
 		

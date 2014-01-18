@@ -81,6 +81,7 @@ Ext.define('Account.SPosition.Grid', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
+					_this.depnrDialog.grid.load();
 					_this.depnrDialog.show();
 				}
 			}
@@ -104,12 +105,12 @@ Ext.define('Account.SPosition.Grid', {
 			}
 		];
 
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};
+		//this.bbar = {
+		//	xtype: 'pagingtoolbar',
+		//	pageSize: 10,
+		//	store: this.store,
+		//	displayInfo: true
+		//};
 		
 		this.plugins = [this.editing];
 		
