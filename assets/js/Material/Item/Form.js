@@ -336,6 +336,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigType.onTriggerClick = function(){
+			_this.typeDialog.grid.load();
 			_this.typeDialog.show();
 		};	
 		
@@ -379,6 +380,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigGrp.onTriggerClick = function(){
+			_this.grpDialog.grid.load();
 			_this.grpDialog.show();
 		};	
     
@@ -419,6 +421,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigUnit.onTriggerClick = function(){
+			_this.unitDialog.grid.load();
 			_this.unitDialog.show();
 		};
     
@@ -458,6 +461,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigUnit1.onTriggerClick = function(){
+			_this.unit1Dialog.grid.load();
 			_this.unit1Dialog.show();
 		};	
 		
@@ -497,6 +501,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigUnit2.onTriggerClick = function(){
+			_this.unit2Dialog.grid.load();
 			_this.unit2Dialog.show();
 		};	
 		
@@ -536,6 +541,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigUnit3.onTriggerClick = function(){
+			_this.unit3Dialog.grid.load();
 			_this.unit3Dialog.show();
 		};
 		
@@ -575,6 +581,7 @@ Ext.define('Account.Material.Item.Form', {
 		});
 
 		this.trigGlno.onTriggerClick = function(){
+			_this.glnoDialog.grid.load();
 			_this.glnoDialog.show();
 		};		
 		

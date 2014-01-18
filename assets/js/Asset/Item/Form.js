@@ -387,6 +387,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigType.onTriggerClick = function(){
+			_this.typeDialog.grid.load();
 			_this.typeDialog.show();
 		};	
 		
@@ -434,6 +435,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigGrp.onTriggerClick = function(){
+			_this.grpDialog.grid.load();
 			_this.grpDialog.show();
 		};	
     
@@ -474,6 +476,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigUnit.onTriggerClick = function(){
+			_this.unitDialog.grid.load();
 			_this.unitDialog.show();
 		};
 		
@@ -513,6 +516,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigGlno.onTriggerClick = function(){
+			_this.glnoDialog.grid.load();
 			_this.glnoDialog.show();
 		};	
 		
@@ -552,6 +556,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigEmp.onTriggerClick = function(){
+			//_this.empDialog.grid.load();
 			_this.empDialog.show();
 		};	
 		
@@ -591,6 +596,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigEmp2.onTriggerClick = function(){
+			//_this.emp2Dialog.grid.load();
 			_this.emp2Dialog.show();
 		};
 		
@@ -630,6 +636,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigEmp3.onTriggerClick = function(){
+			//_this.emp3Dialog.grid.load();
 			_this.emp3Dialog.show();
 		};
 		
@@ -669,6 +676,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigAsset.onTriggerClick = function(){
+			//_this.assetDialog.grid.load();
 			_this.assetDialog.show();
 		};
 		
@@ -708,6 +716,7 @@ Ext.define('Account.Asset.Item.Form', {
 		});
 
 		this.trigDep.onTriggerClick = function(){
+			_this.depDialog.grid.load();
 			_this.depDialog.show();
 		};
 		

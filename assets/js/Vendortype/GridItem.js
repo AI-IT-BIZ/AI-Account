@@ -99,15 +99,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			text: "GL Description", width: 170, dataIndex: 'sgtxt', sortable: true
 		}];
 		
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};
-
 		this.plugins = [this.editing];
-
 
 		// init event ///////
 		this.addAct.setHandler(function(){

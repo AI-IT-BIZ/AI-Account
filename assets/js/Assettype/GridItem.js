@@ -123,13 +123,7 @@ Ext.define('Account.Assettype.GridItem', {
 				type: 'textfield'
 			},
 		}];
-		
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};
+
 
 		this.plugins = [this.editing];
 
