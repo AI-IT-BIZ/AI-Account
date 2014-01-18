@@ -496,6 +496,12 @@ Ext.define('Account.Vendor.Item.Form', {
 					name: 'note1',
 					allowBlank: true,
 					width:470
+                },{xtype: 'checkboxfield',
+					//fieldLabel: 'Company Corporation',
+					boxLabel: 'Corparation Tax',
+					name: 'type1',
+					checked: true,
+					margin: '0 0 0 10'
                 }]
             }]
         }]

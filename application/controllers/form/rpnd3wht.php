@@ -124,10 +124,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <!--Check Box 1-->
 <DIV style="left: 475px; top: 74px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 595px; top: 106px; width: 84px; height: 21PX;"><span class="fc1-1">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
+<DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">0000</span></DIV>
 
 <DIV style="left: 743px; top: 107px; width: 39px; height: 21PX;"><span class="fc1-1">สาขา</span></DIV>
-<DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
+<DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">0000</span></DIV>
 
 <DIV style="left: 545px; top: 74px; width: 77px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 

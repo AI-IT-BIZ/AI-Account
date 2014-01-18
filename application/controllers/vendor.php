@@ -228,7 +228,8 @@ class Vendor extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'ptype' => $this->input->post('ptype'),
 			'vat01' => $vat,
-			'note1' => $this->input->post('note1')
+			'note1' => $this->input->post('note1'),
+			'type1' => $this->input->post('type1')
 		);
 		
 		$current_username = XUMS::USERNAME();
