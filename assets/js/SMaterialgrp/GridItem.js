@@ -1,17 +1,9 @@
 Ext.define('Account.SMaterialgrp.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
@@ -19,9 +11,24 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 	initComponent : function() {
 		var _this=this;
 
-		// INIT GL search popup ///////////////////////////////////////////////
-          // this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'matkl'
+			},{
+				type: 'string',
+				dataIndex: 'matxt'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -83,6 +90,18 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+			pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		//this.plugins = [this.editing];
 

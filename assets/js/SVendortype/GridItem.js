@@ -1,5 +1,8 @@
 Ext.define('Account.SVendortype.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
 
 		return this.callParent(arguments);
@@ -7,6 +10,25 @@ Ext.define('Account.SVendortype.GridItem', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'vtype'
+			},{
+				type: 'string',
+				dataIndex: 'ventx'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -70,6 +92,11 @@ Ext.define('Account.SVendortype.GridItem', {
 			store: this.store,
 			displayInfo: true
 		};
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		return this.callParent(arguments);
 	},

@@ -1,5 +1,8 @@
 Ext.define('Account.Materialgrp.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
         /*Ext.apply(this, {
 			url: __site_url+'customertype/save',
@@ -18,6 +21,25 @@ Ext.define('Account.Materialgrp.GridItem', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'matkl'
+			},{
+				type: 'string',
+				dataIndex: 'matxt'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 
 		this.addAct = new Ext.Action({
 			text: 'Add',
@@ -116,6 +138,11 @@ Ext.define('Account.Materialgrp.GridItem', {
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		this.plugins = [this.editing];
 

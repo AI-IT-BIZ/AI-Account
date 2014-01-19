@@ -1,17 +1,9 @@
 Ext.define('Account.SAssettype.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
@@ -19,20 +11,27 @@ Ext.define('Account.SAssettype.GridItem', {
 	initComponent : function() {
 		var _this=this;
 
-		//this.addAct = new Ext.Action({
-		//	text: 'Add',
-		//	iconCls: 'b-small-plus'
-		//});
-
-		// INIT GL search popup ///////////////////////////////////////////////
-           //this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
-
-		//this.tbar = [this.addAct];// this.deleteAct];
-
-		//this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-		//	clicksToEdit: 1
-		//});
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'mtart'
+			},{
+				type: 'string',
+				dataIndex: 'matxt'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			},{
+				type: 'string',
+				dataIndex: 'depre'
+			}]
+		};
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -109,6 +108,12 @@ Ext.define('Account.SAssettype.GridItem', {
 			dataIndex: 'depre', 
 			sortable: true
 		}];
+		
+		 Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
+
 
 		//this.plugins = [this.editing];
 
@@ -161,12 +166,12 @@ Ext.define('Account.SAssettype.GridItem', {
 			_this.glnoDialog.hide();
 		});*/
 		
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 
 		return this.callParent(arguments);
 	},

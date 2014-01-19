@@ -49,7 +49,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 				}
 			},
 			fields: [
-				{ name:'id_ktype', type:'int' },
+				//{ name:'id_ktype', type:'int' },
 				'ktype',
 				'custx',
 				'saknr',
@@ -59,17 +59,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 			sorters: ['id_ktype ASC']
 		});
 
-		this.columns = [{id : 'CTiRowNumber',
-			header : "No",
-			dataIndex : 'id_ktype',
-			width : 60,
-			align : 'center',
-			//hidden: true,
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
+		this.columns = [{
 			text: "Customer Type",
 		    width: 80,
 		    dataIndex: 'ktype',
@@ -97,12 +87,12 @@ Ext.define('Account.SCustomertype.GridItem', {
 			sortable: true
 		}];
 		
-		/*this.bbar = {
+		this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};*/
+		};
 
 		Ext.apply(this, {
 			forceFit: true,

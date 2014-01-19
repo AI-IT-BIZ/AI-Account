@@ -181,7 +181,8 @@ class Project extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 		}
-
+        
+		//if(!empty($this->input->post('stdat')) && !empty($this->input->post('endat'))){
         $sdat = explode('-',$this->input->post('stdat'));
 		$edat = explode('-',$this->input->post('endat'));
 		$stdat = $sdat[0].$sdat[1].$sdat[2];
@@ -195,6 +196,7 @@ class Project extends CI_Controller {
 					));
 					return;
 				}
+			//}*/
 
 		$formData = array(
 			//'jobnr' => $this->input->post('jobnr'),
