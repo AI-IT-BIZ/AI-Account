@@ -33,6 +33,7 @@ Ext.define('Account.Rpnd3WHT.MainWindow', {
 		
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'รายงานภาษีหัก ณ ที่จ่าย ภ.ง.ด.3',
+			disabled: !UMS.CAN.DISPLAY('TR'),
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
@@ -43,6 +44,7 @@ Ext.define('Account.Rpnd3WHT.MainWindow', {
 		
 		this.btnPreview2 = Ext.create('Ext.Button', {
 			text: 'ฟอร์มแบบนำส่ง ภ.ง.ด.3',
+			disabled: !UMS.CAN.DISPLAY('TF'),
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
@@ -53,6 +55,7 @@ Ext.define('Account.Rpnd3WHT.MainWindow', {
 		
 		this.btnPreview3 = Ext.create('Ext.Button', {
 			text: 'ใบแนบ ภ.ง.ด.3',
+			disabled: !UMS.CAN.DISPLAY('TF'),
 			handler: function() {
 				var form_basic = _this.form.getForm();
 				if(form_basic.isValid()){
