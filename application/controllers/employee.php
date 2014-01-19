@@ -114,6 +114,7 @@ class Employee extends CI_Controller {
 		
 		echo json_encode(array(
 			'success'=>true,
+			'message'=>$this->db->last_query(),
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount
 		));

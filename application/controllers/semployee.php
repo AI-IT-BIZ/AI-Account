@@ -16,7 +16,7 @@ class Semployee extends CI_Controller {
 
 	function loads(){
 		$tbName = 'empl';
-		
+		$totalCount = $this->db->count_all_results($tbName);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -26,7 +26,7 @@ class Semployee extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 

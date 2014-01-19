@@ -570,12 +570,60 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @param	integer	the offset value
 	 * @return	string
 	 */
+	protected function _limit($sql, $limit, $offset)
+{
+ if($offset === FALSE) 
+ {
+  // Do simple limit if no offset
+  $i = $limit + $offset;
+  return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);
+ }
+ else
+ {
+  if(!$this->ar_orderby)
+  {
+   // We do not have an orderBy column set and do not have the tableName
+   // here, so grab the table name from the $sql statement by regex and 
+   // then grab the first column of the tableName in the $sql statement
+   // from the schema and let that be the orderBy column. Phew.
+   $match_pattern = '/(.*FROM )/s';
+   $match_replacement = '';
+   $table = preg_replace($match_pattern, $match_replacement, $sql);
+   $orderBy  = "ORDER BY (SELECT [COLUMN_NAME] FROM [information_schema].[columns] WHERE [TABLE_NAME] = '".$table."' AND [ORDINAL_POSITION] = 1)";
+  }
+  else
+  {
+   $orderBy  = "ORDER BY ";
+   $orderBy .= implode(', ', $this->ar_orderby);
+  }
+  if ($this->ar_order !== FALSE)
+  {
+   $orderBy .= ($this->ar_order == 'desc') ? ' DESC' : ' ASC';
+  }
+  $sql = preg_replace('/(\\'. $orderBy .'\n?)/i','', $sql);
+  $sql = preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 row_number() OVER ('.$orderBy.') AS CI_offset_row_number, ', $sql);
+
+  if(empty($this->ar_select))
+  {
+   // No ColumnName so do a wildcard   
+   $columns = '*';
+  }
+  else
+  {
+   $columns = implode(',',$this->ar_select);
+  }
+  $newSQL = "SELECT " . $columns . " \nFROM (\n" . $sql . ") AS A \nWHERE A.CI_offset_row_number BETWEEN (" .($offset + 1) . ") AND (".($offset + $limit).")";
+  return $newSQL;
+ }
+} 
+	/*
 	function _limit($sql, $limit, $offset)
 	{
 		$i = $limit + $offset;
 	
 		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
 	}
+	*/
 
 	// --------------------------------------------------------------------
 

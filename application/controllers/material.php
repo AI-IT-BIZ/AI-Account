@@ -267,8 +267,8 @@ class Material extends CI_Controller {
 					return;
 				}
 			}else{
-				if($row['statu']=='02'||$row['statu']=='03'){
-					$emsg = 'The material that already approved or rejected cannot be update.';
+				if($row['statu']=='03'){
+					$emsg = 'The material that already or rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -336,7 +336,7 @@ class Material extends CI_Controller {
 		    'pleve' => $p,
 		    'matnr' => $id,
 			'unit' => $this->input->post($u),
-			'cost' => $this->input->post($c),
+			'cost' => floatval($this->input->post($c)),
 			);
 		  $this->db->insert('plev', $formCost);
 		}
@@ -346,7 +346,7 @@ class Material extends CI_Controller {
 			'data'=>$_POST
 		));
 		
-		try{
+		/*try{
 				$post_id = $this->input->post('id');
 				//$total_amount = floatval($this->input->post('netwr'));
 				$total_amount = 0;
@@ -357,7 +357,7 @@ class Material extends CI_Controller {
 					if($status_changed)
 						$this->email_service->quotation_change_status('MM', $total_amount);
 				}
-			}catch(exception $e){}
+			}catch(exception $e){}*/
 	}
 
     function remove(){

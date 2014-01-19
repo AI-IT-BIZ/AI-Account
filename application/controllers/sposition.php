@@ -35,6 +35,7 @@ class Sposition extends CI_Controller {
 
 	function loads(){
 		$tbName = 'posi';
+		$totalCount = $this->db->count_all_results($tbName);
 		
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
@@ -45,7 +46,7 @@ class Sposition extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 	

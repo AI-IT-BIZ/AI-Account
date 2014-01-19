@@ -25,7 +25,6 @@ Ext.define('Account.SDistrict.Grid', {
 			],
 			remoteSort: false,
 			sorters: ['distr ASC'],
-			pageSize: 10000000
 		});
 
 		this.columns = [
