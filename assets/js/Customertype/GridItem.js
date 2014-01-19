@@ -1,24 +1,35 @@
 Ext.define('Account.Customertype.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
 
 	initComponent : function() {
 		var _this=this;
-
+        
+        Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'ktype'
+			},{
+				type: 'string',
+				dataIndex: 'custx'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
+        
 		this.addAct = new Ext.Action({
 			disabled: !UMS.CAN.CREATE('CS'),
 			text: 'Add',
@@ -36,6 +47,7 @@ Ext.define('Account.Customertype.GridItem', {
 		});
 
 		this.store = new Ext.data.JsonStore({
+
 			proxy: {
 				type: 'ajax',
 				url: __site_url+'customertype/loads',
@@ -70,7 +82,7 @@ Ext.define('Account.Customertype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber',
+			id : 'PMiRowNumber77',
 			header : "No",
 			dataIndex : 'id_ktype',
 			width : 60,
@@ -119,6 +131,11 @@ Ext.define('Account.Customertype.GridItem', {
 			dataIndex: 'sgtxt', 
 			sortable: true
 		}];
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 		
 		this.plugins = [this.editing];
 

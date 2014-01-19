@@ -1,17 +1,9 @@
 Ext.define('Account.SCustomertype.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
@@ -19,10 +11,24 @@ Ext.define('Account.SCustomertype.GridItem', {
 	initComponent : function() {
 		var _this=this;
 
-
-		// INIT GL search popup ///////////////////////////////////////////////
-        //this.glnoDialog = Ext.create('Account.GL.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'ktype'
+			},{
+				type: 'string',
+				dataIndex: 'custx'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 
 		//this.tbar = [this.addAct, this.deleteAct];
 
@@ -31,6 +37,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 		//});
 
 		this.store = new Ext.data.JsonStore({
+
 			proxy: {
 				type: 'ajax',
 				url: __site_url+'customertype/loads',
@@ -97,12 +104,10 @@ Ext.define('Account.SCustomertype.GridItem', {
 			displayInfo: true
 		};*/
 
-		//this.plugins = [this.editing];
-
-		// init event ///////
-		//this.addAct.setHandler(function(){
-		//	_this.addRecord();
-		//});
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		return this.callParent(arguments);
 	},
