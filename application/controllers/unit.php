@@ -36,6 +36,7 @@ class Unit extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'unit';
 		
+		$totalCount = $this->db->count_all_results($tbName);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
@@ -49,7 +50,7 @@ class Unit extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 

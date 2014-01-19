@@ -385,9 +385,9 @@ class Payment extends CI_Controller {
 					'chqdt'=>$p->chqdt,
 					'bcode'=>$p->bcode,
 					'ptype'=>$p->ptype,
-					'pramt'=>$p->pramt,
-					'reman'=>$p->reman,
-					'payam'=>$p->payam
+					'pramt'=>floatval($p->pramt),
+					'reman'=>floatval($p->reman),
+					'payam'=>floatval($p->payam)
 				));
 			}
 		}

@@ -439,9 +439,9 @@ class Receipt extends CI_Controller {
 					'sgtxt'=>$p->sgtxt,
 					'chqid'=>$p->chqid,
 					'chqdt'=>$p->chqdt,
-					'pramt'=>$p->pramt,
-					'reman'=>$p->reman,
-					'payam'=>$p->payam,
+					'pramt'=>floatval($p->pramt),
+					'reman'=>floatval($p->reman),
+					'payam'=>floatval($p->payam),
 					'saknr'=>$p->saknr
 				));
 			}
