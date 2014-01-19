@@ -310,7 +310,7 @@ Ext.onReady(function() {
 		}
 
 		if(!$om.assetregitDialog)
-			$om.assetregitDialog = Ext.create('Account.AssetRegist.MainWindow');
+			$om.assetregitDialog = Ext.create('Account.RAssetRegister.MainWindow');
 		$om.assetregitDialog.show();
 	});
 	
@@ -319,7 +319,8 @@ Ext.onReady(function() {
 			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
 		$om.rjournalDialog.show();
 	});
-	
+
+//Master Module
 	$om.viewport.on('click_customer_type', function(){
 		if(!UMS.CAN.DISPLAY('CT')){
 	 		UMS.ALERT("You don't have permission for Customer Type.");
@@ -423,8 +424,6 @@ Ext.onReady(function() {
 		$om.unitDialog.show();
 	});
 
-
-//Master Module
 	$om.viewport.on('click_material', function(){
 		if(!UMS.CAN.DISPLAY('MM')){
 			UMS.ALERT("You don't have permission for Material Master.");

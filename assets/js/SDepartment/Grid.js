@@ -41,7 +41,7 @@ Ext.define('Account.SDepartment.Grid', {
 			    'depnr',
 				'deptx'
 			],
-			remoteSort: true,
+			remoteSort: false,
 			sorters: ['id_depnr2 ASC'],
 			pageSize: 10000000
 		});

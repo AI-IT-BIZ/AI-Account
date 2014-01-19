@@ -6,7 +6,7 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 		Ext.apply(this, {
 			title: 'Asset Register Selection',
 			closeAction: 'hide',
-			height: 200,
+			height: 180,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',
