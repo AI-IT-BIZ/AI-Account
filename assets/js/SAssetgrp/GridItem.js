@@ -1,23 +1,40 @@
 Ext.define('Account.SAssetgrp.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
 
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'matkl'
+			},{
+				type: 'string',
+				dataIndex: 'matxt'
+			},{
+				type: 'string',
+				dataIndex: 'mtart'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			},{
+				type: 'string',
+				dataIndex: 'depre'
+			}]
+		};
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -31,7 +48,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				}
 			},
 			fields: [
-				{ name:'id_mgrp', type:'int' },
+				//{ name:'id_mgrp', type:'int' },
 				'matkl',
 				'matxt',
 				'mtart',
@@ -43,7 +60,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			sorters: ['id_mgrp ASC']
 		});
 
-		this.columns = [{
+		this.columns = [/*{
 			id : 'FAiRowNumber004',
 			header : "Type ID",
 			dataIndex : 'id_mgrp',
@@ -53,7 +70,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
 			}
-		},{
+		},*/{
 			text: "Group Code",
 		    width: 80,
 		    dataIndex: 'matkl',
@@ -100,6 +117,11 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			store: this.store,
 			displayInfo: true
 		};
+		
+		 Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		return this.callParent(arguments);
 	},

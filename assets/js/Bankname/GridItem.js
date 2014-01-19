@@ -2,12 +2,37 @@
 
 Ext.define('Account.Bankname.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
 
 		return this.callParent(arguments);
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'bcode'
+			},{
+				type: 'string',
+				dataIndex: 'bname'
+			},{
+				type: 'string',
+				dataIndex: 'addrs'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 		
 		this.addAct = new Ext.Action({
 			text: 'Add',
@@ -114,6 +139,11 @@ Ext.define('Account.Bankname.GridItem', {
 			sortable: true
 		}
 		];
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		this.plugins = [this.editing];
 		

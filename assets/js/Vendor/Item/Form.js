@@ -466,7 +466,18 @@ Ext.define('Account.Vendor.Item.Form', {
 		            maskRe: /[\d\-]/,
 		            regex: /^\d{13}$/,
 		            width: 290
-                }, this.comboQStatus]
+                },{xtype: 'combo',
+					fieldLabel: 'Withholding Tax',
+					name: 'type1',
+					editable: false,
+					allowBlank: false,
+					triggerAction: 'all',
+						fields: ['value','text'],
+						store: [['','Personal'],['1','Corparation']],
+					margin: '0 0 0 56',
+					labelAlign: 'right',
+					value: '1'
+                }]
             },{
                 xtype: 'container',
                 flex: 1,
@@ -496,20 +507,7 @@ Ext.define('Account.Vendor.Item.Form', {
 					name: 'note1',
 					allowBlank: true,
 					width:290
-                },{xtype: 'combo',
-					//fieldLabel: 'Company Corporation',
-					fieldLabel: 'Withholding Tax',
-					name: 'type1',
-					editable: false,
-					allowBlank: false,
-					triggerAction: 'all',
-						fields: ['value','text'],
-						store: [['','Personal'],['1','Corparation']],
-					margin: '0 0 0 56',
-					labelAlign: 'right',
-					width:286,
-					value: ''
-                }]
+                },this.comboQStatus]
             }]
         }]
               

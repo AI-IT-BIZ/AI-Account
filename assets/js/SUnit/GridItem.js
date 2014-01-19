@@ -1,5 +1,8 @@
 Ext.define('Account.SUnit.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
 		
 		return this.callParent(arguments);
@@ -7,6 +10,19 @@ Ext.define('Account.SUnit.GridItem', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'meins'
+			},{
+				type: 'string',
+				dataIndex: 'matxt'
+			}]
+		};
 
 		this.store = new Ext.data.JsonStore({
 			proxy: {
@@ -62,6 +78,11 @@ Ext.define('Account.SUnit.GridItem', {
 			store: this.store,
 			displayInfo: true
 		};
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		return this.callParent(arguments);
 	},

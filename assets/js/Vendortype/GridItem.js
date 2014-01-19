@@ -1,5 +1,8 @@
 Ext.define('Account.Vendortype.GridItem', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
 
 		return this.callParent(arguments);
@@ -7,6 +10,25 @@ Ext.define('Account.Vendortype.GridItem', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'vtype'
+			},{
+				type: 'string',
+				dataIndex: 'ventx'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
+			}]
+		};
 
 		this.addAct = new Ext.Action({
 			text: 'Add',
@@ -99,6 +121,11 @@ Ext.define('Account.Vendortype.GridItem', {
 		},{
 			text: "GL Description", width: 170, dataIndex: 'sgtxt', sortable: true
 		}];
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		this.plugins = [this.editing];
 

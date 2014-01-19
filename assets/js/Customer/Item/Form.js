@@ -686,16 +686,16 @@ items:[{
 		            //regexText: 'Must be in the format xxxxx',
 		            width: 290
                	},{xtype: 'combo',
-					//fieldLabel: 'Company Corporation',
 					fieldLabel: 'Withholding Tax',
 					name: 'type1',
 					editable: false,
 					allowBlank: false,
+					labelAlign: 'right',
 					triggerAction: 'all',
 						fields: ['value','text'],
 						store: [['','Personal'],['1','Corparation']],
-					margin: '0 0 0 56',
-					value: ''
+					margin: '0 0 0 54',
+					value: '1'
                 }],
             },{
                 xtype: 'container',

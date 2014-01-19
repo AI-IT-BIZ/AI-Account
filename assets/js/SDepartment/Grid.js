@@ -18,10 +18,10 @@ Ext.define('Account.SDepartment.Grid', {
 			local: true,
 			filters: [{
 				type: 'string',
-				dataIndex: 'saknr'
+				dataIndex: 'depnr'
 			},{
 				type: 'string',
-				dataIndex: 'sgtxt'
+				dataIndex: 'deptx'
 			}]
 		};
 		

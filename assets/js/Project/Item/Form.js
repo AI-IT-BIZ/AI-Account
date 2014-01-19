@@ -229,6 +229,7 @@ Ext.define('Account.Project.Item.Form', {
 			labelAlign: 'left',
 			labelWidth: 100,
 			width: 250,
+			allowBlank : false,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
@@ -238,6 +239,7 @@ Ext.define('Account.Project.Item.Form', {
 			name: 'endat',
 			labelWidth: 100,
 			width: 250,
+			allowBlank : false,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
