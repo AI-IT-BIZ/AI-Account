@@ -31,31 +31,21 @@ Ext.define('Account.SMaterialtype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mtype',
+					idProperty: 'mtart',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-				{ name:'id_mtype', type:'int' },
+				//{ name:'id_mtype', type:'int' },
 				'mtart',
 				'matxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mtype ASC'],
+			sorters: ['mtart ASC'],
 			pageSize: 10000000
 		});
 
 		this.columns = [{
-			id : 'MTiRowNumber001',
-			header : "Type ID",
-			dataIndex : 'id_mtype',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
 			text: "Type Code",
 		    width: 100,
 		    dataIndex: 'mtart',

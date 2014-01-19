@@ -29,7 +29,7 @@ class Rpurchasewht extends CI_Controller {
 		
 		$strSQL1 = " select v_ebbp.*";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
-        $strSQL1 = $strSQL1 . " Where v_ebbp.vtype = '01' and v_ebbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);

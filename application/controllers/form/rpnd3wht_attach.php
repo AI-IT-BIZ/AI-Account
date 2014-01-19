@@ -30,7 +30,7 @@ class Rpnd3wht_attach extends CI_Controller {
 		
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.vtype = '02' and v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.type1 = '' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);

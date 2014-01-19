@@ -34,7 +34,7 @@ class Rsumwht_docket extends CI_Controller {
 		$strSQL="";
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
-        $strSQL = $strSQL . " Where v_ebbp.vtype = '01' and v_ebbp.bldat ".$dt_result;
+        $strSQL = $strSQL . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
 		$strSQL .= " ORDER BY payno ASC";
 		//echo $strSQL;
        

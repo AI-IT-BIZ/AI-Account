@@ -36,7 +36,7 @@ Ext.define('Account.SUnit.GridItem', {
 				}
 			},
 			fields: [
-				{ name:'id_unit', type:'int' },
+				//{ name:'id_unit', type:'int' },
 				'meins',
 				'metxt'
 			],
@@ -45,16 +45,6 @@ Ext.define('Account.SUnit.GridItem', {
 		});
 
 		this.columns = [{
-			id : 'PMiRowNumber23',
-			header : "Unit No",
-			dataIndex : 'id_unit',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
 			text: "Unit Code ",
 		    width: 80,
 		    dataIndex: 'meins',

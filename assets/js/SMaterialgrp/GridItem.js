@@ -37,19 +37,19 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mgrp',
+					idProperty: 'matkl',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-				{ name:'id_mgrp', type:'int' },
+				//{ name:'id_mgrp', type:'int' },
 				'matkl',
 				'matxt',
 				'saknr',
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mgrp ASC'],
+			sorters: ['matkl ASC'],
 			pageSize: 10000000
 		});
 

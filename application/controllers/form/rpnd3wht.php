@@ -29,7 +29,7 @@ class Rpnd3wht extends CI_Controller {
 		//Sale
 	    $strSQL1 = " select v_ebbp.*";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
-        $strSQL1 = $strSQL1 . " Where v_ebbp.vtype = '02' and v_ebbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_ebbp.type1 = '' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);

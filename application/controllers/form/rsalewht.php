@@ -29,7 +29,7 @@ class Rsalewht extends CI_Controller {
 		//Sale
 	    $strSQL1 = " select v_vbbp.*";
         $strSQL1 = $strSQL1 . " from v_vbbp ";
-        $strSQL1 = $strSQL1 . " Where v_vbbp.ktype = '01' and v_vbbp.bldat ".$dt_result;
+        $strSQL1 = $strSQL1 . " Where v_vbbp.type1 = '1' and v_vbbp.bldat ".$dt_result;
 		$strSQL1 .= " ORDER BY recnr ASC";
        
 		$query = $this->db->query($strSQL1);
