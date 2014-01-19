@@ -162,7 +162,7 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Cost Value',
 			name: 'costv',
 			minValue: 0,
-			readOnly: true,
+			//readOnly: true,
 			alwaysDisplayDecimals: true
          });
          
