@@ -15,6 +15,7 @@ class Semployee extends CI_Controller {
 	}
 
 	function loads(){
+		$this->db->set_dbprefix('v_');
 		$tbName = 'empl';
 		$totalCount = $this->db->count_all_results($tbName);
 		$limit = $this->input->get('limit');

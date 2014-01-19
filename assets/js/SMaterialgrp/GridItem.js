@@ -91,12 +91,10 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 			sortable: true
 		}];
 		
-		this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		this.bbar = Ext.create('Ext.PagingToolbar', {
 			store: this.store,
 			displayInfo: true
-		};
+		});
 		
 		Ext.apply(this, {
 			forceFit: true,
