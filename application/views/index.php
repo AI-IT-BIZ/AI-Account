@@ -139,7 +139,7 @@ Ext.onReady(function() {
 			$om.salepersonDialog = Ext.create('Account.Saleperson.MainWindow');
 		$om.salepersonDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rinvoice', function(){
 		if(!$om.rinvoiceDialog)
 			$om.rinvoiceDialog = Ext.create('Account.RInvoice.MainWindow');
@@ -268,7 +268,7 @@ Ext.onReady(function() {
 			$om.chartOfAccountDialog = Ext.create('Account.ChartOfAccounts.MainWindow');
 		$om.chartOfAccountDialog.show();
 	});
-	
+
 	$om.viewport.on('click_journaltemp', function(){
 		if(!UMS.CAN.DISPLAY('JT')){
 			UMS.ALERT("You don't have permission for Journal Template.");
@@ -290,19 +290,19 @@ Ext.onReady(function() {
 			$om.journalDialog = Ext.create('Account.Journal.MainWindow');
 		$om.journalDialog.show();
 	});
-	
+
     $om.viewport.on('click_income', function(){
 		if(!$om.incomeDialog)
 			$om.incomeDialog = Ext.create('Account.OtherIncome.MainWindow');
 		$om.incomeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_expense', function(){
 		if(!$om.expenseDialog)
 			$om.expenseDialog = Ext.create('Account.OtherExpense.MainWindow');
 		$om.expenseDialog.show();
 	});
-	
+
 	$om.viewport.on('click_asset-regist', function(){
 		if(!UMS.CAN.DISPLAY('FA')){
 			UMS.ALERT("You don't have permission for Asset Register.");
@@ -313,7 +313,7 @@ Ext.onReady(function() {
 			$om.assetregitDialog = Ext.create('Account.RAssetRegister.MainWindow');
 		$om.assetregitDialog.show();
 	});
-	
+
 	$om.viewport.on('click_rjournal', function(){
 		if(!$om.rjournalDialog)
 			$om.rjournalDialog = Ext.create('Account.RJournal.MainWindow');
@@ -329,7 +329,7 @@ Ext.onReady(function() {
 		$om.customertypeDialog = Ext.create('Account.Customertype.Window');
 		$om.customertypeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_vendor_type', function(){
 		if(!UMS.CAN.DISPLAY('VT')){
 	 		UMS.ALERT("You don't have permission for Vendor Type.");
@@ -338,7 +338,7 @@ Ext.onReady(function() {
 		$om.vendortypeDialog = Ext.create('Account.Vendortype.Window');
 		$om.vendortypeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_material_type', function(){
 		if(!UMS.CAN.DISPLAY('MT')){
 	 		UMS.ALERT("You don't have permission for Material Type.");
@@ -347,7 +347,7 @@ Ext.onReady(function() {
 		$om.materialtypeDialog = Ext.create('Account.Materialtype.Window');
 		$om.materialtypeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_material_group', function(){
 		if(!UMS.CAN.DISPLAY('MG')){
 	 		UMS.ALERT("You don't have permission for Material Group.");
@@ -356,7 +356,7 @@ Ext.onReady(function() {
 		$om.materialgrpDialog = Ext.create('Account.Materialgrp.Window');
 		$om.materialgrpDialog.show();
 	});
-	
+
 	$om.viewport.on('click_asset_type', function(){
 		if(!UMS.CAN.DISPLAY('AT')){
 	 		UMS.ALERT("You don't have permission for Asset Type.");
@@ -365,7 +365,7 @@ Ext.onReady(function() {
 		$om.assettypeDialog = Ext.create('Account.Assettype.Window');
 		$om.assettypeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_asset_group', function(){
 		if(!UMS.CAN.DISPLAY('AH')){
 	 		UMS.ALERT("You don't have permission for Asset Group.");
@@ -374,9 +374,9 @@ Ext.onReady(function() {
 		$om.assetgrpDialog = Ext.create('Account.Assetgrp.Window');
 		$om.assetgrpDialog.show();
 	});
-	
+
 	$om.viewport.on('click_bankname_setting', function(){
-	  	
+
 	  	if(!UMS.CAN.DISPLAY('BN')){
 	 		UMS.ALERT("You don't have permission for Bank Name Setting.");
 	  		return;
@@ -384,9 +384,9 @@ Ext.onReady(function() {
 		$om.bankNameDialog = Ext.create('Account.Bankname.MainWindow');
 		$om.bankNameDialog.show();
 	});
-	
+
 	$om.viewport.on('click_department', function(){
-	  	
+
 	  	if(!UMS.CAN.DISPLAY('DM')){
 	 		UMS.ALERT("You don't have permission for Department master.");
 	  		return;
@@ -394,9 +394,9 @@ Ext.onReady(function() {
 		$om.departDialog = Ext.create('Account.SDepartment.MainWindow');
 		$om.departDialog.show();
 	});
-	
+
 	$om.viewport.on('click_position', function(){
-	  	
+
 	  	if(!UMS.CAN.DISPLAY('PS')){
 	 		UMS.ALERT("You don't have permission for Position master.");
 	  		return;
@@ -404,9 +404,9 @@ Ext.onReady(function() {
 		$om.positionDialog = Ext.create('Account.SPosition.MainWindow');
 		$om.positionDialog.show();
 	});
-	
+
 	$om.viewport.on('click_employee', function(){
-	  	
+
 	  	if(!UMS.CAN.DISPLAY('EP')){
 	 		UMS.ALERT("You don't have permission for Employee master.");
 	  		return;
@@ -414,7 +414,7 @@ Ext.onReady(function() {
 		$om.employeeDialog = Ext.create('Account.Employee.MainWindow');
 		$om.employeeDialog.show();
 	});
-	
+
 	$om.viewport.on('click_unit', function(){
 		if(!UMS.CAN.DISPLAY('UN')){
 	 		UMS.ALERT("You don't have permission for Unit.");
@@ -445,7 +445,7 @@ Ext.onReady(function() {
 			$om.serviceDialog = Ext.create('Account.Service.MainWindow');
 		$om.serviceDialog.show();
 	});
-	
+
 	$om.viewport.on('click_asset-master', function(){
 		if(!UMS.CAN.DISPLAY('FA')){
 			UMS.ALERT("You don't have permission for Asset Master.");
@@ -493,15 +493,15 @@ Ext.onReady(function() {
 		//$om.limitDialog = Ext.create('Account.UMSLimit.SelectCompanyWindow');
 		//$om.limitDialog.show();
 	});
-	
-	
+
+
 
 	//Report
 	$om.viewport.on('click_report_gl', function(){
 		if(!UMS.CAN.DISPLAY('FI')){
 	 		UMS.ALERT("You don't have permission for Financial Statement Report.");
 	  		return;
-		}		
+		}
 		$om.RGeneralJournal = Ext.create('Account.RGeneralLedger.MainWindow');
 		$om.RGeneralJournal.show();
 	});
@@ -510,34 +510,34 @@ Ext.onReady(function() {
 		if(!UMS.CAN.DISPLAY('JR')){
 	 		UMS.ALERT("You don't have permission for Journal Report.");
 	  		return;
-		}		
+		}
 		$om.RGeneralJournal = Ext.create('Account.RGeneralJournal.MainWindow');
 		$om.RGeneralJournal.show();
 	});
-	
+
 	$om.viewport.on('click_report_pj', function(){
 		if(!UMS.CAN.DISPLAY('JR')){
 	 		UMS.ALERT("You don't have permission for Journal Report.");
 	  		return;
-		}	
+		}
 		$om.RPettyCashJournal = Ext.create('Account.RPettyCashJournal.MainWindow');
 		$om.RPettyCashJournal.show();
 	});
-	
+
 	$om.viewport.on('click_report_sj', function(){
 		if(!UMS.CAN.DISPLAY('JR')){
 	 		UMS.ALERT("You don't have permission for Journal Report.");
 	  		return;
-		}	
+		}
 		$om.RSaleJournal = Ext.create('Account.RSaleJournal.MainWindow');
 		$om.RSaleJournal.show();
 	});
-	
+
 	$om.viewport.on('click_report_purchasej', function(){
 		if(!UMS.CAN.DISPLAY('JR')){
 	 		UMS.ALERT("You don't have permission for Journal Report.");
 	  		return;
-		}	
+		}
 		$om.RPurchaseJournal = Ext.create('Account.RPurchaseJournal.MainWindow');
 		$om.RPurchaseJournal.show();
 	});

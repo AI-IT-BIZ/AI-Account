@@ -18,20 +18,20 @@ Ext.define('Account.Project.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-		
+
 		// INIT Warehouse search popup //////
 		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		
+
 		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		
+
 		this.typeDialog = Ext.create('Account.Projecttype.Window');
-		
+
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
 			name: 'jtype',
 			fieldLabel: 'Project Type',
@@ -41,7 +41,7 @@ Ext.define('Account.Project.Item.Form', {
 			labelAlign: 'left',
 			width: 250
 		});
-		
+
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('PJ'),
 			fieldLabel: 'Project Status',
@@ -76,7 +76,7 @@ Ext.define('Account.Project.Item.Form', {
 			valueField: 'statu'//,
 			//margins: '0 0 0 2'
 		});
-		
+
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
@@ -85,7 +85,7 @@ Ext.define('Account.Project.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
 			fieldLabel: 'Project Owner',
@@ -96,7 +96,7 @@ Ext.define('Account.Project.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
+
 		this.txtAmt = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Project Amount',
@@ -107,7 +107,7 @@ Ext.define('Account.Project.Item.Form', {
 			allowBlank: false,
 			labelWidth: 100
 		});
-		
+
 		this.txtCost = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Estimate Cost',
@@ -118,7 +118,7 @@ Ext.define('Account.Project.Item.Form', {
 			labelWidth: 100//,
 			//margins: '0 0 0 10'
 		});
-		
+
      this.items = [{
 			xtype:'fieldset',
             title: 'Customer Data',
@@ -147,24 +147,35 @@ Ext.define('Account.Project.Item.Form', {
 			allowBlank: true
          }]
         },{
-         xtype: 'fieldset',
-         title: 'Project Detail',
-         defaultType: 'textfield',
-     items: [{
-     	xtype: 'container',
-        layout: 'hbox',
-        margin: '0 0 5 0',
-     items: [{
-			xtype: 'displayfield',
-			fieldLabel: 'Project No',
-			name: 'jobnr',
-			labelAlign: 'left',
-			width: 248,
-			labelWidth: 100,
-			value:'PJXXXX-XXXX',
-			readOnly: true,
-			labelStyle: 'font-weight:bold'
-		},this.comboJStatus]
+		xtype: 'fieldset',
+		title: 'Project Detail',
+		defaultType: 'textfield',
+		items: [{
+			xtype: 'container',
+			layout: 'hbox',
+			margin: '0 0 5 0',
+			items: [{
+				xtype: 'displayfield',
+				fieldLabel: 'Project No',
+				name: 'jobnr',
+				labelAlign: 'left',
+				width: 248,
+				labelWidth: 100,
+				value:'PJXXXX-XXXX',
+				readOnly: true,
+				labelStyle: 'font-weight:bold'
+			},{
+				xtype: 'datefield',
+				fieldLabel: 'Project Date',
+				name: 'bldat',
+				labelWidth: 100,
+				width: 250,
+				format:'d/m/Y',
+				altFormats:'Y-m-d|d/m/Y',
+				submitFormat:'Y-m-d',
+				//margin: '0 0 0 20',
+				allowBlank: false
+		    }]
 	   },{
      	xtype: 'container',
         layout: 'hbox',
@@ -179,18 +190,7 @@ Ext.define('Account.Project.Item.Form', {
 						width:286//,
 						//allowBlank: false
                 }]
-            },{
-			xtype: 'datefield',
-			fieldLabel: 'Project Date',
-			name: 'bldat',
-			labelWidth: 100,
-			width: 250,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			//margin: '0 0 0 20',
-			allowBlank: false
-	    }]
+            }]
 	   },{
 			xtype: 'textfield',
 			fieldLabel: 'Project Name',
@@ -199,7 +199,7 @@ Ext.define('Account.Project.Item.Form', {
 			width: 500,
 			labelWidth: 100,
 			allowBlank: false
-	
+
 	    },{
 			xtype: 'container',
                 layout: 'hbox',
@@ -212,12 +212,12 @@ Ext.define('Account.Project.Item.Form', {
 		},{xtype: 'hidden',
 			name: 'ctype',
 			value: 'THB'}]
-	
+
 	    },{
 	    	xtype: 'container',
-                    layout: 'hbox',
-                    margin: '0 0 5 0',
-     items: [this.txtAmt,this.txtCost]
+            layout: 'hbox',
+            margin: '0 0 5 0',
+			items: [this.txtAmt,this.txtCost]
 	   },{
 	   	xtype: 'container',
                     layout: 'hbox',
@@ -251,7 +251,7 @@ Ext.define('Account.Project.Item.Form', {
 	/****************************************************/
     //if(arrPermit === undefined )
     //{
-       
+
     //}
     //else{
         //if(arrPermit['PJ']['approve'] == "0")
@@ -262,7 +262,7 @@ Ext.define('Account.Project.Item.Form', {
          //    this.comboQStatus.setDisabled(false);
         //}
    // }
-    
+
    	/****************************************************/
    	// event trigType//
 		this.trigType.on('keyup',function(o, e){
@@ -301,14 +301,14 @@ Ext.define('Account.Project.Item.Form', {
 
 			grid.getSelectionModel().deselectAll();
 			_this.typeDialog.hide();
-			
+
 		});
 
 		this.trigType.onTriggerClick = function(){
 			_this.typeDialog.grid.load();
 			_this.typeDialog.show();
 		};
-		
+
 	// event Customer ///
 		this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -352,7 +352,7 @@ Ext.define('Account.Project.Item.Form', {
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			
+
 			var _addr = record.data.adr01;
 			if(!Ext.isEmpty(record.data.distx))
               _addr += ' '+record.data.distx;
@@ -376,7 +376,7 @@ Ext.define('Account.Project.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.show();
 		};
-		
+
 		// event Saleperson///
 		this.trigSale.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -394,7 +394,7 @@ Ext.define('Account.Project.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.salnr);
 							_this.getForm().findField('emnam').setValue(r.data.emnam);
-							
+
 						}else{
 							o.markInvalid('Could not find project owner : '+o.getValue());
 						}
@@ -417,24 +417,25 @@ Ext.define('Account.Project.Item.Form', {
 
 		return this.callParent(arguments);
 	},
-	
+
 	// load //
 	load : function(id){
 		var _this=this;
-		
+
 		this.getForm().load({
 			params: { id: id },
 			url:__site_url+'project/load'//,
 			//success: function(form, act){
 			//	_this.fireEvent('afterLoad', form, act);
-			//}			
+			//}
 		});
 	},
-	
+
 	// save //
 	save : function(){
 		var _this=this;
 		var _form_basic = this.getForm();
+		console.log(this.getInvalidFields());
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -447,7 +448,7 @@ Ext.define('Account.Project.Item.Form', {
 			});
 		}
 	},
-	
+
 	remove : function(id){
 		var _this=this;
 		this.getForm().load({
@@ -458,12 +459,22 @@ Ext.define('Account.Project.Item.Form', {
 			}
 		});
 	},
-	
+
 	reset: function(){
 		this.getForm().reset();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
 		this.getForm().findField('bldat').setValue(new Date());
+	},
+	getInvalidFields: function() {
+	    var invalidFields = [];
+	    Ext.suspendLayouts();
+	    this.form.getFields().filterBy(function(field) {
+	        if (field.validate()) return;
+	        invalidFields.push(field);
+	    });
+	    Ext.resumeLayouts(true);
+	    return invalidFields;
 	}
 });

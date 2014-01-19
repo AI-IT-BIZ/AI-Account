@@ -17,12 +17,14 @@ Ext.define('Account.Project.Item.Window', {
 	initComponent : function() {
 		var _this=this;
 
-		this.form = Ext.create('Account.Project.Item.Form');
+		this.form = Ext.create('Account.Project.Item.Form', {
+			region:'center'
+		});
 
 		this.items = [
 			this.form
 		];
-		
+
 		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
 			disabled: !(UMS.CAN.CREATE('PJ') || UMS.CAN.EDIT('PJ')||UMS.CAN.APPROVE('PJ')),
