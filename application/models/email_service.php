@@ -21,7 +21,7 @@ class Email_service extends CI_Model {
 					->from('kitipong@primebiznets.com')
 					->to($mail_data['to'])
 					//->to('khemmac@gmail.com')
-					->cc('khemmac@gmail.com')
+					//->cc('khemmac@gmail.com')
 					->subject($mail_data['subject'])
 					->message($mail_data['message'])
 					->send();
@@ -90,7 +90,7 @@ WHERE al.autlid=(
 		}
 		return $mail_arr;
 	}
-	
+
 	private function get_email_change_status($document_type, $amount, $creater_uname){
 		// prepare var
 		$comid = XUMS::COMPANY_ID();
@@ -223,7 +223,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 			// get involved employee
 			$emails = $this->get_email($module_code, $amount, $create_user);
 			if(empty($emails)) return;
-			
+
 			$emp_action_user = $this->get_emp_by_username($action_user);
 			$emp_action_name = (!empty($emp_action_user))?$emp_action_user->name1:'Unknown';
 
@@ -245,7 +245,7 @@ WHERE e.empnr=(SELECT u.empnr FROM tbl_user u WHERE u.uname=".$this->db->escape(
 									){
 		$action_user = XUMS::USERNAME();
 		$action_date = date('d/m/Y H:i:s');
-		
+
 		if(empty($module_code)) return;
 		//echo PHP_EOL.'MODULE CODE: '.$module_code.PHP_EOL;
 		//echo PHP_EOL.'ROW CODE: '.$row_code.PHP_EOL;
