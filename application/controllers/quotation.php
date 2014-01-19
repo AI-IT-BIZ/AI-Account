@@ -341,7 +341,8 @@ class Quotation extends CI_Controller {
 		}else{
 			$id = $this->code_model->generate('QT', $this->input->post('bldat'));
 			$this->db->set('vbeln', $id);
-			$this->db->set('erdat', 'NOW()', false);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this,'erdat');
 		    $this->db->set('ernam', $current_username);
 			$this->db->insert('vbak', $formData);
 

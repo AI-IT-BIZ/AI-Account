@@ -629,7 +629,7 @@ Ext.onReady(function() {
 			    	checkSession();
 			    }
 			});
-		}, 5000);
+		}, 10000);
 	}
 	checkSession();
 	/* ** END Interval check session */

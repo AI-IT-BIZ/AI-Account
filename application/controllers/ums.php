@@ -88,7 +88,7 @@ class Ums extends CI_Controller {
 					else
 					{
 						// Check in use session
-						$this->db->like('user_data', '"uname":"'.$this->db->escape_str($sUser['uname']).'"');
+						/*$this->db->like('user_data', '"uname":"'.$this->db->escape_str($sUser['uname']).'"');
 						$this->db->from('ci_sessions');
 						$cnt_used = $this->db->count_all_results();
 						if($cnt_used>0){
@@ -97,7 +97,7 @@ class Ums extends CI_Controller {
 								'message'=>'<strong>Cannot login</strong><br />This account is being used by other.'
 							));
 							return;
-						}
+						}*/
 						// end Check
 
                     	// prepare PermissionState

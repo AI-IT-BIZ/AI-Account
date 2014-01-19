@@ -156,8 +156,8 @@ class Vendor extends CI_Controller {
 					return;
 				}
 			}else{
-				if($row['statu']=='02'||$row['statu']=='03'){
-					$emsg = 'The Vendor that already approved or rejected cannot be update.';
+				if($row['statu']=='03'){
+					$emsg = 'The Vendor that already rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -253,7 +253,7 @@ class Vendor extends CI_Controller {
 			'data'=>$_POST
 			));
 			
-			try{
+			/*try{
 				$post_id = $this->input->post('id');
 				$total_amount = $this->input->post('endin');
 				// send notification email
@@ -276,7 +276,7 @@ class Vendor extends CI_Controller {
 						);
 					}
 				}
-			}catch(exception $e){}
+			}catch(exception $e){}*/
 	}
 
 	function remove(){

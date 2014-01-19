@@ -42,8 +42,8 @@ class Saleperson extends CI_Controller {
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(salnr LIKE '%$query%'
-				OR emnam LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(`salnr` LIKE '%$query%'
+				OR `emnam` LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$salnr1 = $_this->input->get('salnr');
@@ -147,21 +147,21 @@ class Saleperson extends CI_Controller {
 					));
 					return;
 				}
-        if(!empty($this->input->post('stdat'))){
-			$sdat = explode('-',$this->input->post('stdat'));
-			$edat = explode('-',$this->input->post('endat'));
-			$stdat = $sdat[0].$sdat[1].$sdat[2];
-			$endat = $edat[0].$edat[1].$edat[2];
-			//echo $stdat.'aaa'.$endat;
-			if($stdat>$endat){
+        
+		$sdat = explode('-',$this->input->post('stdat'));
+		$edat = explode('-',$this->input->post('endat'));
+		$stdat = $sdat[0].$sdat[1].$sdat[2];
+		$endat = $edat[0].$edat[1].$edat[2];
+		//echo $stdat.'aaa'.$endat;
+		if($stdat>$endat){
 					$emsg = 'The End date must be more than Start date.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-			}
-		}
+				}
+		
 		if($this->input->post('ctype') == '1') $commis='Levels';
 		else $commis='Step';
 		
@@ -171,19 +171,19 @@ class Saleperson extends CI_Controller {
 			'empnr' => $this->input->post('empnr'),
 			'ctype' => $commis,
 			'name1' => $this->input->post('name1'),
-			'goals' => floatval($this->input->post('goals')),
+			'goals' => $this->input->post('goals'),
 			'stdat' => $this->input->post('stdat'),
 			'endat' => $this->input->post('endat'),
-			'percs' => floatval($this->input->post('percs')),
-			'levf1' => floatval($this->input->post('levf1')),
-			'levf2' => floatval($this->input->post('levf2')),
-			'levf3' => floatval($this->input->post('levf3')),
-			'levt1' => floatval($this->input->post('levt1')),
-			'levt2' => floatval($this->input->post('levt2')),
-			'levt3' => floatval($this->input->post('levt3')),
-			'perc1' => floatval($this->input->post('perc1')),
-			'perc2' => floatval($this->input->post('perc2')),
-			'perc3' => floatval($this->input->post('perc3')),
+			'percs' => $this->input->post('percs'),
+			'levf1' => $this->input->post('levf1'),
+			'levf2' => $this->input->post('levf2'),
+			'levf3' => $this->input->post('levf3'),
+			'levt1' => $this->input->post('levt1'),
+			'levt2' => $this->input->post('levt2'),
+			'levt3' => $this->input->post('levt3'),
+			'perc1' => $this->input->post('perc1'),
+			'perc2' => $this->input->post('perc2'),
+			'perc3' => $this->input->post('perc3'),
 			'statu' => $this->input->post('statu')
 			
 		);
