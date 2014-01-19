@@ -21,7 +21,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		
+
 		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
@@ -36,7 +36,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			enableKeyEvents: true//,
 			//allowBlank : false
 		});
-		
+
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.Quotation.Item.Grid_i',{
@@ -175,7 +175,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 35'
          });
-         
+
          this.whtDialog = Ext.create('Account.WHT.Window');
          this.trigWHT = Ext.create('Ext.form.field.Trigger', {
        	    fieldLabel: 'WHT Value',
@@ -186,7 +186,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 35'
 		 });
-		 
+
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
 			width:15,
@@ -484,7 +484,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
 		};
-		
+
 		// event Saleperson///
 		this.trigSale.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -502,7 +502,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						if(r && r.success){
 							o.setValue(r.data.salnr);
 							_this.getForm().findField('sname').setValue(r.data.sname);
-							
+
 						}else{
 							o.markInvalid('Could not find project owner : '+o.getValue());
 						}
@@ -647,7 +647,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
-		
+
 		// event trigWHT///
 		this.trigWHT.on('keyup',function(o, e){
 			var v = o.getValue();
@@ -681,7 +681,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//if(record.data.whtnr != '6'){
             _this.getForm().findField('whtpr').setValue(record.data.whtpr);
            //}
-            
+
 			grid.getSelectionModel().deselectAll();
 			_this.whtDialog.hide();
 		});
@@ -810,12 +810,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
-			
+
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
-		    
+
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -824,11 +824,11 @@ Ext.define('Account.Quotation.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
-			
+
 			sum += amt;
-			
+
 			discounts += discountValue;
-            
+
             amt = amt - discountValue;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -841,13 +841,13 @@ Ext.define('Account.Quotation.Item.Form', {
 				    whts += wht;
 			}
 		});
-		
+
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
-		
+
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
@@ -856,8 +856,8 @@ Ext.define('Account.Quotation.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		}  
-		
+		}
+
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
@@ -867,6 +867,8 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		// set value to grid payment
 		this.gridPayment.netValue = net;
+		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
+
 		// set value to total form
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
@@ -878,7 +880,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
-        
+
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
@@ -896,7 +898,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
         }
 	},
-	
+
 	changeCurrency: function(){
 		var _this=this;
 		var store = this.gridItem.store;
@@ -904,7 +906,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		store.each(function(r){
 			r.set('ctyp1', currency);
 		});
-		
+
 		var store2 = this.gridPayment.store;
 		store2.each(function(r){
 			r.set('ctyp1', currency);

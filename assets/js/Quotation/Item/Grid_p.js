@@ -88,9 +88,13 @@ Ext.define('Account.Quotation.Item.Grid_p', {
                 allowBlank: false,
                 format:'d/m/Y',
 			    altFormats:'Y-m-d|d/m/Y',
-			    submitFormat:'Y-m-d'
-                //minText: 'Cannot have a start date before the company existed!',
-                //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
+			    submitFormat:'Y-m-d',
+			    listeners: {
+			    	'change':function(o){
+			    		if(_this.startDate)
+			    			o.setMinValue(_this.startDate);
+			    	}
+			    }
             }
 			},{
             xtype: 'checkcolumn',
@@ -179,7 +183,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				newId = r.get('id');
 		});
 		newId--;
-        
+
         var cur = _this.curValue;
 		// add new record
 		rec = { id:newId, pramt:'0.00', ctyp1:cur };
@@ -217,5 +221,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		});
 		return rs;
 	},
-	netValue : 0
+	netValue : 0,
+	startDate: null
 });
