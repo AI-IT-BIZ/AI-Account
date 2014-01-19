@@ -571,11 +571,21 @@ Ext.onReady(function() {
 	});
 
 	$om.viewport.on('click_RSumVat', function(){
+		if(!UMS.CAN.DISPLAY('TF')){
+	 		UMS.ALERT("You don't have permission for Tax From.");
+	  		return;
+		}
+		
 		$om.RSumVat = Ext.create('Account.RSumVat.MainWindow');
 		$om.RSumVat.show();
 	});
 
 	$om.viewport.on('click_Rpp30Vat', function(){
+		if(!UMS.CAN.DISPLAY('TF')){
+	 		UMS.ALERT("You don't have permission for Tax From.");
+	  		return;
+		}
+		
 		$om.Rpp30Vat = Ext.create('Account.Rpp30Vat.MainWindow');
 		$om.Rpp30Vat.show();
 	});
@@ -591,6 +601,11 @@ Ext.onReady(function() {
 	});
 
 	$om.viewport.on('click_Rpnd50WHT', function(){
+		if(!UMS.CAN.DISPLAY('TF')){
+	 		UMS.ALERT("You don't have permission for Tax From.");
+	  		return;
+		}
+		
 		$om.Rpnd50WHT = Ext.create('Account.Rpnd50WHT.MainWindow');
 		$om.Rpnd50WHT.show();
 	});
