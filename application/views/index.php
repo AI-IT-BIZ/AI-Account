@@ -37,6 +37,7 @@ Ext.onReady(function() {
 
 		if(!$om.projectnewDialog)
 			$om.projectnewDialog = Ext.create('Account.Project.Item.Window');
+		$om.projectnewDialog.form.reset();
 		$om.projectnewDialog.show();
 	});
 	$om.viewport.on('click_project', function(){
