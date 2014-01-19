@@ -53,7 +53,8 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				'ctyp1'
 			],
 			remoteSort: true,
-			sorters: ['vbelp ASC']
+			sorters: ['vbelp ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [

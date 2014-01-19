@@ -54,7 +54,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				'kunnr'
 			],
 			remoteSort: true,
-			sorters: ['vbelp ASC']
+			sorters: ['vbelp ASC'],
 		});
 
 		this.columns = [

@@ -42,7 +42,8 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mgrp ASC']
+			sorters: ['id_mgrp ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{

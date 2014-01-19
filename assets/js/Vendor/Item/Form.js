@@ -495,13 +495,20 @@ Ext.define('Account.Vendor.Item.Form', {
 					fieldLabel: 'Text Note',
 					name: 'note1',
 					allowBlank: true,
-					width:470
-                },{xtype: 'checkboxfield',
+					width:290
+                },{xtype: 'combo',
 					//fieldLabel: 'Company Corporation',
-					boxLabel: 'Corparation Tax',
+					fieldLabel: 'Withholding Tax',
 					name: 'type1',
-					checked: true,
-					margin: '0 0 0 10'
+					editable: false,
+					allowBlank: false,
+					triggerAction: 'all',
+						fields: ['value','text'],
+						store: [['','Personal'],['1','Corparation']],
+					margin: '0 0 0 56',
+					labelAlign: 'right',
+					width:286,
+					value: ''
                 }]
             }]
         }]

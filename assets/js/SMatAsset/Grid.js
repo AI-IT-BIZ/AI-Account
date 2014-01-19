@@ -31,7 +31,8 @@ Ext.define('Account.SMatAsset.Grid', {
 				'erdat'
 			],
 			remoteSort: true,
-			sorters: [{property: 'matnr', direction: 'ASC'}]
+			sorters: [{property: 'matnr', direction: 'ASC'}],
+			pageSize: 10000000
 		});
 
 		this.columns = [

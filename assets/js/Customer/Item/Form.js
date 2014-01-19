@@ -685,12 +685,17 @@ items:[{
 		            regex: /^\d{13}$/,
 		            //regexText: 'Must be in the format xxxxx',
 		            width: 290
-               	},{xtype: 'checkboxfield',
+               	},{xtype: 'combo',
 					//fieldLabel: 'Company Corporation',
-					boxLabel: 'Corparation Tax',
+					fieldLabel: 'Withholding Tax',
 					name: 'type1',
-					checked: true,
-					margin: '0 0 0 166'
+					editable: false,
+					allowBlank: false,
+					triggerAction: 'all',
+						fields: ['value','text'],
+						store: [['','Personal'],['1','Corparation']],
+					margin: '0 0 0 56',
+					value: ''
                 }],
             },{
                 xtype: 'container',
