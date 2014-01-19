@@ -14,6 +14,14 @@ class Ums extends CI_Controller {
 		$this->phxview->RenderLayout('empty_ext');
 	}
 
+	public function check_session(){
+		$sess_obj = XUMS::getUserState();
+		if(empty($sess_obj)){
+			X::renderJSON(FALSE);
+		}else{
+			X::renderJSON($sess_obj);
+		}
+	}
 
 	public function do_login()
 	{

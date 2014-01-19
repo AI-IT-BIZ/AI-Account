@@ -599,5 +599,39 @@ Ext.onReady(function() {
 		$om.Rpnd53WHT = Ext.create('Account.Rpnd53WHT.MainWindow');
 		$om.Rpnd53WHT.show();
 	});
+
+	/* ** Interval check session */
+	var msgSessionExpire = null;
+	var checkSession = function(){
+		setTimeout(function(){
+			Ext.Ajax.request({
+				method: 'post',
+			    url: __site_url+'ums/check_session',
+			    success: function(response){
+			        var text = response.responseText;
+			        // process server response here
+			        var o = Ext.decode(text);
+			        if(o===false){
+						msgSessionExpire = Ext.Msg.show({
+							title:'Session is expire',
+							msg: 'Your session has expired.<br /> Please log in again.',
+							buttons: Ext.Msg.OK,
+							icon: Ext.Msg.ERROR,
+							closable: false,
+							fn: function(bId){
+								self.location.href=__site_url+'ums/login';
+							}
+						});
+			        }else
+			        	checkSession();
+			    },
+			    failure: function(){
+			    	checkSession();
+			    }
+			});
+		}, 5000);
+	}
+	checkSession();
+	/* ** END Interval check session */
 });
 </script>
