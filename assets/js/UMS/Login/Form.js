@@ -123,7 +123,7 @@ Ext.define('Account.UMS.Login.Form', {
 							showError('Failure', 'Ajax communication failed');
 							break;
 						case Ext.form.action.Action.SERVER_INVALID:
-							showError('Failure', action.result.msg);
+							showError('Failure', action.result.message);
 					}
 				}
             });

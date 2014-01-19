@@ -23,6 +23,28 @@ class Ums extends CI_Controller {
 		}
 	}
 
+	public function clear_session(){
+		$username = $this->input->get('username');
+
+		if(empty($username)){
+			echo 'Username is required';
+			return;
+		}
+
+		$q_user = $this->db->get_where('user', array(
+			'uname'=>$username
+		));
+		if($q_user->num_rows()>0){
+			$user = $q_user->first_row();
+			$this->db->like('user_data', '"uname":"'.$this->db->escape_str($user->uname).'"');
+			$this->db->delete('ci_sessions');
+
+			echo "Clear session $username success.";
+		}else{
+			echo 'User not found';
+		}
+	}
+
 	public function do_login()
 	{
 		$permission_array = $this->ums_service->permission_array;
@@ -41,7 +63,7 @@ class Ums extends CI_Controller {
 
 		$resFailUsername = array(
 			'success' => false,
-			'message' => 'username','msg'=>'Username or Password incorrect!'
+			'message'=>'Username or Password incorrect!'
 		);
 		$resFailStatus = array(
 			'success' => false,
@@ -65,6 +87,19 @@ class Ums extends CI_Controller {
 						X::renderJSON($resFailUsername);
 					else
 					{
+						// Check in use session
+						$this->db->like('user_data', '"uname":"'.$this->db->escape_str($sUser['uname']).'"');
+						$this->db->from('ci_sessions');
+						$cnt_used = $this->db->count_all_results();
+						if($cnt_used>0){
+							X::renderJSON(array(
+								'success'=>false,
+								'message'=>'<strong>Cannot login</strong><br />This account is being used by other.'
+							));
+							return;
+						}
+						// end Check
+
                     	// prepare PermissionState
                     	$permission_state = $this->ums_service->load_permission_by_uname($sUser['uname'], $Comid);
 						$permission_state_buff = array();
