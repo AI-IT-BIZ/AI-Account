@@ -713,7 +713,7 @@ function endsWith($haystack, $needle)
 			var nodeAssettype = {
 				text: 'Fixed Asset type',
 				leaf: true,
-				id: 'click_asset_tpye'
+				id: 'click_asset_type'
 			};
 			var nodeAssetgrp = {
 				text: 'Fixed Asset group',
@@ -1160,9 +1160,9 @@ function endsWith($haystack, $needle)
 									'<div id="div-master-matnew" class="box box-purple"><span>Material Master</span></div>',
 									'<div id="div-master-sernew" class="box box-purple"><span>Service Master</span></div>',
 									
-									'<div id="div-master-assettype" class="box box-purple"><span>Asset Type</span></div>',
-									'<div id="div-master-assetgrp" class="box box-purple"><span>Asset Group</span></div>',
-									'<div id="div-master-assetnew" class="box box-purple"><span>Asset Master</span></div>',
+									'<div id="div-master-assettype" class="box box-purple"><span>Fixed Asset Type</span></div>',
+									'<div id="div-master-assetgrp" class="box box-purple"><span>Fixed Asset Group</span></div>',
+									'<div id="div-master-assetnew" class="box box-purple"><span>Fixed Asset Master</span></div>',
 									'<div id="div-master-depart" class="box box-purple"><span>Department</span></div>',
 									'<div id="div-master-position" class="box box-purple"><span>Position</span></div>',
 									'<div id="div-master-employee" class="box box-purple"><span>Employee Master</span></div>',
@@ -1351,6 +1351,8 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-master-matgrp').on('click', function(){ $om.viewport.fireEvent('click_material_group', c); }, c);
                                 pEl.getById('div-master-matnew').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);
 								pEl.getById('div-master-sernew').on('click', function(){ $om.viewport.fireEvent('click_service', c); }, c);
+                                pEl.getById('div-master-assettype').on('click', function(){ $om.viewport.fireEvent('click_asset_type', c); }, c);
+                                pEl.getById('div-master-assetgrp').on('click', function(){ $om.viewport.fireEvent('click_asset_group', c); }, c);
                                 pEl.getById('div-master-assetnew').on('click', function(){ $om.viewport.fireEvent('click_asset-master', c); }, c);
                                 pEl.getById('div-master-depart').on('click', function(){ $om.viewport.fireEvent('click_department', c); }, c);
                                 pEl.getById('div-master-position').on('click', function(){ $om.viewport.fireEvent('click_position', c); }, c);

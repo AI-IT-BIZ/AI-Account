@@ -23,7 +23,7 @@ Ext.define('Account.SDistrict.Grid', {
 				'distr',
 				'distx'
 			],
-			remoteSort: true,
+			remoteSort: false,
 			sorters: ['distr ASC'],
 			pageSize: 10000000
 		});

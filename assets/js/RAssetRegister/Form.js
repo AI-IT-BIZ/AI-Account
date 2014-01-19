@@ -65,10 +65,7 @@ Ext.define('Account.RAssetRegister.Form', {
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[ this.dateDoc1,{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
+			
 		   }]
 		},{
 	    xtype: 'container',
