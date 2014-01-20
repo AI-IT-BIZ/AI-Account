@@ -170,10 +170,11 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
+			readOnly: true,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			//field: {
+			//	type: 'textfield'
+			//},
 		},{
 			dataIndex: 'wht01',
 			//width: 55,

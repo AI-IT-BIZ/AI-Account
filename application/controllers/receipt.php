@@ -315,7 +315,7 @@ class Receipt extends CI_Controller {
 			'netwr' => floatval($this->input->post('netwr')),
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
-			'ctype' => $this->input->post('ctype'),
+			//'ctype' => $this->input->post('ctype'),
 			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
