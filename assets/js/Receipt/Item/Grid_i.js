@@ -51,7 +51,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				//'payrc',
 				//'reman',
 				'belnr',
-				'ctype',
+				'ctyp1',
 				'wht01',
 				'vat01',
 				'dtype',
@@ -168,7 +168,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			},*///{text: "",xtype: 'hidden',width: 0, dataIndex: 'statu'},
 			{text: "Currency",
 			width: 55,
-			dataIndex: 'ctype',
+			dataIndex: 'ctyp1',
 			sortable: false,
 			//readOnly: true,
 			align: 'center',
@@ -239,7 +239,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							// Invoice amt
 							rModel.set('itamt', r.data.netwr);
 							// Currency
-							rModel.set('ctype', r.data.ctype);
+							rModel.set('ctyp1', r.data.ctype);
 							// WHT01
 							rModel.set('wht01', r.data.wht01);
 							// VAT01
@@ -278,7 +278,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
-				rModel.set('ctype', record.data.ctype);
+				rModel.set('ctyp1', record.data.ctype);
 				// WHT01
 				rModel.set('wht01', record.data.wht01);
 				// VAT01
@@ -330,9 +330,9 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		});
 		newId--;
         
-        var cur = _this.curValue;
+        //var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, invnr:'', ctype:cur };
+		rec = { id:newId };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

@@ -316,7 +316,7 @@ class Receipt extends CI_Controller {
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
 			//'ctype' => $this->input->post('ctype'),
-			'exchg' => floatval($this->input->post('exchg')),
+			//'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
@@ -361,7 +361,9 @@ class Receipt extends CI_Controller {
 		if(!empty($vbbp) && !empty($rc_item_array)){
 			// loop เพื่อ insert receipt item ที่ส่งมาใหม่
 			$item_index = 0;$depno=0;$netwr=0;$itamt=0;
+			//print_r($rc_item_array); return;
 		foreach($rc_item_array AS $p){
+			//print_r($p->ctype);
 			$this->db->insert('vbbp', array(
 				'recnr'=>$id,
 				'vbelp'=>++$item_index,
@@ -372,7 +374,7 @@ class Receipt extends CI_Controller {
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
-				'ctype'=>$p->ctype,
+				'ctype'=>$p->ctyp1,
 				'wht01'=>floatval($p->wht01),
 				'vat01'=>floatval($p->vat01),
 				'dtype'=>$p->dtype,
