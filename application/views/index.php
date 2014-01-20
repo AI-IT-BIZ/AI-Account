@@ -556,6 +556,24 @@ Ext.onReady(function() {
 		$om.RPurchaseJournal = Ext.create('Account.RPurchaseJournal.MainWindow');
 		$om.RPurchaseJournal.show();
 	});
+	
+	$om.viewport.on('click_report_receiptj', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}
+		$om.RReceiptJournal = Ext.create('Account.RReceiptJournal.MainWindow');
+		$om.RReceiptJournal.show();
+	});
+	
+	$om.viewport.on('click_report_paymentj', function(){
+		if(!UMS.CAN.DISPLAY('JR')){
+	 		UMS.ALERT("You don't have permission for Journal Report.");
+	  		return;
+		}
+		$om.RPaymentJournal = Ext.create('Account.RPaymentJournal.MainWindow');
+		$om.RPaymentJournal.show();
+	});
 
 	$om.viewport.on('click_report_tb', function(){
 		if(!UMS.CAN.DISPLAY('FI')){

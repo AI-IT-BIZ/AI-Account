@@ -824,6 +824,16 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_report_purchasej'
 			};
+			var nodeReportReceiptJ = {
+				text: 'Receipt Journal Report',
+				leaf: true,
+				id: 'click_report_receiptj'
+			};
+			var nodeReportPaymentJ = {
+				text: 'Payment Journal Report',
+				leaf: true,
+				id: 'click_report_paymentj'
+			};
 			var nodeReportGL = {
 				text: 'General Ledger Report',
 				leaf: true,
@@ -864,6 +874,8 @@ function endsWith($haystack, $needle)
 					nodeReportPJ,
 					nodeReportSJ,
 					nodeReportPurchaseJ,
+					nodeReportReceiptJ,
+					nodeReportPaymentJ,
 					nodeReportGL,
 					nodeReportTB,
 					nodeReportIncome,

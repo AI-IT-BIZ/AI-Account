@@ -41,7 +41,7 @@ Ext.define('Account.RPaymentJournal.MainWindow', {
 					if (form.isValid()){
 						result.loadMask.show();
 						Ext.Ajax.request({
-							url: __base_url + "index.php/rpaymenthjournal/result",
+							url: __base_url + "index.php/rpaymentjournal/result",
 							params: form.getValues(),
 							success: function(response){
 								var rs = response.responseText;
