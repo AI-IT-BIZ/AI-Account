@@ -1,11 +1,13 @@
 Ext.define('Account.DepositIn.Item.PreviewWindow', {
 	extend	: 'BASE.PreviewWindow',
 	constructor:function(config) {
-
+        var _this=this;
+        
 		Ext.apply(this, {
 			title: 'Deposit Receipt preview',
-			closeAction: 'hide',
-			height: 600,
+			enableCopies: true
+			/*closeAction: 'hide',
+			height: 700,
 			width: 830,
 			minHeight: 600,
 			minWidth: 830,
@@ -13,7 +15,7 @@ Ext.define('Account.DepositIn.Item.PreviewWindow', {
 			border: false,
 			resizable: true,
 			modal: true,
-			buttonAlign:'center'
+			buttonAlign:'center'*/
 		});
 
 		return this.callParent(arguments);

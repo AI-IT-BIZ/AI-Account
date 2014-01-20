@@ -277,7 +277,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				// Invoice amt
 				rModel.set('itamt', record.data.netwr);
 				// Currency
-				//rModel.set('ctype', record.data.ctype);
+				rModel.set('ctype', record.data.ctype);
 				// WHT01
 				rModel.set('wht01', record.data.wht01);
 				// VAT01

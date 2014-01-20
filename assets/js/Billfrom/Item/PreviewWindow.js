@@ -5,15 +5,7 @@ Ext.define('Account.Billfrom.Item.PreviewWindow', {
 		Ext.apply(this, {
 			title: 'Bill from Vendor preview',
 			closeAction: 'hide',
-			height: 600,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

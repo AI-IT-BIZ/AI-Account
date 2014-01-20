@@ -1,19 +1,11 @@
 Ext.define('Account.Receipt.Item.PreviewWindow', {
 	extend	: 'BASE.PreviewWindow',
 	constructor:function(config) {
-
+        var _this=this;
+        
 		Ext.apply(this, {
 			title: 'Receipt preview',
-			closeAction: 'hide',
-			height: 600,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

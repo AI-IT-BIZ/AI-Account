@@ -109,7 +109,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
+			//emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
