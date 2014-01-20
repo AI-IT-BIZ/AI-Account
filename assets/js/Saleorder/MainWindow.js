@@ -97,6 +97,7 @@ Ext.define('Account.Saleorder.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setTitle('Create Sale Order');
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
 		});
@@ -107,12 +108,8 @@ Ext.define('Account.Saleorder.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-				//_this.itemDialog.show();
-				//_this.itemDialog.form.load(id);
-
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ordnr: id});
-				//_this.itemDialog.form.gridPayment.load({vbeln: id});
+				
+				_this.itemDialog.setTitle('Edit Sale Order');
 			}
 		});
 		
@@ -122,6 +119,8 @@ Ext.define('Account.Saleorder.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				
+				_this.itemDialog.setTitle('Display Sale Order');
 			}
 		});
 

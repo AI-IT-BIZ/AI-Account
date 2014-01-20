@@ -3,7 +3,7 @@ Ext.define('Account.Billto.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Bill To Customer',
+			title: 'Billing Note',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
@@ -89,6 +89,7 @@ Ext.define('Account.Billto.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setTitle('Create Billing Note');
 			/*
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
@@ -102,6 +103,7 @@ Ext.define('Account.Billto.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Billing Note');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -116,6 +118,7 @@ Ext.define('Account.Billto.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Billing Note');
 			}
 		});
 

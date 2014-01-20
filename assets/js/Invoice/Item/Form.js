@@ -76,7 +76,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			//labelWidth: 95,
 			width: 240,
-			margin: '0 0 0 27',
+			margin: '0 0 0 12',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -100,6 +100,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'
 		});
 
@@ -194,6 +195,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			value: '01',
 			valueField: 'taxnr'
 		});
 
@@ -208,10 +210,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 25'
 		});
 		
-		this.numberWHT = Ext.create('Ext.form.field.Display', {
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
 			name: 'whtpr',
-			width:15,
+			width:30,
 			align: 'right',
+			hideTrigger:true,
 			margin: '0 0 0 8'
          });
 
@@ -307,6 +310,9 @@ Ext.define('Account.Invoice.Item.Form', {
 		},{
 			xtype: 'hidden',
 			name: 'loekz'
+		},{
+			xtype: 'hidden',
+			name: 'whtgp'
 		},this.trigSO,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
@@ -725,6 +731,7 @@ Ext.define('Account.Invoice.Item.Form', {
 							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
 						   //}
 						}else{
 							o.markInvalid('Could not find wht code : '+o.getValue());
@@ -738,6 +745,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.trigWHT.setValue(record.data.whtnr);
 			//if(record.data.whtnr != '6'){
             _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+            _this.getForm().findField('whtgp').setValue(record.data.whtgp);
            //}
             
 			grid.getSelectionModel().deselectAll();
@@ -874,6 +882,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
+		var rate = this.formTotal.getForm().findField('exchg').getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -910,13 +920,17 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			var item = r.data['saknr'] + '|' + amt;
-        		saknr_list.push(item);
+			
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
@@ -927,14 +941,13 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 
-		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 
 // Set value to GL Posting grid
-        var rate = this.formTotal.getForm().findField('exchg').getValue();
+        
         var deamt = this.formTotal.getForm().findField('deamt').getValue();
         //alert(deamt);
 		if(currency != 'THB'){

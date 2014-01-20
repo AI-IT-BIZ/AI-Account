@@ -87,6 +87,8 @@ Ext.define('Account.DepositIn.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Depostion Receipt');
 			/*
 			_this.itemDialog.form.reset();
 			_this.itemDialog.show();
@@ -100,6 +102,8 @@ Ext.define('Account.DepositIn.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				
+				_this.itemDialog.setTitle('Edit Depostion Receipt');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -115,11 +119,8 @@ Ext.define('Account.DepositIn.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
-				//_this.itemDialog.show();
-				//_this.itemDialog.form.load(id);
-
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ebeln: id});
+				
+				_this.itemDialog.setTitle('Display Depostion Receipt');
 			}
 		});
 

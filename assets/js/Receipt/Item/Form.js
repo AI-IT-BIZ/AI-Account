@@ -75,6 +75,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'
 		});
 		

@@ -35,13 +35,21 @@ Ext.define('Account.Invoice.Item.Window', {
 		
 		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
-			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')||UMS.CAN.APPROVE('QT')),
+			disabled: !(UMS.CAN.CREATE('IV') || UMS.CAN.EDIT('IV')||UMS.CAN.APPROVE('IV')),
 			handler: function() {
 				_this.form.save();
 			}
 		});
 		
-		this.buttons = [this.btnSave, {
+		this.btnReset = Ext.create('Ext.Button', {
+			text: 'New',
+			disabled: !(UMS.CAN.CREATE('IV') || UMS.CAN.EDIT('IV')||UMS.CAN.APPROVE('IV')),
+			handler: function() {
+				_this.form.reset();
+			}
+		});
+
+		this.buttons = [this.btnSave, this.btnReset, {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -94,5 +102,7 @@ Ext.define('Account.Invoice.Item.Window', {
 
 		if(!this.btnSave.initialConfig.disabled)
 			this.btnSave.setDisabled(readOnly);
+			
+		this.btnReset.setDisabled(readOnly);
 	}
 });

@@ -221,8 +221,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 		 
 		  this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
 			name: 'whtpr',
-			width:15,
+			width:30,
 			align: 'right',
+			hideTrigger:true,
 			margin: '0 0 0 5'
          });
 		

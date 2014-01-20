@@ -36,13 +36,21 @@ Ext.define('Account.Saleorder.Item.Window', {
 		
 		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
-			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')||UMS.CAN.APPROVE('QT')),
+			disabled: !(UMS.CAN.CREATE('SO') || UMS.CAN.EDIT('SO')||UMS.CAN.APPROVE('SO')),
 			handler: function() {
 				_this.form.save();
 			}
 		});
+		
+		this.btnReset = Ext.create('Ext.Button', {
+			text: 'New',
+			disabled: !(UMS.CAN.CREATE('SO') || UMS.CAN.EDIT('SO')||UMS.CAN.APPROVE('SO')),
+			handler: function() {
+				_this.form.reset();
+			}
+		});
 
-		this.buttons = [this.btnSave, {
+		this.buttons = [this.btnSave, this.btnReset,{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -95,5 +103,7 @@ Ext.define('Account.Saleorder.Item.Window', {
 
 		if(!this.btnSave.initialConfig.disabled)
 			this.btnSave.setDisabled(readOnly);
+			
+	    this.btnReset.setDisabled(readOnly);
 	}	
 });

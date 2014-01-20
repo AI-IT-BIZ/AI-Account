@@ -43,7 +43,7 @@ Ext.define('Account.Quotation.Item.Window', {
 		});
 
 		this.btnReset = Ext.create('Ext.Button', {
-			text: 'Reset',
+			text: 'New',
 			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')||UMS.CAN.APPROVE('QT')),
 			handler: function() {
 				_this.form.reset();

@@ -92,6 +92,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'
 		});
 
@@ -157,6 +158,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			value: '01',
 			valueField: 'taxnr'
 		});
 

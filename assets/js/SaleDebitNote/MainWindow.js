@@ -96,6 +96,8 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Debit Note');
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
 		});
@@ -106,6 +108,7 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Debit Note');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -121,6 +124,7 @@ Ext.define('Account.SaleDebitNote.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Debit Note');
 			}
 		});
 

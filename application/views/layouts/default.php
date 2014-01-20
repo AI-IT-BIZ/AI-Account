@@ -1048,8 +1048,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-sales-cnlist" class="box box-green"><span>Credit Notes List</span></div>',
                                     '<div id="div-sales-recnew" class="box box-green"><span>Create New Receipt</span></div>',
 									'<div id="div-sales-reclist" class="box box-green"><span>Receipts List</span></div>',
-									'<div id="div-sales-rar-ledger" class="box box-orange"><span>AR Ledger Report</span></div>',
-									'<div id="div-sales-rar-aging" class="box box-orange"><span>AR Aging Report</span></div>',
+									'<div id="div-sales-rar-ledger" class="box box-orange"><span>Invoice Report</span></div>',
+									'<div id="div-sales-rar-aging" class="box box-orange"><span>Receipt Report</span></div>',
 
 								'</div>',
 								// arrow
@@ -1093,8 +1093,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-purchase-cnlist" class="box box-red"><span>Credit Notes List</span></div>',
                                     '<div id="div-purchase-paynew" class="box box-red"><span>Create New Payment</span></div>',
 									'<div id="div-purchase-paylist" class="box box-red"><span>Payments List</span></div>',
-									'<div id="div-purchase-rap-ledger" class="box box-orange"><span>AP Ledger Report</span></div>',
-									'<div id="div-purchase-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
+									'<div id="div-purchase-rap-ledger" class="box box-orange"><span>Account Payable Report</span></div>',
+									'<div id="div-purchase-rap-aging" class="box box-orange"><span>Payment Report</span></div>',
 
 								'</div>',
 								// arrow
@@ -1287,18 +1287,18 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-sales-qtnew').on('click', function(){ $om.viewport.fireEvent('click_quotationnew', c); }, c);
                                 pEl.getById('div-sales-qtlist').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
 
-                                pEl.getById('div-sales-dpnew').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
+                                pEl.getById('div-sales-dpnew').on('click', function(){ $om.viewport.fireEvent('click_depositnew', c); }, c);
                                 pEl.getById('div-sales-dplist').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
-                                pEl.getById('div-sales-sonew').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
+                                pEl.getById('div-sales-sonew').on('click', function(){ $om.viewport.fireEvent('click_saleordernew', c); }, c);
                                 pEl.getById('div-sales-solist').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
                                 
-                                pEl.getById('div-sales-invnew').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
+                                pEl.getById('div-sales-invnew').on('click', function(){ $om.viewport.fireEvent('click_invoicenew', c); }, c);
                                 pEl.getById('div-sales-invlist').on('click', function(){ $om.viewport.fireEvent('click_invoice', c); }, c);
-                                pEl.getById('div-sales-dnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_dn', c); }, c);
+                                pEl.getById('div-sales-dnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_dnnew', c); }, c);
                                 pEl.getById('div-sales-dnlist').on('click', function(){ $om.viewport.fireEvent('click_sale_dn', c); }, c);
-                                pEl.getById('div-sales-cnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_cn', c); }, c);
+                                pEl.getById('div-sales-cnnew').on('click', function(){ $om.viewport.fireEvent('click_sale_cnnew', c); }, c);
                                 pEl.getById('div-sales-cnlist').on('click', function(){ $om.viewport.fireEvent('click_sale_cn', c); }, c);
-                                pEl.getById('div-sales-recnew').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
+                                pEl.getById('div-sales-recnew').on('click', function(){ $om.viewport.fireEvent('click_receiptnew', c); }, c);
                                 pEl.getById('div-sales-reclist').on('click', function(){ $om.viewport.fireEvent('click_receipt', c); }, c);
                                 
                                 pEl.getById('div-sales-rar-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);

@@ -97,6 +97,7 @@ Ext.define('Account.Billto.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'
 		});
 		

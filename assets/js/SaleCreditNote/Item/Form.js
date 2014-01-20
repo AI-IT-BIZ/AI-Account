@@ -13,13 +13,13 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.invDialog = Ext.create('Account.Invoice.MainWindow', {
+		this.invDialog = Ext.create('Account.SInvoice.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -92,6 +92,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'
 		});
 /*---ComboBox Tax Type----------------------------*/
@@ -124,6 +125,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			value: '01',
 			valueField: 'taxnr'
 		});	
 /*---ComboBox Payment type----------------------------*/
@@ -224,10 +226,11 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			//margin: '0 0 0 25'
 		});
 		
-		this.numberWHT = Ext.create('Ext.form.field.Display', {
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
 			name: 'whtpr',
-			width:15,
+			width:30,
 			align: 'right',
+			hideTrigger:true,
 			margin: '0 0 0 8'
          });
 		
@@ -257,7 +260,11 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigInv,{
+					},{
+			            xtype: 'hidden',
+			            name: 'whtgp'
+		              },this.trigInv,
+		             {
 						xtype: 'displayfield',
 						//name: 'name1',
 						//margins: '0 0 0 6',
@@ -611,6 +618,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
 						   //}
 						}else{
 							o.markInvalid('Could not find wht code : '+o.getValue());
@@ -624,6 +632,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			_this.trigWHT.setValue(record.data.whtnr);
 			//if(record.data.whtnr != '6'){
             _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+            _this.getForm().findField('whtgp').setValue(record.data.whtgp);
            //}
             
 			grid.getSelectionModel().deselectAll();

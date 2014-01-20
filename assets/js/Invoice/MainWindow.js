@@ -93,10 +93,7 @@ Ext.define('Account.Invoice.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setTitle('Create Invoice');
 		});
 
 		this.editAct.setHandler(function(){
@@ -106,11 +103,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-				//_this.itemDialog.show();
-				//_this.itemDialog.form.load(id);
-
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ebeln: id});
+				_this.itemDialog.setTitle('Edit Invoice');
 			}
 		});
 		
@@ -120,6 +113,7 @@ Ext.define('Account.Invoice.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Invoice');
 			}
 		});
 
