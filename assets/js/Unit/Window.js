@@ -5,7 +5,7 @@ Ext.define('Account.Unit.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Unit',
 			closeAction: 'hide',
-			height: 700,
+			height: 650,
 			width: 450,
 			layout: 'border',
 			resizable: true,

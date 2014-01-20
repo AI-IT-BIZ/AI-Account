@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.Department.Grid', {
+Ext.define('Account.SBankname.GridItem', {
 	extend	: 'Ext.grid.Panel',
 	requires: [
 		'Ext.ux.grid.FiltersFeature'
@@ -18,116 +18,104 @@ Ext.define('Account.Department.Grid', {
 			local: true,
 			filters: [{
 				type: 'string',
-				dataIndex: 'depnr'
+				dataIndex: 'bcode'
 			},{
 				type: 'string',
-				dataIndex: 'deptx'
+				dataIndex: 'bname'
+			},{
+				type: 'string',
+				dataIndex: 'addrs'
+			},{
+				type: 'string',
+				dataIndex: 'saknr'
+			},{
+				type: 'string',
+				dataIndex: 'sgtxt'
 			}]
 		};
-		
-		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-
-		// INIT GL search popup ///////////////////////////////////////////////
-           //this.depnrDialog = Ext.create('Account.SDepartment.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
-
-		this.tbar = [this.addAct];// this.deleteAct];
-		
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit: 1
-		});
 		
 		this.store = new Ext.data.JsonStore({
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'sposition/loads_dep',
+				url: __site_url+'bankname/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_depnr2',
+					idProperty: 'bcode',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-			    { name:'id_depnr2', type:'int'},
-			    'depnr',
-				'deptx'
+			    //{ name:'id_bname', type:'int' },
+				'bcode',
+				'bname',
+				'addrs',
+				'saknr',
+				'sgtxt'
 			],
-			remoteSort: false,
-			sorters: ['id_depnr2 ASC'],
-			pageSize: 10000000
+			remoteSort: true,
+			sorters: ['bcode ASC']//,
+			//pageSize: 10000000
 		});
 
 		this.columns = [
-			{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
-			id : 'DPiRowNumber05',
-			header : "No",
-			dataIndex : 'id_depnr2',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
-			text: "Department Code", 
+			{text: "Bank Code", align: 'center',
+			width: 100, dataIndex: 'bcode', 
+			sortable: true,
+			//field: {
+			//	type: 'textfield'
+			//}
+			},
+			{text: "Bank Name", 
+			width: 150, dataIndex: 'bname', 
+			sortable: true,
+			//field: {
+			//	type: 'textfield'
+			//}
+			},
+			{text: "Address", 
+			width: 125, dataIndex: 'addrs', 
+			sortable: true,
+			//field: {
+			//	type: 'textfield'
+			//}
+			},{
+			text: "GL no", 
 			width: 100,
-			dataIndex: 'depnr', 
-			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			dataIndex: 'saknr', 
+			sortable: true
+			/*field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				allowBlank : false,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.glnoDialog.show();
+				}
+			},
+			sortable: false*/
 		},{
-			text: "Department", width: 125, 
-			dataIndex: 'deptx', 
-			sortable: true,
-			field: {
-				type: 'textfield'
-			}
-			}
+			text: "GL Description", 
+			width: 170, 
+			dataIndex: 'sgtxt', 
+			sortable: true
+		}
 		];
-
-		/*this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};*/
 		
 		Ext.apply(this, {
 			forceFit: true,
 			features: [filters]
-		});
-		
-		this.plugins = [this.editing];
-		
-		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord2();
 		});
 
 		return this.callParent(arguments);
 	},
 	load: function(options){
 		this.store.load(options);
-		//if(options){ alert(options); }
 	},
-	addRecord2: function(){
+	
+	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;var i=0;
 		this.store.each(function(r){
@@ -152,7 +140,7 @@ Ext.define('Account.Department.Grid', {
 			column: 0
 		});
 
-		this.runNumRow2();
+		this.runNumRow();
 	},
 	
 	save : function(){
@@ -160,10 +148,10 @@ Ext.define('Account.Department.Grid', {
 		
 		var r_data = this.getData();
 		Ext.Ajax.request({
-			url: __site_url+'sposition/save_dep',
+			url: __site_url+'bankname/save',
 			method: 'POST',
 			params: {
-				depn: Ext.encode(r_data)
+				bnam: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
@@ -178,13 +166,13 @@ Ext.define('Account.Department.Grid', {
 	
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
-		this.runNumRow2();
+		this.runNumRow();
 	},
 	
 	reset: function(){
 		//this.getForm().reset();
 		//สั่ง grid load เพื่อเคลียร์ค่า
-		this.grid.load({ depnr: 0 });
+		this.grid.load({ bcode: 0 });
 	},
 	
 	getData: function(){
@@ -193,14 +181,6 @@ Ext.define('Account.Department.Grid', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow2: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_depnr2', row_num++);
-		});
 	}
 });
-
 

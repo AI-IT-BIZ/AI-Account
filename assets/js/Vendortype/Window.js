@@ -5,7 +5,7 @@ Ext.define('Account.Vendortype.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Vendor Type',
 			closeAction: 'hide',
-			height: 420,
+			height: 650,
 			width: 550,
 			layout: 'border',
 			resizable: true,

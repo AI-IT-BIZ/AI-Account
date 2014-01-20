@@ -128,7 +128,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: false,
-				editable: false,
+				//editable: false,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();

@@ -246,6 +246,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			fieldLabel: 'Discount Amount',
 			name: 'disct',
 			labelAlign: 'left',
+			disabled: true,
 			minValue: 0,
 			width:290,
 			hideTrigger:false

@@ -1,32 +1,39 @@
-Ext.define('Account.Projecttype.Window', {
+Ext.define('Account.SBankname.MainWindow', {
 	extend	: 'Ext.window.Window',
+
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Project Type',
+			title: 'Bank Name List',
 			closeAction: 'hide',
-			height: 650,
-			width: 450,
-			layout: 'border',
+			height: 620,
+			minHeight: 380,
+			width: 700,
+			minWidth: 500,
 			resizable: true,
 			modal: true,
-			border: false
+			layout:'border',
+			maximizable: true,
+			defaultFocus: 'code'
 		});
 
 		return this.callParent(arguments);
 	},
 	initComponent : function() {
 		var _this=this;
-		
-		this.grid = Ext.create('Account.Projecttype.GridItem', {
-			region:'center'
+
+		this.grid = Ext.create('Account.SBankname.GridItem', {
+			region:'center',
+			border: false
 		});
 
 		this.items = [this.grid];
 
+		//this.tbar = [this.addAct, this.editAct, this.deleteAct];
+
+		// --- event ---
 		this.buttons = [{
 			text: 'Save',
-			enabled: !(UMS.CAN.CREATE('PJ')||UMS.CAN.EDIT('PJ')),
 			handler: function() {
 				Ext.Msg.show({
 					title : "Warning",
@@ -48,9 +55,10 @@ Ext.define('Account.Projecttype.Window', {
 				_this.hide();
 			}
 		}];
-
+		
 		// --- after ---
 		this.grid.load();
+
 		return this.callParent(arguments);
 	}
 });

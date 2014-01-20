@@ -5,7 +5,7 @@ Ext.define('Account.Assetgrp.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Asset Group',
 			closeAction: 'hide',
-			height: 420,
+			height: 650,
 			width: 820,
 			layout: 'border',
 			resizable: true,

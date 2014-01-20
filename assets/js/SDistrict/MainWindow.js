@@ -9,7 +9,7 @@ Ext.define('Account.SDistrict.MainWindow', {
 		Ext.apply(this, {
 			title: 'District',
 			closeAction: 'hide',
-			height: 380,
+			height: 620,
 			minHeight: 380,
 			width: 500,
 			minWidth: 500,

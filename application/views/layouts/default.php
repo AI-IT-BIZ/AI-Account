@@ -693,7 +693,7 @@ function endsWith($haystack, $needle)
 			var nodeMaterialtype = {
 				text: 'Material type',
 				leaf: true,
-				id: 'click_material_tpye'
+				id: 'click_material_type'
 			};
 			var nodeMaterialgrp = {
 				text: 'Material group',
@@ -748,7 +748,7 @@ function endsWith($haystack, $needle)
 			var nodeBankname = {
 				text: 'Bank Master',
 				leaf: true,
-				id: 'click_bankname'
+				id: 'click_bankname_setting'
 			};
 			var nodeUnit = {
 				text: 'Unit Master',

@@ -54,16 +54,16 @@ Ext.define('Account.SDepartment.Grid', {
 			width: 100,
 			dataIndex: 'depnr', 
 			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			//field: {
+			//	type: 'textfield'
+			//}
 		},{
 			text: "Department", width: 125, 
 			dataIndex: 'deptx', 
 			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			//field: {
+			//	type: 'textfield'
+			//}
 			}
 		];
 
@@ -79,13 +79,6 @@ Ext.define('Account.SDepartment.Grid', {
 			features: [filters]
 		});
 		
-		this.plugins = [this.editing];
-		
-		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord2();
-		});
-
 		return this.callParent(arguments);
 	},
 	load: function(options){

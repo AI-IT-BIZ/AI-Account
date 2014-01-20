@@ -6,7 +6,7 @@ Ext.define('Account.Bankname.MainWindow', {
 		Ext.apply(this, {
 			title: 'Create/Edit Bank Name',
 			closeAction: 'hide',
-			height: 380,
+			height: 650,
 			minHeight: 380,
 			width: 700,
 			minWidth: 500,

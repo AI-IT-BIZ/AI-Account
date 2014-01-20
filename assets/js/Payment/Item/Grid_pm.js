@@ -17,7 +17,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		});
 		
 		// INIT Bank search popup /////////////////////////////////
-		this.bankDialog = Ext.create('Account.Bankname.MainWindow');
+		this.bankDialog = Ext.create('Account.SBankname.MainWindow');
 		// END Bank search popup //////////////////////////////////
 		
 		this.tbar = [this.addAct, this.copyAct];

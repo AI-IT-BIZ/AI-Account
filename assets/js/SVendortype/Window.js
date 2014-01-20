@@ -5,7 +5,7 @@ Ext.define('Account.SVendortype.Window', {
 		Ext.apply(this, {
 			title: 'Vendor Type List',
 			closeAction: 'hide',
-			height: 420,
+			height: 620,
 			width: 550,
 			layout: 'border',
 			resizable: true,

@@ -9,7 +9,7 @@ Ext.define('Account.SDepartment.MainWindow', {
 		Ext.apply(this, {
 			title: 'Position',
 			closeAction: 'hide',
-			height: 500,
+			height: 620,
 			minHeight: 380,
 			width: 600,
 			minWidth: 500,

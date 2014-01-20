@@ -5,7 +5,7 @@ Ext.define('Account.Materialgrp.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Material Group',
 			closeAction: 'hide',
-			height: 420,
+			height: 650,
 			width: 600,
 			layout: 'border',
 			resizable: true,

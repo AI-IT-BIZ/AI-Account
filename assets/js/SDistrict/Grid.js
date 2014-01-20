@@ -2,11 +2,28 @@
 
 Ext.define('Account.SDistrict.Grid', {
 	extend	: 'Ext.grid.Panel',
+	requires: [
+		'Ext.ux.grid.FiltersFeature'
+	],
 	constructor:function(config) {
 
 		return this.callParent(arguments);
 	},
 	initComponent : function() {
+		
+		Ext.QuickTips.init();
+		var filters = {
+			ftype: 'filters',
+			local: true,
+			filters: [{
+				type: 'string',
+				dataIndex: 'distr'
+			},{
+				type: 'string',
+				dataIndex: 'distx'
+			}]
+		};
+		
 		this.store = new Ext.data.JsonStore({
 			// store configs
 			proxy: {
@@ -38,6 +55,11 @@ Ext.define('Account.SDistrict.Grid', {
 			store: this.store,
 			displayInfo: true
 		};
+		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
 
 		return this.callParent(arguments);
 	},

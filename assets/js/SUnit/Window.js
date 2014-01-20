@@ -5,7 +5,7 @@ Ext.define('Account.SUnit.Window', {
 		Ext.apply(this, {
 			title: 'Unit List',
 			closeAction: 'hide',
-			height: 700,
+			height: 620,
 			width: 450,
 			layout: 'border',
 			resizable: true,

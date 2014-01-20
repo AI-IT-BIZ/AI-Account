@@ -21,13 +21,13 @@ Ext.define('Account.Position.Grid', {
 				dataIndex: 'depnr'
 			},{
 				type: 'string',
+				dataIndex: 'deptx'
+			},{
+				type: 'string',
 				dataIndex: 'posnr'
 			},{
 				type: 'string',
 				dataIndex: 'postx'
-			},{
-				type: 'string',
-				dataIndex: 'deptx'
 			}]
 		};
 		
@@ -37,7 +37,7 @@ Ext.define('Account.Position.Grid', {
 		});
 
 		// INIT GL search popup ///////////////////////////////////////////////
-           this.depnrDialog = Ext.create('Account.SDepartment.MainWindow');
+           this.depnrDialog = Ext.create('Account.Department.MainWindow');
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct];// this.deleteAct];
@@ -61,9 +61,10 @@ Ext.define('Account.Position.Grid', {
 			fields: [
 			    { name:'id_depnr', type:'int'},
 			    'depnr',
+			    'deptx',
 				'posnr',
-				'postx',
-				'deptx'
+				'postx'
+				
 			],
 			remoteSort: false,
 			sorters: ['id_depnr ASC'],

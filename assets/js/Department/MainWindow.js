@@ -6,7 +6,7 @@ Ext.define('Account.Department.MainWindow', {
 		Ext.apply(this, {
 			title: 'Department',
 			closeAction: 'hide',
-			height: 500,
+			height: 650,
 			minHeight: 380,
 			width: 600,
 			minWidth: 500,

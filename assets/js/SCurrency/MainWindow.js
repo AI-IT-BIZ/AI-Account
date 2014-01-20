@@ -5,7 +5,7 @@ Ext.define('Account.SCurrency.MainWindow', {
 		Ext.apply(this, {
 			title: 'Currency List',
 			closeAction: 'hide',
-			height: 600,
+			height: 620,
 			minHeight: 380,
 			width: 350,
 			minWidth: 300,
@@ -29,14 +29,15 @@ Ext.define('Account.SCurrency.MainWindow', {
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		this.searchForm = Ext.create('Account.SCurrency.FormSearch', {
-			region: 'north',
-			height:60
-		});
+		//this.searchForm = Ext.create('Account.SCurrency.FormSearch', {
+		//	region: 'north',
+		//	height:60
+		//});
 
-		this.items = [this.searchForm, this.grid];
+		//this.items = [this.searchForm, this.grid];
+		this.items = [this.grid];
 		
-		this.searchForm.on('search_click', function(values){
+		/*this.searchForm.on('search_click', function(values){
 			_this.grid.load();
 		});
 		
@@ -54,7 +55,7 @@ Ext.define('Account.SCurrency.MainWindow', {
 
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
-	    });
+	    });*/
 
 		// --- after ---
 		this.grid.load();
