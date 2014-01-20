@@ -12,6 +12,13 @@ class Billto extends CI_Controller {
 	
 	function index()
 	{
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		$q_com = $this->db->query($strSQL);
+		$r_com = $q_com->first_row('array');
+		if($q_com->num_rows()>0){
+		
 		$no = $type = $this->uri->segment(4);
 		$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
@@ -426,6 +433,7 @@ endfor; // end copy for
 
 
 <?php
+	}
 	}
    
 }

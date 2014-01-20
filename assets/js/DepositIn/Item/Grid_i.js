@@ -7,7 +7,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -20,7 +20,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		// this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
 		// END Invoice search popup //////////////////////////////////
 
-		this.tbar = [this.addAct, this.copyAct];
+		this.tbar = [this.addAct, this.copyAct];*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -63,6 +63,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete Deposit Receipt',
 				scope: this,
+				disabled: true,
 				handler: this.removeRecord2
 			}]
 			},{
@@ -80,9 +81,9 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			width: 320,
 			dataIndex: 'sgtxt',
 			sortable: true,
-			field: {
-				type: 'textfield'
-			}
+			//field: {
+			//	type: 'textfield'
+			//}
 			},
 		    {text: "Period Date",
 		    width: 100,
@@ -90,7 +91,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		    dataIndex: 'duedt',
 		    format:'d/m/Y',
 		    sortable: true,
-		    editor: {
+		    /*editor: {
                 xtype: 'datefield',
                 //allowBlank: false,
                 format:'d/m/Y',
@@ -98,7 +99,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			    submitFormat:'Y-m-d'
                 //minText: 'Cannot have a start date before the company existed!',
                 //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
-            }
+            }*/
 			},
 			{text: "Discount",
 			//xtype: 'numbercolumn',
@@ -191,21 +192,21 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			//xtype: 'textcolumn',
 			sortable: true,
 			align: 'center',
-			editor: {
-				xtype: 'textfield'
-			},
+			//editor: {
+			//	xtype: 'textfield'
+			//},
 			}];
 
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
+		/*this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 		
 		this.copyAct.setHandler(function(){
 			_this.copyRecord();
-		});
+		});*/
 		
 		this.store.on('load', function(store, rs){
 			if(_this.readOnly){
@@ -242,7 +243,6 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		newId--;
         
         var cur = _this.curValue;
-        alert(cur);
 		// add new record
 		rec = { id:newId };
 		edit = this.editing;

@@ -82,6 +82,7 @@ Ext.define('Account.Receipt.Item.Form_t', {
             fieldLabel: 'Exchange Rate',
 			align: 'right',
 			width:240,
+			hidden: true,
 			editable: false,
 			hideTrigger:true,
 			alwaysDisplayDecimals: true,

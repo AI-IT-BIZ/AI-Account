@@ -759,6 +759,8 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
+		var rate = this.formTotal.getForm().findField('exchg').getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -787,7 +789,9 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
-			
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
 		});
@@ -799,7 +803,6 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
@@ -821,7 +824,6 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
             });     
         }
         
-        var rate = this.formTotal.getForm().findField('exchg').getValue();
         var deamt = this.formTotal.getForm().findField('deamt').getValue();
         //alert(deamt);
 		if(currency != 'THB'){

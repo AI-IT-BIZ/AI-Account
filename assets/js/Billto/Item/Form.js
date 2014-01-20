@@ -161,6 +161,7 @@ Ext.define('Account.Billto.Item.Form', {
 		},{
 			xtype: 'textarea',
 			fieldLabel: 'Address',
+			readOnly: true,
 			name: 'adr01',
 			width:400,
 			rows:3

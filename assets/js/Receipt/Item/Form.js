@@ -37,7 +37,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			region:'center',
 			title: 'Receipt'
 		});
-		this.formTotal = Ext.create('Account.Receipt.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Billto.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->Receipt',
@@ -98,17 +98,6 @@ Ext.define('Account.Receipt.Item.Form', {
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			allowBlank : false
-		});
-		
-		this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
-			name: 'ctype',
-			fieldLabel: 'Currency',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			width: 200,
-			editable: false,
-			labelAlign: 'right',
 			allowBlank : false
 		});
 		
@@ -198,11 +187,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
-		},{
-					xtype: 'container',
-					layout: 'hbox',
-					margin: '0 0 5 -200',
-					items :[this.trigCurrency,this.comboQStatus]}
+		},this.comboQStatus
 		 ]
 		}]
 		}]
@@ -279,54 +264,6 @@ Ext.define('Account.Receipt.Item.Form', {
 			_this.customerDialog.show();
 		};
 		
-		// event trigCurrency///
-		this.trigCurrency.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'currency/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.ctype);
-							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							var store = _this.gridItem.store;
-		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
-			                rc.set('ctype', r.data.ctype);
-		                    });
-		                    _this.gridItem.curValue = r.data.ctype;
-						}else{
-							o.markInvalid('Could not find currency code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.currencyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCurrency.setValue(record.data.ctype);
-
-            _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
-            var store = _this.gridItem.store;
-		    store.each(function(rc){
-			//price = parseFloat(rc.data['unitp']),
-			rc.set('ctype', record.data.ctype);
-		    });
-		    _this.gridItem.curValue = record.data.ctype;
-			grid.getSelectionModel().deselectAll();
-			_this.currencyDialog.hide();
-		});
-
-		this.trigCurrency.onTriggerClick = function(){
-			_this.currencyDialog.show();
-		};
 
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -336,7 +273,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		this.gridPayment.store.on('update', this.loadGL, this);
 		this.gridPayment.store.on('load', this.loadGL, this);
 		this.on('afterLoad', this.loadGL, this);
-		_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
+		//_this.formTotal.getForm().findField('exchg').on('change',this.loadGL,this);
 
 		//this.comboPay.on('select', this.selectPay, this);
 
@@ -415,7 +352,7 @@ Ext.define('Account.Receipt.Item.Form', {
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
 		//this.comboTax.setValue('01');
-		this.trigCurrency.setValue('THB');
+		//this.trigCurrency.setValue('THB');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
@@ -440,9 +377,9 @@ Ext.define('Account.Receipt.Item.Form', {
 		});
 		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
-		var currency = this.trigCurrency.getValue();
-		this.gridItem.curValue = currency;
-		this.formTotal.getForm().findField('curr1').setValue(currency);
+		//var currency = this.trigCurrency.getValue();
+		//this.gridItem.curValue = currency;
+		//this.formTotal.getForm().findField('curr1').setValue(currency);
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
 		
@@ -486,13 +423,13 @@ Ext.define('Account.Receipt.Item.Form', {
 		//set value to grid payment
 		//var rsPM = _this.gridPayment.getData();
 		//Set value to GL Posting grid  
-		var currency = this.trigCurrency.getValue();
-		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
-		  sum = sum * rate;
-		  whts = whts * rate;
-		  vats = vats * rate;
-		}   
+		//var currency = this.trigCurrency.getValue();
+		//if(currency != 'THB'){
+	    //  var rate = this.formTotal.getForm().findField('exchg').getValue();
+		//  sum = sum * rate;
+		//  whts = whts * rate;
+		//  vats = vats * rate;
+		//}   
 		//sum2 = sum - whts;
 		
         if(sum>0 && this.trigCustomer.getValue()!=''){

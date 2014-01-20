@@ -365,6 +365,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			name: 'adr01',
 			width:350,
 			rows:3,
+			readOnly: true,
 			editable: false,
 			labelAlign: 'top'
 		},{
@@ -374,6 +375,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:355,
 			rows:3,
 			labelAlign: 'top',
+			readOnly: true,
 			editable: false,
 			margin: '0 0 0 130'
          }]

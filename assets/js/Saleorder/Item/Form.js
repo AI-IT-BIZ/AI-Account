@@ -320,6 +320,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 						name: 'adr01',
 						width:350,
 						rows:3,
+						readOnly: true,
 						editable: false,
 						labelAlign: 'top'
 					},{
@@ -328,6 +329,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 						name: 'adr02',
 						width:355,
 						rows:3,
+						readOnly: true,
 						labelAlign: 'top',
 						editable: false,
 						margin: '0 0 0 140'

@@ -268,6 +268,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			name: 'adr01',
 			width:400,
 			rows:3,
+			readOnly: true,
 			labelAlign: 'top'
 		},{
 			xtype: 'container',
@@ -287,7 +288,6 @@ Ext.define('Account.DepositIn.Item.Form', {
 			labelAlign: 'right',
 			width:200,
 			margin: '0 0 0 5',
-			//readOnly: true,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
