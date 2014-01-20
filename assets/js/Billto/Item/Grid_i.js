@@ -170,7 +170,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-		
+
 		this.copyAct.setHandler(function(){
 			_this.copyRecord();
 		});
@@ -228,7 +228,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-				
+
 				/*this.store.each(function(v){
 					alert(v.data['invnr']+'/')
 				  	if(v.data['invnr'] == record.data.invnr){
@@ -259,7 +259,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.invoiceDialog.hide();
 		});
-		
+
 		this.store.on('load', function(store, rs){
 			if(_this.readOnly){
 				var view = _this.getView();
@@ -309,7 +309,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		this.runNumRow();
 		this.getSelectionModel().deselectAll();
 	},
-	
+
 	copyRecord: function(){
 		var _this=this;
 
