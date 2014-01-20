@@ -5,7 +5,7 @@ Ext.define('Account.SMaterialgrp.Window', {
 		Ext.apply(this, {
 			title: 'Material Group List',
 			closeAction: 'hide',
-			height: 420,
+			height: 620,
 			width: 600,
 			layout: 'border',
 			resizable: true,

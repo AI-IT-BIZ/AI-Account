@@ -7,20 +7,20 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
 		this.copyAct = new Ext.Action({
 			text: 'Copy',
 			iconCls: 'b-small-copy'
-		});
+		});*/
 
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
+		//this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
 		// END Material search popup ///////////////////////////////////
-        this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];
+        //this.unitDialog = Ext.create('Account.SUnit.Window');
+		//this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -104,7 +104,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				listeners: {
 					focus: function(field, e){
@@ -113,10 +113,10 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -124,7 +124,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
-			},
+			},*/
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
@@ -210,23 +210,23 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			dataIndex: 'ctyp1',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			//field: {
+			//	type: 'textfield'
+			//},
 		}];
 
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
+		/*this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 		
 		this.copyAct.setHandler(function(){
 			_this.copyRecord();
-		});
+		});*/
 
-		this.editing.on('edit', function(editor, e) {
+		/*this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
 
@@ -292,7 +292,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
-		});
+		});*/
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){
@@ -317,6 +317,36 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		this.store.load({
 			params: options
 		});
+	},
+	
+	addDefaultRecord: function(){
+		this.store.removeAll(); 
+		// หา record ที่สร้างใหม่ล่าสุด
+		var newId = -1;
+		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
+			if(r.get('id')<newId)
+				newId = r.get('id'); 
+				
+		});
+		newId--;
+	
+		//for ( var i = 0; i < 5; i++ ) {
+			// add new record
+			rec = { id:0,matnr:'200019',maktx:'เงินมัดจำจ่าย',
+			menge:1,meins:'EA',ctyp1:'THB',saknr:'1151-06' };
+			edit = this.editing;
+			edit.cancelEdit();
+			// find current record
+			var sel = this.getView().getSelectionModel().getSelection()[0];
+			var selIndex = this.store.indexOf(sel);
+			this.store.insert(selIndex+1, rec);
+			edit.startEditByPosition({
+				row: selIndex+1,
+				column: 0
+			});
+	
+			this.runNumRow();
+		//}
 	},
 
 	addRecord: function(){

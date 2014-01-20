@@ -119,6 +119,7 @@ Ext.define('Account.GR.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			readOnly: true,
 			valueField: 'taxnr'
 		});	
 /*---ComboBox Payment type----------------------------*/
@@ -150,6 +151,7 @@ Ext.define('Account.GR.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'paytx',
+			readOnly: true,
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
@@ -181,6 +183,7 @@ Ext.define('Account.GR.Item.Form', {
 			labelAlign: 'right',
 			width:170,
 			hideTrigger:false,
+			readOnly: true,
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
@@ -190,6 +193,7 @@ Ext.define('Account.GR.Item.Form', {
 			fieldLabel: 'Currency',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
+			readOnly: true,
 			width: 240,
 			//margin: '0 0 0 6',
 			labelAlign: 'right',
@@ -202,6 +206,7 @@ Ext.define('Account.GR.Item.Form', {
 			name: 'taxpr',
 			labelAlign: 'right',
 			width:170,
+			readOnly: true,
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
@@ -273,6 +278,7 @@ Ext.define('Account.GR.Item.Form', {
 							xtype: 'textarea',
 							fieldLabel: 'Vendor Address',
 							name: 'adr01',
+							readOnly: true,
 							width: 450, 
 							rows:3,
 		                }, {xtype: 'container',
@@ -307,6 +313,7 @@ Ext.define('Account.GR.Item.Form', {
 							fieldLabel: 'GR Date',
 							name: 'bldat',
 							labelAlign: 'right',
+							allowBlank: false,
 							width:240,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',

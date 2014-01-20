@@ -398,7 +398,7 @@ $i=397+20;
 $rows = $query->result_array();
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = 0;
+	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
 	$itamt = $itamt - $item['disit'];
 ?>
@@ -409,7 +409,15 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="right" style="width:75px;"><?=number_format($item['menge'],2,'.',',');?></td>
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
-		<td class="fc1-8" align="right" style="width:58px;"><?=number_format($item['disit'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		$pos = strpos($item['disit'], '%');
+		if($pos==false){
+			$disc = $item['disit'];
+			echo number_format($disc,2,'.',',');
+		}else{
+			echo $item['disit'];
+		}
+		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
@@ -541,6 +549,8 @@ else
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
+
+<DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 

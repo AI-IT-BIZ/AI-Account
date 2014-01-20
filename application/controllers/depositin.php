@@ -436,10 +436,11 @@ class Depositin extends CI_Controller {
 	       $query = $this->db->get('vbdp');
       //  echo $this->db->last_query();
 		}
+		$totalCount = $this->db->count_all_results($tbName);
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 	

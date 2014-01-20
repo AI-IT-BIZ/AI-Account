@@ -5,7 +5,7 @@ Ext.define('Account.SMaterialtype.Window', {
 		Ext.apply(this, {
 			title: 'Material Type List',
 			closeAction: 'hide',
-			height: 420,
+			height: 620,
 			width: 440,
 			layout: 'border',
 			resizable: true,

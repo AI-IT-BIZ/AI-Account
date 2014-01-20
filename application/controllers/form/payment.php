@@ -332,7 +332,7 @@ endfor;
 <?= check_page($current_page_index, $total_page, number_format($r_data['beamt'],2,'.',',')) ?></span></DIV>
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
-$distxt='';$disamt=0;
+/*$distxt='';$disamt=0;
 if(strpos($r_data['dispc'], '%') !== false)
 {
 	$distxt = $r_data['dispc'];
@@ -340,13 +340,11 @@ if(strpos($r_data['dispc'], '%') !== false)
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
 }else{$disamt = $r_data['dispc'];}
-if($r_data['dispc'] == '0') $r_data['dispc'] = '';
+if($r_data['dispc'] == '0') $r_data['dispc'] = '';*/
 ?>
-<DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, $r_data['dispc']) ?></span></DIV>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($disamt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt']; ?>
@@ -422,6 +420,8 @@ else
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
+
+<DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 

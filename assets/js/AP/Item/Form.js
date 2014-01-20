@@ -117,6 +117,7 @@ Ext.define('Account.AP.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			readOnly: true,
 			valueField: 'taxnr'
 		});	
 /*---ComboBox Payment type----------------------------*/
@@ -148,6 +149,7 @@ Ext.define('Account.AP.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'paytx',
+			readOnly: true,
 			valueField: 'ptype'
 		});
 /*-------------------------------*/			
@@ -196,6 +198,7 @@ Ext.define('Account.AP.Item.Form', {
 			width: 240,
 			//margin: '0 0 0 6',
 			labelAlign: 'right',
+			readOnly: true,
 			allowBlank : false
 		});
 
@@ -295,6 +298,7 @@ Ext.define('Account.AP.Item.Form', {
 							fieldLabel: 'Vendor Address',
 							name: 'adr01',
 							width: 450, 
+							readOnly: true,
 							rows:3,
 		                }, {xtype: 'container',
 							layout: 'hbox',
@@ -364,6 +368,7 @@ Ext.define('Account.AP.Item.Form', {
 			name: 'duedt',
 			labelAlign: 'right',
 			width:240,
+			allowBlank: false,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'

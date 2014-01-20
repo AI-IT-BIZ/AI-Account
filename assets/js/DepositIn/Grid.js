@@ -46,9 +46,7 @@ Ext.define('Account.DepositIn.Grid', {
 			{text: "Customer Name", 
 			width: 150, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
-			width: 150, dataIndex: 'name1', sortable: true},
-			{text: "Text Note", 
-			width: 200, dataIndex: 'txz01', sortable: true},
+			width: 150, dataIndex: 'txz01', sortable: true},
 			{text: "Status", 
 			width: 100, dataIndex: 'statx', sortable: true},
 			{text: "Amount", 
@@ -60,7 +58,7 @@ Ext.define('Account.DepositIn.Grid', {
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+			//pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

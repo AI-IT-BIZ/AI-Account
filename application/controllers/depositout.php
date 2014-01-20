@@ -415,15 +415,15 @@ class Depositout extends CI_Controller {
 	// Deposit ITEM
 	///////////////////////////////////////////////
 	function loads_dp_item(){
-		$ponr = $this->input->get('ponr');
+		$matnr = $this->input->get('matnr');
 		
 		$dp_id = $this->input->get('depnr');
 		if(!empty($ponr)){
 			$this->db->set_dbprefix('v_');
-		    $this->db->where('ebeln', $ponr);
-			$this->db->where('matkl', '08');
+		    $this->db->where('matnr', $matnr);
+			//$this->db->where('matkl', '08');
 
-		    $query = $this->db->get('ekpo');
+		    $query = $this->db->get('mara');
 		}else{
             $this->db->set_dbprefix('v_');
 		    $this->db->where('depnr', $dp_id);
