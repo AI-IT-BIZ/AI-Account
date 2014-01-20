@@ -1341,7 +1341,7 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-account-chart').on('click', function(){ $om.viewport.fireEvent('click_chart_account', c); }, c);
 								pEl.getById('div-account-journaltemp').on('click', function(){ $om.viewport.fireEvent('click_journaltemp', c); }, c);
 								pEl.getById('div-account-journalnew').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
-								pEl.getById('div-account-journallist').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
+								pEl.getById('div-account-journallist').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 								pEl.getById('div-account-otincome').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-account-otexpense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
 								

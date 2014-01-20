@@ -374,7 +374,7 @@ class Receipt extends CI_Controller {
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
-				'ctype'=>$p->ctyp1,
+				'ctyp1'=>$p->ctyp1,
 				'wht01'=>floatval($p->wht01),
 				'vat01'=>floatval($p->vat01),
 				'dtype'=>$p->dtype,
