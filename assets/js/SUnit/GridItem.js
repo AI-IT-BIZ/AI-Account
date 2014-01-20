@@ -31,7 +31,7 @@ Ext.define('Account.SUnit.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_unit',
+					idProperty: 'meins',
 					totalProperty: 'totalCount'
 				}
 			},
@@ -41,7 +41,7 @@ Ext.define('Account.SUnit.GridItem', {
 				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['id_unit ASC']
+			sorters: ['meins ASC']
 		});
 
 		this.columns = [{
@@ -87,16 +87,16 @@ Ext.define('Account.SUnit.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_unit'
+					idProperty: 'meins'
 				}
 			},
 			fields: [
-				{ name:'id_unit', type:'int' },
+				//{ name:'id_unit', type:'int' },
 				'meins',
 				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['id_unit ASC']
+			sorters: ['meins ASC']
 		});
 	},
 	
@@ -166,12 +166,5 @@ Ext.define('Account.SUnit.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_unit', row_num++);
-		});
 	}
 });

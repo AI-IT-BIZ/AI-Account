@@ -37,32 +37,22 @@ Ext.define('Account.SVendortype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_vtype',
+					idProperty: 'vtype',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-				{ name:'id_vtype', type:'int' },
+				//{ name:'id_vtype', type:'int' },
 				'vtype',
 				'ventx',
 				'saknr',
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_vtype ASC']
+			sorters: ['vtype ASC']
 		});
 
 		this.columns = [{
-			id : 'PMiRowNumber01',
-			header : "No",
-			dataIndex : 'id_vtype',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
 			text: "Vendor Type",
 		    width: 80,
 		    dataIndex: 'vtype',
@@ -165,12 +155,5 @@ Ext.define('Account.SVendortype.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_vtype', row_num++);
-		});
-	},
+	}
 });

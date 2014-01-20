@@ -354,6 +354,93 @@ class Ap extends CI_Controller {
 		));
 	}
 
+    function loads_inpwht(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'uinp';
+		$this->db->where('loekz', '2');
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(invnr LIKE '%$query%'
+				OR lifnr LIKE '%$query%'
+				OR name1 LIKE '%$query%'
+				OR mbeln LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$bldat1 = $_this->input->get('bldat');
+			$bldat2 = $_this->input->get('bldat2');
+			if(!empty($bldat1) && empty($bldat2)){
+			  $_this->db->where('bldat', $bldat1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+			
+            $mbeln1 = $_this->input->get('mbeln');
+			$mbeln2 = $_this->input->get('mbeln2');
+			if(!empty($mbeln1) && empty($mbeln2)){
+			  $_this->db->where('mbeln', $mbeln1);
+			}
+			elseif(!empty($mbeln1) && !empty($mbeln2)){
+			  $_this->db->where('mbeln >=', $mbeln1);
+			  $_this->db->where('mbeln <=', $mbeln2);
+			}
+
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
+			}
+			
+			$lifnr1 = $_this->input->get('lifnr');
+			$lifnr2 = $_this->input->get('lifnr2');
+			if(!empty($lifnr1) && empty($lifnr2)){
+			  $_this->db->where('lifnr', $lifnr1);
+			}
+			elseif(!empty($lifnr1) && !empty($lifnr2)){
+			  $_this->db->where('lifnr >=', $lifnr1);
+			  $_this->db->where('lifnr <=', $lifnr2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+		}
+		// End for report	
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;

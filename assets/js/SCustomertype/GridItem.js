@@ -44,7 +44,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_ktype',
+					idProperty: 'ktype',
 					totalProperty: 'totalCount'
 				}
 			},
@@ -56,7 +56,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_ktype ASC']
+			sorters: ['ktype ASC']
 		});
 
 		this.columns = [{
@@ -193,12 +193,5 @@ Ext.define('Account.SCustomertype.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_ktype', row_num++);
-		});
 	}
 });

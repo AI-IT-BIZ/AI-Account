@@ -1,6 +1,6 @@
 //http://www.sencha.com/blog/using-ext-loader-for-your-application
 
-Ext.define('Account.SPosition.Grid', {
+Ext.define('Account.Department.Grid', {
 	extend	: 'Ext.grid.Panel',
 	requires: [
 		'Ext.ux.grid.FiltersFeature'
@@ -21,70 +21,80 @@ Ext.define('Account.SPosition.Grid', {
 				dataIndex: 'depnr'
 			},{
 				type: 'string',
-				dataIndex: 'posnr'
-			},{
-				type: 'string',
-				dataIndex: 'postx'
-			},{
-				type: 'string',
 				dataIndex: 'deptx'
 			}]
 		};
+		
+		this.addAct = new Ext.Action({
+			text: 'Add',
+			iconCls: 'b-small-plus'
+		});
+
+		// INIT GL search popup ///////////////////////////////////////////////
+           //this.depnrDialog = Ext.create('Account.SDepartment.MainWindow');
+		// END GL search popup ///////////////////////////////////////////////
+
+		this.tbar = [this.addAct];// this.deleteAct];
+		
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit: 1
+		});
 		
 		this.store = new Ext.data.JsonStore({
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'sposition/loads',
+				url: __site_url+'sposition/loads_dep',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr',
+					idProperty: 'id_depnr2',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-			    //{ name:'id_depnr', type:'int'},
+			    { name:'id_depnr2', type:'int'},
 			    'depnr',
-				'posnr',
-				'postx',
 				'deptx'
 			],
 			remoteSort: false,
-			sorters: ['depnr ASC']//,
-			//pageSize: 10000000
+			sorters: ['id_depnr2 ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [
 			{
+			xtype: 'actioncolumn',
+			width: 30,
+			sortable: false,
+			menuDisabled: true,
+			items: [{
+				icon: __base_url+'assets/images/icons/bin.gif',
+				tooltip: 'Delete Item',
+				scope: this,
+				handler: this.removeRecord
+			}]
+		},{
+			id : 'DPiRowNumber05',
+			header : "No",
+			dataIndex : 'id_depnr2',
+			width : 60,
+			align : 'center',
+			resizable : false, sortable : false,
+			renderer : function(value, metaData, record, rowIndex) {
+				return rowIndex+1;
+			}
+		},{
 			text: "Department Code", 
 			width: 100,
 			dataIndex: 'depnr', 
 			sortable: true,
 			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				allowBlank : false,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.depnrDialog.grid.load();
-					_this.depnrDialog.show();
-				}
+				type: 'textfield'
 			}
 		},{
 			text: "Department", width: 125, 
-			dataIndex: 'deptx', sortable: true
-			},{
-			text: "Position Code", width: 100, 
-			dataIndex: 'posnr', 
-			sortable: true,
-			field: {
-				type: 'textfield'
-			}
-			},{
-			text: "Position", width: 150, 
-			dataIndex: 'postx', 
+			dataIndex: 'deptx', 
 			sortable: true,
 			field: {
 				type: 'textfield'
@@ -92,12 +102,12 @@ Ext.define('Account.SPosition.Grid', {
 			}
 		];
 
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 		
 		Ext.apply(this, {
 			forceFit: true,
@@ -108,49 +118,7 @@ Ext.define('Account.SPosition.Grid', {
 		
 		// init event ///////
 		this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='depnr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-				Ext.Ajax.request({
-					url: __site_url+'sposition/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.depnr);
-							rModel.set('deptx', r.data.deptx);
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.depnrDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('depnr', record.data.depnr);
-				rModel.set('deptx', record.data.deptx);
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.depnrDialog.hide();
+			_this.addRecord2();
 		});
 
 		return this.callParent(arguments);
@@ -159,7 +127,7 @@ Ext.define('Account.SPosition.Grid', {
 		this.store.load(options);
 		//if(options){ alert(options); }
 	},
-	addRecord: function(){
+	addRecord2: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;var i=0;
 		this.store.each(function(r){
@@ -192,10 +160,10 @@ Ext.define('Account.SPosition.Grid', {
 		
 		var r_data = this.getData();
 		Ext.Ajax.request({
-			url: __site_url+'sposition/save',
+			url: __site_url+'sposition/save_dep',
 			method: 'POST',
 			params: {
-				posi: Ext.encode(r_data)
+				depn: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);
@@ -230,7 +198,9 @@ Ext.define('Account.SPosition.Grid', {
 	runNumRow: function(){
 		var row_num = 0;
 		this.store.each(function(r){
-			r.set('id_depnr', row_num++);
+			r.set('id_depnr2', row_num++);
 		});
 	}
 });
+
+

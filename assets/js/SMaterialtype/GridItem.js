@@ -213,12 +213,5 @@ Ext.define('Account.SMaterialtype.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_mtype', row_num++);
-		});
 	}
 });

@@ -43,7 +43,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mgrp',
+					idProperty: 'matkl',
 					totalProperty: 'totalCount'
 				}
 			},
@@ -57,7 +57,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				'depre'
 			],
 			remoteSort: false,
-			sorters: ['id_mgrp ASC']
+			sorters: ['matkl ASC']
 		});
 
 		this.columns = [/*{
@@ -218,12 +218,5 @@ Ext.define('Account.SAssetgrp.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_mgrp', row_num++);
-		});
 	}
 });

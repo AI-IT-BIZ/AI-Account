@@ -25,20 +25,6 @@ Ext.define('Account.SDepartment.Grid', {
 			}]
 		};
 		
-		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-
-		// INIT GL search popup ///////////////////////////////////////////////
-           //this.depnrDialog = Ext.create('Account.SDepartment.MainWindow');
-		// END GL search popup ///////////////////////////////////////////////
-
-		this.tbar = [this.addAct];// this.deleteAct];
-		
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit: 1
-		});
 		
 		this.store = new Ext.data.JsonStore({
 			// store configs
@@ -48,43 +34,22 @@ Ext.define('Account.SDepartment.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_depnr2',
+					idProperty: 'depnr',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-			    { name:'id_depnr2', type:'int'},
+			   // { name:'id_depnr2', type:'int'},
 			    'depnr',
 				'deptx'
 			],
 			remoteSort: false,
-			sorters: ['id_depnr2 ASC'],
-			pageSize: 10000000
+			sorters: ['depnr ASC']//,
+			//pageSize: 10000000
 		});
 
 		this.columns = [
 			{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
-			id : 'DPiRowNumber05',
-			header : "No",
-			dataIndex : 'id_depnr2',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
 			text: "Department Code", 
 			width: 100,
 			dataIndex: 'depnr', 
@@ -102,12 +67,12 @@ Ext.define('Account.SDepartment.Grid', {
 			}
 		];
 
-		/*this.bbar = {
+		this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};*/
+		};
 		
 		Ext.apply(this, {
 			forceFit: true,
@@ -193,13 +158,6 @@ Ext.define('Account.SDepartment.Grid', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_depnr2', row_num++);
-		});
 	}
 });
 

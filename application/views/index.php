@@ -392,7 +392,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Department master.");
 	  		return;
 		}
-		$om.departDialog = Ext.create('Account.SDepartment.MainWindow');
+		$om.departDialog = Ext.create('Account.Department.MainWindow');
 		$om.departDialog.show();
 	});
 
@@ -402,7 +402,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Position master.");
 	  		return;
 		}
-		$om.positionDialog = Ext.create('Account.SPosition.MainWindow');
+		$om.positionDialog = Ext.create('Account.Position.MainWindow');
 		$om.positionDialog.show();
 	});
 

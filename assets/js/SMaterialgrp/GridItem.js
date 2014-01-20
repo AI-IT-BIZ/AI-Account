@@ -202,12 +202,5 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 			rs.push(r.getData());
 		});
 		return rs;
-	},
-
-	runNumRow: function(){
-		var row_num = 0;
-		this.store.each(function(r){
-			r.set('id_mgrp', row_num++);
-		});
 	}
 });
