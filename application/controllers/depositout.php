@@ -242,12 +242,12 @@ class Depositout extends CI_Controller {
 		foreach($dp_item_array AS $p){
 			$this->db->insert('ebdp', array(
 				'depnr'=>$id,
-				'vbelp'=>++$item_index,
-				'matnr'=>$p->matnr,
-			    'menge'=>$p->menge,
+				'vbelp'=>intval(++$item_index),
+				'matnr'=>$p->manr,
+			    'menge'=>floatval($p->menge),
 				'meins'=>$p->meins,
 				'disit'=>$p->disit,
-				'unitp'=>$p->unitp,
+				'unitp'=>floatval($p->unitp),
 				//'itamt'=>$p->$itamt,
 				'chk01'=>$p->chk01,
 				'ctyp1'=>$p->ctyp1

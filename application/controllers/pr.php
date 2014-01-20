@@ -324,13 +324,13 @@ class Pr extends CI_Controller {
 			foreach($qt_item_array AS $p){
 				$this->db->insert('ebpo', array(
 					'purnr'=>$id,
-					'purpr'=>++$item_index,//vbelp,
+					'purpr'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype
 				));

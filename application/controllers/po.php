@@ -276,10 +276,10 @@ class Po extends CI_Controller {
 					'ebeln'=>$id,
 					'ebelp'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
-					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
+					'disit'=>floatval($p->disit),
+					'unitp'=>floatval($p->unitp),
 					'itamt'=>$itamt,
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype

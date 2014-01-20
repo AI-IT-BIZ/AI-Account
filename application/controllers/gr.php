@@ -275,13 +275,13 @@ class Gr extends CI_Controller {
 			foreach($gr_item_array AS $p){
 				$this->db->insert('mseg', array(
 					'mbeln'=>$id,
-					'mbelp'=>++$item_index,//vbelp,
+					'mbelp'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype,
 					'serno'=>$p->serno

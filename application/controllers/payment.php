@@ -343,17 +343,17 @@ class Payment extends CI_Controller {
 		foreach($py_item_array AS $p){
 			$this->db->insert('ebbp', array(
 				'payno'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
-				'itamt'=>$p->itamt,
+				'itamt'=>floatval($p->itamt),
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
 				'ctype'=>$p->ctype,
-				'wht01'=>$p->wht01,
-				'vat01'=>$p->vat01,
+				'wht01'=>floatval($p->wht01),
+				'vat01'=>floatval($p->vat01),
 				'dtype'=>$p->dtype,
 				'ebeln'=>$p->ebeln
 			));
