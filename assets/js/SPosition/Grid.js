@@ -39,7 +39,7 @@ Ext.define('Account.SPosition.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr',
+					idProperty: function(o){ return o.depnr+o.posnr; },
 					totalProperty: 'totalCount'
 				}
 			},
@@ -51,7 +51,7 @@ Ext.define('Account.SPosition.Grid', {
 				'deptx'
 			],
 			remoteSort: false,
-			sorters: ['depnr ASC']//,
+			sorters: ['posnr ASC']//,
 			//pageSize: 10000000
 		});
 
@@ -94,7 +94,7 @@ Ext.define('Account.SPosition.Grid', {
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+			//pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};
