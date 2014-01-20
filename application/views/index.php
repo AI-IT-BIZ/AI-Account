@@ -56,9 +56,13 @@ Ext.onReady(function() {
 			return;
 		}
 
-		if(!$om.quotationnewDialog)
-			$om.quotationnewDialog = Ext.create('Account.Quotation.Item.Window');
-		$om.quotationnewDialog.show();
+		//if(!$om.quotationnewDialog)
+		//	$om.quotationnewDialog = Ext.create('Account.Quotation.Item.Window');
+		//$om.quotationnewDialog.show();
+		if(!$om.quotationDialog)
+			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
+
+		$om.quotationDialog.addAct.execute();
 	});
 	$om.viewport.on('click_quotation', function(){
 		if(!UMS.CAN.DISPLAY('QT')){
@@ -585,7 +589,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Tax From.");
 	  		return;
 		}
-		
+
 		$om.RSumVat = Ext.create('Account.RSumVat.MainWindow');
 		$om.RSumVat.show();
 	});
@@ -595,7 +599,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Tax From.");
 	  		return;
 		}
-		
+
 		$om.Rpp30Vat = Ext.create('Account.Rpp30Vat.MainWindow');
 		$om.Rpp30Vat.show();
 	});
@@ -615,7 +619,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Tax From.");
 	  		return;
 		}
-		
+
 		$om.Rpnd50WHT = Ext.create('Account.Rpnd50WHT.MainWindow');
 		$om.Rpnd50WHT.show();
 	});
