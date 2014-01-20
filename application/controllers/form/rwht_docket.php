@@ -209,7 +209,7 @@ body { font-family: 'angsana_newregular'; }
 
 <DIV style="left: 40PX; top: 735px; width: 396PX; height: 24PX;"><span class="fc1-1">6. อื่น ๆ (ระบุ)&nbsp;&nbsp;.........................................................................</span></DIV>
 
-<DIV style="left: 112px; top: 731px; width: 276px; height: 24PX;"><span class="fc1-1"><? if($r_data['whtnr']=='6') echo $r_data['whtxt']; ?></span></DIV>
+<DIV style="left: 112px; top: 731px; width: 276px; height: 24PX;"><span class="fc1-1"><? if($r_data['whtgp']=='6') echo $r_data['whtxt']; ?></span></DIV>
 
 <DIV style="left:455PX;top:857PX;width:85PX;height:21PX;"><span class="fc1-1">จำนวนเงิน </span></DIV>
 
@@ -336,7 +336,7 @@ body { font-family: 'angsana_newregular'; }
 <?php
 $t_beamt=0;$t_wht=0;$posit=0; 
 $bldat_str = util_helper_format_date($r_data['bldat']); 
-$whtnr = $r_data['whtnr'];
+$whtnr = $r_data['whtgp'];
 $t_beamt=$r_data['beamt'];
 $t_wht=$r_data['wht01'];
 switch($whtnr){
