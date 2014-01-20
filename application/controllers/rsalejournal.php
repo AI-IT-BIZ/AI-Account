@@ -10,7 +10,7 @@ class Rsalejournal extends CI_Controller {
 		if ($_POST['kunnr'] != ""){
 			$search = " and v_bkpf.kunnr like '%{$_POST['kunnr']}%' ";
 		}
-		
+		if(db_helper_is_mysql($this)){
 		$sql = "
 			select 
 				ifnull(v_bkpf.bldat,'') as bldat,
@@ -32,6 +32,30 @@ class Rsalejournal extends CI_Controller {
 				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bcus.belnr like 'AR%' {$search}
 			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
 		";
+		}
+		if(db_helper_is_mssql($this)){
+		$sql = "
+			select 
+				isnull(v_bkpf.bldat,'') as bldat,
+				isnull(v_bkpf.belnr,'') as belnr,
+				isnull(v_bkpf.invnr,'') as invnr,
+				isnull(v_bkpf.name1,'') as name1,
+				isnull(v_bcus.saknr,'') as saknr,
+				isnull(tbl_glno.sgtxt,'') as sgtxt,
+				isnull(v_bcus.debit,0) as debit,
+				isnull(v_bcus.credi,0) as credi,
+				isnull(v_bcus.statu,'') as statu,
+				isnull(v_bkpf.kunnr,'') as kunnr
+				
+			from 
+				v_bcus
+				   LEFT JOIN v_bkpf on v_bcus.belnr = v_bkpf.belnr
+				    LEFT JOIN tbl_glno on v_bcus.saknr = tbl_glno.saknr
+			where 
+				v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and v_bcus.belnr like 'AR%' {$search}
+			ORDER BY v_bkpf.bldat ,v_bkpf.belnr desc
+		";
+		}
 		$rs = $this->db->query($sql);
 		$rs = $rs->result_array();
 		$data = array();

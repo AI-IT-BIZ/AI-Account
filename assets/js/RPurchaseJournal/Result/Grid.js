@@ -53,8 +53,8 @@ Ext.define('Account.RPurchaseJournal.Result.Grid', {
 			groupers: ['bldat', 'belnr']
 		});
 		this.columnsGrid = [
-			{text: 'SV Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
-			{text: 'SV Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
+			{text: 'AP Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
+			{text: 'AP Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
 			{text: 'Ref. Doc. No.', sortable: false, dataIndex: 'invnr'},
 			{text: 'Vendor Name', sortable: false, dataIndex: 'name2'},
 			{text: 'Account Code', sortable: false, dataIndex: 'saknr'},

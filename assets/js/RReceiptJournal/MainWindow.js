@@ -1,6 +1,6 @@
-Ext.define('Account.RPaymentJournal.MainWindow', {
+Ext.define('Account.RReceiptJournal.MainWindow', {
 	extend	: 'Ext.window.Window',
-	title: 'Report Payment Journal',
+	title: 'Report Receipt Journal',
 	closeAction: 'hide',
 	width: 420,
 	height: 220,
@@ -9,7 +9,6 @@ Ext.define('Account.RPaymentJournal.MainWindow', {
 	layout:'fit',
 	maximizable: false,
 	initComponent:function(config) {
-		var result = Ext.create("Account.RPaymentJournal.Result.Grid");
 		var form =  Ext.create('Ext.form.Panel', {
 			layout: 'form',
 			bodyPadding: '15 15 15 15',
@@ -39,9 +38,10 @@ Ext.define('Account.RPaymentJournal.MainWindow', {
 				handler: function(){
 					form = this.up('form').getForm();
 					if (form.isValid()){
+						var result = Ext.create("Account.RReceiptJournal.Result.Grid");
 						result.loadMask.show();
 						Ext.Ajax.request({
-							url: __base_url + "index.php/rpaymentjournal/result",
+							url: __base_url + "index.php/rreceiptjournal/result",
 							params: form.getValues(),
 							success: function(response){
 								var rs = response.responseText;
@@ -66,7 +66,6 @@ Ext.define('Account.RPaymentJournal.MainWindow', {
 			}]
 		});
 		this.items = [form];
-		
 		return this.callParent(arguments);
 	}
 });

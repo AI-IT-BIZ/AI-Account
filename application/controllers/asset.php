@@ -386,10 +386,10 @@ class Asset extends CI_Controller {
 			'ebeln' => $this->input->post('ebeln'),
 			'bldat' => $this->input->post('bldat'),
 			
-			'acqui' => $this->input->post('acqui'),
+			//'acqui' => $this->input->post('acqui'),
 			'costv' => floatval($this->input->post('costv')),
 			'resid' => floatval($this->input->post('resid')),
-			'lifes' => $this->input->post('lifes'),
+			'lifes' => intval($this->input->post('lifes')),
 			'depre' => floatval($this->input->post('depre')),
 			'keepi' => $this->input->post('keepi'),
 			'statu' => $this->input->post('statu')
