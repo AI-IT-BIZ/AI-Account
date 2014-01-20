@@ -60,7 +60,32 @@ class Rgeneralledger extends CI_Controller {
 				"{$val['sgtxt']}",				 
 				"{$tmp3_}",
 			);
-			
+			if(db_helper_is_mssql($this)){
+			$sql = "
+				select 
+					isnull(v_bkpf.bldat,'') as bldat,
+					isnull(v_bkpf.belnr,'') as belnr,
+					isnull(v_bkpf.invnr,'') as invnr,
+					isnull(v_bkpf.name1,'') as name1,
+					isnull(v_uacc.saknr,'') as saknr,
+					isnull(tbl_glno.sgtxt,'') as sgtxt,
+					isnull(v_uacc.debit,0) as debit,
+					isnull(v_uacc.credi,0) as credi,
+					isnull(v_uacc.statu,'') as statu,
+					isnull(v_bkpf.kunnr,'') as kunnr,
+					isnull(v_bkpf.txz01,'') as txz01,
+					tbl_glno.glcre
+				from 
+					v_bkpf
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
+				where 
+					v_bkpf.bldat BETWEEN '{$_POST['start_date']}' and '{$_POST['end_date']}' and
+					v_uacc.saknr = '{$val['saknr']}'
+				order by v_bkpf.bldat
+			";
+			}
+			if(db_helper_is_mysql($this)){
 			$sql = "
 				select 
 					ifnull(v_bkpf.bldat,'') as bldat,
@@ -84,6 +109,7 @@ class Rgeneralledger extends CI_Controller {
 					v_uacc.saknr = '{$val['saknr']}'
 				order by v_bkpf.bldat
 			";
+			}
 			$rs = $this->db->query($sql);
 			$rs = $rs->result_array();
 			
@@ -237,8 +263,7 @@ class Rgeneralledger extends CI_Controller {
 					tbl_glno
 				{$search}
 				order by
-					tbl_glno.saknr
-				limit 100;";
+					tbl_glno.saknr";
 		
 		$data = $this->db->query($sql);
 		$data = $data->result_array();
@@ -286,7 +311,7 @@ class Rgeneralledger extends CI_Controller {
                       ->setCellValue("F{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : '')
                       ->setCellValue("G{$row_idx}", (floatval($bf["debit"]) < floatval($bf["credi"]))? floatval($bf["credi"])*floatval($val["glcre"]) : '')
                       ->setCellValue("H{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : floatval($bf["credi"])*floatval($val["glcre"]) );
-									
+			if(db_helper_is_mysql($this)){					
 			$sql = "
 				select 
 					ifnull(v_bkpf.bldat,'') as bldat,
@@ -310,6 +335,32 @@ class Rgeneralledger extends CI_Controller {
 					v_uacc.saknr = '{$val['saknr']}'
 				order by v_bkpf.bldat
 			";
+			}
+			if(db_helper_is_mssql($this)){					
+			$sql = "
+				select 
+					isnull(v_bkpf.bldat,'') as bldat,
+					isnull(v_bkpf.belnr,'') as belnr,
+					isnull(v_bkpf.invnr,'') as invnr,
+					isnull(v_bkpf.name1,'') as name1,
+					isnull(v_uacc.saknr,'') as saknr,
+					isnull(tbl_glno.sgtxt,'') as sgtxt,
+					isnull(v_uacc.debit,0) as debit,
+					isnull(v_uacc.credi,0) as credi,
+					isnull(v_uacc.statu,'') as statu,
+					isnull(v_bkpf.kunnr,'') as kunnr,
+					isnull(v_bkpf.txz01,'') as txz01,
+					tbl_glno.glcre
+				from 
+					v_bkpf
+					LEFT JOIN v_uacc on v_uacc.belnr = v_bkpf.belnr
+					LEFT JOIN tbl_glno on v_uacc.saknr = tbl_glno.saknr
+				where 
+					v_bkpf.bldat BETWEEN '{$_GET['start_date']}' and '{$_GET['end_date']}' and
+					v_uacc.saknr = '{$val['saknr']}'
+				order by v_bkpf.bldat
+			";
+			}
 			$rs = $this->db->query($sql);
 			$rs = $rs->result_array();
 			$start_idx = $row_idx;
