@@ -344,7 +344,7 @@ Ext.define('Account.Asset.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			margins: '3 0 0 5',
-			readOnly: true,
+			value: new Date(),
 			submitFormat:'Y-m-d'
 		}
 		]},this.txtCostValue,]
