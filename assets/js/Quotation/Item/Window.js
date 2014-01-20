@@ -42,7 +42,15 @@ Ext.define('Account.Quotation.Item.Window', {
 			}
 		});
 
-		this.buttons = [this.btnSave, {
+		this.btnReset = Ext.create('Ext.Button', {
+			text: 'Reset',
+			disabled: !(UMS.CAN.CREATE('QT') || UMS.CAN.EDIT('QT')||UMS.CAN.APPROVE('QT')),
+			handler: function() {
+				_this.form.reset();
+			}
+		});
+
+		this.buttons = [this.btnSave, this.btnReset, {
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
