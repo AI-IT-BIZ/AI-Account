@@ -167,10 +167,11 @@ Ext.define('Account.DepositIn.Item.Form', {
 			//margin: '4 0 0 10'
 		});
 		
-		this.numberWHT = Ext.create('Ext.form.field.Display', {
+		this.numberWHT = Ext.create('Ext.form.field.Number', {
 			name: 'whtpr',
-			width:15,
+			width:30,
 			align: 'right',
+			hideTrigger:true,
 			margin: '0 0 0 8'
          });
 
@@ -237,6 +238,9 @@ Ext.define('Account.DepositIn.Item.Form', {
 		},{
 			xtype: 'hidden',
 			name: 'loekz'
+		},{
+			xtype: 'hidden',
+			name: 'whtgp'
 		},this.trigQuotation,
 					{
 						xtype: 'displayfield',
@@ -560,6 +564,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
 						   //}
 						}else{
 							o.markInvalid('Could not find wht code : '+o.getValue());
@@ -573,6 +578,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.trigWHT.setValue(record.data.whtnr);
 			//if(record.data.whtnr != '6'){
             _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+            _this.getForm().findField('whtgp').setValue(record.data.whtgp);
            //}
             
 			grid.getSelectionModel().deselectAll();

@@ -20,6 +20,7 @@ Ext.define('Account.WHT.GridItem', {
 			fields: [
 				'whtnr',
 				'whtxt',
+				'whtgp',
 				'whtpr'
 			],
 			remoteSort: true,
@@ -27,9 +28,10 @@ Ext.define('Account.WHT.GridItem', {
 		});
 
 		this.columns = [
-			{text: "WHT No",align: 'center', width: 80, dataIndex: 'whtnr', sortable: true},
-			{text: "WHT Description", flex: true, dataIndex: 'whtxt', sortable: true},
-			{text: "WHT Value", flex: true, dataIndex: 'whtpr', sortable: true}
+			{text: "WHT No",align: 'center', width: 50, align : 'center',dataIndex: 'whtnr', sortable: true},
+			{text: "WHT Description", width: 200, dataIndex: 'whtxt', sortable: true},
+			{text: "WHT Group", width: 50, align : 'center',dataIndex: 'whtgp', sortable: true},
+			{text: "WHT Value", width: 50, align : 'center',dataIndex: 'whtpr', sortable: true}
 		];
 
 		this.bbar = {
