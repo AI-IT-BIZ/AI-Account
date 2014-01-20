@@ -238,11 +238,11 @@ class Billfrom extends CI_Controller {
 		foreach($bt_item_array AS $p){
 			$this->db->insert('ebkp', array(
 				'bilnr'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
 				//'texts'=>$p->texts,
-				'itamt'=>$p->itamt,
+				'itamt'=>floatval($p->itamt),
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,

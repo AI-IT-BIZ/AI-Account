@@ -339,15 +339,15 @@ class Payment extends CI_Controller {
 		
 		if(!empty($ebbp) && !empty($py_item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;$depno=0;$netwr=0;$itamt=0;
+			$item_index = 0;
 		foreach($py_item_array AS $p){
 			$this->db->insert('ebbp', array(
 				'payno'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
-				'itamt'=>$p->floatval(itamt),
+				'itamt'=>floatval($p->itamt),
 				//'reman'=>$p->reman,
 				//'payrc'=>$p->payrc,
 				'refnr'=>$p->refnr,
@@ -360,31 +360,7 @@ class Payment extends CI_Controller {
 			
 			$this->db->where('invnr', $p->invnr);
 			$this->db->set('loekz', '2');
-			$netwr=floatval($this->input->post('netwr'));
-			if($p->itamt > $netwr){
-				$itamt=$p->itamt - $netwr;
-				$this->db->set('reman', $itamt);
-			}
 			$this->db->update('ebrk');
-			
-			if($this->input->post('statu') == '02'){
-			if($p->itamt <= $netwr){
-			$kunnr = $this->input->post('lifnr');
-		    $this->db->where('lifnr', $lifnr);
-		    $q_limit = $this->db->get('lfa1');
-			$reman=0;$upamt=0;
-			if($q_limit->num_rows()>0){
-			  $r_limit = $q_limit->first_row('array');
-			  $reman = $r_limit['reman'] - $p->itamt;
-			  $upamt = $p->itamt;
-			  
-			  $this->db->where('lifnr', $lifnr);
-			  $this->db->set('upamt', $upamt);
-			  $this->db->set('reman', $reman);
-			  $this->db->update('lfa1');
-			  }
-			} 
-			}
 	    	
 	    	}
 		}
