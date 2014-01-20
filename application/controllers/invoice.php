@@ -876,7 +876,7 @@ class Invoice extends CI_Controller {
 	       $vvat = $this->input->get('vvat');    //VAT amt
 		   //$vwht = $this->input->get('vwht');    //WHT amt
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   $deamt = $this->input->get('deamt');  //Deposit
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -910,7 +910,26 @@ class Invoice extends CI_Controller {
 				}
 				}
 			}
+
 // record ที่สอง
+   if(!empty($deamt)){
+		$glvat = '1130-05';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$deamt,
+			'credi'=>0
+		);
+		$i++;
+		$debit = $debit + $deamt;	
+		}
+		}
+// record ที่สอง.ครึ่ง
         if(!empty($items)){
 			// loop เพื่อ insert
 		for($j=0;$j<count($items);$j++){

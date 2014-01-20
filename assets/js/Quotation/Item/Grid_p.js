@@ -82,7 +82,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
 		    format:'d/m/Y',
-		    sortable: true,
+		    sortable: false,
 		    editor: {
                 xtype: 'datefield',
                 allowBlank: false,
@@ -116,7 +116,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				width: 70,
 				//xtype: 'numbercolumn',
 				dataIndex: 'perct',
-				sortable: true,
+				sortable: false,
 				align: 'right',
 				field: Ext.create('BASE.form.field.PercentOrNumber'),
 				renderer: function(v,p,r){
@@ -150,11 +150,11 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			width: 70,
 			dataIndex: 'ctyp1',
 			//xtype: 'textcolumn',
-			sortable: true,
+			sortable: false,
 			align: 'center',
-			editor: {
-				xtype: 'textfield'
-			},
+			//editor: {
+			//	xtype: 'textfield'
+			//},
 			}
 		];
 

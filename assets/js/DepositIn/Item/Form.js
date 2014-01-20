@@ -387,8 +387,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -424,8 +426,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			       }
 				}
 				});           

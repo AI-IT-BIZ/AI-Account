@@ -503,9 +503,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('deamt').setValue(r.data.deamt);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
 
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -543,9 +545,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('deamt').setValue(r.data.deamt);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			       }
 				}
 				});
@@ -952,6 +956,7 @@ Ext.define('Account.Invoice.Item.Form', {
         
         var deamt = this.formTotal.getForm().findField('deamt').getValue();
         //alert(deamt);
+        sum2 = sum2 - deamt;
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  sum2 = sum2 * rate;
@@ -973,6 +978,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	netpr:sum2,
             	vvat:vats,
             	kunnr:this.trigCustomer.getValue(),
+            	deamt:deamt,
             	items: saknr_list.join(',')
             	//ptype:'01',
             	//dtype:'01'
