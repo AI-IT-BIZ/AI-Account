@@ -618,6 +618,8 @@ class Quotation extends CI_Controller {
 			                   $tamt = $tamt / 107;
 		                }
 						$amt = $tamt;
+						
+						if(empty($damt)) $damt='0.00';
 
 						$result[$i] = array(
 					    'contx'=>$row['contx'],
