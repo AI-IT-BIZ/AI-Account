@@ -100,6 +100,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			_this.itemDialog.setReadOnly(false);
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
+			_this.itemDialog.setTitle('Create Quotation');
 		});
 
 		this.editAct.setHandler(function(){
@@ -108,6 +109,8 @@ Ext.define('Account.Quotation.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+
+				_this.itemDialog.setTitle('Edit Quotation');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -123,6 +126,8 @@ Ext.define('Account.Quotation.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+
+				_this.itemDialog.setTitle('Display Quotation');
 			}
 		});
 
