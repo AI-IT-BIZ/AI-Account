@@ -390,6 +390,10 @@ class Receipt extends CI_Controller {
 			}
 			$this->db->update('vbrk');
 			
+			$this->db->where('depnr', $p->invnr);
+			$this->db->set('loekz', '2');
+			$this->db->update('vbdk');
+			
 			if($this->input->post('statu') == '02'){
 			if($p->itamt <= $netwr){
 			$kunnr = $this->input->post('kunnr');
