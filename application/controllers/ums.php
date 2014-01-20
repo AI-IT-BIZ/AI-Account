@@ -36,8 +36,11 @@ class Ums extends CI_Controller {
 		));
 		if($q_user->num_rows()>0){
 			$user = $q_user->first_row();
-			$this->db->like('user_data', '"uname":"'.$this->db->escape_str($user->uname).'"');
+			//$this->db->like('user_data', '"uname":"'.$this->db->escape_str($sUser['uname']).'"');
+			$this->db->where("user_data LIKE '%\"uname\":\"".$this->db->escape_str($user->uname)."\"%'");
 			$this->db->delete('ci_sessions');
+
+			echo $this->db->last_query();
 
 			echo "Clear session $username success.";
 		}else{
@@ -88,7 +91,8 @@ class Ums extends CI_Controller {
 					else
 					{
 						// Check in use session
-						/*$this->db->like('user_data', '"uname":"'.$this->db->escape_str($sUser['uname']).'"');
+						/*
+						$this->db->where("user_data LIKE '%\"uname\":\"".$this->db->escape_str($user->uname)."\"%'");
 						$this->db->from('ci_sessions');
 						$cnt_used = $this->db->count_all_results();
 						if($cnt_used>0){
