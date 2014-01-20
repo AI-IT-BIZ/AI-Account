@@ -411,9 +411,9 @@ $i=397+20;
 $rows = $query->result_array();
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = 0;
+	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
-	$itamt = $itamt - $item['disit'];
+	//$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['vbelp'];?></td>
@@ -422,7 +422,15 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="right" style="width:75px;"><?=number_format($item['menge'],2,'.',',');?></td>
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
-		<td class="fc1-8" align="right" style="width:58px;"><?=number_format($item['disit'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		$pos = strpos($item['disit'], '%');
+		if($pos==false){
+			$disc = $item['disit'];
+			echo number_format($disc,2,'.',',');
+		}else{
+			echo $item['disit'];
+		}
+		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
@@ -448,8 +456,6 @@ $distxt='';$disamt=0;
 }else{$disamt = $r_data['dismt'];}
 if(empty($disamt)) $disamt = 0;*/
 ?>
-<DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, $distxt) ?></span></DIV>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
@@ -544,6 +550,8 @@ else
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
+
+<DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 

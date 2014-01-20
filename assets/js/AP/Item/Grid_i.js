@@ -7,7 +7,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -22,7 +22,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 		});
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];
+		this.tbar = [this.addAct, this.copyAct];*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -83,7 +83,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -91,15 +91,15 @@ Ext.define('Account.AP.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.materialDialog.show();
 				}
-			},
+			},*/
 			},
 		    {text: "Description",
 		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
+		    //field: {
+			//	type: 'textfield'
+			//},
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
@@ -107,7 +107,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				listeners: {
 					focus: function(field, e){
@@ -116,10 +116,10 @@ Ext.define('Account.AP.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -127,7 +127,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
-			},
+			},*/
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
@@ -135,7 +135,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
-			field: {
+			/*field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
@@ -145,7 +145,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 							field.selectText();
 					}
 				}
-			},
+			},*/
 			},
 			{text: "Discount",
 			//xtype: 'numbercolumn',
@@ -153,20 +153,20 @@ Ext.define('Account.AP.Item.Grid_i', {
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: Ext.create('BASE.form.field.PercentOrNumber'),
+			/*field: Ext.create('BASE.form.field.PercentOrNumber'),
 				renderer: function(v,p,r){
 					var regEx = /%$/gi;
 					if(regEx.test(v))
 						return v;
 					else
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
-				}
+				}*/
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
             dataIndex: 'chk01',
             width: 30,
-            field: {
+            /*field: {
                 xtype: 'checkboxfield',
                 listeners: {
 					focus: function(field, e){
@@ -174,13 +174,13 @@ Ext.define('Account.AP.Item.Grid_i', {
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				}}
+				}}*/
             },{
             xtype: 'checkcolumn',
             text: 'WHT',
             dataIndex: 'chk02',
             width: 30,
-            field: {
+            /*field: {
                 xtype: 'checkboxfield',
                 listeners: {
 					focus: function(field, e){
@@ -188,7 +188,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
 					}
-				}}
+				}}*/
             },
 			{
 				text: "Amount",
@@ -213,9 +213,9 @@ Ext.define('Account.AP.Item.Grid_i', {
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			//field: {
+			//	type: 'textfield'
+			//},
 		},
 			{
 			dataIndex: 'saknr',
@@ -227,7 +227,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
+		/*this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 		
@@ -298,7 +298,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
-		});
+		});*/
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

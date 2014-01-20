@@ -348,8 +348,8 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 
 <DIV style="left: 385PX; top: 355PX; width: 135px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
 <DIV style="left: 385PX; top: 373PX; width: 134px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
-<DIV style="left: 520PX; top: 355PX; width: 140px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เปอร์เซ็น</span></DIV>
-<DIV style="left: 520PX; top: 373PX; width: 140px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Percent</span></DIV>
+<DIV style="left: 520PX; top: 355PX; width: 140px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">จำนวนเงิน/เปอร์เซ็น</span></DIV>
+<DIV style="left: 520PX; top: 373PX; width: 140px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Amount/Percent</span></DIV>
 <DIV style="left:660PX;top:355PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
 <DIV style="left:660PX;top:373PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
 
@@ -393,7 +393,7 @@ $i=397+20;
 $rows = $query->result_array();
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = 0;
+	$itamt = 0;$pos='';$disc=0;
 	//$itamt = $item['menge'] * $item['unitp'];
 	//$itamt = $itamt - $item['disit'];
 	$itamt = $item['pramt'];
@@ -405,7 +405,16 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="left" style="width:256px;"><?=$item['sgtxt'];?></td>
 		<td class="fc1-8" align="center" style="width:135px;"><?=$duedt_str;?></td>
 		
-		<td class="fc1-8" align="right" style="width:140px;"><?=$item['perct'];?></td>
+		<td class="fc1-8" align="right" style="width:140px;"><?=number_format($item['unitp'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		$pos = strpos($item['perct'], '%');
+		if($pos==false){
+			$disc = $item['perct'];
+			echo number_format($disc,2,'.',',');
+		}else{
+			echo $item['perct'];
+		}
+		?></td>
 		
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
@@ -528,6 +537,8 @@ else
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
+
+<DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 

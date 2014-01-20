@@ -187,11 +187,22 @@ class Gr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-			$this->db->set_dbprefix('v_');
-			$this->db->where('ebeln', $id);
-			$this->db->where('matkl', '08');
+			}else{
+				
+			if($this->input->post('loekz')=='3'){
+        	$emsg = 'The PO already created GR doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }	
+			
+			$po = $this->input->post('ebeln');	
+			//$this->db->set_dbprefix('v_');
+			$this->db->where('ebeln', $po);
 
-			$q_txt = $this->db->get('ekpo');
+			$q_txt = $this->db->get('ebdk');
 			if($q_txt->num_rows() > 0){
 				if($this->input->post('loekz')==''){
         	        $emsg = 'The PO is not created deposit payment yet.';
@@ -203,15 +214,6 @@ class Gr extends CI_Controller {
                 }
 			}
 		}
-
-        if($this->input->post('loekz')=='3'){
-        	$emsg = 'The po already created gr doc.';
-					echo json_encode(array(
-						'success'=>false,
-						'message'=>$emsg
-					));
-					return;
-        }
 
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),

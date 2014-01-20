@@ -186,6 +186,15 @@ class Po extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			}else{
+				if($this->input->post('loekz')=='2'){
+        	$emsg = 'The PR already created PO doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
 		}
 
         $sdat = explode('-',$this->input->post('bldat'));
@@ -201,15 +210,6 @@ class Po extends CI_Controller {
 					));
 					return;
 				}
-
-        if($this->input->post('loekz')=='2'){
-        	$emsg = 'The PR already created PO doc.';
-					echo json_encode(array(
-						'success'=>false,
-						'message'=>$emsg
-					));
-					return;
-        }
 		
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),

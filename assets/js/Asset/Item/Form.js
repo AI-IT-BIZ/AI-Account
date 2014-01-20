@@ -256,12 +256,12 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Specification',
 			name: 'specs',
 			//width: 250
-		},{
+		},/*{
 			xtype: 'textfield',
 			fieldLabel: 'Picture',
 			name: 'pictu',
 			//width: 250
-		},
+		},*/
 		  this.trigUnit]
 		}, {
 // Frame number 2	

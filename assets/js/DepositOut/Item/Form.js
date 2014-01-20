@@ -451,9 +451,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var grdponr = _this.trigPO.value;
+			//var grdmatnr = '200019';//_this.trigPO.value;
 			//alert(grdpurnr);
-			_this.gridItem.load({ponr: grdponr });
+			//_this.gridItem.load({matnr: grdmatnr });
 			//----------------------------------------
 			_this.poDialog.hide();
 		});
@@ -701,13 +701,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ depnr: 0 });
+		//this.gridItem.load({ depnr: 0 });
 		this.gridGL.load({
             	netpr:0
             });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		//this.gridItem.addDefaultRecord();
+		this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');

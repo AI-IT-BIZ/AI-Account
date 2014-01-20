@@ -7,7 +7,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			disabled: true,
 			iconCls: 'b-small-plus'
@@ -24,7 +24,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 		});
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];
+		this.tbar = [this.addAct, this.copyAct];*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -209,7 +209,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
+		/*this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
 		
@@ -281,7 +281,7 @@ Ext.define('Account.PO.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
-		});
+		});*/
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

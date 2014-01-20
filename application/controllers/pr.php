@@ -227,6 +227,8 @@ class Pr extends CI_Controller {
 		
 		$status_changed = false;
 		$inserted_id = false;
+		$net = floatval($this->input->post('netwr'));
+		$lifnr = $this->input->post('lifnr');
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('purnr', $id);
@@ -268,6 +270,35 @@ class Pr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+		}else{
+
+		$this->db->where('lifnr', $lifnr);
+		$q_limit = $this->db->get('lfa1');
+		$reman=0;
+		
+		if($q_limit->num_rows()>0){
+			$r_limit = $q_limit->first_row('array');
+			$reman = $r_limit['reman'] + $net;
+			$limit = $r_limit['endin'];
+			$apamt = $r_limit['apamt'];
+			if($net>$limit){
+            	$emsg = 'The quotation total have amount more than limit amount.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+            
+			if($reman>$apamt){
+            	$emsg = 'The customer have amount more than credit limit.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+		  }
 		}
 		//$netwr = str_replace(",","",floatval($this->input->post('netwr')));
 		$formData = array(
@@ -299,6 +330,26 @@ class Pr extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('ebko', $formData);
+			
+// Credit limit -> Reject case
+        if($this->input->post('statu') == '03'){
+        	$this->db->where('lifnr', $kunnr);
+		    $q_limit = $this->db->get('lfa1');
+		    $reman=0;
+		
+		if($q_limit->num_rows()>0){
+			$r_limit = $q_limit->first_row('array');
+			$reman = $r_limit['reman'] - $net;
+			
+			if(!empty($kunnr)){	
+			$this->db->where('lifnr', $lifnr);
+			$this->db->set('upamt', $net);
+			$this->db->set('reman', $reman);
+			$this->db->update('lfa1');
+			}
+		}	
+        }
+		
 		}else{
 			
 			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
@@ -309,6 +360,15 @@ class Pr extends CI_Controller {
 			$this->db->insert('ebko', $formData);
 			
 			$inserted_id = $id;
+			
+//Upate limit remain			
+		    if(!empty($lifnr)){	
+			$this->db->where('lifnr', $lifnr);
+			$this->db->set('upamt', $net);
+			$this->db->set('reman', $reman);
+			$this->db->update('lfa1');
+			}
+			
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด

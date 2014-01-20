@@ -141,7 +141,7 @@ Ext.define('Account.PR.Item.Form_t', {
 			margin: '3 0 0 0',
 			rows:2,
 			width:380,
-			name: 'txz01'
+			name: 'sgtxt'
 		}]
             },{
                 xtype: 'container',

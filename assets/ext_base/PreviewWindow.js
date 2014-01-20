@@ -4,7 +4,7 @@ Ext.define('BASE.PreviewWindow', {
 	// default attributes
 	title: 'รายงาน',
 	closeAction: 'hide',
-	height: 600,
+	height: 700,
 	width: 830,
 	minHeight: 600,
 	minWidth: 830,
