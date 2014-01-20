@@ -404,9 +404,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		
 		<td class="fc1-8" align="left" style="width:256px;"><?=$item['sgtxt'];?></td>
 		<td class="fc1-8" align="center" style="width:135px;"><?=$duedt_str;?></td>
-		
-		<td class="fc1-8" align="right" style="width:140px;"><?=number_format($item['unitp'],2,'.',',');?></td>
-		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		<td class="fc1-8" align="right" style="width:140px;"><?php 
 		$pos = strpos($item['perct'], '%');
 		if($pos==false){
 			$disc = $item['perct'];

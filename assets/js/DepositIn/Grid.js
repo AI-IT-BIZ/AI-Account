@@ -58,7 +58,7 @@ Ext.define('Account.DepositIn.Grid', {
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			//pageSize: 10,
+			pageSize: 15,
 			store: this.store,
 			displayInfo: true
 		};

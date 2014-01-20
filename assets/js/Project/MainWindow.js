@@ -5,7 +5,7 @@ Ext.define('Account.Project.MainWindow', {
 		Ext.apply(this, {
 			title: 'Project Management',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1020,
 			minWidth: 600,

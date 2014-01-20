@@ -11,7 +11,7 @@ Ext.define('Account.SEmployee.Grid', {
 			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'semployee/loads',
+				url: __site_url+'employee/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',

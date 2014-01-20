@@ -9,7 +9,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		Ext.apply(this, {
 			title: 'Quotation',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1020,
 			minWidth: 500,

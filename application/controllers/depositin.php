@@ -85,13 +85,17 @@ class Depositin extends CI_Controller {
 
 		}
 // End for report
-
+        createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
 		createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 
@@ -420,14 +424,18 @@ class Depositin extends CI_Controller {
 	///////////////////////////////////////////////
 	function loads_dp_item(){
 		$qtnr = $this->input->get('qtnr');
+		
 		if(!empty($qtnr)){
 			//$this->db->set_dbprefix('v_');
+			$tbName = 'payp';
 		    $this->db->where('vbeln', $qtnr);
 			$this->db->where('payty', '1');
 
 		    $query = $this->db->get('payp');
+			
 		}else{
             $this->db->set_dbprefix('v_');
+			$tbName = 'vbdp';
 	        $dp_id = $this->input->get('depnr');
 		    $this->db->where('depnr', $dp_id);
         //$totalCount = $this->db->count_all_results('vbbp');

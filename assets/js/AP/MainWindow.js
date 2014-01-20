@@ -5,7 +5,7 @@ Ext.define('Account.AP.MainWindow', {
 		Ext.apply(this, {
 			title: 'Account Payable',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1000,
 			minWidth: 500,

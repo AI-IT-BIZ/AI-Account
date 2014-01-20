@@ -33,7 +33,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'depnr,paypr',
+					idProperty: function(o){ return o.depnr+o.vbelp; },
 					totalProperty: 'totalCount'
 				}
 			},
@@ -50,7 +50,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				'disit'
 			],
 			remoteSort: true,
-			sorters: ['paypr ASC']
+			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
@@ -232,6 +232,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 	},
 
 	addRecord: function(){
+		var _this=this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -239,7 +240,9 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+        
+        var cur = _this.curValue;
+        alert(cur);
 		// add new record
 		rec = { id:newId };
 		edit = this.editing;
@@ -298,6 +301,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		this.store.removeAt(rowIndex);
 
 		this.runNumRow();
+		grid.getSelectionModel().deselectAll();
 	},
 
 	runNumRow: function(){
