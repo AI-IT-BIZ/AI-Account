@@ -1284,7 +1284,7 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-sales-customer').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
                                 pEl.getById('div-sales-projectnew').on('click', function(){ $om.viewport.fireEvent('click_projectnew', c); }, c);
                                 pEl.getById('div-sales-projectlist').on('click', function(){ $om.viewport.fireEvent('click_project', c); }, c);
-                                pEl.getById('div-sales-qtnew').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
+                                pEl.getById('div-sales-qtnew').on('click', function(){ $om.viewport.fireEvent('click_quotationnew', c); }, c);
                                 pEl.getById('div-sales-qtlist').on('click', function(){ $om.viewport.fireEvent('click_quotation', c); }, c);
 
                                 pEl.getById('div-sales-dpnew').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);

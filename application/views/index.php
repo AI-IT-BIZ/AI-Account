@@ -50,6 +50,16 @@ Ext.onReady(function() {
 			$om.projectDialog = Ext.create('Account.Project.MainWindow');
 		$om.projectDialog.show();
 	});
+	$om.viewport.on('click_quotationnew', function(){
+		if(!UMS.CAN.DISPLAY('QT')){
+			UMS.ALERT("You don't have permission for Quotation.");
+			return;
+		}
+
+		if(!$om.quotationnewDialog)
+			$om.quotationnewDialog = Ext.create('Account.Quotation.Item.Window');
+		$om.quotationnewDialog.show();
+	});
 	$om.viewport.on('click_quotation', function(){
 		if(!UMS.CAN.DISPLAY('QT')){
 			UMS.ALERT("You don't have permission for Quotation.");
