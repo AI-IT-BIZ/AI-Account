@@ -105,5 +105,7 @@ Ext.define('Account.Quotation.Item.Window', {
 
 		if(!this.btnSave.initialConfig.disabled)
 			this.btnSave.setDisabled(readOnly);
+
+		this.btnReset.setDisabled(readOnly);
 	}
 });
