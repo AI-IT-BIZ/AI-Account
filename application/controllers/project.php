@@ -238,7 +238,10 @@ class Project extends CI_Controller {
 
 		echo json_encode(array(
 			'success'=>true,
-			'data'=>$_POST
+			// also send id after save
+				'data'=> array(
+					'id'=>$id
+				)
 		));
 
 		try{

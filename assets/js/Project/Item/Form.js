@@ -73,6 +73,7 @@ Ext.define('Account.Project.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
+			value: '01',
 			valueField: 'statu'//,
 			//margins: '0 0 0 2'
 		});
@@ -442,7 +443,7 @@ Ext.define('Account.Project.Item.Form', {
 			_form_basic.submit({
 				success: function(form_basic, action) {
 					form_basic.reset();
-					_this.fireEvent('afterSave', _this);
+					_this.fireEvent('afterSave', _this, action);
 				},
 				failure: function(form_basic, action) {
 					Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');

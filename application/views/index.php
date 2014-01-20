@@ -36,10 +36,10 @@ Ext.onReady(function() {
 		}
 
 		if(!$om.projectnewDialog)
-			$om.projectnewDialog = Ext.create('Account.Project.Item.Window');
-		$om.projectnewDialog.form.reset();
-		$om.projectnewDialog.show();
-	});
+			$om.projectnewDialog = Ext.create('Account.Project.MainWindow');
+		//$om.projectnewDialog.form.reset();
+		$om.projectnewDialog.addAct.execute();
+	});	
 	$om.viewport.on('click_project', function(){
 		if(!UMS.CAN.DISPLAY('PJ')){
 			UMS.ALERT("You don't have permission for Project.");

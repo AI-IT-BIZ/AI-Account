@@ -91,6 +91,8 @@ Ext.define('Account.Project.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Project');
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
 		});
@@ -102,6 +104,7 @@ Ext.define('Account.Project.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Project');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -116,6 +119,7 @@ Ext.define('Account.Project.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Project');
 			}
 		});
 		
@@ -127,17 +131,16 @@ Ext.define('Account.Project.MainWindow', {
 			}
 		});
 
-		this.itemDialog.form.on('afterSave', function(){
+		this.itemDialog.form.on('afterSave', function(form, action){
 			_this.itemDialog.hide();
 			_this.grid.load();
+
+			var resultId = action.result.data.id;
+			_this.itemDialog.openDialog(resultId);
+			Ext.Msg.alert('Status', 'Save project number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
-			_this.grid.load();
-		});
-
-		this.itemDialog.form.on('afterSave', function(){
-			_this.itemDialog.hide();
 			_this.grid.load();
 		});
 
