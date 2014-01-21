@@ -175,6 +175,10 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			_this.copyRecord();
 		});
 
+		this.editing.on('validateedit', function(editor, e) {
+			console.log('validate edit');
+		});
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='invnr'){
 				var v = e.value;
@@ -229,16 +233,21 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			if(rModels.length>0){
 				rModel = rModels[0];
 
-				/*this.store.each(function(v){
-					alert(v.data['invnr']+'/')
-				  	if(v.data['invnr'] == record.data.invnr){
-				  		Ext.Msg.alert('Warning', 'The invoice no already on list.');
-				  		checks='1';
-				  		//return;
+				// check data
+				var isDuplicate = false;
+				_this.store.each(function(r){
+					//alert(v.data['invnr']+'/');
+
+				  	if(r.data.invnr == record.data.invnr){
+				  		isDuplicate = true;
+				  		return false;
 				  	}
 				});
-                //alert(checks);
-                if(checks==''){*/
+				if(isDuplicate){
+					Ext.Msg.alert('Warning', 'The invoice number already on list.');
+					return;
+				}
+
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no
