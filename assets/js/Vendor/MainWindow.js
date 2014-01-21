@@ -6,7 +6,7 @@ Ext.define('Account.Vendor.MainWindow', {
 		Ext.apply(this, {
 			title: 'Vendor Management',
 			closeAction: 'hide',
-			height: 580,
+			height: 700,
 			minHeight: 580,
 			width: 1050,
 			minWidth: 1000,

@@ -6,7 +6,7 @@ Ext.define('Account.Employee.MainWindow', {
 		Ext.apply(this, {
 			title: 'Employee Management',
 			closeAction: 'hide',
-			height: 580,
+			height: 700,
 			minHeight: 380,
 			width: 1000,
 			minWidth: 1000,

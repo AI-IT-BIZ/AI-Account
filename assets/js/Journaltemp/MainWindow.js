@@ -6,7 +6,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 		Ext.apply(this, {
 			title: 'Journal Template',
 			closeAction: 'hide',
-			height: 580,
+			height: 700,
 			minHeight: 380,
 			width: 500,
 			minWidth: 500,
@@ -49,7 +49,7 @@ Ext.define('Account.Journaltemp.MainWindow', {
 
 		var searchOptions = {
 			region: 'north',
-			height:100
+			height:60
 		};
 		if(this.isApproveOnly){
 			searchOptions.status_options = {

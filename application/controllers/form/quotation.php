@@ -426,6 +426,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
+			if(empty($disc)) $disc = 0.00;
 			echo number_format($disc,2,'.',',');
 		}else{
 			echo $item['disit'];

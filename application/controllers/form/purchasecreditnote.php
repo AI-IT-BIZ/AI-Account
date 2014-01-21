@@ -411,9 +411,9 @@ $i=397+20;
 $rows = $query->result_array();
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = 0;
+	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
-	$itamt = $itamt - $item['disit'];
+	//$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['vbelp'];?></td>
@@ -422,7 +422,16 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="right" style="width:75px;"><?=number_format($item['menge'],2,'.',',');?></td>
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
-		<td class="fc1-8" align="right" style="width:58px;"><?=number_format($item['disit'],2,'.',',');?></td>
+		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		$pos = strpos($item['disit'], '%');
+		if($pos==false){
+			$disc = $item['disit'];
+			if(empty($disc)) $disc = 0.00;
+			echo number_format($disc,2,'.',',');
+		}else{
+			echo $item['disit'];
+		}
+		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
@@ -440,13 +449,13 @@ endfor;
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
 $distxt='';$disamt=0;
-if(strpos($r_data['dismt'], '%') !== false)
+/*if(strpos($r_data['dismt'], '%') !== false)
 {
 	$distxt = $r_data['dismt'];
 	$disamt = strstr($distxt, '%', true);
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
-}else{$disamt = $r_data['dismt'];}
+}else{$disamt = $r_data['dismt'];}*/
 if(empty($disamt)) $disamt = 0;
 ?>
 <DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">

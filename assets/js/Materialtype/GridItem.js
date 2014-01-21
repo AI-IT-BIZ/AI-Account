@@ -63,6 +63,7 @@ Ext.define('Account.Materialtype.GridItem', {
 		this.columns = [{
 			xtype: 'actioncolumn',
 			width: 30,
+			text: 'Del',
 			sortable: false,
 			menuDisabled: true,
 			items: [{
@@ -72,8 +73,8 @@ Ext.define('Account.Materialtype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber001',
-			header : "Type ID",
+			//id : 'PMiRowNumber001',
+			text : "No",
 			dataIndex : 'id_mtype',
 			width : 60,
 			align : 'center',
@@ -86,6 +87,7 @@ Ext.define('Account.Materialtype.GridItem', {
 		    width: 100,
 		    dataIndex: 'mtart',
 		    sortable: true,
+		    maxLenges: 4,
 		    field: {
 				type: 'textfield'
 			},
@@ -94,6 +96,7 @@ Ext.define('Account.Materialtype.GridItem', {
 		    width: 250,
 		    dataIndex: 'matxt',
 		    sortable: true,
+		    maxLenges: 100,
 		    field: {
 				type: 'textfield'
 			},

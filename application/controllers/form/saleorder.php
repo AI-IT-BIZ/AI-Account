@@ -400,7 +400,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$item = $rows[$i];
 	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
-	$itamt = $itamt - $item['disit'];
+	//$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['vbelp'];?></td>
@@ -413,6 +413,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
+			if(empty($disc)) $disc = 0.00;
 			echo number_format($disc,2,'.',',');
 		}else{
 			echo $item['disit'];

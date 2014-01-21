@@ -229,6 +229,22 @@ Ext.define('Account.Payment.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
+							
+							// check data
+				var isDuplicate = false;
+				_this.store.each(function(record){
+					//alert(v.data['invnr']+'/');
+
+				  	if(r.data.invnr == record.data.invnr){
+				  		isDuplicate = true;
+				  		return false;
+				  	}
+				});
+				if(isDuplicate){
+					Ext.Msg.alert('Warning', 'The AP number already on list.');
+					return;
+				}
+				
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
 							// Ref no
@@ -263,9 +279,26 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		});
 
 		_this.apDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var checks='';
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
+				
+				// check data
+				var isDuplicate = false;
+				_this.store.each(function(r){
+					//alert(v.data['invnr']+'/');
+
+				  	if(r.data.invnr == record.data.invnr){
+				  		isDuplicate = true;
+				  		return false;
+				  	}
+				});
+				if(isDuplicate){
+					Ext.Msg.alert('Warning', 'The AP number already on list.');
+					return;
+				}
+				
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no

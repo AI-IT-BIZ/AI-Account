@@ -436,11 +436,9 @@ $distxt='';$disamt=0;
 	$disamt = strstr($distxt, '%', true);
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
-}else{$disamt = $r_data['dismt'];}
-if(empty($disamt)) $disamt = 0;*/
+}else{$disamt = $r_data['dismt'];}*/
+if(empty($r_data['dismt'])) $r_data['dismt'] = 0.00;
 ?>
-<DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, $distxt) ?></span></DIV>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>

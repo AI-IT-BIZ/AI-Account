@@ -5,7 +5,7 @@ Ext.define('Account.Billto.MainWindow', {
 		Ext.apply(this, {
 			title: 'Billing Note',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 960,
 			minWidth: 500,

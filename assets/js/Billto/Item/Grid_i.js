@@ -196,13 +196,22 @@ Ext.define('Account.Billto.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-                            /*this.store.each(function(v){
-				  	          if(v.data['invnr'] == r.data.invnr){
-				  		        Ext.Msg.alert('Warning', 'The invoice no already on list.');
-				  		        checks='1';
-				  	          }
-				            });
-				            if(checks==''){*/
+                            // check data
+				var isDuplicate = false;
+				_this.store.each(function(record){
+					//alert(v.data['invnr']+'/');
+
+				  	if(r.data.invnr == record.data.invnr){
+				  		isDuplicate = true;
+				  		return false;
+				  	}
+				});
+				
+				if(isDuplicate){
+					Ext.Msg.alert('Warning', 'The invoice number already on list.');
+					return;
+				}
+				
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
 							// Ref no

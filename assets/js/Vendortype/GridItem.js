@@ -69,9 +69,10 @@ Ext.define('Account.Vendortype.GridItem', {
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
+			//xtype: 'actioncolumn',
 			width: 30,
 			sortable: false,
+			text: 'Del',
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
@@ -80,7 +81,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'VDiRowNumber1',
+			//id : 'VDiRowNumber1',
 			header : "No",
 			dataIndex : 'id_vtype',
 			width : 60,
@@ -93,6 +94,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			text: "Type Code",
 		    width: 80,
 		    dataIndex: 'vtype',
+		    maxLenges: 4,
 		    sortable: true,
 		    field: {
 				type: 'textfield'
@@ -102,11 +104,14 @@ Ext.define('Account.Vendortype.GridItem', {
 		    width: 150,
 		    dataIndex: 'ventx',
 		    sortable: true,
+		    maxLenges: 100,
 		    field: {
 				type: 'textfield'
 			},
 		},{
-			text: "GL no", flex: true, dataIndex: 'saknr', sortable: true,
+			text: "GL no", flex: true, 
+			maxLenges: 10,
+			dataIndex: 'saknr', sortable: true,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,

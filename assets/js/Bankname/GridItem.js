@@ -77,6 +77,7 @@ Ext.define('Account.Bankname.GridItem', {
 		this.columns = [{
 			xtype: 'actioncolumn',
 			width: 30,
+			text: "Del",
 			sortable: false,
 			menuDisabled: true,
 			items: [{
@@ -86,8 +87,8 @@ Ext.define('Account.Bankname.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber005',
-			header : "No",
+			//id : 'PMiRowNumber005',
+			text : "No",
 			dataIndex : 'id_bname',
 			width : 60,
 			align : 'center',
@@ -99,6 +100,7 @@ Ext.define('Account.Bankname.GridItem', {
 			{text: "Bank Code", align: 'center',
 			width: 100, dataIndex: 'bcode', 
 			sortable: true,
+			maxLenges: 4,
 			field: {
 				type: 'textfield'
 			}
@@ -106,6 +108,7 @@ Ext.define('Account.Bankname.GridItem', {
 			{text: "Bank Name", 
 			width: 150, dataIndex: 'bname', 
 			sortable: true,
+			maxLenges: 60,
 			field: {
 				type: 'textfield'
 			}
@@ -113,6 +116,7 @@ Ext.define('Account.Bankname.GridItem', {
 			{text: "Address", 
 			width: 125, dataIndex: 'addrs', 
 			sortable: true,
+			maxLenges: 100,
 			field: {
 				type: 'textfield'
 			}
@@ -121,6 +125,7 @@ Ext.define('Account.Bankname.GridItem', {
 			width: 100,
 			dataIndex: 'saknr', 
 			sortable: true,
+			maxLenges: 10,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,

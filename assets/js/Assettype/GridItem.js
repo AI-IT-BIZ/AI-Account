@@ -74,6 +74,7 @@ Ext.define('Account.Assettype.GridItem', {
 		this.columns = [{
 			xtype: 'actioncolumn',
 			width: 30,
+			text: "Del",
 			sortable: false,
 			menuDisabled: true,
 			items: [{
@@ -83,8 +84,8 @@ Ext.define('Account.Assettype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'FAiRowNumber010',
-			header : "Type ID",
+			//id : 'FAiRowNumber010',
+			text : "No",
 			dataIndex : 'id_mtype',
 			width : 60,
 			align : 'center',
@@ -97,6 +98,7 @@ Ext.define('Account.Assettype.GridItem', {
 		    width: 100,
 		    dataIndex: 'mtart',
 		    sortable: true,
+		    maxLenges: 4,
 		    field: {
 				type: 'textfield'
 			},
@@ -105,7 +107,8 @@ Ext.define('Account.Assettype.GridItem', {
 		    width: 150,
 		    dataIndex: 'matxt',
 		    sortable: true,
-		    field: {
+            maxLenges: 100,
+            field: {
 				type: 'textfield'
 			},
 		},{
@@ -113,6 +116,7 @@ Ext.define('Account.Assettype.GridItem', {
 			width: 100,
 			dataIndex: 'saknr', 
 			sortable: true,
+			maxLenges: 10,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -134,6 +138,7 @@ Ext.define('Account.Assettype.GridItem', {
 			width: 100, 
 			dataIndex: 'depre', 
 			sortable: true,
+			minValue: 0,
 			field: {
 				type: 'textfield'
 			},

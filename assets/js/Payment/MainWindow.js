@@ -5,7 +5,7 @@ Ext.define('Account.Payment.MainWindow', {
 		Ext.apply(this, {
 			title: 'Payment',
 			closeAction: 'hide',
-			height: 500,
+			height: 700,
 			minHeight: 380,
 			width: 950,
 			minWidth: 500,

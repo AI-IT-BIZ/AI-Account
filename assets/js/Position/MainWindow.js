@@ -6,7 +6,7 @@ Ext.define('Account.Position.MainWindow', {
 		Ext.apply(this, {
 			title: 'Position',
 			closeAction: 'hide',
-			height: 500,
+			height: 650,
 			minHeight: 380,
 			width: 600,
 			minWidth: 500,

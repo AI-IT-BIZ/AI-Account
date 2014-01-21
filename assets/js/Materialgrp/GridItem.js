@@ -4,17 +4,6 @@ Ext.define('Account.Materialgrp.GridItem', {
 		'Ext.ux.grid.FiltersFeature'
 	],
 	constructor:function(config) {
-        /*Ext.apply(this, {
-			url: __site_url+'customertype/save',
-			border: false,
-			//bodyPadding: 10,
-			fieldDefaults: {
-				labelAlign: 'right',
-				//labelWidth: 130,
-				//width:300,
-				labelStyle: 'font-weight:bold'
-			}
-		});*/
 		
 		return this.callParent(arguments);
 	},
@@ -82,6 +71,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 		this.columns = [{
 			xtype: 'actioncolumn',
 			width: 30,
+			text: 'Del',
 			sortable: false,
 			menuDisabled: true,
 			items: [{
@@ -91,8 +81,8 @@ Ext.define('Account.Materialgrp.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber002',
-			header : "Type ID",
+			//id : 'PMiRowNumber002',
+			text : "No",
 			dataIndex : 'id_mgrp',
 			width : 60,
 			align : 'center',
@@ -103,6 +93,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 		},{
 			text: "Group Code",
 		    width: 80,
+		    maxLenges: 4,
 		    dataIndex: 'matkl',
 		    sortable: true,
 		    field: {
@@ -113,6 +104,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 		    width: 150,
 		    dataIndex: 'matxt',
 		    sortable: true,
+		    maxLenges: 100,
 		    field: {
 				type: 'textfield'
 			},
@@ -121,6 +113,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 			width: 100,
 			dataIndex: 'saknr', 
 			sortable: true,
+			maxLenges: 10,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,

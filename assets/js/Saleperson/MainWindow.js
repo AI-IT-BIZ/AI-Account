@@ -5,7 +5,7 @@ Ext.define('Account.Saleperson.MainWindow', {
 		Ext.apply(this, {
 			title: 'Sale Persons Management',
 			closeAction: 'hide',
-			height: 550,
+			height: 700,
 			minHeight: 380,
 			width: 600,
 			minWidth: 500,

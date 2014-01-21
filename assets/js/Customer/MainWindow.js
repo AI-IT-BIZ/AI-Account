@@ -6,7 +6,7 @@ Ext.define('Account.Customer.MainWindow', {
 		Ext.apply(this, {
 			title: 'Customer Management',
 			closeAction: 'hide',
-			height: 580,
+			height: 700,
 			minHeight: 380,
 			width: 1100,
 			minWidth: 1000,

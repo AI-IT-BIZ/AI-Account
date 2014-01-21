@@ -62,6 +62,7 @@ Ext.define('Account.Unit.GridItem', {
 		this.columns = [{
 			xtype: 'actioncolumn',
 			width: 30,
+			text: 'Del',
 			sortable: false,
 			menuDisabled: true,
 			items: [{
@@ -71,8 +72,8 @@ Ext.define('Account.Unit.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber23',
-			header : "Unit No",
+			//id : 'PMiRowNumber23',
+			text : "No",
 			dataIndex : 'id_unit',
 			width : 60,
 			align : 'center',
@@ -85,6 +86,7 @@ Ext.define('Account.Unit.GridItem', {
 		    width: 80,
 		    dataIndex: 'meins',
 		    sortable: true,
+		    maxLenges: 3,
 		    field: {
 				type: 'textfield'
 			},
@@ -92,6 +94,7 @@ Ext.define('Account.Unit.GridItem', {
 			text: "Unit Description",
 		    width: 100,
 		    dataIndex: 'metxt',
+		    maxLenges: 100,
 		    sortable: true,
 		    field: {
 				type: 'textfield'

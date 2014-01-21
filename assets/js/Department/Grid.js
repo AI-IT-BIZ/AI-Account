@@ -68,6 +68,7 @@ Ext.define('Account.Department.Grid', {
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
+			text: 'Del',
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete Item',
@@ -75,8 +76,8 @@ Ext.define('Account.Department.Grid', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'DPiRowNumber05',
-			header : "No",
+			//id : 'DPiRowNumber05',
+			text : "No",
 			dataIndex : 'id_depnr2',
 			width : 60,
 			align : 'center',
@@ -89,6 +90,7 @@ Ext.define('Account.Department.Grid', {
 			width: 100,
 			dataIndex: 'depnr', 
 			sortable: true,
+			maxLenges: 4,
 			field: {
 				type: 'textfield'
 			}
@@ -96,6 +98,7 @@ Ext.define('Account.Department.Grid', {
 			text: "Department", width: 125, 
 			dataIndex: 'deptx', 
 			sortable: true,
+			maxLenges: 100,
 			field: {
 				type: 'textfield'
 			}

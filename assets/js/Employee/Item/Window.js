@@ -5,8 +5,8 @@ Ext.define('Account.Employee.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Employee',
 			closeAction: 'hide',
-			height: 520,
-			width: 660,
+			height: 500,
+			width: 640,
 			layout: 'border',
 			resizable: true,
 			modal: true

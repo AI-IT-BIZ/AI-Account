@@ -5,7 +5,7 @@ Ext.define('Account.PurchaseCreditNote.MainWindow', {
 		Ext.apply(this, {
 			title: 'Credit Note',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1000,
 			minWidth: 500,

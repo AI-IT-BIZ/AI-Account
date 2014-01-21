@@ -341,6 +341,7 @@ if(strpos($r_data['dispc'], '%') !== false)
 	$disamt = $disamt / 100;
 }else{$disamt = $r_data['dispc'];}
 if($r_data['dispc'] == '0') $r_data['dispc'] = '';*/
+if(empty($r_data['dismt'])) $r_data['dismt']=0.00;
 ?>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">

@@ -66,6 +66,7 @@ Ext.define('Account.Projecttype.GridItem', {
 			xtype: 'actioncolumn',
 			width: 30,
 			sortable: false,
+			text: 'Del',
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
@@ -74,8 +75,8 @@ Ext.define('Account.Projecttype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'PMiRowNumber003',
-			header : "Type ID",
+			//id : 'PMiRowNumber003',
+			text : "No",
 			dataIndex : 'id_jtype',
 			width : 60,
 			align : 'center',
@@ -88,6 +89,7 @@ Ext.define('Account.Projecttype.GridItem', {
 		    width: 100,
 		    dataIndex: 'jtype',
 		    sortable: true,
+		    maxLenges: 4,
 		    field: {
 				type: 'textfield'
 			},
@@ -96,6 +98,7 @@ Ext.define('Account.Projecttype.GridItem', {
 		    width: 250,
 		    dataIndex: 'typtx',
 		    sortable: true,
+		    maxLenges: 100,
 		    field: {
 				type: 'textfield'
 			},

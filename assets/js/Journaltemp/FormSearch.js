@@ -4,7 +4,7 @@ Ext.define('Account.Journaltemp.FormSearch', {
 
 		Ext.apply(this, {
 			border: false,
-			bodyStyle : 'padding:5px 0px 5px 0px;',
+			//bodyStyle : 'padding:5px 0px 5px 0px;',
 			//labelWidth : 80,
 			buttonAlign : 'center'
 		});
@@ -34,9 +34,10 @@ Ext.define('Account.Journaltemp.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
+			//hidden: true,
 			emptyText: 'Find from Journal Template and Description',
 			labelAlign: 'right',
-			//width: 500,
+			width: 450,
 			listeners : {
 				specialkey : function(o, e) {
 					if (e.getKey() == e.ENTER)
