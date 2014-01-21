@@ -59,6 +59,10 @@ Ext.define('Account.UMS.Login.Window', {
 			_this.submitAct.execute();
 		});
 
+		setTimeout(function(){
+			_this.form.getForm().findField('username').focus();
+		}, 200);
+
 		return this.callParent(arguments);
 	}
 });
