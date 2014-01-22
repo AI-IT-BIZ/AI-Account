@@ -263,11 +263,11 @@ Ext.define('Account.OtherExpense.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'loekz'
-					},{xtype: 'fieldset',
+					},/*{xtype: 'fieldset',
 title: 'Payable Type',
 layout: 'anchor',
 //collapsible: true,
-        items: [this.radioType]},{
+        items: [this.radioType]},*/{
 						xtype: 'displayfield',
 						//name: 'name1',
 						//margins: '0 0 0 6',

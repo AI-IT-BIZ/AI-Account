@@ -530,7 +530,7 @@ class Ap extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
 			//'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => floatval($this->input->post('whtnr')),
+			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			//'whtpr' => $this->input->post('whtpr'),
 			'duedt' => $this->input->post('duedt'),
@@ -587,6 +587,7 @@ class Ap extends CI_Controller {
 					'unitp'=>floatval($p->unitp),
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
+					'chk02'=>$p->chk02,
 					'ctype'=>$p->ctype
 				));
 			}

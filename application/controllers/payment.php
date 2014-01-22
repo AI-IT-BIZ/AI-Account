@@ -478,14 +478,14 @@ class Payment extends CI_Controller {
 					'docty'=>'01',
 					'txz01' => 'Payment No '.$id
 				));
-				}elseif($p->statu=='2' && !empty($p->saknr)){
-					$deposit = '1';
+				//}elseif($p->statu=='2' && !empty($p->saknr)){
+				//	$deposit = '1';
 				}
 			}
 		  }
 
 //Deposit Doc
-	if($deposit=='1'){
+	/*if($deposit=='1'){
 		if(!empty($ids)){
 			$this->db->set_dbprefix('v_');
 			$this->db->limit(1);
@@ -555,7 +555,7 @@ class Payment extends CI_Controller {
 				} 
 			}
 		  }
-		}
+		}*/
 	}//check status approved
 	
 		// end transaction
@@ -671,71 +671,51 @@ class Payment extends CI_Controller {
 
        $bamt=0;$novat=0;$net_vat=0;
        if($dtype == 'D'){
-// record ที่หนึ่ง
-        if($net>0){
-        	$novat=$net-$vvat;
-        	$gl_vat = '1151-06';
+        		
+//record ที่ หนึ่ง -> New Deposit posting
+        //$net_vat=$net+$vvat;
+		$debit=0;$credit=0;$j=0;
+		$gl_vat = '2131-14';
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
-		if($qgl->num_rows()>0){
+				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$novat,
+			'debit'=>$net,
 			'credi'=>0,
 			'statu'=>'1'
 		);
-		$i++;
-		$debit+=$novat;
-		}}
-
-// record ที่สอง
-        if($vvat>0){
-        	$gl_vat = '1154-00';
+		$i++;//$j++;
+		$debit+=$net;
+		}
+//record ที่ สอง-> New Deposit posting
+        if($vwht>0){
+        	$gl_vat = '2132-02';
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
-		if($qgl->num_rows()>0){
+				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 		$result[$i] = array(
 		    'belpr'=>$i + 1,
 			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$vvat,
-			'credi'=>0,
-			'statu'=>'1'
-		);
-		$i++;
-		$debit+=$vvat;
-		}}
-// record ที่สาม
-        if($vwht>0){ 
-		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = '2132-02';
-		$qgl = $this->db->get_where('glno', 
-		array('saknr'=>$glvat));
-		if($qgl->num_rows()>0){
-		$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
 			'debit'=>0,
 			'credi'=>$vwht,
 			'statu'=>'1'
 		);
-		$i++;
-		$credit = $credit + $vwht;	
+		$i++;//$j++;
+		$credit+=$vwht;
 		}}
-		
-// record ที่สี่
-         for($j=0;$j<count($items);$j++){
+//record ที่ สาม -> New Deposit posting
+        for($j=0;$j<count($items);$j++){
       	$item = explode('|',$items[$j]);
-			if(!empty($item)){
+			if(!empty($item[0]) && !empty($item[1])){
 			$glno = $item[0];
 			$payam  = $item[1];
-			}
+			
 			if(strlen($glno) == 2){
 		    $ptype = $glno;
             $query = $this->db->get_where('ptyp', array(
@@ -743,8 +723,9 @@ class Payment extends CI_Controller {
 			$q_data = $query->first_row('array');
 			$glno = $q_data['saknr'];
 			}
-			
+			}
 			if(!empty($glno)){
+				
 				$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glno));
 				if($qgl->num_rows()>0){
@@ -763,78 +744,10 @@ class Payment extends CI_Controller {
 				}
 			}
           }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
-		//}//Check payment grid
-				
-		if(!empty($debit) || !empty($credit)){
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>'',
-			'sgtxt'=>'Total',
-			'debit'=>$debit,
-			'credi'=>$credit
-		);
-		$i++;
-		}
-        		
-//record ที่ หนึ่ง -> New Deposit posting
-        //$net_vat=$net+$vvat;
-		$debit=0;$credit=0;$j=0;
-		$gl_vat = '2131-14';
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$net,
-			'credi'=>0,
-			'statu'=>'2'
-		);
-		$i++;$j++;
-		$debit+=$net;
-		}
-//record ที่ สอง-> New Deposit posting
-        if($vvat>0){
-        	$gl_vat = '1155-00';
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vvat,
-			'statu'=>'2'
-		);
-		$i++;$j++;
-		$credit+=$vvat;
-		}}
-//record ที่ สาม -> New Deposit posting
-        $gl_vat = '1151-06';
-		    //$grand = $net + $vwht;
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$novat,
-			'statu'=>'2'
-		);
-		$i++;$j++;
-		$credit+=$novat;
-		}
 		
 		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(
-		    'belpr'=>$j + 1,
+		    'belpr'=>$i + 1,
 			'saknr'=>'',
 			'sgtxt'=>'Total',
 			'debit'=>$debit,

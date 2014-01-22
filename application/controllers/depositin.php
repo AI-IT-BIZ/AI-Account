@@ -241,9 +241,9 @@ class Depositin extends CI_Controller {
 		foreach($dp_item_array AS $p){
 			$this->db->insert('vbdp', array(
 				'depnr'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'sgtxt'=>$p->sgtxt,
-				'pramt'=>$p->pramt,
+				'pramt'=>floatval($p->pramt),
 				'perct'=>$p->perct,
 				'duedt'=>$p->duedt,
 				'chk01'=>$p->chk01,

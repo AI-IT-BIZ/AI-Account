@@ -365,7 +365,7 @@ class Receipt extends CI_Controller {
 			//print_r($p->ctype);
 			$this->db->insert('vbbp', array(
 				'recnr'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'invnr'=>$p->invnr,
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,

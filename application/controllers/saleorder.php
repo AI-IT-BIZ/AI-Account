@@ -293,13 +293,13 @@ class Saleorder extends CI_Controller {
 				$itamt = $itamt - $p->disit;
 				$this->db->insert('vbop', array(
 					'ordnr'=>$id,
-					'vbelp'=>++$item_index,//vbelp,
+					'vbelp'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($p->itamt),
 					'ctype'=>$p->ctype,
 					'chk01'=>$p->chk01,
 					'chk02'=>$p->chk02
