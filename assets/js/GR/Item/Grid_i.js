@@ -66,6 +66,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete GR Item',
 				scope: this,
+				disabled: true,
 				handler: this.removeRecord
 			}]
 		},{

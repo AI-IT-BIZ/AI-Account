@@ -223,10 +223,11 @@ Ext.define('Account.AP.Item.Form', {
 			//margin: '0 0 0 35'
 		 });
 		 
-		 this.numberWHT = Ext.create('Ext.form.field.Display', {
+		 this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
 			name: 'whtpr',
-			width:15,
+			width:30,
 			align: 'right',
+			hideTrigger:true,
 			margin: '0 0 0 5'
          });
 		
@@ -420,7 +421,9 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 			                _this.getForm().findField('deamt').setValue(r.data.deamt);
+			                _this.getForm().findField('devat').setValue(r.data.devat);
 						}else{
 							o.markInvalid('Could not find GR no : '+o.getValue());
 						}
@@ -452,7 +455,9 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 			                _this.getForm().findField('deamt').setValue(r.data.deamt);
+			                _this.getForm().findField('devat').setValue(r.data.devat);
 						}
 					}
 				});
@@ -811,6 +816,8 @@ Ext.define('Account.AP.Item.Form', {
 // Set value to GL Posting grid 
 		var rate = this.formTotal.txtRate.getValue();
 		var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		var devat = this.formTotal.getForm().findField('devat').getValue();
+		sum2 = sum2 - deamt;
 		if(currency != 'THB'){
 	      sum2 = sum2 * rate;
 		  sum = sum * rate;
@@ -818,6 +825,7 @@ Ext.define('Account.AP.Item.Form', {
 		  whts = whts * rate;
 		  discounts = discounts * rate;
 		  deamt = deamt * rate;
+		  devat = devat * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -833,6 +841,8 @@ Ext.define('Account.AP.Item.Form', {
             	netpr:sum2,
             	vvat:vats,
             	lifnr:this.trigVendor.getValue(),
+            	deamt:deamt,
+            	devat:devat,
             	items: saknr_list.join(',')
             }); 
            }

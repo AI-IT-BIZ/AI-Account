@@ -6,7 +6,7 @@ Ext.define('Account.DepositOut.Item.Window', {
 			title: 'Create/Edit Deposit Payment',
 			closeAction: 'hide',
 			height: 650,
-			width: 890,
+			width: 900,
 			layout: 'border',
 			border: false,
 			resizable: true,

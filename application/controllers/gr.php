@@ -38,6 +38,16 @@ class Gr extends CI_Controller {
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
+			
+			$po = $result_data['ebeln'];
+			$this->db->where('ebeln', $po);
+		    $q_dep = $this->db->get('ebdk');
+		 
+		    if($q_dep->num_rows()>0){
+			  $r_data = $q_dep->first_row('array');
+			  $result_data['devat'] = $r_data['vat01'];
+			}
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -197,22 +207,6 @@ class Gr extends CI_Controller {
 					));
 					return;
             }	
-			
-			$po = $this->input->post('ebeln');	
-			//$this->db->set_dbprefix('v_');
-			$this->db->where('ebeln', $po);
-
-			$q_txt = $this->db->get('ebdk');
-			if($q_txt->num_rows() > 0){
-				if($this->input->post('loekz')==''){
-        	        $emsg = 'The PO is not created deposit payment yet.';
-					echo json_encode(array(
-						'success'=>false,
-						'message'=>$emsg
-					));
-					return;
-                }
-			}
 		}
 
 		$formData = array(
@@ -251,9 +245,7 @@ class Gr extends CI_Controller {
 		}else{
 			
 			$id = $this->code_model->generate('GR', $this->input->post('bldat'));
-		//echo $id; exit;
 			$this->db->set('mbeln', $id);
-			//$this->db->set('erdat', 'NOW()', false);
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('mkpf', $formData);

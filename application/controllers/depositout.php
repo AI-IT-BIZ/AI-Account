@@ -154,6 +154,15 @@ class Depositout extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+		}else{
+           if($this->input->post('loekz')=='2' || $this->input->post('loekz')=='3'){
+        	$emsg = 'The PO already created deposit/GR doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+           }
 		}
 
         if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
@@ -164,15 +173,7 @@ class Depositout extends CI_Controller {
 					));
 					return;
         }
-
-        if($this->input->post('loekz')=='2'){
-        	$emsg = 'The PO already created deposit doc.';
-					echo json_encode(array(
-						'success'=>false,
-						'message'=>$emsg
-					));
-					return;
-        }
+        
 		
 		$formData = array(
 			//'depnr' => $this->input->post('depnr'),

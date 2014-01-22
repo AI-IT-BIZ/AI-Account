@@ -214,16 +214,16 @@ class Saleorder extends CI_Controller {
 					return;
                 }
 			}
-		}
-
-        if($this->input->post('loekz')=='3'){
-        	$emsg = 'The quotation already created sale order doc.';
+			}else{
+                if($this->input->post('loekz')=='3'){
+        	        $emsg = 'The quotation already created sale order doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-        }
+                }
+		}
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),

@@ -30,8 +30,8 @@ Ext.define('Account.WHT.GridItem', {
 		this.columns = [
 			{text: "WHT No",align: 'center', width: 50, align : 'center',dataIndex: 'whtnr', sortable: true},
 			{text: "WHT Description", width: 200, dataIndex: 'whtxt', sortable: true},
-			{text: "WHT Group", width: 60, align : 'center',dataIndex: 'whtgp', sortable: true},
-			{text: "WHT Value", width: 60, align : 'center',dataIndex: 'whtpr', sortable: true}
+			{text: "WHT Group", width: 65, align : 'center',dataIndex: 'whtgp', sortable: true},
+			{text: "WHT Value(%)", width: 70, align : 'center',dataIndex: 'whtpr', sortable: true}
 		];
 
 		this.bbar = {

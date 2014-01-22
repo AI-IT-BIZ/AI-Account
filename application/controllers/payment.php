@@ -262,7 +262,7 @@ class Payment extends CI_Controller {
 		$perv='';$lerv='';
 		if(!empty($ebbp) && !empty($py_item_array)){
 		foreach($py_item_array AS $p){
-			if($p->loekz=='2'){
+			if($p->loekz=='2' && empty($id)){
 				$emsg = 'The AP no '.$p->invnr.' already created payment doc.';
 					echo json_encode(array(
 						'success'=>false,

@@ -66,6 +66,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete AP Item',
 				scope: this,
+				disabled: true,
 				handler: this.removeRecord
 			}]
 		},{

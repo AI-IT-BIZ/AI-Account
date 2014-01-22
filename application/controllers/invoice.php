@@ -463,6 +463,16 @@ class Invoice extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			}else{
+				
+			if($this->input->post('loekz')=='2'){
+        	$emsg = 'The sale order already created invoice doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+        }	
 		}
 
         if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
@@ -474,14 +484,6 @@ class Invoice extends CI_Controller {
 					return;
         }
 		
-		if($this->input->post('loekz')=='2'){
-        	$emsg = 'The sale order already created invoice doc.';
-					echo json_encode(array(
-						'success'=>false,
-						'message'=>$emsg
-					));
-					return;
-        }
 		
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),

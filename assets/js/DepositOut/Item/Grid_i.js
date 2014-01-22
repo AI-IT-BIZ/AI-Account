@@ -63,6 +63,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete Deposit Item',
 				scope: this,
+				disabled: true,
 				handler: this.removeRecord
 			}]
 		},{
@@ -115,7 +116,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				}
 			},*/
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 40, dataIndex: 'meins', sortable: false,
 			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,

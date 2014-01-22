@@ -270,22 +270,21 @@ class Receipt extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+				
 		}
-
-        $vbbp = $this->input->post('vbbp');
-		$rc_item_array = json_decode($vbbp);
-		$perv='';$kerv='';
-		if(!empty($vbbp) && !empty($rc_item_array)){
-		foreach($rc_item_array AS $p){
-			if($p->loekz=='2'){
-				$emsg = 'The invoice no '.$p->invnr.' already created receipt doc.';
+			$vbbp = $this->input->post('vbbp');
+		        $rc_item_array = json_decode($vbbp);
+		        $perv='';$kerv='';
+		        if(!empty($vbbp) && !empty($rc_item_array)){
+		        foreach($rc_item_array AS $p){
+			    if($p->loekz=='2' && empty($id)){
+				    $emsg = 'The invoice no '.$p->invnr.' already created receipt doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
 			}
-			
 			if(substr($p->invnr,0,1)!=$perv && $perv!=''){
 				$emsg = 'Cannot create receipt doc from differnt invoice type';
 					echo json_encode(array(

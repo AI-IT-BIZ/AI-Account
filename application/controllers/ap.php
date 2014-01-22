@@ -490,7 +490,7 @@ class Ap extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 			}else{
 				if($this->input->post('loekz')=='2'){
-        	$emsg = 'The GR already created AP doc.';
+        	    $emsg = 'The GR already created AP doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -534,7 +534,8 @@ class Ap extends CI_Controller {
 			'whtxt' => $this->input->post('whtxt'),
 			//'whtpr' => $this->input->post('whtpr'),
 			'duedt' => $this->input->post('duedt'),
-			'deamt' => floatval($this->input->post('deamt'))
+			'deamt' => floatval($this->input->post('deamt')),
+			'devat' => floatval($this->input->post('devat'))
 		);
 
 		// start transaction
@@ -760,7 +761,8 @@ class Ap extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat  = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
-		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   $deamt = $this->input->get('deamt');  //Deposit amt
+		   $devat = $this->input->get('devat');  //Deposit vat
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -817,8 +819,45 @@ class Ap extends CI_Controller {
 		$i++;
 		$debit = $debit + $vvat;	
 		}}
+		
+// record ที่สาม.หนึ่ง
+        if($devat>0){ 
+		$glvat = '1155-00';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$devat
+		);
+		$i++;
+		$credit = $credit + $devat;	
+		}}
+		
+// record ที่สาม.สอง
+        if($deamt>0){
+        $deamt = $deamt - $devat; 
+		$glvat = '1151-06';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$deamt
+		);
+		$i++;
+		$credit = $credit + $deamt;	
+		}}
         
-// record ที่สาม
+// record ที่สาม.สาม
 		$query = $this->db->get_where('lfa1', array(
 				'lifnr'=>$lifnr));
 			if($query->num_rows()>0){
