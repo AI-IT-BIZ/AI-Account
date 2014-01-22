@@ -88,10 +88,8 @@ Ext.define('Account.OtherIncome.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Other Income');
 		});
 
 		this.editAct.setHandler(function(){
@@ -100,6 +98,8 @@ Ext.define('Account.OtherIncome.MainWindow', {
 			
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
+			    _this.itemDialog.setTitle('Edit Other Income');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -113,6 +113,9 @@ Ext.define('Account.OtherIncome.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.form.remove(id);
+				_this.itemDialog.setReadOnly(true);
+				
+				_this.itemDialog.setTitle('Display Other Income');
 			}
 		});
 

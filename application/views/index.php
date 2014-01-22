@@ -227,6 +227,16 @@ Ext.onReady(function() {
 		$om.rreceiptDialog.show();
 	});
 //Purchase Module
+    $om.viewport.on('click_prnew', function(){
+		if(!UMS.CAN.DISPLAY('PR')){
+			UMS.ALERT("You don't have permission for Purchase Requisition.");
+			return;
+		}
+
+		if(!$om.prDialog)
+			$om.prDialog = Ext.create('Account.PR.MainWindow');
+		$om.prDialog.addAct.execute();
+	});
 	$om.viewport.on('click_pr', function(){
 		if(!UMS.CAN.DISPLAY('PR')){
 			UMS.ALERT("You don't have permission for Purchase Requisition.");
@@ -236,6 +246,16 @@ Ext.onReady(function() {
 		if(!$om.prDialog)
 			$om.prDialog = Ext.create('Account.PR.MainWindow');
 		$om.prDialog.show();
+	});
+	$om.viewport.on('click_ponew', function(){
+		if(!UMS.CAN.DISPLAY('PO')){
+			UMS.ALERT("You don't have permission for Purchase Order.");
+			return;
+		}
+
+		if(!$om.poDialog)
+			$om.poDialog = Ext.create('Account.PO.MainWindow');
+		$om.poDialog.addAct.execute();
 	});
 	$om.viewport.on('click_po', function(){
 		if(!UMS.CAN.DISPLAY('PO')){
@@ -247,6 +267,16 @@ Ext.onReady(function() {
 			$om.poDialog = Ext.create('Account.PO.MainWindow');
 		$om.poDialog.show();
 	});
+	$om.viewport.on('click_deposit2new', function(){
+		if(!UMS.CAN.DISPLAY('DP')){
+			UMS.ALERT("You don't have permission for Deposit Payment.");
+			return;
+		}
+
+		if(!$om.deposit2Dialog)
+			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
+		$om.deposit2Dialog.addAct.execute();
+	});
 	$om.viewport.on('click_deposit2', function(){
 		if(!UMS.CAN.DISPLAY('DP')){
 			UMS.ALERT("You don't have permission for Deposit Payment.");
@@ -256,6 +286,16 @@ Ext.onReady(function() {
 		if(!$om.deposit2Dialog)
 			$om.deposit2Dialog = Ext.create('Account.DepositOut.MainWindow');
 		$om.deposit2Dialog.show();
+	});
+	$om.viewport.on('click_grnew', function(){
+		if(!UMS.CAN.DISPLAY('GR')){
+			UMS.ALERT("You don't have permission for Good Reciept.");
+			return;
+		}
+
+		if(!$om.grDialog)
+			$om.grDialog = Ext.create('Account.GR.MainWindow');
+		$om.grDialog.addAct.execute();
 	});
 	$om.viewport.on('click_gr', function(){
 		if(!UMS.CAN.DISPLAY('GR')){
@@ -267,6 +307,16 @@ Ext.onReady(function() {
 			$om.grDialog = Ext.create('Account.GR.MainWindow');
 		$om.grDialog.show();
 	});
+	$om.viewport.on('click_apnew', function(){
+		if(!UMS.CAN.DISPLAY('AP')){
+			UMS.ALERT("You don't have permission for Account Payable.");
+			return;
+		}
+
+		if(!$om.apDialog)
+			$om.apDialog = Ext.create('Account.AP.MainWindow');
+		$om.apDialog.addAct.execute();
+	});
 	$om.viewport.on('click_ap', function(){
 		if(!UMS.CAN.DISPLAY('AP')){
 			UMS.ALERT("You don't have permission for Account Payable.");
@@ -277,6 +327,16 @@ Ext.onReady(function() {
 			$om.apDialog = Ext.create('Account.AP.MainWindow');
 		$om.apDialog.show();
 	});
+	$om.viewport.on('click_purchase_dnnew', function(){
+		if(!UMS.CAN.DISPLAY('PN')){
+			UMS.ALERT("You don't have permission for Purchase Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.purchaseDebitNoteDialog)
+			$om.purchaseDebitNoteDialog = Ext.create('Account.PurchaseDebitNote.MainWindow');
+		$om.purchaseDebitNoteDialog.addAct.execute();
+	});
 	$om.viewport.on('click_purchase_dn', function(){
 		if(!UMS.CAN.DISPLAY('PN')){
 			UMS.ALERT("You don't have permission for Purchase Debit/Credit Note.");
@@ -286,6 +346,16 @@ Ext.onReady(function() {
 		if(!$om.purchaseDebitNoteDialog)
 			$om.purchaseDebitNoteDialog = Ext.create('Account.PurchaseDebitNote.MainWindow');
 		$om.purchaseDebitNoteDialog.show();
+	});
+	$om.viewport.on('click_purchase_cnnew', function(){
+		if(!UMS.CAN.DISPLAY('PN')){
+			UMS.ALERT("You don't have permission for urchase Debit/Credit Note.");
+			return;
+		}
+
+		if(!$om.purchaseCreditNoteDialog)
+			$om.purchaseCreditNoteDialog = Ext.create('Account.PurchaseCreditNote.MainWindow');
+		$om.purchaseCreditNoteDialog.addAct.execute();
 	});
 	$om.viewport.on('click_purchase_cn', function(){
 		if(!UMS.CAN.DISPLAY('PN')){
@@ -306,6 +376,16 @@ Ext.onReady(function() {
 		if(!$om.billfromDialog)
 			$om.billfromDialog = Ext.create('Account.Billfrom.MainWindow');
 		$om.billfromDialog.show();
+	});
+	$om.viewport.on('click_paymentnew', function(){
+		if(!UMS.CAN.DISPLAY('PY')){
+			UMS.ALERT("You don't have permission for Payment.");
+			return;
+		}
+
+		if(!$om.paymentDialog)
+			$om.paymentDialog = Ext.create('Account.Payment.MainWindow');
+		$om.paymentDialog.addAct.execute();
 	});
 	$om.viewport.on('click_payment', function(){
 		if(!UMS.CAN.DISPLAY('PY')){

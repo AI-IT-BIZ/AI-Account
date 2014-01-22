@@ -21,8 +21,8 @@ Ext.define('Account.RPayment.Form', {
 		
 
 //---Create Selection--------------------------------------------
-        this.paymentDialog = Ext.create('Account.Payment.MainWindow');
-		this.paymentDialog2 = Ext.create('Account.Payment.MainWindow');
+        this.paymentDialog = Ext.create('Account.SPayment.MainWindow');
+		this.paymentDialog2 = Ext.create('Account.SPayment.MainWindow');
 		this.apDialog = Ext.create('Account.SAp.MainWindow');
 		this.apDialog2 = Ext.create('Account.SAp.MainWindow');
 		

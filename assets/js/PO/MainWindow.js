@@ -97,10 +97,8 @@ Ext.define('Account.PO.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Purchase Order');
 		});
 
 		this.editAct.setHandler(function(){
@@ -110,6 +108,7 @@ Ext.define('Account.PO.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Purchase Order');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -124,6 +123,7 @@ Ext.define('Account.PO.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Purchase Order');
 			}
 		});
 

@@ -91,8 +91,8 @@ Ext.define('Account.PurchaseDebitNote.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			//_this.itemDialog.form.reset();
-			//_this.itemDialog.show();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Debit Note');
 		});
 
 		this.editAct.setHandler(function(){
@@ -100,6 +100,8 @@ Ext.define('Account.PurchaseDebitNote.MainWindow', {
 			var id = sel.data[sel.idField.name];
 			if(id){
 				_this.itemDialog.openDialog(id);
+				_this.itemDialog.setReadOnly(false);
+			    _this.itemDialog.setTitle('Edit Debit Note');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -113,8 +115,9 @@ Ext.define('Account.PurchaseDebitNote.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
-				
 				_this.itemDialog.form.remove(id);
+				_this.itemDialog.setReadOnly(true);
+			    _this.itemDialog.setTitle('Display Debit Note');
 			}
 		});
 		//console.log(this.itemDialog.form);

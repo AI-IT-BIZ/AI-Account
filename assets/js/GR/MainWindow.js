@@ -95,8 +95,8 @@ Ext.define('Account.GR.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			//_this.itemDialog.form.reset();
-			//_this.itemDialog.show();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Goods Receipt');
 		});
 
 		this.editAct.setHandler(function(){
@@ -105,6 +105,7 @@ Ext.define('Account.GR.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Goods Receipt');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -120,6 +121,7 @@ Ext.define('Account.GR.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Goods Receipt');
 			}
 		});
 

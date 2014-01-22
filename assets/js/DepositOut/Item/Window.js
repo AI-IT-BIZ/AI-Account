@@ -41,7 +41,15 @@ Ext.define('Account.DepositOut.Item.Window', {
 			}
 		});
 
-		this.buttons = [this.btnSave, {
+		this.btnReset = Ext.create('Ext.Button', {
+			text: 'New',
+			disabled: !(UMS.CAN.CREATE('DP') || UMS.CAN.EDIT('DP')||UMS.CAN.APPROVE('DP')),
+			handler: function() {
+				_this.form.reset();
+			}
+		});
+
+		this.buttons = [this.btnSave, this.btnReset,{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -94,5 +102,7 @@ Ext.define('Account.DepositOut.Item.Window', {
 
 		if(!this.btnSave.initialConfig.disabled)
 			this.btnSave.setDisabled(readOnly);
+			
+			this.btnReset.setDisabled(readOnly);
 	}
 });

@@ -105,6 +105,8 @@ Ext.define('Account.PR.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Purchase Requisition');
 		});
 
 		this.editAct.setHandler(function(){
@@ -113,6 +115,7 @@ Ext.define('Account.PR.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+				_this.itemDialog.setTitle('Edit Purchase Requisition');
 			}
 		});
 		
@@ -122,6 +125,7 @@ Ext.define('Account.PR.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Purchase Requisition');
 			}
 		});
 

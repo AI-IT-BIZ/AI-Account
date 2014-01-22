@@ -87,10 +87,8 @@ Ext.define('Account.AP.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Account Payable');
 		});
 
 		this.editAct.setHandler(function(){
@@ -100,11 +98,7 @@ Ext.define('Account.AP.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-				//_this.itemDialog.show();
-				//_this.itemDialog.form.load(id);
-
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ebeln: id});
+				_this.itemDialog.setTitle('Edit Account Payable');
 			}
 		});
 		
@@ -114,6 +108,7 @@ Ext.define('Account.AP.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Account Payable');
 			}
 		});
 

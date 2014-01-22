@@ -1318,19 +1318,22 @@ function endsWith($haystack, $needle)
 
 
                                 //Purchase Tab
-                                pEl.getById('div-purchase-prnew').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
+                                pEl.getById('div-purchase-vendor').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+                                pEl.getById('div-purchase-prnew').on('click', function(){ $om.viewport.fireEvent('click_prnew', c); }, c);
                                 pEl.getById('div-purchase-prlist').on('click', function(){ $om.viewport.fireEvent('click_pr', c); }, c);
-                                pEl.getById('div-purchase-ponew').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
+                                pEl.getById('div-purchase-ponew').on('click', function(){ $om.viewport.fireEvent('click_ponew', c); }, c);
                                 pEl.getById('div-purchase-polist').on('click', function(){ $om.viewport.fireEvent('click_po', c); }, c);
-                                pEl.getById('div-purchase-grnew').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
+                                pEl.getById('div-purchase-dpnew').on('click', function(){ $om.viewport.fireEvent('click_deposit2new', c); }, c);
+                                pEl.getById('div-purchase-dplist').on('click', function(){ $om.viewport.fireEvent('click_deposit2', c); }, c);
+                                pEl.getById('div-purchase-grnew').on('click', function(){ $om.viewport.fireEvent('click_grnew', c); }, c);
                                 pEl.getById('div-purchase-grlist').on('click', function(){ $om.viewport.fireEvent('click_gr', c); }, c);
-                                pEl.getById('div-purchase-apnew').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
+                                pEl.getById('div-purchase-apnew').on('click', function(){ $om.viewport.fireEvent('click_apnew', c); }, c);
                                 pEl.getById('div-purchase-aplist').on('click', function(){ $om.viewport.fireEvent('click_ap', c); }, c);
-                                pEl.getById('div-purchase-dnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_dn', c); }, c);
+                                pEl.getById('div-purchase-dnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_dnnew', c); }, c);
                                 pEl.getById('div-purchase-dnlist').on('click', function(){ $om.viewport.fireEvent('click_purchase_dn', c); }, c);
-                                pEl.getById('div-purchase-cnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_cn', c); }, c);
+                                pEl.getById('div-purchase-cnnew').on('click', function(){ $om.viewport.fireEvent('click_purchase_cnnew', c); }, c);
                                 pEl.getById('div-purchase-cnlist').on('click', function(){ $om.viewport.fireEvent('click_purchase_cn', c); }, c);
-                                pEl.getById('div-purchase-paynew').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
+                                pEl.getById('div-purchase-paynew').on('click', function(){ $om.viewport.fireEvent('click_paymentnew', c); }, c);
                                 pEl.getById('div-purchase-paylist').on('click', function(){ $om.viewport.fireEvent('click_payment', c); }, c);
 
                                 pEl.getById('div-purchase-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);

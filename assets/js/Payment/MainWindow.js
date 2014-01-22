@@ -87,10 +87,8 @@ Ext.define('Account.Payment.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setReadOnly(false);
+			_this.itemDialog.setTitle('Create Payment');
 		});
 
 		this.editAct.setHandler(function(){
@@ -100,6 +98,7 @@ Ext.define('Account.Payment.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
+			    _this.itemDialog.setTitle('Edit Payment');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -114,6 +113,7 @@ Ext.define('Account.Payment.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
+				_this.itemDialog.setTitle('Display Payment');
 			}
 		});
 

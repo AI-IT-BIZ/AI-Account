@@ -3,7 +3,7 @@ Ext.define('Account.Billfrom.Item.PreviewWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Bill from Vendor preview',
+			title: 'Billing Receipt preview',
 			closeAction: 'hide',
 			enableCopies: true
 		});

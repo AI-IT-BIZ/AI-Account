@@ -50,8 +50,8 @@ Ext.define('Account.RAP.Form', {
 		});
 
 //---Create Selection--------------------------------------------
-        this.apDialog = Ext.create('Account.AP.MainWindow');
-		this.apDialog2 = Ext.create('Account.AP.MainWindow');
+        this.apDialog = Ext.create('Account.SAp.MainWindow');
+		this.apDialog2 = Ext.create('Account.SAp.MainWindow');
 		
         this.grDialog = Ext.create('Account.GR.MainWindow');
 		this.grDialog2 = Ext.create('Account.GR.MainWindow');

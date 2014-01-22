@@ -33,12 +33,23 @@ Ext.define('Account.PurchaseCreditNote.Item.Window', {
 			}
 		});
 
-		this.buttons = [{
+		this.btnSave = Ext.create('Ext.Button', {
 			text: 'Save',
+			disabled: !(UMS.CAN.CREATE('PN') || UMS.CAN.EDIT('PN')||UMS.CAN.APPROVE('PN')),
 			handler: function() {
 				_this.form.save();
 			}
-		}, {
+		});
+		
+		this.btnReset = Ext.create('Ext.Button', {
+			text: 'New',
+			disabled: !(UMS.CAN.CREATE('PN') || UMS.CAN.EDIT('PN')||UMS.CAN.APPROVE('PN')),
+			handler: function() {
+				_this.form.reset();
+			}
+		});
+
+		this.buttons = [this.btnSave, this.btnReset,{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();
@@ -68,6 +79,8 @@ Ext.define('Account.PurchaseCreditNote.Item.Window', {
 			this.show(false);
 
 			this.btnPreview.setDisabled(true);
+			
+			this.btnReset.setDisabled(readOnly);
 		}
 	}
 });
