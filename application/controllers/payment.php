@@ -262,13 +262,26 @@ class Payment extends CI_Controller {
 		$perv='';$lerv='';
 		if(!empty($ebbp) && !empty($py_item_array)){
 		foreach($py_item_array AS $p){
-			if($p->loekz=='2' && empty($id)){
+			$curr = $p->ctype;
+					
+				if($p->invnr[0]=='D'){
+					$this->db->where('depnr', $p->invnr);
+					$q_inv = $this->db->get('ebdk');
+				}else{
+					$this->db->where('invnr', $p->invnr);
+		            $q_inv = $this->db->get('ebrk');
+				}
+		        if($q_inv->num_rows()>0){
+			    $r_data = $q_inv->first_row('array');
+			   
+			    if($r_data['loekz']=='2' && empty($id)){
 				$emsg = 'The AP no '.$p->invnr.' already created payment doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
+				}
 			}
 			if(substr($p->invnr,0,1)!=$perv && $perv!=''){
 				$emsg = 'Cannot create payment doc from differnt invoice type';
@@ -299,7 +312,7 @@ class Payment extends CI_Controller {
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'txz01' => $this->input->post('txz01'),
-			'ctype' => $this->input->post('ctype'),
+			'ctype' => $curr,
 			'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
@@ -659,17 +672,15 @@ class Payment extends CI_Controller {
 		   $items = explode(',',$itms);
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
-		   $ptype='';
+		   $ptype='';$bamt=0;$novat=0;$net_vat=0;
+		   $net_wht=0;
 		   $result = array();
-
-		   // เตรียมข้อมูล pay item
-		//$paym = $this->input->get('paym');
-		//$pm_item_array = json_decode($paym);
+      
 //Check payment grid	
 		if(!empty($items)){
 			$item_index = 0;
 
-       $bamt=0;$novat=0;$net_vat=0;
+       $net_wht = $net + $vwht;
        if($dtype == 'D'){
         		
 //record ที่ หนึ่ง -> New Deposit posting
@@ -758,7 +769,7 @@ class Payment extends CI_Controller {
       }else{
       	
  // record แรก
-            if($net>0){
+            if($net_wht>0){
 			$query = $this->db->get_where('lfa1', array(
 				'lifnr'=>$lifnr));
 			if($query->num_rows()>0){
@@ -771,12 +782,12 @@ class Payment extends CI_Controller {
 				    'belpr'=>$i + 1,
 					'saknr'=>$q_data['saknr'],
 					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>$net,
+					'debit'=>$net_wht,
 					'credi'=>0,
 					'statu'=>'1'
 				);
 				$i++;
-				$debit+=$net;
+				$debit+=$net_wht;
 			}}
 		    }
 		

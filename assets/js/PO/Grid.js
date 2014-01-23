@@ -24,34 +24,28 @@ Ext.define('Account.PO.Grid', {
 				'name1',
 				'purnr',
 				'netwr',
-				'statx',
-				'adr01',
-				'distx',
-				'pstlz',
-				'telf1',
-				'telfx',
-				'email'
+				'ctype',
+				'statx'
 			],
 			remoteSort: true,
 			sorters: [{property: 'ebeln', direction: 'ASC'}]
 		});
 
 		this.columns = [
-			{text: "PO No", flex: true, dataIndex: 'ebeln', sortable: true},
-			{text: "PO Date", width: 125, 
-			xtype: 'datecolumn',
-			align: 'center', format:'d/m/Y',
-			dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
-			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "PR No", flex: true, dataIndex: 'purnr', sortable: true},
-			{text: "Net Amount", flex: true,xtype: 'numbercolumn', dataIndex: 'netwr', sortable: true},
-			{text: "PO Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "PO No", width: 100,align: 'center', dataIndex: 'ebeln', sortable: true},
+			{text: "PO Date", width: 100, xtype: 'datecolumn',align: 'center', 
+			format:'d/m/Y', dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", width: 100,align: 'center', dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", width: 250, dataIndex: 'name1', sortable: true},
+			{text: "PR No", width: 100, dataIndex: 'purnr',align: 'center', sortable: true},
+			{text: "Net Amount", width: 150,xtype: 'numbercolumn',align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 50, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "PO Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+			pageSize: 25,
 			store: this.store,
 			displayInfo: true
 		};

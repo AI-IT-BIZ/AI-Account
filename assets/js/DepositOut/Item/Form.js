@@ -395,6 +395,7 @@ Ext.define('Account.DepositOut.Item.Form', {
         // event trigPO///
 		this.trigPO.on('keyup',function(o, e){
 			var v = o.getValue();
+			var store = _this.gridItem.store;
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
@@ -418,6 +419,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                alert(r.data.netwr);
+		                    store.each(function(v){
+			                v.set('netpo', r.data.netwr);
+		                    });
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -432,6 +437,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			
 			var v = record.data.ebeln;
+			var store = _this.gridItem.store;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
 					url: __site_url+'po/load',
@@ -450,6 +456,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                alert(r.data.netwr);
+		                    store.each(function(v){
+			                v.set('netpo', r.data.netwr);
+		                    });
 						}
 					}
 				});
@@ -626,6 +636,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('change', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
        
         this.numberCredit.on('keyup', this.getDuedate, this);
@@ -646,7 +657,7 @@ Ext.define('Account.DepositOut.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
             _this.gridPrice.load({
-            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	menge:1,
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
@@ -811,7 +822,7 @@ Ext.define('Account.DepositOut.Item.Form', {
         if (sel) {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
-            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	menge:1,
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),

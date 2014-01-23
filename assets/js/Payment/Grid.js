@@ -35,22 +35,22 @@ Ext.define('Account.Payment.Grid', {
 
 		this.columns = [
 		    {text: "Payment No", 
-		    width: 120, align: 'center', dataIndex: 'payno', sortable: true},
-			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',width: 80, align: 'center', 
-			dataIndex: 'bldat', sortable: true},
+		    width: 80, align: 'center', dataIndex: 'payno', sortable: true},
+			{text: "Doc Date", xtype: 'datecolumn', format:'d/m/Y',width: 80, 
+			align: 'center', dataIndex: 'bldat', sortable: true},
 			{text: "Payment Date", xtype: 'datecolumn', format:'d/m/Y',
 			width: 80, align: 'center', 
 			dataIndex: 'duedt', sortable: true},
 		    {text: "Vendor No", 
 		    width: 80, align: 'center', dataIndex: 'lifnr', sortable: true},
 			{text: "Vendor Name", 
-			width: 200, dataIndex: 'name1', sortable: true},
+			width: 190, dataIndex: 'name1', sortable: true},
 			{text: "Text Note", 
-			width: 250, dataIndex: 'txz01', sortable: true},
-			{text: "Payment Status", flex: true, dataIndex: 'statx', sortable: true},	
+			width: 180, dataIndex: 'txz01', sortable: true},
+			{text: "Payment Status",width: 100, dataIndex: 'statx', sortable: true},	
 			{text: "Amount", xtype: 'numbercolumn',
-			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", dataIndex: 'ctype', sortable: true}
+			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
+			{text: "Currency", dataIndex: 'ctype',width: 50,align: 'center', sortable: true}
 		];
 
 		this.bbar = {

@@ -336,7 +336,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Delivery Date</span></DIV>
 <?php
-$lfdat_str = util_helper_format_date($r_data['lfdat']);
+$lfdat_str = util_helper_format_date($r_data['duedt']);
 ?>
 <DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?= $lfdat_str ?></span></DIV>
 

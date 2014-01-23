@@ -273,17 +273,31 @@ class Receipt extends CI_Controller {
 				
 		}
 			$vbbp = $this->input->post('vbbp');
+			$curr = '';
 		        $rc_item_array = json_decode($vbbp);
 		        $perv='';$kerv='';
 		        if(!empty($vbbp) && !empty($rc_item_array)){
 		        foreach($rc_item_array AS $p){
-			    if($p->loekz=='2' && empty($id)){
+		        $curr = $p->ctyp1;
+					
+				if($p->invnr[0]=='D'){
+					$this->db->where('depnr', $p->invnr);
+					$q_inv = $this->db->get('vbdk');
+				}else{
+					$this->db->where('invnr', $p->invnr);
+		            $q_inv = $this->db->get('vbrk');
+				}
+		        if($q_inv->num_rows()>0){
+			    $r_data = $q_inv->first_row('array');
+			   
+			    if($r_data['loekz']=='2' && empty($id)){
 				    $emsg = 'The invoice no '.$p->invnr.' already created receipt doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
+				}
 			}
 			if(substr($p->invnr,0,1)!=$perv && $perv!=''){
 				$emsg = 'Cannot create receipt doc from differnt invoice type';
@@ -314,7 +328,7 @@ class Receipt extends CI_Controller {
 			'netwr' => floatval($this->input->post('netwr')),
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
-			//'ctype' => $this->input->post('ctype'),
+			'ctype' => $curr,
 			//'exchg' => floatval($this->input->post('exchg')),
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),

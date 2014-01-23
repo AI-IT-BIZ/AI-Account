@@ -22,31 +22,26 @@ Ext.define('Account.GR.Grid', {
 				'bldat',
 				'lifnr',
 				'name1',
+				'ebeln',
 				'netwr',
-				'statx',
-				'adr01',
-				'distx',
-				'pstlz',
-				'telf1',
-				'telfx',
-				'email'
+				'ctype',
+				'statx'
 			],
 			remoteSort: true,
 			sorters: [{property: 'mbeln', direction: 'ASC'}]
 		});
 
 		this.columns = [
-			{text: "GR Doc", flex: true, dataIndex: 'mbeln', sortable: true},
-			{text: "GR Date", width: 125, 
-			xtype: 'datecolumn',
-			align: 'center', format:'d/m/Y',
-			dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', sortable: true},
-			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Net Amount", flex: true, 
-			xtype: 'numbercolumn',
-			dataIndex: 'netwr', sortable: true},
-			{text: "GR Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "GR No", width: 100, align: 'center', dataIndex: 'mbeln', sortable: true},
+			{text: "GR Date", width: 120, align: 'center', xtype: 'datecolumn',
+			 format:'d/m/Y',dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", width: 100, align: 'center', dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", width: 200, dataIndex: 'name1', sortable: true},
+			{text: "PO No", width: 100, align: 'center', dataIndex: 'ebeln', sortable: true},
+			{text: "Net Amount", width: 150, align: 'right',
+			xtype: 'numbercolumn',dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 50, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "GR Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true}
 		];
 
 		this.bbar = {

@@ -750,12 +750,13 @@ Ext.define('Account.AP.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0;sum2=0;
+		var sum = 0;var vats=0;sum2=0;amt_deamt=0;
 		var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
+		var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -787,14 +788,15 @@ Ext.define('Account.AP.Item.Form', {
             
             amt = amt - discountValue;
             sum2+=amt;
+            amt_deamt = amt - deamt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
-				    vat = (amt * vat) / 100;
+				    vat = (amt_deamt * vat) / 100;
 				    vats += vat;
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+				    wht = (amt_deamt * wht) / 100;
 				    whts += wht;
 			}
 			if(currency != 'THB'){
@@ -820,7 +822,6 @@ Ext.define('Account.AP.Item.Form', {
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
 		
-		var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		var devat = this.formTotal.getForm().findField('devat').getValue();
 		sum2 = sum2 - deamt;
 		if(currency != 'THB'){

@@ -92,7 +92,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			},
 			},
 		    {text: "Description",
-		    width: 220,
+		    width: 150,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    field: {
@@ -101,20 +101,10 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 50,
 			dataIndex: 'menge',
 			sortable: false,
-			align: 'right',
-			/*field: {
-				type: 'numberfield',
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},*/
+			align: 'right'
 			},
 			{text: "Unit", width: 40, dataIndex: 'meins', sortable: false,
 			/*field: {
@@ -127,7 +117,14 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				}
 			},*/
 			},
-			{text: "Price/Unit",
+			{text: "PO Amt",
+			xtype: 'numbercolumn',
+			width: 90,
+			dataIndex: 'netpo',
+			sortable: false,
+			align: 'right'
+			},
+			{text: "Payment Amt",
 			xtype: 'numbercolumn',
 			width: 100,
 			dataIndex: 'unitp',
@@ -338,8 +335,9 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			edit = this.editing;
 			edit.cancelEdit();
 			// find current record
-			var sel = this.getView().getSelectionModel().getSelection()[0];
-			var selIndex = this.store.indexOf(sel);
+			//var sel = this.getView().getSelectionModel().getSelection()[0];
+			//var selIndex = this.store.indexOf(sel);
+			var selIndex = 0;
 			this.store.insert(selIndex+1, rec);
 			edit.startEditByPosition({
 				row: selIndex+1,

@@ -110,6 +110,13 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				type: 'textfield'
 			}
 			},
+			{text: "Invoice Date",
+		    width: 80,
+		    xtype: 'datecolumn',
+		    dataIndex: 'invdt',
+		    sortable: false,
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
+		    },
 		    {text: "Ref.No",
 		    width: 120,
 		    dataIndex: 'refnr',
@@ -117,13 +124,6 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    field: {
 				type: 'textfield'
 			}
-		    },
-		    {text: "Invoice Date",
-		    width: 80,
-		    xtype: 'datecolumn',
-		    dataIndex: 'invdt',
-		    sortable: false,
-		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
 		    {text: "Text Note",
 		    width: 180,

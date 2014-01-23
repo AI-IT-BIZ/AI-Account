@@ -112,15 +112,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				type: 'textfield'
 			}
 			},
-		    {text: "Ref.No",
-		    width: 150,
-		    dataIndex: 'refnr',
-		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
-		    },
-		    {text: "Payment Date",
+			{text: "Payment Date",
 		    width: 80,
 		    xtype: 'datecolumn',
 		    align : 'center',
@@ -128,13 +120,21 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		    sortable: false,
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
+		    {text: "Ref.No",
+		    width: 150,
+		    dataIndex: 'refnr',
+		    sortable: false,
+		    field: {
+				type: 'textfield'
+			}
+		    },
 		    {text: "Text Note",
 		    width: 180,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {
 				type: 'textfield'
-			},
+			}
 		    },
 			{text: "Acc-Payable Amt",
 			xtype: 'numbercolumn',

@@ -243,7 +243,13 @@ Ext.define('Account.PR.Item.Form', {
 		                },{xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat]
+				 			items :[this.comboPay,this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',

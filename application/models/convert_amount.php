@@ -32,13 +32,13 @@ for($i=0;$i<=strlen($num0)-1;$i++){
    } 
      
   }else{
-   $bathtext1.= $digit[$cut_input_number]."".$digit2[$didit2_chk];
+   //$bathtext1.= $digit[$cut_input_number]."".$digit2[$didit2_chk];
   }
   
   
   $didit2_chk=$didit2_chk-1;
 }
-$bathtext1.='ถ้วน ';
+$bathtext1.='บาทถ้วน ';
 
 // เลขทศนิยม
 $didit2_chk=strlen($num1)-1;
@@ -64,9 +64,9 @@ for($i=0;$i<=strlen($num1)-1;$i++){
   
   $didit2_chk=$didit2_chk-1;
 }
-//if($num1<>'00')
+if($num1<>'00')
 //echo $num1;
-//$bathtext1.='สตางค์';
+$bathtext1.='สตางค์';
 //return $didit2_chk;
 return $bathtext1;
 

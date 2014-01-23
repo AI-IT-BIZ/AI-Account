@@ -7,7 +7,7 @@ Ext.define('Account.Payment.MainWindow', {
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
-			width: 950,
+			width: 960,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
