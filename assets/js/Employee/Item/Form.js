@@ -23,7 +23,7 @@ Ext.define('Account.Employee.Item.Form', {
 		this.distrDialog = Ext.create('Account.SDistrict.MainWindow');
 		this.positDialog = Ext.create('Account.SPosition.MainWindow');
 		this.superDialog = Ext.create('Account.SEmployee.MainWindow');
-		this.bankDialog = Ext.create('Account.Bankname.MainWindow');
+		this.bankDialog = Ext.create('Account.SBankname.MainWindow');
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('EP'),
@@ -312,6 +312,7 @@ Ext.define('Account.Employee.Item.Form', {
 							_this.trigDistr.setValue(r.data.distx);
 
 						}else{
+							_this.trigDistr.setValue('');
 							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
@@ -351,6 +352,10 @@ Ext.define('Account.Employee.Item.Form', {
 							_this.getForm().findField('deptx').setValue(r.data.deptx);
 
 						}else{
+							_this.trigPosit.setValue('');
+							_this.getForm().findField('depnr').setValue('');
+							_this.getForm().findField('posnr').setValue('');
+							_this.getForm().findField('deptx').setValue('');
 							o.markInvalid('Could not find Position : '+o.getValue());
 						}
 					}
@@ -383,7 +388,8 @@ Ext.define('Account.Employee.Item.Form', {
 					url: __site_url+'semployee/loads',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -392,6 +398,8 @@ Ext.define('Account.Employee.Item.Form', {
 							_this.getForm().findField('suptx').setValue(r.data.name1);
 
 						}else{
+							_this.trigSuper.setValue('');
+							_this.getForm().findField('suptx').setValue('');
 							o.markInvalid('Could not find Supervisor : '+o.getValue());
 						}
 					}
@@ -418,7 +426,7 @@ Ext.define('Account.Employee.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'bankname/loads',
+					url: __site_url+'bankname/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -429,6 +437,7 @@ Ext.define('Account.Employee.Item.Form', {
 							_this.trigBank.setValue(r.data.bcode);
 
 						}else{
+							_this.trigBank.setValue('');
 							o.markInvalid('Could not find Bank Name : '+o.getValue());
 						}
 					}

@@ -25,6 +25,10 @@ class Project extends CI_Controller {
 	function load(){
 		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
+		$key = $this->input->post('key');
+		if($key==1){
+			$this->db->where('statu', '02');
+		}
 		$this->db->limit(1);
 
 		$this->db->where('jobnr', $id);

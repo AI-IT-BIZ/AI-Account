@@ -10,8 +10,6 @@ Ext.define('Account.Project.Item.Form', {
 				labelAlign: 'right',
 				msgTarget: 'qtip',//'side',
 				labelWidth: 105,
-				//width:300,
-				//labelStyle: 'font-weight:bold'
 			}
 		});
 		return this.callParent(arguments);
@@ -282,13 +280,13 @@ Ext.define('Account.Project.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.mtart);
-							_this.trigType.setValue(r.data.jtype);
+							o.setValue(r.data.jtype);
+							//_this.trigType.setValue(r.data.jtype);
 			_this.getForm().findField('typtx').setValue(r.data.typtx);
-			//_this.getForm().findField('saknr').setValue(r.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
 						}else{
+							o.setValue('');
+			_this.getForm().findField('typtx').setValue('');
 							o.markInvalid('Could not find Project type : '+o.getValue());
 						}
 					}
@@ -299,8 +297,6 @@ Ext.define('Account.Project.Item.Form', {
 		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigType.setValue(record.data.jtype);
 			_this.getForm().findField('typtx').setValue(record.data.typtx);
-			//_this.getForm().findField('saknr').setValue(record.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 			grid.getSelectionModel().deselectAll();
 			_this.typeDialog.hide();
@@ -319,32 +315,22 @@ Ext.define('Account.Project.Item.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
-							var _addr = r.data.adr01;
-						  if(!Ext.isEmpty(r.data.distx))
-                             _addr += ' '+r.data.distx;
-                           if(!Ext.isEmpty(r.data.pstlz))
-                             _addr += ' '+r.data.pstlz;
-                           if(!Ext.isEmpty(r.data.telf1))
-                            _addr += '\n'+'Tel: '+r.data.telf1;
-                           if(!Ext.isEmpty(r.data.telfx))
-                             _addr += '\n'+'Fax: '+r.data.telfx;
-                           if(!Ext.isEmpty(r.data.email))
-                            _addr += '\n'+'Email: '+r.data.email;
-                            _this.getForm().findField('adr01').setValue(_addr);
-							//_this.getForm().findField('adr01').setValue(r.data.adr01
-							//+' '+r.data.distx+' '+r.data.pstlz+'\n'+'Tel '+r.data.telf1+'\n'+'Fax '
-							//+r.data.telfx+'\n'+'Email '+r.data.email);
+                            _this.getForm().findField('adr01').setValue(r.data.adr01);
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+                            _this.getForm().findField('adr01').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -368,9 +354,6 @@ Ext.define('Account.Project.Item.Form', {
              if(!Ext.isEmpty(record.data.email))
                _addr += '\n'+'Email: '+record.data.email;
              _this.getForm().findField('adr01').setValue(_addr);
-			//_this.getForm().findField('adr01').setValue(record.data.adr01
-			//+' '+record.data.distx+' '+record.data.pstlz+'\n'+'Tel '+record.data.telf1+'\n'+'Fax '
-			//+record.data.telfx+'\n'+'Email '+record.data.email);
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();
@@ -390,7 +373,8 @@ Ext.define('Account.Project.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -399,6 +383,8 @@ Ext.define('Account.Project.Item.Form', {
 							_this.getForm().findField('emnam').setValue(r.data.emnam);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('emnam').setValue('');
 							o.markInvalid('Could not find project owner : '+o.getValue());
 						}
 					}

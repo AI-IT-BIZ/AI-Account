@@ -311,13 +311,13 @@ Ext.define('Account.Material.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.mtart);
-							_this.trigType.setValue(r.data.mtart);
+							o.setValue(r.data.mtart);
+							//_this.trigType.setValue(r.data.mtart);
 			_this.getForm().findField('mtype').setValue(r.data.matxt);
-			//_this.getForm().findField('saknr').setValue(r.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
 						}else{
+							o.setValue('');
+			_this.getForm().findField('mtype').setValue('');
 							o.markInvalid('Could not find material type : '+o.getValue());
 						}
 					}
@@ -328,8 +328,6 @@ Ext.define('Account.Material.Item.Form', {
 		_this.typeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigType.setValue(record.data.mtart);
 			_this.getForm().findField('mtype').setValue(record.data.matxt);
-			//_this.getForm().findField('saknr').setValue(record.data.saknr);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 			grid.getSelectionModel().deselectAll();
 			_this.typeDialog.hide();
@@ -355,14 +353,18 @@ Ext.define('Account.Material.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.matkl);
-							_this.trigGrp.setValue(r.data.matkl);
+							o.setValue(r.data.matkl);
+							//_this.trigGrp.setValue(r.data.matkl);
 			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
 			_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
 						}else{
-							o.markInvalid('Could not find material group : '+o.getValue());
+							o.setValue('');
+			_this.getForm().findField('mgrpp').setValue('');
+			_this.getForm().findField('saknr').setValue('');
+			_this.getForm().findField('sgtxt').setValue('');
+			o.markInvalid('Could not find material group : '+o.getValue());
 						}
 					}
 				});
@@ -402,9 +404,9 @@ Ext.define('Account.Material.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.meins);
-							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find Unit : '+o.getValue());
 						}
 					}
@@ -414,7 +416,6 @@ Ext.define('Account.Material.Item.Form', {
 
 			_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigUnit.setValue(record.data.meins);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
@@ -442,9 +443,9 @@ Ext.define('Account.Material.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.meins);
-							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find Unit : '+o.getValue());
 						}
 					}
@@ -454,7 +455,6 @@ Ext.define('Account.Material.Item.Form', {
 
 			_this.unit1Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigUnit1.setValue(record.data.meins);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.unit1Dialog.hide();
@@ -482,9 +482,9 @@ Ext.define('Account.Material.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.meins);
-							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find Unit : '+o.getValue());
 						}
 					}
@@ -522,9 +522,9 @@ Ext.define('Account.Material.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.meins);
-							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find Unit : '+o.getValue());
 						}
 					}
@@ -534,7 +534,6 @@ Ext.define('Account.Material.Item.Form', {
 
 			_this.unit3Dialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigUnit3.setValue(record.data.meins);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.unit3Dialog.hide();
@@ -565,6 +564,8 @@ Ext.define('Account.Material.Item.Form', {
 							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('sgtxt').setValue('');
 							o.markInvalid('Could not find GL Account : '+o.getValue());
 						}
 					}

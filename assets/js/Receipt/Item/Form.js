@@ -219,7 +219,8 @@ Ext.define('Account.Receipt.Item.Form', {
 					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -228,6 +229,9 @@ Ext.define('Account.Receipt.Item.Form', {
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			 			}else{
+			 				o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}

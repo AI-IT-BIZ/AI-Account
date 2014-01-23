@@ -403,7 +403,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 					url: __site_url+'po/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -424,6 +425,21 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                v.set('netpo', r.data.netwr);
 		                    });
 						}else{
+							o.setValue('');
+							_this.getForm().findField('lifnr').setValue('');
+							_this.getForm().findField('name1').setValue('');			
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
+			                _this.getForm().findField('ctype').setValue('');
+			                _this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('loekz').setValue('');
+			                _this.getForm().findField('exchg').setValue('');
+			                alert(r.data.netwr);
+		                    store.each(function(v){
+			                v.set('netpo', '');
+		                    });
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
 					}
@@ -487,7 +503,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -499,6 +516,12 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+							_this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
@@ -556,11 +579,11 @@ Ext.define('Account.DepositOut.Item.Form', {
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							var store = _this.gridItem.store;
 		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
 			                rc.set('ctyp1', r.data.ctype);
 		                    });
 		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}
@@ -602,12 +625,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
-						   //}
+						   
 						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
+							_this.getForm().findField('whtgp').setValue('');
 							o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}

@@ -178,7 +178,10 @@ Ext.define('Account.Bankname.GridItem', {
 							rModel.set('sgtxt', r.data.sgtxt);
 
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('sgtxt', '');
+							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});

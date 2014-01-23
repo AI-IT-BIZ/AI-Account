@@ -406,7 +406,8 @@ Ext.define('Account.AP.Item.Form', {
 					url: __site_url+'gr/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -425,6 +426,18 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('deamt').setValue(r.data.deamt);
 			                _this.getForm().findField('devat').setValue(r.data.devat);
 						}else{
+							_this.getForm().findField('lifnr').setValue('');
+							_this.getForm().findField('name1').setValue('');			
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
+			                _this.getForm().findField('ctype').setValue('');
+			                _this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('loekz').setValue('');
+			                _this.getForm().findField('exchg').setValue('');
+			                _this.getForm().findField('deamt').setValue('');
+			                _this.getForm().findField('devat').setValue('');
 							o.markInvalid('Could not find GR no : '+o.getValue());
 						}
 					}
@@ -486,7 +499,8 @@ Ext.define('Account.AP.Item.Form', {
 					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -498,6 +512,11 @@ Ext.define('Account.AP.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+							_this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -556,11 +575,11 @@ Ext.define('Account.AP.Item.Form', {
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							var store = _this.gridItem.store;
 		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
 			                rc.set('ctype', r.data.ctype);
 		                    });
 		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}

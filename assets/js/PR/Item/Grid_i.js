@@ -224,7 +224,8 @@ Ext.define('Account.PR.Item.Grid_i', {
 					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -240,7 +241,10 @@ Ext.define('Account.PR.Item.Grid_i', {
 							//rModel.set('amount', 100+Math.random());
 
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set('maktx', '');
+							rModel.set('meins', '');
+							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});
@@ -265,13 +269,38 @@ Ext.define('Account.PR.Item.Grid_i', {
 			_this.materialDialog.hide();
 		});
 		
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='meins'){
+				var v = e.value;
+				if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							var rModel = _this.store.getById(e.record.data.id);
+							// change cell code value (use db value)
+							rModel.set(e.field, r.data.meins);
+						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set('meins', '');
+							//_this.editing.startEdit(e.record, e.column);
+						}
+					}
+				});
+			}
+		});
+		
 		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
 				// change cell code value (use db value)
 				rModel.set('meins', record.data.meins);
-			//_this.trigUnit.setValue(record.data.meins);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();

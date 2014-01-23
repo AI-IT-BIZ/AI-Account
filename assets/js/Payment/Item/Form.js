@@ -219,7 +219,8 @@ Ext.define('Account.Payment.Item.Form', {
 					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -229,6 +230,9 @@ Ext.define('Account.Payment.Item.Form', {
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 							
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
 							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}

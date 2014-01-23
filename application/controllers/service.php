@@ -16,42 +16,30 @@ class Service extends CI_Controller {
 	function load(){
 		//$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
+		$key = $this->input->post('key');
+		
 		$kunnr = $this->input->post('kunnr');
 		$this->db->limit(1);
 		
 		if(!empty($kunnr)){
-			//echo $kunnr;
-			$sql="select a.*,b.unit,b.cost from tbl_mara a inner join tbl_plev b
-                  on a.matnr = b.matnr
+			
+			$sql="select a.*,b.unit,b.cost from tbl_mara a 
+			      inner join tbl_plev b on a.matnr = b.matnr
                   inner join tbl_kna1 c on b.pleve = c.pleve
+                  inner join tbl_plev d on a.statu = d.statu
 		          WHERE a.matnr='$id'
-		          AND c.kunnr='$kunnr'";
+		          AND c.kunnr='$kunnr' ";
+		    if($key==1){
+				$sql.="AND a.statu = '02'";
+			}
 		    $query = $this->db->query($sql);
 			$result_data = $query->first_row('array');
-		//if($query->num_rows()==0){
-		//	$this->db->where('matnr', $id);
-		//    $query = $this->db->get('mara');
-		//}
+
 		}else{
-		    /*$sql="select a.*,b.unit,b.cost from tbl_mara a left join tbl_plev b
-                  on a.matnr = b.matnr
-		          WHERE a.matnr='$id'
-		          and a.mtart = 'SV'";
-		    $query = $this->db->query($sql);
-			
-			if($query->num_rows()>0){
-			$result_data = $query->first_row('array');	
-			$rows = $query->result_array();
-			$i=0;$u='';
-			foreach($rows AS $row){
-				$i++;
-				$u = 'unit'.$i;
-				$c = 'cost'.$i;
-				$result_data[$u] = $row['unit'];
-				$result_data[$c] = $row['cost'];
-			}
-			}*/
-			
+		   
+			if($key==1){
+			$this->db->where('statu', '02');
+		    }
 			$this->db->set_dbprefix('v_');
 		    $tbName = 'mara';
 		    $this->db->where('matnr', $id);

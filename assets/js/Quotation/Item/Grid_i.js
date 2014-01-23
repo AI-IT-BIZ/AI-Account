@@ -242,7 +242,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
                 var cusno = _this.customerValue;
-                //var vatt = _this.vattValue;
+                
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
@@ -250,30 +250,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 					method: 'POST',
 					params: {
 						id: v,
-						kunnr: cusno
+						kunnr: cusno,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 
 							var rModel = _this.store.getById(e.record.getId());
-							console.log(e.record);
+							//console.log(e.record);
 							if(rModel){
-								/*
-								rModel.beginEdit();
-								// change cell code value (use db value)
-								rModel.set(e.field, r.data.matnr);
-								// Materail text
-								rModel.set('maktx', r.data.maktx);
-								// Unit
-								rModel.set('meins', r.data.meins);
-								// Cost
-								var cost = r.data.cost;
-								rModel.set('unitp', cost);
-
-									console.log(cost);
-								rModel.endEdit();
-								*/
 								rModel.beginEdit();
 								var result = rModel.set({
 									'maktx': r.data.maktx,
@@ -283,7 +269,16 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 								rModel.endEdit();
 							}
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.getId());
+							if(rModel){
+								rModel.beginEdit();
+								var result = rModel.set({
+									'maktx': '',
+									'meins': '',
+									'unitp': ''
+								});
+							//_this.editing.startEdit(e.record, e.column);
+							}
 						}
 					}
 				});
@@ -295,8 +290,6 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			//console.log(rModels);
 			if(rModels.length>0){
-				//console.log(record);
-				//console.log(rModels);
 				rModel = rModels[0];
 				//alert(record.data.matnr)
 				// change cell code value (use db value)
@@ -332,6 +325,32 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
 		});
+		
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='meins'){
+				var v = e.value;
+				if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, r.data.meins);
+
+						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							//_this.editing.startEdit(e.record, e.column);
+						}
+					}
+				});
+			}
+		});
 
 		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
@@ -339,16 +358,11 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				rModel = rModels[0];
 				// change cell code value (use db value)
 				rModel.set('meins', record.data.meins);
-			//_this.trigUnit.setValue(record.data.meins);
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 
 		});
-
-		//this.trigUnit.onTriggerClick = function(){
-		//	_this.unitDialog.show();
-		//};
 
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

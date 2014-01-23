@@ -486,13 +486,13 @@ Ext.define('Account.Invoice.Item.Form', {
 					url: __site_url+'saleorder/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.ordnr);
-			//_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
@@ -514,7 +514,23 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.gridItem.load({sonr: sonr });
 			//----------------------------------------
 						}else{
-							o.markInvalid('Could not find saleorder no : '+o.getValue());
+							o.setValue('');
+			_this.getForm().findField('kunnr').setValue('');
+			_this.getForm().findField('name1').setValue('');
+			_this.getForm().findField('salnr').setValue('');
+			_this.getForm().findField('ptype').setValue('');
+			_this.getForm().findField('taxnr').setValue('');
+			_this.getForm().findField('terms').setValue('');
+			_this.getForm().findField('adr01').setValue('');
+			_this.getForm().findField('adr02').setValue('');
+			_this.getForm().findField('ctype').setValue('');
+			_this.getForm().findField('taxpr').setValue('');
+			_this.getForm().findField('whtnr').setValue('');
+			_this.getForm().findField('whtpr').setValue('');
+			_this.getForm().findField('loekz').setValue('');
+			_this.getForm().findField('deamt').setValue('');
+			_this.getForm().findField('exchg').setValue('');
+			o.markInvalid('Could not find saleorder no : '+o.getValue());
 						}
 					}
 				});
@@ -523,7 +539,6 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		_this.soDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigSO.setValue(record.data.ordnr);
-			//_this.getForm().findField('jobtx').setValue(record.data.jobtx);
 
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
@@ -577,7 +592,8 @@ Ext.define('Account.Invoice.Item.Form', {
 					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -590,6 +606,13 @@ Ext.define('Account.Invoice.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('adr02').setValue('');
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -640,7 +663,8 @@ Ext.define('Account.Invoice.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -649,6 +673,8 @@ Ext.define('Account.Invoice.Item.Form', {
 							_this.getForm().findField('emnam').setValue(r.data.emnam);
 							
 						}else{
+							o.setValue('');
+							_this.getForm().findField('emnam').setValue('');
 							o.markInvalid('Could not find project owner : '+o.getValue());
 						}
 					}
@@ -693,6 +719,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		                    });
 		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}
@@ -734,12 +761,13 @@ Ext.define('Account.Invoice.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
-						   //}
+						   
 						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
+							_this.getForm().findField('whtgp').setValue('');
 							o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}

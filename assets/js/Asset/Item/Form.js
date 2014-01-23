@@ -365,12 +365,13 @@ Ext.define('Account.Asset.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.mtart);
-							_this.trigType.setValue(r.data.mtart);
-			_this.getForm().findField('mtype').setValue(r.data.matxt);
-
+							o.setValue(r.data.mtart);
+							//_this.trigType.setValue(r.data.mtart);
+			                _this.getForm().findField('mtype').setValue(r.data.matxt);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('mtype').setValue('');
 							o.markInvalid('Could not find asset type : '+o.getValue());
 						}
 					}
@@ -406,8 +407,8 @@ Ext.define('Account.Asset.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.matkl);
-							_this.trigGrp.setValue(r.data.matkl);
+							o.setValue(r.data.matkl);
+							//_this.trigGrp.setValue(r.data.matkl);
 			_this.getForm().findField('mgrpp').setValue(r.data.matxt);
 			_this.getForm().findField('mtart').setValue(r.data.mtart);
 			_this.getForm().findField('saknr').setValue(r.data.saknr);
@@ -415,7 +416,13 @@ Ext.define('Account.Asset.Item.Form', {
 			_this.getForm().findField('depre').setValue(r.data.depre);
 
 						}else{
-							o.markInvalid('Could not find asset group : '+o.getValue());
+							o.setValue('');
+			_this.getForm().findField('mgrpp').setValue('');
+			_this.getForm().findField('mtart').setValue('');
+			_this.getForm().findField('saknr').setValue('');
+			_this.getForm().findField('sgtxt').setValue('');
+			_this.getForm().findField('depre').setValue('');
+			o.markInvalid('Could not find asset group : '+o.getValue());
 						}
 					}
 				});
@@ -457,9 +464,9 @@ Ext.define('Account.Asset.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.meins);
-							//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
-
+							
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find Unit : '+o.getValue());
 						}
 					}
@@ -469,7 +476,6 @@ Ext.define('Account.Asset.Item.Form', {
 
 			_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigUnit.setValue(record.data.meins);
-			//_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 			
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
@@ -500,6 +506,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('sgtxt').setValue('');
 							o.markInvalid('Could not find GL Account : '+o.getValue());
 						}
 					}
@@ -531,7 +539,8 @@ Ext.define('Account.Asset.Item.Form', {
 					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -540,6 +549,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('reqtx').setValue(record.data.name1);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('reqtx').setValue('');
 							o.markInvalid('Could not find Requesting by : '+o.getValue());
 						}
 					}
@@ -571,7 +582,8 @@ Ext.define('Account.Asset.Item.Form', {
 					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -580,6 +592,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('hodtx').setValue(record.data.name1);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('hodtx').setValue('');
 							o.markInvalid('Could not find Holder : '+o.getValue());
 						}
 					}
@@ -611,7 +625,8 @@ Ext.define('Account.Asset.Item.Form', {
 					url: __site_url+'semployee/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -620,6 +635,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('lastx').setValue(record.data.name1);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('lastx').setValue('');
 							o.markInvalid('Could not find Last Holder : '+o.getValue());
 						}
 					}
@@ -651,7 +668,8 @@ Ext.define('Account.Asset.Item.Form', {
 					url: __site_url+'asset/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -660,6 +678,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('asstx').setValue(record.data.maktx);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('asstx').setValue('');
 							o.markInvalid('Could not find Fixed Asset : '+o.getValue());
 						}
 					}
@@ -700,6 +720,8 @@ Ext.define('Account.Asset.Item.Form', {
 							_this.getForm().findField('deptx').setValue(record.data.deptx);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('deptx').setValue('');
 							o.markInvalid('Could not find Department : '+o.getValue());
 						}
 					}

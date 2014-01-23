@@ -187,7 +187,8 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 					url: __site_url+'ap/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -225,7 +226,15 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 							rModel.set('lifnr', r.data.lifnr);
 
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('refnr', '');
+							rModel.set('invdt', '');
+							rModel.set('texts', '');
+							rModel.set('itamt', '');
+							rModel.set('ctyp1', '');
+							rModel.set('lifnr', '');
+							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});

@@ -19,6 +19,29 @@ class Currency extends CI_Controller {
 		//$this->phxview->RenderView('jobk');
 		//$this->phxview->RenderLayout('default');
 	}
+	
+	function load(){
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'ctyp';
+		
+		$id = $this->input->post('id'); //exit;
+				 
+		$this->db->limit(1);
+		$this->db->where('ctype', $id);
+		$query = $this->db->get($tbName);
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			//$result_data['id'] = $result_data['ctype'];
+			
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
 
 	function loads(){
 		//$this->db->set_dbprefix('v_');

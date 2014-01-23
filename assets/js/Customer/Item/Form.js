@@ -106,9 +106,9 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 						if(r && r.success){
 							//o.setValue(r.data.ktype);
 							_this.trigDistr.setValue(record.data.distx);
-							//_this.getForm().findField('distr').setValue(record.data.distr);
 
 						}else{
+							_this.trigDistr.setValue('');
 							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
@@ -157,9 +157,9 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 						if(r && r.success){
 							//o.setValue(r.data.ktype);
 							_this.trigDistr2.setValue(record.data.distx);
-							//_this.getForm().findField('dis02').setValue(record.data.distx);
 
 						}else{
+							_this.trigDistr2.setValue('');
 							o.markInvalid('Could not find Province : '+o.getValue());
 						}
 					}
@@ -212,6 +212,10 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 							_this.getForm().findField('sgtxt').setValue(r.data.sgtxt);
 
 						}else{
+							_this.trigKtyp.setValue('');
+							_this.getForm().findField('ktype').setValue('');
+							_this.getForm().findField('saknr').setValue('');
+							_this.getForm().findField('sgtxt').setValue('');
 							o.markInvalid('Could not find customer type : '+o.getValue());
 						}
 					}

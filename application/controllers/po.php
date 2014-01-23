@@ -19,6 +19,10 @@ class Po extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ekko';
 		$id = $this->input->post('id');
+		$key = $this->input->post('key');
+		if($key==1){
+			$this->db->where('statu', '02');
+		}
 		$this->db->where('ebeln', $id);
 		$query = $this->db->get('ekko');
 		

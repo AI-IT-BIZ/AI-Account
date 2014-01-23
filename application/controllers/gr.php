@@ -20,7 +20,10 @@ class Gr extends CI_Controller {
 		$tbName = 'mkpf';
 		
 		$id = $this->input->post('id');
-		
+		$key = $this->input->post('key');
+		if($key==1){
+			$this->db->where('statu', '02');
+		}
 		
 		$this->db->where('mbeln', $id);
 		$query = $this->db->get('mkpf');

@@ -147,7 +147,7 @@ Ext.define('Account.Vendortype.GridItem', {
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'sglAccount/loads',
+					url: __site_url+'gl/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -161,6 +161,9 @@ Ext.define('Account.Vendortype.GridItem', {
 							rModel.set(e.field, r.data.saknr);
 							rModel.set('sgtxt', r.data.sgtxt);
 						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('sgtxt', '');
 							_this.editing.startEdit(e.record, e.column);
 						}
 					}

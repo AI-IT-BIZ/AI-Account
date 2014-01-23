@@ -189,7 +189,8 @@ Ext.define('Account.Billto.Item.Grid_i', {
 					url: __site_url+'invoice/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var checks='';
@@ -229,7 +230,15 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							//}
                           //  check='';
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('refnr', '');
+							rModel.set('invdt', '');
+							rModel.set('texts', '');
+							rModel.set('itamt', '');
+							rModel.set('ctyp1', '');
+							rModel.set('kunnr', '');
+							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});

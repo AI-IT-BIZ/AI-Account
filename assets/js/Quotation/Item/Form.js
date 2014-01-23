@@ -437,7 +437,8 @@ Ext.define('Account.Quotation.Item.Form', {
 					url: __site_url+'customer/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -450,6 +451,13 @@ Ext.define('Account.Quotation.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('adr02').setValue('');
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -499,7 +507,8 @@ Ext.define('Account.Quotation.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -508,6 +517,8 @@ Ext.define('Account.Quotation.Item.Form', {
 							_this.getForm().findField('sname').setValue(r.data.sname);
 
 						}else{
+							o.setValue('');
+							_this.getForm().findField('sname').setValue('');
 							o.markInvalid('Could not find project owner : '+o.getValue());
 						}
 					}
@@ -545,8 +556,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.jobnr);
-							_this.getForm().findField('jobtx').setValue(r.data.jobtx);
-
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
@@ -559,7 +569,19 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('sname').setValue(r.data.sname);
 
 						}else{
-							o.markInvalid('Could not find project code : '+o.getValue());
+							o.setValue('');
+			_this.getForm().findField('jobtx').setValue('');
+			_this.getForm().findField('kunnr').setValue('');
+			_this.getForm().findField('name1').setValue('');
+			_this.getForm().findField('salnr').setValue('');
+			_this.getForm().findField('adr01').setValue('');
+			_this.getForm().findField('adr02').setValue('');
+			_this.getForm().findField('terms').setValue('');
+			_this.getForm().findField('vat01').setValue('');
+			_this.getForm().findField('taxnr').setValue('');
+			_this.getForm().findField('ptype').setValue('');
+			_this.getForm().findField('sname').setValue('');
+			o.markInvalid('Could not find project code : '+o.getValue());
 						}
 					}
 				});
@@ -622,11 +644,11 @@ Ext.define('Account.Quotation.Item.Form', {
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							var store = _this.gridItem.store;
 		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
 			                rc.set('ctype', r.data.ctype);
 		                    });
 		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}
@@ -668,11 +690,11 @@ Ext.define('Account.Quotation.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-						   //}
+						   
 						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
 							o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}

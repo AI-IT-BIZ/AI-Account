@@ -18,7 +18,10 @@ class Employee extends CI_Controller {
 		$tbName = 'empl';
 		
 		$id = $this->input->post('id'); //exit;
-		
+		$key = $this->input->post('key');
+		if($key==1){
+			$this->db->where('statu', '02');
+		}
 		$this->db->limit(1);
 		$this->db->where('empnr', $id);
 		$query = $this->db->get($tbName);

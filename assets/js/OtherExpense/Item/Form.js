@@ -420,11 +420,11 @@ layout: 'anchor',
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							//if(r.data.whtnr != '6'){
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-						   //}
+						
 						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
 							o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
@@ -456,7 +456,8 @@ layout: 'anchor',
 					url: __site_url+'vendor/load2',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -468,6 +469,12 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+							_this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -525,11 +532,11 @@ layout: 'anchor',
 							_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
 							var store = _this.gridItem.store;
 		                    store.each(function(rc){
-			                //price = parseFloat(rc.data['unitp']),
 			                rc.set('ctype', r.data.ctype);
 		                    });
 		                    _this.gridItem.curValue = r.data.ctype;
 						}else{
+							o.setValue('');
 							o.markInvalid('Could not find currency code : '+o.getValue());
 						}
 					}

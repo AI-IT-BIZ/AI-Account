@@ -223,7 +223,8 @@ Ext.define('Account.Payment.Item.Grid_i', {
 					url: __site_url+v_url,
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -271,6 +272,19 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							//rModel.set('amount', 100+Math.random());
 							rModel.set('lifnr', r.data.lifnr);
 						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('refnr', '');
+							rModel.set('invdt', '');
+							rModel.set('jobtx', '');
+							rModel.set('texts', '');
+							rModel.set('itamt', '');
+							rModel.set('ctyp1', '');
+							rModel.set('wht01', '');
+							rModel.set('vat01', '');
+							rModel.set('loekz', '');
+				            rModel.set('dtype', '');
+							rModel.set('lifnr', '');
 							_this.editing.startEdit(e.record, e.column);
 						}
 					}

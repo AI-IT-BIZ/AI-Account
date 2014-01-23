@@ -196,7 +196,12 @@ Ext.define('Account.Assetgrp.GridItem', {
 							rModel.set('depre', r.data.depre);
 
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							rModel.set('saknr', '');
+							rModel.set('sgtxt', '');
+							rModel.set('depre', '');
+							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});
