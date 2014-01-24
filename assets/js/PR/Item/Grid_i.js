@@ -219,9 +219,15 @@ Ext.define('Account.PR.Item.Grid_i', {
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
+				
+				var v_url = 'material/load';
+				var v_str = v.substring(0,1);
+				if(v_str == 'F'){
+					v_url = 'asset/load';
+				}
 
 				Ext.Ajax.request({
-					url: __site_url+'material/load',
+					url: __site_url+v_url,
 					method: 'POST',
 					params: {
 						id: v,
@@ -262,7 +268,6 @@ Ext.define('Account.PR.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
-				//rModel.set('amount', 100+Math.random());
 
 			}
 			grid.getSelectionModel().deselectAll();
@@ -344,7 +349,7 @@ Ext.define('Account.PR.Item.Grid_i', {
 
 		var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, ctype:cur };
+		rec = { id:newId, chk01:1, ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

@@ -180,7 +180,7 @@ Ext.define('Account.Billto.Item.Form', {
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Document Date',
+			fieldLabel: 'Doc Date',
 			name: 'bldat',
 			//anchor:'80%',
 			labelAlign: 'right',

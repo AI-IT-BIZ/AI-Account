@@ -348,7 +348,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'Credit Note Date',
+							fieldLabel: 'Doc Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,

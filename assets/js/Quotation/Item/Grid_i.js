@@ -401,7 +401,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 
         var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, ctype:cur };
+		rec = { id:newId, chk01:1, ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

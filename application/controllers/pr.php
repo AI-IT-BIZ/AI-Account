@@ -286,7 +286,7 @@ class Pr extends CI_Controller {
 			$limit = $r_limit['endin'];
 			$apamt = $r_limit['apamt'];
 			if($net>$limit){
-            	$emsg = 'The quotation total have amount more than limit amount.';
+            	$emsg = 'The pr total have amount more than limit amount.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -295,7 +295,7 @@ class Pr extends CI_Controller {
             }
             
 			if($reman>$apamt){
-            	$emsg = 'The customer have amount more than credit limit.';
+            	$emsg = 'The vendor have amount more than credit limit.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg

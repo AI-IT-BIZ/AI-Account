@@ -340,10 +340,11 @@ Ext.define('Account.DepositOut.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'Deposit Date',
+							fieldLabel: 'Doc Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,
+							allowBlank: false,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',

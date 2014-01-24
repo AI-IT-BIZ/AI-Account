@@ -300,10 +300,11 @@ Ext.define('Account.PO.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'PO Date',
+							fieldLabel: 'Doc Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,
+							allowBlank: false,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
@@ -314,6 +315,7 @@ Ext.define('Account.PO.Item.Form', {
 							name: 'lfdat',
 							labelAlign: 'right',
 							width:240,
+							allowBlank: false,
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',

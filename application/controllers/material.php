@@ -48,7 +48,7 @@ class Material extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['matnr'];
-
+			
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data

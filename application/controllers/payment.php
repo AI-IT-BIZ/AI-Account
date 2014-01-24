@@ -257,6 +257,17 @@ class Payment extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $paym = $this->input->post('paym');
+		$pm_item_array = json_decode($paym);
+		if(empty($paym) || empty($pm_item_array)){
+			$emsg = 'Please enter payment method and amount on payment tab';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+		}
+
         $ebbp = $this->input->post('ebbp');
 		$py_item_array = json_decode($ebbp);
 		$perv='';$lerv='';
@@ -303,6 +314,22 @@ class Payment extends CI_Controller {
 			}
 			$lerv = $p->lifnr;
 		  }
+		}
+
+        $bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
 		}
 
 		$formData = array(
@@ -373,7 +400,35 @@ class Payment extends CI_Controller {
 			
 			$this->db->where('invnr', $p->invnr);
 			$this->db->set('loekz', '2');
+			$netwr=floatval($this->input->post('netwr'));
+			if($p->itamt > $netwr){
+				$itamt=$p->itamt - $netwr;
+				$this->db->set('reman', $itamt);
+			}
 			$this->db->update('ebrk');
+			
+			$this->db->where('depnr', $p->invnr);
+			$this->db->set('loekz', '2');
+			$this->db->update('ebdk');
+			
+			if($this->input->post('statu') == '02'){
+			if($p->itamt <= $netwr){
+			$lifnr = $this->input->post('lifnr');
+		    $this->db->where('lifnr', $lifnr);
+		    $q_limit = $this->db->get('lfa1');
+			$reman=0;$upamt=0;
+			if($q_limit->num_rows()>0){
+			  $r_limit = $q_limit->first_row('array');
+			  $reman = $r_limit['reman'] - $p->itamt;
+			  $upamt = $p->itamt;
+			  
+			  $this->db->where('lifnr', $lifnr);
+			  $this->db->set('upamt', $upamt);
+			  $this->db->set('reman', $reman);
+			  $this->db->update('lfa1');
+			  }
+			} 
+			}//end limit credit
 	    	
 	    	}
 		}
@@ -383,8 +438,8 @@ class Payment extends CI_Controller {
 		$this->db->delete('paym');
 		
 		// เตรียมข้อมูล pm item
-		$paym = $this->input->post('paym');
-		$pm_item_array = json_decode($paym);
+		//$paym = $this->input->post('paym');
+		//$pm_item_array = json_decode($paym);
 		if(!empty($paym) && !empty($pm_item_array)){
 
 			$item_index = 0;
@@ -408,21 +463,6 @@ class Payment extends CI_Controller {
 //*** Save GL Posting
     if($this->input->post('statu') == '02'){	
         //$ids = $id;	
-        $bven = $this->input->post('bven');
-		$gl_item_array = json_decode($bven);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
         
 		$ids = $this->input->post('id');
 		$query = null;$deposit='';

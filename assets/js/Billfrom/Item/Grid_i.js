@@ -182,6 +182,12 @@ Ext.define('Account.Billfrom.Item.Grid_i', {
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
+				
+				var v_url = 'ap/load';
+				var v_str = v.substring(0,1);
+				if(v_str == 'D'){
+					v_url = 'depositout/load';
+				}
 
 				Ext.Ajax.request({
 					url: __site_url+'ap/load',

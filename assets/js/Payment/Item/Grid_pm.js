@@ -106,6 +106,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 	            store: this.ptypeStore,
 				queryMode: 'remote',
 				displayField: 'paytx',
+				allowBlank: false,
 				valueField: 'ptype'
 			}),
 			renderer: function(value) {

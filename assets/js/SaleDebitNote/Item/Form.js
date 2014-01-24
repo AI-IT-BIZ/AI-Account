@@ -345,7 +345,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'Debit Note Date',
+							fieldLabel: 'Doc Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,

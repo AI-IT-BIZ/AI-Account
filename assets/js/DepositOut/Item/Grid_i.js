@@ -345,7 +345,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		//for ( var i = 0; i < 5; i++ ) {
 			// add new record
 			rec = { id:0,matnr:'200019',maktx:'เงินมัดจำจ่าย',
-			menge:1,meins:'EA',ctyp1:'THB',saknr:'1151-06' };
+			menge:1,meins:'EA',chk01:1,ctyp1:'THB',saknr:'1151-06' };
 			edit = this.editing;
 			edit.cancelEdit();
 			// find current record

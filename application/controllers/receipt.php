@@ -272,6 +272,18 @@ class Receipt extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 				
 		}
+
+            $paym = $this->input->post('paym');
+		    $pm_item_array = json_decode($paym);
+		    if(empty($paym) || empty($pm_item_array)){
+		    	$emsg = 'Please enter receipt method and amount on receipt tab';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+		    }
+
 			$vbbp = $this->input->post('vbbp');
 			$curr = '';
 		        $rc_item_array = json_decode($vbbp);
@@ -319,6 +331,22 @@ class Receipt extends CI_Controller {
 			}
 			$kerv = $p->kunnr;
 		  }
+		}
+
+        $bcus = $this->input->post('bcus');
+		$gl_item_array = json_decode($bcus);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
 		}
 		
 		$formData = array(
@@ -469,21 +497,6 @@ class Receipt extends CI_Controller {
 //*** Save GL Posting	
     if($this->input->post('statu') == '02'){
         //$ids = $id;	
-        $bcus = $this->input->post('bcus');
-		$gl_item_array = json_decode($bcus);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
 		
 		$ids = $this->input->post('id');
 		$query = null;

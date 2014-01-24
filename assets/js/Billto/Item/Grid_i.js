@@ -184,6 +184,12 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
+				
+				var v_url = 'invoice/load';
+				var v_str = v.substring(0,1);
+				if(v_str == 'D'){
+					v_url = 'depositin/load';
+				}
 
 				Ext.Ajax.request({
 					url: __site_url+'invoice/load',

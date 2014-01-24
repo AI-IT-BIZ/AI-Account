@@ -344,7 +344,7 @@ Ext.define('Account.Invoice.Item.Form', {
             allowBlank: true
 		},{
 			xtype: 'datefield',
-			fieldLabel: 'Date',
+			fieldLabel: 'Doc Date',
 			name: 'bldat',
 			labelAlign: 'right',
 			width:240,

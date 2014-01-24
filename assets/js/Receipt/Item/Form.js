@@ -169,7 +169,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			labelStyle: 'font-weight:bold'
 	    },{
 			xtype: 'datefield',
-			fieldLabel: 'Document Date',
+			fieldLabel: 'Doc Date',
 			name: 'bldat',
 			labelAlign: 'right',
 			width:245,

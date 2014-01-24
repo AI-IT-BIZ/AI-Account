@@ -207,13 +207,14 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='invnr'){
 				var v = e.value;
+
+				if(Ext.isEmpty(v)) return;
+				
 				var v_url = 'invoice/load';
 				var v_str = v.substring(0,1);
 				if(v_str == 'D'){
 					v_url = 'depositin/load';
 				}
-
-				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
 					url: __site_url+v_url,

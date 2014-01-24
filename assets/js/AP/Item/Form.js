@@ -342,7 +342,7 @@ Ext.define('Account.AP.Item.Form', {
 		                items: [this.comboPtype,{
 		                //}, {
 							xtype: 'datefield',
-							fieldLabel: 'AP Date',
+							fieldLabel: 'Doc Date',
 							name: 'bldat',
 							labelAlign: 'right',
 							width:240,

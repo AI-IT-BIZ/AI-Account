@@ -169,6 +169,22 @@ class Depositout extends CI_Controller {
            }
 		}
 
+        $bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
+		}
+
         if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
         	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
 					echo json_encode(array(
@@ -264,22 +280,6 @@ class Depositout extends CI_Controller {
 // Save GL Posting	
         //$ids = $id;	
    if($this->input->post('statu') == '02'){
-   	
-	    $bven = $this->input->post('bven');
-		$gl_item_array = json_decode($bven);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
 	
 		$ids = $this->input->post('id');
 		$query = null;
