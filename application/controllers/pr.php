@@ -26,9 +26,9 @@ class Pr extends CI_Controller {
 
 		$this->db->where('purnr', $id);
 		$query = $this->db->get('ebko');
-		
+
 		if($query->num_rows()>0){
-			
+
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['purnr'];
 
@@ -40,7 +40,7 @@ class Pr extends CI_Controller {
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
-			
+
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data
@@ -54,14 +54,14 @@ class Pr extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
-		
+
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		// Start for report
 		function createQuery($_this){
-			
+
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$_this->db->where("(purnr LIKE '%$query%'
@@ -69,7 +69,7 @@ class Pr extends CI_Controller {
 				OR name1 LIKE '%$query%'
 				OR refnr LIKE '%$query%')", NULL, FALSE);
 			}
-			
+
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -89,7 +89,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('purnr >=', $purnr1);
 			  $_this->db->where('purnr <=', $purnr2);
 			}
-			
+
 			$lifnr1 = $_this->input->get('lifnr');
 			$lifnr2 = $_this->input->get('lifnr2');
 			if(!empty($lifnr1) && empty($lifnr2)){
@@ -99,7 +99,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('lifnr >=', $lifnr1);
 			  $_this->db->where('lifnr <=', $lifnr2);
 			}
-			
+
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
@@ -121,7 +121,7 @@ class Pr extends CI_Controller {
 			$result = $query->result_array();
 				$_this->db->where('depnr',$result[0]['depnr']);
 		}
-		// End for report	
+		// End for report
 		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
@@ -133,9 +133,9 @@ class Pr extends CI_Controller {
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
 		$this->db->order_by($sort, $dir);
-		
+
 		$query = $this->db->get($tbName);
-		
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -146,14 +146,14 @@ class Pr extends CI_Controller {
 	function loads_pr(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
-		
+
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		// Start for report
 		function createQuery($_this){
-			
+
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$_this->db->where("(purnr LIKE '%$query%'
@@ -161,7 +161,7 @@ class Pr extends CI_Controller {
 				OR name1 LIKE '%$query%'
 				OR refnr LIKE '%$query%')", NULL, FALSE);
 			}
-			
+
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -181,7 +181,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('purnr >=', $purnr1);
 			  $_this->db->where('purnr <=', $purnr2);
 			}
-			
+
 			$lifnr1 = $_this->input->get('lifnr');
 			$lifnr2 = $_this->input->get('lifnr2');
 			if(!empty($lifnr1) && empty($lifnr2)){
@@ -191,7 +191,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('lifnr >=', $lifnr1);
 			  $_this->db->where('lifnr <=', $lifnr2);
 			}
-			
+
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
@@ -201,9 +201,9 @@ class Pr extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
-			
+
 		}
-		// End for report	
+		// End for report
 		createQuery($this);
 		$totalCount = $this->db->count_all_results($tbName);
 
@@ -215,20 +215,20 @@ class Pr extends CI_Controller {
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
 		$this->db->order_by($sort, $dir);
-		
+
 		$query = $this->db->get($tbName);
-		
+
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount
 		));
 	}
-	
+
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
-		
+
 		$status_changed = false;
 		$inserted_id = false;
 		$net = floatval($this->input->post('netwr'));
@@ -237,7 +237,7 @@ class Pr extends CI_Controller {
 			$this->db->limit(1);
 			$this->db->where('purnr', $id);
 			$query = $this->db->get('ebko');
-			
+
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
 			// status has change
@@ -279,7 +279,7 @@ class Pr extends CI_Controller {
 		$this->db->where('lifnr', $lifnr);
 		$q_limit = $this->db->get('lfa1');
 		$reman=0;
-		
+
 		if($q_limit->num_rows()>0){
 			$r_limit = $q_limit->first_row('array');
 			$reman = $r_limit['reman'] + $net;
@@ -293,7 +293,7 @@ class Pr extends CI_Controller {
 					));
 					return;
             }
-            
+
 			if($reman>$apamt){
             	$emsg = 'The vendor have amount more than credit limit.';
 					echo json_encode(array(
@@ -334,45 +334,45 @@ class Pr extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('ebko', $formData);
-			
+
 // Credit limit -> Reject case
         if($this->input->post('statu') == '03'){
         	$this->db->where('lifnr', $kunnr);
 		    $q_limit = $this->db->get('lfa1');
 		    $reman=0;
-		
+
 		if($q_limit->num_rows()>0){
 			$r_limit = $q_limit->first_row('array');
 			$reman = $r_limit['reman'] - $net;
-			
-			if(!empty($kunnr)){	
+
+			if(!empty($kunnr)){
 			$this->db->where('lifnr', $lifnr);
 			$this->db->set('upamt', $net);
 			$this->db->set('reman', $reman);
 			$this->db->update('lfa1');
 			}
-		}	
+		}
         }
-		
+
 		}else{
-			
+
 			$id = $this->code_model->generate('PR', $this->input->post('bldat'));
 			$this->db->set('purnr', $id);
 			//$this->db->set('erdat', 'NOW()', false);
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('ebko', $formData);
-			
+
 			$inserted_id = $id;
-			
-//Upate limit remain			
-		    if(!empty($lifnr)){	
+
+//Upate limit remain
+		    if(!empty($lifnr)){
 			$this->db->where('lifnr', $lifnr);
 			$this->db->set('upamt', $net);
 			$this->db->set('reman', $reman);
 			$this->db->update('lfa1');
 			}
-			
+
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -400,7 +400,7 @@ class Pr extends CI_Controller {
 				));
 			}
 		}
-		
+
 		// end transaction
 		$this->db->trans_complete();
 
@@ -416,7 +416,7 @@ class Pr extends CI_Controller {
 					'id'=>$id
 				)
 			));
-			
+
 			try{
 				$post_id = $this->input->post('id');
 				$total_amount = floatval($this->input->post('netwr'));
@@ -445,10 +445,10 @@ class Pr extends CI_Controller {
 	}
 
 	function remove(){
-		$purnr = $this->input->post('purnr'); 
+		$purnr = $this->input->post('purnr');
 		$this->db->where('purnr', $purnr);
 		$query = $this->db->delete('ebko');
-		
+
 		$this->db->where('purnr', $purnr);
 		$query = $this->db->delete('ebpo');
 		echo json_encode(array(
@@ -464,7 +464,7 @@ class Pr extends CI_Controller {
 
 	function loads_pr_item(){
 		$pr_id = $this->input->get('purnr');
-		
+
 		$this->db->set_dbprefix('v_');
 		$this->db->where('purnr', $pr_id);
 		$query = $this->db->get('ebpo');
@@ -474,7 +474,7 @@ class Pr extends CI_Controller {
 			'totalCount'=>$query->num_rows()
 		));
 	}
-	
+
 	public function loads_acombo(){
 		//$tbName = 'apov';
 		//$tbPK = 'statu';
@@ -529,7 +529,7 @@ class Pr extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	
+
 	function loads_conp_item(){
         $menge = $this->input->get('menge');
 		$unitp = $this->input->get('unitp');
@@ -542,7 +542,7 @@ class Pr extends CI_Controller {
 		$amt = $menge * $unitp;
         $i=0;$vamt=0;
 		$result = array();
-		
+
 	    $query = $this->db->get('cont');
         if($query->num_rows()>0){
 			$rows = $query->result_array();
@@ -556,7 +556,7 @@ class Pr extends CI_Controller {
 			                   $tamt = $tamt / 107;
 		                }
 						$amt = $tamt;
-						
+
 						$result[$i] = array(
 					    'contx'=>$row['contx'],
 				     	'vtamt'=>$disit,
