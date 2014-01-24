@@ -231,7 +231,9 @@ class Gr extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'deamt' => floatval($this->input->post('deamt'))
+			'deamt' => floatval($this->input->post('deamt')),
+			'devat' => floatval($this->input->post('devat')),
+			'dewht' => floatval($this->input->post('dewht'))
 		);
 
 		// start transaction

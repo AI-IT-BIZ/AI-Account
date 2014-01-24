@@ -222,9 +222,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			field: {
-				type: 'textfield'
-			},
+			//field: {
+			//	type: 'textfield'
+			//},
 		}];
 
 		this.plugins = [this.editing];

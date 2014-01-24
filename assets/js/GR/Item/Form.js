@@ -308,10 +308,19 @@ Ext.define('Account.GR.Item.Form', {
 		                layout: 'anchor',
 		            	margin: '0 0 0 70',
 		                items: [this.comboPtype,{
-		                //}, {
+							xtype: 'datefield',
+							fieldLabel: 'Doc Date',
+							name: 'bldat',
+							labelAlign: 'right',
+							allowBlank: false,
+							width:240,
+							format:'d/m/Y',
+							altFormats:'Y-m-d|d/m/Y',
+							submitFormat:'Y-m-d',
+		                },{
 							xtype: 'datefield',
 							fieldLabel: 'GR Date',
-							name: 'bldat',
+							name: 'lfdat',
 							labelAlign: 'right',
 							allowBlank: false,
 							width:240,
@@ -379,6 +388,11 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                
+			                _this.formTotal.txtDepositVat.setValue(r.data.devat);
+			                _this.formTotal.txtDepositWHT.setValue(r.data.dewht);
+			                r.data.deamt = r.data.deamt - r.data.devat;
+			                r.data.deamt = r.data.deamt + r.data.dewht;
 			                _this.formTotal.txtDepositValue.setValue(r.data.deamt);
 						}else{
 							o.setValue('');
@@ -393,6 +407,8 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('loekz').setValue('');
 			                _this.getForm().findField('exchg').setValue('');
 			                _this.formTotal.txtDepositValue.setValue(0);
+			                _this.formTotal.txtDepositVat.setValue(0);
+			                _this.formTotal.txtDepositWHT.setValue(0);
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
 					}
@@ -424,7 +440,13 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
-			                _this.formTotal.txtDepositValue.setValue(r.data.deamt);
+			                
+			                _this.formTotal.txtDepositVat.setValue(r.data.devat);
+			                _this.formTotal.txtDepositWHT.setValue(r.data.dewht);
+			                var depamt=parseFloat(r.data.deamt);
+			                depamt = depamt - parseFloat(r.data.devat);
+			                depamt = depamt + parseFloat(r.data.dewht);
+			                _this.formTotal.txtDepositValue.setValue(depamt);
 						}
 					}
 				});
@@ -433,7 +455,6 @@ Ext.define('Account.GR.Item.Form', {
 			//---Load PRitem to POitem Grid-----------
 			var grdponr = _this.trigPO.value;
 			//alert(grdpurnr);
-			_this.gridItem.load({grdponr: grdponr });
 			//----------------------------------------
 			_this.poDialog.hide();
 		});

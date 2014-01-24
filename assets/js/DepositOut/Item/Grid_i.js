@@ -48,7 +48,8 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				'itamt',
 				'ctyp1',
 				'chk01',
-				'chk02'
+				'chk02',
+				'poamt'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -81,7 +82,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -89,15 +90,15 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.materialDialog.show();
 				}
-			},
+			},*/
 			},
 		    {text: "Description",
 		    width: 150,
 		    dataIndex: 'maktx',
 		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
+		    //field: {
+			//	type: 'textfield'
+			//},
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
@@ -120,7 +121,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			{text: "PO Amt",
 			xtype: 'numbercolumn',
 			width: 90,
-			dataIndex: 'netpo',
+			dataIndex: 'poamt',
 			sortable: false,
 			align: 'right'
 			},
@@ -130,7 +131,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
-			field: {
+			editor: {
 				type: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
@@ -138,7 +139,8 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 						var v = field.getValue();
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
-					}
+						_this.editing.completeEdit();
+					},
 				}
 			},
 			},
@@ -291,6 +293,18 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			_this.unitDialog.hide();
 			
 		});*/
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='unitp'){
+				var v = e.value;
+				var rModel = _this.store.getById(e.record.data.id);
+				var poamt = rModel.get('poamt');
+                //alert(poamt);
+			    if(v>poamt){
+			    	rModel.set(e.field, '');
+			    	Ext.Msg.alert('Warning', 'Payment amount over PO amount');
+			    }
+			}
+		});
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

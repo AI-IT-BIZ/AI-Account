@@ -57,6 +57,16 @@ Ext.define('Account.GR.Item.Form_t', {
 			alwaysDisplayDecimals: true,
 			readOnly: true
          });
+         this.txtDepositVat = Ext.create('Ext.ux.form.NumericField', {
+			//xtype: 'hiddenfield',
+			hidden:true,
+			name: 'devat',
+         });
+         this.txtDepositWHT = Ext.create('Ext.ux.form.NumericField', {
+			//xtype: 'hiddenfield',
+			hidden:true,
+			name: 'dewht',
+         });
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
@@ -153,17 +163,12 @@ Ext.define('Account.GR.Item.Form_t', {
 			rows:2,
 			width:380,
 			name: 'sgtxt'
-		}]
+		},this.txtDepositVat,this.txtDepositWHT]
             },{
                 xtype: 'container',
                 layout: 'anchor',
                 margins: '0 0 0 145',
-        items: [this.txtTotal,/*{
-			xtype: 'container',
-            layout: 'hbox',
-            //margin: '5 0 5 600',
-			items: [this.txtDiscount,this.txtDiscountValue]
-		}*/
+        items: [this.txtTotal,
 		this.txtDiscountValue,
 		this.txtDiscountSum,
 		this.txtDepositValue,

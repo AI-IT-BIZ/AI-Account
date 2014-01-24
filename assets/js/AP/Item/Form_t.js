@@ -62,6 +62,11 @@ Ext.define('Account.AP.Item.Form_t', {
 			hidden:true,
 			name: 'devat',
          });
+         this.txtDepositWHT = Ext.create('Ext.ux.form.NumericField', {
+			//xtype: 'hiddenfield',
+			hidden:true,
+			name: 'dewht',
+         });
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
@@ -177,7 +182,7 @@ Ext.define('Account.AP.Item.Form_t', {
    	        margin: '3 0 0 0',
 			width:380
 		//}]
-		},this.txtDepositVat]
+		},this.txtDepositVat,this.txtDepositWHT]
             },{
                 xtype: 'container',
                 layout: 'anchor',

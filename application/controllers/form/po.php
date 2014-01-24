@@ -500,11 +500,7 @@ else
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
-<!--Amount Text-->
-<DIV style="left:70PX;top:929PX;width:678PX;height:22PX;"><span class="fc1-8">
-<?= check_page($current_page_index, $total_page, "( $text_amt )") ?></span></DIV>
-
-<!--Signature Text-->
+<!--Amount Text--><!--Signature Text-->
 <DIV style="left:57PX;top:955PX;width:177PX;height:34PX;">
 <table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">ได้รับสิ่งของ/บริการตามรายการข้างต้นในสภาพดี</td></table>
 

@@ -695,12 +695,12 @@ class Payment extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$net,
+			'debit'=>$net_wht,
 			'credi'=>0,
 			'statu'=>'1'
 		);
 		$i++;//$j++;
-		$debit+=$net;
+		$debit+=$net_wht;
 		}
 //record ที่ สอง-> New Deposit posting
         if($vwht>0){

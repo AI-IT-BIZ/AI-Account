@@ -337,7 +337,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <DIV style="left:602PX;top:322PX;width:58PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$r_data['terms'];?></span></DIV>
 
 <!--5 Delivery date-->
-<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันครบกำหนดชำระ</span></DIV>
+<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันครบกำหนด</span></DIV>
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <?php 
@@ -533,11 +533,7 @@ else
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
-<!--Amount Text-->
-<DIV style="left:70PX;top:929PX;width:678PX;height:22PX;"><span class="fc1-8">
-<?= check_page($current_page_index, $total_page, "( $text_amt )") ?></span></DIV>
-
-<!--Signature Text-->
+<!--Amount Text--><!--Signature Text-->
 <DIV style="left:57PX;top:955PX;width:177PX;height:34PX;">
 <table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">ได้รับสิ่งของ/บริการตามรายการข้างต้นในสภาพดี</td></table>
 
