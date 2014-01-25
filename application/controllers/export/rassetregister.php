@@ -15,17 +15,18 @@ class RAssetregister extends CI_Controller {
                  
         $this->db->set_dbprefix('v_');
 		$tbName = 'fara';
-		
+		$bldat1 = '';
 		function createQuery($_this){
 			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(`matnr` LIKE '%$query%'
-				OR `maktx` LIKE '%$query%'
-				OR `mtart` LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(matnr LIKE '%$query%'
+				OR maktx LIKE '%$query%'
+				OR mtart LIKE '%$query%')", NULL, FALSE);
 			//}else{
-			//	$_this->db->where("`mtart` <> 'SV'", NULL, FALSE);
+			//	$_this->db->where("mtart <> 'SV'", NULL, FALSE);
 			}
+			$bldat1 = $_this->input->get('bldat');
 			
 			$matnr1 = $_this->input->get('matnr');
 			$matnr2 = $_this->input->get('matnr2');
@@ -36,35 +37,10 @@ class RAssetregister extends CI_Controller {
 			  $_this->db->where('matnr >=', $matnr1);
 			  $_this->db->where('matnr <=', $matnr2);
 			}
-			
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
-			}
-
-            $bldat1 = $_this->input->get('bldat');
-			$bldat2 = $_this->input->get('bldat2');
-			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
-			}
-			elseif(!empty($bldat1) && !empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
-			  $_this->db->where('bldat <=', $bldat2);
-			}
 
 		}
-		// End for report	
-
-        createQuery($this);
-		//$sort = $this->input->get('sort');
-		//$dir = $this->input->get('dir');
-		//$this->db->order_by($sort, $dir);
-		
+		// End for report		
+		createQuery($this);
 		$query = $this->db->get($tbName);
                 
         $result_array = $query->result_array();
@@ -81,8 +57,8 @@ class RAssetregister extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Fixed Asset")
-									 ->setSubject("Fixed Asset")
+									 ->setTitle("Fixed Asset Register")
+									 ->setSubject("Fixed Asset Register")
 									 ->setDescription("Fixed Asset information.");
                  /*Font Style*****************************************************/
           $StyleHeadCompany = array(
@@ -115,7 +91,7 @@ class RAssetregister extends CI_Controller {
           $objPHPExcel->getActiveSheet()->getStyle('G1')->applyFromArray($StyleHeadCompany);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('H2:J2')
-                                              ->setCellValue('H2', 'Fixed Asset List Report');
+                                              ->setCellValue('H2', 'Fixed Asset Register Report');
           $objPHPExcel->getActiveSheet()->getStyle('H2')->applyFromArray($StyleHeadReportName);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A4:B4')
@@ -123,7 +99,7 @@ class RAssetregister extends CI_Controller {
           $objPHPExcel->getActiveSheet()->getStyle('A4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A5:D5')
-                                              ->setCellValue('A5', 'Selection Period : '.$period );
+                                              ->setCellValue('A5', 'Selection Date : '.$bldat1);
           $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A6:E6')
@@ -135,7 +111,7 @@ class RAssetregister extends CI_Controller {
           //$objPHPExcel->getActiveSheet()->getStyle('O4')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
            $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O5:P5')
-                                              ->setCellValue('O5', 'Document Status : '.$status);
+                                              ->setCellValue('O5', 'Document Status : ');
            $objPHPExcel->getActiveSheet()->getStyle('O5')->applyFromArray($StyleHeadReportDetail);
           /*---------------------------------------------------------------*/
            $objPHPExcel->setActiveSheetIndex(0)->mergeCells('O6:P6')
@@ -150,78 +126,101 @@ class RAssetregister extends CI_Controller {
 		// add header data
 		$current_sheet
 	                  ->setCellValue('A8', 'Fixed Asset No.')
-                      ->setCellValue('B8', 'Fixed Asset Type')
-                      ->setCellValue('C8', 'Fixed Asset Group')
-                      ->setCellValue('D8', 'Under Asset No.')
-					  ->setCellValue('E8', 'Fixed Asset Name')
-                      ->setCellValue('F8', 'Serial No')
-                      ->setCellValue('G8', 'Acquisition Date')
-                      ->setCellValue('H8', 'Cost Value')
-					  ->setCellValue('I8', 'GL Account Code')
-                      ->setCellValue('J8', 'Residual Value')
-                      ->setCellValue('K8', 'Use ful life (year)')
-                      ->setCellValue('L8', '% of depreciation')
-                      ->setCellValue('M8', 'Monthly Depreciation')
-                      ->setCellValue('N8', 'Yearly Depreciation')
-                      ->setCellValue('O8', 'The Current Date')
-                      ->setCellValue('P8', 'Days for Depreciation')
-                      ->setCellValue('Q8', 'Accummulated Depreciation')
-                      ->setCellValue('R8', 'GL Account Code')
-					  ->setCellValue('S8', 'Book Value');
+					  ->setCellValue('B8', 'Fixed Asset Name')
+                      ->setCellValue('C8', 'Asset Type')
+					  ->setCellValue('D8', 'Asset Type Description')
+                      ->setCellValue('E8', 'Asset Group')
+					  ->setCellValue('F8', 'Asset Group Description')
+                      ->setCellValue('G8', 'Under Asset No.')
+					  ->setCellValue('H8', 'Under Asset Name')
+                      ->setCellValue('I8', 'Serial No')
+                      ->setCellValue('J8', 'Acquisition Date')
+                      ->setCellValue('K8', 'Cost Value')
+					  ->setCellValue('L8', 'GL Account Code')
+                      ->setCellValue('M8', 'Residual Value')
+                      ->setCellValue('N8', 'Use ful life (year)')
+                      ->setCellValue('O8', '% of depreciation')
+                      ->setCellValue('P8', 'Monthly Depreciation')
+                      ->setCellValue('Q8', 'Yearly Depreciation')
+                      ->setCellValue('R8', 'The Current Date')
+                      ->setCellValue('S8', 'Days for Depreciation')
+                      ->setCellValue('T8', 'Accummulated Depreciation')
+                      ->setCellValue('U8', 'GL Account Code')
+					  ->setCellValue('V8', 'Book Value');
                 
 		// Add some data
-                $invoid_temp = "";
-		
+		$asstx='';$deprey=0;$deprem=0;$curdt='';$daysc=0;
+		$accum=0;$saknr2='';$books=0;
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
 			$excel_i = $i+9;
                      	
-					$q_so = $this->db->get_where('vbok', array(
-				    'ordnr'=>$value['ordnr']
-			        ));
+			//Under asset
+			$this->db->set_dbprefix('tbl_');
+			$q_qt = $this->db->get_where('fara', array(
+				'matnr'=>$value['assnr']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$asstx = $r_qt['maktx'];
+			}
 			
-			        $result_data = $q_so->first_row('array');
-			        $q_qt = $this->db->get_where('vbak', array(
-				   'vbeln'=>$result_data['vbeln']
-			        ));
+			$deprey = $value['costv'] - $value['resid'];
+			if($value['lifes']>0){
+			   $deprey = $deprey / $value['lifes'];
+			   $deprem = $deprey / 12;
+			}else{
+			   $deprey = 0;
+			   $deprem = 0;
+			}
+			echo $this->input->get('bldat');
+			$curdt = $this->input->get('bldat');
 			
-			        $r_qt = $q_qt->first_row('array');
-			        $jobnr = $r_qt['jobnr'];
-					
-                    $my_date = util_helper_get_time_by_date_string($value['duedt']);
+			$stdat = util_helper_get_time_by_date_string($curdt);
+			$grdat = util_helper_get_time_by_date_string($value['bldat']);
+			$time_diff = $stdat - $grdat;
+			$day = ceil($time_diff/(24 * 60 * 60));
+			$daysc = $day;
 			
-			        $time_diff = time() - $my_date;
-			        $day = ceil($time_diff/(24 * 60 * 60));
-            
-			        if($day>0){
-				       $overd = $day;
-			        }else{ $overd = 0; }
+			$deprey = $value['costv'] - $value['resid'];
+			$deprey = $deprey * $value['depre'] * $day;
+			$accum = $deprey / 365;
+			
+			$saknr2 = '5xxxxxxxx';
+			
+			$books = $value['costv'] - $accum;
 					
                     $current_sheet
 		            ->setCellValue('A'.$excel_i, $value['matnr'])
-		            ->setCellValue('B'.$excel_i, $value['matnr'])
-		            ->setCellValue('C'.$excel_i, $value['matnr'])
-		            ->setCellValue('D'.$excel_i, $value['ordnr'])
-					->setCellValue('E'.$excel_i, $value['kunnr'])
-		            ->setCellValue('F'.$excel_i, $value['name1'])
-			        ->setCellValue('G'.$excel_i, $value['terms'])
-		            ->setCellValue('H'.$excel_i, util_helper_format_date($value['duedt']))
-                    ->setCellValue('I'.$excel_i, $value['matnr'])
-		            ->setCellValue('J'.$excel_i, $value['statx'])   
+		            ->setCellValue('B'.$excel_i, $value['maktx'])
+		            ->setCellValue('C'.$excel_i, $value['mtart'])
+		            ->setCellValue('D'.$excel_i, $value['mtype'])
+					->setCellValue('E'.$excel_i, $value['matkl'])
+		            ->setCellValue('F'.$excel_i, $value['mgrpp'])
+			        ->setCellValue('G'.$excel_i, $value['assnr'])
+		            ->setCellValue('H'.$excel_i, $asstx)
+                    ->setCellValue('I'.$excel_i, $value['serno'])
+		            ->setCellValue('J'.$excel_i, util_helper_format_date($value['bldat']))  
    
-                    ->setCellValue('K'.$excel_i, $value['matnr'])
-                    ->setCellValue('L'.$excel_i, $value['maktx'])
-                    ->setCellValue('M'.$excel_i, $value['menge'])
-                    ->setCellValue('N'.$excel_i, $value['unitp'])
-                    ->setCellValue('O'.$excel_i, $value['beamt'])
-                    ->setCellValue('P'.$excel_i, $value['vat01'])
-                    ->setCellValue('Q'.$excel_i,  $total);
+                    ->setCellValue('K'.$excel_i, $value['costv'])
+                    ->setCellValue('L'.$excel_i, $value['saknr'])
+                    ->setCellValue('M'.$excel_i, $value['resid'])
+                    ->setCellValue('N'.$excel_i, $value['lifes'])
+                    ->setCellValue('O'.$excel_i, $value['depre'])
+                    ->setCellValue('P'.$excel_i, $deprem)
+                    ->setCellValue('Q'.$excel_i, $deprey)
+					
+					->setCellValue('R'.$excel_i, $curdt)
+                    ->setCellValue('S'.$excel_i, $daysc)
+                    ->setCellValue('T'.$excel_i, $accum)
+                    ->setCellValue('U'.$excel_i, $saknr2)
+                    ->setCellValue('V'.$excel_i, $books);
                             
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','Q') as $columnID) {
+		foreach(range('A','V') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -247,7 +246,7 @@ class RAssetregister extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="invoice_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="asset_register_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');
