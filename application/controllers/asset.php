@@ -234,6 +234,107 @@ class Asset extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
+
+    function loads_depreciation(){
+		
+		$this->db->set_dbprefix('v_');
+		$tbName = 'fara';
+		$bldat1 = '';
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(matnr LIKE '%$query%'
+				OR maktx LIKE '%$query%'
+				OR mtart LIKE '%$query%')", NULL, FALSE);
+			//}else{
+			//	$_this->db->where("mtart <> 'SV'", NULL, FALSE);
+			}
+			$bldat1 = $_this->input->get('bldat');
+			
+			$matnr1 = $_this->input->get('matnr');
+			$matnr2 = $_this->input->get('matnr2');
+			if(!empty($matnr1) && empty($matnr2)){
+			  $_this->db->where('matnr', $matnr1);
+			}
+			elseif(!empty($matnr1) && !empty($matnr2)){
+			  $_this->db->where('matnr >=', $matnr1);
+			  $_this->db->where('matnr <=', $matnr2);
+			}
+
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+		
+		$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r_data = $res[$i];
+			// search item
+			//Under asset
+			$this->db->set_dbprefix('tbl_');
+			$q_qt = $this->db->get_where('fara', array(
+				'matnr'=>$r_data['assnr']
+			));
+			if($q_qt->num_rows()>0){
+			$r_qt = $q_qt->first_row('array');
+			$res[$i]['asstx'] = $r_qt['maktx'];
+			}
+			
+			$deprey = $r_data['costv'] - $r_data['resid'];
+			if($r_data['lifes']>0){
+			   $deprey = $deprey / $r_data['lifes'];
+			   $res[$i]['deprey'] = $deprey;
+			   $res[$i]['deprem'] = $deprey / 12;
+			}else{
+			   $res[$i]['deprey'] = 0;
+			   $res[$i]['deprem'] = 0;
+			}
+			//echo $this->input->get('bldat');
+			$res[$i]['curdt'] = $this->input->get('bldat');
+			
+			$stdat = util_helper_get_time_by_date_string($res[$i]['curdt']);
+			$grdat = util_helper_get_time_by_date_string($r_data['bldat']);
+			$time_diff = $stdat - $grdat;
+			$day = ceil($time_diff/(24 * 60 * 60));
+			$res[$i]['daysc'] = $day;
+			
+			$deprey = $r_data['costv'] - $r_data['resid'];
+			$deprey = $deprey * $r_data['depre'] * $day;
+			$res[$i]['accum'] = $deprey / 365;
+			
+			$accum = $res[$i]['accum'];
+			$year = substr($res[$i]['curdt'], 0, 4);
+			$deprey = $r_data['costv'] - $r_data['resid'];
+			
+			for($j=1;$j<13;$j++){
+			    $day = cal_days_in_month(CAL_GREGORIAN, $j, $year);
+			    $deprey2 = $deprey * $r_data['depre'] * $day;
+			    $deprey2 = $deprey2 / 365;
+			    $res[$i]['mon'.$j] = $deprey2 + $accum;
+			}
+		
+		}
+        
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$totalCount
+		));
+	}
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class RAssetregister extends CI_Controller {
+class RAssetdepreciation extends CI_Controller {
       
      
       function __construct()
@@ -82,7 +82,7 @@ class RAssetregister extends CI_Controller {
                         'size'  => 10,
                         'name'  => 'Verdana'
                        ));
-          /******************************************************/
+           /******************************************************/
           
           $objPHPExcel->setActiveSheetIndex(0)->mergeCells('J1:M1:')
                                              // ->mergeCells('H1:J1:')
@@ -121,7 +121,7 @@ class RAssetregister extends CI_Controller {
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
-
+        $year = substr($bldat1, 0, 4);
 		// add header data
 		$current_sheet
 	                  ->setCellValue('A8', 'Fixed Asset No.')
@@ -139,13 +139,19 @@ class RAssetregister extends CI_Controller {
                       ->setCellValue('M8', 'Residual Value')
                       ->setCellValue('N8', 'Use ful life (year)')
                       ->setCellValue('O8', '% of depreciation')
-                      ->setCellValue('P8', 'Monthly Depreciation')
-                      ->setCellValue('Q8', 'Yearly Depreciation')
-                      ->setCellValue('R8', 'The Current Date')
-                      ->setCellValue('S8', 'Days for Depreciation')
-                      ->setCellValue('T8', 'Accummulated Depreciation')
-                      ->setCellValue('U8', 'GL Account Code')
-					  ->setCellValue('V8', 'Book Value');
+                      ->setCellValue('P8', 'Accummulated Depreciation')
+                      ->setCellValue('Q8', 'January '.$year)
+                      ->setCellValue('R8', 'Febuary '.$year)
+                      ->setCellValue('S8', 'March '.$year)
+                      ->setCellValue('T8', 'April '.$year)
+                      ->setCellValue('U8', 'May '.$year)
+					  ->setCellValue('V8', 'June '.$year)
+					  ->setCellValue('W8', 'July '.$year)
+                      ->setCellValue('X8', 'August '.$year)
+                      ->setCellValue('Y8', 'September '.$year)
+                      ->setCellValue('Z8', 'October '.$year)
+                      ->setCellValue('AA8', 'November '.$year)
+					  ->setCellValue('AB8', 'December '.$year);
                 
 		// Add some data
 		$asstx='';$deprey=0;$deprem=0;$curdt='';$daysc=0;
@@ -185,9 +191,15 @@ class RAssetregister extends CI_Controller {
 			$deprey = $deprey * $value['depre'] * $day;
 			$accum = $deprey / 365;
 			
-			$saknr2 = '5xxxxxxxx';
-			
-			$books = $value['costv'] - $accum;
+			$year = substr($curdt, 0, 4);
+			$deprey = $value['costv'] - $value['resid'];
+			$mon = Array();
+			for($j=1;$j<13;$j++){
+			    $day = cal_days_in_month(CAL_GREGORIAN, $j, $year);
+			    $deprey2 = $deprey * $value['depre'] * $day;
+			    $deprey2 = $deprey2 / 365;
+			    $mon[$j] = $deprey2 + $accum;
+			}
 					
                     $current_sheet
 		            ->setCellValue('A'.$excel_i, $value['matnr'])
@@ -201,25 +213,31 @@ class RAssetregister extends CI_Controller {
                     ->setCellValue('I'.$excel_i, $value['serno'])
 		            ->setCellValue('J'.$excel_i, util_helper_format_date($value['bldat']))  
    
-                    ->setCellValue('K'.$excel_i, $value['costv'])
+                    ->setCellValue('K'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['costv'], 2))
                     ->setCellValue('L'.$excel_i, $value['saknr'])
-                    ->setCellValue('M'.$excel_i, $value['resid'])
+                    ->setCellValue('M'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['resid'], 2))
                     ->setCellValue('N'.$excel_i, $value['lifes'])
                     ->setCellValue('O'.$excel_i, $value['depre'])
-                    ->setCellValue('P'.$excel_i, $deprem)
-                    ->setCellValue('Q'.$excel_i, $deprey)
+                    ->setCellValue('P'.$excel_i, preg_replace('/(\.00)$/' ,'',$accum, 2))
 					
-					->setCellValue('R'.$excel_i, util_helper_format_date($curdt))
-                    ->setCellValue('S'.$excel_i, $daysc)
-                    ->setCellValue('T'.$excel_i, $accum)
-                    ->setCellValue('U'.$excel_i, $saknr2)
-                    ->setCellValue('V'.$excel_i, $books);
+                    ->setCellValue('Q'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[1], 2))
+					->setCellValue('R'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[2], 2))
+                    ->setCellValue('S'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[3], 2))
+                    ->setCellValue('T'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[4], 2))
+                    ->setCellValue('U'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[5], 2))
+                    ->setCellValue('V'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[6], 2))
+					->setCellValue('W'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[7], 2))
+					->setCellValue('X'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[8], 2))
+                    ->setCellValue('Y'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[9], 2))
+                    ->setCellValue('Z'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[10], 2))
+                    ->setCellValue('AA'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[11], 2))
+                    ->setCellValue('AB'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[12], 2));
                             
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','V') as $columnID) {
+		foreach(range('A','AB') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -245,7 +263,7 @@ class RAssetregister extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="asset_register_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="asset_depreciation_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

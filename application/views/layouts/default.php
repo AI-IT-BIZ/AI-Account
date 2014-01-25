@@ -225,6 +225,7 @@ function endsWith($haystack, $needle)
 		#div-account-rincome { top:495px; left:590px; width: 180px; height: 90px; }
 
 		#div-account-assetlist { top:495px; left:70px; width: 180px; height:90px; }
+		
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
@@ -283,7 +284,7 @@ function endsWith($haystack, $needle)
 		#div-report-rap-ledger { top:160px; left:470px; width: 180px; height:90px; }
 		#div-report-rap-aging { top:160px; left:690px; width: 180px; height: 90px; }
 
-		#div-report-rassetlist { top:290px; left:30px; width: 180px; height:90px; }
+		#div-report-rincome { top:290px; left:30px; width: 180px; height:90px; }
 		#div-report-rjounrnal { top:290px; left:250px; width: 180px; height: 90px; }
 		#div-report-rpretty { top:290px; left:470px; width: 180px; height:90px; }
 		#div-report-rsalej { top:290px; left:690px; width: 180px; height: 90px; }
@@ -292,7 +293,8 @@ function endsWith($haystack, $needle)
 		#div-report-rtb { top:420px; left:470px; width: 180px; height:90px; }
 		#div-report-rbs { top:420px; left:690px; width: 180px; height: 90px; }
 
-		#div-report-rincome { top:550px; left:30px; width: 180px; height: 90px; }
+		#div-report-rassetlist { top:550px; left:30px; width: 180px; height: 90px; }
+		#div-report-rassetdepre { top:550px; left:250px; width: 180px; height:90px; }
 
 		/* Toolbar */
 		/* move toolbar css into style.css  */
@@ -1141,7 +1143,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-account-rgl" class="box box-orange"><span>GL Report</span></div>',
 									'<div id="div-account-rtb" class="box box-orange"><span>Trail Balance Report</span></div>',
 									'<div id="div-account-rincome" class="box box-orange"><span>Income Statement Report</span></div>',
-									'<div id="div-account-rbs" class="box box-orange"><span>Balance Sheet Report/span></div>',
+									'<div id="div-account-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 									'<div id="div-account-otincome" class="box box-blue"><span>Other Income</span></div>',
 									'<div id="div-account-otexpense" class="box box-blue"><span>Other Expense</span></div>',
 
@@ -1234,6 +1236,7 @@ function endsWith($haystack, $needle)
 									  '<div id="div-report-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 
 									  '<div id="div-report-rincome" class="box box-orange"><span>Income Statment Report</span></div>',
+									  '<div id="div-report-rassetdepre" class="box box-orange"><span>Fixed Asset Depreciation Report</span></div>',
 								'</div>',
 							'</div>'
 						].join(''),
@@ -1391,6 +1394,7 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-report-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
                                 pEl.getById('div-report-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
 								pEl.getById('div-report-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+								pEl.getById('div-report-rassetdepre').on('click', function(){ $om.viewport.fireEvent('click_rassetdepre', c); }, c);
 
 							}
 						}

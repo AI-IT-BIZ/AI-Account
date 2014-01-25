@@ -172,7 +172,7 @@ class RInvoice extends CI_Controller {
 
 		// add header data
 		$current_sheet
-	              ->setCellValue('A8', 'Invoice No.')
+	                  ->setCellValue('A8', 'Invoice No.')
                       ->setCellValue('B8', 'Invoice Date')
                       ->setCellValue('C8', 'Ref. Project No.')
                       ->setCellValue('D8', 'Ref. Sale Order No.')
@@ -202,7 +202,8 @@ class RInvoice extends CI_Controller {
 					$q_so = $this->db->get_where('vbok', array(
 				    'ordnr'=>$value['ordnr']
 			        ));
-			
+					
+			        if($q_so->num_rows()>0){
 			        $result_data = $q_so->first_row('array');
 			        $q_qt = $this->db->get_where('vbak', array(
 				   'vbeln'=>$result_data['vbeln']
@@ -210,6 +211,7 @@ class RInvoice extends CI_Controller {
 			
 			        $r_qt = $q_qt->first_row('array');
 			        $jobnr = $r_qt['jobnr'];
+					}
 					
                     $my_date = util_helper_get_time_by_date_string($value['duedt']);
 			
@@ -251,11 +253,11 @@ class RInvoice extends CI_Controller {
                             $current_sheet     
                             ->setCellValue('K'.$excel_i, $value['matnr'])
                             ->setCellValue('L'.$excel_i, $value['maktx'])
-                            ->setCellValue('M'.$excel_i, $value['menge'])
-                            ->setCellValue('N'.$excel_i, $value['unitp'])
-                            ->setCellValue('O'.$excel_i, $value['beamt'])
-                            ->setCellValue('P'.$excel_i, $value['vat01'])
-                            ->setCellValue('Q'.$excel_i,  $total);
+                            ->setCellValue('M'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['menge'], 2))
+                            ->setCellValue('N'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['unitp'], 2))
+                            ->setCellValue('O'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['beamt'], 2))
+                            ->setCellValue('P'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['vat01'], 2))
+                            ->setCellValue('Q'.$excel_i,  preg_replace('/(\.00)$/' ,'',$total, 2));
                             
                             $invoid_temp = $value['invnr'];
 		}
