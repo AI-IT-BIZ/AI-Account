@@ -787,7 +787,8 @@ function endsWith($haystack, $needle)
 
 			var nodeARLedger = {
 				text: 'AR Ledger',
-				leaf: true
+				leaf: true,
+				id: 'click_ar_ledger'
 			};
 			var nodeARAging = {
 				text: 'AR Aging',
