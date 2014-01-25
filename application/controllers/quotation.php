@@ -421,7 +421,8 @@ class Quotation extends CI_Controller {
 					'perct'=>$p->perct,
 					'pramt'=>$pramt,
 					'ctyp1'=>$p->ctyp1,
-					'payty'=>$p->payty
+					'payty'=>$p->payty,
+					'chk01'=>1
 				));
 			}
 		}

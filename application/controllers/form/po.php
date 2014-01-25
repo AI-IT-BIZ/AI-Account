@@ -405,7 +405,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$item = $rows[$i];
 	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
-	$itamt = $itamt - $item['disit'];
+	//$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['ebelp'];?></td>
@@ -477,7 +477,7 @@ else
 <?= $tax_str ?></span></DIV>
 
 <DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($v_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 

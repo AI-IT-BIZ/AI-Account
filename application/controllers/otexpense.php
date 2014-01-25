@@ -406,6 +406,22 @@ class Otexpense extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $bven = $this->input->post('bven');
+		$gl_item_array = json_decode($bven);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
+		}
+
         if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
         	$emsg = 'The WHT Type 6 is required to fill in WHT Text';
 					echo json_encode(array(
@@ -422,7 +438,7 @@ class Otexpense extends CI_Controller {
 			'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
-			//'mbeln' => $this->input->post('mbeln'),  //GR Doc.
+			'itype' => '1',  //GR Doc.
 			'ptype' => $this->input->post('ptype'),
 			'terms' => intval($this->input->post('terms')),
 			'dismt' => floatval($this->input->post('dismt')),
@@ -436,12 +452,11 @@ class Otexpense extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'whtyp' => $this->input->post('whtyp'),
+			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'whtpr' => $this->input->post('whtpr'),
-			'duedt' => $this->input->post('duedt'),
-			'docty' => $this->input->post('docty')
+			'duedt' => $this->input->post('duedt')//,
+			//'docty' => $this->input->post('docty')
 		);
 
 		// start transaction
@@ -497,22 +512,6 @@ class Otexpense extends CI_Controller {
 	
 // Save GL Posting	
     if($this->input->post('statu') == '02'){
-        //$ids = $id;	
-        $bven = $this->input->post('bven');
-		$gl_item_array = json_decode($bven);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
         
 		$ids = $this->input->post('id');
 		$query = null;

@@ -421,9 +421,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
-			                alert(r.data.netwr);
+			               // alert(r.data.netwr);
 		                    store.each(function(v){
-			                v.set('netpo', r.data.netwr);
+			                v.set('poamt', r.data.netwr);
 		                    });
 						}else{
 							o.setValue('');
@@ -437,9 +437,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('loekz').setValue('');
 			                _this.getForm().findField('exchg').setValue('');
-			                alert(r.data.netwr);
+			                //alert(r.data.netwr);
 		                    store.each(function(v){
-			                v.set('netpo', '');
+			                v.set('poamt', '');
 		                    });
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -452,9 +452,13 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.trigPO.setValue(record.data.ebeln);
 			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
-			
-			var v = record.data.ebeln;
+			//alert(record.data.netwr);
+		                    
 			var store = _this.gridItem.store;
+			store.each(function(v){
+			       v.set('poamt', record.data.netwr);
+		    });
+		    var v = record.data.ebeln;
 			if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
 					url: __site_url+'po/load',
@@ -473,10 +477,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
-			                alert(r.data.netwr);
-		                    store.each(function(v){
-			                v.set('netpo', r.data.netwr);
-		                    });
+			                
 						}
 					}
 				});

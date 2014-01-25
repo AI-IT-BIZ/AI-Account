@@ -32,7 +32,9 @@ Ext.define('Account.RAssetRegister.Form', {
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
+			submitFormat:'Y-m-d',
+			allowBlank: false,
+			value: new Date()
 			});
                         
             /*this.dateDoc2 = Ext.create('Ext.form.field.Date', {
@@ -45,7 +47,7 @@ Ext.define('Account.RAssetRegister.Form', {
      
 		
 		this.trigAsset = Ext.create('Ext.form.field.Trigger', {
-			name: 'invnr',
+			name: 'matnr',
 			labelWidth: 100,
 			fieldLabel: 'Asset No',
 			triggerCls: 'x-form-search-trigger',
@@ -53,7 +55,7 @@ Ext.define('Account.RAssetRegister.Form', {
 		});
 		
 		this.trigAsset2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'invnr2',
+			name: 'matnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -102,7 +104,7 @@ Ext.define('Account.RAssetRegister.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'invoice/load',
+					url: __site_url+'asset/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -146,14 +148,14 @@ Ext.define('Account.RAssetRegister.Form', {
 
 
 		_this.assetDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigAsset.setValue(record.data.invnr);
+			_this.trigAsset.setValue(record.data.matnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.assetDialog.hide();
 		});
 		
 		_this.assetDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigAsset2.setValue(record.data.invnr);
+			_this.trigAsset2.setValue(record.data.matnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.assetDialog2.hide();

@@ -38,7 +38,7 @@ class Po extends CI_Controller {
 
 			// unset calculated value
 			unset($result_data['beamt']);
-			unset($result_data['netwr']);
+			//unset($result_data['netwr']);
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -53,11 +53,6 @@ class Po extends CI_Controller {
 	function loads(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ekko';
-
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
 		
 		// Start for report
 		function createQuery($_this){

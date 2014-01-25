@@ -5,7 +5,7 @@ Ext.define('Account.SPR.MainWindow', {
 		Ext.apply(this, {
 			title: 'Purchase Requisitions',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1000,
 			minWidth: 500,

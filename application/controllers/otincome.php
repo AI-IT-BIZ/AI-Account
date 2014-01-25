@@ -43,12 +43,14 @@ class Otincome extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
+			if(!empty($result['salnr'])){
 			$q_qt = $this->db->get_where('psal', array(
 				'salnr'=>$result['salnr']
 			));
 			
 			$r_qt = $q_qt->first_row('array');
 			$result['emnam'] = $r_qt['emnam'];
+			}
 			
 			$result['whtpr']=number_format($result['whtpr']);
 			
@@ -436,10 +438,10 @@ class Otincome extends CI_Controller {
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
 			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
-				if(XUMS::CAN_DISPLAY('IV') && XUMS::CAN_APPROVE('IV')){
-					$limit = XUMS::LIMIT('IV');
+				if(XUMS::CAN_DISPLAY('OI') && XUMS::CAN_APPROVE('OI')){
+					$limit = XUMS::LIMIT('OI');
 					if($limit<$row['netwr']){
-						$emsg = 'You do not have permission to change invoice status over than '.number_format($limit);
+						$emsg = 'You do not have permission to change other income status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -448,7 +450,7 @@ class Otincome extends CI_Controller {
 						return;
 					}
 				}else{
-					$emsg = 'You do not have permission to change invoice status.';
+					$emsg = 'You do not have permission to change other income status.';
 					echo json_encode(array(
 						'success'=>false,
 						'errors'=>array( 'statu' => $emsg ),
@@ -458,7 +460,7 @@ class Otincome extends CI_Controller {
 				}
 			}else{
 				if($row['statu']=='02'||$row['statu']=='03'){
-					$emsg = 'The invoice that already approved or rejected cannot be update.';
+					$emsg = 'The other income that already approved or rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -467,6 +469,22 @@ class Otincome extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+		}
+
+        $bcus = $this->input->post('bcus');
+		$gl_item_array = json_decode($bcus);
+		foreach($gl_item_array AS $p){
+			if(empty($p->saknr) && $p->sgtxt == 'Total'){
+		    if($p->debit != $p->credi){
+						$emsg = 'Banlance Amount not equal';
+						echo json_encode(array(
+							'success'=>false,
+							//'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+		}
 		}
 
         if($this->input->post('whtnr')=='6' && $this->input->post('whtxt')==''){
@@ -483,7 +501,7 @@ class Otincome extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			//'ordnr' => $this->input->post('ordnr'),
+			'itype' => '1',
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -499,7 +517,8 @@ class Otincome extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			'whtpr' => $this->input->post('whtpr'),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01'))
 		);
@@ -559,22 +578,6 @@ class Otincome extends CI_Controller {
 // Save GL Posting	
         //$ids = $id;
     if($this->input->post('statu') == '02'){
-    	
-		$bcus = $this->input->post('bcus');
-		$gl_item_array = json_decode($bcus);
-		foreach($gl_item_array AS $p){
-			if(empty($p->saknr) && $p->sgtxt == 'Total'){
-		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
-						echo json_encode(array(
-							'success'=>false,
-							//'errors'=>array( 'statu' => $emsg ),
-							'message'=>$emsg
-						));
-						return;
-					}
-		}
-		}
 			
 		$ids = $this->input->post('id');
 		$query = null;

@@ -82,7 +82,7 @@ Ext.define('Account.Vendortype.GridItem', {
 			}]
 		},{
 			//id : 'VDiRowNumber1',
-			header : "No",
+			text : "No",
 			dataIndex : 'id_vtype',
 			width : 60,
 			align : 'center',
