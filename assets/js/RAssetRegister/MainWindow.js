@@ -18,7 +18,7 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 	},
 	initComponent : function() {
 		var _this=this;
-		
+
 		this.itemDialog = Ext.create('Account.RAssetRegister.Item.Window');
 
 		this.form = Ext.create('Account.RAssetRegister.Form',{ region:'center' });
@@ -41,7 +41,18 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 				_this.hide();
 			}
 		}];
-		
+
+		this.itemDialog.on('export_exel_click', function(dialog){
+			var params = _this.form.getValues(),
+				sorters = (dialog.grid.store.sorters && dialog.grid.store.sorters.length)?dialog.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+			   sort: sorters.property,
+			   dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/rassetregister/index?'+query;
+		}, this);
+
 		// set handler for item grid store
 		this.itemDialog.grid.store.on('beforeload', function(store){
 			var formValues = _this.form.getForm().getValues();

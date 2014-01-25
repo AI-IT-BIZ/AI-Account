@@ -23,30 +23,23 @@ Ext.define('Account.RAssetRegister.Item.Window', {
 
 	initComponent : function() {
 		var _this=this;
-		
+
 		//this.form = Ext.create('Account.Quotation.Item.Form',{ region:'center' });
-                
+
         this.grid = Ext.create('Account.RAssetRegister.Item.Grid', {
 			region:'center',
 			border: false
 		});
 
        // this.itemDialog = Ext.create('Account.RQuotation.Item.Window');
-            this.excelAct = new Ext.Action({
+		this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-                          handler: function () {
-                            var params = _this.form.getValues(),
-				            sorters = (_this.grid.store.sorters && _this.grid.store.sorters.length)?_this.grid.store.sorters.items[0]:{};
-			                params = Ext.apply({
-				               sort: sorters.property,
-				               dir: sorters.direction
-			                }, params);
-			                query = Ext.urlEncode(params);
-			                window.location = __site_url+'export/rassetregister/index?'+query;
-                          }
+			handler: function () {
+				_this.fireEvent('export_exel_click', _this);
+			}
 		});
-		
+
 		this.items = [this.grid];
         this.tbar = [this.excelAct];
 
