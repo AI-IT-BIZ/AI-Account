@@ -715,6 +715,11 @@ Ext.onReady(function() {
 		$om.RPaymentJournal = Ext.create('Account.RPaymentJournal.MainWindow');
 		$om.RPaymentJournal.show();
 	});
+	
+	$om.viewport.on('click_ar_ledger', function(){
+		$om.RARLedger = Ext.create('Account.RARLedger.MainWindow');
+		$om.RARLedger.show();
+	});
 
 	$om.viewport.on('click_report_tb', function(){
 		if(!UMS.CAN.DISPLAY('FI')){
@@ -787,6 +792,7 @@ Ext.onReady(function() {
 		$om.Rpnd53WHT = Ext.create('Account.Rpnd53WHT.MainWindow');
 		$om.Rpnd53WHT.show();
 	});
+	
 
 	/* ** Interval check session */
 	var msgSessionExpire = null;
