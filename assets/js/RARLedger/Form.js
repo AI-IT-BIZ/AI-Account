@@ -42,7 +42,7 @@ Ext.define('Account.RARLedger.Form', {
 			triggerAction : 'all',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Select Status --',
+			emptyText: 'ALL',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -62,7 +62,8 @@ Ext.define('Account.RARLedger.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'statx',
-			valueField: 'statx'
+			valueField: 'statx',
+			value: 'ALL'
 		});
 
 		this.items = [{
@@ -77,7 +78,8 @@ Ext.define('Account.RARLedger.Form', {
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
+			submitFormat:'Y-m-d',
+			allowBlank: false
 			},{
 			xtype: 'displayfield',
 		    value: 'To',
@@ -88,7 +90,8 @@ Ext.define('Account.RARLedger.Form', {
 			name: 'end_date',
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
+			submitFormat:'Y-m-d',
+			allowBlank: false
 			}]
 // Customer Code
 		},{
