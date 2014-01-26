@@ -295,10 +295,10 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		});*/
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='unitp'){
-				var v = e.value;
+				var v = parseFloat(e.value);
 				var rModel = _this.store.getById(e.record.data.id);
-				var poamt = rModel.get('poamt');
-                //alert(poamt);
+				var poamt = parseFloat(rModel.get('poamt'));
+                //alert(v+'aaa'+poamt);
 			    if(v>poamt){
 			    	rModel.set(e.field, '');
 			    	Ext.Msg.alert('Warning', 'Payment amount over PO amount');

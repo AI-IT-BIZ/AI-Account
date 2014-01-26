@@ -394,6 +394,10 @@ Ext.define('Account.GR.Item.Form', {
 			                r.data.deamt = r.data.deamt - r.data.devat;
 			                r.data.deamt = r.data.deamt + r.data.dewht;
 			                _this.formTotal.txtDepositValue.setValue(r.data.deamt);
+						    //---Load PRitem to POitem Grid-----------
+			                var grdponr = _this.trigPO.value;
+			                //alert(grdpurnr);
+			                _this.gridItem.load({grdponr: grdponr });
 						}else{
 							o.setValue('');
 							_this.getForm().findField('lifnr').setValue('');
@@ -455,6 +459,7 @@ Ext.define('Account.GR.Item.Form', {
 			//---Load PRitem to POitem Grid-----------
 			var grdponr = _this.trigPO.value;
 			//alert(grdpurnr);
+			_this.gridItem.load({grdponr: grdponr });
 			//----------------------------------------
 			_this.poDialog.hide();
 		});

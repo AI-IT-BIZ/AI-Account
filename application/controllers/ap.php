@@ -532,7 +532,7 @@ class Ap extends CI_Controller {
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
-			'lfdat' => $this->input->post('lfdat'),
+			//'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
 			'mbeln' => $this->input->post('mbeln'),  //GR Doc.

@@ -47,6 +47,17 @@ Ext.define('Account.RPayment.MainWindow', {
 			}
 		}];
 		
+		this.itemDialog.on('export_exel_click', function(dialog){
+			var params = _this.form.getValues(),
+				sorters = (dialog.grid.store.sorters && dialog.grid.store.sorters.length)?dialog.grid.store.sorters.items[0]:{};
+			params = Ext.apply({
+			   sort: sorters.property,
+			   dir: sorters.direction
+			}, params);
+			query = Ext.urlEncode(params);
+			window.location = __site_url+'export/rpayment/index?'+query;
+		}, this);
+		
 		// set handler for item grid store
 		this.itemDialog.grid.store.on('beforeload', function(store){
 			var formValues = _this.form.getForm().getValues();

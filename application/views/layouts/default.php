@@ -822,7 +822,7 @@ function endsWith($haystack, $needle)
 				id: 'click_report_pj'
 			};
 			var nodeReportSJ = {
-				text: 'Sale Journal Report',
+				text: 'Sales Journal Report',
 				leaf: true,
 				id: 'click_report_sj'
 			};
@@ -1006,9 +1006,9 @@ function endsWith($haystack, $needle)
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
 									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
 									'<div id="div-asset-regist" class="box box-orange"><span>Fixed Asset Register</span></div>',
-									'<div id="div-rtrail-balance" class="box box-orange"><span>Trail Balance</span></div>',
+									'<div id="div-rtrail-balance" class="box box-orange"><span>Trial Balance</span></div>',
 									'<div id="div-rbalance-sheet" class="box box-orange"><span>Balance Sheet</span></div>',
-									'<div id="div-rincome-statment" class="box box-orange"><span>Income Statment</span></div>',
+									'<div id="div-rincome-statment" class="box box-orange"><span>Income Statement</span></div>',
 								'</div>',
 								//Material Module
 								'<div id="div1-4-container">',
@@ -1144,7 +1144,7 @@ function endsWith($haystack, $needle)
 								    '<div id="div-account-journalnew" class="box box-blue"><span>Create New Journal Posting</span></div>',
 								    '<div id="div-account-journallist" class="box box-blue"><span>Journals List</span></div>',
 									'<div id="div-account-rgl" class="box box-orange"><span>GL Report</span></div>',
-									'<div id="div-account-rtb" class="box box-orange"><span>Trail Balance Report</span></div>',
+									'<div id="div-account-rtb" class="box box-orange"><span>Trial Balance Report</span></div>',
 									'<div id="div-account-rincome" class="box box-orange"><span>Income Statement Report</span></div>',
 									'<div id="div-account-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 									'<div id="div-account-otincome" class="box box-blue"><span>Other Income</span></div>',
@@ -1230,15 +1230,15 @@ function endsWith($haystack, $needle)
 									  '<div id="div-report-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
 									  '<div id="div-report-rassetlist" class="box box-orange"><span>Fixed Asset Register Report</span></div>',
 									  '<div id="div-report-rjounrnal" class="box box-orange"><span>Journal Report</span></div>',
-									  '<div id="div-report-rpretty" class="box box-orange"><span>Pretty Cash Journal Payable Report</span></div>',
+									  '<div id="div-report-rpretty" class="box box-orange"><span>Petty Cash Journal Payable Report</span></div>',
 									  '<div id="div-report-rsalej" class="box box-orange"><span>Sale Report</span></div>',
 
 									  '<div id="div-report-rpurchasej" class="box box-orange"><span>Purchase Journal Report</span></div>',
 									  '<div id="div-report-rgeneral" class="box box-orange"><span>General Report</span></div>',
-									  '<div id="div-report-rtb" class="box box-orange"><span>Trail Balance Report</span></div>',
+									  '<div id="div-report-rtb" class="box box-orange"><span>Trial Balance Report</span></div>',
 									  '<div id="div-report-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 
-									  '<div id="div-report-rincome" class="box box-orange"><span>Income Statment Report</span></div>',
+									  '<div id="div-report-rincome" class="box box-orange"><span>Income Statement Report</span></div>',
 									  '<div id="div-report-rassetdepre" class="box box-orange"><span>Fixed Asset Depreciation Report</span></div>',
 								'</div>',
 							'</div>'
@@ -1794,7 +1794,7 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_asset-regist')}
 				        },{
-				            text: 'Trail Balance',
+				            text: 'Trial Balance',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-rtb',
@@ -1806,7 +1806,7 @@ function endsWith($haystack, $needle)
 				            iconCls: 'a-rbalance',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Income Statment',
+				            text: 'Income Statement',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-rincome',
@@ -1985,7 +1985,7 @@ function endsWith($haystack, $needle)
 				            iconCls: 'r-report8',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Pretty Cash Journal',
+				            text: 'Petty Cash Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report9',
