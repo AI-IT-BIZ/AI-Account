@@ -21,7 +21,7 @@ Ext.define('Account.SaleDebitNote.Grid', {
 			    'debnr',
 				'bldat',
 				'invnr',
-				'lifnr',
+				'kunnr',
 				'name1',
 				'txz01',
 				'statx',

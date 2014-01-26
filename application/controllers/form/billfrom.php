@@ -198,7 +198,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 </DIV>
 
 <DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:48PX;top:169PX;width:408PX;height:101PX;">
-<table border=0 cellpadding=0 cellspacing=0 width=401px height=94px><TD>&nbsp;</TD></TABLE>
+<table border=0 cellpadding=0 cellspacing=0 width=462px height=94px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
 <DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:49PX;top:276PX;width:704PX;height:69PX;">
@@ -265,11 +265,11 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
 
-<DIV style="left:109PX;top:173PX;width:347PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left:109PX;top:198PX;width:347PX;height:23PX;"><span class="fc1-8"><?=$r_data['adr01'];?></span></DIV>
+<DIV style="left:109PX;top:198PX;width:400PX;height:23PX;"><span class="fc1-8"><?=$r_data['adr01'];?></span></DIV>
 
-<DIV style="left:109PX;top:221PX;width:347PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left:109PX;top:221PX;width:400PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
 <DIV style="left:109PX;top:247PX;width:31PX;height:21PX;"><span class="fc1-8">Tel.</span></DIV>
 

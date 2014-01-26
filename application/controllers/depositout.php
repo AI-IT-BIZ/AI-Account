@@ -194,7 +194,7 @@ class Depositout extends CI_Controller {
 					return;
         }
         
-		
+		$ebeln = $this->input->post('ebeln');
 		$formData = array(
 			//'depnr' => $this->input->post('depnr'),
 			'bldat' => $this->input->post('bldat'),
@@ -242,8 +242,8 @@ class Depositout extends CI_Controller {
 			$this->db->insert('ebdk', $formData);
 			
 			$inserted_id = $id;
-			
-			$this->db->where('ebeln', $this->input->post('eblen'));
+			$this->db->set_dbprefix('tbl_');
+			$this->db->where('ebeln', $ebeln);
 			$this->db->set('loekz', '2');
 			$this->db->update('ekko');
 		}
