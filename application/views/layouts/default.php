@@ -804,7 +804,8 @@ function endsWith($haystack, $needle)
 			};
 			var nodeAPAging = {
 				text: 'AP Aging',
-				leaf: true
+				leaf: true,
+				id: 'click_ap_aging'
 			};
 			var nodeFixedRe = {
 				text: 'Fixed Asset Register Report',

@@ -35,7 +35,7 @@ Ext.define('Account.RARLedger.Form', {
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Receipt Status',
+			fieldLabel: 'Status',
 			name : 'statu',
 			labelWidth: 100,
 			editable: false,
@@ -73,21 +73,9 @@ Ext.define('Account.RARLedger.Form', {
                 margin: '0 0 5 0',
      items :[{
 			xtype: 'datefield',
-			fieldLabel: 'Document Date',
-			name: 'start_date',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-			},{
-			xtype: 'displayfield',
-		    value: 'To',
-		    width:40,
-		    margins: '0 0 0 25'
-		   },{
-			xtype: 'datefield',
+			fieldLabel: 'Selection Period',
 			name: 'end_date',
+			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',

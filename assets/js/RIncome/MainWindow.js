@@ -16,7 +16,7 @@ Ext.define('Account.RIncome.MainWindow', {
 //============Combobox===============
 var years = [],
 nowYear = parseInt(Ext.Date.format(new Date(), 'Y'));
-for(var i=nowYear;i>=nowYear-2;i--){
+for(var i=nowYear;i>=nowYear-6;i--){
 	years.push([i, i]);
 }
 			
@@ -39,23 +39,20 @@ for(var i=nowYear;i>=nowYear-2;i--){
 				field: ['value','year'],
 				store: years,
 				valueField: 'value',
-				displayField: 'text'
+				displayField: 'text',
+				allowBlank: false
 			}],
 			buttons: [{
 				text: 'ยืนยัน',
 				handler: function(){
-					/*
-					start_date = form.form.findField('start_date').getValue();
-					start_date = Ext.Date.format(start_date,'Y-m-d');
-					end_date = form.form.findField('end_date').getValue();
-					end_date = Ext.Date.format(end_date,'Y-m-d');
-					*/
-					start_date1 = form.form.findField('year').getValue()+"-01-01";
-					end_date1 = form.form.findField('year').getValue()+"-12-31";
-					start_date2 = parseInt(form.form.findField('year').getValue())-1+"-01-01";
-					end_date2 = parseInt(form.form.findField('year').getValue())-1+"-12-31";
-					params = "start_date1="+start_date1+"&end_date1="+end_date1+"&start_date2="+start_date2+"&end_date2="+end_date2;
-					_this.previewDialog.openDialog(__base_url + 'index.php/rincome/pdf?'+params,'_blank');
+						//if(_this.form.getForm().isValid()){
+						start_date1 = form.form.findField('year').getValue()+"-01-01";
+						end_date1 = form.form.findField('year').getValue()+"-12-31";
+						start_date2 = parseInt(form.form.findField('year').getValue())-1+"-01-01";
+						end_date2 = parseInt(form.form.findField('year').getValue())-1+"-12-31";
+						params = "start_date1="+start_date1+"&end_date1="+end_date1+"&start_date2="+start_date2+"&end_date2="+end_date2;
+						_this.previewDialog.openDialog(__base_url + 'index.php/rincome/pdf?'+params,'_blank');
+					//}
 				}
 			},{
 				text: 'ยกเลิก',

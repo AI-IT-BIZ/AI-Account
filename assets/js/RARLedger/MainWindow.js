@@ -6,7 +6,7 @@ Ext.define('Account.RARLedger.MainWindow', {
 		Ext.apply(this, {
 			title: 'ARLedger Selection',
 			closeAction: 'hide',
-			height: 220,
+			height: 200,
 			width: 550,
 			layout: 'border',
 			//layout: 'accordion',
@@ -28,21 +28,33 @@ Ext.define('Account.RARLedger.MainWindow', {
 				];
 
 		this.buttons = [{
-			text: 'Report',
+			text: 'PDF',
 			handler: function() {
 				if(_this.form.getForm().isValid()){ 
-			    	start_date = _this.form.getForm().findField('start_date').getValue();
-			    	start_date = Ext.Date.format(start_date,'Y-m-d');
 			    	end_date = _this.form.getForm().findField('end_date').getValue();
 			    	end_date = Ext.Date.format(end_date,'Y-m-d');
 			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
 			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
 			    	statu = _this.form.getForm().findField('statu').getValue();
-			    	params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2+"&statu="+statu;
+			    	params = "end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2+"&statu="+statu;
 			    	_this.preview.openDialog(__base_url + 'index.php/rarledger/pdf?'+params,'_blank');
 			   }
 			}
 		}, {
+			text: 'EXCEL',
+			handler: function() {
+				if(_this.form.getForm().isValid()){ 
+			    	end_date = _this.form.getForm().findField('end_date').getValue();
+			    	end_date = Ext.Date.format(end_date,'Y-m-d');
+			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
+			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
+			    	statu = _this.form.getForm().findField('statu').getValue();
+			    	params = "end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2+"&statu="+statu;
+			    	window.location = __base_url + 'index.php/rarledger/excel?'+params;
+			   }
+			}
+		},
+		{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();

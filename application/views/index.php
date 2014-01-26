@@ -737,6 +737,11 @@ Ext.onReady(function() {
 		$om.RARaging.show();
 	});
 	
+	$om.viewport.on('click_ap_aging', function(){
+		$om.RARaging = Ext.create('Account.RAPaging.MainWindow');
+		$om.RARaging.show();
+	});
+	
 	$om.viewport.on('click_ap_ledger', function(){
 		$om.RAPLedger = Ext.create('Account.RAPLedger.MainWindow');
 		$om.RAPLedger.show();
