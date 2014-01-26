@@ -4,16 +4,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow3', {
 
 		Ext.apply(this, {
 			title: 'ใบแนบ ภ.ง.ด.53',
-			closeAction: 'hide',
-			height: 600,
-			width: 1000,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

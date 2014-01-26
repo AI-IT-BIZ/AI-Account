@@ -4,16 +4,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow2', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีหัก ณ ที่จ่าย(ฝั่งขาย)',
-			closeAction: 'hide',
-			height: 600,
-			width: 1000,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

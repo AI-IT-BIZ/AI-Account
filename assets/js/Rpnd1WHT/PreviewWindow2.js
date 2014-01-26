@@ -4,16 +4,7 @@ Ext.define('Account.Rpnd1WHT.PreviewWindow2', {
 
 		Ext.apply(this, {
 			title: 'แบบฟอร์มนำส่ง ภ.ง.ด.1',
-			closeAction: 'hide',
-			height: 700,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);
