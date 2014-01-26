@@ -55,10 +55,6 @@ class Pr extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
 
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
 		// Start for report
 		function createQuery($_this){
 
@@ -116,10 +112,11 @@ class Pr extends CI_Controller {
 					join tbl_empl t2 on t1.empnr=t2.empnr
 					join tbl_depn t3 on t2.depnr=t3.depnr
 					where t1.uname = '$uname'";
-			$query = $_this->db->query($sql);
-
-			$result = $query->result_array();
-				$_this->db->where('depnr',$result[0]['depnr']);
+			$q_dep = $_this->db->query($sql);
+            if($q_dep->num_rows()>0){
+			  $r_dep = $q_dep->first_row('array');
+			  $_this->db->where('depnr',$r_dep['depnr']);
+			}
 		}
 		// End for report
 		createQuery($this);
@@ -146,10 +143,6 @@ class Pr extends CI_Controller {
 	function loads_pr(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
-
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		// Start for report
 		function createQuery($_this){

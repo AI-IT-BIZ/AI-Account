@@ -461,12 +461,23 @@ Ext.onReady(function() {
 
 	$om.viewport.on('click_asset-regist', function(){
 		if(!UMS.CAN.DISPLAY('FA')){
-			UMS.ALERT("You don't have permission for Asset Register.");
+			UMS.ALERT("You don't have permission for Asset Register Report.");
 			return;
 		}
 
 		if(!$om.assetregitDialog)
 			$om.assetregitDialog = Ext.create('Account.RAssetRegister.MainWindow');
+		$om.assetregitDialog.show();
+	});
+	
+	$om.viewport.on('click_rassetdepre', function(){
+		if(!UMS.CAN.DISPLAY('FA')){
+			UMS.ALERT("You don't have permission for Asset Depreciation Report.");
+			return;
+		}
+
+		if(!$om.assetregitDialog)
+			$om.assetregitDialog = Ext.create('Account.RAssetDepreciation.MainWindow');
 		$om.assetregitDialog.show();
 	});
 

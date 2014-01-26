@@ -65,11 +65,6 @@ class Gr extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'mkpf';
 
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		
 		// Start for report
 		function createQuery($_this){
 			

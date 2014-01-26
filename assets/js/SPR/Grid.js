@@ -24,12 +24,6 @@ Ext.define('Account.SPR.Grid', {
 				'name1',
 				'netwr',
 				'statx',
-				'adr01',
-				'distx',
-				'pstlz',
-				'telf1',
-				'telfx',
-				'email',
 				'ctype',
 				'deptx'
 			],
@@ -51,14 +45,7 @@ Ext.define('Account.SPR.Grid', {
 			align: 'center', sortable: true},
 			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
 			flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "Currency", dataIndex: 'ctype', sortable: true},
-			{text: "Department", flex: true, dataIndex: 'deptx', sortable: true},
-			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},
-			{text: "2",hidden: true, width: 0, dataIndex: 'distx', sortable: false},
-			{text: "3",hidden: true, width: 0, dataIndex: 'pstlz', sortable: false},
-			{text: "4",hidden: true, width: 0, dataIndex: 'telf1', sortable: false},
-			{text: "5",hidden: true, width: 0, dataIndex: 'telfx', sortable: false},
-			{text: "6",hidden: true, width: 0, dataIndex: 'email', sortable: false}
+			{text: "Currency", dataIndex: 'ctype', sortable: true}
 		];
 
 		this.bbar = {

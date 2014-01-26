@@ -1,4 +1,4 @@
-Ext.define('Account.RAssetRegister.Form', {
+Ext.define('Account.RAssetDepreciation.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -24,7 +24,6 @@ Ext.define('Account.RAssetRegister.Form', {
 		this.assetDialog = Ext.create('Account.SAsset.MainWindow');
 
 		this.assetDialog2 = Ext.create('Account.SAsset.MainWindow');
-        
         
            this.dateDoc1 = Ext.create('Ext.form.field.Date', {
 			fieldLabel: 'Document Date',

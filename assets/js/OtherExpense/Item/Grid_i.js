@@ -350,7 +350,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, ctype:'THB' };
+		rec = { id:newId, chk01:1, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

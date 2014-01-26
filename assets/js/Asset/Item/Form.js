@@ -180,7 +180,8 @@ Ext.define('Account.Asset.Item.Form', {
 			fieldLabel: 'Depreciation(%)',
 			minValue:0,
 			maxValue:100,
-			name: 'depre'//,
+			name: 'depre',
+			allowBlank: false
 			//alwaysDisplayDecimals: true
          });
 		

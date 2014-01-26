@@ -228,8 +228,8 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 		},
 			{
 			dataIndex: 'saknr',
-			width: 55,
-			//hidden: true,
+			//width: 55,
+			hidden: true,
 			sortable: false
 		}];
 
@@ -298,7 +298,7 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 				// Unit
 				rModel.set('meins', record.data.meins);
 				
-				rModel.set('saknr', r.data.saknr);
+				rModel.set('saknr', record.data.saknr);
 
 				var v = record.data.matnr;
                 var cusno = _this.customerValue;
@@ -385,7 +385,7 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId,ctype:'THB' };
+		rec = { id:newId, chk01:1, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

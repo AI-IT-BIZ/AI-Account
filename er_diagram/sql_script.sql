@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		9/1/2014
+Modified		24/1/2014
 Project		
 Model		
 Company		
@@ -10,6 +10,18 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_ftyp
+;
+
+Drop View IF EXISTS v_umat
+;
+
+Drop View IF EXISTS v_fgrp
+;
+
+Drop View IF EXISTS v_fara
+;
 
 Drop View IF EXISTS v_ebde
 ;
@@ -370,8 +382,8 @@ COMMENT = 'PR Header Doc';
 
 Create table tbl_mara (
 	matnr Varchar(10) NOT NULL COMMENT 'Material Code',
-	maktx Varchar(40) COMMENT 'Material Description',
-	maken Varchar(40) COMMENT 'Material Name EN',
+	maktx Varchar(100) COMMENT 'Material Description',
+	maken Varchar(100) COMMENT 'Material Name EN',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create name',
 	lvorm Varchar(1) COMMENT 'Delete Flage',
@@ -389,6 +401,7 @@ Create table tbl_mara (
 	enqty Decimal(15,2) COMMENT 'Ending Qty',
 	enval Decimal(17,2) COMMENT 'Ending Value',
 	statu Varchar(4),
+	serno Varchar(50),
  Primary Key (matnr)) ENGINE = InnoDB
 COMMENT = 'Material Master';
 
@@ -403,7 +416,7 @@ Create table tbl_lfa1 (
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
-	pson1 Varchar(30) COMMENT 'Contact Person',
+	pson1 Varchar(60) COMMENT 'Contact Person',
 	taxnr Varchar(4) COMMENT 'Tax type (tbl_tax1)',
 	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
 	taxid Varchar(15) COMMENT 'Tax ID',
@@ -411,9 +424,9 @@ Create table tbl_lfa1 (
 	crdit Int COMMENT 'Long-term',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
-	begin Decimal(17,2) COMMENT 'Beginning Amount',
+	began Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
-	note1 Varchar(40) COMMENT 'Text Note',
+	note1 Text COMMENT 'Text Note',
 	vtype Varchar(4) COMMENT 'Vendor Type (tbl_vtyp)',
 	erdat Datetime COMMENT 'Creaate Date',
 	ernam Varchar(10) COMMENT 'Create Name',
@@ -423,37 +436,41 @@ Create table tbl_lfa1 (
 	telf2 Varchar(30) COMMENT 'Fax2',
 	pson2 Varchar(30) COMMENT 'Person2',
 	emai2 Varchar(70) COMMENT 'Email2',
-	cunt1 Varchar(20),
-	cunt2 Varchar(20),
+	cunt1 Varchar(40),
+	cunt2 Varchar(40),
 	statu Varchar(4),
 	ptype Varchar(4) COMMENT 'payment type',
 	vat01 Decimal(15,2) COMMENT 'Vat Value',
+	type1 Varchar(1),
+	reman Decimal(20,2),
+	upamt Decimal(17,2),
  Primary Key (lifnr)) ENGINE = InnoDB
 COMMENT = 'Vendor Master';
 
 Create table tbl_vtyp (
 	vtype Varchar(4) NOT NULL COMMENT 'Vendor type',
-	ventx Varchar(40) COMMENT 'Vendor Type Desc',
+	ventx Varchar(100) COMMENT 'Vendor Type Desc',
 	saknr Varchar(10) COMMENT 'gl no',
  Primary Key (vtype)) ENGINE = InnoDB
 COMMENT = 'Vendor Type';
 
 Create table tbl_dist (
 	distr Varchar(4) NOT NULL COMMENT 'District Code',
-	distx Varchar(40) COMMENT 'District Desc',
+	distx Varchar(100) COMMENT 'District Desc',
  Primary Key (distr)) ENGINE = InnoDB
 COMMENT = 'District Master';
 
 Create table tbl_mtyp (
 	mtart Varchar(4) NOT NULL COMMENT 'Material Type',
-	matxt Varchar(40) COMMENT 'Mat Type Desc',
+	matxt Varchar(100) COMMENT 'Mat Type Desc',
 	saknr Varchar(10),
  Primary Key (mtart)) ENGINE = InnoDB
 COMMENT = 'Material Type';
 
 Create table tbl_mgrp (
 	matkl Varchar(4) NOT NULL COMMENT 'Material Group',
-	matxt Varchar(40) COMMENT 'Mat Grp Desc',
+	matxt Varchar(100) COMMENT 'Mat Grp Desc',
+	saknr Varchar(10),
  Primary Key (matkl)) ENGINE = InnoDB
 COMMENT = 'Material Group';
 
@@ -464,8 +481,8 @@ Create table tbl_mwar (
 COMMENT = 'Warehouse';
 
 Create table tbl_unit (
-	meins Varchar(4) NOT NULL COMMENT 'Unit Code',
-	metxt Varchar(40) COMMENT 'Unit Desc',
+	meins Varchar(3) NOT NULL COMMENT 'Unit Code',
+	metxt Varchar(100) COMMENT 'Unit Desc',
  Primary Key (meins)) ENGINE = InnoDB
 COMMENT = 'Unit';
 
@@ -488,8 +505,8 @@ COMMENT = 'Reason type';
 
 Create table tbl_glno (
 	saknr Varchar(10) NOT NULL COMMENT 'GL Acount',
-	sgtxt Varchar(40) COMMENT 'GL Text',
-	entxt Varchar(40) COMMENT 'GL Eng Text',
+	sgtxt Varchar(100) COMMENT 'GL Text',
+	entxt Varchar(100) COMMENT 'GL Eng Text',
 	gltyp Varchar(1) COMMENT 'GL Type (''1''->Debit, ''2''->Credit)',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
@@ -505,7 +522,7 @@ COMMENT = 'GL Account';
 
 Create table tbl_ggrp (
 	glgrp Varchar(4) NOT NULL COMMENT 'Account Group',
-	grptx Varchar(40) COMMENT 'Account Grp Desc',
+	grptx Varchar(100) COMMENT 'Account Grp Desc',
  Primary Key (glgrp)) ENGINE = InnoDB
 COMMENT = 'Account Group';
 
@@ -523,14 +540,14 @@ Create table tbl_vbak (
 	statu Varchar(4) COMMENT 'Quotation Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	auart Varchar(4) COMMENT 'SO type',
 	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
-	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	reanr Text COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
@@ -544,10 +561,11 @@ Create table tbl_vbak (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
-	whtpr Decimal(17,2) COMMENT 'WHT Value',
+	whtnr Varchar(4) COMMENT 'WHT Value',
 	vat01 Decimal(17,2) COMMENT 'Vat amt',
 	wht01 Decimal(17,2) COMMENT 'WHT amt',
 	dispc Varchar(10) COMMENT 'Discount percent',
+	whtxt Varchar(100),
  Primary Key (comid,vbeln)) ENGINE = InnoDB
 COMMENT = 'Quotation Header';
 
@@ -558,7 +576,7 @@ Create table tbl_vbap (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	dismt Decimal(17,2) COMMENT 'Discount amt',
+	disit Varchar(20) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
@@ -570,8 +588,8 @@ COMMENT = 'Quotation Item';
 
 Create table tbl_kna1 (
 	kunnr Varchar(10) NOT NULL COMMENT 'Customer Code',
-	name1 Varchar(40) COMMENT 'Customer Name1',
-	name2 Varchar(40) COMMENT 'Customer Name2',
+	name1 Varchar(100) COMMENT 'Customer Name1',
+	name2 Varchar(100) COMMENT 'Customer Name2',
 	adr01 Text COMMENT 'Address 1',
 	adr02 Text COMMENT 'Address 2',
 	dis02 Varchar(40) COMMENT 'Distrct1',
@@ -579,7 +597,7 @@ Create table tbl_kna1 (
 	pstlz Varchar(10) COMMENT 'Post Code',
 	telf1 Varchar(30) COMMENT 'Telephon',
 	telfx Varchar(30) COMMENT 'Fax No',
-	pson1 Varchar(30) COMMENT 'Contact Person',
+	pson1 Varchar(60) COMMENT 'Contact Person',
 	taxnr Varchar(4) COMMENT 'Tax type (tbl_tax1)',
 	saknr Varchar(10) COMMENT 'GL Account (tbl_glno)',
 	pleve Varchar(4) COMMENT 'Price Level (tbl_plev)',
@@ -587,9 +605,9 @@ Create table tbl_kna1 (
 	terms Int COMMENT 'Long-term',
 	disct Decimal(17,2) COMMENT 'Discount Amount',
 	apamt Decimal(17,2) COMMENT 'Approve Amount',
-	begin Decimal(17,2) COMMENT 'Beginning Amount',
+	began Decimal(17,2) COMMENT 'Beginning Amount',
 	endin Decimal(17,2) COMMENT 'Ending Amount',
-	note1 Varchar(40) COMMENT 'Text Note',
+	note1 Text COMMENT 'Text Note',
 	ktype Varchar(4) COMMENT 'Customer Type (tbl_ktyp)',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create Name',
@@ -600,11 +618,14 @@ Create table tbl_kna1 (
 	telf2 Varchar(30) COMMENT 'Fax2',
 	pson2 Varchar(30) COMMENT 'Person2',
 	emai2 Varchar(70) COMMENT 'Email2',
-	cunt1 Varchar(20),
-	cunt2 Varchar(20),
+	cunt1 Varchar(40),
+	cunt2 Varchar(40),
 	statu Varchar(4),
 	ptype Varchar(4) COMMENT 'payment type',
 	vat01 Decimal(15,2) COMMENT 'Vat value',
+	reman Decimal(20,2),
+	upamt Decimal(17,2),
+	type1 Varchar(1),
  Primary Key (kunnr)) ENGINE = InnoDB
 COMMENT = 'Customer Master';
 
@@ -650,7 +671,7 @@ COMMENT = 'Approve Status';
 
 Create table tbl_tax1 (
 	taxnr Varchar(4) NOT NULL COMMENT 'Tax Type',
-	taxtx Varchar(40) COMMENT 'Tax Type Desc',
+	taxtx Varchar(100) COMMENT 'Tax Type Desc',
  Primary Key (taxnr)) ENGINE = InnoDB
 COMMENT = 'Tax Type';
 
@@ -673,7 +694,7 @@ COMMENT = 'Sale type';
 
 Create table tbl_jtyp (
 	jtype Varchar(4) NOT NULL COMMENT 'Job type',
-	typtx Varchar(40) COMMENT 'Job type Desc',
+	typtx Varchar(200) COMMENT 'Job type Desc',
  Primary Key (jtype)) ENGINE = InnoDB
 COMMENT = 'Job type';
 
@@ -687,7 +708,7 @@ Create table tbl_jobk (
 	statu Varchar(4) COMMENT 'Job Status (tbl_apop)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	salnr Varchar(10) COMMENT 'Sale no',
@@ -721,7 +742,7 @@ Create table tbl_ebpo (
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
-	disit Decimal(17,2) COMMENT 'Discount Amt',
+	disit Varchar(20) COMMENT 'Discount Amt',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	ctype Varchar(3) COMMENT 'Currency',
@@ -766,7 +787,7 @@ Create table tbl_ekpo (
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
-	disit Decimal(17,2) COMMENT 'Discount Amt',
+	disit Varchar(20) COMMENT 'Discount Amt',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	ctype Varchar(3) COMMENT 'Currency',
@@ -776,7 +797,7 @@ COMMENT = 'PO Item';
 
 Create table tbl_ktyp (
 	ktype Varchar(4) NOT NULL COMMENT 'Customer type',
-	custx Varchar(40) COMMENT 'Customer Type Desc',
+	custx Varchar(100) COMMENT 'Customer Type Desc',
 	saknr Varchar(10) COMMENT 'GL no',
  Primary Key (ktype)) ENGINE = InnoDB
 COMMENT = 'Customer Type';
@@ -806,14 +827,14 @@ COMMENT = 'Comission Level';
 
 Create table tbl_ptyp (
 	ptype Varchar(4) NOT NULL COMMENT 'Pay type',
-	paytx Varchar(40) COMMENT 'Pay Type Desc',
+	paytx Varchar(100) COMMENT 'Pay Type Desc',
 	saknr Varchar(10) COMMENT 'gl no',
  Primary Key (ptype)) ENGINE = InnoDB
 COMMENT = 'Payment Method';
 
 Create table tbl_ctyp (
 	ctype Varchar(4) NOT NULL COMMENT 'Currency type',
-	curtx Varchar(40) COMMENT 'Currency Desc',
+	curtx Varchar(100) COMMENT 'Currency Desc',
  Primary Key (ctype)) ENGINE = InnoDB
 COMMENT = 'Currency Type';
 
@@ -827,6 +848,8 @@ Create table tbl_payp (
 	pramt Decimal(17,2) COMMENT 'Period Amount',
 	ctyp1 Varchar(3) COMMENT 'Currency',
 	payty Varchar(4) COMMENT 'Payment type',
+	itamt Decimal(17,2),
+	chk01 Varchar(5),
  Primary Key (vbeln,paypr)) ENGINE = InnoDB
 COMMENT = 'Partial Payment Periods';
 
@@ -838,13 +861,13 @@ Create table tbl_vbrk (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	revnr Varchar(20) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	itype Varchar(4) COMMENT 'Invoice type',
 	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
-	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	reanr Text COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
@@ -861,13 +884,13 @@ Create table tbl_vbrk (
 	ordnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
 	condi Varchar(4) COMMENT 'Payment Condition',
 	paypr Varchar(4) COMMENT 'Partial Payment',
-	whtpr Decimal(17,2),
 	vat01 Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2) COMMENT 'WHT Type',
-	whtnr Varchar(1) COMMENT 'WHT No',
+	whtnr Varchar(4) COMMENT 'WHT No',
 	whtxt Varchar(40) COMMENT 'WHT Description',
 	dispc Varchar(20),
+	deamt Decimal(17,2),
  Primary Key (comid,invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
@@ -881,7 +904,7 @@ Create table tbl_bkpf (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	tranr Varchar(10) COMMENT 'Transaction No (tbl_trko)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -919,7 +942,7 @@ Create table tbl_bsid (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -950,7 +973,7 @@ Create table tbl_vbrp (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	disit Decimal(17,2) COMMENT 'Discount amt',
+	disit Varchar(20) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
@@ -967,7 +990,7 @@ Create table tbl_vbop (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	disit Decimal(17,2) COMMENT 'Discount amt',
+	disit Varchar(20) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
@@ -985,14 +1008,14 @@ Create table tbl_vbok (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	vbeln Varchar(20) COMMENT 'Quotation No (tbl_vbak)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
 	auart Varchar(4) COMMENT 'SO type',
 	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
-	reanr Varchar(4) COMMENT 'Reject Reason (tbl_reson->type->02)',
+	reanr Text COMMENT 'Reject Reason (tbl_reson->type->02)',
 	refnr Varchar(15) COMMENT 'Refer doc',
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
@@ -1006,10 +1029,12 @@ Create table tbl_vbok (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
-	whtpr Decimal(17,2),
+	whtnr Varchar(4),
 	vat01 Decimal(17,2),
 	wht01 Decimal(17,2),
 	dispc Varchar(10),
+	deamt Decimal(17,2),
+	whtxt Varchar(100),
  Primary Key (comid,ordnr)) ENGINE = InnoDB
 COMMENT = 'Sale Order Header';
 
@@ -1024,7 +1049,7 @@ Create table tbl_bven (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1061,11 +1086,12 @@ Create table tbl_mseg (
 	matnr Varchar(10) COMMENT 'Material Code (tbl_mara)',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit (tbl_unit)',
-	disit Decimal(17,2) COMMENT 'Discount Amt',
+	disit Varchar(20) COMMENT 'Discount Amt',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	ctype Varchar(3) COMMENT 'Currency',
 	chk01 Varchar(5),
+	serno Varchar(50),
  Primary Key (mbeln,mbelp)) ENGINE = InnoDB
 COMMENT = 'Mat doc Item';
 
@@ -1076,7 +1102,7 @@ Create table tbl_mkpf (
 	statu Varchar(4) COMMENT 'PO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	sgtxt Varchar(40) COMMENT 'Text Note',
+	sgtxt Text COMMENT 'Text Note',
 	lfdat Date COMMENT 'Delivery Date',
 	lifnr Varchar(10) COMMENT 'Vendor (tbl_lfa1)',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1096,6 +1122,9 @@ Create table tbl_mkpf (
 	ctype Varchar(3),
 	exchg Decimal(15,4),
 	dispc Varchar(10),
+	deamt Decimal(17,2),
+	devat Decimal(17,2),
+	dewht Decimal(17,2),
  Primary Key (mbeln)) ENGINE = InnoDB
 COMMENT = 'Mat Doc';
 
@@ -1107,7 +1136,7 @@ Create table tbl_vbbk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
 	updat Datetime COMMENT 'Update Date',
@@ -1131,6 +1160,7 @@ Create table tbl_vbbk (
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
+	deamt Decimal(17,2),
  Primary Key (comid,recnr)) ENGINE = InnoDB
 COMMENT = 'Receipt Header';
 
@@ -1156,6 +1186,7 @@ Create table tbl_vbbp (
 	vat01 Decimal(17,2),
 	dtype Varchar(2),
 	jobtx Varchar(100),
+	ctyp1 Varchar(3),
  Primary Key (recnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'Receipt Item';
 
@@ -1221,14 +1252,14 @@ Create table tbl_ebrk (
 	lfdat Date COMMENT 'Delivery Date',
 	mbeln Varchar(20) COMMENT 'Mat doc no.',
 	terms Int COMMENT 'Credit terms',
-	sgtxt Varchar(40) COMMENT 'Text Note',
+	sgtxt Text COMMENT 'Text Note',
 	vat01 Decimal(17,2),
 	whtyp Varchar(2),
-	whtnr Varchar(1),
+	whtnr Varchar(4),
 	whtxt Varchar(40),
 	wht01 Decimal(17,2),
-	whtpr Decimal(17,2),
 	dispc Varchar(10),
+	deamt Decimal(17,2),
  Primary Key (comid,invnr)) ENGINE = InnoDB
 COMMENT = 'AP Header';
 
@@ -1239,7 +1270,7 @@ Create table tbl_ebrp (
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
 	meins Varchar(3) COMMENT 'Unit',
-	disit Decimal(17,2) COMMENT 'Discount amt',
+	disit Varchar(20) COMMENT 'Discount amt',
 	warnr Varchar(4) COMMENT 'Warehouse code',
 	ctype Varchar(3) COMMENT 'Currency',
 	unitp Decimal(17,2) COMMENT 'Price/Unit',
@@ -1256,7 +1287,7 @@ Create table tbl_ebbk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1278,9 +1309,6 @@ Create table tbl_ebbk (
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,3) COMMENT 'Exchange rate',
 	vat01 Decimal(17,2),
-	whtyp Varchar(2),
-	whtnr Varchar(1),
-	whtxt Varchar(40),
 	dispc Varchar(10),
  Primary Key (payno)) ENGINE = InnoDB
 COMMENT = 'Payment Header';
@@ -1321,7 +1349,7 @@ Create table tbl_trko (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1394,7 +1422,7 @@ Create table tbl_bcus (
 	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(10) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1442,7 +1470,7 @@ Create table tbl_vbkk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1496,7 +1524,7 @@ Create table tbl_ebkk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1546,8 +1574,8 @@ Create table tbl_comp (
 	comid Varchar(4) NOT NULL COMMENT 'Customer Code',
 	name1 Text COMMENT 'Company Name1',
 	name2 Text COMMENT 'Company Name2',
-	adr01 Varchar(40) COMMENT 'Address 1',
-	adr02 Varchar(40) COMMENT 'Address 2',
+	adr01 Text COMMENT 'Address 1',
+	adr02 Text COMMENT 'Address 2',
 	dis02 Varchar(40) COMMENT 'Distrct1',
 	distx Varchar(40) COMMENT 'District (tbl_dist)',
 	pstlz Varchar(10) COMMENT 'Post Code',
@@ -1590,7 +1618,7 @@ Create table tbl_vbdk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1615,9 +1643,8 @@ Create table tbl_vbdk (
 	dispc Varchar(10),
 	wht01 Decimal(17,2),
 	vat01 Decimal(17,2),
-	whtpr Decimal(17,2),
 	whtyp Varchar(2),
-	whtnr Varchar(1),
+	whtnr Varchar(4),
 	whtxt Varchar(40),
  Primary Key (comid,depnr)) ENGINE = InnoDB
 COMMENT = 'Deposit In Header';
@@ -1642,10 +1669,10 @@ Create table tbl_vbdp (
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
 	duedt Date,
-	perct Int,
+	perct Varchar(20),
 	chk01 Varchar(20),
 	chk02 Varchar(5),
-	disit Decimal(17,2),
+	disit Varchar(20),
  Primary Key (depnr,vbelp)) ENGINE = InnoDB
 COMMENT = 'Deposit In Item';
 
@@ -1657,7 +1684,7 @@ Create table tbl_ebdk (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1680,10 +1707,9 @@ Create table tbl_ebdk (
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	ebeln Varchar(20) COMMENT 'PO Doc',
 	poamt Decimal(17,2) COMMENT 'PO amt',
-	whtpr Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2),
-	whtnr Varchar(1),
+	whtnr Varchar(4),
 	whtxt Varchar(40),
 	dispc Varchar(10),
 	vat01 Decimal(17,2),
@@ -1711,7 +1737,7 @@ Create table tbl_ebdp (
 	sgtxt Varchar(40),
 	duedt Date COMMENT 'Due Date',
 	perct Int COMMENT 'Percent of amount',
-	disit Decimal(17,2) COMMENT 'Discount',
+	disit Varchar(20) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -1761,8 +1787,10 @@ Create table tbl_posi (
 COMMENT = 'Position Master';
 
 Create table tbl_whty (
-	whtnr Varchar(1) NOT NULL COMMENT 'WHT no',
-	whtxt Varchar(40) COMMENT 'WHT Desc',
+	whtnr Varchar(4) NOT NULL COMMENT 'WHT no',
+	whtgp Varchar(1),
+	whtxt Varchar(100) COMMENT 'WHT Desc',
+	whtpr Decimal(15,0),
  Primary Key (whtnr)) ENGINE = InnoDB
 COMMENT = 'Currency Type';
 
@@ -1776,7 +1804,7 @@ COMMENT = 'Comission Level';
 
 Create table tbl_depn (
 	depnr Varchar(4) NOT NULL COMMENT 'Department Code',
-	deptx Varchar(40) COMMENT 'Department Text',
+	deptx Varchar(100) COMMENT 'Department Text',
  Primary Key (depnr)) ENGINE = InnoDB
 COMMENT = 'Position Master';
 
@@ -1788,7 +1816,7 @@ Create table tbl_vbcn (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1810,13 +1838,13 @@ Create table tbl_vbcn (
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	invnr Varchar(20) COMMENT 'Invoice Doc',
 	poamt Decimal(17,2) COMMENT 'PO amt',
-	whtpr Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2),
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
 	kunnr Varbinary(10),
+	deamt Decimal(17,2),
  Primary Key (comid,crenr)) ENGINE = InnoDB
 COMMENT = 'Sale Credit Note Header';
 
@@ -1839,7 +1867,7 @@ Create table tbl_vbcp (
 	sgtxt Varchar(40),
 	duedt Date COMMENT 'Due Date',
 	perct Int COMMENT 'Percent of amount',
-	disit Decimal(17,2) COMMENT 'Discount',
+	disit Varchar(20) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -1856,7 +1884,7 @@ Create table tbl_vbdn (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1879,7 +1907,6 @@ Create table tbl_vbdn (
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	invnr Varchar(20) COMMENT 'Invoice Doc',
 	poamt Decimal(17,2) COMMENT 'PO amt',
-	whtpr Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -1887,6 +1914,7 @@ Create table tbl_vbdn (
 	dispc Varchar(10),
 	kunnr Varchar(10),
 	vat01 Decimal(17,2),
+	deamt Decimal(17,2),
  Primary Key (comid,debnr)) ENGINE = InnoDB
 COMMENT = 'Debit Note Header';
 
@@ -1909,7 +1937,7 @@ Create table tbl_vbde (
 	sgtxt Varchar(40),
 	duedt Date COMMENT 'Due Date',
 	perct Int COMMENT 'Percent of amount',
-	disit Decimal(17,2) COMMENT 'Discount',
+	disit Varchar(20) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -1934,7 +1962,7 @@ Create table tbl_ebcn (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -1957,13 +1985,13 @@ Create table tbl_ebcn (
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	invnr Varchar(20) COMMENT 'Invoice Doc',
 	poamt Decimal(17,2) COMMENT 'PO amt',
-	whtpr Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2),
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
 	vat01 Decimal(17,2),
+	deamt Decimal(17,2),
  Primary Key (comid,crenr)) ENGINE = InnoDB
 COMMENT = 'Purchase Credit Note Header';
 
@@ -1985,7 +2013,7 @@ Create table tbl_ebcp (
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
 	perct Int COMMENT 'Percent of amount',
-	disit Decimal(17,2) COMMENT 'Discount',
+	disit Varchar(20) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -2002,7 +2030,7 @@ Create table tbl_ebdn (
 	statu Varchar(4) COMMENT 'SO Status (tbl_apov)',
 	ernam Varchar(10) COMMENT 'Create name',
 	erdat Datetime COMMENT 'Create date',
-	txz01 Varchar(40) COMMENT 'Text Note',
+	txz01 Text COMMENT 'Text Note',
 	jobnr Varchar(20) COMMENT 'Job No (tbl_jobk)',
 	revnr Varchar(10) COMMENT 'Reverse Doc',
 	upnam Varchar(10) COMMENT 'Update Name',
@@ -2025,13 +2053,13 @@ Create table tbl_ebdn (
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
 	invnr Varchar(20) COMMENT 'Invoice Doc',
 	poamt Decimal(17,2) COMMENT 'PO amt',
-	whtpr Decimal(17,2),
 	wht01 Decimal(17,2),
 	whtyp Varchar(2),
 	whtnr Varchar(1),
 	whtxt Varchar(40),
 	dispc Varchar(10),
 	vat01 Decimal(17,2),
+	deamt Decimal(17,2),
  Primary Key (comid,debnr)) ENGINE = InnoDB
 COMMENT = 'Purchase Debit Note Header';
 
@@ -2053,7 +2081,7 @@ Create table tbl_ebde (
 	refnr Varchar(40) COMMENT 'Ref no.',
 	sgtxt Varchar(40),
 	perct Int COMMENT 'Percent of amount',
-	disit Decimal(17,2) COMMENT 'Discount',
+	disit Varchar(20) COMMENT 'Discount',
 	chk01 Varchar(5) COMMENT 'Vat Check box',
 	whtyp Varchar(2),
 	whtnr Varchar(1),
@@ -2065,8 +2093,8 @@ COMMENT = 'Purchase Deposit Out Item';
 Create table tbl_fara (
 	comid Varchar(4) NOT NULL,
 	matnr Varchar(10) NOT NULL COMMENT 'Material Code',
-	maktx Varchar(40) COMMENT 'Material Description',
-	maken Varchar(40) COMMENT 'Material Name EN',
+	maktx Varchar(100) COMMENT 'Material Description',
+	maken Varchar(100) COMMENT 'Material Name EN',
 	erdat Datetime COMMENT 'Create Date',
 	ernam Varchar(10) COMMENT 'Create name',
 	lvorm Varchar(1) COMMENT 'Delete Flage',
@@ -2099,20 +2127,24 @@ Create table tbl_fara (
 	lifes Int COMMENT 'Full life',
 	depre Decimal(17,2) COMMENT 'Depreciation %',
 	keepi Varchar(50) COMMENT 'Keeping Area',
+	acqui Date,
+	pictu Text COMMENT 'Picture',
  Primary Key (comid,matnr)) ENGINE = InnoDB
 COMMENT = 'Material Master';
 
 Create table tbl_ftyp (
 	mtart Varchar(4) NOT NULL COMMENT 'Asset Type',
-	matxt Varchar(40) COMMENT 'Mat Type Desc',
+	matxt Varchar(100) COMMENT 'Mat Type Desc',
 	saknr Varchar(10),
+	depre Int,
  Primary Key (mtart)) ENGINE = InnoDB
 COMMENT = 'Material Type';
 
 Create table tbl_fgrp (
 	matkl Varchar(4) NOT NULL COMMENT 'Asset Group',
-	matxt Varchar(40) COMMENT 'Mat Grp Desc',
- Primary Key (matkl)) ENGINE = InnoDB
+	mtart Varchar(4) NOT NULL,
+	matxt Varchar(100) COMMENT 'Mat Grp Desc',
+ Primary Key (matkl,mtart)) ENGINE = InnoDB
 COMMENT = 'Material Group';
 
 
@@ -2132,21 +2164,22 @@ select a.*,
 `b`.`name1` AS `name1`,b.taxid,
 `b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
-`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx,e.jobtx 
+`b`.`emai2`,`b`.`dis02`,`c`.`emnam` AS `sname`,d.statx,e.jobtx,f.whtpr,h.depnr,h.netwr as deamt
 from tbl_vbak a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-left join tbl_psal c on a.salnr = c.salnr
+left join v_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_jobk e on a.jobnr = e.jobnr;
+left join tbl_jobk e on a.jobnr = e.jobnr
+left join tbl_whty f on a.whtnr = f.whtnr
+left join tbl_vbdk h on a.vbeln = h.vbeln;
 create view v_jobk as
 
-select a.*,`b`.`name1` AS `name1`,
+select a.*,`b`.`name1` AS `name1`,b.ptype,b.taxnr,b.terms,b.vat01,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx` AS `distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
-`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx,e.typtx,f.emnam
+`b`.`emai2`,`b`.`dis02`,d.statx,e.typtx,f.emnam as sname
 from tbl_jobk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_jtyp e on a.jtype = e.jtype
 left join v_psal f on a.salnr = f.salnr;
@@ -2160,24 +2193,27 @@ create view v_vbrk as
 select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
-b.emai2,b.dis02,b.saknr as cusgl,c.name1 as sname,d.statx,
-e.paytx,e.saknr,h.belnr,j.jobtx
+b.emai2,b.dis02,b.saknr as cusgl,c.emnam as sname,d.statx,
+e.paytx,e.saknr,h.belnr,j.jobtx,k.whtpr,k.whtgp
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
 left join tbl_bkpf h on a.invnr = h.invnr
-left join v_vbok j on a.ordnr = j.ordnr;
-create view v_vbrp as
-
+left join v_vbok j on a.ordnr = j.ordnr
+left join tbl_whty k on a.whtnr = k.whtnr;
 select a.*,b.maktx,b.mtart,b.saknr,
-c.bldat,c.duedt,c.ordnr,c.kunnr,c.name1
-c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+c.bldat,c.duedt,c.ordnr,c.kunnr,d.name1,
+e.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
 from tbl_vbrp a left join tbl_mara b 
 on a.matnr = b.matnr
-left join v_vbrk c 
-on a.invnr = c.invnr;
+left join tbl_vbrk c 
+on a.invnr = c.invnr
+left join tbl_kna1 d 
+on c.kunnr = d.kunnr
+left join tbl_apov e 
+on c.statu = e.statu;
 create view v_bsid as
 
 select a.*,b.sgtxt
@@ -2187,10 +2223,12 @@ create view v_ekko as
 
 SELECT a.*,b.name1,b.taxid,
 `b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,c.statx
+`b`.`email` AS `email`,`b`.`distx`,c.statx,h.depnr
+,h.netwr as deamt,h.vat01 as devat,h.wht01 as dewht
 			FROM tbl_ekko AS a 
-				inner join tbl_lfa1 AS b ON a.lifnr=b.lifnr
-				inner join tbl_apov AS c ON a.statu=c.statu;
+				left join tbl_lfa1 AS b ON a.lifnr=b.lifnr
+				left join tbl_apov AS c ON a.statu=c.statu
+				left join tbl_ebdk h on a.ebeln = h.ebeln;
 create view v_ebko as
 
 SELECT t1.*,name1,t2.adr01,t2.taxid,t2.distx,t2.pstlz,t2.telf1,t2.telfx,t2.email,t3.statx
@@ -2207,30 +2245,32 @@ left join tbl_glno as t3
 on t1.saknr = t3.saknr;
 create view v_ekpo as
 
-SELECT t1.*,t2.maktx,t2.matkl
-FROM tbl_ekpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr;
+SELECT t1.*,t2.maktx,t2.matkl,t2.serno
+FROM tbl_ekpo AS t1 left join v_umat AS t2 ON t1.matnr=t2.matnr;
 create view v_ebpo as
 
 SELECT t1.*,t2.maktx
-FROM tbl_ebpo AS t1 inner join tbl_mara AS t2 ON t1.matnr=t2.matnr;
+FROM tbl_ebpo AS t1 left join v_umat AS t2 ON t1.matnr=t2.matnr;
 create view v_vbbk as
 
 select a.*,`b`.`name1` AS `name1`,b.taxid,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,e.paytx,e.saknr 
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,e.paytx,e.saknr,f.whtpr
 from tbl_vbbk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_ptyp e on a.ptype = e.ptype;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbbp as
 
 SELECT t1.*,t2.name1,t2.taxid,t2.adr01,t2.distx,t2.ktype,
 t3.vbelp,t3.invnr,t3.invdt,t3.itamt,t3.texts,t3.jobtx,
-t3.vat01,t3.dtype,t4.wht01,t4.whtpr,t4.ordnr
+t3.vat01,t3.dtype,t4.wht01,t4.ordnr,f.whtpr
 FROM tbl_vbbk AS t1 
 left join tbl_kna1 AS t2 ON t1.kunnr=t2.kunnr
 left join tbl_vbbp AS t3 ON t1.recnr=t3.recnr
-left join tbl_vbrk AS t4 ON t3.invnr=t4.invnr;
+left join tbl_vbrk AS t4 ON t3.invnr=t4.invnr
+left join tbl_whty f on t1.whtnr = f.whtnr;
 create view v_paym as
 
 SELECT a.*,b.bname,c.paytx
@@ -2283,12 +2323,12 @@ left join tbl_apov t3 on t1.statu = t3.statu
 left join tbl_ekko t4 on t1.ebeln = t4.ebeln;
 CREATE VIEW v_mseg AS 
 
-select tbl_mseg.*,tbl_mara.maktx,
-tbl_mara.maken,tbl_mara.erdat,tbl_mara.ernam,tbl_mara.lvorm,
-tbl_mara.matkl,tbl_mara.mtart,tbl_mara.saknr,tbl_mara.pleve,
-tbl_mara.updat,tbl_mara.upnam,tbl_mara.beqty,tbl_mara.beval
-from tbl_mseg inner join tbl_mara 
-on tbl_mseg. matnr =  tbl_mara.matnr;
+select a.*,b.maktx,
+b.maken,b.erdat,b.ernam,b.lvorm,
+b.matkl,b.mtart,b.saknr,b.pleve,
+b.updat,b.upnam,b.beqty,b.beval
+from tbl_mseg as a left join v_umat as b
+on a. matnr =  b.matnr;
 create view v_conp as
 
 select a.*,b.contx
@@ -2305,12 +2345,13 @@ select a.*,
 `b`.`name1` AS `name1`,`b`.`name2` AS `name2`,b.taxid,
 `b`.`telf1` AS `telf1`,`b`.`adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,`b`.`telf2`,`b`.`adr02`,`b`.`tel02`,`b`.`pst02`,
-`b`.`emai2`,`b`.`dis02`,`c`.`name1` AS `sname`,d.statx,e.jobnr,e.jobtx
+`b`.`emai2`,`b`.`dis02`,`c`.`emnam` AS `sname`,d.statx,e.jobnr,e.jobtx,f.whtpr
 from tbl_vbok a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-left join tbl_psal c on a.salnr = c.salnr
+left join v_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
-left join v_vbak e on a.vbeln = e.vbeln;
+left join v_vbak e on a.vbeln = e.vbeln
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbop as
 
 select a.*,b.maktx
@@ -2351,27 +2392,31 @@ left join tbl_glno as t3
 on t1.saknr = t3.saknr;
 create view v_ebrk as
 
-select a.*,`b`.`name1` AS `name1`,b.vtype,
+select a.*,`b`.`name1` AS `name1`,b.vtype,b.type1,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
 `b`.`email` AS `email`,`b`.`distx`,b.taxid,
-`b`.`saknr` as cusgl,c.name1 as sname,d.statx,
-e.paytx,e.saknr, h.belnr
+`b`.`saknr` as cusgl,d.statx,
+e.paytx,e.saknr, h.belnr, k.whtpr, k.whtgp
 from tbl_ebrk a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
-left join tbl_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
-left join tbl_bkpf h on a.invnr = h.invnr;
+left join tbl_bkpf h on a.invnr = h.invnr
+left join tbl_whty k on a.whtnr = k.whtnr;
 create view v_ebrp as
 
 select a.*,b.maktx,b.mtart,b.saknr,
-c.bldat,c.duedt,c.mbeln,c.lifnr,c.name1,
-c.statx,c.terms,c.beamt,c.netwr,
+c.bldat,c.duedt,c.mbeln,c.lifnr,d.name1,
+e.statx,c.terms,c.beamt,c.netwr,
 c.vat01,c.statu
-from tbl_ebrp a left join tbl_mara b 
+from tbl_ebrp a left join v_umat b 
 on a.matnr = b.matnr
-left join v_ebrk c 
-on a.invnr = c.invnr;
+left join tbl_ebrk c 
+on a.invnr = c.invnr
+left join tbl_lfa1 d 
+on c.lifnr = d.lifnr
+left join tbl_apov e 
+on c.statu = e.statu;
 create view v_ebkk as
 
 select a.*,`b`.`name1` AS `name1`,b.taxid,
@@ -2389,18 +2434,21 @@ left join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 left join tbl_ebkp AS t3 ON t1.bilnr=t3.bilnr;
 create view v_ebbp as
 
-SELECT t1.*,t2.name1,t2.taxid,t2.ads01,t2.distx,t2.vtype,
+SELECT t1.*,t2.name1,t2.taxid,t2.adr01,t2.distx,t2.vtype,t2.type1,
+t2.telf1,t2.telfx,t2.pstlz,
 t3.vbelp,t3.invnr,t3.invdt,t3.itamt,t3.texts,
-t3.vat01,t3.dtype,t3.ebeln,t4.wht01,t4.whtpr,t4.whtnr
+t3.vat01,t3.dtype,t3.ebeln,t3.wht01,f.whtpr,f.whtnr,f.whtxt, h.statx
 FROM tbl_ebbk AS t1 
 left join tbl_lfa1 AS t2 ON t1.lifnr=t2.lifnr
 left join tbl_ebbp AS t3 ON t1.payno=t3.payno
-left join tbl_ebrk AS t4 ON t3.invnr=t4.invnr;
+left join tbl_ebrk AS t4 ON t3.invnr=t4.invnr
+left join tbl_whty f on t4.whtnr = f.whtnr
+LEFT JOIN tbl_apov AS h ON t1.statu = h.stat;
 create view v_ebbk as
 
-select a.*,`b`.`name1` AS `name1`,b.taxid,b.vtype,
+select a.*,`b`.`name1` AS `name1`,b.taxid,b.vtype,b.type1,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,e.paytx,e.saknr 
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,e.paytx,e.saknr
 from tbl_ebbk a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
 left join tbl_apov d on a.statu = d.statu
@@ -2415,28 +2463,33 @@ create view v_vbdk as
 select a.*,b.name1,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
-b.emai2,b.dis02,b.saknr as cusgl,d.statx,j.jobtx
+b.emai2,b.dis02,b.saknr as cusgl,d.statx,
+f.whtpr,f.whtgp
 from tbl_vbdk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
-left join v_vbak j on a.vbeln = j.vbeln;
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbdp as
 
-select a.*
-from tbl_vbdp a;
+SELECT a.*,b.maktx
+FROM tbl_vbdp AS a
+left join tbl_mara as b ON a.matnr=b.matnr;
 create view v_ebdk as
 
 select a.*,`b`.`name1` AS `name1`,b.taxid,
 `b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
-`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx
+`b`.`email` AS `email`,`b`.`distx`,`b`.`saknr` as cusgl,d.statx,f.whtpr,f.whtgp
 from tbl_ebdk a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
-left join tbl_apov d on a.statu = d.statu;
+left join tbl_apov d on a.statu = d.statu
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_ebdp as
 
-SELECT a.*,b.maktx
+SELECT a.*,b.maktx,d.netwr as poamt
 FROM tbl_ebdp AS a
-left join tbl_mara as b ON a.matnr=b.matnr;
+left join v_umat as b ON a.matnr=b.matnr
+left join tbl_ebdk as c ON a.depnr=c.depnr
+left join tbl_ekko as d ON c.ebeln=d.ebeln;
 create view v_payp as
 
 SELECT a.*,b.paypr,b.sgtxt,b.duedt,b.perct,b.pramt,b.ctyp1,b.payty,
@@ -2496,26 +2549,26 @@ create view v_uinv as
 	        b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
-b.emai2,b.dis02,b.saknr as cusgl,b.taxid,c.name1 as sname,d.statx,
+b.emai2,b.dis02,b.saknr as cusgl,b.taxid,c.emnam as sname,d.statx,
 e.paytx,e.saknr,j.jobtx
 from tbl_vbrk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-left join tbl_psal c on a.salnr = c.salnr
+left join v_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
 left join v_vbok j on a.ordnr = j.ordnr
 	UNION
-	select depnr, a.bldat, a.kunnr, a.netwr, a.wht01, 
+	select a.depnr as invnr, a.bldat, a.kunnr, a.netwr, a.wht01, 
 	        a.vat01, a.dismt, a.statu, a.ctype, a.vbeln,
 	        a.ptype,a.loekz,
 	        b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
-b.emai2,b.dis02,b.saknr as cusgl,b.taxid,c.name1 as sname,d.statx,
+b.emai2,b.dis02,b.saknr as cusgl,b.taxid,c.emnam as sname,d.statx,
 e.paytx,e.saknr,j.jobtx
 from tbl_vbdk a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
-left join tbl_psal c on a.salnr = c.salnr
+left join v_psal c on a.salnr = c.salnr
 left join tbl_apov d on a.statu = d.statu
 left join tbl_ptyp e on a.ptype = e.ptype
 left join v_vbak j on a.vbeln = j.vbeln;
@@ -2568,31 +2621,37 @@ select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
 b.emai2,b.dis02,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr
+e.paytx,e.saknr,f.whtpr
 from tbl_vbcn a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_ptyp e on a.ptype = e.ptype;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbdn as
 
 select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
 b.emai2,b.dis02,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr
+e.paytx,e.saknr,f.whtpr
 from tbl_vbdn a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_ptyp e on a.ptype = e.ptype;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbcp as
 
 select a.*,b.maktx,b.mtart,b.saknr,
-c.bldat,c.duedt,c.kunnr,c.name1,c.invnr,
-c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+c.bldat,c.duedt,c.kunnr,d.name1,c.invnr,
+e.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
 from tbl_vbcp a left join tbl_mara b 
 on a.matnr = b.matnr
-left join v_vbcn c 
-on a.crenr = c.crenr;
+left join tbl_vbcn c 
+on a.crenr = c.crenr
+left join tbl_kna1 d 
+on c.kunnr = d.kunnr
+left join tbl_apov e 
+on c.statu = e.statu;
 create view v_vbde as
 
 select a.*,b.maktx,b.mtart,b.saknr,
@@ -2606,42 +2665,101 @@ create view v_ebcn as
 
 select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
-b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
-b.emai2,b.dis02,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr
+b.email,b.distx,b.saknr as cusgl,d.statx,
+e.paytx,e.saknr,f.whtpr
 from tbl_ebcn a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_ptyp e on a.ptype = e.ptype;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_ebdn as
 
 select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,
 b.saknr as cusgl,d.statx,
-e.paytx,e.saknr
+e.paytx,e.saknr,f.whtpr
 from tbl_ebdn a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
 left join tbl_apov d on a.statu = d.statu
-left join tbl_ptyp e on a.ptype = e.ptype;
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_ebcp as
 
 select a.*,b.maktx,b.mtart,b.saknr,
-c.bldat,c.duedt,c.kunnr,c.name1,c.invnr,
-c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+c.bldat,c.duedt,c.lifnr,d.name1,c.invnr,
+e.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
 from tbl_ebcp a left join tbl_mara b 
 on a.matnr = b.matnr
-left join v_ebcn c 
-on a.crenr = c.crenr;
+left join tbl_ebcn c 
+on a.crenr = c.crenr
+left join tbl_lfa1 d 
+on c.lifnr = d.lifnr
+left join tbl_apov e 
+on c.statu = e.statu;
 create view v_ebde as
 
 select a.*,b.maktx,b.mtart,b.saknr,
-c.bldat,c.duedt,c.lifnr,c.name1,
-c.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
+c.bldat,c.duedt,c.lifnr,d.name1,
+e.statx,c.terms,c.beamt,c.netwr,c.vat01,c.statu
 from tbl_ebde a left join tbl_mara b 
 on a.matnr = b.matnr
-left join v_ebdn c 
-on a.debnr = c.debnr;
+left join tbl_ebdn c 
+on a.debnr = c.debnr
+left join tbl_lfa1 d 
+on c.lifnr = d.lifnr
+left join tbl_apov e 
+on c.statu = e.statu;
+create view v_fara as
+
+SELECT a.*,
+	b.matxt as mtype,c.matxt as mgrpp,
+	d.statx,e.sgtxt
+FROM tbl_fara AS a
+LEFT JOIN tbl_ftyp AS b 
+ON a.mtart = b.mtart
+left join tbl_fgrp as c
+on a.matkl = c.matkl
+left join tbl_apov d on a.statu = d.statu
+left join tbl_glno e on a.saknr = e.saknr;
+create view v_fgrp as
+
+select a.*,b.saknr,b.depre,c.sgtxt
+from tbl_fgrp a 
+left join tbl_ftyp b on a.mtart = b.mtart
+left join tbl_glno c on b.saknr = c.saknr;
+create view v_umat as
+
+	SELECT a.matnr,a.maktx,a.mtart,a.matkl,a.meins,
+	a.erdat,a.ernam,a.saknr,a.statu,a.serno,
+	b.matxt as mtype,c.matxt as mgrpp,
+	d.statx,e.sgtxt
+FROM tbl_mara AS a
+LEFT JOIN tbl_mtyp AS b 
+ON a.mtart = b.mtart
+left join tbl_mgrp as c
+on a.matkl = c.matkl
+left join tbl_apov d on a.statu = d.statu
+left join tbl_glno e on a.saknr = e.saknr
+
+	UNION
+	
+	SELECT a.matnr,a.maktx,a.mtart,a.matkl,a.meins,
+	a.erdat,a.ernam,a.saknr,a.statu,a.serno,
+	b.matxt as mtype,c.matxt as mgrpp,
+	d.statx,e.sgtxt
+FROM tbl_fara AS a
+LEFT JOIN tbl_ftyp AS b 
+ON a.mtart = b.mtart
+left join tbl_fgrp as c
+on a.matkl = c.matkl
+left join tbl_apov d on a.statu = d.statu
+left join tbl_glno e on a.saknr = e.saknr;
+create view v_ftyp as
+
+select a.*,b.sgtxt
+from tbl_fgrp a left join tbl_glno b 
+on a.saknr = b.saknr;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
@@ -2649,7 +2767,7 @@ INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');
 INSERT INTO tbl_pr_item (code, pr_id, price) VALUES ('ITEM01', 1, 2000);
 
 INSERT INTO tbl_doct (docno, docty, doctx, grpmo, tname, field) 
-               VALUES ('01','CS', 'Customer', 'SM', 'tbl_kna1', 'apamt'),
+               VALUES ('01','CS', 'Customer', 'MS', 'tbl_kna1', 'apamt'),
                       ('02','SP', 'Sale Person', 'SM', 'tbl_psal', ''),
                       ('03','PJ', 'Project Job', 'PM', 'tbl_jobk', 'pramt'),
                       ('04','QT', 'Quotation', 'SM', 'tbl_vbak', 'netwr' ),
@@ -2659,7 +2777,7 @@ INSERT INTO tbl_doct (docno, docty, doctx, grpmo, tname, field)
                       ('08','BT', 'Billing Note', 'SM', 'tbl_vbkk', 'netwr'),
                       ('09','RD', 'Receipt Doc', 'SM', 'tbl_vbbk', 'netwr'),
                       
-                      ('10','VD', 'Vendor', 'PE', 'tbl_lfa1', 'apamt'),
+                      ('10','VD', 'Vendor', 'MS', 'tbl_lfa1', 'apamt'),
                       ('11','PR', 'Purchase Requisition', 'PE', 'tbl_ebko', 'netwr'),
                       ('12','PO', 'Purchase Order', 'PE', 'tbl_ekko', 'netwr' ),
                       ('13','DP', 'Deposit Payment', 'PE', 'tbl_ebdk', 'netwr'),
@@ -2677,7 +2795,35 @@ INSERT INTO tbl_doct (docno, docty, doctx, grpmo, tname, field)
                       ('24','SN', 'Sale Credit/Debit Note', 'SM', 'tbl_cren', ''),
                       ('25','PN', 'Purchase Credit/Debit Note', 'PE', 'tbl_debn', ''),
                       ('26','MM', 'Material Master', 'MM', 'tbl_mara', ''),
-                      ('27','SV', 'Service Master', 'MM', 'tbl_mara', '');
+                      ('27','SV', 'Service Master', 'MM', 'tbl_mara', ''),
+                      
+                      ('28','JN', 'Journal', 'AC', 'tbl_bkpf', ''),
+                      ('29','JT', 'Journal Template', 'AC', 'tbl_debn', ''),
+                      ('30','FA', 'Fixed Asset', 'FA', 'tbl_fara', ''),
+                      ('31','BN', 'Bank Name', 'MS', 'tbl_bnam', ''),
+                      ('32','OI', 'Other Income', 'AC', 'tbl_vbrk', ''),
+                      ('33','OE', 'Other Expense', 'AC', 'tbl_vbrk', '')
+                      
+                      ('34','JR', 'Journal Report', 'AC', 'tbl_bkpf', ''),
+                      ('35','TR', 'Tax Report', 'AC', 'tbl_debn', ''),
+                      ('36','FI', 'Financial Statement Report', 'AC', 'tbl_fara', ''),
+                      ('37','TF', 'Tax Form', 'AC', 'tbl_bnam', ''),
+                      ('38','RA', 'Revenue & AR Accounting Report', 'AC', 'tbl_vbrk', ''),
+                      ('39','AA', 'AR Aging Report', 'AC', 'tbl_vbrk', '')
+                      
+                      ('40','AG', 'AP Aging Report', 'AC', 'tbl_bkpf', ''),
+                      ('41','EA', 'Expense & AR Accounting Report', 'AC', 'tbl_debn', ''),
+                      ('42','FR', 'Fixed Asset Accounting Report', 'AC', 'tbl_fara', ''),
+                      ('43','IM', 'Inventory &Material Account', 'AC', 'tbl_bnam', '')
+                      
+                      ('44','CT', 'Customer Type', 'MS', 'tbl_bkpf', ''),
+                      ('45','VT', 'Vendor Type', 'MS', 'tbl_debn', ''),
+                      ('46','MT', 'Material Type', 'MS', 'tbl_fara', ''),
+                      ('47','MG', 'Material Group', 'MS', 'tbl_bnam', ''),
+                      
+                      ('48','UN', 'Customer Type', 'MS', 'tbl_bkpf', ''),
+                      ('49','AT', 'Asset Type', 'MS', 'tbl_bkpf', ''),
+                      ('50','AH', 'Asset Group', 'MS', 'tbl_bkpf', '');
 
 INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tname,tcode) 
                VALUES ('0001','PJ','SM','Project Job','PJ','1000','9999','1308','1000','tbl_jobk','jobnr'),
@@ -2707,12 +2853,17 @@ INSERT INTO tbl_init (objnr,modul,grpmo,sgtxt,short,minnr,maxnr,perio,curnr,tnam
                       ('0025','BF','PE','Bill Receipt','BF','1000','9999','1308','2000','tbl_ebkk','bilnr'),
                       ('0026','CP','MS','Company Code','CP','1000','9000','1308','1000','tbl_comp','comid'),
                       ('0027','DP','PE','Deposit Payment','DP','1000','9999','1308','2000','tbl_ebdk','depnr'),
-                      ('0028','EP','MS','Employee','EP','1000','9000','1308','1000','tbl_empl','empnr'),
+                      ('0028','EP','MS','Employee','EP','4000','9999','1308','1000','tbl_empl','empnr'),
                       ('0029','MM','MM','Material Master','10','0001','9999','1308','2000','tbl_mara','matnr'),
                       ('0030','SV','MM','Service Master','20','0001','9999','1308','1000','tbl_mara','matnr'),
                       ('0031','JV','AC','General Journal','JV','00001','90000','1308','1000','tbl_bkpf','belnr'),
-                      ('0032','DN','PE','Debit Note','DN','0001','9999','1308','2000','tbl_debn','debnr'),
-                      ('0033','CN','SM','Credit Note','CN','0001','9999','1308','1000','tbl_cren','crenr');
+                      ('0032','DN','SM','Debit Note','DN','0001','9999','1308','2000','tbl_vbdn','debnr'),
+                      ('0033','CN','SM','Credit Note','CN','0001','9999','1308','1000','tbl_vbcn','crenr'),
+                      
+                      ('0034','PN','PE','Purchase Credit Note','CN','0001','9999','1308','1000','tbl_ebcn','crenr'),
+                      ('0035','PD','PE','Purchase Debit Note','DN','0001','90000','1308','1000','tbl_ebdn','debnr'),
+                      ('0036','PE','AC','Pretty Cash','PE','00001','99999','1308','2000','tbl_bkpf','belnr'),
+                      ('0037','FA','FA','Fixed Asset','FA','00001','99999','1308','2000','tbl_fama','matnr');
 
 INSERT INTO tbl_ggrp (glgrp, grptx) VALUES ('1', 'Asset'),('2', 'Liabibities'),('3', 'Costs'),('4', 'Income'),('5', 'Expense');
 

@@ -46,13 +46,7 @@ Ext.define('Account.PR.Grid', {
 			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
 			flex: true, dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 100, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "Department", flex: true, dataIndex: 'deptx', sortable: true},
-			{text: "1",hidden: true, width: 0, dataIndex: 'adr01', sortable: false},
-			{text: "2",hidden: true, width: 0, dataIndex: 'distx', sortable: false},
-			{text: "3",hidden: true, width: 0, dataIndex: 'pstlz', sortable: false},
-			{text: "4",hidden: true, width: 0, dataIndex: 'telf1', sortable: false},
-			{text: "5",hidden: true, width: 0, dataIndex: 'telfx', sortable: false},
-			{text: "6",hidden: true, width: 0, dataIndex: 'email', sortable: false}
+			{text: "Department", flex: true, dataIndex: 'deptx', sortable: true}
 		];
 
 		this.bbar = {

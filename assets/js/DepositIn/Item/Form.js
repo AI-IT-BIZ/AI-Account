@@ -373,7 +373,8 @@ Ext.define('Account.DepositIn.Item.Form', {
 					url: __site_url+'quotation/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -395,7 +396,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
 			//alert(qtnr);
-			//_this.gridItem.load({qtnr: qtnr });
+			_this.gridItem.load({qtnr: qtnr });
 			//----------------------------------------			
 						}else{
 							o.markInvalid('Could not find quotation no : '+o.getValue());
@@ -440,8 +441,10 @@ Ext.define('Account.DepositIn.Item.Form', {
 			//console.log(qtnr);
 			//alert(qtnr);
 			_this.gridItem.load({qtnr: qtnr });
+		
 			//----------------------------------------
 			_this.quotationDialog.hide();
+			
 		});
 
 		this.trigQuotation.onTriggerClick = function(){

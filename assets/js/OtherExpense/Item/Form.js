@@ -56,7 +56,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('OE'),
-			fieldLabel: 'AP Status',
+			fieldLabel: 'Other Expense Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -227,7 +227,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			margin: '0 0 0 5'
          });
          
-         this.radioType = Ext.create('Ext.form.RadioGroup', {
+         /*this.radioType = Ext.create('Ext.form.RadioGroup', {
 			//xtype: 'radiogroup',
            // fieldLabel: 'Payable Type',
             cls: 'x-check-group-alt',
@@ -235,7 +235,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
                 {boxLabel: 'Account Payable', width:150, name: 'docty', inputValue: 1, checked: true},
                 {boxLabel: 'Pretty Cash', width:100,  name: 'docty', inputValue: 2}
             ]
-		});
+		});*/
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -269,17 +269,18 @@ layout: 'anchor',
 //collapsible: true,
         items: [this.radioType]},*/{
 						xtype: 'displayfield',
-						//name: 'name1',
+						//name: 'aaa',
 						//margins: '0 0 0 6',
-						width:240,
+						width:500,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'AP No',
+					    fieldLabel: 'Other Expense No',
 					    name: 'invnr',
 						value: 'IPXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
+						labelWidth:140,
 						readOnly: true,
 						labelStyle: 'font-weight:bold'
 					}]

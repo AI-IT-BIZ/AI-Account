@@ -71,12 +71,12 @@ Ext.define('Account.OtherIncome.Item.Form', {
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox',{
 			readOnly: !UMS.CAN.APPROVE('OI'),
-			fieldLabel: 'INV Status',
+			fieldLabel: 'Other Income Status',
 			name : 'statu',
 			labelAlign: 'right',
 			//labelWidth: 95,
 			width: 240,
-			margin: '0 0 0 6',
+			margin: '0 0 0 26',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -110,7 +110,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
+			//emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -310,17 +310,18 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		},{
 			xtype: 'displayfield',
 			//name: 'jobtx',
-			width:590,
+			width:550,
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
 		},{
 			xtype: 'displayfield',
-            fieldLabel: 'Invoice No',
+            fieldLabel: 'Other Income No',
             name: 'invnr',
             value: 'IVXXXX-XXXX',
             labelAlign: 'right',
 			width:240,
+			labelWidth:140,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
 		}]

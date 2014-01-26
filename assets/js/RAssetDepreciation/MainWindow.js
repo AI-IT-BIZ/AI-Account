@@ -1,10 +1,10 @@
-Ext.define('Account.RAssetRegister.MainWindow', {
+Ext.define('Account.RAssetDepreciation.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Asset Register Selection',
+			title: 'Asset Depreciation Selection',
 			closeAction: 'hide',
 			height: 150,
 			width: 500,
@@ -18,10 +18,10 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.itemDialog = Ext.create('Account.RAssetDepreciation.Item.Window');
 
-		this.itemDialog = Ext.create('Account.RAssetRegister.Item.Window');
-
-		this.form = Ext.create('Account.RAssetRegister.Form',{ region:'center' });
+		this.form = Ext.create('Account.RAssetDepreciation.Form',{ region:'center' });
 
 		this.items = [
 		     this.form
@@ -41,7 +41,7 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 				_this.hide();
 			}
 		}];
-
+		
 		this.itemDialog.on('export_exel_click', function(dialog){
 			var params = _this.form.getValues(),
 				sorters = (dialog.grid.store.sorters && dialog.grid.store.sorters.length)?dialog.grid.store.sorters.items[0]:{};
@@ -50,9 +50,9 @@ Ext.define('Account.RAssetRegister.MainWindow', {
 			   dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/rassetregister/index?'+query;
+			window.location = __site_url+'export/rassetdepreciation/index?'+query;
 		}, this);
-
+		
 		// set handler for item grid store
 		this.itemDialog.grid.store.on('beforeload', function(store){
 			var formValues = _this.form.getForm().getValues();
