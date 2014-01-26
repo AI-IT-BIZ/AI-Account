@@ -110,7 +110,7 @@ class Project extends CI_Controller {
 		            ->setCellValue('E'.$excel_i, $value['name1'])
                     ->setCellValue('F'.$excel_i, $value['sname'])
 		            ->setCellValue('G'.$excel_i, $value['statx'])
-		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['pramt'], 2))
+		            ->setCellValue('H'.$excel_i, number_format($value['pramt'],2,'.',','))
 		            ->setCellValue('I'.$excel_i, $value['ctype']);
 		}
 

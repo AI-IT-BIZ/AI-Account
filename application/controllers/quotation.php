@@ -324,13 +324,13 @@ class Quotation extends CI_Controller {
 			$this->db->update('vbak', $formData);
 			
 // Credit limit -> Reject case
-        if($this->input->post('statu') == '03'){
-        	$this->db->where('kunnr', $kunnr);
-		    $q_limit = $this->db->get('kna1');
-		    $reman=0;
+        $this->db->where('kunnr', $kunnr);
+		$q_limit = $this->db->get('kna1');
+		$reman=0;
 		
 		if($q_limit->num_rows()>0){
-			$r_limit = $q_limit->first_row('array');
+		   $r_limit = $q_limit->first_row('array');	
+        if($this->input->post('statu') == '03'){
 			$reman = $r_limit['reman'] - $net;
 			
 			if(!empty($kunnr)){	
@@ -338,9 +338,19 @@ class Quotation extends CI_Controller {
 			$this->db->set('upamt', $net);
 			$this->db->set('reman', $reman);
 			$this->db->update('kna1');
+		    }	
+        }else{
+        	//Upate limit remain			
+		    if(!empty($kunnr)){
+		      $reman = $net - $row['netwr'];
+		      $reman = $r_limit['reman'] - $reman;
+			  $this->db->where('kunnr', $kunnr);
+			  $this->db->set('upamt', $net);
+			  $this->db->set('reman', $reman);
+			  $this->db->update('kna1');
 			}
-		}	
-        }
+          }
+		}
 
 		}else{
 			$id = $this->code_model->generate('QT', $this->input->post('bldat'));

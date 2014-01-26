@@ -243,11 +243,11 @@ class Rap extends CI_Controller {
                        $current_sheet     
                        ->setCellValue('J'.$excel_i, $value['matnr'])
 		               ->setCellValue('K'.$excel_i, $value['maktx'])
-					   ->setCellValue('L'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['menge'], 2))
-		               ->setCellValue('M'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['unitp'], 2))
-					   ->setCellValue('N'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['beamt'], 2))
-		               ->setCellValue('O'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['vat01'], 2)) 
-		               ->setCellValue('P'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2)); 
+					   ->setCellValue('L'.$excel_i, number_format($value['menge'],2,'.',','))
+		               ->setCellValue('M'.$excel_i, number_format($value['unitp'],2,'.',','))
+					   ->setCellValue('N'.$excel_i, number_format($value['beamt'],2,'.',','))
+		               ->setCellValue('O'.$excel_i, number_format($value['vat01'],2,'.',',')) 
+		               ->setCellValue('P'.$excel_i, number_format($value['netwr'],2,'.',',')); 
                             
                         $inv_temp = $value['invnr'];
 		

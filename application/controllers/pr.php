@@ -327,25 +327,34 @@ class Pr extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('ebko', $formData);
-
-// Credit limit -> Reject case
-        if($this->input->post('statu') == '03'){
-        	$this->db->where('lifnr', $kunnr);
-		    $q_limit = $this->db->get('lfa1');
-		    $reman=0;
-
+			
+			// Credit limit -> Reject case
+        $this->db->where('lifnr', $lifnr);
+		$q_limit = $this->db->get('lfa1');
+		$reman=0;
+		
 		if($q_limit->num_rows()>0){
-			$r_limit = $q_limit->first_row('array');
+		   $r_limit = $q_limit->first_row('array');	
+        if($this->input->post('statu') == '03'){
 			$reman = $r_limit['reman'] - $net;
 
-			if(!empty($kunnr)){
+			if(!empty($lifnr)){
 			$this->db->where('lifnr', $lifnr);
 			$this->db->set('upamt', $net);
 			$this->db->set('reman', $reman);
 			$this->db->update('lfa1');
+			}	
+        }else{
+        	//Upate limit remain			
+		    if(!empty($lifnr)){
+		      $reman = $net - $row['netwr'];
+		      $this->db->where('lifnr', $lifnr);
+			  $this->db->set('upamt', $net);
+			  $this->db->set('reman', $reman);
+			  $this->db->update('lfa1');
 			}
+          }
 		}
-        }
 
 		}else{
 

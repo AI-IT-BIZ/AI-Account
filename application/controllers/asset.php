@@ -324,6 +324,8 @@ class Asset extends CI_Controller {
 			    $deprey2 = $deprey * $r_data['depre'] * $day;
 			    $deprey2 = $deprey2 / 365;
 			    $res[$i]['mon'.$j] = $deprey2 + $accum;
+				//$year = $year + 543;
+				$res[$i]['mon'.$j.'_name'] = $day.'/'.$j.'/'.$year;
 			}
 		
 		}

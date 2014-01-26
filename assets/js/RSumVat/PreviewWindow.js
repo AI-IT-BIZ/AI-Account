@@ -5,6 +5,7 @@ Ext.define('Account.RSumVat.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีมูลค่าเพิ่ม',
+			width: 1120,
 			enableCopies: true
 		});
 

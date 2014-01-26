@@ -17,6 +17,7 @@ class Rsumvat extends CI_Controller {
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
+		if($q_com->num_rows()>0){
 		
 		//$no = $type = $this->uri->segment(4);
 		$no=1;$j=0;
@@ -97,7 +98,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
+	$page_size = 8;
 	$total_count = count($rows) + count($rowp);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -240,7 +241,8 @@ $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp);
 $s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;
 $invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
-for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
+for ($i=($current_page_index * $page_size);
+     $i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
      if($i<count($rows)){
 	    $item = $rows[$i];
 		$s_amt = $item['beamt'];
@@ -690,7 +692,7 @@ endfor; // end copy for
 
 <?php
 	}
-   
+   }
 }
 
 ?>

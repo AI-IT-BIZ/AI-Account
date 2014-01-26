@@ -104,7 +104,7 @@ class Payment extends CI_Controller {
 		            ->setCellValue('E'.$excel_i, $value['name1'])
 					->setCellValue('F'.$excel_i, $value['txz01'])
 		            ->setCellValue('G'.$excel_i, $value['statx'])
-		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))
 		            ->setCellValue('I'.$excel_i, $value['ctype']);
 		}
 
