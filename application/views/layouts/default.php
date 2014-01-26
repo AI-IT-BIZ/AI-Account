@@ -794,11 +794,13 @@ function endsWith($haystack, $needle)
 			};
 			var nodeARAging = {
 				text: 'AR Aging',
-				leaf: true
+				leaf: true,
+				id: 'click_ar_aging'
 			};
 			var nodeAPLedger = {
 				text: 'AP Ledger',
-				leaf: true
+				leaf: true,
+				id: 'click_ap_ledger'
 			};
 			var nodeAPAging = {
 				text: 'AP Aging',

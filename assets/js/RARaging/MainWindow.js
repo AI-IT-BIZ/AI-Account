@@ -1,13 +1,13 @@
-Ext.define('Account.RProject.MainWindow', {
+Ext.define('Account.RARaging.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Project Selection',
+			title: 'AR Aging Selection',
 			closeAction: 'hide',
-			height: 250,
-			width: 500,
+			height: 150,
+			width: 550,
 			layout: 'border',
 			//layout: 'accordion',
 			resizable: true,
@@ -19,9 +19,9 @@ Ext.define('Account.RProject.MainWindow', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.itemDialog = Ext.create('Account.RProject.Item.Window');
 
-		this.form = Ext.create('Account.RProject.Form',{ region:'center' });
+		this.form = Ext.create('Account.RARaging.Form',{ region:'center' });
+		this.preview = Ext.create('Account.RARaging.Item.PreviewWindow');
 
 		this.items = [
 		     this.form
@@ -30,14 +30,12 @@ Ext.define('Account.RProject.MainWindow', {
 		this.buttons = [{
 			text: 'Report',
 			handler: function() {
-				//var rs = _this.grid1.getData();
-				//_this.form.hdnQtItem.setValue(Ext.encode(rs));
-
-				//_this.itemDialog.form.getForm().reset();
-			    //_this.itemDialog.formTotal.getForm().reset();
-			    _this.itemDialog.show();
-			    
-			    _this.itemDialog.grid.load();
+				if(_this.form.getForm().isValid()){ 
+			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
+			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
+			    	params = "kunnr="+kunnr+"&kunnr2="+kunnr2;
+			    	_this.preview.openDialog(__base_url + 'index.php/raraging/pdf?'+params,'_blank');
+			   }
 			}
 		}, {
 			text: 'Cancel',
@@ -46,12 +44,7 @@ Ext.define('Account.RProject.MainWindow', {
 				_this.hide();
 			}
 		}];
-		
-		// set handler for item grid store
-		this.itemDialog.grid.store.on('beforeload', function(store){
-			var formValues = _this.form.getForm().getValues();
-			store.getProxy().extraParams = formValues;
-		});
+	
 
 		return this.callParent(arguments);
 	}

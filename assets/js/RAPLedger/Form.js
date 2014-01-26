@@ -1,4 +1,4 @@
-Ext.define('Account.RARLedger.Form', {
+Ext.define('Account.RAPLedger.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -16,20 +16,20 @@ Ext.define('Account.RARLedger.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-        // INIT Customer search popup ///////////////////////////////////
-		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
-		this.customerDialog2 = Ext.create('Account.SCustomer.MainWindow');
+        // INIT Vendor search popup ///////////////////////////////////
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow');
+		this.vendorDialog2 = Ext.create('Account.SVendor.MainWindow');
 				
-		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
-			fieldLabel: 'Customer Code',
+		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
+			name: 'lifnr',
+			fieldLabel: 'Vendor Code',
 			triggerCls: 'x-form-search-trigger',
 			labelWidth: 100,
 			enableKeyEvents: true
 		});
 		
-		this.trigCustomer2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr2',
+		this.trigVendor2 = Ext.create('Ext.form.field.Trigger', {
+			name: 'lifnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
@@ -93,7 +93,7 @@ Ext.define('Account.RARLedger.Form', {
 			submitFormat:'Y-m-d',
 			allowBlank: false
 			}]
-// Customer Code
+// Vendor Code
 		},{
           xtype: 'container',
                 layout: 'hbox',
@@ -101,14 +101,14 @@ Ext.define('Account.RARLedger.Form', {
      items :[{
 			xtype: 'hidden',
 			name: 'id'
-		},this.trigCustomer,
+		},this.trigVendor,
 		
 		{xtype: 'displayfield',
 		  value: 'To',
 		  width:40,
 		  margins: '0 0 0 25'
 		},
-		this.trigCustomer2]   
+		this.trigVendor2]   
 		},{
 			xtype: 'container',
                 layout: 'hbox',
@@ -126,14 +126,14 @@ Ext.define('Account.RARLedger.Form', {
 ////////////////////////////////////////////////		
 		];
 					
-		// event trigCustomer///
-		this.trigCustomer.on('keyup',function(o, e){
+		// event trigVendor///
+		this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'vendor/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -141,35 +141,35 @@ Ext.define('Account.RARLedger.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.kunnr);
+							o.setValue(r.data.lifnr);
 							
 						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
+							o.markInvalid('Could not find Vendor code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
 
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
+		_this.vendorDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigVendor.setValue(record.data.lifnr);
 			//_this.getForm().findField('name1').setValue(record.data.name1);
 
 			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
+			_this.vendorDialog.hide();
 		});
 
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.show();
+		this.trigVendor.onTriggerClick = function(){
+			_this.vendorDialog.show();
 		};
 		
-		this.trigCustomer2.on('keyup',function(o, e){
+		this.trigVendor2.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'customer/load',
+					url: __site_url+'vendor/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -177,25 +177,25 @@ Ext.define('Account.RARLedger.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.kunnr);
+							o.setValue(r.data.lifnr);
 							
 						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
+							o.markInvalid('Could not find Vendor code : '+o.getValue());
 						}
 					}
 				});
 			}
 		}, this);
 
-		_this.customerDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer2.setValue(record.data.kunnr);
+		_this.vendorDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigVendor2.setValue(record.data.lifnr);
 
 			grid.getSelectionModel().deselectAll();
-			_this.customerDialog2.hide();
+			_this.vendorDialog2.hide();
 		});
 
-		this.trigCustomer2.onTriggerClick = function(){
-			_this.customerDialog2.show();
+		this.trigVendor2.onTriggerClick = function(){
+			_this.vendorDialog2.show();
 		};
 
 		return this.callParent(arguments);
