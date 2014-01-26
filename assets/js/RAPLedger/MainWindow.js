@@ -1,10 +1,10 @@
-Ext.define('Account.RARLedger.MainWindow', {
+Ext.define('Account.RAPLedger.MainWindow', {
 	extend	: 'Ext.window.Window',
 
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'ARLedger Selection',
+			title: 'APLedger Selection',
 			closeAction: 'hide',
 			height: 220,
 			width: 550,
@@ -20,8 +20,8 @@ Ext.define('Account.RARLedger.MainWindow', {
 		var _this=this;
 		
 
-		this.form = Ext.create('Account.RARLedger.Form',{ region:'center' });
-		this.preview = Ext.create('Account.RARLedger.Item.PreviewWindow');
+		this.form = Ext.create('Account.RAPLedger.Form',{ region:'center' });
+		this.preview = Ext.create('Account.RAPLedger.Item.PreviewWindow');
 
 		this.items = [
 		     this.form
@@ -30,17 +30,17 @@ Ext.define('Account.RARLedger.MainWindow', {
 		this.buttons = [{
 			text: 'Report',
 			handler: function() {
-				if(_this.form.getForm().isValid()){ 
+					if(_this.form.getForm().isValid()){
 			    	start_date = _this.form.getForm().findField('start_date').getValue();
 			    	start_date = Ext.Date.format(start_date,'Y-m-d');
 			    	end_date = _this.form.getForm().findField('end_date').getValue();
 			    	end_date = Ext.Date.format(end_date,'Y-m-d');
-			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
-			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
+			    	lifnr = _this.form.getForm().findField('lifnr').getValue();
+			   		lifnr2 = _this.form.getForm().findField('lifnr2').getValue();
 			    	statu = _this.form.getForm().findField('statu').getValue();
-			    	params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2+"&statu="+statu;
-			    	_this.preview.openDialog(__base_url + 'index.php/rarledger/pdf?'+params,'_blank');
-			   }
+			    	params = "start_date="+start_date+"&end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2+"&statu="+statu;
+			    	_this.preview.openDialog(__base_url + 'index.php/rapledger/pdf?'+params,'_blank');
+				}
 			}
 		}, {
 			text: 'Cancel',

@@ -720,6 +720,16 @@ Ext.onReady(function() {
 		$om.RARLedger = Ext.create('Account.RARLedger.MainWindow');
 		$om.RARLedger.show();
 	});
+	
+	$om.viewport.on('click_ar_aging', function(){
+		$om.RARaging = Ext.create('Account.RARaging.MainWindow');
+		$om.RARaging.show();
+	});
+	
+	$om.viewport.on('click_ap_ledger', function(){
+		$om.RAPLedger = Ext.create('Account.RAPLedger.MainWindow');
+		$om.RAPLedger.show();
+	});
 
 	$om.viewport.on('click_report_tb', function(){
 		if(!UMS.CAN.DISPLAY('FI')){
