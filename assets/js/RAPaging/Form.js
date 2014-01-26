@@ -1,4 +1,4 @@
-Ext.define('Account.RAPLedger.Form', {
+Ext.define('Account.RAPaging.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -33,54 +33,12 @@ Ext.define('Account.RAPLedger.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
-		
-		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Status',
-			name : 'statu',
-			labelWidth: 100,
-			editable: false,
-			triggerAction : 'all',
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: 'ALL',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'invoice/loads_acombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'statu'
-					}
-				},
-				fields: [
-					'statu',
-					'statx'
-				],
-				remoteSort: true,
-				sorters: 'statu ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'statx',
-			valueField: 'statx',
-			value: 'ALL'
-		});
 
 		this.items = [{
 // Doc Date
         xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
-     items :[{
-			xtype: 'datefield',
-			fieldLabel: 'Selection Period',
-			name: 'end_date',
-			labelWidth: 100,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-			}]
 // Vendor Code
 		},{
           xtype: 'container',
@@ -100,16 +58,7 @@ Ext.define('Account.RAPLedger.Form', {
 		},{
 			xtype: 'container',
                 layout: 'hbox',
-                margin: '0 0 5 0',
-     items :[this.comboQStatus,
-		{
-			xtype: 'displayfield',
-		    value: 'To',
-                    hidden:true,
-		    width:40,
-		    margins: '0 0 0 25'
-		  },
-		this.comboQStatus2]    
+                margin: '0 0 5 0',   
 		}
 ////////////////////////////////////////////////		
 		];
@@ -132,7 +81,7 @@ Ext.define('Account.RAPLedger.Form', {
 							o.setValue(r.data.lifnr);
 							
 						}else{
-							o.markInvalid('Could not find Vendor code : '+o.getValue());
+							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
 				});
@@ -168,7 +117,7 @@ Ext.define('Account.RAPLedger.Form', {
 							o.setValue(r.data.lifnr);
 							
 						}else{
-							o.markInvalid('Could not find Vendor code : '+o.getValue());
+							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
 				});
