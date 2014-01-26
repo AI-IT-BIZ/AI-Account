@@ -253,11 +253,11 @@ class RInvoice extends CI_Controller {
                             $current_sheet     
                             ->setCellValue('K'.$excel_i, $value['matnr'])
                             ->setCellValue('L'.$excel_i, $value['maktx'])
-                            ->setCellValue('M'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['menge'], 2))
-                            ->setCellValue('N'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['unitp'], 2))
-                            ->setCellValue('O'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['beamt'], 2))
-                            ->setCellValue('P'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['vat01'], 2))
-                            ->setCellValue('Q'.$excel_i,  preg_replace('/(\.00)$/' ,'',$total, 2));
+                            ->setCellValue('M'.$excel_i, number_format($value['menge'],2,'.',','))
+                            ->setCellValue('N'.$excel_i, number_format($value['unitp'],2,'.',','))
+                            ->setCellValue('O'.$excel_i, number_format($value['beamt'],2,'.',','))
+                            ->setCellValue('P'.$excel_i, number_format($value['vat01'],2,'.',','))
+                            ->setCellValue('Q'.$excel_i,  number_format($total,2,'.',','));
                             
                             $invoid_temp = $value['invnr'];
 		}
