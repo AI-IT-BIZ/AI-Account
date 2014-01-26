@@ -94,11 +94,11 @@ class Service extends CI_Controller {
 					->setCellValue('I'.$excel_i, $value['saknr'])
 					
 					->setCellValue('J'.$excel_i, $value['statu'])
-					->setCellValue('K'.$excel_i, $value['cost1'])
+					->setCellValue('K'.$excel_i, number_format($value['cost1'],2,'.',','))
 		            ->setCellValue('L'.$excel_i, $value['unit1'])
-		            ->setCellValue('M'.$excel_i, $value['cost2'])
+		            ->setCellValue('M'.$excel_i, number_format($value['cost2'],2,'.',','))
 		            ->setCellValue('N'.$excel_i, $value['unit2'])
-                    ->setCellValue('O'.$excel_i, $value['cost3'])
+                    ->setCellValue('O'.$excel_i, number_format($value['cost3'],2,'.',','))
 		            ->setCellValue('P'.$excel_i, $value['unit3']);
 		}
 

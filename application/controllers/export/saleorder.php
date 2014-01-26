@@ -121,7 +121,7 @@ class Saleorder extends CI_Controller {
 		            ->setCellValue('E'.$excel_i, $value['vbeln'])
 		            ->setCellValue('F'.$excel_i, $value['statx'])
 		            ->setCellValue('G'.$excel_i, $value['sname'])
-		            ->setCellValue('H'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))
 		            ->setCellValue('I'.$excel_i, $value['ctype']);
 		}
 

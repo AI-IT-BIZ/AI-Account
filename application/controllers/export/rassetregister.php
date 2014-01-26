@@ -201,19 +201,19 @@ class RAssetregister extends CI_Controller {
                     ->setCellValue('I'.$excel_i, $value['serno'])
 		            ->setCellValue('J'.$excel_i, util_helper_format_date($value['bldat']))  
    
-                    ->setCellValue('K'.$excel_i, $value['costv'])
+                    ->setCellValue('K'.$excel_i, number_format($value['costv'],2,'.',','))
                     ->setCellValue('L'.$excel_i, $value['saknr'])
-                    ->setCellValue('M'.$excel_i, $value['resid'])
+                    ->setCellValue('M'.$excel_i, number_format($value['resid'],2,'.',','))
                     ->setCellValue('N'.$excel_i, $value['lifes'])
                     ->setCellValue('O'.$excel_i, $value['depre'])
-                    ->setCellValue('P'.$excel_i, $deprem)
-                    ->setCellValue('Q'.$excel_i, $deprey)
+                    ->setCellValue('P'.$excel_i, number_format($deprem,2,'.',','))
+                    ->setCellValue('Q'.$excel_i, number_format($deprey,2,'.',','))
 					
 					->setCellValue('R'.$excel_i, util_helper_format_date($curdt))
-                    ->setCellValue('S'.$excel_i, $daysc)
-                    ->setCellValue('T'.$excel_i, $accum)
+                    ->setCellValue('S'.$excel_i, number_format($daysc,2,'.',','))
+                    ->setCellValue('T'.$excel_i, number_format($accum,2,'.',','))
                     ->setCellValue('U'.$excel_i, $saknr2)
-                    ->setCellValue('V'.$excel_i, $books);
+                    ->setCellValue('V'.$excel_i, number_format($books,2,'.',','));
                             
 		}
 
