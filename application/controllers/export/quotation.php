@@ -124,7 +124,7 @@ class Quotation extends CI_Controller {
 		            ->setCellValue('F'.$excel_i, $value['jobtx'])
 		            ->setCellValue('G'.$excel_i, $value['statx'])
 		            ->setCellValue('H'.$excel_i, $value['sname'])
-		            ->setCellValue('I'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('I'.$excel_i, number_format($value['netwr'],2,'.',','))
 		            ->setCellValue('J'.$excel_i, $value['ctype']);
 		}
 

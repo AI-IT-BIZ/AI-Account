@@ -4,16 +4,7 @@ Ext.define('Account.Rpp30Vat.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'แบบฟอร์มนำส่ง ภ.พ.30',
-			closeAction: 'hide',
-			height: 600,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

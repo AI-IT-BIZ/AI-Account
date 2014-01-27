@@ -118,7 +118,7 @@ class Ap extends CI_Controller {
 		            ->setCellValue('D'.$excel_i, $value['name1'])
 					->setCellValue('E'.$excel_i, $value['mbeln'])
 		            ->setCellValue('F'.$excel_i, $value['statx'])
-		            ->setCellValue('G'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('G'.$excel_i, number_format($value['netwr'],2,'.',','))
 		            ->setCellValue('H'.$excel_i, $value['ctype']);
 		}
 

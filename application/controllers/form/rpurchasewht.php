@@ -40,10 +40,19 @@ class Rpurchasewht extends CI_Controller {
 		$b_amt = 0;
 
 		function check_page($page_index, $total_page, $value){
-			return ($page_index==0 && $total_page>1)?"":$value;
+			//return ($page_index==0 && $total_page>1)?"":$value;
+			if($page_index==0&&$total_page==1){
+				return $value;
+			}else{
+			$page_index+=1;
+			if($page_index==$total_page && $total_page>1) return $value;
+			else "";
+			}
 		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 
  ie4up=nav4up=false;
@@ -53,6 +62,12 @@ class Rpurchasewht extends CI_Controller {
    ie4up = true;
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
+</script>
+
+<script type="text/javascript">
+	function do_print() {
+		window.print()
+	}
 </script>
 <STYLE>
  A {text-decoration:none}
@@ -116,8 +131,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php endif; ?>
 
 <!--Page No-->
-<DIV style="left: 961px; top: 50px; width: 30PX; height: 20PX;"><span class="fc1-2">Page</span></DIV>
-<DIV style="left: 992px; top: 49px; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
+
+<DIV style="left: 922px; top: 109px; width: 42px; height: 21PX;"><span class="fc1-1"><?=($current_page_index+1);?></span></DIV>
+
+<DIV style="left: 1027px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1"><?=$total_page;?></span></DIV>
 
 <!--Check Box 1-->
 <DIV style="left: 470px; top: 73px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
@@ -132,7 +149,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 623px; top: 73px; width: 30px; height: 21PX;"><span class="fc1-1">พ.ศ.</span></DIV>
 
 <DIV style="left: 651px; top: 73px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0] ?></span></DIV>
-<DIV style="left: 960px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
+<DIV style="left: 950px; top: 108px; width: 92px; height: 21PX;"><span class="fc1-1">ในจำนวนแผ่น</span></DIV>
 
 <DIV style="left: 881px; top: 108px; width: 42px; height: 21PX;"><span class="fc1-1">แผ่นที่</span></DIV>
 

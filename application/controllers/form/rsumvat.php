@@ -17,6 +17,7 @@ class Rsumvat extends CI_Controller {
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
+		if($q_com->num_rows()>0){
 		
 		//$no = $type = $this->uri->segment(4);
 		$no=1;$j=0;
@@ -52,10 +53,19 @@ class Rsumvat extends CI_Controller {
 		//$b_amt = 0;$rows='';
 
 		function check_page($page_index, $total_page, $value){
-			return ($page_index==0 && $total_page>1)?"":$value;
+			//return ($page_index==0 && $total_page>1)?"":$value;
+			if($page_index==0&&$total_page==1){
+				return $value;
+			}else{
+			$page_index+=1;
+			if($page_index==$total_page && $total_page>1) return $value;
+			else "";
+			}
 		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 
  ie4up=nav4up=false;
@@ -65,6 +75,12 @@ class Rsumvat extends CI_Controller {
    ie4up = true;
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
+</script>
+
+<script type="text/javascript">
+	function do_print() {
+		window.print()
+	}
 </script>
 <link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
@@ -97,7 +113,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
+	$page_size = 8;
 	$total_count = count($rows) + count($rowp);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -240,7 +256,8 @@ $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp);
 $s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;
 $invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
-for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
+for ($i=($current_page_index * $page_size);
+     $i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
      if($i<count($rows)){
 	    $item = $rows[$i];
 		$s_amt = $item['beamt'];
@@ -285,383 +302,6 @@ endfor;
 ?>
 </table>
 </DIV>
-<!--
-<DIV style="left:48PX;top:210PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">111221</span></DIV>
-
-<DIV style="left:133PX;top:210PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:210PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:210PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">5,200.00</span></DIV>
-
-<DIV style="left:531PX;top:210PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:210PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:210PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:210PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">5,200.00</span></DIV>
-
-<DIV style="left:198PX;top:210PX;width:238PX;height:21PX;"><span class="fc1-4">เงินฝากออมทรัพย์ -&nbsp;&nbsp;กรุงเทพ</span></DIV>
-
-<DIV style="left:46PX;top:233PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:233PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">112001</span></DIV>
-
-<DIV style="left:133PX;top:233PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:233PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:233PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">2,251.01</span></DIV>
-
-<DIV style="left:531PX;top:233PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:233PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:233PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:233PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">2,251.01</span></DIV>
-
-<DIV style="left:198PX;top:233PX;width:238PX;height:21PX;"><span class="fc1-4">ลูกหนี้การค้า ทั่วไป</span></DIV>
-
-<DIV style="left:46PX;top:257PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:257PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">113000</span></DIV>
-
-<DIV style="left:133PX;top:257PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:257PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:257PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">91,699.00</span></DIV>
-
-<DIV style="left:531PX;top:257PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:257PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:257PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:257PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">91,699.00</span></DIV>
-
-<DIV style="left:198PX;top:257PX;width:238PX;height:21PX;"><span class="fc1-4">เช็ครับยังไม่นำเข้า</span></DIV>
-
-<DIV style="left:46PX;top:280PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:280PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">116100</span></DIV>
-
-<DIV style="left:133PX;top:280PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:280PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:280PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:280PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">44,800.00</span></DIV>
-
-<DIV style="left:647PX;top:280PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:280PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">44,800.00</span></DIV>
-
-<DIV style="left:864PX;top:280PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:280PX;width:238PX;height:21PX;"><span class="fc1-4">วัตถุดิบ</span></DIV>
-
-<DIV style="left:46PX;top:303PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:303PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">116201</span></DIV>
-
-<DIV style="left:133PX;top:303PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:303PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:303PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">186,250.00</span></DIV>
-
-<DIV style="left:531PX;top:303PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:303PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:303PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:303PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">186,250.00</span></DIV>
-
-<DIV style="left:198PX;top:303PX;width:238PX;height:21PX;"><span class="fc1-4">สินค้าสำเร็จรูป&nbsp;&nbsp;1</span></DIV>
-
-<DIV style="left:46PX;top:327PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:327PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">117102</span></DIV>
-
-<DIV style="left:133PX;top:327PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:327PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:327PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">150.00</span></DIV>
-
-<DIV style="left:531PX;top:327PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:327PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:327PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:327PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">150.00</span></DIV>
-
-<DIV style="left:198PX;top:327PX;width:238PX;height:21PX;"><span class="fc1-4">ภาษีนิติบุคคลถูกหัก ณ ที่จ่าย</span></DIV>
-
-<DIV style="left:46PX;top:350PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:350PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">117401</span></DIV>
-
-<DIV style="left:133PX;top:350PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:350PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:350PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">90,611.50</span></DIV>
-
-<DIV style="left:531PX;top:350PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:350PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:350PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:350PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">90,611.50</span></DIV>
-
-<DIV style="left:198PX;top:350PX;width:238PX;height:21PX;"><span class="fc1-4">ภาษีซื้อ</span></DIV>
-
-<DIV style="left:46PX;top:373PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:373PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">121301</span></DIV>
-
-<DIV style="left:133PX;top:373PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:373PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:373PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:373PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">477.76</span></DIV>
-
-<DIV style="left:647PX;top:373PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:373PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">477.76</span></DIV>
-
-<DIV style="left:864PX;top:373PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:373PX;width:238PX;height:21PX;"><span class="fc1-4">ค่าเสื่อมราคาสะสม-เครื่องตกแต่งและเครื่องใช้สำนักงาน</span></DIV>
-
-<DIV style="left:46PX;top:396PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:396PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">211001</span></DIV>
-
-<DIV style="left:133PX;top:396PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:396PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:396PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:396PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">25,519.50</span></DIV>
-
-<DIV style="left:647PX;top:396PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:396PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">25,519.50</span></DIV>
-
-<DIV style="left:864PX;top:396PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:396PX;width:238PX;height:21PX;"><span class="fc1-4">เจ้าหนี้การค้าทั่วไป</span></DIV>
-
-<DIV style="left:46PX;top:420PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:420PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">213000</span></DIV>
-
-<DIV style="left:133PX;top:420PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:420PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:420PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:420PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">212,230.00</span></DIV>
-
-<DIV style="left:647PX;top:420PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:420PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">212,230.00</span></DIV>
-
-<DIV style="left:864PX;top:420PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:420PX;width:238PX;height:21PX;"><span class="fc1-4">เช็คค้างจ่าย</span></DIV>
-
-<DIV style="left:46PX;top:443PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:443PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">215011</span></DIV>
-
-<DIV style="left:133PX;top:443PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:443PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:443PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:443PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">6,842.76</span></DIV>
-
-<DIV style="left:647PX;top:443PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:443PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">6,842.76</span></DIV>
-
-<DIV style="left:864PX;top:443PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:443PX;width:238PX;height:21PX;"><span class="fc1-4">ภาษีขาย</span></DIV>
-
-<DIV style="left:46PX;top:466PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:466PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">215040</span></DIV>
-
-<DIV style="left:133PX;top:466PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:466PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:466PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:466PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">31,560.00</span></DIV>
-
-<DIV style="left:647PX;top:466PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:466PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">31,560.00</span></DIV>
-
-<DIV style="left:864PX;top:466PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:466PX;width:238PX;height:21PX;"><span class="fc1-4">ภาษีเงินได้หัก ณ ที่จ่าย</span></DIV>
-
-<DIV style="left:46PX;top:489PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:489PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">310000</span></DIV>
-
-<DIV style="left:133PX;top:489PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:489PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:489PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:489PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">300,000.00</span></DIV>
-
-<DIV style="left:647PX;top:489PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:489PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">300,000.00</span></DIV>
-
-<DIV style="left:864PX;top:489PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:489PX;width:238PX;height:21PX;"><span class="fc1-4">ทุนจดทะเบียน</span></DIV>
-
-<DIV style="left:46PX;top:513PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:513PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">330000</span></DIV>
-
-<DIV style="left:133PX;top:513PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:513PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:513PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:513PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">30,000.00</span></DIV>
-
-<DIV style="left:647PX;top:513PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:513PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">30,000.00</span></DIV>
-
-<DIV style="left:864PX;top:513PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:513PX;width:238PX;height:21PX;"><span class="fc1-4">กำไร(ขาดทุน)สะสม</span></DIV>
-
-<DIV style="left:46PX;top:536PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:536PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">411000</span></DIV>
-
-<DIV style="left:133PX;top:536PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:536PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">97,753.75</span></DIV>
-
-<DIV style="left:432PX;top:536PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:531PX;top:536PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">97,753.75</span></DIV>
-
-<DIV style="left:647PX;top:536PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:966PX;top:536PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:536PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:536PX;width:238PX;height:21PX;"><span class="fc1-4">ขาย</span></DIV>
-
-<DIV style="left:46PX;top:559PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:559PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">511000</span></DIV>
-
-<DIV style="left:133PX;top:559PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:559PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:559PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">101,000.00</span></DIV>
-
-<DIV style="left:531PX;top:559PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:559PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">101,000.00</span></DIV>
-
-<DIV style="left:966PX;top:559PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:559PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:559PX;width:238PX;height:21PX;"><span class="fc1-4">ต้นทุนสินค้าเพื่อขาย</span></DIV>
-
-<DIV style="left:46PX;top:582PX;width:1031PX;height:23PX;"><span class="fc1-5">&nbsp;</span></DIV>
-
-<DIV style="left:48PX;top:582PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">531201</span></DIV>
-
-<DIV style="left:133PX;top:582PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:582PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:582PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">477.76</span></DIV>
-
-<DIV style="left:531PX;top:582PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:582PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">477.76</span></DIV>
-
-<DIV style="left:966PX;top:582PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:582PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:582PX;width:238PX;height:21PX;"><span class="fc1-4">ค่าเสื่อมราคา - เครื่องตกแต่งและเครื่องใช้สำนักงาน</span></DIV>
-
-<DIV style="left:46PX;top:606PX;width:1031PX;height:23PX;background-color:FFF0D9;layer-background-color:FFF0D9;">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">&nbsp;</td></table>
-</DIV>
-
-<DIV style="left:48PX;top:606PX;width:85PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">531502</span></DIV>
-
-<DIV style="left:133PX;top:606PX;width:65PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">000</span></DIV>
-
-<DIV style="left:749PX;top:606PX;width:103PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:432PX;top:606PX;width:96PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">1,052,000.00</span></DIV>
-
-<DIV style="left:531PX;top:606PX;width:104PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:647PX;top:606PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">1,052,000.00</span></DIV>
-
-<DIV style="left:966PX;top:606PX;width:93PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:864PX;top:606PX;width:100PX;height:20PX;TEXT-ALIGN:RIGHT;"><span class="fc1-4">0.00</span></DIV>
-
-<DIV style="left:198PX;top:606PX;width:238PX;height:21PX;"><span class="fc1-4">ค่าใช้จ่ายเบ็ดเตล็ด</span></DIV>
--->
 
 <!--Total Line-->
 <DIV style="left: 11px; top: 660PX; width: 1067px; height: 20PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
@@ -690,7 +330,7 @@ endfor; // end copy for
 
 <?php
 	}
-   
+   }
 }
 
 ?>

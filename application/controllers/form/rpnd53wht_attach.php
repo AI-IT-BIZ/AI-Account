@@ -46,6 +46,8 @@ class Rpnd53wht_attach extends CI_Controller {
 		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 
  ie4up=nav4up=false;
@@ -55,6 +57,12 @@ class Rpnd53wht_attach extends CI_Controller {
    ie4up = true;
  if ((agt.indexOf('mozilla') != -1)  && (agt.indexOf('spoofer') == -1) && (agt.indexOf('compatible') == -1) && ( major>= 4))
    nav4up = true;
+</script>
+
+<script type="text/javascript">
+	function do_print() {
+		window.print()
+	}
 </script>
 <link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
 <STYLE>
@@ -82,7 +90,7 @@ body { font-family: 'angsana_newregular'; }
 .fc1-17 { COLOR:808080;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
 .fc1-18 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-19 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;TEXT-DECORATION:UNDERLINE;}
-.fc1-20 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
+.fc1-20 { COLOR:000000;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
 .fc1-21 { COLOR:000000;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
 .fc1-22 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -186,9 +194,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:852PX;top:74PX;width:178PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">แผ่นที่...............ในจำนวน...............แผ่น</span></DIV>
 
-<DIV style="left: 904px; top: 69PX; width: 26PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
+<DIV style="left: 888px; top: 69PX; width: 43px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=$total_page;?></span></DIV>
+<DIV style="left: 964px; top: 69PX; width: 40px; height: 22PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2"><?=$total_page;?></span></DIV>
 
 <DIV style="left: 771px; top: 57px; width: 61PX; height: 19PX;"><span class="fc1-2">0000</span></DIV>
 
@@ -385,9 +393,6 @@ endfor;
 <DIV style="left:100PX;top:608PX;width:21PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-9">&nbsp;</span></DIV>
 
 <DIV style="left:98PX;top:660PX;width:24PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"></span></DIV>
-
-<DIV style="left:123PX;top:660PX;width:119PX;height:18PX;"><span class="fc1-20">เงื่อนไขการหักภาษี ให้กรอกดังนี้</span></DIV>
-
 <DIV style="left:312PX;top:663PX;width:11PX;height:12PX;TEXT-ALIGN:CENTER;"><span class="fc1-21">n&nbsp;</span></DIV>
 
 <DIV style="left:322PX;top:660PX;width:73PX;height:17PX;"><span class="fc1-20">หัก ณ ที่จ่าย&nbsp;&nbsp;&nbsp;กรอก</span></DIV>
@@ -400,7 +405,7 @@ endfor;
 
 <DIV style="left:568PX;top:660PX;width:9PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-22">2</span></DIV>
 
-<DIV style="left:123PX;top:677PX;width:489PX;height:54PX;">
+<DIV style="left: 122px; top: 680px; width: 489PX; height: 54PX;">
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20">เลขประจำตัวผู้เสียภาษีอากร (13หลัก)* หมายถึง</td></table>
 
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20"> 1. กรณีบุคคลธรรมดาไทย ให้ใช้เลขประจำตัวประชาชนของกรมการปกครอง</td></table>

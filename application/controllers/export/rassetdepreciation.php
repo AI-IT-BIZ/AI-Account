@@ -213,25 +213,25 @@ class RAssetdepreciation extends CI_Controller {
                     ->setCellValue('I'.$excel_i, $value['serno'])
 		            ->setCellValue('J'.$excel_i, util_helper_format_date($value['bldat']))  
    
-                    ->setCellValue('K'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['costv'], 2))
+                    ->setCellValue('K'.$excel_i, number_format($value['costv'],2,'.',','))
                     ->setCellValue('L'.$excel_i, $value['saknr'])
-                    ->setCellValue('M'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['resid'], 2))
+                    ->setCellValue('M'.$excel_i, number_format($value['resid'],2,'.',','))
                     ->setCellValue('N'.$excel_i, $value['lifes'])
                     ->setCellValue('O'.$excel_i, $value['depre'])
-                    ->setCellValue('P'.$excel_i, preg_replace('/(\.00)$/' ,'',$accum, 2))
+                    ->setCellValue('P'.$excel_i, number_format($accum,2,'.',','))
 					
-                    ->setCellValue('Q'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[1], 2))
-					->setCellValue('R'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[2], 2))
-                    ->setCellValue('S'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[3], 2))
-                    ->setCellValue('T'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[4], 2))
-                    ->setCellValue('U'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[5], 2))
-                    ->setCellValue('V'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[6], 2))
-					->setCellValue('W'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[7], 2))
-					->setCellValue('X'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[8], 2))
-                    ->setCellValue('Y'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[9], 2))
-                    ->setCellValue('Z'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[10], 2))
-                    ->setCellValue('AA'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[11], 2))
-                    ->setCellValue('AB'.$excel_i, preg_replace('/(\.00)$/' ,'',$mon[12], 2));
+                    ->setCellValue('Q'.$excel_i, number_format($mon[1],2,'.',','))
+					->setCellValue('R'.$excel_i, number_format($mon[2],2,'.',','))
+                    ->setCellValue('S'.$excel_i, number_format($mon[3],2,'.',','))
+                    ->setCellValue('T'.$excel_i, number_format($mon[4],2,'.',','))
+                    ->setCellValue('U'.$excel_i, number_format($mon[5],2,'.',','))
+                    ->setCellValue('V'.$excel_i, number_format($mon[6],2,'.',','))
+					->setCellValue('W'.$excel_i, number_format($mon[7],2,'.',','))
+					->setCellValue('X'.$excel_i, number_format($mon[8],2,'.',','))
+                    ->setCellValue('Y'.$excel_i, number_format($mon[9],2,'.',','))
+                    ->setCellValue('Z'.$excel_i, number_format($mon[10],2,'.',','))
+                    ->setCellValue('AA'.$excel_i, number_format($mon[11],2,'.',','))
+                    ->setCellValue('AB'.$excel_i, number_format($mon[12],2,'.',','));
                             
 		}
 

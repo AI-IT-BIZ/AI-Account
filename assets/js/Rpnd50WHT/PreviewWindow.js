@@ -4,16 +4,7 @@ Ext.define('Account.Rpnd50WHT.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'หนังสือรับรองการหักภาษี ณ ที่จ่าย(50 ทวิ)',
-			closeAction: 'hide',
-			height: 600,
-			width: 830,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center'
+			enableCopies: true
 		});
 
 		return this.callParent(arguments);

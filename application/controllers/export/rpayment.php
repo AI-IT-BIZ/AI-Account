@@ -198,7 +198,7 @@ class Rpayment extends CI_Controller {
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
 		            ->setCellValue('C'.$excel_i, $value['lifnr'])
 		            ->setCellValue('D'.$excel_i, $value['name1'])
-		            ->setCellValue('E'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['netwr'], 2))
+		            ->setCellValue('E'.$excel_i, number_format($value['netwr'],2,'.',','))
 					->setCellValue('F'.$excel_i, $value['statx'])
 		            ->setCellValue('G'.$excel_i, $payment);
    

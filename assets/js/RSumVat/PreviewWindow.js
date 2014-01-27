@@ -5,16 +5,7 @@ Ext.define('Account.RSumVat.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีมูลค่าเพิ่ม',
-			closeAction: 'hide',
-			height: 600,
-			width: 1000,
-			minHeight: 600,
-			minWidth: 830,
-			layout: 'border',
-			border: false,
-			resizable: true,
-			modal: true,
-			buttonAlign:'center',
+			width: 1120,
 			enableCopies: true
 		});
 
