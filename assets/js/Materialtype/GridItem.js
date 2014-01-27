@@ -209,8 +209,9 @@ Ext.define('Account.Materialtype.GridItem', {
 	
 	addRecord: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
+		var newId = -1;var i=0;
 		this.store.each(function(r){
+			i++;
 			if(r.get('id')<newId)
 				newId = r.get('id');
 		});
@@ -225,9 +226,9 @@ Ext.define('Account.Materialtype.GridItem', {
 		//alert(sel);
 		var selIndex = this.store.indexOf(sel);
 		//alert(selIndex);
-		this.store.insert(selIndex+1, rec);
+		this.store.insert(i, rec);
 		edit.startEditByPosition({
-			row: selIndex+1,
+			row: i,
 			column: 0
 		});
 

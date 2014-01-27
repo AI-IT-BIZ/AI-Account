@@ -220,6 +220,7 @@ Ext.define('Account.AP.Item.Form', {
 			width:150,
 			hideTrigger:false,
 			align: 'right',
+			value: '10'
 			//margin: '0 0 0 35'
 		 });
 		 

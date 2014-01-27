@@ -181,7 +181,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			margin: '0 0 0 35'
+			margin: '0 0 0 35',
+			value: '10'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {

@@ -19,7 +19,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		//});
 		// INIT Customer search popup ///////////////////////////////
 		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
-		this.customerDialog = Ext.create('Account.Customer.MainWindow', {
+		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly:true
 		});
@@ -205,7 +205,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			width:150,
 			hideTrigger:false,
 			align: 'right',
-			margin: '0 0 0 25'
+			margin: '0 0 0 25',
+			value: '10'
 		 });
 		 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {
@@ -686,6 +687,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
 

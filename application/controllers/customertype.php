@@ -57,17 +57,16 @@ class Customertype extends CI_Controller {
 
 	function save(){
 		//echo "vendor type";
-		
 		//start transaction
 		//$this->db->trans_start();  
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('ktyp');
+		  $this->db->where('1=1');
+		  $this->db->delete('ktyp');
 		}
 		if(db_helper_is_mysql($this)){
-		$this->db->turncate('ktyp');
+		  $this->db->truncate('ktyp');
 		}
 		//$this->db->delete('ktyp');
 
@@ -79,6 +78,7 @@ class Customertype extends CI_Controller {
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
 		foreach($item_array AS $p){
+			echo $p->ktype;
 			$this->db->insert('ktyp', array(
 				'ktype'=>$p->ktype,
 				'custx'=>$p->custx,

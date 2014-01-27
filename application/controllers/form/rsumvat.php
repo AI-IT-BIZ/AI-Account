@@ -37,6 +37,21 @@ class Rsumvat extends CI_Controller {
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		
+		//Sale debit
+	    $strSQL = " select v_vbdn.*";
+        $strSQL = $strSQL . " from v_vbdn ";
+        $strSQL = $strSQL . " Where v_vbdn.bldat ".$dt_result;
+		$strSQL .= "ORDER BY invnr ASC";
+       
+		$q_saledn = $this->db->query($strSQL);
+		
+		//Sale credit
+	    $strSQL = " select v_vbcn.*";
+        $strSQL = $strSQL . " from v_vbcn ";
+        $strSQL = $strSQL . " Where v_vbcn.bldat ".$dt_result;
+		$strSQL .= "ORDER BY invnr ASC";
+       
+		$q_salecn = $this->db->query($strSQL);
 		
 		//Purchase
 		$strSQL2 = " select v_ebrk.*";
@@ -45,12 +60,30 @@ class Rsumvat extends CI_Controller {
 		$strSQL2 .= "ORDER BY invnr ASC";
        
 		$q_purch = $this->db->query($strSQL2);
-		//$r_purch = $q_purch->first_row('array');
+		
+        //Purchase debit
+		$strSQL2 = " select v_ebrk.*";
+        $strSQL2 = $strSQL2 . " from v_ebrk ";
+        $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL2 .= "ORDER BY invnr ASC";
+       
+		$q_purchdn = $this->db->query($strSQL2);
+		
+		//Purchase credit
+		$strSQL2 = " select v_ebcn.*";
+        $strSQL2 = $strSQL2 . " from v_ebcn ";
+        $strSQL2 = $strSQL2 . " Where v_ebcn.bldat ".$dt_result;
+		$strSQL2 .= "ORDER BY invnr ASC";
+       
+		$q_purchcn = $this->db->query($strSQL2);
 		
 		// calculate sum
 		$rows = $query->result_array();
+		$rowscn = $q_salecn->result_array();
+		$rowsdn = $q_saledn->result_array();
 		$rowp = $q_purch->result_array();
-		//$b_amt = 0;$rows='';
+		$rowpcn = $q_purchcn->result_array();
+		$rowpdn = $q_purchdn->result_array();
 
 		function check_page($page_index, $total_page, $value){
 			//return ($page_index==0 && $total_page>1)?"":$value;
@@ -114,7 +147,8 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
 	$page_size = 8;
-	$total_count = count($rows) + count($rowp);
+	$total_count = count($rows) + count($rowp) + count($rowscn) 
+	+ count($rowpcn) + count($rowsdn) + count($rowpdn);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
 	for($current_page_index=0; $current_page_index<$total_page; $current_page_index++):
@@ -253,8 +287,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php
 $rows = $query->result_array();
 $rowp = $q_purch->result_array();
-$alls = count($rows) + count($rowp);
-$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;
+$alls = count($rows) + count($rowp) + count($rowscn) 
+	  + count($rowpcn) + count($rowsdn) + count($rowpdn);
+$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;$k=0;$l=0;$m=0;$n=0;
 $invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
 for ($i=($current_page_index * $page_size);
      $i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
@@ -266,14 +301,56 @@ for ($i=($current_page_index * $page_size);
 		$ts_vat += $item['vat01'];
 		$d_vat = $item['vat01'];
 	 }else{
-		$item = $rowp[$j];
-		$j++;
-		$p_amt = $item['beamt'];
-		$p_vat = $item['vat01'];
-		$tp_amt += $item['beamt'];
-		$tp_vat += $item['vat01'];
-		$d_vat = 0 - $item['vat01'];
-	};
+	      if($j<count($rowp)){
+		     $item = $rowp[$j];
+		     $j++;
+		     $p_amt = $item['beamt'];
+		     $p_vat = $item['vat01'];
+		     $tp_amt += $item['beamt'];
+		     $tp_vat += $item['vat01'];
+		     $d_vat = 0 - $item['vat01'];
+	         }else{
+	             if($k<count($rowsdn)){
+		         $item = $rowsdn[$k];
+		         $k++;
+		         $p_amt = $item['beamt'];
+		         $p_vat = $item['vat01'];
+		         $tp_amt += $item['beamt'];
+		         $tp_vat += $item['vat01'];
+		         $d_vat = $item['vat01'];
+	             }else{
+	             	if($l<count($rowscn)){
+		              $item = $rowscn[$l];
+		              $l++;
+		              $p_amt = $item['beamt'];
+		              $p_vat = $item['vat01'];
+		              $tp_amt += $item['beamt'];
+		              $tp_vat += $item['vat01'];
+		              $d_vat = 0 - $item['vat01'];
+	                  }else{
+	             	      if($m<count($rowpcn)){
+		                    $item = $rowpcn[$m];
+		                    $m++;
+		                    $p_amt = $item['beamt'];
+		                    $p_vat = $item['vat01'];
+		                    $tp_amt += $item['beamt'];
+		                    $tp_vat += $item['vat01'];
+		                    $d_vat = $item['vat01'];
+	                        }else{
+	             	           if($n<count($rowpdn)){
+		                          $item = $rowpdn[$n];
+		                          $n++;
+		                          $p_amt = $item['beamt'];
+		                          $p_vat = $item['vat01'];
+		                          $tp_amt += $item['beamt'];
+		                          $tp_vat += $item['vat01'];
+		                          $d_vat = 0 - $item['vat01'];
+	                           }
+	                        }
+	                  }
+	             }
+	 }
+	 }
 	//$itamt = $item['beamt'];
 	//$t_amt += $itamt;
 	$t_vat += $d_vat;
@@ -282,18 +359,18 @@ for ($i=($current_page_index * $page_size);
 	$adr01 = $item['adr01'].$item['distx'];
 ?>
 	<tr>
-	  <td class="fc1-8" align="center" style="width:36px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="center" style="width:56px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:70px;"><?=$item['invnr'];?></td>
-      <td class="fc1-8" align="center" style="width:53px;">0000</td>
-	  <td class="fc1-8" align="left" style="width:181px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="left" style="width:263px;"><?=$adr01;?></td>
+	  <td class="fc1-8" align="center" valign="top" style="width:36px;"><?=$no++;?></td>
+	  <td class="fc1-8" align="center" valign="top" style="width:56px;"><?=$invdt_str;?></td>
+	  <td class="fc1-8" align="center" valign="top" style="width:70px;"><?=$item['invnr'];?></td>
+      <td class="fc1-8" align="center" valign="top" style="width:53px;">0000</td>
+	  <td class="fc1-8" align="left" valign="top" style="width:181px;"><?=$item['name1'];?></td>
+      <td class="fc1-8" align="left" valign="top" style="width:263px;"><?=$adr01;?></td>
 
-      <td class="fc1-8" align="right" style="width:75px;"><?=number_format($s_amt,2,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:70px;"><?=number_format($s_vat,2,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:74px;"><?=number_format($p_amt,2,'.',',');?></td>
-	  <td class="fc1-8" align="right" style="width:72px;"><?=number_format($p_vat,2,'.',',');?></td>
-	  <td class="fc1-8" align="right" style="width:110px;"><?=number_format($d_vat,2,'.',',');?></td>
+      <td class="fc1-8" align="right" valign="top" style="width:75px;"><?=number_format($s_amt,2,'.',',');?></td>
+      <td class="fc1-8" align="right" valign="top" style="width:70px;"><?=number_format($s_vat,2,'.',',');?></td>
+      <td class="fc1-8" align="right" valign="top" style="width:74px;"><?=number_format($p_amt,2,'.',',');?></td>
+	  <td class="fc1-8" align="right" valign="top" style="width:72px;"><?=number_format($p_vat,2,'.',',');?></td>
+	  <td class="fc1-8" align="right" valign="top" style="width:110px;"><?=number_format($d_vat,2,'.',',');?></td>
 	</tr>
 
 <?php

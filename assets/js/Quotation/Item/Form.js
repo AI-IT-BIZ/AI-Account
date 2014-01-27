@@ -186,7 +186,8 @@ Ext.define('Account.Quotation.Item.Form', {
 			width:150,
 			hideTrigger:false,
 			align: 'right',
-			margin: '0 0 0 35'
+			margin: '0 0 0 35',
+			value: '10'
 		 });
 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {

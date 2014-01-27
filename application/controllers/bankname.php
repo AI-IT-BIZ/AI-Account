@@ -58,6 +58,27 @@ class Bankname extends CI_Controller {
 	}
 	
 	function save(){
+		
+		// เตรียมข้อมูล payment item
+		$bnam = $this->input->post('bnam');
+		$item_array = json_decode($bnam);
+		$result_array = json_decode($bnam);
+		if(!empty($bnam) && !empty($item_array)){
+			$i=0;
+			foreach($item_array AS $p){
+				$j=0;
+				foreach($result_array AS $o){
+					if($p->bcode == $o->bcode && $i!=$j){
+						//$emsg = 'The bank code '.$p->bcode.' is duplicated';
+					    echo json_encode(array(
+						  'success'=>false//,
+						  //'message'=>$emsg
+					    ));
+					    return;
+					}$j++;
+				}$i++;
+			}
+		}
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
 			$this->db->where('1=1');
@@ -68,8 +89,8 @@ class Bankname extends CI_Controller {
 		}
 
 		// เตรียมข้อมูล payment item
-		$bnam = $this->input->post('bnam');
-		$item_array = json_decode($bnam);
+		//$bnam = $this->input->post('bnam');
+		//$item_array = json_decode($bnam);
 		
 		if(!empty($bnam) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่

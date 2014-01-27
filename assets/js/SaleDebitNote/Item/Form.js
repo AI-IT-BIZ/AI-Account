@@ -221,7 +221,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//margin: '0 0 0 25'
+			value: '10'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Number', {
@@ -655,7 +655,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
-        
+        this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
 	
