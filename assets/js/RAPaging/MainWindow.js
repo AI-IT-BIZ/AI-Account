@@ -52,7 +52,7 @@ Ext.define('Account.RAPaging.MainWindow', {
 			    	lifnr = _this.form.getForm().findField('lifnr').getValue();
 			    	lifnr2 = _this.form.getForm().findField('lifnr2').getValue();
 			    	params = params = "start_date="+start_date+"&end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2;
-			    	_this.preview.openDialog(__base_url + 'index.php/rapaging/excel?'+params,'_blank');
+			    	window.location =__base_url + 'index.php/rapaging/excel?'+params;
 			   }
 			}
 		},{

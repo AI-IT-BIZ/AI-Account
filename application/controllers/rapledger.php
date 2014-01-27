@@ -26,6 +26,7 @@ class RapLedger extends CI_Controller {
 		}
 		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
 						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+						  'comid' => 1000,
 						  'lifnr' => $lifnr);
 		
 		$report = $client->runReport('/ai_account/rapledger', 'pdf', null, $controls);
@@ -61,9 +62,10 @@ class RapLedger extends CI_Controller {
 		}
 		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
 						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+						  'comid' => 1000,
 						  'lifnr' => $lifnr);
 		
-		$report = $client->runReport('/ai_account/rapledger', 'xls', null, $controls);
+		$report = $client->runReport('/ai_account/rapledger', 'xlsx', null, $controls);
 		 
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
@@ -71,7 +73,7 @@ class RapLedger extends CI_Controller {
 		header('Content-Disposition: inline;');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: ' . strlen($report));
-		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		 
 		echo $report;		
 	}
