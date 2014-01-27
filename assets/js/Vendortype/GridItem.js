@@ -69,7 +69,7 @@ Ext.define('Account.Vendortype.GridItem', {
 		});
 
 		this.columns = [{
-			//xtype: 'actioncolumn',
+			xtype: 'actioncolumn',
 			width: 30,
 			sortable: false,
 			text: 'Del',

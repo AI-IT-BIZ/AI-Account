@@ -83,7 +83,7 @@ Ext.define('Account.Customertype.GridItem', {
 				handler: this.removeRecord
 			}]
 		},{
-			//id : 'PMiRowNumber77',
+			//id : 'CSiRowNumber77',
 			text: "No",
 			dataIndex : 'id_ktype',
 			width : 60,

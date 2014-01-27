@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		24/1/2014
+Modified		27/1/2014
 Project		
 Model		
 Company		
@@ -197,6 +197,10 @@ Drop View IF EXISTS v_vbak
 
 
 
+drop table IF EXISTS tbl_vbep;
+drop table IF EXISTS tbl_vbek;
+drop table IF EXISTS tbl_vbtp;
+drop table IF EXISTS tbl_vbtk;
 drop table IF EXISTS tbl_fgrp;
 drop table IF EXISTS tbl_ftyp;
 drop table IF EXISTS tbl_fara;
@@ -2147,6 +2151,124 @@ Create table tbl_fgrp (
  Primary Key (matkl,mtart)) ENGINE = InnoDB
 COMMENT = 'Material Group';
 
+Create table tbl_vbtk (
+	comid Varchar(4) NOT NULL,
+	remnr Varchar(20) NOT NULL COMMENT 'Invoice no',
+	bldat Date COMMENT 'Invoice Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Text COMMENT 'Text Note',
+	revnr Varchar(20) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	itype Varchar(4) COMMENT 'Invoice type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Text COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	terms Int COMMENT 'Terms Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(17,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
+	ordnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
+	condi Varchar(4) COMMENT 'Payment Condition',
+	paypr Varchar(4) COMMENT 'Partial Payment',
+	vat01 Decimal(17,2),
+	wht01 Decimal(17,2),
+	whtyp Varchar(2) COMMENT 'WHT Type',
+	whtnr Varchar(4) COMMENT 'WHT No',
+	whtxt Varchar(40) COMMENT 'WHT Description',
+	dispc Varchar(20),
+	deamt Decimal(17,2),
+	reman Decimal(17,2),
+	upamt Decimal(17,2),
+ Primary Key (comid,remnr)) ENGINE = InnoDB
+COMMENT = 'Invoice Header';
+
+Create table tbl_vbtp (
+	remnr Varchar(20) NOT NULL COMMENT 'Invoice no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	disit Varchar(20) COMMENT 'Discount amt',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	chk01 Varchar(5),
+	chk02 Varchar(5),
+ Primary Key (remnr,vbelp)) ENGINE = InnoDB
+COMMENT = 'Invoice Item';
+
+Create table tbl_vbek (
+	comid Varchar(4) NOT NULL,
+	invnr Varchar(20) NOT NULL COMMENT 'Invoice no',
+	bldat Date COMMENT 'Invoice Date',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	statu Varchar(4) COMMENT 'Invoice Status (tbl_apov)',
+	ernam Varchar(10) COMMENT 'Create name',
+	erdat Datetime COMMENT 'Create date',
+	txz01 Text COMMENT 'Text Note',
+	revnr Varchar(20) COMMENT 'Reverse Doc',
+	upnam Varchar(10) COMMENT 'Update Name',
+	updat Datetime COMMENT 'Update Date',
+	itype Varchar(4) COMMENT 'Invoice type',
+	salnr Varchar(10) COMMENT 'Sale person (tbl_psal)',
+	reanr Text COMMENT 'Reject Reason (tbl_reson->type->02)',
+	refnr Varchar(15) COMMENT 'Refer doc',
+	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
+	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
+	terms Int COMMENT 'Terms Date',
+	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	netwr Decimal(17,2) COMMENT 'Net Amount',
+	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
+	beamt Decimal(17,2) COMMENT 'Amount',
+	dismt Decimal(17,2) COMMENT 'Discount amt',
+	taxpr Decimal(17,2) COMMENT 'Percent Tax',
+	duedt Date COMMENT 'Due Date',
+	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
+	exchg Decimal(15,4) COMMENT 'Exchange rate',
+	ordnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
+	condi Varchar(4) COMMENT 'Payment Condition',
+	paypr Varchar(4) COMMENT 'Partial Payment',
+	vat01 Decimal(17,2),
+	wht01 Decimal(17,2),
+	whtyp Varchar(2) COMMENT 'WHT Type',
+	whtnr Varchar(4) COMMENT 'WHT No',
+	whtxt Varchar(40) COMMENT 'WHT Description',
+	dispc Varchar(20),
+	deamt Decimal(17,2),
+ Primary Key (comid,invnr)) ENGINE = InnoDB
+COMMENT = 'Invoice Header';
+
+Create table tbl_vbep (
+	invnr Varchar(20) NOT NULL COMMENT 'Invoice no.',
+	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	loekz Varchar(1) COMMENT 'Delete flag',
+	matnr Varchar(10) COMMENT 'Material Code',
+	menge Decimal(15,2) COMMENT 'Amount',
+	meins Varchar(3) COMMENT 'Unit',
+	disit Varchar(20) COMMENT 'Discount amt',
+	warnr Varchar(4) COMMENT 'Warehouse code',
+	ctype Varchar(3) COMMENT 'Currency',
+	unitp Decimal(17,2) COMMENT 'Price/Unit',
+	itamt Decimal(17,2) COMMENT 'Item Amount',
+	chk01 Varchar(5),
+	chk02 Varchar(5),
+ Primary Key (invnr,vbelp)) ENGINE = InnoDB
+COMMENT = 'Invoice Item';
+
 
 
 
@@ -2263,7 +2385,7 @@ left join tbl_ptyp e on a.ptype = e.ptype
 left join tbl_whty f on a.whtnr = f.whtnr;
 create view v_vbbp as
 
-SELECT t1.*,t2.name1,t2.taxid,t2.adr01,t2.distx,t2.ktype,
+SELECT t1.*,t2.name1,t2.taxid,t2.adr01,t2.distx,t2.type1,
 t3.vbelp,t3.invnr,t3.invdt,t3.itamt,t3.texts,t3.jobtx,
 t3.vat01,t3.dtype,t4.wht01,t4.ordnr,f.whtpr
 FROM tbl_vbbk AS t1 
@@ -2621,7 +2743,7 @@ select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
 b.emai2,b.dis02,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr,f.whtpr
+e.paytx,e.saknr,f.whtpr,f.whtgp
 from tbl_vbcn a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
@@ -2633,7 +2755,7 @@ select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.telf2,b.adr02,b.tel02,b.pst02,
 b.emai2,b.dis02,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr,f.whtpr
+e.paytx,e.saknr,f.whtpr,f.whtgp
 from tbl_vbdn a left join tbl_kna1 b 
 on a.kunnr = b.kunnr
 left join tbl_apov d on a.statu = d.statu
@@ -2666,7 +2788,7 @@ create view v_ebcn as
 select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,b.saknr as cusgl,d.statx,
-e.paytx,e.saknr,f.whtpr
+e.paytx,e.saknr,f.whtpr, f.whtgp
 from tbl_ebcn a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
 left join tbl_apov d on a.statu = d.statu
@@ -2678,7 +2800,7 @@ select a.*,b.name1,b.name2,
 b.telf1,b.adr01,b.telfx,b.pstlz,b.taxid,
 b.email,b.distx,
 b.saknr as cusgl,d.statx,
-e.paytx,e.saknr,f.whtpr
+e.paytx,e.saknr,f.whtpr, f.whtgp
 from tbl_ebdn a left join tbl_lfa1 b 
 on a.lifnr = b.lifnr
 left join tbl_apov d on a.statu = d.statu
@@ -3057,14 +3179,14 @@ INSERT INTO tbl_lfa1 (lifnr,name1,adr01,adr02,distx,pstlz,telf1,taxnr,crdit,disc
                ('20004','RS Promotion Co.,Ld.','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','02','30','500','330111002','Bangkok','10150','02-2222222','211001');
                
 INSERT INTO tbl_empl (empnr,name1,adr01,adr02,distx,pstlz,telf1,deptx,postx,supnr,bcode,saknr,email) 
-        VALUES ('10001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','Sale&Maketing','AE','Tanakorn Raksang','KBANK','112002','yongyut.put11@gmail.com'),
-               ('10002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Sale&Maketing','Marketing Manager','Johnson Macro','KBANK','112003','charoen77@hotmail.com'),
-               ('10003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Sale&Maketing','Sale Manager','Jason Lotus','KBANK','112004','charoen77@hotmail.com'),
-               ('10004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Purchase Officer','Mania Talor','KBANK','112005','yongyut.put11@gmail.com'),
-               ('10005','Jerry Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','Purchase','Admin','Tanakorn Raksang','KBANK','112002','yongyut.put11@gmail.com'),
-               ('10006','Vanes Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Purchase Manager','Johnson Macro','KBANK','112003','charoen77@hotmail.com'),
-               ('10007','Nicky Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Finance Manager','Jason Lotus','KBANK','112004','charoen77@hotmail.com'),
-               ('10008','Josy Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Finance Manager','Mania Talor','KBANK','112005','charoen77@hotmail.com');
+        VALUES ('40001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','Sale&Maketing','AE','Tanakorn Raksang','KBANK','112002','yongyut.put11@gmail.com'),
+               ('40002','Mana Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Sale&Maketing','Marketing Manager','Johnson Macro','KBANK','112003','charoen77@hotmail.com'),
+               ('40003','Manee Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Sale&Maketing','Sale Manager','Jason Lotus','KBANK','112004','charoen77@hotmail.com'),
+               ('40004','Kitti Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Purchase Officer','Mania Talor','KBANK','112005','yongyut.put11@gmail.com'),
+               ('40005','Jerry Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222','Purchase','Admin','Tanakorn Raksang','KBANK','112002','yongyut.put11@gmail.com'),
+               ('40006','Vanes Longru','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Purchase Manager','Johnson Macro','KBANK','112003','charoen77@hotmail.com'),
+               ('40007','Nicky Jongjit','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Finance Manager','Jason Lotus','KBANK','112004','charoen77@hotmail.com'),
+               ('40008','Josy Chaiyapak','99 SapanSung  Srinakarin Rd.','Sapansung','Bangkok','10160','02-3333333','Purchase','Finance Manager','Mania Talor','KBANK','112005','charoen77@hotmail.com');
                
 INSERT INTO tbl_psal (salnr,name1,adr01,adr02,distx,pstlz,telf1) 
         VALUES ('30001','Anna Jackson','811 Soi Takham Praram2 Rd.','Praram 2','Bangkok','10150','02-2222222'),

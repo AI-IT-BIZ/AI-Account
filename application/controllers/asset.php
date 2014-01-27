@@ -700,7 +700,7 @@ class Asset extends CI_Controller {
 		}
 
 		if(db_helper_is_mysql($this)){
-			$this->db->turncate('fgrp');
+			$this->db->truncate('fgrp');
 		}
 		//$this->db->delete('ktyp');
 

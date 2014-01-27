@@ -364,7 +364,7 @@ for ($i=($current_page_index * $page_size);
 	  <td class="fc1-8" align="center" valign="top" style="width:70px;"><?=$item['invnr'];?></td>
       <td class="fc1-8" align="center" valign="top" style="width:53px;">0000</td>
 	  <td class="fc1-8" align="left" valign="top" style="width:181px;"><?=$item['name1'];?></td>
-      <td class="fc1-8" align="left" style="width:263px;"><?=$adr01;?></td>
+      <td class="fc1-8" align="left" valign="top" style="width:263px;"><?=$adr01;?></td>
 
       <td class="fc1-8" align="right" valign="top" style="width:75px;"><?=number_format($s_amt,2,'.',',');?></td>
       <td class="fc1-8" align="right" valign="top" style="width:70px;"><?=number_format($s_vat,2,'.',',');?></td>

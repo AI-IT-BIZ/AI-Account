@@ -480,7 +480,7 @@ class Payment extends CI_Controller {
 			'refnr' => $id,
 			'kunnr' => $this->input->post('lifnr'),
 			'txz01' => 'Payment No '.$id,
-			'ttype' => '03',
+			'ttype' => '02',
 			'auart' => 'PV',
 			'netwr' => floatval($this->input->post('netwr'))
 		);
@@ -528,7 +528,7 @@ class Payment extends CI_Controller {
 					'saknr'=>$p->saknr,
 					'debit'=>$p->debit,
 					'credi'=>$p->credi,
-					'docty'=>'01',
+					'docty'=>'02',
 					'txz01' => 'Payment No '.$id
 				));
 				//}elseif($p->statu=='2' && !empty($p->saknr)){

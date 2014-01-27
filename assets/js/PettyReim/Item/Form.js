@@ -1,9 +1,9 @@
-Ext.define('Account.OtherExpense.Item.Form', {
+Ext.define('Account.PettyReim.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'ap/save',
+			url: __site_url+'pettyreim/save',
 			layout: 'border',
 			border: false
 		});
@@ -26,11 +26,11 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.OtherExpense.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.PettyReim.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.OtherExpense.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.PettyReim.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
@@ -56,7 +56,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('OE'),
-			fieldLabel: 'Other Expense Status',
+			fieldLabel: 'Petty Cash Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -119,44 +119,14 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});	
-/*---ComboBox Payment type----------------------------*/
-		this.comboPay = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Payments',
-			name : 'ptype',
-			width: 280,
-			editable: false,
-			//allowBlank : false,
-			triggerAction : 'all',
-			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
-			store: new Ext.data.JsonStore({
-				proxy: {
-					type: 'ajax',
-					url: __site_url+'quotation/loads_tcombo',
-					reader: {
-						type: 'json',
-						root: 'rows',
-						idProperty: 'ptype'
-					}
-				},
-				fields: [
-					'ptype',
-					'paytx'
-				],
-				remoteSort: true,
-				sorters: 'ptype ASC'
-			}),
-			queryMode: 'remote',
-			displayField: 'paytx',
-			valueField: 'ptype'
-		});
+
 /*-------------------------------*/			
 		this.hdnApItem = Ext.create('Ext.form.Hidden', {
-			name: 'ebrp',
+			name: 'ebtp',
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
-			name: 'bven',
+			name: 'bsid',
 		});
 
         /*this.trigGR = Ext.create('Ext.form.field.Trigger', {
@@ -176,17 +146,6 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			enableKeyEvents: true,
 			allowBlank : false
 		});
-		
-	    this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
-            //xtype: 'numberfield',
-			fieldLabel: 'Credit Terms',
-			name: 'terms',
-			labelAlign: 'right',
-			width:170,
-			hideTrigger:false,
-			align: 'right'//,
-			//margin: '0 0 0 35'
-         });
          
          this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
 			name: 'ctype',
@@ -263,11 +222,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'loekz'
-					},/*{xtype: 'fieldset',
-title: 'Payable Type',
-layout: 'anchor',
-//collapsible: true,
-        items: [this.radioType]},*/{
+					},{
 						xtype: 'displayfield',
 						//name: 'aaa',
 						//margins: '0 0 0 6',
@@ -366,12 +321,13 @@ layout: 'anchor',
                     layout: 'hbox',
                     defaultType: 'textfield',
                     margin: '0 0 5 0',
-   items: [this.numberCredit,{
-			xtype: 'displayfield',
-			margin: '0 0 0 5',
-			width:25,
-			value: 'Days'
-		}]
+            items: [this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
          },
 						{
 			xtype: 'datefield',
@@ -571,8 +527,6 @@ layout: 'anchor',
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
         
-        this.numberCredit.on('keyup', this.getDuedate, this);
-        this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
@@ -609,7 +563,7 @@ layout: 'anchor',
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'otexpense/load',
+			url:__site_url+'pettyreim/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -655,7 +609,7 @@ layout: 'anchor',
 		this.gridGL.load({ netpr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		//this.gridItem.addDefaultRecord();
+		this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -664,7 +618,6 @@ layout: 'anchor',
 		this.numberVat.setValue(7);
 		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
-		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
@@ -775,20 +728,6 @@ layout: 'anchor',
             	vattype:this.comboTax.getValue()
             });     
         }
-	},
-	
-	// Add duedate functions
-	getDuedate: function(){
-		var bForm = this.getForm(),
-			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue();
-		if(!Ext.isEmpty(credit) && credit>0){
-			var result = Ext.Date.add(startDate, Ext.Date.DAY, credit),
-				dueDateField = bForm.findField('duedt');
-
-			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
-				dueDateField.setValue(result);
-		}
 	},
 	
 	changeCurrency: function(){

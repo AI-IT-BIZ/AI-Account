@@ -1028,7 +1028,7 @@ function endsWith($haystack, $needle)
 									'<div id="div-rpnd1" class="box box-orange"><span>ภ.ง.ด.1</span></div>',
 									'<div id="div-rpnd3" class="box box-orange"><span>ภ.ง.ด.3</span></div>',
 									'<div id="div-rpnd53" class="box box-orange"><span>ภ.ง.ด.53</span></div>',
-									'<div id="div-rpnd50-form" class="box box-orange"><span>ฟอร์ม ภ.พ.50 ทวิ</span></div>',
+									'<div id="div-rpnd50-form" class="box box-orange"><span>ฟอร์ม 50 ทวิ</span></div>',
 								'</div>',
 								// arrow
 								'<div id="arrow-home-01" class="arrow arrow-down"><span></span></div>',

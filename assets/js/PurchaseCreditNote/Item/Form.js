@@ -19,7 +19,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.Vendor.MainWindow', {
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -666,7 +666,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
-        
+        this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
 	
