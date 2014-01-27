@@ -166,7 +166,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//margin: '4 0 0 10'
+			value: '10'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Number', {

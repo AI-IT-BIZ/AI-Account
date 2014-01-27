@@ -458,6 +458,28 @@ Ext.onReady(function() {
 			$om.expenseDialog = Ext.create('Account.OtherExpense.MainWindow');
 		$om.expenseDialog.show();
 	});
+	
+	$om.viewport.on('click_pettyreim', function(){
+		if(!UMS.CAN.DISPLAY('CPV')){
+			UMS.ALERT("You don't have permission for Petty Cash Reimburement.");
+			return;
+		}
+		
+		if(!$om.pettyDialog)
+			$om.pettyDialog = Ext.create('Account.PettyReim.MainWindow');
+		$om.pettyDialog.show();
+	});
+
+	$om.viewport.on('click_pettyexpense', function(){
+		if(!UMS.CAN.DISPLAY('PE')){
+			UMS.ALERT("You don't have permission for Petty Cash.");
+			return;
+		}
+		
+		if(!$om.pettyexpenseDialog)
+			$om.pettyexpenseDialog = Ext.create('Account.PettyExpense.MainWindow');
+		$om.pettyexpenseDialog.show();
+	});
 
 	$om.viewport.on('click_asset-regist', function(){
 		if(!UMS.CAN.DISPLAY('FA')){

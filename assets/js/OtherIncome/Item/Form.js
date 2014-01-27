@@ -205,7 +205,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			width:150,
 			hideTrigger:false,
 			align: 'right',
-			margin: '0 0 0 25'
+			margin: '0 0 0 25',
+			value: '10'
 		 });
 		 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {

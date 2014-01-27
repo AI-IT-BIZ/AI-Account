@@ -223,7 +223,7 @@ Ext.define('Account.SaleCreditNote.Item.Form', {
 			width:150,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			//margin: '0 0 0 25'
+			value: '10'
 		});
 		
 		this.numberWHT = Ext.create('Ext.form.field.Number', {

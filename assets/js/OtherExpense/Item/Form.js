@@ -216,8 +216,8 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			labelAlign: 'right',
 			width:150,
 			hideTrigger:false,
-			align: 'right'//,
-			//margin: '0 0 0 15'
+			align: 'right',
+			value: '10'
 		 });
 		 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {

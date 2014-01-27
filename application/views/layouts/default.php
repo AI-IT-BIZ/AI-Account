@@ -215,6 +215,8 @@ function endsWith($haystack, $needle)
 		#div-account-journaltemp { top:30px; left:250px; width: 180px; height: 90px; }
 		#div-account-otincome { top:170px; left:250px; width: 180px; height: 90px; }
 		#div-account-otexpense { top:300px; left:250px; width: 180px; height: 90px; }
+		#div-account-pettyreim { top:170px; left:690px; width: 180px; height: 90px; }
+		#div-account-pettyexpense { top:300px; left:690px; width: 180px; height: 90px; }
 
 		#div-account-journalnew { top:30px; left:470px; width: 180px; height:90px; }
 		#div-account-journallist { top:30px; left:690px; width: 180px; height: 90px; }
@@ -399,11 +401,13 @@ function endsWith($haystack, $needle)
 		#arrow-acc-08 { width:35px; top:535px; left:555px; }
 		#arrow-acc-09 { width:130px; top:275px; left:340px; }
 		#arrow-acc-10 { height:40px; top:260px; left:340px; }
+		
+		#arrow-acc-11 { width:130px; top:275px; left:650px; }
+		#arrow-acc-12 { height:40px; top:260px; left:780px; }
 
 
 		#arrow-mas-02 { width:40px; top:70px; left:430px; }
 		#arrow-mas-03 { width:70px; top:70px; left:650px; }
-
 		#arrow-mas-05 { width:40px; top:200px; left:430px; }
 		#arrow-mas-06 { width:40px; top:385px; left:210px; }
 		#arrow-mas-07 { width:125px; top:385px; left:430px; }
@@ -1149,6 +1153,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-account-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 									'<div id="div-account-otincome" class="box box-blue"><span>Other Income</span></div>',
 									'<div id="div-account-otexpense" class="box box-blue"><span>Other Expense</span></div>',
+									'<div id="div-account-pettyreim" class="box box-blue"><span>Petty Cash Reimbursement</span></div>',
+									'<div id="div-account-pettyexpense" class="box box-blue"><span>Petty Cash Expense</span></div>',
 
 									'<div id="div-account-assetlist" class="box box-orange"><span>Fixed Asset Register</span></div>',
 
@@ -1164,6 +1170,9 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-acc-08" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-acc-09" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-acc-10" class="arrow arrow2"><span></span></div>',
+								
+								'<div id="arrow-acc-11" class="arrow arrow-left"><span></span></div>',
+								'<div id="arrow-acc-12" class="arrow arrow2"><span></span></div>',
 							'</div>',
 							'<div id="master-container" style="display:none;">',
 								'<div id="div1-4-container">',
@@ -1354,6 +1363,8 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-account-journallist').on('click', function(){ $om.viewport.fireEvent('click_journal', c); }, c);
 								pEl.getById('div-account-otincome').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-account-otexpense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
+								pEl.getById('div-account-pettyreim').on('click', function(){ $om.viewport.fireEvent('click_pettyreim', c); }, c);
+								pEl.getById('div-account-pettyexpense').on('click', function(){ $om.viewport.fireEvent('click_pettyexpense', c); }, c);
 
 								pEl.getById('div-account-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
 

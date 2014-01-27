@@ -216,7 +216,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			width:150,
 			hideTrigger:false,
 			align: 'right',
-			//margin: '0 0 0 35'
+			value: '10'
 		 });
 		 
 		  this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
