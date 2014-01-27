@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Otexpense extends CI_Controller {
+class Pettyreim extends CI_Controller {
 
 	function __construct()
 	{
@@ -18,20 +18,20 @@ class Otexpense extends CI_Controller {
 
 	function load(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebrk';
+		$tbName = 'ebtk';
 		
 		$id = $this->input->post('id');
 		$key = $this->input->post('key');
 		if($key==1){
 			$this->db->where('statu', '02');
 		}
-		$this->db->where('invnr', $id);
-		$query = $this->db->get('ebrk');
+		$this->db->where('remnr', $id);
+		$query = $this->db->get('ebtk');
 		 
 		if($query->num_rows()>0){
 			
 			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['invnr'];
+			$result_data['id'] = $result_data['remnr'];
 
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
@@ -56,7 +56,7 @@ class Otexpense extends CI_Controller {
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebrk';
+		$tbName = 'ebtk';
 		
 		$totalCount = $this->db->count_all_results($tbName);
 
@@ -77,13 +77,13 @@ class Otexpense extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebrk';
+		$tbName = 'ebtk';
 
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(invnr LIKE '%$query%'
+				$_this->db->where("(remnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
 				OR mbeln LIKE '%$query%')", NULL, FALSE);
@@ -98,25 +98,15 @@ class Otexpense extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-			
-            $mbeln1 = $_this->input->get('mbeln');
-			$mbeln2 = $_this->input->get('mbeln2');
-			if(!empty($mbeln1) && empty($mbeln2)){
-			  $_this->db->where('mbeln', $mbeln1);
-			}
-			elseif(!empty($mbeln1) && !empty($mbeln2)){
-			  $_this->db->where('mbeln >=', $mbeln1);
-			  $_this->db->where('mbeln <=', $mbeln2);
-			}
 
-            $invnr1 = $_this->input->get('invnr');
-			$invnr2 = $_this->input->get('invnr2');
-			if(!empty($invnr1) && empty($invnr2)){
-			  $_this->db->where('invnr', $invnr1);
+            $remnr1 = $_this->input->get('remnr');
+			$remnr2 = $_this->input->get('remnr2');
+			if(!empty($remnr1) && empty($remnr2)){
+			  $_this->db->where('remnr', $remnr1);
 			}
-			elseif(!empty($invnr1) && !empty($invnr2)){
-			  $_this->db->where('invnr >=', $invnr1);
-			  $_this->db->where('invnr <=', $invnr2);
+			elseif(!empty($remnr1) && !empty($remnr2)){
+			  $_this->db->where('remnr >=', $remnr1);
+			  $_this->db->where('remnr <=', $remnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -163,7 +153,7 @@ class Otexpense extends CI_Controller {
 
     function loads_report(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebrp';
+		$tbName = 'ebtp';
 
 		// Start for report
 		function createQuery($_this){
@@ -184,25 +174,15 @@ class Otexpense extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-			
-            $mbeln1 = $_this->input->get('mbeln');
-			$mbeln2 = $_this->input->get('mbeln2');
-			if(!empty($mbeln1) && empty($mbeln2)){
-			  $_this->db->where('mbeln', $mbeln1);
-			}
-			elseif(!empty($mbeln1) && !empty($mbeln2)){
-			  $_this->db->where('mbeln >=', $mbeln1);
-			  $_this->db->where('mbeln <=', $mbeln2);
-			}
 
-            $invnr1 = $_this->input->get('invnr');
-			$invnr2 = $_this->input->get('invnr2');
-			if(!empty($invnr1) && empty($invnr2)){
-			  $_this->db->where('invnr', $invnr1);
+            $remnr1 = $_this->input->get('remnr');
+			$remnr2 = $_this->input->get('remnr2');
+			if(!empty($remnr1) && empty($remnr2)){
+			  $_this->db->where('remnr', $remnr1);
 			}
-			elseif(!empty($invnr1) && !empty($invnr2)){
-			  $_this->db->where('invnr >=', $invnr1);
-			  $_this->db->where('invnr <=', $invnr2);
+			elseif(!empty($remnr1) && !empty($remnr2)){
+			  $_this->db->where('remnr >=', $remnr1);
+			  $_this->db->where('remnr <=', $remnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -240,116 +220,6 @@ class Otexpense extends CI_Controller {
 		
 		$query = $this->db->get($tbName);
 		
-		$res = $query->result_array();
-		for($i=0;$i<count($res);$i++){
-			$r = $res[$i];
-			// search item
-			$q_so = $this->db->get_where('mkpf', array(
-				'mbeln'=>$r['mbeln']
-			));
-			
-			$result_data = $q_so->first_row('array');
-			$res[$i]['ebeln'] = $result_data['ebeln'];
-			
-			//$terms='+'.$res[$i]['terms']." days";
-			$my_date = util_helper_get_time_by_date_string($res[$i]['duedt']);
-			
-			$time_diff = time() - $my_date;
-			$day = ceil($time_diff/(24 * 60 * 60));
-            
-			if($day>0){
-				$res[$i]['overd'] = $day;
-			}else{ $res[$i]['overd'] = 0; }
-		
-		}
-		
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$res,
-			'totalCount'=>$totalCount
-		));
-	}
-
-    function loads_inp(){
-		$this->db->set_dbprefix('v_');
-		$tbName = 'uinp';
-		
-		// Start for report
-		function createQuery($_this){
-			$query = $_this->input->get('query');
-			if(!empty($query)){
-				$_this->db->where("(invnr LIKE '%$query%'
-				OR lifnr LIKE '%$query%'
-				OR name1 LIKE '%$query%'
-				OR mbeln LIKE '%$query%')", NULL, FALSE);
-			}
-			
-			$bldat1 = $_this->input->get('bldat');
-			$bldat2 = $_this->input->get('bldat2');
-			if(!empty($bldat1) && empty($bldat2)){
-			  $_this->db->where('bldat', $bldat1);
-			}
-			elseif(!empty($bldat1) && !empty($bldat2)){
-			  $_this->db->where('bldat >=', $bldat1);
-			  $_this->db->where('bldat <=', $bldat2);
-			}
-			
-            $mbeln1 = $_this->input->get('mbeln');
-			$mbeln2 = $_this->input->get('mbeln2');
-			if(!empty($mbeln1) && empty($mbeln2)){
-			  $_this->db->where('mbeln', $mbeln1);
-			}
-			elseif(!empty($mbeln1) && !empty($mbeln2)){
-			  $_this->db->where('mbeln >=', $mbeln1);
-			  $_this->db->where('mbeln <=', $mbeln2);
-			}
-
-            $invnr1 = $_this->input->get('invnr');
-			$invnr2 = $_this->input->get('invnr2');
-			if(!empty($invnr1) && empty($invnr2)){
-			  $_this->db->where('invnr', $invnr1);
-			}
-			elseif(!empty($invnr1) && !empty($invnr2)){
-			  $_this->db->where('invnr >=', $invnr1);
-			  $_this->db->where('invnr <=', $invnr2);
-			}
-			
-			$lifnr1 = $_this->input->get('lifnr');
-			$lifnr2 = $_this->input->get('lifnr2');
-			if(!empty($lifnr1) && empty($lifnr2)){
-			  $_this->db->where('lifnr', $lifnr1);
-			}
-			elseif(!empty($lifnr1) && !empty($lifnr2)){
-			  $_this->db->where('lifnr >=', $lifnr1);
-			  $_this->db->where('lifnr <=', $lifnr2);
-			}
-			
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
-			}
-		}
-		// End for report	
-		createQuery($this);
-		$totalCount = $this->db->count_all_results($tbName);
-
-		createQuery($this);
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
-		$sort = $this->input->get('sort');
-		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
-		
-		$query = $this->db->get($tbName);
-
-		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -365,18 +235,18 @@ class Otexpense extends CI_Controller {
 		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('invnr', $id);
-			$query = $this->db->get('ebrk');
+			$this->db->where('remnr', $id);
+			$query = $this->db->get('ebtk');
 			
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
 			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
-				if(XUMS::CAN_DISPLAY('AP') && XUMS::CAN_APPROVE('AP')){
-					$limit = XUMS::LIMIT('AP');
+				if(XUMS::CAN_DISPLAY('CPV') && XUMS::CAN_APPROVE('CPV')){
+					$limit = XUMS::LIMIT('CPV');
 					if($limit<$row['netwr']){
-						$emsg = 'You do not have permission to change AP status over than '.number_format($limit);
+						$emsg = 'You do not have permission to change Petty Cash status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -385,7 +255,7 @@ class Otexpense extends CI_Controller {
 						return;
 					}
 				}else{
-					$emsg = 'You do not have permission to change AP status.';
+					$emsg = 'You do not have permission to change Petty Cash status.';
 					echo json_encode(array(
 						'success'=>false,
 						'errors'=>array( 'statu' => $emsg ),
@@ -395,7 +265,7 @@ class Otexpense extends CI_Controller {
 				}
 			}else{
 				if($row['statu']=='02'||$row['statu']=='03'){
-					$emsg = 'The AP that already approved or rejected cannot be update.';
+					$emsg = 'The Petty Cash that already approved or rejected cannot be update.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -455,8 +325,8 @@ class Otexpense extends CI_Controller {
 			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'duedt' => $this->input->post('duedt')//,
-			//'docty' => $this->input->post('docty')
+			'duedt' => $this->input->post('duedt'),
+			'deamt' => $this->input->post('deamt')
 		);
 
 		// start transaction
@@ -465,29 +335,29 @@ class Otexpense extends CI_Controller {
 		$current_username = XUMS::USERNAME();
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('invnr', $id);
+			$this->db->where('remnr', $id);
 			//$this->db->set('updat', 'NOW()', false);
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
-			$this->db->update('ebrk', $formData);
+			$this->db->update('ebtk', $formData);
 		}else{
-			$id = $this->code_model->generate('IP', 
+			$id = $this->code_model->generate('CPV', 
 			$this->input->post('bldat'));
-			$this->db->set('invnr', $id);
+			$this->db->set('remnr', $id);
 			//$this->db->set('erdat', 'NOW()', false);
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
-			$this->db->insert('ebrk', $formData);
+			$this->db->insert('ebtk', $formData);
 			
 			$inserted_id = $id;
 
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('invnr', $id);
-		$this->db->delete('ebrp');
+		$this->db->where('remnr', $id);
+		$this->db->delete('ebtp');
 
 		// เตรียมข้อมูล  qt item
-		$ebrp = $this->input->post('ebrp');//$this->input->post('vbelp');
+		$ebrp = $this->input->post('ebtp');//$this->input->post('vbelp');
 		$ap_item_array = json_decode($ebrp);
 		if(!empty($ebrp) && !empty($ap_item_array)){
 			// loop เพื่อ insert ap_item ที่ส่งมาใหม่
@@ -495,8 +365,8 @@ class Otexpense extends CI_Controller {
 			foreach($ap_item_array AS $p){
 				$itamt = $p->menge * $p->unitp;
 		        $itamt = $itamt - $p->disit;
-				$this->db->insert('ebrp', array(
-					'invnr'=>$id,
+				$this->db->insert('ebtp', array(
+					'remnr'=>$id,
 					'vbelp'=>++$item_index,//vbelp,
 					'matnr'=>$p->matnr,
 					'menge'=>$p->menge,
@@ -629,13 +499,13 @@ class Otexpense extends CI_Controller {
 
 
 	function remove(){
-		$invnr = $this->input->post('invnr'); 
+		$remnr = $this->input->post('remnr'); 
 		//echo $ebeln; exit;
-		$this->db->where('invnr', $invnr);
-		$query = $this->db->delete('ebrk');
+		$this->db->where('remnr', $remnr);
+		$query = $this->db->delete('ebtk');
 		
-		$this->db->where('invnr', $invnr);
-		$query = $this->db->delete('ebrp');
+		$this->db->where('remnr', $remnr);
+		$query = $this->db->delete('ebtp');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$invnr
@@ -646,18 +516,12 @@ class Otexpense extends CI_Controller {
 	// PR ITEM
 	///////////////////////////////////////////////
 	function loads_ap_item(){
-		$grdmbeln = $this->input->get('grdgrnr');
 		
-		$ap_id = $this->input->get('invnr');
-		if(!empty($grdmbeln)){
-			$this->db->set_dbprefix('v_');
-			$this->db->where('mbeln', $grdmbeln);
-			$query = $this->db->get('mseg');
-		}else{
-			$this->db->set_dbprefix('v_');
-			$this->db->where('invnr', $ap_id);
-			$query = $this->db->get('ebrp');
-		}
+		$ap_id = $this->input->get('remnr');
+
+	    $this->db->set_dbprefix('v_');
+		$this->db->where('remnr', $ap_id);
+		$query = $this->db->get('ebtp');
 		
 		echo json_encode(array(
 			'success'=>true,

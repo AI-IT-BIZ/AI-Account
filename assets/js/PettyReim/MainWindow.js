@@ -83,7 +83,7 @@ Ext.define('Account.PettyReim.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
 			_this.itemDialog.setReadOnly(false);
-			_this.itemDialog.setTitle('Create Petty Caxh Reimbursement');
+			_this.itemDialog.setTitle('Create Petty Cash Reimbursement');
 		});
 
 		this.editAct.setHandler(function(){
@@ -93,7 +93,7 @@ Ext.define('Account.PettyReim.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-			    _this.itemDialog.setTitle('Edit Petty Caxh Reimbursement');
+			    _this.itemDialog.setTitle('Edit Petty Cash Reimbursement');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -108,7 +108,7 @@ Ext.define('Account.PettyReim.MainWindow', {
 			if(id){
 				_this.itemDialog.form.remove(id);
 				_this.itemDialog.setReadOnly(true);
-			_this.itemDialog.setTitle('Display Petty Caxh Reimbursement');
+			_this.itemDialog.setTitle('Display Petty Cash Reimbursement');
 			}
 		});
 

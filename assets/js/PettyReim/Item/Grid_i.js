@@ -7,7 +7,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -19,7 +19,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];
+		this.tbar = [this.addAct, this.copyAct];*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -55,17 +55,6 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete AP Item',
-				scope: this,
-				handler: this.removeRecord
-			}]
-		},{
 			id : 'APiRowNumber5',
 			header : "Items",
 			dataIndex : 'vbelp',
@@ -342,7 +331,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 	
 		//for ( var i = 0; i < 5; i++ ) {
 			// add new record
-			rec = { id:0,matnr:'200019',maktx:'เงินทดลองจ่าย',
+			rec = { id:0,matnr:'200021',maktx:'เงินทดลองจ่าย',
 			menge:1,meins:'EA',chk01:1,ctyp1:'THB',saknr:'1111-00' };
 			edit = this.editing;
 			edit.cancelEdit();

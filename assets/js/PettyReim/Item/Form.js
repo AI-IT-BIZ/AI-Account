@@ -59,11 +59,12 @@ Ext.define('Account.PettyReim.Item.Form', {
 			fieldLabel: 'Petty Cash Status',
 			name : 'statu',
 			labelAlign: 'right',
-			width: 240,
+			width: 280,
+			labelWidth:140,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			//margin: '0 0 0 -17',
+			margin: '0 0 0 -40',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -157,6 +158,16 @@ Ext.define('Account.PettyReim.Item.Form', {
 			labelAlign: 'right',
 			allowBlank : false
 		});
+		
+		this.numberPetty = Ext.create('Ext.ux.form.NumericField', {
+           // xtype: 'numberfield',
+			fieldLabel: 'Petty Cash Limit',
+			name: 'deamt'//,
+			//labelAlign: 'right',
+			//width:170,
+			//align: 'right'//,
+			//margin: '0 0 0 35'
+         });
 
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
@@ -222,21 +233,16 @@ Ext.define('Account.PettyReim.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'loekz'
-					},{
+					},this.numberPetty,{
 						xtype: 'displayfield',
-						//name: 'aaa',
-						//margins: '0 0 0 6',
-						width:500,
-						allowBlank: true
-					},{
-						xtype: 'displayfield',
-					    fieldLabel: 'Other Expense No',
-					    name: 'invnr',
-						value: 'IPXXXX-XXXX',
+					    fieldLabel: 'Petty Cash No',
+					    name: 'remnr',
+						value: 'CPVXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						labelWidth:140,
 						readOnly: true,
+						margin: '0 0 0 230',
 						labelStyle: 'font-weight:bold'
 					}]
 				// Address Bill&Ship
@@ -266,38 +272,16 @@ Ext.define('Account.PettyReim.Item.Form', {
 							name: 'adr01',
 							width: 450, 
 							rows:3,
-		                }, {xtype: 'container',
-							layout: 'hbox',
-							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
-				 			},{
+		                },{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
-			                },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
-				}]
+			                }]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -328,17 +312,19 @@ Ext.define('Account.PettyReim.Item.Form', {
 			       margin: '0 0 0 5',
 			       value: '%'
 		           }]
-         },
-						{
-			xtype: 'datefield',
-			fieldLabel: 'Due Date',
-			name: 'duedt',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-		},
+               },{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,this.numberWHT,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				},
 					    this.comboQStatus]
 		            }]
 				}]
@@ -605,7 +591,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ invnr: 0 });
+		//this.gridItem.load({ invnr: 0 });
 		this.gridGL.load({ netpr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item

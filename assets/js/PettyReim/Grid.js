@@ -30,7 +30,7 @@ Ext.define('Account.PettyReim.Grid', {
 		});
 
 		this.columns = [
-			{text: "Petty Cash Doc", flex: true, dataIndex: 'invnr', 
+			{text: "Petty Cash Doc", flex: true, dataIndex: 'remnr', 
 			align: 'center', sortable: true},
 			{text: "Petty Cash Date", width: 125, 
 			xtype: 'datecolumn',

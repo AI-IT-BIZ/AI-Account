@@ -613,6 +613,16 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_expense'
 			};
+			var nodePettyreim = {
+				text: 'Create New Petty Cash Reimbursement',
+				leaf: true,
+				id: 'click_pettyreim'
+			};
+			var nodePettyexpense = {
+				text: 'Create New Petty Cash Expense',
+				leaf: true,
+				id: 'click_pettyexpense'
+			};
 
 				var nodeRSumVat = {
 					text: 'รายงานภาษีมูลค่าเพิ่ม (ภ.พ. 30)',
@@ -673,6 +683,8 @@ function endsWith($haystack, $needle)
 					nodeJournal,
 					nodeIncome,
 					nodeExpense,
+					nodePettyreim,
+					nodePettyexpense,
 					grouprAccount
 				]
 			};
