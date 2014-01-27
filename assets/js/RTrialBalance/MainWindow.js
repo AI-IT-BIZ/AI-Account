@@ -32,38 +32,28 @@ Ext.define('Account.RTrialBalance.MainWindow', {
 				allowBlank: false
 			}],
 			buttons: [{
-				text: 'ยืนยัน',
-				/*handler: function(){
-					form = this.up('form').getForm();
-					if (form.isValid()){
-						Ext.Ajax.request({
-							url: __base_url + "index.php/rtrialbalance/result",
-							params: form.getValues(),
-							success: function(response){
-								var rs = response.responseText;
-								rs =  Ext.JSON.decode(rs);
-								if (rs.success) {
-									var result = Ext.create("Account.RTrialBalance.Result.Grid");
-									result.params = form.getValues();
-									result.storeGrid.loadData(rs.datas);
-									result.show();
-								}
-							}
-						});
-					}
-				}*/
+				text: 'PDF',
 				handler: function(){
 					start_date = form.form.findField('start_date').getValue();
 					start_date = Ext.Date.format(start_date,'Y-m-d');
 					end_date = form.form.findField('end_date').getValue();
 					end_date = Ext.Date.format(end_date,'Y-m-d');
 					params = "start_date="+start_date+"&end_date="+end_date;
-					url = __base_url + 'index.php/rtrialbalance/pdf?'+params;
 					_this.previewDialog.openDialog(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
 					//window.open(__base_url + 'index.php/rtrialbalance/pdf?'+params,'_blank');
 				}
 			},{
-				text: 'ยกเลิก',
+				text: 'EXCEL',
+				handler: function(){
+					start_date = form.form.findField('start_date').getValue();
+					start_date = Ext.Date.format(start_date,'Y-m-d');
+					end_date = form.form.findField('end_date').getValue();
+					end_date = Ext.Date.format(end_date,'Y-m-d');
+					params = "start_date="+start_date+"&end_date="+end_date;
+					window.location = __base_url + 'index.php/rtrialbalance/excel?'+params;
+				}
+			},{
+				text: 'CANCEL',
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();
