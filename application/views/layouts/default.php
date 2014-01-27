@@ -288,7 +288,7 @@ function endsWith($haystack, $needle)
 
 		#div-report-rincome { top:290px; left:30px; width: 180px; height:90px; }
 		#div-report-rjounrnal { top:290px; left:250px; width: 180px; height: 90px; }
-		#div-report-rpretty { top:290px; left:470px; width: 180px; height:90px; }
+		#div-report-rpetty { top:290px; left:470px; width: 180px; height:90px; }
 		#div-report-rsalej { top:290px; left:690px; width: 180px; height: 90px; }
 		#div-report-rpurchasej { top:420px; left:30px; width: 180px; height:90px; }
 		#div-report-rgeneral { top:420px; left:250px; width: 180px; height: 90px; }
@@ -828,7 +828,7 @@ function endsWith($haystack, $needle)
 				leaf: true
 			};
 			var nodeReportGJ = {
-				text: 'Journal Reports',
+				text: 'General Journal Reports',
 				leaf: true,
 				id: 'click_report_gr'
 			};
@@ -1250,12 +1250,12 @@ function endsWith($haystack, $needle)
 									  '<div id="div-report-rap-ledger" class="box box-orange"><span>AP Ledger Report</span></div>',
 									  '<div id="div-report-rap-aging" class="box box-orange"><span>AP Aging Report</span></div>',
 									  '<div id="div-report-rassetlist" class="box box-orange"><span>Fixed Asset Register Report</span></div>',
-									  '<div id="div-report-rjounrnal" class="box box-orange"><span>Journal Report</span></div>',
-									  '<div id="div-report-rpretty" class="box box-orange"><span>Petty Cash Journal Payable Report</span></div>',
-									  '<div id="div-report-rsalej" class="box box-orange"><span>Sale Report</span></div>',
+									  '<div id="div-report-rjounrnal" class="box box-orange"><span>General Journal Report</span></div>',
+									  '<div id="div-report-rpetty" class="box box-orange"><span>Petty Cash Journal Payable Report</span></div>',
+									  '<div id="div-report-rsalej" class="box box-orange"><span>Sale Journal Report</span></div>',
 
 									  '<div id="div-report-rpurchasej" class="box box-orange"><span>Purchase Journal Report</span></div>',
-									  '<div id="div-report-rgeneral" class="box box-orange"><span>General Report</span></div>',
+									  '<div id="div-report-rgeneral" class="box box-orange"><span>General Ledger Report</span></div>',
 									  '<div id="div-report-rtb" class="box box-orange"><span>Trial Balance Report</span></div>',
 									  '<div id="div-report-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
 
@@ -1416,10 +1416,18 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-report-rap').on('click', function(){ $om.viewport.fireEvent('click_rap', c); }, c);
                                 pEl.getById('div-report-rpayment').on('click', function(){ $om.viewport.fireEvent('click_rpayment', c); }, c);
 
-                                pEl.getById('div-report-rar-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
-                                pEl.getById('div-report-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
-                                pEl.getById('div-report-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
-								pEl.getById('div-report-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_rinvoice', c); }, c);
+                                pEl.getById('div-report-rar-ledger').on('click', function(){ $om.viewport.fireEvent('click_ar_ledger', c); }, c);
+                                pEl.getById('div-report-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_ar_aging', c); }, c);
+                                pEl.getById('div-report-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_ap_ledger', c); }, c);
+								pEl.getById('div-report-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_ap_aging', c); }, c);
+								
+								pEl.getById('div-report-rjounrnal').on('click', function(){ $om.viewport.fireEvent('click_report_gr', c); }, c);
+								pEl.getById('div-report-rpetty').on('click', function(){ $om.viewport.fireEvent('click_report_pj', c); }, c);
+								pEl.getById('div-report-rsalej').on('click', function(){ $om.viewport.fireEvent('click_report_sj', c); }, c);
+								
+								pEl.getById('div-report-rpurchasej').on('click', function(){ $om.viewport.fireEvent('click_report_purchasej', c); }, c);
+								pEl.getById('div-report-rgeneral').on('click', function(){ $om.viewport.fireEvent('click_report_gl', c); }, c);
+								
 								pEl.getById('div-report-rassetdepre').on('click', function(){ $om.viewport.fireEvent('click_rassetdepre', c); }, c);
 
 							}
@@ -1796,19 +1804,19 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_expense')}
 				        },{
-				            text: 'GL Report',
+				            text: 'General Ledger',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'h-report',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_report_gl')}
 				        },{
-				            text: 'Journal Report',
+				            text: 'General Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-rjournal',
                 			cls: 'x-btn-as-arrow',
-                			handler: function(){$om.viewport.fireEvent('click_rjournal')}
+                			handler: function(){$om.viewport.fireEvent('click_report_gr')}
 				        },{
 				            text: 'Fixed Asset Register',
 				            scale: 'large',
@@ -1976,25 +1984,29 @@ function endsWith($haystack, $needle)
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report5',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_ar_ledger')}
 				        },{
 				            text: 'AR Aging',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report6',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_ar_aging')}
 				        },{
 				            text: 'AP Ledger',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report16',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_ap_ledger')}
 				        },{
 				            text: 'AP Aging',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report17',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_ap_aging')}
 				        },{
 				            text: 'Fixed Asset Register',
 				            scale: 'large',
@@ -2002,35 +2014,40 @@ function endsWith($haystack, $needle)
 				            iconCls: 'r-report14',
                 			cls: 'x-btn-as-arrow'
 				        },{
-				            text: 'Journal Report',
+				            text: 'General Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report8',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_gr')}
 				        },{
 				            text: 'Petty Cash Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report9',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_pj')}
 				        },{
 				            text: 'Sale Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report10',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_sj')}
 				        },{
 				            text: 'Purchase Journal',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report11',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_purchasej')}
 				        },{
 				            text: 'General Ledger Report',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'r-report7',
-                			cls: 'x-btn-as-arrow'
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_report_gl')}
 				        }]
 		            }
 		        ]
