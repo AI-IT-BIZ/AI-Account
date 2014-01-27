@@ -6,7 +6,7 @@ Ext.define('Account.RARaging.MainWindow', {
 		Ext.apply(this, {
 			title: 'AR Aging Selection',
 			closeAction: 'hide',
-			height: 150,
+			height: 200,
 			width: 550,
 			layout: 'border',
 			//layout: 'accordion',
@@ -28,16 +28,34 @@ Ext.define('Account.RARaging.MainWindow', {
 				];
 
 		this.buttons = [{
-			text: 'Report',
+			text: 'PDF',
 			handler: function() {
-				if(_this.form.getForm().isValid()){ 
+				if(_this.form.getForm().isValid()){
+					start_date = _this.form.getForm().findField('start_date').getValue();
+			    	start_date = Ext.Date.format(start_date,'Y-m-d'); 
+			    	end_date = _this.form.getForm().findField('end_date').getValue();
+			    	end_date = Ext.Date.format(end_date,'Y-m-d'); 
 			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
 			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
-			    	params = "kunnr="+kunnr+"&kunnr2="+kunnr2;
+			    	params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2;
 			    	_this.preview.openDialog(__base_url + 'index.php/raraging/pdf?'+params,'_blank');
 			   }
 			}
-		}, {
+		},{
+			text: 'EXCEL',
+			handler: function() {
+				if(_this.form.getForm().isValid()){
+					start_date = _this.form.getForm().findField('start_date').getValue();
+			    	start_date = Ext.Date.format(start_date,'Y-m-d'); 
+			    	end_date = _this.form.getForm().findField('end_date').getValue();
+			    	end_date = Ext.Date.format(end_date,'Y-m-d'); 
+			    	kunnr = _this.form.getForm().findField('kunnr').getValue();
+			    	kunnr2 = _this.form.getForm().findField('kunnr2').getValue();
+			    	params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&kunnr2="+kunnr2;
+			    	window.location = __base_url + 'index.php/raraging/excel?'+params;
+			   }
+			}
+		},{
 			text: 'Cancel',
 			handler: function() {
 				_this.form.getForm().reset();

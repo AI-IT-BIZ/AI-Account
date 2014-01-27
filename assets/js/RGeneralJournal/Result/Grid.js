@@ -51,8 +51,8 @@ Ext.define('Account.RGeneralJournal.Result.Grid', {
 			groupers: ['bldat', 'belnr']
 		});
 		this.columnsGrid = [
-			{text: 'SV Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
-			{text: 'SV Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
+			{text: 'JV Date', sortable: false, dataIndex: 'bldat', renderer: Ext.util.Format.dateRenderer('d/m/Y')},
+			{text: 'JV Number', sortable: false, dataIndex: 'belnr', filterable:true, filter: {type: 'string'}},
 			{text: 'Ref. Doc. No.', sortable: false, dataIndex: 'invnr'},
 			{text: 'Customer', sortable: false, dataIndex: 'name1'},
 			{text: 'Account Code', sortable: false, dataIndex: 'saknr'},

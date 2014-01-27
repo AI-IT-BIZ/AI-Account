@@ -7,6 +7,7 @@ class RarLedger extends CI_Controller {
 	
 	
 	public function pdf(){
+		$sd = explode('-',$_GET['start_date']);
 		$ed = explode('-',$_GET['end_date']);
 		require_once substr(BASEPATH,0,-7).'application/libraries/jasper/rest/client/JasperClient.php'; 
 		$client = new Jasper\JasperClient(JASPERSERVER,
@@ -23,7 +24,8 @@ class RarLedger extends CI_Controller {
 		if(trim($_GET['statu']) !== "ALL"){
 			$kunnr = $kunnr. " and statx like '%{$_GET['statu']}%'";
 		}
-		$controls = array('end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
+						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
 						  'kunnr' => $kunnr);
 		
 		//echo($kunnr); return;
@@ -41,6 +43,7 @@ class RarLedger extends CI_Controller {
 	}
 
 	public function excel(){
+		$sd = explode('-',$_GET['start_date']);
 		$ed = explode('-',$_GET['end_date']);
 		require_once substr(BASEPATH,0,-7).'application/libraries/jasper/rest/client/JasperClient.php'; 
 		$client = new Jasper\JasperClient(JASPERSERVER,
@@ -57,7 +60,8 @@ class RarLedger extends CI_Controller {
 		if(trim($_GET['statu']) !== "ALL"){
 			$kunnr = $kunnr. " and statx like '%{$_GET['statu']}%'";
 		}
-		$controls = array('end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
+						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
 						  'kunnr' => $kunnr);
 		
 		//echo($kunnr); return;

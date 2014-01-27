@@ -31,12 +31,14 @@ Ext.define('Account.RAPLedger.MainWindow', {
 			text: 'PDF',
 			handler: function() {
 					if(_this.form.getForm().isValid()){
+					start_date = _this.form.getForm().findField('start_date').getValue();
+			    	start_date = Ext.Date.format(start_date,'Y-m-d');
 			    	end_date = _this.form.getForm().findField('end_date').getValue();
 			    	end_date = Ext.Date.format(end_date,'Y-m-d');
 			    	lifnr = _this.form.getForm().findField('lifnr').getValue();
 			   		lifnr2 = _this.form.getForm().findField('lifnr2').getValue();
 			    	statu = _this.form.getForm().findField('statu').getValue();
-			    	params = "end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2+"&statu="+statu;
+			    	params = "start_date="+start_date+"&end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2+"&statu="+statu;
 			    	_this.preview.openDialog(__base_url + 'index.php/rapledger/pdf?'+params,'_blank');
 				}
 			}
@@ -44,12 +46,14 @@ Ext.define('Account.RAPLedger.MainWindow', {
 			text: 'EXCEL',
 			handler: function() {
 					if(_this.form.getForm().isValid()){
+					start_date = _this.form.getForm().findField('start_date').getValue();
+			    	start_date = Ext.Date.format(start_date,'Y-m-d');
 			    	end_date = _this.form.getForm().findField('end_date').getValue();
 			    	end_date = Ext.Date.format(end_date,'Y-m-d');
 			    	lifnr = _this.form.getForm().findField('lifnr').getValue();
 			   		lifnr2 = _this.form.getForm().findField('lifnr2').getValue();
 			    	statu = _this.form.getForm().findField('statu').getValue();
-			    	params = "end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2+"&statu="+statu;
+			    	params = "start_date="+start_date+"&end_date="+end_date+"&lifnr="+lifnr+"&lifnr2="+lifnr2+"&statu="+statu;
 			    	window.location = __base_url + 'index.php/rapledger/excel?'+params;
 				}
 			}

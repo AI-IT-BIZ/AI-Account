@@ -74,12 +74,23 @@ Ext.define('Account.RAPLedger.Form', {
      items :[{
 			xtype: 'datefield',
 			fieldLabel: 'Selection Period',
-			name: 'end_date',
+			name: 'start_date',
 			labelWidth: 100,
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
 			allowBlank: false
+			},{
+			xtype: 'displayfield',
+		    value: 'To',
+		    width:40,
+		    margins: '0 0 0 25'
+		   	},{
+			xtype: 'datefield',
+			name: 'end_date',
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d'
 			}]
 // Vendor Code
 		},{
