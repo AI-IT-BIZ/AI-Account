@@ -4,6 +4,7 @@ Ext.define('Account.Rpnd53WHT.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีหัก ณ ที่จ่าย(ฝั่งซื้อ)',
+			width: 1120,
 			enableCopies: true
 		});
 

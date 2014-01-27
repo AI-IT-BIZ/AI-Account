@@ -121,15 +121,15 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		$real_current_page++;
 ?>
 <DIV style="z-index:0"> &nbsp; </div>
-<div style="left: 560px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 819px;">
-  <table width="0px" height="305PX"><td>&nbsp;</td></table>
+<div style="left: 560px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 849px;">
+  <table width="0px" height="30PX"><td>&nbsp;</td></table>
 </div>
 <div style="left: 476px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:270PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
-<div style="left: 660PX; top: 229px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 821px;">
+<div style="left: 660PX; top: 229px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 849px;">
   <table width="0px" height="568PX"><td>&nbsp;</td></table>
 </div>
 <div style="left: 87px; top: 230px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 820px;">

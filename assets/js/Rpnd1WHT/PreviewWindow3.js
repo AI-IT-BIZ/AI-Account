@@ -4,6 +4,7 @@ Ext.define('Account.Rpnd1WHT.PreviewWindow3', {
 
 		Ext.apply(this, {
 			title: 'ใบแนบ ภ.ง.ด.1',
+			width: 1100,
 			enableCopies: true
 		});
 
