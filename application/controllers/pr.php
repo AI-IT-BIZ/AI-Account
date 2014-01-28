@@ -308,7 +308,7 @@ class Pr extends CI_Controller {
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'txz01' => $this->input->post('sgtxt'),
+			'sgtxt' => $this->input->post('sgtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),

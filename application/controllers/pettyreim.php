@@ -289,6 +289,20 @@ class Pettyreim extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $ebtp = $this->input->post('ebtp');
+		$ap_item_array = json_decode($ebtp);
+		if(!empty($ebtp) && !empty($ap_item_array)){
+			foreach($ap_item_array AS $p){
+				if(empty($p->bcode)){
+					$emsg = 'Please enter bank code on item';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}}
+
         $bven = $this->input->post('bsid');
 		$gl_item_array = json_decode($bven);
 		foreach($gl_item_array AS $p){
@@ -314,7 +328,12 @@ class Pettyreim extends CI_Controller {
 					return;
         }
 		
-		$netwr = str_replace(",","",floatval($this->input->post('netwr')));
+		$netwr = $this->input->post('netwr');
+		$reman = $this->input->post('reman');
+		if(!empty($row['netwr'])){
+			$reman = $reman + $row['netwr'];
+		}
+		$reman = $reman - $netwr;
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -326,7 +345,7 @@ class Pettyreim extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'reman' => floatval($this->input->post('reman')),
+			'reman' => floatval($reman),
 			'dispc' => floatval($this->input->post('netwr')),
 			'deamt' => floatval($this->input->post('deamt'))
 		);
@@ -352,30 +371,28 @@ class Pettyreim extends CI_Controller {
 			$this->db->insert('ebtk', $formData);
 			
 			$inserted_id = $id;
-
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('remnr', $id);
 		$this->db->delete('ebtp');
 
 		// เตรียมข้อมูล  qt item
-		$ebrp = $this->input->post('ebtp');//$this->input->post('vbelp');
-		$ap_item_array = json_decode($ebrp);
-		if(!empty($ebrp) && !empty($ap_item_array)){
-			// loop เพื่อ insert ap_item ที่ส่งมาใหม่
+		$ebtp = $this->input->post('ebtp');
+		$ap_item_array = json_decode($ebtp);
+		if(!empty($ebtp) && !empty($ap_item_array)){
 			$item_index = 0;
 			foreach($ap_item_array AS $p){
 				$itamt = $p->menge * $p->unitp;
 		        $itamt = $itamt - $p->disit;
 				$this->db->insert('ebtp', array(
 					'remnr'=>$id,
-					'ebelp'=>++$item_index,//vbelp,
+					'ebelp'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype,
 					'bcode'=>$p->bcode
@@ -444,11 +461,11 @@ class Pettyreim extends CI_Controller {
 				if(!empty($p->saknr)){
 				$this->db->insert('bsid', array(
 					'belnr'=>$accno,
-					'belpr'=>++$item_index,
+					'belpr'=>intval(++$item_index),
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
-					'debit'=>$p->debit,
-					'credi'=>$p->credi,
+					'debit'=>floatval($p->debit),
+					'credi'=>floatval($p->credi),
 					'kunnr'=> $this->input->post('lifnr'),
 					'bldat'=>$this->input->post('bldat'),
 					'txz01'=>$p->txz01

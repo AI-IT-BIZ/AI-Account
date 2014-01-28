@@ -425,10 +425,11 @@ class Receipt extends CI_Controller {
 			$this->db->where('invnr', $p->invnr);
 			$this->db->set('loekz', '2');
 			$netwr=floatval($this->input->post('netwr'));
+			$itamt=0;
 			if($p->itamt > $netwr){
 				$itamt=$p->itamt - $netwr;
-				$this->db->set('reman', $itamt);
 			}
+			$this->db->set('reman', $itamt);
 			$this->db->update('vbrk');
 			
 			$this->db->where('depnr', $p->invnr);

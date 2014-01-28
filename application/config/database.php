@@ -48,8 +48,13 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+
 /*
 $db['default']['hostname'] = '54.251.188.145';
+=======
+
+/*$db['default']['hostname'] = '54.251.188.145';
+>>>>>>> 981120f60f121a1359fc899567b63b0b80f1d5a0
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = 'ai_account_pass';
 $db['default']['database'] = 'ai_account';
@@ -63,8 +68,10 @@ $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
+<<<<<<< HEAD
 $db['default']['stricton'] = FALSE;
 */
+
 
 
 //Connection to MSSQL=====================

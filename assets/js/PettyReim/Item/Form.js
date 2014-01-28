@@ -545,7 +545,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 						}else{
 							_this.numberRemain.setValue(petty);
 							_this.numberPetty2.setValue(petty);
-							o.markInvalid('Could not find Remain Amount : '+o.getValue());
+							//o.markInvalid('Could not find Remain Amount : '+o.getValue());
 						}
 					}
 				});

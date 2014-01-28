@@ -112,7 +112,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			},
 			{text: "Bank Code", align : 'center',
 			width:100, 
-			dataIndex: 'bcode', 
+			dataIndex: 'bcode',
 			sortable: false,
 			field: {
 				xtype: 'triggerfield',

@@ -162,6 +162,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 		this.numberPetty = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Petty Cash Limit',
 			name: 'deamt',
+			alwaysDisplayDecimals: true,
 			readOnly: true
          });
          
@@ -171,6 +172,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			labelWidth: 70,
 			width: 187,
 			margin: '0 0 0 15',
+			alwaysDisplayDecimals: true,
 			readOnly: true
          });
 
