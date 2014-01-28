@@ -69,7 +69,7 @@ Ext.define('Account.PettyReim.Item.Window', {
 			this.form.load(id);
 
 			// สั่ง pr_item grid load
-			this.form.gridItem.load({invnr: id});
+			this.form.gridItem.load({remnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

@@ -467,7 +467,7 @@ class Pettyexpense extends CI_Controller {
 			'ttype' => '05',
 			'auart' => 'PE',
 			'kunnr' => $this->input->post('lifnr'),
-			'netwr' => $this->input->post('netwr')
+			'netwr' => floatval($this->input->post('netwr'))
 		);
 		
 		// start transaction
@@ -510,10 +510,10 @@ class Pettyexpense extends CI_Controller {
 				if(!empty($p->saknr)){
 				$this->db->insert('bsid', array(
 					'belnr'=>$accno,
-					'belpr'=>++$item_index,
+					'belpr'=>intval(++$item_index),
 					'gjahr' => substr($date,0,4),
-					'saknr'=>$p->saknr,
-					'debit'=>$p->debit,
+					'saknr'=>floatval($p->saknr),
+					'debit'=>floatval($p->debit),
 					'credi'=>$p->credi,
 					'kunnr'=> $this->input->post('lifnr'),
 					'bldat'=>$this->input->post('bldat'),
