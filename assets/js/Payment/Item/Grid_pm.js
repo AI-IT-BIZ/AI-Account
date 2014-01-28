@@ -219,6 +219,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				pamt = isNaN(pamt)?0:pamt;
 				pay = isNaN(pay)?0:pay;
 				var amt = pamt - pay;
+				if(amt<0) amt = 0;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 		},{
@@ -285,6 +286,17 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 						}
 					}
 				});
+			}
+			
+			if(e.column.dataIndex=='payam'){
+				var v = parseFloat(e.value);
+				var rModel = _this.store.getById(e.record.data.id);
+				var item = _this.itemValue;
+				//alert(v+'aaa'+remain);
+			    if(v>item){
+			    	rModel.set(e.field, item);
+			    	Ext.Msg.alert('Warning', 'Payment over Net Amount');
+			    }
 			}
 		});
 

@@ -5,7 +5,7 @@ Ext.define('Account.Receipt.MainWindow', {
 		Ext.apply(this, {
 			title: 'Receipt',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 950,
 			minWidth: 500,

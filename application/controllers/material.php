@@ -26,7 +26,6 @@ class Material extends CI_Controller {
 			$sql="select a.*,b.unit,b.cost from tbl_mara a 
 			      inner join tbl_plev b on a.matnr = b.matnr
                   inner join tbl_kna1 c on b.pleve = c.pleve
-                  inner join tbl_plev d on a.statu = d.statu
 		          WHERE a.matnr='$id'
 		          AND c.kunnr='$kunnr' ";
 		    if($key==1){

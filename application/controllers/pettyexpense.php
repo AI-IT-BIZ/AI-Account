@@ -342,7 +342,7 @@ class Pettyexpense extends CI_Controller {
 			'terms' => intval($this->input->post('terms')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'txz01' => $this->input->post('sgtxt'),
+			'txz01' => $this->input->post('txz01'),
 			'beamt' => floatval($this->input->post('beamt')),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),

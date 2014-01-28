@@ -379,11 +379,8 @@ Ext.define('Account.Receipt.Item.Form', {
 			sum += amt;
 			
 		});
-		
+		this.gridPayment.itemValue = sum;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
-		//var currency = this.trigCurrency.getValue();
-		//this.gridItem.curValue = currency;
-		//this.formTotal.getForm().findField('curr1').setValue(currency);
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
 		

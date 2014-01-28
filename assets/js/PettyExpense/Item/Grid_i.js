@@ -297,9 +297,10 @@ Ext.define('Account.PettyExpense.Item.Grid_i', {
 				var rModel = _this.store.getById(e.record.data.id);
 				var remain = _this.remainValue;
 				var sum = _this.sumValue;
-                
+                var dif = sum - v;
+                    dif = remain - dif;
 			    if(sum>remain){
-			    	rModel.set(e.field, 1.00);
+			    	rModel.set(e.field, dif);
 			    	Ext.Msg.alert('Warning', 'Petty Cash Amount over Remain Amount');
 			    }
 			}

@@ -215,7 +215,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				var remain = _this.remainValue;
 				//alert(v+'aaa'+remain);
 			    if(v>remain){
-			    	rModel.set(e.field, 1.00);
+			    	rModel.set(e.field, remain);
 			    	Ext.Msg.alert('Warning', 'CPV Amount over Limit Amount');
 			    }
 			}

@@ -20,6 +20,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 		this.txtTotal = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Total',
 			name: 'beamt',
+			disabled: true,
 			xtype: 'textfield',
 		    fieldLabel: 'Total',
 			name: 'beamt',
@@ -217,7 +218,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 
 		if(total<=0) return;
 
-		var discount = this.txtDiscount.getValue(),
+		/*var discount = this.txtDiscount.getValue(),
 			discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -240,7 +241,7 @@ Ext.define('Account.Billfrom.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		/*var tax = this.txtInterest.getValue(),
+		var tax = this.txtInterest.getValue(),
 			taxValue = 0;
 		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
 			taxValue = parseFloat(tax);
