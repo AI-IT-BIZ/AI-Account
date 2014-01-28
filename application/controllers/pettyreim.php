@@ -289,6 +289,20 @@ class Pettyreim extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 		}
 
+        $ebrp = $this->input->post('ebtp');//$this->input->post('vbelp');
+		$ap_item_array = json_decode($ebrp);
+		if(!empty($ebrp) && !empty($ap_item_array)){
+			foreach($ap_item_array AS $p){
+				if(empty($p->bcode)){
+					$emsg = 'Please enter bank code on item';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}}
+
         $bven = $this->input->post('bsid');
 		$gl_item_array = json_decode($bven);
 		foreach($gl_item_array AS $p){
@@ -359,11 +373,8 @@ class Pettyreim extends CI_Controller {
 		$this->db->delete('ebtp');
 
 		// เตรียมข้อมูล  qt item
-		$ebrp = $this->input->post('ebtp');//$this->input->post('vbelp');
-		$ap_item_array = json_decode($ebrp);
+		
 		if(!empty($ebrp) && !empty($ap_item_array)){
-			// loop เพื่อ insert ap_item ที่ส่งมาใหม่
-			$item_index = 0;
 			foreach($ap_item_array AS $p){
 				$itamt = $p->menge * $p->unitp;
 		        $itamt = $itamt - $p->disit;
