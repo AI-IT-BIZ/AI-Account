@@ -31,6 +31,7 @@ class Rpnd53wht_attach extends CI_Controller {
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
         $strSQL = $strSQL . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebbp.statu = '02' ";
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
@@ -278,12 +279,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php
 //$rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;$invdt_str='';
-$j=0;$no=1;$nos='';
+$j=0;$no=1;$nos='';$itamt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
     $item = $rows[$i];
 	$invdt_str = util_helper_format_date($item['bldat']);
 	$v_amt+=$item['wht01'];
-	$t_amt+=$item['beamt'];
+	$itamt = $item['beamt'] - $item['dismt'];
+	$t_amt += $itamt;
 	//$names = explode(' ',$item['name1']);
 	$taxid = str_split($item['taxid']);
 ?>
@@ -294,7 +296,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
       <td class="fc1-8" align="center" style="width:78px;"><?=$invdt_str?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
       <td class="fc1-8" align="center" style="width:36px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:110px;"><?=number_format($itamt,2,'.',',');?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 	<tr>

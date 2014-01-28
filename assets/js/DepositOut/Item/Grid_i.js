@@ -118,6 +118,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				}
 			},*/
 			},
+			
 			{text: "PO Amt",
 			xtype: 'numbercolumn',
 			width: 90,
@@ -134,6 +135,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			editor: {
 				type: 'numberfield',
 				decimalPrecision: 2,
+				allowBlank: false,
 				listeners: {
 					focus: function(field, e){
 						var v = field.getValue();
@@ -142,7 +144,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 						_this.editing.completeEdit();
 					},
 				}
-			},
+			}
 			},
 			{text: "Discount",
 			//xtype: 'numbercolumn',
@@ -293,6 +295,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			_this.unitDialog.hide();
 			
 		});*/
+		
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='unitp'){
 				var v = parseFloat(e.value);

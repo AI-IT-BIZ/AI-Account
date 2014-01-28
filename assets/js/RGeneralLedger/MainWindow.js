@@ -1,3 +1,16 @@
+Ext.define('RevRec.util.Format', {
+    override: 'Ext.util.Format',
+    originalNumberFormatter: Ext.util.Format.number,
+    number: function(v, formatString) {
+        if (v < 0) {
+            //negative number: flip the sign, format then prepend '-' onto output
+            return '-' + this.originalNumberFormatter(v * -1, formatString);
+        } else {
+            //positive number: as you were
+            return this.originalNumberFormatter(v, formatString);
+        }
+    }
+});
 Ext.define('Account.RGeneralLedger.MainWindow', {
 	extend	: 'Ext.window.Window',
 	title: 'Report General Ledger',
@@ -115,18 +128,18 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 			layout: 'form',
 			bodyPadding: '15 15 15 15',
 			fieldDefaults: {
-				labelWidth: 50
+				labelWidth: 70
 			},
 			frame: true,
 			items: [{
 				xtype: 'datefield',
-				fieldLabel: 'เริ่มต้น',
+				fieldLabel: 'Start Date',
 				name: 'start_date',
 				format: 'Y-m-d',
 				allowBlank: false
 			},{
 				xtype: 'datefield',
-				fieldLabel: 'สิ้นสุด',
+				fieldLabel: 'End Date',
 				name: 'end_date',
 				format: 'Y-m-d',
 				allowBlank: false

@@ -280,6 +280,17 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 					}
 				});
 			}
+			
+			if(e.column.dataIndex=='payam'){
+				var v = parseFloat(e.value);
+				var rModel = _this.store.getById(e.record.data.id);
+				var item = _this.itemValue;
+				//alert(v+'aaa'+remain);
+			    if(v>item){
+			    	rModel.set(e.field, item);
+			    	Ext.Msg.alert('Warning', 'Receipt over Net Amount');
+			    }
+			}
 		});
 
 		_this.bankDialog.grid.on('beforeitemdblclick', function(grid, record, item){

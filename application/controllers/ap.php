@@ -629,7 +629,7 @@ class Ap extends CI_Controller {
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
-			'txz01' => 'GR No '.$id,
+			'txz01' => 'AP No '.$id,
 			'ttype' => '05',
 			'auart' => 'AP',
 			'kunnr' => $this->input->post('lifnr'),

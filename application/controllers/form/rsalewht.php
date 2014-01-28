@@ -30,6 +30,7 @@ class Rsalewht extends CI_Controller {
 	    $strSQL1 = " select v_vbbp.*";
         $strSQL1 = $strSQL1 . " from v_vbbp ";
         $strSQL1 = $strSQL1 . " Where v_vbbp.type1 = '1' and v_vbbp.bldat ".$dt_result;
+		$strSQL1 = $strSQL1 . " And v_vbbp.statu = '02' ";
 		$strSQL1 .= " ORDER BY recnr ASC";
        
 		$query = $this->db->query($strSQL1);
@@ -252,11 +253,11 @@ $j=0;$no=1;$total1=0;$total2=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	
 	$item = $rows[$i];
-	$itamt = $item['beamt'];
+	$itamt = $item['beamt'] - $item['dismt'];
 	$b_amt = $itamt;
 	$duedt_str = util_helper_format_date($item['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
-	$total1 += $item['beamt'];
+	$total1 += $itamt;
 	$total2 += $item['wht01'];
 ?>
 	<tr>
@@ -268,7 +269,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
       <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($itamt,2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 

@@ -1,4 +1,4 @@
-Ext.define('Account.PettyReim.Item.Grid_i', {
+Ext.define('Account.PettyExpense.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -7,7 +7,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 	initComponent : function() {
 		var _this=this;
 
-		/*this.addAct = new Ext.Action({
+		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -16,12 +16,13 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
+		this.materialDialog = Ext.create('Account.SMaterial.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];*/
-		
-		this.bankDialog = Ext.create('Account.SBankname.MainWindow');
+		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -30,15 +31,15 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"pettyreim/loads_ap_item",
+				url: __site_url+"pettyexpense/loads_ap_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'remnr,vbelp'
+					idProperty: 'invnr,vbelp'
 				}
 			},
 			fields: [
-			    'remnr',
+			    'invnr',
 				'vbelp',
 				'matnr',
 				'maktx',
@@ -50,17 +51,25 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'bcode',
-				'bname',
-				'saknr',
-				'saknr2'
+				'saknr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
 		});
 
 		this.columns = [{
-			id : 'APiRowNumber5',
+			xtype: 'actioncolumn',
+			width: 30,
+			sortable: false,
+			menuDisabled: true,
+			items: [{
+				icon: __base_url+'assets/images/icons/bin.gif',
+				tooltip: 'Delete Petty Case Item',
+				scope: this,
+				handler: this.removeRecord
+			}]
+		},{
+			id : 'APiRowNumber22',
 			header : "Items",
 			dataIndex : 'vbelp',
 			width : 60,
@@ -74,7 +83,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
-			/*field: {
+			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -82,10 +91,10 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.materialDialog.show();
 				}
-			},*/
+			},
 			},
 		    {text: "Description",
-		    width: 180,
+		    width: 220,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    //field: {
@@ -94,13 +103,23 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 50,
+			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
-			align: 'right'
+			align: 'right',
+			field: {
+				type: 'numberfield',
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}
 			},
-			{text: "Unit", width: 40, dataIndex: 'meins', sortable: false,
-			/*field: {
+			},
+			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -108,35 +127,15 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
-			},*/
-			},
-			{text: "Bank Code", align : 'center',
-			width:100, 
-			dataIndex: 'bcode', 
-			sortable: false,
-			field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.bankDialog.show();
-				}
 			},
 			},
-		    {text: "Bank Name",
-		    width: 180, dataIndex: 'bname', sortable: false,
-		    field: {
-				type: 'textfield'
-			}
-			},
-			{text: "Petty Cash Amt",
+			{text: "Price/Unit",
 			xtype: 'numbercolumn',
-			width: 120,
+			width: 100,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
-			editor: {
+			field: {
 				type: 'numberfield',
 				decimalPrecision: 2,
 				listeners: {
@@ -144,10 +143,71 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 						var v = field.getValue();
 						if(Ext.isEmpty(v) || v==0)
 							field.selectText();
-						_this.editing.completeEdit();
-					},
+							_this.editing.completeEdit();
+					}
 				}
 			}
+			},
+			{text: "Discount",
+			//xtype: 'numbercolumn',
+			width: 80,
+			dataIndex: 'disit',
+			sortable: false,
+			align: 'right',
+			field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
+					var regEx = /%$/gi;
+					if(regEx.test(v))
+						return v;
+					else
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
+				}
+			},{
+            xtype: 'checkcolumn',
+            text: 'Vat',
+            dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },{
+            xtype: 'checkcolumn',
+            text: 'WHT',
+            dataIndex: 'chk02',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
+			{
+				text: "Amount",
+				width: 90,
+				dataIndex: 'itamt',
+				sortable: false,
+				align: 'right',
+				renderer: function(v,p,r){
+					var qty = parseFloat(r.data['menge']),
+						price = parseFloat(r.data['unitp']);
+						//discount = parseFloat(r.data['dismt']);
+					qty = isNaN(qty)?0:qty;
+					price = isNaN(price)?0:price;
+					//discount = isNaN(discount)?0:discount;
+
+					var amt = qty * price;//) - discount;
+					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+				}
 			},
 			{text: "Currency",
 			width: 65,
@@ -162,24 +222,27 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			//width: 55,
 			hidden: true,
 			sortable: false
-		},{
-			dataIndex: 'saknr2',
-			//width: 55,
-			hidden: true,
-			sortable: false
 		}];
 
 		this.plugins = [this.editing];
 
 		// init event
+		this.addAct.setHandler(function(){
+			_this.addRecord();
+		});
+		
+		this.copyAct.setHandler(function(){
+			_this.copyRecord();
+		});
+
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='bcode'){
+			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'bankname/load',
+					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -188,53 +251,106 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-
 							// change cell code value (use db value)
-							rModel.set(e.field, r.data.bcode);
+							rModel.set(e.field, r.data.matnr);
 							// Materail text
-							rModel.set('bname', r.data.bname);
-							// GL No
-							rModel.set('saknr2', r.data.saknr);
+							rModel.set('maktx', r.data.maktx);
+							// Unit
+							rModel.set('meins', r.data.meins);
+							// GL no
+							rModel.set('saknr', r.data.saknr);
+							//rModel.set('amount', 100+Math.random());
+
 						}else{
-							var rModel = _this.store.getById(e.record.data.id);
-							rModel.set(e.field, '');
-							// Materail text
-							rModel.set('bname', '');
-							// GL No
-							rModel.set('saknr2', '');
 							_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});
 			}
 			
-			//var _this = this;
+			if(e.column.dataIndex=='meins'){
+				var v = e.value;
+				if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'unit/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							var rModel = _this.store.getById(e.record.data.id);
+							// change cell code value (use db value)
+							rModel.set(e.field, r.data.meins);
+						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set('meins', '');
+							//_this.editing.startEdit(e.record, e.column);
+						}
+					}
+				});
+			}
+			
 			if(e.column.dataIndex=='unitp'){
 				var v = parseFloat(e.value);
 				var rModel = _this.store.getById(e.record.data.id);
 				var remain = _this.remainValue;
-				//alert(v+'aaa'+remain);
-			    if(v>remain){
-			    	rModel.set(e.field, remain);
-			    	Ext.Msg.alert('Warning', 'CPV Amount over Limit Amount');
+				var sum = _this.sumValue;
+                var dif = sum - v;
+                    dif = remain - dif;
+			    if(sum>remain){
+			    	rModel.set(e.field, dif);
+			    	Ext.Msg.alert('Warning', 'Petty Cash Amount over Remain Amount');
 			    }
 			}
 		});
 
-		_this.bankDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-
 				// change cell code value (use db value)
-				rModel.set('bcode', record.data.bcode);
+				rModel.set('matnr', record.data.matnr);
 				// Materail text
-				rModel.set('bname', record.data.bname);
-				// GL No
-				rModel.set('saknr2', record.data.saknr)
+				rModel.set('maktx', record.data.maktx);
+				// Unit
+				rModel.set('meins', record.data.meins);
+				//rModel.set('amount', 100+Math.random());
+				rModel.set('saknr', record.data.saknr);
+				
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.bankDialog.hide();
+			_this.materialDialog.hide();
+		});
+		
+		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+				// change cell code value (use db value)
+				rModel.set('meins', record.data.meins);
+			//_this.trigUnit.setValue(record.data.meins);
+			}
+			grid.getSelectionModel().deselectAll();
+			_this.unitDialog.hide();
+			
+		});
+		
+		// for set readonly grid
+		this.store.on('load', function(store, rs){
+			if(_this.readOnly){
+				var view = _this.getView();
+				var t = _this.getView().getEl().down('table');
+				t.addCls('mask-grid-readonly');
+				_this.readOnlyMask = new Ext.LoadMask(t, {
+					msg:"..."
+				});
+				_this.readOnlyMask.show();
+			}else{
+				if(_this.readOnlyMask)
+					_this.readOnlyMask.hide();
+			}
 		});
 
 		return this.callParent(arguments);
@@ -245,37 +361,8 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			params: options
 		});
 	},
-	
-	addDefaultRecord: function(){
-		this.store.removeAll(); 
-		// หา record ที่สร้างใหม่ล่าสุด
-		var newId = -1;
-		this.store.each(function(r){ //กรณีมีเลือกรายการขึ้นมาแก้ไขและมีรายการมากกว่า 1 รายการ
-			if(r.get('id')<newId)
-				newId = r.get('id'); 
-				
-		});
-		newId--;
-	
-		//for ( var i = 0; i < 5; i++ ) {
-			// add new record
-			rec = { id:0,matnr:'200021',maktx:'เงินทดลองจ่าย',
-			menge:1,meins:'EA',chk01:1,ctyp1:'THB',saknr:'1111-00' };
-			edit = this.editing;
-			edit.cancelEdit();
-			var selIndex = 0;
-			this.store.insert(selIndex+1, rec);
-			edit.startEditByPosition({
-				row: selIndex+1,
-				column: 0
-			});
-	
-			this.runNumRow();
-		//}
-	},
 
 	addRecord: function(){
-		var _this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -283,10 +370,9 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-        
-        var cur = _this.curValue;
+
 		// add new record
-		rec = { id:newId, chk01:1, ctype: cur  };
+		rec = { id:newId, chk01: 1, ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

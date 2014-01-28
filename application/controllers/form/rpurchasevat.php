@@ -31,6 +31,7 @@ class Rpurchasevat extends CI_Controller {
 	    $strSQL = " select v_ebrk.*";
         $strSQL = $strSQL . " from v_ebrk ";
         $strSQL = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebrk.statu = '02' ";
 		$strSQL .= "ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
@@ -260,7 +261,7 @@ $rows = $query->result_array();
 $no=1;$v_amt=0;$t_amt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
-	$itamt = $item['beamt'];
+	$itamt = $item['beamt'] - $item['dismt'];
 	$t_amt += $itamt;
 	$vtamt = $item['vat01'];
 	$v_amt += $vtamt;
@@ -274,7 +275,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:80px;"><?=$item['taxid'];?></td>
       <td class="fc1-8" align="center" style="width:51px;">0000</td>
         <td class="fc1-8" align="center" style="width:35px;">0000</td>
-	  <td class="fc1-8" align="right" style="width:84px;"><?=number_format($item['beamt'],2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:84px;"><?=number_format($itamt,2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:81px;"><?=number_format($item['vat01'],2,'.',',');?></td>
 	</tr>
 

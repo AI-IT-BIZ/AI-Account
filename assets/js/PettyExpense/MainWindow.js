@@ -1,13 +1,13 @@
-Ext.define('Account.Receipt.MainWindow', {
+Ext.define('Account.PettyExpense.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Receipt',
+			title: 'Petty Cash Expense',
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
-			width: 950,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -20,42 +20,32 @@ Ext.define('Account.Receipt.MainWindow', {
 
 	initComponent : function() {
 		var _this=this;
-        /*****************************************************/
 
-       var fibasic = Ext.create('Ext.form.field.File', {
-        width: 200,
-        x: 50,
-        y: 50,
-        hideLabel: true
-      });
-
-      /*****************************************************/
-     
 		// --- object ---
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus',
-			disabled: !UMS.CAN.CREATE('RD')
+			disabled: !UMS.CAN.CREATE('PE')
 		});
 		this.editAct = new Ext.Action({
 			text: 'Edit',
 			iconCls: 'b-small-pencil',
-			disabled: !(UMS.CAN.DISPLAY('RD') || UMS.CAN.CREATE('RD') || UMS.CAN.EDIT('RD'))
+			disabled: !(UMS.CAN.DISPLAY('PE') || UMS.CAN.CREATE('PE') || UMS.CAN.EDIT('PE'))
 		});
 		this.displayAct = new Ext.Action({
 			text: 'Display',
 			iconCls: 'b-small-search',
-			disabled: !UMS.CAN.DISPLAY('RD')
+			disabled: !UMS.CAN.DISPLAY('PE')
 		});
 		this.deleteAct = new Ext.Action({
 			text: 'Delete',
 			iconCls: 'b-small-minus',
-			disabled: !UMS.CAN.DELETE('RD')
+			disabled: !UMS.CAN.DELETE('PE')
 		});
         this.excelAct = new Ext.Action({
 			text: 'Excel',
 			iconCls: 'b-small-excel',
-			disabled: !UMS.CAN.EXPORT('RD')
+			disabled: !UMS.CAN.EXPORT('PE')
 		});
 		this.importAct = new Ext.Action({
 			text: 'Import',
@@ -63,15 +53,15 @@ Ext.define('Account.Receipt.MainWindow', {
 			iconCls: 'b-small-import'
 		});
 
-		this.itemDialog = Ext.create('Account.Receipt.Item.Window');
-
-		this.grid = Ext.create('Account.Receipt.Grid', {
+        this.itemDialog = Ext.create('Account.PettyExpense.Item.Window');
+        
+		this.grid = Ext.create('Account.PettyExpense.Grid', {
 			region:'center',
 			border: false,
 			tbar: [this.addAct, this.editAct, this.displayAct, this.deleteAct, this.excelAct,this.importAct]
 		});
 		
-		//this.searchForm = Ext.create('Account.Receipt.FormSearch', {
+		//this.searchForm = Ext.create('Account.AP.FormSearch', {
 		//	region: 'north',
 		//	height:100
 		//});
@@ -87,7 +77,7 @@ Ext.define('Account.Receipt.MainWindow', {
 			};
 		}
 
-		this.searchForm = Ext.create('Account.Receipt.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.PettyExpense.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 
@@ -98,11 +88,7 @@ Ext.define('Account.Receipt.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
 			_this.itemDialog.setReadOnly(false);
-			_this.itemDialog.setTitle('Create Receipt');
-			/*
-			_this.itemDialog.form.reset();
-			_this.itemDialog.show();
-			*/
+			_this.itemDialog.setTitle('Create Petty Cash Expense');
 		});
 
 		this.editAct.setHandler(function(){
@@ -112,12 +98,7 @@ Ext.define('Account.Receipt.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-				_this.itemDialog.setTitle('Edit Receipt');
-				//_this.itemDialog.show();
-				//_this.itemDialog.form.load(id);
-
-				// สั่ง pr_item grid load
-				//_this.itemDialog.form.gridItem.load({ebeln: id});
+				_this.itemDialog.setTitle('Edit Petty Cash Expense');
 			}
 		});
 		
@@ -127,7 +108,7 @@ Ext.define('Account.Receipt.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
-				_this.itemDialog.setTitle('Display Receipt');
+				_this.itemDialog.setTitle('Display Petty Cash Expense');
 			}
 		});
 
@@ -135,6 +116,7 @@ Ext.define('Account.Receipt.MainWindow', {
 			var sel = _this.grid.getView().getSelectionModel().getSelection()[0];
 			var id = sel.data[sel.idField.name];
 			if(id){
+				
 				_this.itemDialog.form.remove(id);
 			}
 		});
@@ -145,7 +127,7 @@ Ext.define('Account.Receipt.MainWindow', {
 
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save Receipt number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Petty Cash number: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){
@@ -175,7 +157,7 @@ Ext.define('Account.Receipt.MainWindow', {
 				}
 		    });
 		}
-
+        
         if(!this.disableGridDoubleClick){
 	    this.grid.getView().on('itemdblclick', function(grid, record, item, index){
 	    	_this.editAct.execute();
@@ -190,8 +172,9 @@ Ext.define('Account.Receipt.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/receipt/index?'+query;
+			window.location = __site_url+'export/pettyexpense/index?'+query;
 		});
+		
 		// --- after ---
 		this.grid.load();
 

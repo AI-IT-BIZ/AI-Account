@@ -34,6 +34,7 @@ class Rsumvat_docket extends CI_Controller {
 		$strSQL = " select v_vbrk.*";
         $strSQL = $strSQL . " from v_vbrk ";
         $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_vbrk.statu = '02' ";
 		$strSQL .= " ORDER BY invnr ASC";
 		
 		$query = $this->db->query($strSQL);
@@ -46,15 +47,45 @@ class Rsumvat_docket extends CI_Controller {
 		
 		$sale_amt=0;$sale_vat=0;
 		foreach ($rows as $key => $item) {
-		   $sale_amt += $item['netwr'];
+		   $sale_amt += $item['beamt'] - $item['dismt'];
 		   $sale_vat += $item['vat01'];
 		}
+		
+		//Sale debit
+	    $strSQL = " select v_vbdn.*";
+        $strSQL = $strSQL . " from v_vbdn ";
+        $strSQL = $strSQL . " Where v_vbdn.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_vbdn.statu = '02' ";
+		$strSQL .= "ORDER BY debnr ASC";
+       
+		$q_saledn = $this->db->query($strSQL);
+		$rows = $q_saledn->result_array();
+		foreach ($rows as $key => $item) {
+		   $sale_amt += $item['beamt'] - $item['dismt'];
+		   $sale_vat += $item['vat01'];
+		}
+		
+		//Purchase credit
+		$strSQL2 = " select v_ebcn.*";
+        $strSQL2 = $strSQL2 . " from v_ebcn ";
+        $strSQL2 = $strSQL2 . " Where v_ebcn.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebcn.statu = '02' ";
+		$strSQL2 .= "ORDER BY crenr ASC";
+       
+		$q_purchcn = $this->db->query($strSQL2);
+		$rows = $q_purchcn->result_array();
+		foreach ($rows as $key => $item) {
+		   $sale_amt += $item['beamt'] - $item['dismt'];
+		   $sale_vat += $item['vat01'];
+		}
+		
 		
 		//Purchase
 		$strSQL="";
 		$strSQL = " select v_ebrk.*";
         $strSQL = $strSQL . " from v_ebrk ";
         $strSQL = $strSQL . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebrk.statu = '02' ";
 		$strSQL .= " ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
@@ -64,7 +95,37 @@ class Rsumvat_docket extends CI_Controller {
 		
 		$purch_amt=0;$purch_vat=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['netwr'];
+		   $purch_amt += $item['beamt'] - $item['dismt'];
+		   $purch_vat += $item['vat01'];
+		}
+		
+		//Purchase debit
+		$strSQL2 = " select v_ebdn.*";
+        $strSQL2 = $strSQL2 . " from v_ebdn ";
+        $strSQL2 = $strSQL2 . " Where v_ebdn.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebdn.statu = '02' ";
+		$strSQL2 .= "ORDER BY debnr ASC";
+       
+		$q_purchdn = $this->db->query($strSQL2);
+		$rowp = $q_purchdn->result_array();
+		
+		foreach ($rowp as $key => $item) {
+		   $purch_amt += $item['beamt'] - $item['dismt'];
+		   $purch_vat += $item['vat01'];
+		}
+		
+		//Sale credit
+	    $strSQL = " select v_vbcn.*";
+        $strSQL = $strSQL . " from v_vbcn ";
+        $strSQL = $strSQL . " Where v_vbcn.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_vbcn.statu = '02' ";
+		$strSQL .= "ORDER BY crenr ASC";
+       
+		$q_salecn = $this->db->query($strSQL);
+		$rowp = $q_salecn->result_array();
+		
+		foreach ($rowp as $key => $item) {
+		   $purch_amt += $item['beamt'] - $item['dismt'];
 		   $purch_vat += $item['vat01'];
 		}
 		
