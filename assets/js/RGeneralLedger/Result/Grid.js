@@ -94,12 +94,16 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 				summaryType: function(records){
 					var i = 0,
 						length = records.length,
+						total_credi = 0,
+						total_debit = 0,
 						total = 0,
 						record;
 					for (i=0; i < length; ++i) {
 						record = records[i];
-						total += Number(record.get('balance'));
+						total_credi += Number(record.get('credi'));
+						total_debit += Number(record.get('debit'));
 					}
+					total = total_debit - total_credi;
 					return total;
 				},
 				summaryRenderer: function(value,summaryData,index){
