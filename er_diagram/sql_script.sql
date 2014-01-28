@@ -1,6 +1,6 @@
 /*
 Created		27/7/2013
-Modified		27/1/2014
+Modified		28/1/2014
 Project		
 Model		
 Company		
@@ -10,6 +10,18 @@ Database		mySQL 5
 */
 
 
+
+Drop View IF EXISTS v_ebep
+;
+
+Drop View IF EXISTS v_ebek
+;
+
+Drop View IF EXISTS v_ebtp
+;
+
+Drop View IF EXISTS v_ebtk
+;
 
 Drop View IF EXISTS v_ftyp
 ;
@@ -197,10 +209,10 @@ Drop View IF EXISTS v_vbak
 
 
 
-drop table IF EXISTS tbl_vbep;
-drop table IF EXISTS tbl_vbek;
-drop table IF EXISTS tbl_vbtp;
-drop table IF EXISTS tbl_vbtk;
+drop table IF EXISTS tbl_ebep;
+drop table IF EXISTS tbl_ebek;
+drop table IF EXISTS tbl_ebtp;
+drop table IF EXISTS tbl_ebtk;
 drop table IF EXISTS tbl_fgrp;
 drop table IF EXISTS tbl_ftyp;
 drop table IF EXISTS tbl_fara;
@@ -345,7 +357,7 @@ Create table tbl_init (
 	modul Varchar(4) NOT NULL COMMENT 'Module',
 	grpmo Varchar(4) NOT NULL COMMENT 'Module grp',
 	sgtxt Varchar(40) COMMENT 'Object Description',
-	short Varchar(2) COMMENT 'Short Letter',
+	short Varchar(3) COMMENT 'Short Letter',
 	minnr Varchar(10) COMMENT 'Initial no',
 	maxnr Varchar(10) COMMENT 'Limit no',
 	perio Varchar(6) COMMENT 'Period',
@@ -2151,7 +2163,7 @@ Create table tbl_fgrp (
  Primary Key (matkl,mtart)) ENGINE = InnoDB
 COMMENT = 'Material Group';
 
-Create table tbl_vbtk (
+Create table tbl_ebtk (
 	comid Varchar(4) NOT NULL,
 	remnr Varchar(20) NOT NULL COMMENT 'Invoice no',
 	bldat Date COMMENT 'Invoice Date',
@@ -2170,7 +2182,7 @@ Create table tbl_vbtk (
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
 	terms Int COMMENT 'Terms Date',
-	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	lifnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
@@ -2187,16 +2199,16 @@ Create table tbl_vbtk (
 	whtyp Varchar(2) COMMENT 'WHT Type',
 	whtnr Varchar(4) COMMENT 'WHT No',
 	whtxt Varchar(40) COMMENT 'WHT Description',
-	dispc Varchar(20),
+	dispc Decimal(17,2),
 	deamt Decimal(17,2),
 	reman Decimal(17,2),
 	upamt Decimal(17,2),
  Primary Key (comid,remnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
-Create table tbl_vbtp (
+Create table tbl_ebtp (
 	remnr Varchar(20) NOT NULL COMMENT 'Invoice no.',
-	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	ebelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -2208,10 +2220,11 @@ Create table tbl_vbtp (
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	chk01 Varchar(5),
 	chk02 Varchar(5),
- Primary Key (remnr,vbelp)) ENGINE = InnoDB
+	bcode Varchar(5),
+ Primary Key (remnr,ebelp)) ENGINE = InnoDB
 COMMENT = 'Invoice Item';
 
-Create table tbl_vbek (
+Create table tbl_ebek (
 	comid Varchar(4) NOT NULL,
 	invnr Varchar(20) NOT NULL COMMENT 'Invoice no',
 	bldat Date COMMENT 'Invoice Date',
@@ -2230,7 +2243,7 @@ Create table tbl_vbek (
 	ptype Varchar(4) COMMENT 'Pay Type (tbl_ptyp)',
 	taxnr Varchar(4) COMMENT 'Tax Type (tbl_tax1)',
 	terms Int COMMENT 'Terms Date',
-	kunnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
+	lifnr Varchar(10) COMMENT 'Cutomer no (tbl_kunnr)',
 	netwr Decimal(17,2) COMMENT 'Net Amount',
 	ctype Varchar(3) COMMENT 'Currency (tbl_ctyp)',
 	beamt Decimal(17,2) COMMENT 'Amount',
@@ -2239,7 +2252,7 @@ Create table tbl_vbek (
 	duedt Date COMMENT 'Due Date',
 	docty Varchar(4) COMMENT 'Doc type (tbl_doct)',
 	exchg Decimal(15,4) COMMENT 'Exchange rate',
-	ordnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
+	remnr Varchar(20) COMMENT 'SO no (tbl_vbok)',
 	condi Varchar(4) COMMENT 'Payment Condition',
 	paypr Varchar(4) COMMENT 'Partial Payment',
 	vat01 Decimal(17,2),
@@ -2247,14 +2260,14 @@ Create table tbl_vbek (
 	whtyp Varchar(2) COMMENT 'WHT Type',
 	whtnr Varchar(4) COMMENT 'WHT No',
 	whtxt Varchar(40) COMMENT 'WHT Description',
-	dispc Varchar(20),
 	deamt Decimal(17,2),
+	reman Decimal(17,2),
  Primary Key (comid,invnr)) ENGINE = InnoDB
 COMMENT = 'Invoice Header';
 
-Create table tbl_vbep (
+Create table tbl_ebep (
 	invnr Varchar(20) NOT NULL COMMENT 'Invoice no.',
-	vbelp Varchar(4) NOT NULL COMMENT 'SO Item',
+	ebelp Varchar(4) NOT NULL COMMENT 'SO Item',
 	loekz Varchar(1) COMMENT 'Delete flag',
 	matnr Varchar(10) COMMENT 'Material Code',
 	menge Decimal(15,2) COMMENT 'Amount',
@@ -2266,7 +2279,7 @@ Create table tbl_vbep (
 	itamt Decimal(17,2) COMMENT 'Item Amount',
 	chk01 Varchar(5),
 	chk02 Varchar(5),
- Primary Key (invnr,vbelp)) ENGINE = InnoDB
+ Primary Key (invnr,ebelp)) ENGINE = InnoDB
 COMMENT = 'Invoice Item';
 
 
@@ -2882,6 +2895,64 @@ create view v_ftyp as
 select a.*,b.sgtxt
 from tbl_fgrp a left join tbl_glno b 
 on a.saknr = b.saknr;
+create view v_ebtk as
+
+select a.*,`b`.`name1` AS `name1`,b.vtype,b.type1,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,b.taxid,
+`b`.`saknr` as cusgl,d.statx,
+e.paytx,e.saknr, h.belnr, k.whtpr, k.whtgp
+from tbl_ebtk a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_bkpf h on a.remnr = h.invnr
+left join tbl_whty k on a.whtnr = k.whtnr;
+create view v_ebtp as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.lifnr,d.name1,
+e.statx,c.terms,c.beamt,c.netwr,
+c.vat01,c.statu,f.bname,f.saknr
+from tbl_ebtp a left join tbl_mara b 
+on a.matnr = b.matnr
+left join tbl_ebtk c 
+on a.remnr = c.remnr
+left join tbl_lfa1 d 
+on c.lifnr = d.lifnr
+left join tbl_apov e 
+on c.statu = e.statu
+left join tbl_bnam f 
+on a.bcode = f.bcode;
+create view v_ebek as
+
+select a.*,`b`.`name1` AS `name1`,b.vtype,b.type1,
+`b`.`telf1` AS `telf1`,`b`.`adr01` AS `adr01`,`b`.`telfx` AS `telfx`,
+`b`.`pstlz` AS `pstlz`,
+`b`.`email` AS `email`,`b`.`distx`,b.taxid,
+`b`.`saknr` as cusgl,d.statx,
+e.paytx,e.saknr, h.belnr, k.whtpr, k.whtgp, l.reman, l.dispc
+from tbl_ebek a left join tbl_lfa1 b 
+on a.lifnr = b.lifnr
+left join tbl_apov d on a.statu = d.statu
+left join tbl_ptyp e on a.ptype = e.ptype
+left join tbl_bkpf h on a.invnr = h.invnr
+left join tbl_whty k on a.whtnr = k.whtnr
+left join tbl_ebtk l on a.remnr = l.remnr;
+create view v_ebep as
+
+select a.*,b.maktx,b.mtart,b.saknr,
+c.bldat,c.lifnr,d.name1,
+e.statx,c.terms,c.beamt,c.netwr,
+c.vat01,c.statu
+from tbl_ebep a left join tbl_mara b 
+on a.matnr = b.matnr
+left join tbl_ebtk c 
+on a.invnr = c.invnr
+left join tbl_lfa1 d 
+on c.lifnr = d.lifnr
+left join tbl_apov e 
+on c.statu = e.statu;
 
 
 INSERT INTO tbl_pr (code) VALUES ('A0001'),('A0002');

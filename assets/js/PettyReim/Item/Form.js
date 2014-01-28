@@ -530,6 +530,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 	},
 	getRemain: function(){
 		var _this=this;
+		var petty = _this.numberPetty.getValue();
 		Ext.Ajax.request({
 					url: __site_url+'pettyreim/load_remain',
 					method: 'POST',
@@ -542,7 +543,8 @@ Ext.define('Account.PettyReim.Item.Form', {
 							_this.numberRemain.setValue(r.data);
 							_this.numberPetty2.setValue(r.data);
 						}else{
-							//o.setValue('');
+							_this.numberRemain.setValue(petty);
+							_this.numberPetty2.setValue(petty);
 							o.markInvalid('Could not find Remain Amount : '+o.getValue());
 						}
 					}
