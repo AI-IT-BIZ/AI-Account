@@ -58,6 +58,48 @@ function endsWith($haystack, $needle)
 				}
 			}
 		});
+
+		Ext.grid.column.Action.override({
+			processEvent : function(type, view, cell, recordIndex, cellIndex, e, record, row){
+		        var me = this,
+		            target = e.getTarget(),
+		            match,
+		            item, fn,
+		            key = type == 'keydown' && e.getKey(),
+		            disabled;
+
+				// fix enter key
+				if(key == e.ENTER || key == e.SPACE)
+					return false;
+
+
+		        // If the target was not within a cell (ie it's a keydown event from the View), then
+		        // rely on the selection data injected by View.processUIEvent to grab the
+		        // first action icon from the selected cell.
+		        if (key && !Ext.fly(target).findParent(view.getCellSelector())) {
+		            target = Ext.fly(cell).down('.' + Ext.baseCSSPrefix + 'action-col-icon', true);
+		        }
+
+
+		        // NOTE: The statement below tests the truthiness of an assignment.
+		        if (target && (match = target.className.match(me.actionIdRe))) {
+		            item = me.items[parseInt(match[1], 10)];
+		            disabled = item.disabled || (item.isDisabled ? item.isDisabled.call(item.scope || me.origScope || me, view, recordIndex, cellIndex, item, record) : false);
+		            if (item && !disabled) {
+		                if (type == 'click' || (key == e.ENTER || key == e.SPACE)) {
+		                    fn = item.handler || me.handler;
+		                    if (fn) {
+		                        fn.call(item.scope || me.origScope || me, view, recordIndex, cellIndex, item, e, record, row);
+		                    }
+							return false;
+		                } else if (type == 'mousedown' && item.stopSelection !== false) {
+		                    return false;
+		                }
+		            }
+		        }
+		        return me.callParent(arguments);
+	    	}
+		});
 	</script>
 	<script type="text/javascript">
 
@@ -227,7 +269,7 @@ function endsWith($haystack, $needle)
 		#div-account-rincome { top:495px; left:590px; width: 180px; height: 90px; }
 
 		#div-account-assetlist { top:495px; left:70px; width: 180px; height:90px; }
-		
+
 
 		#div1-4-container { width: 240px; height:30px; color:white; font-weight:bold; }
 		#div1-4-container div span { position:absolute; bottom:10px; left:10px; }
@@ -401,7 +443,7 @@ function endsWith($haystack, $needle)
 		#arrow-acc-08 { width:35px; top:535px; left:555px; }
 		#arrow-acc-09 { width:130px; top:275px; left:340px; }
 		#arrow-acc-10 { height:40px; top:260px; left:340px; }
-		
+
 		#arrow-acc-11 { width:130px; top:275px; left:650px; }
 		#arrow-acc-12 { height:40px; top:260px; left:780px; }
 
@@ -1177,7 +1219,7 @@ function endsWith($haystack, $needle)
 								'<div id="arrow-acc-08" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-acc-09" class="arrow arrow-right"><span></span></div>',
 								'<div id="arrow-acc-10" class="arrow arrow2"><span></span></div>',
-								
+
 								'<div id="arrow-acc-11" class="arrow arrow-left"><span></span></div>',
 								'<div id="arrow-acc-12" class="arrow arrow2"><span></span></div>',
 							'</div>',
@@ -1415,14 +1457,14 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-report-rar-aging').on('click', function(){ $om.viewport.fireEvent('click_ar_aging', c); }, c);
                                 pEl.getById('div-report-rap-ledger').on('click', function(){ $om.viewport.fireEvent('click_ap_ledger', c); }, c);
 								pEl.getById('div-report-rap-aging').on('click', function(){ $om.viewport.fireEvent('click_ap_aging', c); }, c);
-								
+
 								pEl.getById('div-report-rjounrnal').on('click', function(){ $om.viewport.fireEvent('click_report_gr', c); }, c);
 								pEl.getById('div-report-rpetty').on('click', function(){ $om.viewport.fireEvent('click_report_pj', c); }, c);
 								pEl.getById('div-report-rsalej').on('click', function(){ $om.viewport.fireEvent('click_report_sj', c); }, c);
-								
+
 								pEl.getById('div-report-rpurchasej').on('click', function(){ $om.viewport.fireEvent('click_report_purchasej', c); }, c);
 								pEl.getById('div-report-rgeneral').on('click', function(){ $om.viewport.fireEvent('click_report_gl', c); }, c);
-								
+
 								pEl.getById('div-report-rassetdepre').on('click', function(){ $om.viewport.fireEvent('click_rassetdepre', c); }, c);
 
 							}
