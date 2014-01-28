@@ -222,6 +222,10 @@ Ext.onReady(function() {
 		$om.rinvoiceDialog.show();
 	});
 	$om.viewport.on('click_rreceipt', function(){
+		if(!UMS.CAN.DISPLAY('RA')){
+	 		UMS.ALERT("You don't have permission for Revenue & AR Accounting Report.");
+	  		return;
+		}
 		if(!$om.rreceiptDialog)
 			$om.rreceiptDialog = Ext.create('Account.RReceipt.MainWindow');
 		$om.rreceiptDialog.show();
@@ -409,6 +413,10 @@ Ext.onReady(function() {
 		$om.rapDialog.show();
 	});
 	$om.viewport.on('click_rpayment', function(){
+		if(!UMS.CAN.DISPLAY('EA')){
+	 		UMS.ALERT("You don't have permission for Expense & AP Accounting Report.");
+	  		return;
+		}
 		if(!$om.rpaymentDialog)
 			$om.rpaymentDialog = Ext.create('Account.RPayment.MainWindow');
 		$om.rpaymentDialog.show();
@@ -750,21 +758,37 @@ Ext.onReady(function() {
 	});
 	
 	$om.viewport.on('click_ar_ledger', function(){
+		if(!UMS.CAN.DISPLAY('RA')){
+	 		UMS.ALERT("You don't have permission for Revenue & AR Accounting Report.");
+	  		return;
+		}
 		$om.RARLedger = Ext.create('Account.RARLedger.MainWindow');
 		$om.RARLedger.show();
 	});
 	
 	$om.viewport.on('click_ar_aging', function(){
+		if(!UMS.CAN.DISPLAY('AA')){
+	 		UMS.ALERT("You don't have permission for AR Aging Report.");
+	  		return;
+		}
 		$om.RARaging = Ext.create('Account.RARaging.MainWindow');
 		$om.RARaging.show();
 	});
 	
 	$om.viewport.on('click_ap_aging', function(){
+		if(!UMS.CAN.DISPLAY('AG')){
+	 		UMS.ALERT("You don't have permission for AP Aging Report.");
+	  		return;
+		}
 		$om.RARaging = Ext.create('Account.RAPaging.MainWindow');
 		$om.RARaging.show();
 	});
 	
 	$om.viewport.on('click_ap_ledger', function(){
+		if(!UMS.CAN.DISPLAY('EA')){
+	 		UMS.ALERT("You don't have permission for Expense & AP Accounting Report.");
+	  		return;
+		}
 		$om.RAPLedger = Ext.create('Account.RAPLedger.MainWindow');
 		$om.RAPLedger.show();
 	});
