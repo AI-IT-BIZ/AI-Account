@@ -14,7 +14,7 @@ function endsWith($haystack, $needle)
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>AI Account</title>
+	<title>Prime ERP</title>
 
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/resources/css/ext-all.css') ?>" />
 	<script type="text/javascript" src="<?= base_url('assets/ext/ext-all.js') ?>"></script>
@@ -433,10 +433,6 @@ function endsWith($haystack, $needle)
 				text: 'View tutorials on using BizNet Accounts',
 				leaf: true
 			};
-			var nodeSetup = {
-				text: 'Config BizNet Accounts',
-				leaf: true
-			};
 	        var nodeLogin = {
 				text: 'Login',
 				leaf: true
@@ -448,7 +444,6 @@ function endsWith($haystack, $needle)
 				singleClickExpand : true,
 				children: [
 					nodeTutorials,
-					nodeSetup,
 					nodeLogin
 				]
 			};

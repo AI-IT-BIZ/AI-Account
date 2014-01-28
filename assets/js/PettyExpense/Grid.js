@@ -26,6 +26,7 @@ Ext.define('Account.PettyExpense.Grid', {
 				'deamt',
 				'netwr',
 				'dispc',
+				'ctype',
 				'statx'
 			],
 			remoteSort: true,
@@ -53,6 +54,8 @@ Ext.define('Account.PettyExpense.Grid', {
 			{text: "CPV Amt Remain", flex: true, 
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'dispc', sortable: true},
+			{text: "Currency", flex: true, align: 'center', 
+			dataIndex: 'ctype', sortable: true},
 			{text: "Petty Cash Status", flex: true, dataIndex: 'statx', sortable: true}
 		];
 
