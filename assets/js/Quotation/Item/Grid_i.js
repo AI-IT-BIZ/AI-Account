@@ -242,7 +242,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
                 var cusno = _this.customerValue;
-                
+
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
@@ -325,7 +325,7 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='meins'){
 				var v = e.value;
