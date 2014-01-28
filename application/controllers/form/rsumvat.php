@@ -32,6 +32,7 @@ class Rsumvat extends CI_Controller {
 	    $strSQL = " select v_vbrk.*";
         $strSQL = $strSQL . " from v_vbrk ";
         $strSQL = $strSQL . " Where v_vbrk.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_vbrk.statu = '02' ";
 		$strSQL .= "ORDER BY invnr ASC";
        
 		$query = $this->db->query($strSQL);
@@ -41,7 +42,8 @@ class Rsumvat extends CI_Controller {
 	    $strSQL = " select v_vbdn.*";
         $strSQL = $strSQL . " from v_vbdn ";
         $strSQL = $strSQL . " Where v_vbdn.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+		$strSQL = $strSQL . " And v_vbdn.statu = '02' ";
+		$strSQL .= "ORDER BY debnr ASC";
        
 		$q_saledn = $this->db->query($strSQL);
 		
@@ -49,7 +51,8 @@ class Rsumvat extends CI_Controller {
 	    $strSQL = " select v_vbcn.*";
         $strSQL = $strSQL . " from v_vbcn ";
         $strSQL = $strSQL . " Where v_vbcn.bldat ".$dt_result;
-		$strSQL .= "ORDER BY invnr ASC";
+		$strSQL = $strSQL . " And v_vbcn.statu = '02' ";
+		$strSQL .= "ORDER BY crenr ASC";
        
 		$q_salecn = $this->db->query($strSQL);
 		
@@ -57,15 +60,17 @@ class Rsumvat extends CI_Controller {
 		$strSQL2 = " select v_ebrk.*";
         $strSQL2 = $strSQL2 . " from v_ebrk ";
         $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebrk.statu = '02' ";
 		$strSQL2 .= "ORDER BY invnr ASC";
        
 		$q_purch = $this->db->query($strSQL2);
 		
         //Purchase debit
-		$strSQL2 = " select v_ebrk.*";
-        $strSQL2 = $strSQL2 . " from v_ebrk ";
-        $strSQL2 = $strSQL2 . " Where v_ebrk.bldat ".$dt_result;
-		$strSQL2 .= "ORDER BY invnr ASC";
+		$strSQL2 = " select v_ebdn.*";
+        $strSQL2 = $strSQL2 . " from v_ebdn ";
+        $strSQL2 = $strSQL2 . " Where v_ebdn.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebdn.statu = '02' ";
+		$strSQL2 .= "ORDER BY debnr ASC";
        
 		$q_purchdn = $this->db->query($strSQL2);
 		
@@ -73,7 +78,8 @@ class Rsumvat extends CI_Controller {
 		$strSQL2 = " select v_ebcn.*";
         $strSQL2 = $strSQL2 . " from v_ebcn ";
         $strSQL2 = $strSQL2 . " Where v_ebcn.bldat ".$dt_result;
-		$strSQL2 .= "ORDER BY invnr ASC";
+		$strSQL = $strSQL . " And v_ebcn.statu = '02' ";
+		$strSQL2 .= "ORDER BY crenr ASC";
        
 		$q_purchcn = $this->db->query($strSQL2);
 		
@@ -290,7 +296,7 @@ $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp) + count($rowscn) 
 	  + count($rowpcn) + count($rowsdn) + count($rowpdn);
 $s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;$k=0;$l=0;$m=0;$n=0;
-$invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
+$invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;$invoice='';
 for ($i=($current_page_index * $page_size);
      $i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
      if($i<count($rows)){
@@ -300,6 +306,7 @@ for ($i=($current_page_index * $page_size);
 		$ts_amt += $item['beamt'];
 		$ts_vat += $item['vat01'];
 		$d_vat = $item['vat01'];
+		$invoice = $item['invnr'];
 	 }else{
 	      if($j<count($rowp)){
 		     $item = $rowp[$j];
@@ -309,6 +316,7 @@ for ($i=($current_page_index * $page_size);
 		     $tp_amt += $item['beamt'];
 		     $tp_vat += $item['vat01'];
 		     $d_vat = 0 - $item['vat01'];
+			 $invoice = $item['invnr'];
 	         }else{
 	             if($k<count($rowsdn)){
 		         $item = $rowsdn[$k];
@@ -318,6 +326,7 @@ for ($i=($current_page_index * $page_size);
 		         $tp_amt += $item['beamt'];
 		         $tp_vat += $item['vat01'];
 		         $d_vat = $item['vat01'];
+				 $invoice = $item['debnr'];
 	             }else{
 	             	if($l<count($rowscn)){
 		              $item = $rowscn[$l];
@@ -327,6 +336,7 @@ for ($i=($current_page_index * $page_size);
 		              $tp_amt += $item['beamt'];
 		              $tp_vat += $item['vat01'];
 		              $d_vat = 0 - $item['vat01'];
+					  $invoice = $item['crenr'];
 	                  }else{
 	             	      if($m<count($rowpcn)){
 		                    $item = $rowpcn[$m];
@@ -336,6 +346,7 @@ for ($i=($current_page_index * $page_size);
 		                    $tp_amt += $item['beamt'];
 		                    $tp_vat += $item['vat01'];
 		                    $d_vat = $item['vat01'];
+							$invoice = $item['crenr'];
 	                        }else{
 	             	           if($n<count($rowpdn)){
 		                          $item = $rowpdn[$n];
@@ -345,6 +356,7 @@ for ($i=($current_page_index * $page_size);
 		                          $tp_amt += $item['beamt'];
 		                          $tp_vat += $item['vat01'];
 		                          $d_vat = 0 - $item['vat01'];
+								  $invoice = $item['debnr'];
 	                           }
 	                        }
 	                  }
@@ -361,7 +373,7 @@ for ($i=($current_page_index * $page_size);
 	<tr>
 	  <td class="fc1-8" align="center" valign="top" style="width:36px;"><?=$no++;?></td>
 	  <td class="fc1-8" align="center" valign="top" style="width:56px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" valign="top" style="width:70px;"><?=$item['invnr'];?></td>
+	  <td class="fc1-8" align="center" valign="top" style="width:70px;"><?=$invoice;?></td>
       <td class="fc1-8" align="center" valign="top" style="width:53px;">0000</td>
 	  <td class="fc1-8" align="left" valign="top" style="width:181px;"><?=$item['name1'];?></td>
       <td class="fc1-8" align="left" valign="top" style="width:263px;"><?=$adr01;?></td>

@@ -36,6 +36,7 @@ class Rpnd3wht_docket extends CI_Controller {
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
         $strSQL = $strSQL . " Where v_ebbp.type1 = '' and v_ebbp.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebbp.statu = '02' ";
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
@@ -46,7 +47,7 @@ class Rpnd3wht_docket extends CI_Controller {
 		
 		$purch_amt=0;$purch_wht=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['beamt'];
+		   $purch_amt += $item['beamt'] - $item['dismt'];
 		   $purch_wht += $item['wht01'];
 		}
 		

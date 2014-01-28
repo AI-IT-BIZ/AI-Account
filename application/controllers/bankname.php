@@ -69,10 +69,10 @@ class Bankname extends CI_Controller {
 				$j=0;
 				foreach($result_array AS $o){
 					if($p->bcode == $o->bcode && $i!=$j){
-						//$emsg = 'The bank code '.$p->bcode.' is duplicated';
+						$emsg = 'The bank code '.$p->bcode.' is duplicated';
 					    echo json_encode(array(
-						  'success'=>false//,
-						  //'message'=>$emsg
+						  'success'=>false,
+						  'message'=>$emsg
 					    ));
 					    return;
 					}$j++;
@@ -95,13 +95,13 @@ class Bankname extends CI_Controller {
 		if(!empty($bnam) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('bnam', array(
+		    foreach($item_array AS $p){
+			  $this->db->insert('bnam', array(
 				'bcode'=>$p->bcode,
 				'bname'=>$p->bname,
 				'saknr'=>$p->saknr,
 				'addrs'=>$p->addrs
-			));
+			 ));
 	    	}
 		}
 
@@ -120,6 +120,4 @@ function remove(){
 			'data'=>$id
 		));
 	}
-
-
 }

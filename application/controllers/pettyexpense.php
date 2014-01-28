@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pettyreim extends CI_Controller {
+class Pettyexpense extends CI_Controller {
 
 	function __construct()
 	{
@@ -12,26 +12,27 @@ class Pettyreim extends CI_Controller {
 	}
 
 	function index(){
-		$this->phxview->RenderView('ap');
+		$this->phxview->RenderView('pettyexpense');
 		$this->phxview->RenderLayout('default');
 	}
 
 	function load(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebtk';
+		$tbName = 'ebek';
 		
 		$id = $this->input->post('id');
 		$key = $this->input->post('key');
 		if($key==1){
 			$this->db->where('statu', '02');
 		}
-		$this->db->where('remnr', $id);
-		$query = $this->db->get('ebtk');
+		
+		$this->db->where('invnr', $id);
+		$query = $this->db->get('ebek');
 		 
 		if($query->num_rows()>0){
 			
 			$result_data = $query->first_row('array');
-			$result_data['id'] = $result_data['remnr'];
+			$result_data['id'] = $result_data['invnr'];
 
 			$result_data['adr01'] .= $result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
@@ -39,8 +40,8 @@ class Pettyreim extends CI_Controller {
 									 PHP_EOL.'Email: '.$result_data['email'];
 
 			// unset calculated value
-			//unset($result_data['beamt']);
-			//unset($result_data['netwr']);
+			unset($result_data['beamt']);
+			unset($result_data['netwr']);
 			
 			$result_data['whtpr']=number_format($result_data['whtpr']);
 			
@@ -54,53 +55,39 @@ class Pettyreim extends CI_Controller {
 			));
 	}
 	
-	function load_remain(){
+	function load2(){
 		$this->db->set_dbprefix('v_');
-		$tbname = 'tbl_ebtk';
-		$prefix = $this->input->post('id');
+		$tbName = 'ebek';
 		
-		if(db_helper_is_mysql($this)){
-			$sql = "SELECT reman FROM ".$tbname.
-			" WHERE remnr LIKE '".$prefix."%'"
-			." ORDER BY remnr DESC LIMIT 1";
-		}
-			
-		if(db_helper_is_mssql($this)){
-			$sql = "SELECT TOP 1 reman FROM ".$tbname.
-			" WHERE remnr LIKE '".$prefix."%'"
-			." ORDER BY remnr DESC ";
-		}
-			
-		$query = $this->db->query($sql);
-            
-	    if($query->num_rows()>0){
-		$r_code = $query->first_row('array');
-			
-			echo json_encode(array(
-			'success'=>true,
-			'data'=>$r_code['reman'],
-			'totalCount'=>$query->num_rows()
-		     ));
-		}else{
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
+		//$limit = $this->input->get('limit');
+		//$start = $this->input->get('start');
+		//if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
 		echo json_encode(array(
-			'success'=>false,
-			'data'=>0,
-			'totalCount'=>0
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
 		));
-		}
 	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebtk';
+		$tbName = 'ebek';
 
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(remnr LIKE '%$query%'
+				$_this->db->where("(invnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
-				OR name1 LIKE '%$query%')", NULL, FALSE);
+				OR name1 LIKE '%$query%'
+				OR remnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -112,7 +99,7 @@ class Pettyreim extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-
+			
             $remnr1 = $_this->input->get('remnr');
 			$remnr2 = $_this->input->get('remnr2');
 			if(!empty($remnr1) && empty($remnr2)){
@@ -121,6 +108,16 @@ class Pettyreim extends CI_Controller {
 			elseif(!empty($remnr1) && !empty($remnr2)){
 			  $_this->db->where('remnr >=', $remnr1);
 			  $_this->db->where('remnr <=', $remnr2);
+			}
+
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -167,7 +164,7 @@ class Pettyreim extends CI_Controller {
 
     function loads_report(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebtp';
+		$tbName = 'ebep';
 
 		// Start for report
 		function createQuery($_this){
@@ -175,7 +172,8 @@ class Pettyreim extends CI_Controller {
 			if(!empty($query)){
 				$_this->db->where("(invnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
-				OR name1 LIKE '%$query%')", NULL, FALSE);
+				OR name1 LIKE '%$query%'
+				OR remnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -187,7 +185,7 @@ class Pettyreim extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-
+			
             $remnr1 = $_this->input->get('remnr');
 			$remnr2 = $_this->input->get('remnr2');
 			if(!empty($remnr1) && empty($remnr2)){
@@ -196,6 +194,16 @@ class Pettyreim extends CI_Controller {
 			elseif(!empty($remnr1) && !empty($remnr2)){
 			  $_this->db->where('remnr >=', $remnr1);
 			  $_this->db->where('remnr <=', $remnr2);
+			}
+
+            $invnr1 = $_this->input->get('invnr');
+			$invnr2 = $_this->input->get('invnr2');
+			if(!empty($invnr1) && empty($invnr2)){
+			  $_this->db->where('invnr', $invnr1);
+			}
+			elseif(!empty($invnr1) && !empty($invnr2)){
+			  $_this->db->where('invnr >=', $invnr1);
+			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -248,16 +256,16 @@ class Pettyreim extends CI_Controller {
 		$inserted_id = false;
 		if(!empty($id)){
 			$this->db->limit(1);
-			$this->db->where('remnr', $id);
-			$query = $this->db->get('ebtk');
+			$this->db->where('invnr', $id);
+			$query = $this->db->get('ebek');
 			
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
-				if(XUMS::CAN_DISPLAY('CPV') && XUMS::CAN_APPROVE('CPV')){
-					$limit = XUMS::LIMIT('CPV');
+			if($status_changed&&$row['statu']!=02&&$row['statu']!=03){
+				if(XUMS::CAN_DISPLAY('PE') && XUMS::CAN_APPROVE('PE')){
+					$limit = XUMS::LIMIT('PE');
 					if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change Petty Cash status over than '.number_format($limit);
 						echo json_encode(array(
@@ -287,9 +295,18 @@ class Pettyreim extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			}else{
+				if($this->input->post('loekz')=='2'){
+        	    $emsg = 'The GR already created AP doc.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
 		}
-
-        $bven = $this->input->post('bsid');
+			
+		$bven = $this->input->post('bsid');
 		$gl_item_array = json_decode($bven);
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
@@ -314,20 +331,29 @@ class Pettyreim extends CI_Controller {
 					return;
         }
 		
-		$netwr = str_replace(",","",floatval($this->input->post('netwr')));
+		$netwr = str_replace(",","",$this->input->post('netwr'));
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
+			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
+			'remnr' => $this->input->post('remnr'),  //GR Doc.
+			'ptype' => $this->input->post('ptype'),
+			'terms' => intval($this->input->post('terms')),
 			'dismt' => floatval($this->input->post('dismt')),
+			'taxpr' => floatval($this->input->post('taxpr')),
 			'txz01' => $this->input->post('sgtxt'),
 			'beamt' => floatval($this->input->post('beamt')),
+			'vat01' => floatval($this->input->post('vat01')),
+			'wht01' => floatval($this->input->post('wht01')),
 			'netwr' => floatval($this->input->post('netwr')),
+			'ptype' => $this->input->post('ptype'),
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'reman' => floatval($this->input->post('reman')),
-			'dispc' => floatval($this->input->post('netwr')),
+			'whtnr' => $this->input->post('whtnr'),
+			'whtxt' => $this->input->post('whtxt'),
+			'duedt' => $this->input->post('duedt'),
 			'deamt' => floatval($this->input->post('deamt'))
 		);
 
@@ -335,31 +361,69 @@ class Pettyreim extends CI_Controller {
 		$this->db->trans_start();
 		
 		$current_username = XUMS::USERNAME();
+		
+		if(db_helper_is_mysql($this)){
+			$sql = "SELECT remnr,reman,dispc FROM tbl_ebtk".
+			" WHERE remnr LIKE 'CPV%'"
+			." ORDER BY remnr DESC LIMIT 1";
+		    }
+			
+		    if(db_helper_is_mssql($this)){
+			$sql = "SELECT TOP 1 remnr,reman,dispc FROM tbl_ebtk".
+			" WHERE remnr LIKE 'CPV%'"
+			." ORDER BY remnr DESC ";
+		    }	
+		$q_code = $this->db->query($sql);
 
 		if (!empty($query) && $query->num_rows() > 0){
-			$this->db->where('remnr', $id);
+			$this->db->where('invnr', $id);
 			//$this->db->set('updat', 'NOW()', false);
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
-			$this->db->update('ebtk', $formData);
+			$this->db->update('ebek', $formData);
+			
+			if($q_code->num_rows()>0){
+		      $r_code = $q_code->first_row('array');
+			  $reman = $this->input->post('netwr') - $row['netwr'];
+			  $dispc = $r_code['dispc'] - $reman;
+			  $reman = $r_code['reman'] + $reman;
+			  
+			  $this->db->where('remnr', $r_code['remnr']);
+			  $this->db->set('reman', floatval($reman));
+			  $this->db->set('dispc', floatval($dispc));
+			  $this->db->set('upamt', floatval($this->input->post('netwr')));
+			  $this->db->update('ebtk');
+		    }
 		}else{
-			$id = $this->code_model->generate('CPV', 
+			$id = $this->code_model->generate('PC', 
 			$this->input->post('bldat'));
-			$this->db->set('remnr', $id);
+			$this->db->set('invnr', $id);
 			//$this->db->set('erdat', 'NOW()', false);
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
-			$this->db->insert('ebtk', $formData);
+			$this->db->insert('ebek', $formData);
 			
 			$inserted_id = $id;
-
+            
+	    if($q_code->num_rows()>0){
+		    $r_code = $q_code->first_row('array');
+			$reman = $r_code['reman'] + $this->input->post('netwr');
+			$dispc = $r_code['dispc'] - $this->input->post('netwr');
+			$this->db->where('remnr', $r_code['remnr']);
+			$this->db->set('reman', floatval($reman));
+			$this->db->set('dispc', floatval($dispc));
+			$this->db->set('upamt', floatval($this->input->post('netwr')));
+			$this->db->update('ebtk');
 		}
+
+		}// end save
+
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('remnr', $id);
-		$this->db->delete('ebtp');
+		$this->db->where('invnr', $id);
+		$this->db->delete('ebep');
 
 		// เตรียมข้อมูล  qt item
-		$ebrp = $this->input->post('ebtp');//$this->input->post('vbelp');
+		$ebrp = $this->input->post('ebep');//$this->input->post('vbelp');
 		$ap_item_array = json_decode($ebrp);
 		if(!empty($ebrp) && !empty($ap_item_array)){
 			// loop เพื่อ insert ap_item ที่ส่งมาใหม่
@@ -367,24 +431,25 @@ class Pettyreim extends CI_Controller {
 			foreach($ap_item_array AS $p){
 				$itamt = $p->menge * $p->unitp;
 		        $itamt = $itamt - $p->disit;
-				$this->db->insert('ebtp', array(
-					'remnr'=>$id,
-					'ebelp'=>++$item_index,//vbelp,
+				$this->db->insert('ebep', array(
+					'invnr'=>$id,
+					'ebelp'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
-					'ctype'=>$p->ctype,
-					'bcode'=>$p->bcode
+					'chk02'=>$p->chk02,
+					'ctype'=>$p->ctype
 				));
 			}
 		}
 	
 // Save GL Posting	
     if($this->input->post('statu') == '02'){
+        //$ids = $id;	
         
 		$ids = $this->input->post('id');
 		$query = null;
@@ -398,10 +463,11 @@ class Pettyreim extends CI_Controller {
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
-			'txz01' => 'CPV No '.$id,
+			'txz01' => 'PC No '.$id,
 			'ttype' => '05',
 			'auart' => 'PE',
-			'netwr' => floatval($this->input->post('netwr'))
+			'kunnr' => $this->input->post('lifnr'),
+			'netwr' => $this->input->post('netwr')
 		);
 		
 		// start transaction
@@ -416,7 +482,7 @@ class Pettyreim extends CI_Controller {
 			$this->db->set('upnam', $current_username);
 			$this->db->update('bkpf', $formData);
 		}else{
-			$accno = $this->code_model->generate('AP', 
+			$accno = $this->code_model->generate('PE', 
 			$this->input->post('bldat'));
 			$this->db->set('belnr', $accno);
 			//$this->db->set('erdat', 'NOW()', false);
@@ -430,7 +496,7 @@ class Pettyreim extends CI_Controller {
 		// ลบ gl_item ภายใต้ id ทั้งหมด
 		
 		$this->db->where('belnr', $accno);
-		$this->db->delete('bsid');
+		$this->db->delete('bven');
 
 		// เตรียมข้อมูล pay item
 		$bsid = $this->input->post('bsid');//$this->input->post('vbelp');
@@ -440,7 +506,7 @@ class Pettyreim extends CI_Controller {
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
-				if(!empty($p->txz01))$p->txz01='CPV No '.$id;
+				if(!empty($p->txz01))$p->txz01='PC No '.$id;
 				if(!empty($p->saknr)){
 				$this->db->insert('bsid', array(
 					'belnr'=>$accno,
@@ -478,19 +544,19 @@ class Pettyreim extends CI_Controller {
 				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
-					$q_row = $this->db->get_where('ebtk', array('remnr'=>$inserted_id));
+					$q_row = $this->db->get_where('ebek', array('invnr'=>$inserted_id));
 					$row = $q_row->first_row();
 					$this->email_service->sendmail_create(
-						'CPV', 'Petty Cash Reimbursement',
+						'PE', 'Petty Cash',
 						$inserted_id, $total_amount,
 						$row->ernam
 					);
 				}else if(!empty($post_id)){
 					if($status_changed){
-						$q_row = $this->db->get_where('ebtk', array('remnr'=>$post_id));
+						$q_row = $this->db->get_where('ebek', array('invnr'=>$post_id));
 						$row = $q_row->first_row();
 						$this->email_service->sendmail_change_status(
-							'CPV', 'Petty Cash Reimbursement',
+							'PE', 'Petty Cash',
 							$post_id, $total_amount, $row->statu,
 							$row->ernam
 						);
@@ -502,13 +568,13 @@ class Pettyreim extends CI_Controller {
 
 
 	function remove(){
-		$remnr = $this->input->post('remnr'); 
+		$invnr = $this->input->post('invnr'); 
 		//echo $ebeln; exit;
-		$this->db->where('remnr', $remnr);
-		$query = $this->db->delete('ebtk');
+		$this->db->where('invnr', $invnr);
+		$query = $this->db->delete('ebek');
 		
-		$this->db->where('remnr', $remnr);
-		$query = $this->db->delete('ebtp');
+		$this->db->where('invnr', $invnr);
+		$query = $this->db->delete('ebep');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$invnr
@@ -519,12 +585,11 @@ class Pettyreim extends CI_Controller {
 	// PR ITEM
 	///////////////////////////////////////////////
 	function loads_ap_item(){
-		
-		$ap_id = $this->input->get('remnr');
 
-	    $this->db->set_dbprefix('v_');
-		$this->db->where('remnr', $ap_id);
-		$query = $this->db->get('ebtp');
+		    $ap_id = $this->input->get('invnr');
+			$this->db->set_dbprefix('v_');
+			$this->db->where('invnr', $ap_id);
+			$query = $this->db->get('ebep');
 		
 		echo json_encode(array(
 			'success'=>true,
@@ -539,17 +604,17 @@ class Pettyreim extends CI_Controller {
         $result = array();
 		if($iv_id!=0){
 		   //$matnr = array();
-		   $net = $this->input->get('netpr');  //Net amt
-	       $saknr2  = $this->input->get('saknr2');    //VAT amt
-		   //$lifnr = $this->input->get('lifnr');  //Vendor Code
-		   //$ptype = $this->input->get('ptype');  //Pay Type
+		   $netpr = $this->input->get('netpr');  //Net amt
+	       $vvat  = $this->input->get('vvat');    //VAT amt
+		   $lifnr = $this->input->get('lifnr');  //Vendor Code
+		   $vwht = $this->input->get('vwht');  //WHT amt
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
-		   //if(empty($vvat)) $vvat=0;
+		   if(empty($vvat)) $vvat=0;
 		   //if(empty($vwht)) $vwht=0;
 		   
-		   //$net = $netpr + $vvat;
+		   $net = $netpr + $vvat;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
@@ -582,9 +647,28 @@ class Pettyreim extends CI_Controller {
 		}
 			
 // record ที่สอง
-        if(!empty($saknr2)){ 
+        if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
-		$glvat = $saknr2;
+		$glvat = '1154-00';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$vvat,
+			'credi'=>0
+		);
+		$i++;
+		$debit = $debit + $vvat;	
+		}}
+		
+// record ที่สาม
+        $dewht = $net - $vwht;
+        if($dewht>0){ 
+		$glvat = '1111-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		if($qgl->num_rows()>0){
@@ -594,11 +678,30 @@ class Pettyreim extends CI_Controller {
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
 			'debit'=>0,
-			'credi'=>$net
+			'credi'=>$dewht
 		);
 		$i++;
-		$credit = $credit + $net;	
+		$credit = $credit + $dewht;	
 		}}
+		
+// record ที่สี่
+        if($vwht>0){
+		$glvat = '2132-02';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vwht
+		);
+		$i++;
+		$credit = $credit + $vwht;	
+		}
+		}
 	
 		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(

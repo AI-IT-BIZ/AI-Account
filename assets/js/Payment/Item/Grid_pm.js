@@ -275,6 +275,12 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 							// GL No
 							rModel.set('saknr', r.data.saknr);
 						}else{
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, '');
+							// Materail text
+							rModel.set('bname', '');
+							// GL No
+							rModel.set('saknr', '');
 							_this.editing.startEdit(e.record, e.column);
 						}
 					}

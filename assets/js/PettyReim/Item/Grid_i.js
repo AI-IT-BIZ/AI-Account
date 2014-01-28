@@ -20,6 +20,8 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];*/
+		
+		this.bankDialog = Ext.create('Account.SBankname.MainWindow');
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -48,7 +50,10 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'
+				'bcode',
+				'bname',
+				'saknr',
+				'saknr2'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -80,7 +85,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			},*/
 			},
 		    {text: "Description",
-		    width: 150,
+		    width: 180,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    //field: {
@@ -105,10 +110,29 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				}
 			},*/
 			},
-			
+			{text: "Bank Code", align : 'center',
+			width:100, 
+			dataIndex: 'bcode', 
+			sortable: false,
+			field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.bankDialog.show();
+				}
+			},
+			},
+		    {text: "Bank Name",
+		    width: 180, dataIndex: 'bname', sortable: false,
+		    field: {
+				type: 'textfield'
+			}
+			},
 			{text: "Petty Cash Amt",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 120,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -123,80 +147,23 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 						_this.editing.completeEdit();
 					},
 				}
-			},
-			},
-			{text: "Discount",
-			//xtype: 'numbercolumn',
-			width: 80,
-			dataIndex: 'disit',
-			sortable: false,
-			align: 'right',
-			field: Ext.create('BASE.form.field.PercentOrNumber'),
-				renderer: function(v,p,r){
-					var regEx = /%$/gi;
-					if(regEx.test(v))
-						return v;
-					else
-						return Ext.util.Format.usMoney(v).replace(/\$/, '');
-				}
-			},{
-            xtype: 'checkcolumn',
-            text: 'Vat',
-            dataIndex: 'chk01',
-            width: 30,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },{
-            xtype: 'checkcolumn',
-            text: 'WHT',
-            dataIndex: 'chk02',
-            width: 30,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },
-			{
-				text: "Amount",
-				width: 90,
-				dataIndex: 'itamt',
-				sortable: false,
-				align: 'right',
-				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']);
-						//discount = parseFloat(r.data['dismt']);
-					qty = isNaN(qty)?0:qty;
-					price = isNaN(price)?0:price;
-					//discount = isNaN(discount)?0:discount;
-
-					var amt = qty * price;//) - discount;
-					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-				}
+			}
 			},
 			{text: "Currency",
 			width: 65,
-			dataIndex: 'ctyp1',
+			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
 			//field: {
 			//	type: 'textfield'
 			//},
-		},
-			{
+		},{
 			dataIndex: 'saknr',
+			//width: 55,
+			hidden: true,
+			sortable: false
+		},{
+			dataIndex: 'saknr2',
 			//width: 55,
 			hidden: true,
 			sortable: false
@@ -205,78 +172,14 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 		this.plugins = [this.editing];
 
 		// init event
-		/*this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-		
-		this.copyAct.setHandler(function(){
-			_this.copyRecord();
-		});
-
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='matnr'){
+			if(e.column.dataIndex=='bcode'){
 				var v = e.value;
 
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
-					url: __site_url+'material/load',
-					method: 'POST',
-					params: {
-						id: v,
-						key: 1
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
-							// Unit
-							rModel.set('meins', r.data.meins);
-							// GL no
-							rModel.set('saknr', r.data.saknr);
-							//rModel.set('amount', 100+Math.random());
-
-						}else{
-							var rModel = _this.store.getById(e.record.data.id);
-							rModel.set(e.field, '');
-							rModel.set('maktx', '');
-							rModel.set('meins', '');
-							rModel.set('saknr', '');
-							//_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-				// change cell code value (use db value)
-				rModel.set('matnr', record.data.matnr);
-				// Materail text
-				rModel.set('maktx', record.data.maktx);
-				// Unit
-				rModel.set('meins', record.data.meins);
-				//rModel.set('amount', 100+Math.random());
-				rModel.set('saknr', record.data.saknr);
-				
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.materialDialog.hide();
-		});
-		
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='meins'){
-				var v = e.value;
-				if(Ext.isEmpty(v)) return;
-				Ext.Ajax.request({
-					url: __site_url+'unit/load',
+					url: __site_url+'bankname/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -285,29 +188,54 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
-							rModel.set(e.field, r.data.meins);
 
+							// change cell code value (use db value)
+							rModel.set(e.field, r.data.bcode);
+							// Materail text
+							rModel.set('bname', r.data.bname);
+							// GL No
+							rModel.set('saknr2', r.data.saknr);
 						}else{
 							var rModel = _this.store.getById(e.record.data.id);
 							rModel.set(e.field, '');
-							//_this.editing.startEdit(e.record, e.column);
+							// Materail text
+							rModel.set('bname', '');
+							// GL No
+							rModel.set('saknr2', '');
+							_this.editing.startEdit(e.record, e.column);
 						}
 					}
 				});
 			}
+			
+			//var _this = this;
+			if(e.column.dataIndex=='unitp'){
+				var v = parseFloat(e.value);
+				var rModel = _this.store.getById(e.record.data.id);
+				var remain = _this.remainValue;
+				//alert(v+'aaa'+remain);
+			    if(v>remain){
+			    	rModel.set(e.field, 1.00);
+			    	Ext.Msg.alert('Warning', 'CPV Amount over Limit Amount');
+			    }
+			}
 		});
-		
-		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+
+		_this.bankDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
+
 				// change cell code value (use db value)
-				rModel.set('meins', record.data.meins);
+				rModel.set('bcode', record.data.bcode);
+				// Materail text
+				rModel.set('bname', record.data.bname);
+				// GL No
+				rModel.set('saknr2', record.data.saknr)
 			}
 			grid.getSelectionModel().deselectAll();
-			_this.unitDialog.hide();
-			
-		});*/
+			_this.bankDialog.hide();
+		});
 
 		return this.callParent(arguments);
 	},
@@ -335,9 +263,6 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			menge:1,meins:'EA',chk01:1,ctyp1:'THB',saknr:'1111-00' };
 			edit = this.editing;
 			edit.cancelEdit();
-			// find current record
-			//var sel = this.getView().getSelectionModel().getSelection()[0];
-			//var selIndex = this.store.indexOf(sel);
 			var selIndex = 0;
 			this.store.insert(selIndex+1, rec);
 			edit.startEditByPosition({
@@ -350,6 +275,7 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 	},
 
 	addRecord: function(){
+		var _this = this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -357,9 +283,10 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+        
+        var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, chk01:1, ctype:'THB' };
+		rec = { id:newId, chk01:1, ctype: cur  };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

@@ -1,9 +1,9 @@
-Ext.define('Account.PettyReim.Item.Form', {
+Ext.define('Account.PettyExpense.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'pettyreim/save',
+			url: __site_url+'pettyexpense/save',
 			layout: 'border',
 			border: false
 		});
@@ -12,7 +12,12 @@ Ext.define('Account.PettyReim.Item.Form', {
 	},
 	initComponent : function() {
 		var _this=this;
-
+		
+		this.pettyDialog = Ext.create('Account.PettyReim.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly:true
+		});
+		
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
 			disableGridDoubleClick: true,
@@ -21,32 +26,37 @@ Ext.define('Account.PettyReim.Item.Form', {
 		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.PettyReim.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.PettyExpense.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
-		this.gridGL = Ext.create('Account.PettyReim.Item.Grid_gl',{
+		this.gridGL = Ext.create('Account.PettyExpense.Item.Grid_gl',{
 			border: true,
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.PR.Item.Form_t', {
-			title:'CPV Total',
+		this.formTotal = Ext.create('Account.DepositOut.Item.Form_t', {
+			title:'Petty Cash Total',
 			border: true,
 			split: true,
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.PR.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.DepositOut.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		
+		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+			border: true,
+			split: true,
+			title:'Item Pricing',
+			region:'south'
+		});
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			readOnly: !UMS.CAN.APPROVE('CPV'),
-			fieldLabel: 'CPV Status',
+			readOnly: !UMS.CAN.APPROVE('PE'),
+			fieldLabel: 'Petty Cash Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 280,
@@ -108,16 +118,26 @@ Ext.define('Account.PettyReim.Item.Form', {
 			}),
 			queryMode: 'remote',
 			displayField: 'taxtx',
+			readOnly: true,
 			valueField: 'taxnr'
 		});	
 
-/*-------------------------------*/			
+/*------------------------------------------------------*/			
 		this.hdnApItem = Ext.create('Ext.form.Hidden', {
-			name: 'ebtp',
+			name: 'ebep',
 		});
 		
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
 			name: 'bsid',
+		});
+
+        this.trigPetty = Ext.create('Ext.form.field.Trigger', {
+			name: 'remnr',
+			fieldLabel: 'CPV No',
+			labelAlign: 'letf',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
 		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
@@ -135,35 +155,52 @@ Ext.define('Account.PettyReim.Item.Form', {
 			enableKeyEvents: true,
 			width: 240,
 			labelAlign: 'right',
+			readOnly: true,
 			allowBlank : false
 		});
-		
-		this.numberPetty2 = Ext.create('Ext.ux.form.NumericField', {
-			name: 'ddd',
-			hidden: true,
-			alwaysDisplayDecimals: true,
-			readOnly: true
-         });
 		
 		this.numberPetty = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Petty Cash Limit',
 			name: 'deamt',
-			value: 100000,
-			alwaysDisplayDecimals: true,
 			readOnly: true
          });
          
          this.numberRemain = Ext.create('Ext.ux.form.NumericField', {
-			fieldLabel: 'Petty Cash Remain',
-			name: 'reman',
-			width: 280,
-			labelWidth: 140,
-			labelAlign: 'right',
-			margin: '5 0 0 -40',
-			alwaysDisplayDecimals: true,
+			fieldLabel: 'Remain Amt',
+			name: 'dispc',
+			labelWidth: 70,
+			width: 187,
+			margin: '0 0 0 15',
 			readOnly: true
          });
 
+         this.numberVat = Ext.create('Ext.ux.form.NumericField', {
+			fieldLabel: 'Vat Value',
+			name: 'taxpr',
+			labelAlign: 'right',
+			width:170,
+			align: 'right'
+         });
+         
+         this.whtDialog = Ext.create('Account.WHT.Window');
+         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
+       	    fieldLabel: 'WHT Value',
+			name: 'whtnr',
+			labelAlign: 'right',
+			width:150,
+			hideTrigger:false,
+			align: 'right',
+			value: '10'
+		 });
+		 
+		 this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
+			name: 'whtpr',
+			width:30,
+			align: 'right',
+			hideTrigger:true,
+			margin: '0 0 0 5'
+         });
+		
 		var mainFormPanel = {
 			xtype: 'panel',
 			border: true,
@@ -190,11 +227,11 @@ Ext.define('Account.PettyReim.Item.Form', {
 					},{
 						xtype: 'hidden',
 						name: 'loekz'
-					},this.numberPetty,{
+					},this.trigPetty,{
 						xtype: 'displayfield',
-					    fieldLabel: 'CPV No',
-					    name: 'remnr',
-						value: 'CPVXXXX-XXXX',
+					    fieldLabel: 'Petty Cash No',
+					    name: 'invnr',
+						value: 'PCXXXX-XXXX',
 						labelAlign: 'right',
 						width:240,
 						labelWidth:140,
@@ -230,17 +267,17 @@ Ext.define('Account.PettyReim.Item.Form', {
 							width: 450, 
 							rows:3,
 		                },{
-			 				xtype: 'container',
-							layout: 'hbox',
-							margin: '0 0 5 0',
-				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
 								width: 450, 
 								name: 'refnr',
-			                }]
-		                },this.numberPetty2]
-		            },{
+			                },{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.numberPetty,this.numberRemain]
+		                }]
+		                },{
 		                xtype: 'container',
 		                flex: 0,
 		                layout: 'anchor',
@@ -254,10 +291,34 @@ Ext.define('Account.PettyReim.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-		                },
+		                }, this.comboTax,
                 		this.trigCurrency,
-					    this.comboQStatus,
-					    this.numberRemain]
+                		{
+			xtype: 'container',
+                    layout: 'hbox',
+                    defaultType: 'textfield',
+                    margin: '0 0 5 0',
+            items: [this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+               },{
+			 	xtype: 'container',
+				layout: 'hbox',
+				margin: '0 0 5 0',
+				items: [
+				this.trigWHT,this.numberWHT,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				},
+					    this.comboQStatus]
 		            }]
 				}]
 
@@ -269,15 +330,92 @@ Ext.define('Account.PettyReim.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:195,
+			height:220,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
-				//this.gridPrice,
+				this.gridPrice,
 				this.gridGL
 			]
 		}	
 		];
+		
+		// event trigGR///
+		this.trigPetty.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'pettreim/load',
+					method: 'POST',
+					params: {
+						id: v,
+						key: 1
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.remnr);
+							_this.getForm().findField('lifnr').setValue(r.data.lifnr);
+							_this.getForm().findField('name1').setValue(r.data.name1);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('deamt').setValue(r.data.netwr);
+			                _this.getForm().findField('dispc').setValue(r.data.dispc);
+						}else{
+							_this.getForm().findField('lifnr').setValue('');
+							_this.getForm().findField('name1').setValue('');
+			                _this.getForm().findField('ctype').setValue('');
+			                _this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('loekz').setValue('');
+			                _this.getForm().findField('exchg').setValue('');
+			                _this.getForm().findField('deamt').setValue('');
+			                _this.getForm().findField('dispc').setValue('');
+							o.markInvalid('Could not find CPV no : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+		
+		_this.pettyDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigPetty.setValue(record.data.remnr);
+			_this.getForm().findField('lifnr').setValue(record.data.lifnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			
+			var v = record.data.remnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'pettyreim/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('ctype').setValue(r.data.ctype);
+			                _this.getForm().findField('loekz').setValue(r.data.loekz);
+			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('deamt').setValue(r.data.netwr);
+			                _this.getForm().findField('dispc').setValue(r.data.dispc);
+						}
+					}
+				});
+			 
+			grid.getSelectionModel().deselectAll();
+
+			_this.pettyDialog.hide();
+		});
+		
+		this.trigPetty.onTriggerClick = function(){
+			_this.pettyDialog.grid.load();
+			_this.pettyDialog.show();
+		};
 		
 		// event trigVender///
 		this.trigVendor.on('keyup',function(o, e){
@@ -298,10 +436,11 @@ Ext.define('Account.PettyReim.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}else{
-							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -325,6 +464,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 						}
 					}
 				});
@@ -334,6 +474,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 		});
 
 		this.trigVendor.onTriggerClick = function(){
+			_this.vendorDialog.grid.load();
 			_this.vendorDialog.show();
 		};
 		
@@ -374,7 +515,6 @@ Ext.define('Account.PettyReim.Item.Form', {
             _this.formTotal.getForm().findField('curr1').setValue(record.data.ctype);
             var store = _this.gridItem.store;
 		    store.each(function(rc){
-			//price = parseFloat(rc.data['unitp']),
 			rc.set('ctype', record.data.ctype);
 		    });
 		    _this.gridItem.curValue = record.data.ctype;
@@ -383,7 +523,48 @@ Ext.define('Account.PettyReim.Item.Form', {
 		});
 
 		this.trigCurrency.onTriggerClick = function(){
+			_this.currencyDialog.grid.load();
 			_this.currencyDialog.show();
+		};
+		
+		// event trigWHT///
+		this.trigWHT.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.whtnr);
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+						   
+						}else{
+							o.markInvalid('Could not find WHT Code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigWHT.setValue(record.data.whtnr);
+			//if(record.data.whtnr != '6'){
+            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
+           //}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
+
+		this.trigWHT.onTriggerClick = function(){
+			_this.whtDialog.show();
 		};
 		
 //---------------------------------------------------------------------
@@ -391,15 +572,49 @@ Ext.define('Account.PettyReim.Item.Form', {
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
+		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
+        
+        //this.numberCredit.on('keyup', this.getDuedate, this);
+        //this.numberCredit.on('change', this.getDuedate, this);
+		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
+		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
+		this.formTotal.txtRate.on('change', this.calculateTotal, this);
+		this.numberWHT.on('change', this.calculateTotal, this);
+		this.numberVat.on('change', this.calculateTotal, this);
+		
 		return this.callParent(arguments);
 	},
+	
+	onSelectChange: function(selModel, selections){
+		//var _this=this;
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        //var id = sel.data[sel.idField.name];
+        if (sel) {
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
+            });
+
+        }
+    },
+
+    onViewReady: function(grid) {
+        grid.getSelectionModel().select(0);
+    },
     
 	load : function(id){
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'pettyreim/load',
+			url:__site_url+'pettyexpense/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -434,7 +649,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { invnr: invnr },
-			url:__site_url+'pettyreim/remove',
+			url:__site_url+'pettyexpense/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -444,15 +659,18 @@ Ext.define('Account.PettyReim.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ invnr: 0 });
+		this.gridItem.load({ invnr: 0 });
 		this.gridGL.load({ netpr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		this.gridItem.addDefaultRecord();
-        this.getRemain();
+		//this.gridItem.addDefaultRecord();
+
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
+		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
+		this.numberVat.setValue(7);
+		this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -464,89 +682,133 @@ Ext.define('Account.PettyReim.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
-		var sum = 0;var vats=0;sum2=0;
-		//var whts=0;var discounts=0;
-		var saknr_list = [];var saknr2='';
-		//var vattype = this.comboTax.getValue();
+		var sum = 0;var vats=0;sum2=0;amt_deamt=0;
+		var whts=0;var discounts=0;
+		var saknr_list = [];
+		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
+		var rate = this.formTotal.txtRate.getValue();
+		//var deamt = this.numberPetty.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
-				price = parseFloat(r.data['unitp']);
-				//discount = parseFloat(r.data['disit']);
+				price = parseFloat(r.data['unitp']),
+				discountValue = 0,
+				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
-
+			
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
+		    
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+			
 			sum += amt;
 			
-			saknr2 = r.data['saknr2'];
+			discounts += discountValue;
+            
+            amt = amt - discountValue;
+            sum2+=amt;
+            
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt * wht) / 100;
+				    whts += wht;
+			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
-		
 		});
+
 		var remain = this.numberRemain.getValue();
-		//petty = petty - sum;
+		var petty = sum2;
+		petty = petty + vats;
+		petty = petty - whts;
 		//this.numberRemain.setValue(petty);
 		this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
         var net = this.formTotal.calculate();
 // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
-		//this.gridItem.vatValue = this.numberVat.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
 		
-		var currency = this.trigCurrency.getValue();
+		//var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.gridItem.remainValue = remain;
+		this.gridItem.sumValue = petty;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.vendorValue = this.trigVendor.getValue();
-		//alert(this.comboPay.getValue());
+
 // Set value to GL Posting grid 
-		var rate = this.formTotal.txtRate.getValue();
+		//sum2 = sum2 - deamt;
 		if(currency != 'THB'){
+	      sum2 = sum2 * rate;
 		  sum = sum * rate;
+		  vats = vats * rate;
+		  whts = whts * rate;
+		  discounts = discounts * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
 		var net2 = this.formTotalthb.calculate();
-		//alert(sum);  
+		
         if(sum>0 && this.trigVendor.getValue()!=''){
             _this.gridGL.load({
-            	netpr:sum,
-            	saknr2:saknr2,
-            	//lifnr:this.trigVendor.getValue(),
+            	netpr:sum2,
+            	vvat:vats,
+            	vwht:whts,
+            	lifnr:this.trigVendor.getValue(),
             	items: saknr_list.join(',')
             }); 
            }
+// Set value to Condition Price grid
+        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+        if (sel) {
+        	//_this.gridPrice.store.removeAll();
+            _this.gridPrice.load({
+            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('unitp'),
+            	disit:sel.get('disit'),
+            	vvat:this.numberVat.getValue(),
+            	vwht:this.numberWHT.getValue(),
+            	vat:sel.get('chk01'),
+            	wht:sel.get('chk02'),
+            	vattype:this.comboTax.getValue()
+            });     
+        }
 	},
+	
 	changeCurrency: function(){
 		var _this=this;
 		var store = this.gridItem.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
-			r.set('ctype', currency);
+			r.set('ctyp1', currency);
 		});
-	},
-	getRemain: function(){
-		var _this=this;
-		Ext.Ajax.request({
-					url: __site_url+'pettyreim/load_remain',
-					method: 'POST',
-					params: {
-						id: 'CPV'
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							_this.numberRemain.setValue(r.data);
-							_this.numberPetty2.setValue(r.data);
-						}else{
-							//o.setValue('');
-							o.markInvalid('Could not find Remain Amount : '+o.getValue());
-						}
-					}
-				});
 	}
-	
+
 });

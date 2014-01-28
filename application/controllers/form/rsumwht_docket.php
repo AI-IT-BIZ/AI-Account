@@ -35,6 +35,7 @@ class Rsumwht_docket extends CI_Controller {
 		$strSQL = " select v_ebbp.*";
         $strSQL = $strSQL . " from v_ebbp ";
         $strSQL = $strSQL . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
+		$strSQL = $strSQL . " And v_ebbp.statu = '02' ";
 		$strSQL .= " ORDER BY payno ASC";
 		//echo $strSQL;
        
@@ -46,16 +47,9 @@ class Rsumwht_docket extends CI_Controller {
 		
 		$purch_amt=0;$purch_wht=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['beamt'];
+		   $purch_amt += $item['beamt'] - $item['dismt'];
 		   $purch_wht += $item['wht01'];
 		}
-		
-		$purch_amt=0;$purch_vat=0;
-		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['beamt'];
-		   $purch_wht += $item['wht01'];
-		}
-		
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
