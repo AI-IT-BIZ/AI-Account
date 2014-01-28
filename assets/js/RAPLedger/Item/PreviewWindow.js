@@ -5,6 +5,8 @@ Ext.define('Account.RAPLedger.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'AP Ledger preview',
+			maximizable: true,
+			maximized: true,
 			enableCopies: false
 		});
 

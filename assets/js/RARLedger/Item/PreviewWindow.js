@@ -5,6 +5,8 @@ Ext.define('Account.RARLedger.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'AR Ledger preview',
+			maximizable: true,
+			maximized: true,
 			enableCopies: false
 		});
 

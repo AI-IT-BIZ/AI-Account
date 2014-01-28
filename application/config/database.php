@@ -68,7 +68,7 @@ $db['default']['stricton'] = FALSE;
 
 /*
 //Connection to MSSQL=====================
-$db['default']['hostname'] = '(local)';
+$db['default']['hostname'] = '203.144.166.102';
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = '1234';
 $db['default']['database'] = 'ai_account';

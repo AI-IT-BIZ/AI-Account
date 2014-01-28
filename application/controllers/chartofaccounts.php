@@ -162,9 +162,98 @@
           
          
 	    }
+		
         function SaveTree()
         {
-           
+           function getLevel4($over,$_this){
+           	if($over==''){return "";}
+			$_this->db->limit(1);
+			$_this->db->where('saknr',$over);
+			$query = $_this->db->get('glno');
+			$result = $query->first_row('array');
+			if($result['gllev']=='4'){return $over;}
+			else{return "";}
+		}
+		   function getLevel3($over,$_this){
+		   	if($over==''){return "";}
+			$_this->db->limit(1);
+			$_this->db->where('saknr',$over);
+			$query = $_this->db->get('glno');
+			$result = $query->first_row('array');
+			if($result['gllev']<'3'){return "";}
+			if($result['gllev']=='3'){return $over;}
+			if($result['gllev']=='4'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				return $result2['overs'];
+			}
+		}
+		   function getLevel2($over,$_this){
+		   	if($over==''){return "";}
+			$_this->db->limit(1);
+			$_this->db->where('saknr',$over);
+			$query = $_this->db->get('glno');
+			$result = $query->first_row('array');
+			if($result['gllev']<'2'){return "";}
+			if($result['gllev']=='2'){return $over;}
+			if($result['gllev']=='3'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				return $result2['overs'];
+			}
+			if($result['gllev']=='4'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				$_this->db->where('saknr',$result2['overs']);
+				$query3 = $_this->db->get('glno');
+				$result3 = $query3->first_row('array');
+				return $result3['overs'];
+			}
+		}
+			function getLevel1($over,$_this){
+		   	if($over==''){return "";}
+			$_this->db->limit(1);
+			$_this->db->where('saknr',$over);
+			$query = $_this->db->get('glno');
+			$result = $query->first_row('array');
+			if($result['gllev']=='1'){return $over;}
+			if($result['gllev']=='2'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				return $result2['overs'];
+			}
+			if($result['gllev']=='3'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				$_this->db->where('saknr',$result2['overs']);
+				$query3 = $_this->db->get('glno');
+				$result3 = $query3->first_row('array');
+				return $result3['overs'];
+			}
+			if($result['gllev']=='4'){
+				$_this->db->limit(1);
+				$_this->db->where('saknr',$result['saknr']);
+				$query2 = $_this->db->get('glno');
+				$result2 = $query2->first_row('array');
+				$_this->db->where('saknr',$result2['overs']);
+				$query3 = $_this->db->get('glno');
+				$result3 = $query3->first_row('array');
+				$_this->db->where('saknr',$result3['overs']);
+				$query4 = $_this->db->get('glno');
+				$result4 = $query4->first_row('array');
+				return $result4['overs'];
+			}
+		}
             
             /************************/
             $treid = $_GET['treid'];

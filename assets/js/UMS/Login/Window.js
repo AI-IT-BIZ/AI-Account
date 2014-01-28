@@ -42,7 +42,7 @@ Ext.define('Account.UMS.Login.Window', {
 			region: 'north',
 			border: false,
 			height: 140,
-			html: '<div style="height:120px; background:#f3f3f5 url('+__base_url+'assets/images/icons/bmblogo.jpg) no-repeat center center;"></div>'
+			html: '<div style="height:120px; background:#f3f3f5 url('+__base_url+'assets/images/icons/primelogo.jpg) no-repeat center center;"></div>'
 		},
 		this.form];
 
