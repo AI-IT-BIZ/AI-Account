@@ -23,6 +23,7 @@ class Raraging extends CI_Controller {
 		}
 		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
 						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+						  'comid' => 1000,
 						  'kunnr' => $kunnr);
 		
 		//echo($kunnr); return;
@@ -56,6 +57,7 @@ class Raraging extends CI_Controller {
 		}
 		$controls = array('start_date' => intval(mktime(0,0,0,intval($sd[1]),intval($sd[2]),intval($sd[0])))*1000,
 						  'end_date' => intval(mktime(0,0,0,intval($ed[1]),intval($ed[2]),intval($ed[0])))*1000,
+						  'comid' => 1000,
 						  'kunnr' => $kunnr);
 		
 		//echo($kunnr); return;

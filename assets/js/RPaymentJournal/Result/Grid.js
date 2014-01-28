@@ -115,7 +115,7 @@ Ext.define('Account.RPaymentJournal.Result.Grid', {
 		});
 		this.items =[this.grid];
 		this.tbar = [{
-			text: "Print",
+			text: "PDF",
 			handler: function(){
 				start_date = me.params.start_date;
 				end_date = me.params.end_date;
@@ -123,16 +123,18 @@ Ext.define('Account.RPaymentJournal.Result.Grid', {
 				comid = 1000;
 				params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&comid="+comid;
 				url = __base_url + 'index.php/rpaymentjournal/pdf?'+params;
-				
-				/*
-				Ext.create("Ext.window.Window",{
-					title: "PDF",
-					width: 830,
-					height: 600,
-					html: "<iframe src='"+url+"' style='width:100%;height:100%'></iframe>"
-				}).show();*/
-				//window.open(__base_url + 'index.php/rgeneraljournal/pdf?'+params,'_blank');
 				me.preview.openDialog(__base_url + 'index.php/rpaymentjournal/pdf?'+params,'_blank');
+			}
+		},{
+			text: "EXCEL",
+			handler: function(){
+				start_date = me.params.start_date;
+				end_date = me.params.end_date;
+				kunnr = me.params.kunnr;
+				comid = 1000;
+				params = "start_date="+start_date+"&end_date="+end_date+"&kunnr="+kunnr+"&comid="+comid;
+				url = __base_url + 'index.php/rpaymentjournal/pdf?'+params;
+				window.location =__base_url + 'index.php/rpaymentjournal/excel?'+params;
 			}
 		}];
 		return this.callParent(arguments);

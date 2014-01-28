@@ -4,7 +4,7 @@ Ext.define('Account.RARLedger.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'ARLedger Selection',
+			title: 'AR Ledger Selection',
 			closeAction: 'hide',
 			height: 200,
 			width: 550,

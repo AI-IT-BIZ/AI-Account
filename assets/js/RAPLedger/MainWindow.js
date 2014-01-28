@@ -4,7 +4,7 @@ Ext.define('Account.RAPLedger.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'APLedger Selection',
+			title: 'AP Ledger Selection',
 			closeAction: 'hide',
 			height: 200,
 			width: 550,
