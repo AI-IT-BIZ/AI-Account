@@ -5,6 +5,8 @@ Ext.define('Account.RARaging.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'AR Aging preview',
+			maximizable: true,
+			maximized: true,
 			enableCopies: false
 		});
 

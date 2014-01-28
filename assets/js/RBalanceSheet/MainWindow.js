@@ -19,19 +19,19 @@ Ext.define('Account.RBalanceSheet.MainWindow', {
 			frame: true,
 			items: [{
 				xtype: 'datefield',
-				fieldLabel: 'เริ่มต้น',
+				fieldLabel: 'From',
 				name: 'start_date',
 				format: 'Y-m-d',
 				allowBlank: false
 			},{
 				xtype: 'datefield',
-				fieldLabel: 'สิ้นสุด',
+				fieldLabel: 'To',
 				name: 'end_date',
 				format: 'Y-m-d',
 				allowBlank: false
 			}],
 			buttons: [{
-				text: 'ยืนยัน',
+				text: 'PDF',
 				handler: function(){
 					form = this.up('form').getForm();
 					if (form.isValid()){
@@ -51,7 +51,21 @@ Ext.define('Account.RBalanceSheet.MainWindow', {
 					}
 				}
 			},{
-				text: 'ยกเลิก',
+				text: 'EXCEL',
+				handler: function(){
+					form = this.up('form').getForm();
+					if (form.isValid()){
+						rs = form.getValues();
+						start_date = rs.start_date;
+						end_date = rs.end_date;
+						comid = 1000;
+						params = "start_date="+start_date+"&end_date="+end_date+"&comid="+comid;
+						url = __base_url + 'index.php/rbalancesheet/excel?'+params;
+						window.location = url;
+					}
+				}
+			},{
+				text: 'CANCEL',
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();

@@ -5,6 +5,8 @@ Ext.define('Account.RAPaging.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'AP Aging preview',
+			maximizable: true,
+			maximized: true,
 			enableCopies: false
 		});
 
