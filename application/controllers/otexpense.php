@@ -525,7 +525,7 @@ class Otexpense extends CI_Controller {
 		    'gjahr' => substr($date,0,4),
 		    'bldat' => $this->input->post('bldat'),
 			'invnr' => $id,
-			'txz01' => 'GR No '.$id,
+			'txz01' => 'Other Expense No '.$id,
 			'ttype' => '05',
 			'auart' => 'AP',
 			'netwr' => floatval($this->input->post('netwr'))
@@ -567,11 +567,11 @@ class Otexpense extends CI_Controller {
 			$item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			foreach($gl_item_array AS $p){
-				if(!empty($p->txz01))$p->txz01='GR No '.$id;
+				if(!empty($p->txz01))$p->txz01='Other Expense No '.$id;
 				if(!empty($p->saknr)){
 				$this->db->insert('bven', array(
 					'belnr'=>$accno,
-					'belpr'=>++$item_index,
+					'belpr'=>intval(++$item_index),
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>floatval($p->debit),

@@ -290,6 +290,7 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 			labelAlign: 'right',
 			hideTrigger:false,
 			align: 'right',
+			width:200,
 			minValue: 0,
 			margin: '0 0 0 56'
          });
@@ -667,7 +668,17 @@ items:[{
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboTaxnr,this.numberVat]
+                items :[this.comboTaxnr,{xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				 			}]
             },{
                 xtype: 'container',
                 flex: 1,

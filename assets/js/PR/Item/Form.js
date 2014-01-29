@@ -87,7 +87,7 @@ Ext.define('Account.PR.Item.Form', {
 			labelAlign: 'right',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Select Vat --',
+		    //emptyText: '-- Select Vat --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -118,7 +118,7 @@ Ext.define('Account.PR.Item.Form', {
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
+			//emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',

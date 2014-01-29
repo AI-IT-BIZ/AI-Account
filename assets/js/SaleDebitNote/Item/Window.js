@@ -50,7 +50,7 @@ Ext.define('Account.SaleDebitNote.Item.Window', {
 		});
 
 		this.buttons = [this.btnSave, this.btnReset, {
-			text: 'Cancel',
+			text: 'Close',
 			handler: function() {
 				_this.form.getForm().reset();
 				_this.hide();
