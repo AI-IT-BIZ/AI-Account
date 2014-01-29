@@ -388,10 +388,25 @@ class Project extends CI_Controller {
 	}
 
 	function save_type(){
-		//echo "vendor type";
-
-		//start transaction
-		//$this->db->trans_start();
+		$jtyp = $this->input->post('jtyp');
+		$item_array = json_decode($jtyp);
+		$result_array = json_decode($jtyp);
+		if(!empty($jtyp) && !empty($item_array)){
+			$i=0;
+			foreach($item_array AS $p){
+				$j=0;
+				foreach($result_array AS $o){
+					if($p->bcode == $o->bcode && $i!=$j){
+						$emsg = 'Cannot Save Bank code '.$p->bcode.' is duplicated';
+					    echo json_encode(array(
+						  'success'=>false,
+						  'message'=>$emsg
+					    ));
+					    return;
+					}$j++;
+				}$i++;
+			}
+		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
@@ -404,8 +419,8 @@ class Project extends CI_Controller {
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$jtyp = $this->input->post('jtyp');
-		$item_array = json_decode($jtyp);
+		//$jtyp = $this->input->post('jtyp');
+		//$item_array = json_decode($jtyp);
 
 		if(!empty($jtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่

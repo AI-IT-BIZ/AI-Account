@@ -69,7 +69,7 @@ class Bankname extends CI_Controller {
 				$j=0;
 				foreach($result_array AS $o){
 					if($p->bcode == $o->bcode && $i!=$j){
-						$emsg = 'The bank code '.$p->bcode.' is duplicated';
+						$emsg = 'Cannot Save Bank code '.$p->bcode.' is duplicated';
 					    echo json_encode(array(
 						  'success'=>false,
 						  'message'=>$emsg

@@ -263,7 +263,8 @@ Ext.define('Account.Materialgrp.GridItem', {
 				if(r && r.success){
 					//Ext.Msg.alert('SUCCESS');
 		       }else{
-		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+		       	      Ext.Msg.alert(r.message);
+		       		//Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
 		       }
 			}
 		});
