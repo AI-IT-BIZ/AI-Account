@@ -435,7 +435,7 @@ class Otexpense extends CI_Controller {
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
-			'lfdat' => $this->input->post('lfdat'),
+			//'lfdat' => $this->input->post('lfdat'),
 			'taxnr' => $this->input->post('taxnr'),
 			'refnr' => $this->input->post('refnr'),
 			'itype' => '1',  //GR Doc.
@@ -497,13 +497,13 @@ class Otexpense extends CI_Controller {
 		        $itamt = $itamt - $p->disit;
 				$this->db->insert('ebrp', array(
 					'invnr'=>$id,
-					'vbelp'=>++$item_index,//vbelp,
+					'vbelp'=>intval(++$item_index),//vbelp,
 					'matnr'=>$p->matnr,
-					'menge'=>$p->menge,
+					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
-					'unitp'=>$p->unitp,
-					'itamt'=>$p->itamt,
+					'unitp'=>floatval($p->unitp),
+					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype
 				));
@@ -574,8 +574,8 @@ class Otexpense extends CI_Controller {
 					'belpr'=>++$item_index,
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
-					'debit'=>$p->debit,
-					'credi'=>$p->credi,
+					'debit'=>floatval($p->debit),
+					'credi'=>floatval($p->credi),
 					'kunnr'=> $this->input->post('lifnr'),
 					'bldat'=>$this->input->post('bldat'),
 					'txz01'=>$p->txz01

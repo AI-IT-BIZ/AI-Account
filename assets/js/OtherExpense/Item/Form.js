@@ -3,7 +3,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'ap/save',
+			url: __site_url+'otexpense/save',
 			layout: 'border',
 			border: false
 		});
@@ -796,7 +796,7 @@ layout: 'anchor',
 		var store = this.gridItem.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
-			r.set('ctyp1', currency);
+			r.set('ctype', currency);
 		});
 	}
 	

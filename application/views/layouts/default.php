@@ -811,7 +811,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_unit'
 			};
-
+			var nodeProjecttype = {
+				text: 'Project Type',
+				leaf: true,
+				id: 'click_projecttype'
+			};
 
 			var groupMaster = {
 				text: 'Master Data',
@@ -836,7 +840,8 @@ function endsWith($haystack, $needle)
 					nodeEmployee,
 					nodeSaleperson,
 					nodeUnit,
-					nodeBankname
+					nodeBankname,
+					nodeProjecttype
 				]
 			};
 

@@ -28,7 +28,7 @@ Ext.define('Account.Project.Item.Form', {
 			isApproveOnly: true
 		});
 
-		this.typeDialog = Ext.create('Account.Projecttype.Window');
+		this.typeDialog = Ext.create('Account.SProjecttype.Window');
 
 		this.trigType = Ext.create('Ext.form.field.Trigger', {
 			name: 'jtype',
