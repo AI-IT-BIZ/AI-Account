@@ -42,7 +42,7 @@ Ext.define('Account.Billfrom.Item.Window', {
 		});
         
 		this.buttons = [this.btnSave, {
-			text: 'Cancel',
+			text: 'Close',
 			handler: function() {
 				_this.form.getForm().reset();
 				_this.hide();

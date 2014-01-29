@@ -3,7 +3,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'ap/save',
+			url: __site_url+'otexpense/save',
 			layout: 'border',
 			border: false
 		});
@@ -97,7 +97,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+		    //emptyText: '-- Please select data --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -128,7 +128,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Payments --',
+			//emptyText: '-- Please Select Payments --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -687,6 +687,8 @@ layout: 'anchor',
 		var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
+		var rate = this.formTotal.txtRate.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -711,6 +713,9 @@ layout: 'anchor',
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
 			if(r.data['chk02']==true){
@@ -728,14 +733,12 @@ layout: 'anchor',
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		
-		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.vendorValue = this.trigVendor.getValue();
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid 
-		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
 	      sum2 = sum2 * rate;
 		  sum = sum * rate;
@@ -796,7 +799,7 @@ layout: 'anchor',
 		var store = this.gridItem.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
-			r.set('ctyp1', currency);
+			r.set('ctype', currency);
 		});
 	}
 	

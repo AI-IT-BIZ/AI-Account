@@ -142,7 +142,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Select Vat --',
+			//emptyText: '-- Select Vat --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',

@@ -518,6 +518,15 @@ Ext.onReady(function() {
 	});
 
 //Master Module
+    $om.viewport.on('click_projecttype', function(){
+		if(!UMS.CAN.DISPLAY('PJ')){
+	 		UMS.ALERT("You don't have permission for Project Type.");
+	  		return;
+		}
+		$om.projecttypeDialog = Ext.create('Account.Projecttype.Window');
+		$om.projecttypeDialog.show();
+	});
+	
 	$om.viewport.on('click_customer_type', function(){
 		if(!UMS.CAN.DISPLAY('CT')){
 	 		UMS.ALERT("You don't have permission for Customer Type.");

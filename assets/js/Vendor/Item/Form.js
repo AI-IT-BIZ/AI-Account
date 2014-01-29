@@ -292,6 +292,7 @@ Ext.define('Account.Vendor.Item.Form', {
 			name: 'vat01',
 			labelAlign: 'right',
 			hideTrigger:false,
+			width: 200,
 			minValue: 0,
 			align: 'right',
 			margin: '0 0 0 56'
@@ -452,7 +453,17 @@ Ext.define('Account.Vendor.Item.Form', {
                 flex: 1,
                 layout: 'hbox',
                 padding:2,
-                items :[this.comboTax,this.numberVat]
+                items :[this.comboTax,{xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
+				 			}]
             },{
                 xtype: 'container',
                 flex: 1,

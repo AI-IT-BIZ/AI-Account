@@ -562,13 +562,13 @@ class Otincome extends CI_Controller {
 		    $itamt = $itamt - $p->disit;
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
-				'vbelp'=>++$item_index,
+				'vbelp'=>intval(++$item_index),
 				'matnr'=>$p->matnr,
-				'menge'=>$p->menge,
+				'menge'=>floatval($p->menge),
 				'meins'=>$p->meins,
 				'disit'=>$p->disit,
-				'unitp'=>$p->unitp,
-				'itamt'=>$p->itamt,
+				'unitp'=>floatval($p->unitp),
+				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
 				'chk02'=>$p->chk02
@@ -597,7 +597,7 @@ class Otincome extends CI_Controller {
 			'invnr' => $id,
 			'refnr' => $id,
 			'kunnr' => $this->input->post('kunnr'),
-			'txz01' => 'Invoice No '.$id,
+			'txz01' => 'Other Income No '.$id,
 			'ttype' => '04',
 			'auart' => 'AR',
 			'netwr' => floatval($this->input->post('netwr'))
@@ -642,13 +642,13 @@ class Otincome extends CI_Controller {
 				if(!empty($p->saknr)){
 				$this->db->insert('bcus', array(
 					'belnr'=>$accno,
-					'belpr'=>++$item_index,
+					'belpr'=>inttval(++$item_index),
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
-					'debit'=>$p->debit,
-					'credi'=>$p->credi,
+					'debit'=>floatval($p->debit),
+					'credi'=>floatval($p->credi),
 					'bldat'=>$this->input->post('bldat'),
-					'txz01'=>'Invoice No '.$id
+					'txz01'=>'Other Income No '.$id
 				));
 			  }
 			}

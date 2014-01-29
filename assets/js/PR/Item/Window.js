@@ -50,7 +50,7 @@ Ext.define('Account.PR.Item.Window', {
 		});
 
 		this.buttons = [this.btnSave, this.btnReset,{
-			text: 'Cancel',
+			text: 'Close',
 			handler: function() {
 				_this.form.getForm().reset();
 				// สั่ง grid load เพื่อเคลียร์ค่า

@@ -143,7 +143,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Condition --',
+			//emptyText: '-- Please Select Condition --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',

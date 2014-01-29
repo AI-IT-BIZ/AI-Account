@@ -142,7 +142,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			labelAlign: 'right',
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-			emptyText: '-- Please Select Condition --',
+			//emptyText: '-- Please Select Condition --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
@@ -799,6 +799,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		var whts=0;var discounts=0;
 		var saknr_list = [];
 		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
+		var rate = this.formTotal.txtRate.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -823,6 +825,9 @@ Ext.define('Account.OtherIncome.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
 			if(r.data['chk02']==true){
@@ -839,15 +844,13 @@ Ext.define('Account.OtherIncome.Item.Form', {
 // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-
-		var currency = this.trigCurrency.getValue();
+		
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		//alert(this.comboPay.getValue());
 // Set value to GL Posting grid
-		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
 	      sum2 = sum2 * rate;
 		  sum = sum * rate;
@@ -908,7 +911,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		var store = this.gridItem.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
-			r.set('ctyp1', currency);
+			r.set('ctype', currency);
 		});
 	}
 

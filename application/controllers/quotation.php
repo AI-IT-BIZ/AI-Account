@@ -425,11 +425,11 @@ class Quotation extends CI_Controller {
                
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,
-					'paypr'=>++$item_index,
+					'paypr'=>intval(++$item_index),
 					'sgtxt'=>$p->sgtxt,
 					'duedt'=>$p->duedt,
 					'perct'=>$p->perct,
-					'pramt'=>$pramt,
+					'pramt'=>floatval($pramt),
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
 					'chk01'=>1

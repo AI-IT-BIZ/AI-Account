@@ -98,7 +98,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
-		    emptyText: '-- Please select data --',
+		    //emptyText: '-- Please select data --',
 			store: new Ext.data.JsonStore({
 				proxy: {
 					type: 'ajax',
