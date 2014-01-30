@@ -56,9 +56,25 @@ class Customertype extends CI_Controller {
 
 
 	function save(){
-		//echo "vendor type";
-		//start transaction
-		//$this->db->trans_start();  
+		$ktyp = $this->input->post('ktyp');
+		$item_array = json_decode($ktyp);
+		$result_array = json_decode($ktyp);
+		if(!empty($ktyp) && !empty($item_array)){
+			$i=0;
+			foreach($item_array AS $p){
+				$j=0;
+				foreach($result_array AS $o){
+					if($p->ktype == $o->ktype && $i!=$j){
+						$emsg = 'Cannot Save Customer type '.$p->ktype.' is duplicated';
+					    echo json_encode(array(
+						  'success'=>false,
+						  'message'=>$emsg
+					    ));
+					    return;
+					}$j++;
+				}$i++;
+			}
+		} 
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
@@ -71,8 +87,8 @@ class Customertype extends CI_Controller {
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$ktyp = $this->input->post('ktyp');
-		$item_array = json_decode($ktyp);
+		//$ktyp = $this->input->post('ktyp');
+		//$item_array = json_decode($ktyp);
 		
 		if(!empty($ktyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่

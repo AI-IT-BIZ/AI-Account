@@ -395,10 +395,25 @@ class Material extends CI_Controller {
 	}
 
 	function save_type(){
-		//echo "vendor type";
-		
-		//start transaction
-		//$this->db->trans_start();  
+		$mtyp= $this->input->post('mtyp');
+		$item_array = json_decode($mtyp);
+		$result_array = json_decode($mtyp);
+		if(!empty($mtyp) && !empty($item_array)){
+			$i=0;
+			foreach($item_array AS $p){
+				$j=0;
+				foreach($result_array AS $o){
+					if($p->mtart == $o->mtart && $i!=$j){
+						$emsg = 'Cannot Save Material type '.$p->mtart.' is duplicated';
+					    echo json_encode(array(
+						  'success'=>false,
+						  'message'=>$emsg
+					    ));
+					    return;
+					}$j++;
+				}$i++;
+			}
+		}
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
@@ -411,8 +426,8 @@ class Material extends CI_Controller {
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$mtyp = $this->input->post('mtyp');
-		$item_array = json_decode($mtyp);
+		//$mtyp = $this->input->post('mtyp');
+		//$item_array = json_decode($mtyp);
 		
 		if(!empty($mtyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
@@ -483,10 +498,25 @@ class Material extends CI_Controller {
 	}
 
 	function save_grp(){
-		//echo "vendor type";
-		
-		//start transaction
-		//$this->db->trans_start();  
+		$mgrp = $this->input->post('mgrp');
+		$item_array = json_decode($mgrp);
+		$result_array = json_decode($mgrp);
+		if(!empty($mgrp) && !empty($item_array)){
+			$i=0;
+			foreach($item_array AS $p){
+				$j=0;
+				foreach($result_array AS $o){
+					if($p->matkl == $o->matkl && $i!=$j){
+						$emsg = 'Cannot Save Material group '.$p->matkl.' is duplicated';
+					    echo json_encode(array(
+						  'success'=>false,
+						  'message'=>$emsg
+					    ));
+					    return;
+					}$j++;
+				}$i++;
+			}
+		}
 		
 		// ลบ receipt item ภายใต้ id ทั้งหมด
 		if(db_helper_is_mssql($this)){
@@ -499,8 +529,8 @@ class Material extends CI_Controller {
 		//$this->db->delete('ktyp');
 
 		// เตรียมข้อมูล payment item
-		$mgrp = $this->input->post('mgrp');
-		$item_array = json_decode($mgrp);
+		//$mgrp = $this->input->post('mgrp');
+		//$item_array = json_decode($mgrp);
 		
 		if(!empty($mgrp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
