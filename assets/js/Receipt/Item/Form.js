@@ -439,7 +439,7 @@ Ext.define('Account.Receipt.Item.Form', {
         	var pay_list = [];
         	for(var i=0;i<r_data.length;i++){
         		payam = r_data[i].payam - r_data[i].wht01;
-        		if(r_data[i].ptype == '03' || r_data[i].ptype == '04'){
+        		if(r_data[i].ptype == '03' || r_data[i].ptype == '04' || r_data[i].ptype == '05'){
         		    var item = r_data[i].saknr + '|' + payam;
         		}else{
         			var item = r_data[i].ptype + '|' + payam;

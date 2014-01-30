@@ -324,9 +324,9 @@ Ext.define('Account.Journal.Item.Form', {
 			cresum += credit;
 			//sum += amt;
 		});
-		this.formTotal.getForm().findField('debit')
+		this.formTotal.getForm().findField('sdebit')
 		.setValue(Ext.util.Format.usMoney(debsum).replace(/\$/, ''));
-		this.formTotal.getForm().findField('credi')
+		this.formTotal.getForm().findField('scredi')
 		.setValue(Ext.util.Format.usMoney(cresum).replace(/\$/, ''));
 		this.formTotal.calculate();
 	},

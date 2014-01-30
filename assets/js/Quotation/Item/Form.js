@@ -408,7 +408,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			{
 				xtype: 'panel',
 				border: false,
-				title: 'Partial Payment',
+				title: 'Partial Receipt',
 				layout: 'border',
 				items:[
 					this.gridPayment

@@ -36,6 +36,10 @@ Ext.define('Account.GR.Item.Form', {
 			title:'GR Total',
 			region:'south'
 		});
+		this.gridPayment = Ext.create('Account.GR.Item.Grid_p',{
+			border: true,
+			region:'center'
+		});
 		this.formTotalthb = Ext.create('Account.GR.Item.Form_thb', {
 			border: true,
 			split: true,
@@ -346,7 +350,23 @@ Ext.define('Account.GR.Item.Form', {
 			}]
 		};
 		
-		this.items = [mainFormPanel,this.gridItem,
+		this.items = [mainFormPanel,
+            {
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			border: false,
+			items: [this.gridItem,
+			{
+				xtype: 'panel',
+				border: false,
+				title: 'Partial Payment',
+				layout: 'border',
+				items:[
+					this.gridPayment
+				]
+			  }]
+			},
 			{
 			xtype:'tabpanel',
 			region:'south',

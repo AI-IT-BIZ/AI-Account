@@ -24,7 +24,12 @@ Ext.define('Account.PO.Item.Form', {
 		});
 
 		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
+			title:'PO Items',
 			height: 320,
+			region:'center'
+		});
+		this.gridPayment = Ext.create('Account.PO.Item.Grid_p',{
+			border: true,
 			region:'center'
 		});
 		this.formTotal = Ext.create('Account.PR.Item.Form_t', {
@@ -331,7 +336,22 @@ Ext.define('Account.PO.Item.Form', {
 		
 		this.items = [
 			mainFormPanel,
-			this.gridItem,
+			{
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			border: false,
+			items: [this.gridItem,
+			{
+				xtype: 'panel',
+				border: false,
+				title: 'Partial Payment',
+				layout: 'border',
+				items:[
+					this.gridPayment
+				]
+			  }]
+			},
 			{
 			xtype:'tabpanel',
 			region:'south',
@@ -343,7 +363,6 @@ Ext.define('Account.PO.Item.Form', {
 				this.gridPrice
 			]
 		}
-			
 		];		
 
 		// event trigVender///
@@ -646,6 +665,10 @@ Ext.define('Account.PO.Item.Form', {
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		this.formTotal.calculate();
+		
+		//this.gridPayment.netValue = net;
+		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
+		this.gridPayment.curValue = currency;
 		
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
