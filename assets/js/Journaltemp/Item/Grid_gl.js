@@ -173,7 +173,7 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 				// Materail text
 				rModel.set('sgtxt', record.data.sgtxt);
 				//alert(record.data.gltyp);
-				if (r.data.glcre=='-1'){
+				if (record.data.glcre=='-1'){
 					rModel.set('debit', '1.00');
 				}else if(record.data.glcre=='1'){
 					rModel.set('credi', '1.00');
