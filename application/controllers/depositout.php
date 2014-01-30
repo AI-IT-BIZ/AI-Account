@@ -264,14 +264,13 @@ class Depositout extends CI_Controller {
 			$this->db->insert('ebdp', array(
 				'depnr'=>$id,
 				'vbelp'=>intval(++$item_index),
-				'matnr'=>$p->matnr,
-			    'menge'=>floatval($p->menge),
-				'meins'=>$p->meins,
-				'disit'=>$p->disit,
-				'unitp'=>floatval($p->unitp),
-				//'itamt'=>$p->$itamt,
+				'sgtxt'=>$p->sgtxt,
+				'pramt'=>floatval($p->pramt),
+				'perct'=>$p->perct,
+				'duedt'=>$p->duedt,
 				'chk01'=>$p->chk01,
 				'chk02'=>$p->chk02,
+				'disit'=>$p->disit,
 				'ctyp1'=>$p->ctyp1
 			));
 	    	}
@@ -421,15 +420,15 @@ class Depositout extends CI_Controller {
 	// Deposit ITEM
 	///////////////////////////////////////////////
 	function loads_dp_item(){
-		$matnr = $this->input->get('matnr');
+		$ponr = $this->input->get('ponr');
 		
 		$dp_id = $this->input->get('depnr');
 		if(!empty($ponr)){
-			$this->db->set_dbprefix('v_');
-		    $this->db->where('matnr', $matnr);
-			//$this->db->where('matkl', '08');
+			$tbName = 'payp';
+		    $this->db->where('vbeln', $ponr);
+			$this->db->where('payty', '1');
 
-		    $query = $this->db->get('mara');
+		    $query = $this->db->get('payp');
 		}else{
             $this->db->set_dbprefix('v_');
 		    $this->db->where('depnr', $dp_id);

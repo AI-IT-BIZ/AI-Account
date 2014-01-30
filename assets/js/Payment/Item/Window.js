@@ -79,7 +79,7 @@ Ext.define('Account.Payment.Item.Window', {
 			this.form.reset();
 			this.show(false);
 
-			this.btnPreview.setDisabled(true);
+			//this.btnPreview.setDisabled(true);
 		}
 	},
 	setReadOnly: function(readOnly){

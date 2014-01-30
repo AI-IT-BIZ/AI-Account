@@ -70,7 +70,7 @@ Ext.define('Account.PO.Item.Grid_p', {
 		}
 			},{
 			text: "Period Desc.",
-			width: 340,
+			width: 320,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			field: {
@@ -130,7 +130,7 @@ Ext.define('Account.PO.Item.Grid_p', {
 			},
 			{
 				text: "Amount",
-				width: 150,
+				width: 120,
 				dataIndex: 'pramt',
 				xtype: 'numbercolumn',
 				//sortable: true,
@@ -148,7 +148,7 @@ Ext.define('Account.PO.Item.Grid_p', {
 				}
 			},
 			{text: "Currency",
-			width: 70,
+			width: 50,
 			dataIndex: 'ctyp1',
 			//xtype: 'textcolumn',
 			sortable: false,

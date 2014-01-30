@@ -155,6 +155,10 @@ Ext.define('Account.PO.Item.Form', {
 		this.hdnPoItem = Ext.create('Ext.form.Hidden', {
 			name: 'ekpo',
 		});
+		
+		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
+			name: 'payp',
+		});
 
         this.trigPR = Ext.create('Ext.form.field.Trigger', {
 			name: 'purnr',
@@ -218,7 +222,7 @@ Ext.define('Account.PO.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnPoItem,
+			items: [this.hdnPoItem,this.hdnPpItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -459,6 +463,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('lfdat').setValue(r.data.lfdat);
 						}else{
 							o.setValue('');
 							_this.getForm().findField('lifnr').setValue('');
@@ -470,7 +475,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('ctype').setValue('');
 			                _this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('loekz').setValue('');
-			                _this.getForm().findField('exchg').setValue('');
+			                _this.getForm().findField('lfdat').setValue('');
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
 					}
@@ -502,6 +507,7 @@ Ext.define('Account.PO.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('lfdat').setValue(r.data.lfdat);
 						}
 					}
 				});
@@ -575,6 +581,10 @@ Ext.define('Account.PO.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnPoItem.setValue(Ext.encode(rsItem));
+		
+		var rsPayment = _this.gridPayment.getData();
+		this.hdnPpItem.setValue(Ext.encode(rsPayment));
+		
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -624,6 +634,7 @@ Ext.define('Account.PO.Item.Form', {
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0;var i=0;discounts=0;
 		var vattype = this.comboTax.getValue();
+		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
@@ -664,15 +675,15 @@ Ext.define('Account.PO.Item.Form', {
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
-		this.formTotal.calculate();
+		var net = this.formTotal.calculate();
 		
-		//this.gridPayment.netValue = net;
+		this.gridPayment.netValue = net;
 		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
 		this.gridPayment.curValue = currency;
 		
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		var currency = this.trigCurrency.getValue();
+		
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
@@ -712,6 +723,11 @@ Ext.define('Account.PO.Item.Form', {
 		var store = this.gridItem.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
+		
+		var store2 = this.gridPayment.store;
+		store2.each(function(r){
 			r.set('ctyp1', currency);
 		});
 	}

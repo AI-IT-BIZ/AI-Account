@@ -38,18 +38,15 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			},
 			fields: [
 			    //'vbeln',
-			    'vbelp',
-				'matnr',
-				'maktx',
-				'menge',
-				'meins',
-				'unitp',
-				'disit',
-				'itamt',
+				'vbelp',
+				'sgtxt',
+				'duedt',
+				'perct',
+				'pramt',
 				'ctyp1',
 				'chk01',
 				'chk02',
-				'poamt'
+				'disit'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -57,98 +54,55 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 
 		this.columns = [{
 			xtype: 'actioncolumn',
+			text: " ",
 			width: 30,
 			sortable: false,
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Deposit Item',
+				tooltip: 'Delete Deposit Receipt',
 				scope: this,
 				disabled: true,
-				handler: this.removeRecord
+				handler: this.removeRecord2
 			}]
-		},{
-			id : 'DPiRowNumber',
-			header : "Items",
+			},{
+			id : 'DPRowNumber4',
+			text : "Periods No.",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 80,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
-			}
-		},
-		{text: "Material Code",
-		width: 80,
-		dataIndex: 'matnr',
-		sortable: false,
-			/*field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.materialDialog.show();
-				}
-			},*/
-			},
-		    {text: "Description",
-		    width: 150,
-		    dataIndex: 'maktx',
-		    sortable: false,
-		    //field: {
+		}
+			},{
+			text: "Period Desc.",
+			width: 280,
+			dataIndex: 'sgtxt',
+			sortable: true,
+			//field: {
 			//	type: 'textfield'
-			//},
-		    },
-			{text: "Qty",
-			xtype: 'numbercolumn',
-			width: 50,
-			dataIndex: 'menge',
-			sortable: false,
-			align: 'right'
+			//}
 			},
-			{text: "Unit", width: 40, dataIndex: 'meins', sortable: false,
-			/*field: {
-				xtype: 'triggerfield',
-				enableKeyEvents: true,
-				triggerCls: 'x-form-search-trigger',
-				onTriggerClick: function(){
-					_this.editing.completeEdit();
-					_this.unitDialog.show();
-				}
-			},*/
-			},
-			
-			{text: "PO Amt",
-			xtype: 'numbercolumn',
-			width: 90,
-			dataIndex: 'poamt',
-			sortable: false,
-			align: 'right'
-			},
-			{text: "Payment Amt",
-			xtype: 'numbercolumn',
-			width: 100,
-			dataIndex: 'unitp',
-			sortable: false,
-			align: 'right',
-			editor: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				allowBlank: false,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-						_this.editing.completeEdit();
-					},
-				}
-			}
+		    {text: "Period Date",
+		    width: 100,
+		    xtype: 'datecolumn',
+		    dataIndex: 'duedt',
+		    format:'d/m/Y',
+		    sortable: true,
+		    /*editor: {
+                xtype: 'datefield',
+                //allowBlank: false,
+                format:'d/m/Y',
+			    altFormats:'Y-m-d|d/m/Y',
+			    submitFormat:'Y-m-d'
+                //minText: 'Cannot have a start date before the company existed!',
+                //maxValue: Ext.Date.format(new Date(), 'd/m/Y')
+            }*/
 			},
 			{text: "Discount",
 			//xtype: 'numbercolumn',
-			width: 80,
+			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
@@ -189,33 +143,58 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 					}
 				}}
             },
-			{
-				text: "Amount",
-				width: 90,
-				dataIndex: 'itamt',
-				sortable: false,
-				align: 'right',
-				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']);
-						//discount = parseFloat(r.data['dismt']);
-					qty = isNaN(qty)?0:qty;
-					price = isNaN(price)?0:price;
-					//discount = isNaN(discount)?0:discount;
-
-					var amt = qty * price;//) - discount;
-					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+			{text: "Amount/ %",
+			width: 100,
+			//xtype: 'textcolumn',
+			dataIndex: 'perct',
+			sortable: true,
+			align: 'right',
+			/*field: {
+                type: 'numberfield',
+                decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
 				}
+			},*/
+			},
+			{text: "Amount",
+			width: 100,
+			dataIndex: 'pramt',
+			xtype: 'numbercolumn',
+			//sortable: true,
+			align: 'right',
+			/*renderer: function(v,p,r){
+				var		percRaw = r.data['disit'];
+				var net = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
+				if(percRaw!='0.00'){
+				var		regEx = /%$/gi;
+					if(regEx.test(percRaw)){
+						var perc = parseFloat(percRaw.replace(regEx, '')),
+							amt = (perc * net) / 100;
+						return Ext.util.Format.usMoney(amt).replace(/\$/, '');
+					}//else
+					//if(percRaw>0)
+						//return Ext.util.Format.usMoney(percRaw).replace(/\$/, '');
+				//}
+				}else{
+					return Ext.util.Format.usMoney(net).replace(/\$/, '');
+				}
+				}*/
 			},
 			{text: "Currency",
-			width: 65,
+			width: 70,
 			dataIndex: 'ctyp1',
-			sortable: false,
+			//xtype: 'textcolumn',
+			sortable: true,
 			align: 'center',
-			//field: {
-			//	type: 'textfield'
+			//editor: {
+			//	xtype: 'textfield'
 			//},
-		}];
+			}];
 
 		this.plugins = [this.editing];
 
@@ -294,20 +273,20 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
-		});*/
+		});
 		
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='unitp'){
 				var v = parseFloat(e.value);
 				var rModel = _this.store.getById(e.record.data.id);
-				var poamt = parseFloat(rModel.get('poamt'));
+				//var poamt = parseFloat(rModel.get('poamt'));
                 //alert(v+'aaa'+poamt);
 			    if(v>poamt){
 			    	rModel.set(e.field, '');
 			    	Ext.Msg.alert('Warning', 'Payment amount over PO amount');
 			    }
 			}
-		});
+		});*/
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

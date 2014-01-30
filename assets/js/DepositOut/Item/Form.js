@@ -484,9 +484,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			//var grdmatnr = '200019';//_this.trigPO.value;
+			var ponr = _this.trigPO.value;
 			//alert(grdpurnr);
-			//_this.gridItem.load({matnr: grdmatnr });
+			_this.gridItem.load({ponr: ponr });
 			//----------------------------------------
 			_this.poDialog.hide();
 		});
@@ -751,7 +751,7 @@ Ext.define('Account.DepositOut.Item.Form', {
             });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
-		this.gridItem.addDefaultRecord();
+		//this.gridItem.addDefaultRecord();
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -772,22 +772,19 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
-			var qty = parseFloat(r.data['menge']),
-				price = parseFloat(r.data['unitp']),
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
 				discountValue = 0,
 				discount = r.data['disit'];
-			qty = isNaN(qty)?0:qty;
-			price = isNaN(price)?0:price;
-			//discount = isNaN(discount)?0:discount;
-
-			var amt = qty * price;//) - discount;
 			
+			amt = isNaN(amt)?0:amt;
+                //discount = isNaN(discount)?0:discount;
+                
 			if(vattype =='02'){
-				amt = amt * 100;
-			    amt = amt / 107;
+			  amt = amt * 100;
+			  amt = amt / 107;
 		    }
 		    
-			if(discount.match(/%$/gi)){
+		    if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
 				discountValue = amt * discountPercent / 100;
@@ -795,11 +792,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
-			
+		    
 			sum += amt;
 			
 			discounts += discountValue;
-            
             amt = amt - discountValue;
             sum2 += amt;
 			if(r.data['chk01']==true){
@@ -807,6 +803,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+            
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
 				    wht = (amt * wht) / 100;
@@ -814,58 +811,58 @@ Ext.define('Account.DepositOut.Item.Form', {
 			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
-		this.formTotal.getForm().findField('vat01').setValue(vats);
-		this.formTotal.getForm().findField('wht01').setValue(whts);
-		this.formTotal.getForm().findField('dismt').setValue(discounts);
-		this.formTotal.calculate();
-		
-		this.gridItem.vattValue = this.comboTax.getValue();
-		this.gridItem.vatValue = this.numberVat.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
-		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
+		this.formTotal.getForm().findField('wht01').setValue(whts);
+		this.formTotal.getForm().findField('dismt').setValue(discounts);
+		var net = this.formTotal.calculate();
 		
-		var rate = this.formTotal.txtRate.getValue();
-		if(currency != 'THB'){
-	      sum2 = sum2 * rate;
-		  sum = sum * rate;
-		  vats = vats * rate;
-		  whts = whts * rate;
-		  discounts = discounts * rate;
-		}  
+		//this.gridItem.netValue = net;
+		this.formTotal.taxType = this.comboTax.getValue();
+		this.gridItem.vatValue = this.numberVat.getValue();
+		this.gridItem.whtValue = this.numberWHT.getValue();
+		this.formTotal.getForm().findField('curr1').setValue(currency);
 		
-		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
-		this.formTotalthb.getForm().findField('vat02').setValue(vats);
-		this.formTotalthb.getForm().findField('wht02').setValue(whts);
-		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
-		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		var net2 = this.formTotalthb.calculate();
-	  
-	  // Set value to Condition Price grid
-        var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
+		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         if (sel) {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
             	menge:1,
-            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
             	wht:sel.get('chk02'),
             	vattype:vattype
-            });     
+            });
+
         }
-   
+        var rate = this.formTotal.txtRate.getValue();
+		if(currency != 'THB'){
+		  sum = sum * rate;
+		  vats = vats * rate;
+		  whts = whts * rate;
+		  sum2 = sum2 * rate;
+		  discounts = discounts * rate;
+		}   
+		
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('vat02').setValue(vats);
+		this.formTotalthb.getForm().findField('wht02').setValue(whts);
+		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
+		this.formTotalthb.getForm().findField('curr2').setValue(currency);
+		var net2 = this.formTotalthb.calculate();
+		
         if(sum>0 && this.trigVendor.getValue()!=''){
         	//console.log(rsPM);
             _this.gridGL.load({
-            	//paym:Ext.encode(rsPM),
             	netpr:sum2,
             	vvat:vats,
-            	lifnr:this.trigVendor.getValue()
+            	kunnr:this.trigVendor.getValue()
             }); 
            }
 	},

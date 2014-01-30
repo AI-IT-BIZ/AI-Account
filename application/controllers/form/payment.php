@@ -32,6 +32,14 @@ class Payment extends CI_Controller {
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		
+		$strSQL = " select v_paym.*";
+        $strSQL = $strSQL . " from v_paym ";
+        $strSQL = $strSQL . " Where v_paym.recnr = '$no'  ";
+        $strSQL .= "ORDER BY paypr ASC";
+		
+		$q_pay = $this->db->query($strSQL);
+		$r_pay = $q_pay->first_row('array');
+		
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
@@ -184,7 +192,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:403PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
 <table width="0px" height="122PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:307PX;top:861PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:63PX;">
+<div style="left: 361px; top: 861PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
 <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:569PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
@@ -204,6 +212,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 276px; width: 704PX; height: 802px;">
   <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
 </DIV>
+
+<DIV style="left: 53px; top: 895px; width: 103px; height: 20PX;"><span class="fc1-10"><?= $r_pay['paytx']; ?></span></DIV>
+<DIV style="left: 160px; top: 896px; width: 201px; height: 20PX;"><span class="fc1-10"><?= $r_pay['bname']; ?></span></DIV>
+<DIV style="left: 365px; top: 895px; width: 93px; height: 20PX;"><span class="fc1-10"><?= $r_pay['sgtxt']; ?></span></DIV>
+<DIV style="left: 458px; top: 895px; width: 69px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqdt']; ?></span></DIV>
+<DIV style="left: 523px; top: 896px; width: 135px; height: 20PX;TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqid']; ?></span></DIV>
+<DIV style="left: 662px; top: 897px; width: 89px; height: 20PX;TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= $r_pay['payam']; ?></span></DIV>
 
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
@@ -336,8 +351,8 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left:465PX;top:664PX;width:194PX;height:23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left:660PX;top:664PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($r_data['beamt'],2,'.',',')) ?></span></DIV>
+<DIV style="left: 660PX; top: 662px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
 /*$distxt='';$disamt=0;
@@ -352,13 +367,13 @@ if($r_data['dispc'] == '0') $r_data['dispc'] = '';*/
 if(empty($r_data['dismt'])) $r_data['dismt']=0.00;
 ?>
 
-<DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left: 660PX; top: 685px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt']; ?>
 
-<DIV style="left:660PX;top:709PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 664px; top: 708px; width: 88PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 
@@ -375,22 +390,19 @@ if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
 else
 	$tax_str = '';
 ?>
-<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
 <DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 
-<DIV style="left:660PX;top:821PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<DIV style="left: 660PX; top: 819px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
-<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เงินสด&nbsp;&nbsp;Cash</span></DIV>
+<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Payment Method</span></DIV>
 
-<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
+<DIV style="left: 157PX; top: 865PX; width: 204px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
 
-<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
+<DIV style="left: 361px; top: 865PX; width: 99px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
 
 <DIV style="left:460PX;top:865PX;width:60PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">วันที่&nbsp;&nbsp;Date</span></DIV>
 
