@@ -92,6 +92,46 @@ class Journaltemp extends CI_Controller {
 		));
 	}
 
+	function sloads(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'trko';
+		
+		// Start for report
+		function createQuery($_this){
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(tranr LIKE '%$query%'
+				OR txz01 LIKE '%$query%'
+				OR ttype LIKE '%$query%')", NULL, FALSE);
+			}
+						
+	        $ttype1 = '01';
+			$_this->db->where('ttype', $ttype1);
+						
+		}
+// End for report
+        createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+        
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
     public function loads_jtypecombo(){
 		$tbName = 'ttyp';
 		$tbPK = 'ttype';

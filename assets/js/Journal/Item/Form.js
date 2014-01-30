@@ -15,7 +15,7 @@ Ext.define('Account.Journal.Item.Form', {
 		
 		// INIT Customer search popup ///////////////////////////////
 		
-		this.journalDialog = Ext.create('Account.Journaltemp.MainWindow', {
+		this.journalDialog = Ext.create('Account.SJournaltemp.MainWindow', {
 			disableGridDoubleClick: true
 		});
 		
@@ -68,7 +68,9 @@ Ext.define('Account.Journal.Item.Form', {
             },
 			queryMode: 'remote',
 			displayField: 'typtx',
-			valueField: 'ttype'
+			valueField: 'ttype',
+			value: '01',
+			disabled: true
 		});
 		
 		this.trigJournal = Ext.create('Ext.form.field.Trigger', {
@@ -337,7 +339,7 @@ Ext.define('Account.Journal.Item.Form', {
 		//if(combo.getValue()=='03' || combo.getValue()=='04'){
 		//	this.numberVat.setValue(0);
 		//}
-		var ttype = combo.getValue();
+		var ttype = '01';
 		var field = this.journalDialog.searchForm.form.findField('ttype');
 		field.setValue(ttype);
 		this.journalDialog.grid.load();
