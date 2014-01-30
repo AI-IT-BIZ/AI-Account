@@ -243,23 +243,36 @@ class Journal extends CI_Controller {
 	function loads_gl_item(){
         $this->db->set_dbprefix('v_');
 		$tranr = $this->input->get('tranr1');
-		//echo $belnr.'111'.$tranr;
+        $tr_id = $this->input->get('belnr');
+		
 		if(!empty($tranr)){
 	     	//$iv_id = $this->input->get('vbap');
 		    $this->db->where('tranr', $tranr);
 
 		    $query = $this->db->get('trpo');
-		}else{
-		    $tr_id = $this->input->get('belnr');
-		    $this->db->where('belnr', $tr_id);
-		    $query = $this->db->get('uacc');
-		}
-		
-		echo json_encode(array(
+			
+			echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
+		}elseif(!empty($tr_id)){
+		    $this->db->where('belnr', $tr_id);
+		    $query = $this->db->get('uacc');
+			
+			echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+		}else{
+			echo json_encode(array(
+			'success'=>true,
+			'rows'=>0,
+			'totalCount'=>0
+		));
+		}
+
 	}
 	
 	function loads_jv_item(){

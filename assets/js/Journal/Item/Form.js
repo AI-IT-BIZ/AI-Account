@@ -297,7 +297,7 @@ Ext.define('Account.Journal.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ belnr: 0 });
+		this.gridItem.load({ belnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item
