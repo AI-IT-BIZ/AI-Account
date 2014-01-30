@@ -113,7 +113,8 @@ Ext.define('Account.Journaltemp.Item.Grid_gl', {
 			{text: "Remarks", 
 			width: 250, dataIndex: 'txz01', sortable: true,
 			field: {
-				type: 'textfield'
+				type: 'textfield',
+				maxLength : 100
 			}
 			}
 		];
