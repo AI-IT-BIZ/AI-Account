@@ -164,7 +164,7 @@ class Journal extends CI_Controller {
 			'tranr' => $this->input->post('tranr'),
 			'auart' => $modul,
 			'refnr' => $this->input->post('refnr'),
-			'netwr' => floatval($this->input->post('debit'))
+			'netwr' => floatval($this->input->post('sdebit'))
 		);
 		
 		// start transaction

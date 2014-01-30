@@ -19,7 +19,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 
 		this.txtDebit = Ext.create('widget.numericfield', {
 			fieldLabel: 'Total Amount',
-			name: 'debit',
+			name: 'sdebit',
 			labelWidth: 90,
 			width:190,
 			margin: '0 0 0 290',
@@ -29,7 +29,7 @@ Ext.define('Account.Journal.Item.Form_t', {
 		
 		this.txtCredit = Ext.create('widget.numericfield', {
 			//fieldLabel: 'Total',
-			name: 'credi',
+			name: 'scredi',
 			width:100,
 			//margin: '0 0 0 20',
 			readOnly: true
