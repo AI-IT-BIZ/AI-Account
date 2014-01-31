@@ -242,7 +242,17 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
      		this.importDialog = Ext.create('Account.ChartOfAccounts.Import.Window');
 			this.importDialog.show();
      	}
-     }); 
+     });
+     
+     var btnExcel = Ext.create('Ext.Button',{
+     	text: 'Export',
+     	iconCls: 'b-small-excel',
+     	width:60,
+     	disable: !UMS.CAN.EXPORT('CA'),
+     	handler: function() {
+     		window.location = __site_url+'export/chartofaccount/index?';
+     	}
+     });  
        
         var RightPanel =  Ext.create('Ext.Panel', {
    		bodyPadding: '5 10 0 10',
@@ -529,7 +539,7 @@ Ext.define('Account.ChartOfAccounts.MainWindow', {
            layout:'hbox',
            maximizable: false,
            items:[LeftPanel,RightPanel],
-           tbar:[btnAdd,btnEdit,btnImport],
+           tbar:[btnAdd,btnEdit,btnImport,btnExcel],
            buttons:[]
 		});
         

@@ -101,7 +101,8 @@ class ChartOfAccounts extends CI_Controller {
 			4=>'gllev',
 			5=>'gltyp',
 			6=>'overs',
-			7=>'glcre'
+			7=>'glcre',
+			8=>'depar'
 			//7=>'statu'
 		);
 
@@ -157,27 +158,9 @@ class ChartOfAccounts extends CI_Controller {
 		//Insert glcre
 		$result = insert_glcre($result);
 		
-		// check valid GL Over
-		/*
-		$gl_over = array();
-		foreach($result AS $value){
-			array_push($gl_over, $value['overs']);
-		}
-		$this->db->select('saknr');
-		$this->db->where_in('saknr', $gl_over);
-		$query = $this->db->get('glno');
-		$valid_gl_over = $query->result_array();
-		$result = check_exist2($valid_gl_over, $result, 'ptype', 'overs', 'GL Over is not exist');
-		 * 
-		 */
-
-		// finish data
 		for($i=0;$i<count($result);$i++){
 			$result[$i]['error'] = implode(',', $result[$i]['error']);
 		}
-
-		//print_r($valid_gl);
-		//print_r($result);
 
 		echo json_encode(array(
 			'success'=>TRUE,
@@ -200,7 +183,8 @@ class ChartOfAccounts extends CI_Controller {
 					'gllev'=>$data->gllev,
 					'gltyp'=>$data->gltyp,
 					'overs'=>$data->overs,
-					'glcre'=>$data->glcre
+					'glcre'=>$data->glcre,
+					'depar'=>$data->depar
 					//'statu'=>$data->statu
 				));
 		}

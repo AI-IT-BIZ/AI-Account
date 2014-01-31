@@ -45,6 +45,7 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 				'gltyp', //GL Type
 				'overs', //GL Over
 				'glcre', //GL Credit
+				'depar', //Department
 				'error' 
 			],
 			remoteSort: false
@@ -71,6 +72,7 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 			{text: "Level", width: 30, align: 'center',		dataIndex: 'gllev', sortable: false},
 			{text: "GL Type", width: 30, align: 'center',		dataIndex: 'gltyp', sortable: false},
 			{text: "GL Over", width: 50, align: 'center',		dataIndex: 'overs', sortable: false},
+			{text: "Department", width: 30, align: 'center',		dataIndex: 'depar', sortable: false},
 			{
 				text: "Error", width: 250, dataIndex: 'error', sortable: false,
 				renderer: function(v,p,r){
