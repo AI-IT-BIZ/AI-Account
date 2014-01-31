@@ -27,7 +27,12 @@ Ext.define('Account.AP.Item.Form', {
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.AP.Item.Grid_i',{
+			title:'AP Items',
 			height: 320,
+			region:'center'
+		});
+		this.gridPayment = Ext.create('Account.AP.Item.Grid_p',{
+			border: true,
 			region:'center'
 		});
 		this.gridGL = Ext.create('Account.AP.Item.Grid_gl',{
@@ -160,6 +165,10 @@ Ext.define('Account.AP.Item.Form', {
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
 			name: 'bven',
 		});
+		
+		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
+			name: 'payp',
+		});
 
         this.trigGR = Ext.create('Ext.form.field.Trigger', {
 			name: 'mbeln',
@@ -242,7 +251,7 @@ Ext.define('Account.AP.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnApItem, this.hdnGlItem,
+			items: [this.hdnApItem, this.hdnGlItem,this. hdnPpItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -382,7 +391,23 @@ Ext.define('Account.AP.Item.Form', {
 			}]
 		};
 		
-		this.items = [mainFormPanel,this.gridItem,
+		this.items = [mainFormPanel,
+		{
+			xtype:'tabpanel',
+			region:'center',
+			activeTab: 0,
+			border: false,
+			items: [this.gridItem,
+			{
+				xtype: 'panel',
+				border: false,
+				title: 'Partial Payment',
+				layout: 'border',
+				items:[
+					this.gridPayment
+				]
+			  }]
+			},
 		{
 			xtype:'tabpanel',
 			region:'south',
@@ -479,8 +504,9 @@ Ext.define('Account.AP.Item.Form', {
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
 			var grdgrnr = _this.trigGR.value;
-			//alert(grdpurnr);
 			_this.gridItem.load({grdgrnr: grdgrnr });
+			
+			_this.gridPayment.load({invnr: grdgrnr });
 			//----------------------------------------
 			_this.grDialog.hide();
 		});
@@ -637,10 +663,8 @@ Ext.define('Account.AP.Item.Form', {
 
 		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigWHT.setValue(record.data.whtnr);
-			//if(record.data.whtnr != '6'){
             _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-           //}
-            
+
 			grid.getSelectionModel().deselectAll();
 			_this.whtDialog.hide();
 		});
@@ -653,6 +677,8 @@ Ext.define('Account.AP.Item.Form', {
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
+		this.gridPayment.store.on('update', this.calculateTotal, this);
+		this.gridPayment.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
@@ -712,6 +738,9 @@ Ext.define('Account.AP.Item.Form', {
 		
 		var rsGL = _this.gridGL.getData();
 		this.hdnGlItem.setValue(Ext.encode(rsGL));
+		
+		var rsPayment = _this.gridPayment.getData();
+		this.hdnPpItem.setValue(Ext.encode(rsPayment));
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
@@ -770,6 +799,7 @@ Ext.define('Account.AP.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
+		var store2 = this.gridPayment.store;
 		var sum = 0;var vats=0;sum2=0;amt_deamt=0;
 		var whts=0;var discounts=0;
 		var saknr_list = [];
@@ -777,7 +807,52 @@ Ext.define('Account.AP.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		var deamt = this.formTotal.getForm().findField('deamt').getValue();
-		store.each(function(r){
+		if(store2.count()>0){
+		    store2.each(function(r){
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+				discountValue = 0,
+				discount = r.data['disit'];
+			
+			amt = isNaN(amt)?0:amt;
+                //discount = isNaN(discount)?0:discount;
+                
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
+		    if(isNaN(discount) && discount!='0.00'){
+		    if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+		    
+			sum += amt;
+			
+			discounts += discountValue;
+            amt = amt - discountValue;
+            sum2 += amt;
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt * wht) / 100;
+				    whts += wht;
+			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
+		
+		});
+		}else{
+			store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
 				discountValue = 0,
@@ -786,7 +861,7 @@ Ext.define('Account.AP.Item.Form', {
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
 
-			var amt = qty * price;//) - discount;
+			var amt = qty * price;
 			
 			if(vattype =='02'){
 				amt = amt * 100;
@@ -825,12 +900,14 @@ Ext.define('Account.AP.Item.Form', {
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
 		});
+		}
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
         var net = this.formTotal.calculate();
-// Set value to total form
+        
+        // Set value to total form
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
 		
@@ -839,9 +916,8 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.vendorValue = this.trigVendor.getValue();
-		//alert(this.comboPay.getValue());
-// Set value to GL Posting grid 
-		
+
+        // Set value to GL Posting grid 
 		var devat = this.formTotal.getForm().findField('devat').getValue();
 		sum2 = sum2 - deamt;
 		if(currency != 'THB'){
@@ -861,6 +937,58 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
 		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
+		
+		if(store2.count()>0){
+			store.each(function(r){
+			var qty = parseFloat(r.data['menge']),
+				price = parseFloat(r.data['unitp']),
+				discountValue = 0,
+				discount = r.data['disit'];
+			qty = isNaN(qty)?0:qty;
+			price = isNaN(price)?0:price;
+			//discount = isNaN(discount)?0:discount;
+
+			var amt = qty * price;
+			
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
+		    
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+			
+			sum += amt;
+			
+			discounts += discountValue;
+            
+            amt = amt - discountValue;
+            sum2+=amt;
+            amt_deamt = amt - deamt;
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt_deamt * vat) / 100;
+				    vats += vat;
+			}
+			if(r.data['chk02']==true){
+				var wht = _this.numberWHT.getValue();
+				    wht = (amt_deamt * wht) / 100;
+				    whts += wht;
+			}
+			if(currency != 'THB'){
+				amt = amt * rate;
+			}
+			var item = r.data['saknr'] + '|' + amt;
+        		saknr_list.push(item);
+		
+		});
+		}
 		
         if(sum>0 && this.trigVendor.getValue()!=''){
             _this.gridGL.load({

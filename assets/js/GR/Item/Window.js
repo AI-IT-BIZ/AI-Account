@@ -70,7 +70,7 @@ Ext.define('Account.GR.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({mbeln: id});
-			this.form.gridPayment.load({ebeln: id});
+			this.form.gridPayment.load({mbeln: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

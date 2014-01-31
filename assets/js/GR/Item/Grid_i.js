@@ -162,10 +162,18 @@ Ext.define('Account.GR.Item.Grid_i', {
 					else
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}*/
+					renderer: function(v,p,r){
+					var regEx = v.substring(0,1);
+					if(regEx == '.')
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
+					else
+						return v;
+             }
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
             dataIndex: 'chk01',
+            disabled: true,
             width: 30,
             /*field: {
                 xtype: 'checkboxfield',

@@ -13,7 +13,8 @@ Ext.define('Account.RAssetRegister.Item.Grid', {
                 reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'matnr'
+					idProperty: 'matnr',
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

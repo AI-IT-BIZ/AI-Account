@@ -1,4 +1,4 @@
-Ext.define('Account.GR.Item.Grid_p', {
+Ext.define('Account.AP.Item.Grid_p', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -7,7 +7,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 	initComponent : function() {
 		var _this=this;
 
-		this.addAct = new Ext.Action({
+		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
 		});
@@ -19,7 +19,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 
 		this.tbar = [this.addAct, this.copyAct];
 		
-		this.partialDialog = Ext.create('Account.SPartialpay.MainWindow');
+		this.partialDialog = Ext.create('Account.SPartialpay.MainWindow');*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -28,7 +28,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"gr/loads_pay_item",
+				url: __site_url+"ap/loads_pay_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -46,6 +46,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 				'payty',
 				'loekz',
 				'chk01',
+				'chk02',
 				'disit'
 			],
 			remoteSort: true,
@@ -80,7 +81,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 			width : 60,
 			align : 'center',
 			sortable : false,
-			field: {
+			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
@@ -88,7 +89,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 					_this.editing.completeEdit();
 					_this.partialDialog.show();
 				}
-			},
+			},*/
 			},{
 			text: "Period Desc.",
 			width: 300,
@@ -125,8 +126,8 @@ Ext.define('Account.GR.Item.Grid_p', {
 				dataIndex: 'perct',
 				sortable: false,
 				align: 'right',
-				field: Ext.create('BASE.form.field.PercentOrNumber'),
-				/*renderer: function(v,p,r){
+				/*field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
 					var regEx = /%$/gi;
 					if(regEx.test(v))
 						return v;
@@ -152,6 +153,21 @@ Ext.define('Account.GR.Item.Grid_p', {
             xtype: 'checkcolumn',
             text: 'Vat',
             dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
+            {
+            xtype: 'checkcolumn',
+            text: 'WHT',
+            dataIndex: 'chk02',
             width: 30,
             field: {
                 xtype: 'checkboxfield',
@@ -198,11 +214,11 @@ Ext.define('Account.GR.Item.Grid_p', {
 		this.plugins = [this.editing];
 
 		// init event
-		this.addAct.setHandler(function(){
-			_this.addRecord2();
-		});
+		//this.addAct.setHandler(function(){
+		//	_this.addRecord2();
+		//});
 
-		this.editing.on('edit', function(editor, e) {
+		/*this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='loekz'){
 				var v = e.value;
 				var po = _this.poValue;
@@ -262,7 +278,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.partialDialog.hide();
-		});
+		});*/
 
 		return this.callParent(arguments);
 	},

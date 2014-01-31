@@ -144,7 +144,7 @@ class Gr extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 
@@ -291,6 +291,45 @@ class Gr extends CI_Controller {
 				}
 			}
 		}
+		
+		// ลบ pay_item ภายใต้ id ทั้งหมด
+		$this->db->where('vbeln', $id);
+		$this->db->delete('payp');
+
+		// เตรียมข้อมูล pay item
+		$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		$pp_item_array = json_decode($payp);
+		if(!empty($payp) && !empty($pp_item_array)){
+            $item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			$pramt = 0;$amt = 0;
+			foreach($pp_item_array AS $p){
+				$perct = $p->perct;
+				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
+				$pos = strpos($perct, '%');
+				if($pos==false){
+					$pramt = $perct;
+				}else{
+					$perc = explode('%',$perct);
+					$pramt = $amt * $perc[0];
+					$pramt = $pramt / 100;
+				}
+               
+				$this->db->insert('payp', array(
+					'vbeln'=>$id,
+					'paypr'=>intval(++$item_index),
+					'loekz'=>$p->loekz,
+					'sgtxt'=>$p->sgtxt,
+					'duedt'=>$p->duedt,
+					'perct'=>$p->perct,
+					'pramt'=>floatval($pramt),
+					'ctyp1'=>$p->ctyp1,
+					'payty'=>$p->payty,
+					'disit'=>$p->disit,
+					'chk01'=>$p->chk01,
+				));
+			}
+		}
 	
 		// end transaction
 		$this->db->trans_complete();
@@ -373,6 +412,19 @@ class Gr extends CI_Controller {
 		
 		//echo $sql;//exit;
 		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
+	}
+	
+	function loads_pay_item(){
+        //$this->db->set_dbprefix('v_');
+		$pp_id = $this->input->get('mbeln');
+		$this->db->where('vbeln', $pp_id);
+
+		$query = $this->db->get('payp');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),

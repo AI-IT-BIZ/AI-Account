@@ -27,6 +27,7 @@ Ext.define('Account.GR.Item.Form', {
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.GR.Item.Grid_i',{
+			title:'GR Items',
 			height: 320,
 			region:'center'
 		});
@@ -162,6 +163,10 @@ Ext.define('Account.GR.Item.Form', {
 		this.hdnGrItem = Ext.create('Ext.form.Hidden', {
 			name: 'mseg',
 		});
+		
+		this.hdnPpItem = Ext.create('Ext.form.Hidden', {
+			name: 'payp',
+		});
 
         this.trigPO = Ext.create('Ext.form.field.Trigger', {
 			name: 'ebeln',
@@ -225,7 +230,7 @@ Ext.define('Account.GR.Item.Form', {
 				msgTarget: 'qtip',
 				labelWidth: 105
 			},
-			items: [this.hdnGrItem, 
+			items: [this.hdnGrItem, this.hdnPpItem,
 			{
 				xtype:'fieldset',
 				title: 'Heading Data',
@@ -408,6 +413,7 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('lfdat').setValue(r.data.lfdat);
 			                
 			                _this.formTotal.txtDepositVat.setValue(r.data.devat);
 			                _this.formTotal.txtDepositWHT.setValue(r.data.dewht);
@@ -418,7 +424,10 @@ Ext.define('Account.GR.Item.Form', {
 			                var grdponr = _this.trigPO.value;
 			                //alert(grdpurnr);
 			                _this.gridItem.load({grdponr: grdponr });
-						}else{
+			                
+			                // set po code to grid item
+			                _this.gridPayment.setpoCode(record.data.ebeln);
+			 			}else{
 							o.setValue('');
 							_this.getForm().findField('lifnr').setValue('');
 							_this.getForm().findField('name1').setValue('');			
@@ -430,6 +439,7 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('loekz').setValue('');
 			                _this.getForm().findField('exchg').setValue('');
+			                _this.getForm().findField('lfdat').setValue('');
 			                _this.formTotal.txtDepositValue.setValue(0);
 			                _this.formTotal.txtDepositVat.setValue(0);
 			                _this.formTotal.txtDepositWHT.setValue(0);
@@ -464,6 +474,7 @@ Ext.define('Account.GR.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
+			                _this.getForm().findField('lfdat').setValue(r.data.lfdat);
 			                
 			                _this.formTotal.txtDepositVat.setValue(r.data.devat);
 			                _this.formTotal.txtDepositWHT.setValue(r.data.dewht);
@@ -482,6 +493,9 @@ Ext.define('Account.GR.Item.Form', {
 			_this.gridItem.load({grdponr: grdponr });
 			//----------------------------------------
 			_this.poDialog.hide();
+			
+			// set po code to grid item
+			_this.gridPayment.setpoCode(record.data.ebeln);
 		});
 		
 		this.trigPO.onTriggerClick = function(){
@@ -608,6 +622,8 @@ Ext.define('Account.GR.Item.Form', {
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
+		this.gridPayment.store.on('update', this.calculateTotal, this);
+		this.gridPayment.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
@@ -696,6 +712,9 @@ Ext.define('Account.GR.Item.Form', {
 		// add grid data to json
 		var rsItem = this.gridItem.getData();
 		this.hdnGrItem.setValue(Ext.encode(rsItem));
+		
+		var rsPayment = _this.gridPayment.getData();
+		this.hdnPpItem.setValue(Ext.encode(rsPayment));
 
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
@@ -742,9 +761,48 @@ Ext.define('Account.GR.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = this.gridItem.store;
+		var store2 = this.gridPayment.store;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
+		var discount=0;var discountValue=0;var sum2=0;
 		var vattype = this.comboTax.getValue();
-		store.each(function(r){
+		if(store2.count()>0){
+		    store2.each(function(r){
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
+				discountValue = 0,
+				discount = r.data['disit'];
+			
+			amt = isNaN(amt)?0:amt;
+                //discount = isNaN(discount)?0:discount;
+                
+			if(vattype =='02'){
+			  amt = amt * 100;
+			  amt = amt / 107;
+		    }
+		    if(isNaN(discount) && discount!='0.00'){
+		    if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+		    
+			sum += amt;
+			
+			discounts += discountValue;
+            amt = amt - discountValue;
+            sum2 += amt;
+			if(r.data['chk01']==true){
+				var vat = _this.numberVat.getValue();
+				    vat = (amt * vat) / 100;
+				    vats += vat;
+			}
+           
+		});
+		}else{
+			store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
 				discountValue = 0,
@@ -759,13 +817,14 @@ Ext.define('Account.GR.Item.Form', {
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
-		    
+		    if(isNaN(discount) && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
 				discountValue = amt * discountPercent / 100;
 			}else{
 				discountValue = parseFloat(discount);
+			}
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
 			
@@ -781,6 +840,8 @@ Ext.define('Account.GR.Item.Form', {
 				    vats += vat;
 			}
 		});
+			
+		}
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
@@ -790,12 +851,18 @@ Ext.define('Account.GR.Item.Form', {
 		this.gridItem.vatValue = this.numberVat.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
+		this.gridPayment.poValue = this.trigPO.getValue();
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
-		
+		var deamt = 0;
 		var rate = this.formTotal.txtRate.getValue();
-		var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		if(store2.count()>0){
+		   deamt = 0; 
+		   this.formTotal.getForm().findField('deamt').setValue(deamt);
+		}else{ 
+			deamt = this.formTotal.getForm().findField('deamt').getValue();}
+
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  vats = vats * rate;

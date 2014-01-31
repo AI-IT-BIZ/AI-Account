@@ -49,6 +49,88 @@ class Po extends CI_Controller {
 				'success'=>false
 			));
 	}
+	
+	function load_partial(){
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'payp';
+		$id = $this->input->post('id');
+		$po = $this->input->post('po');
+	
+		$this->db->where('vbeln', $po);
+		$this->db->where('paypr', $id);
+		$this->db->where('payty', '');
+		$query = $this->db->get($tbName );
+		
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+	
+	function loads_partial(){
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'payp';
+		$vbeln = $this->input->post('ebeln');
+		//$this->db->where('payty', '1');
+		// Start for report
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(vbeln LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$duedt1 = $_this->input->get('duedt');
+			$duedt2 = $_this->input->get('duedt2');
+			if(!empty($duedt1) && empty($duedt2)){
+			  $_this->db->where('duedt', $duedt1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+
+            $vbeln1 = $_this->input->get('ebeln');
+			$vbeln2 = $_this->input->get('ebeln2');
+			if(!empty($vbeln1) && empty($vbeln2)){
+			  $_this->db->where('vbeln', $vbeln1);
+			}
+			elseif(!empty($vbeln1) && !empty($vbeln2)){
+			  $_this->db->where('vbeln >=', $vbeln1);
+			  $_this->db->where('vbeln <=', $vbeln2);
+			}
+			$_this->db->where('payty', '');
+            
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
 
 	function loads(){
 		$this->db->set_dbprefix('v_');

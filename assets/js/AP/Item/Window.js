@@ -69,6 +69,7 @@ Ext.define('Account.AP.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({invnr: id});
+			this.form.gridPayment.load({invnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{
