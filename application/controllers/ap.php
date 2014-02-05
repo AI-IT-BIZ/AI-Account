@@ -492,6 +492,14 @@ class Ap extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 			}else{
 				$grno = $this->input->post('mbeln');
 				$this->db->where('mbeln', $grno);
@@ -559,6 +567,7 @@ class Ap extends CI_Controller {
 			//'whtyp' => $this->input->post('whtyp'),
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
+			'reanr' => $this->input->post('reanr'),
 			//'whtpr' => $this->input->post('whtpr'),
 			'duedt' => $this->input->post('duedt')//,
 			//'deamt' => floatval($this->input->post('deamt')),

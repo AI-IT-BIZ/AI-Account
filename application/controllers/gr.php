@@ -206,6 +206,14 @@ class Gr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 			}else{
 				
 			/*if($this->input->post('loekz')=='3'){
@@ -238,9 +246,10 @@ class Gr extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'deamt' => floatval($this->input->post('deamt')),
-			'devat' => floatval($this->input->post('devat')),
-			'dewht' => floatval($this->input->post('dewht'))
+			//'deamt' => floatval($this->input->post('deamt')),
+			//'devat' => floatval($this->input->post('devat')),
+			//'dewht' => floatval($this->input->post('dewht')),
+			'reanr' => $this->input->post('reanr')
 		);
 
 		// start transaction
