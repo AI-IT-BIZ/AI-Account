@@ -614,7 +614,7 @@ Ext.define('Account.PO.Item.Form', {
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
 		this.gridItem.load({ ebeln: 0 });
-		//this.gridPayment.load({ vbeln: 0 });
+		this.gridPayment.load({ ebeln: 0 });
 
 		// default status = wait for approve
 		this.comboQStatus.setValue('01');
@@ -651,6 +651,7 @@ Ext.define('Account.PO.Item.Form', {
 			    amt = amt / 107;
 		    }
 		    
+		    if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -659,6 +660,7 @@ Ext.define('Account.PO.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
+			}
 			
 			sum += amt;
 			

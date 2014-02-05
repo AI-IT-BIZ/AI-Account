@@ -684,7 +684,7 @@ Ext.define('Account.DepositOut.Item.Form', {
         if (sel) {
             _this.gridPrice.load({
             	menge:1,
-            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
@@ -745,7 +745,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ depnr: 0 });
+		this.gridItem.load({ depnr: 0 });
 		this.gridGL.load({
             	netpr:0
             });
@@ -770,9 +770,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store; var sum2=0;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
-		var vattype = this.comboTax.getValue();
+		var vattype = this.comboTax.getValue();var discount=0;
 		store.each(function(r){
-			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, ''));
+			var amt = parseFloat(r.data['pramt'].replace(/[^0-9.]/g, '')),
 				discountValue = 0,
 				discount = r.data['disit'];
 			
@@ -784,6 +784,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			  amt = amt / 107;
 		    }
 		    
+		    if(discount!='0.00' && discount!=null){
 		    if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -792,6 +793,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
+		    }
 		    
 			sum += amt;
 			
@@ -862,7 +864,7 @@ Ext.define('Account.DepositOut.Item.Form', {
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
-            	kunnr:this.trigVendor.getValue()
+            	lifnr:this.trigVendor.getValue()
             }); 
            }
 	},

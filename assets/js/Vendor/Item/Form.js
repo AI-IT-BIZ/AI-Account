@@ -327,7 +327,7 @@ Ext.define('Account.Vendor.Item.Form', {
                     emptyText: 'XXXXX',
 					labelAlign: 'right',
 					readOnly: true,
-					width:160,
+					width:250,
             		margin: '0 0 0 60',
 					value: 'XXXXX',
 					labelStyle: 'font-weight:bold'

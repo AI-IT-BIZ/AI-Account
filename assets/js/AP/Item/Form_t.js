@@ -45,18 +45,19 @@ Ext.define('Account.AP.Item.Form_t', {
 				}else
 					return true;
 			}
-		});*/
+		});
 		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
-			xtype: 'textfield',
-			fieldLabel: 'Deposit Payment',
+			//xtype: 'textfield',
+			//fieldLabel: 'Deposit Payment',
 			name: 'deamt',
-			align: 'right',
-			width:270,
-			labelWidth: 150,
-			margin: '4 0 0 0',
+			//align: 'right',
+			//width:270,
+			//labelWidth: 150,
+			//margin: '4 0 0 0',
+			hidden:true,
 			alwaysDisplayDecimals: true,
 			readOnly: true
-         });
+         });*/
          this.txtDepositVat = Ext.create('Ext.ux.form.NumericField', {
 			//xtype: 'hiddenfield',
 			hidden:true,
@@ -174,7 +175,7 @@ Ext.define('Account.AP.Item.Form_t', {
 			margin: '3 0 0 0',
 			rows:2,
 			width:380,
-			name: 'sgtxt'
+			name: 'txz01'
 		},{
    	        xtype: 'textfield',
    	        fieldLabel: 'WHT Text',
@@ -195,7 +196,7 @@ Ext.define('Account.AP.Item.Form_t', {
 		}*/
 		this.txtDiscountValue,
 		this.txtDiscountSum,
-		this.txtDepositValue,
+		//this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -215,7 +216,7 @@ Ext.define('Account.AP.Item.Form_t', {
 		this.txtTaxValue.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
-		this.txtDepositValue.on('render', setAlignRight);
+		//this.txtDepositValue.on('render', setAlignRight);
 		this.txtWHTValue.on('render', setAlignRight);
 
 		//this.txtDiscount.on('keyup', this.calculate, this);
@@ -254,7 +255,7 @@ Ext.define('Account.AP.Item.Form_t', {
 		if(total<=0) return;
 
 		var discountValue = this.txtDiscountValue.getValue();
-		var depositValue = this.txtDepositValue.getValue();
+		//var depositValue = this.txtDepositValue.getValue();
 		/*	discountValue = 0;
 		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -276,16 +277,16 @@ Ext.define('Account.AP.Item.Form_t', {
 			//this.txtDiscountSum.setValue('0.00');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
-		depositValue = isNaN(depositValue)?0:depositValue;
-		if(depositValue>0){}else{
-			this.txtDepositValue.setValue('0.00');
-		}
+		//depositValue = isNaN(depositValue)?0:depositValue;
+		//if(depositValue>0){}else{
+		//	this.txtDepositValue.setValue('0.00');
+		//}
 		
 		var vat = this.txtTaxValue.getValue();
 		var wht = this.txtWHTValue.getValue();
 
 		var net = (total - discountValue) + (vat - wht);
-		net = net - depositValue;
+		//net = net - depositValue;
 		this.txtNet.setValue(net);
 		//return net;
 	}

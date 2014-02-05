@@ -493,14 +493,21 @@ class Ap extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 			}else{
-				if($this->input->post('loekz')=='2'){
-        	    $emsg = 'The GR already created AP doc.';
+				$grno = $this->input->post('mbeln');
+				$this->db->where('mbeln', $grno);
+	            $q_gr = $this->db->get('mkpf');
+		
+		        if($q_gr->num_rows()>0){
+			      $result_data = $q_gr->first_row('array');
+			      $loekz = $result_data['loekz'];
+				if($loekz=='2'){
+        	      $emsg = 'The GR already created AP doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-            }
+               }}
 		}
 			
 		$bven = $this->input->post('bven');
@@ -540,7 +547,7 @@ class Ap extends CI_Controller {
 			'terms' => intval($this->input->post('terms')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'sgtxt' => $this->input->post('sgtxt'),
+			'txz01' => $this->input->post('txz01'),
 			'beamt' => floatval($this->input->post('beamt')),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
@@ -553,9 +560,9 @@ class Ap extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			//'whtpr' => $this->input->post('whtpr'),
-			'duedt' => $this->input->post('duedt'),
-			'deamt' => floatval($this->input->post('deamt')),
-			'devat' => floatval($this->input->post('devat'))
+			'duedt' => $this->input->post('duedt')//,
+			//'deamt' => floatval($this->input->post('deamt')),
+			//'devat' => floatval($this->input->post('devat'))
 		);
 
 		// start transaction
@@ -580,10 +587,20 @@ class Ap extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			$this->db->where('mbeln', $this->input->post('mbeln'));
-			$this->db->set('loekz', '2');
-			$this->db->update('mkpf');
+			$grno = $this->input->post('mbeln');
+			$pono = $this->input->post('ebeln');
+			$this->db->where('vbeln', $pono);
+			$this->db->where('chk01', '1');
+	        $q_gr = $this->db->get('payp');
+		
+		    if($q_gr->num_rows()>0){   
+			}else{
+				$this->db->where('mbeln', $grno);
+			    $this->db->set('loekz', '2');
+			    $this->db->update('mkpf');
+			}
 		}
+		
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('invnr', $id);
 		$this->db->delete('ebrp');
@@ -623,8 +640,9 @@ class Ap extends CI_Controller {
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
-			$pramt = 0;$amt = 0;
+			$pramt = 0;$amt = 0;$paypr=0;
 			foreach($pp_item_array AS $p){
+				$paypr=$p->loekz;
 				$perct = $p->perct;
 				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
 				$pos = strpos($perct, '%');
@@ -643,13 +661,19 @@ class Ap extends CI_Controller {
 					'sgtxt'=>$p->sgtxt,
 					'duedt'=>$p->duedt,
 					'perct'=>$p->perct,
-					'pramt'=>floatval($pramt),
+					'pramt'=>floatval($p->pramt),
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
-					'disit'=>$p->disit,
-					'chk01'=>$p->chk01,
+					//'disit'=>$p->disit,
+					//'chk01'=>$p->chk01,
+					//'chk02'=>$p->chk02,
 				));
-			}
+				
+				$this->db->where('vbeln', $this->input->post('ebeln'));
+			    $this->db->where('paypr', $paypr);
+			    $this->db->set('chk01', '2');
+			    $this->db->update('payp');
+			}	
 		}
 	
 // Save GL Posting	
@@ -787,7 +811,7 @@ class Ap extends CI_Controller {
 	}
 
 	///////////////////////////////////////////////
-	// PR ITEM
+	// AP ITEM
 	///////////////////////////////////////////////
 	function loads_ap_item(){
 		$grdmbeln = $this->input->get('grdgrnr');
@@ -797,23 +821,41 @@ class Ap extends CI_Controller {
 			$this->db->set_dbprefix('v_');
 			$this->db->where('mbeln', $grdmbeln);
 			$query = $this->db->get('mseg');
-		}else{
-			$this->db->set_dbprefix('v_');
-			$this->db->where('invnr', $ap_id);
-			$query = $this->db->get('ebrp');
+			
+			$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			// search item
+			//echo 'aaa'.$r['upqty'];
+			$res[$i]['menge'] = $res[$i]['upqty'];
+		   // $res[$i]['upqty'] = 0;
 		}
 		
 		echo json_encode(array(
 			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
+		}else{
+			$this->db->set_dbprefix('v_');
+			$this->db->where('invnr', $ap_id);
+			$query = $this->db->get('ebrp');
+			
+			echo json_encode(array(
+			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
+			
+		}
+		
 	}
 	
 	function loads_pay_item(){
         //$this->db->set_dbprefix('v_');
 		$pp_id = $this->input->get('invnr');
 		$this->db->where('vbeln', $pp_id);
+		//$this->db->where('chk01', '1');
 
 		$query = $this->db->get('payp');
 		echo json_encode(array(
@@ -832,8 +874,8 @@ class Ap extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat  = $this->input->get('vvat');    //VAT amt
 		   $lifnr = $this->input->get('lifnr');  //Vendor Code
-		   $deamt = $this->input->get('deamt');  //Deposit amt
-		   $devat = $this->input->get('devat');  //Deposit vat
+		   //$deamt = $this->input->get('deamt');  //Deposit amt
+		   //$devat = $this->input->get('devat');  //Deposit vat
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -892,7 +934,7 @@ class Ap extends CI_Controller {
 		}}
 		
 // record ที่สาม.หนึ่ง
-        if($devat>0){ 
+        /*if($devat>0){ 
 		$glvat = '1155-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
@@ -911,7 +953,7 @@ class Ap extends CI_Controller {
 		
 // record ที่สาม.สอง
         if($deamt>0){
-        $deamt = $deamt - $devat; 
+        //$deamt = $deamt - $devat; 
 		$glvat = '1151-06';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
@@ -926,7 +968,7 @@ class Ap extends CI_Controller {
 		);
 		$i++;
 		$credit = $credit + $deamt;	
-		}}
+		}}*/
         
 // record ที่สาม.สาม
 		$query = $this->db->get_where('lfa1', array(

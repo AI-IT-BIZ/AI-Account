@@ -50,7 +50,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'
+				'saknr',
+				'reman',
+				'upqty'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -74,7 +76,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			id : 'RowNumber',
 			text: "No.",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -82,7 +84,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			}
 		},
 		{text: "Material Code",
-		width: 110,
+		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
 			/*field: {
@@ -199,13 +201,13 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			{
 				text: "Amount",
 				//xtype: 'numbercolumn',
-				width: 120,
+				width: 90,
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
-						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+					var qty = parseFloat(r.data['upqty']),
+						price = parseFloat(r.data['unitp']);
 						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
@@ -216,14 +218,52 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 55,
+			width: 50,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
 			//field: {
 			//	type: 'textfield'
 			//},
-		},
+		},{text: "Remain Qty",
+			xtype: 'numbercolumn',
+			width: 65,
+			dataIndex: 'reman',
+			sortable: false,
+			align: 'right',
+			/*field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}
+			},*/
+			},{text: "Invoice Qty",
+			xtype: 'numbercolumn',
+			width: 60,
+			dataIndex: 'upqty',
+			sortable: false,
+			allowBlank: false,
+			align: 'right',
+			field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+							_this.editing.completeEdit();
+							
+					},
+					
+				}
+			},
+			},
 			{
 			dataIndex: 'saknr',
 			//width: 55,

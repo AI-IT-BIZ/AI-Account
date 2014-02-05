@@ -1,4 +1,4 @@
-Ext.define('Account.GR.Item.Grid_p', {
+Ext.define('Account.Invoice.Item.Grid_p', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -28,7 +28,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"gr/loads_pay_item",
+				url: __site_url+"invoice/loads_pay_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -46,6 +46,7 @@ Ext.define('Account.GR.Item.Grid_p', {
 				'payty',
 				'loekz',
 				'chk01',
+				'chk02',
 				'disit'
 			],
 			remoteSort: true,
@@ -125,8 +126,8 @@ Ext.define('Account.GR.Item.Grid_p', {
 				dataIndex: 'perct',
 				sortable: false,
 				align: 'right',
-				field: Ext.create('BASE.form.field.PercentOrNumber'),
-				/*renderer: function(v,p,r){
+				/*field: Ext.create('BASE.form.field.PercentOrNumber'),
+				renderer: function(v,p,r){
 					var regEx = /%$/gi;
 					if(regEx.test(v))
 						return v;
@@ -152,6 +153,21 @@ Ext.define('Account.GR.Item.Grid_p', {
             xtype: 'checkcolumn',
             text: 'Vat',
             dataIndex: 'chk01',
+            width: 30,
+            field: {
+                xtype: 'checkboxfield',
+                listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}}
+            },
+            {
+            xtype: 'checkcolumn',
+            text: 'WHT',
+            dataIndex: 'chk02',
             width: 30,
             field: {
                 xtype: 'checkboxfield',
@@ -320,10 +336,10 @@ Ext.define('Account.GR.Item.Grid_p', {
 		});
 		return rs;
 	},
-	setpoCode: function(ebeln){
-		this.poCode = ebeln;
+	setsoCode: function(vbeln){
+		this.poCode = vbeln;
 		var field = this.partialDialog.searchForm.form.findField('ebeln');
-		field.setValue(ebeln);
+		field.setValue(vbeln);
 		this.partialDialog.grid.load();
 	},
 	netValue : 0,

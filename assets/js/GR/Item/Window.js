@@ -6,7 +6,7 @@ Ext.define('Account.GR.Item.Window', {
 			title: 'Create/Edit Goods Receipt',
 			closeAction: 'hide',
 			height: 650,
-			width: 970,
+			width: 1025,
 			layout: 'border',
 			border: false,
 			resizable: true,
@@ -70,7 +70,6 @@ Ext.define('Account.GR.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({mbeln: id});
-			this.form.gridPayment.load({mbeln: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

@@ -6,7 +6,7 @@ Ext.define('Account.Invoice.Item.Window', {
 			title: 'Create/Edit Invoice',
 			closeAction: 'hide',
 			height: 700,
-			width: 950,
+			width: 980,
 			layout: 'border',
 			border: false,
 			resizable: true,
@@ -70,6 +70,7 @@ Ext.define('Account.Invoice.Item.Window', {
 
 			// สั่ง pr_item grid load
 			this.form.gridItem.load({invnr: id});
+			this.form.gridPayment.load({invnr: id});
 
 			this.btnPreview.setDisabled(false);
 		}else{

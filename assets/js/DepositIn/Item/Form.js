@@ -629,7 +629,7 @@ Ext.define('Account.DepositIn.Item.Form', {
             _this.gridPrice.load({
             	menge:1,
             	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
-            	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
+            	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
             	vat:sel.get('chk01'),
@@ -745,6 +745,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			  amt = amt / 107;
 		    }
 		    
+		    if(discount!='0.00' && discount!=null){
 		    if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -753,6 +754,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
+			}
 		    
 			sum += amt;
 			

@@ -74,7 +74,8 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 			dataIndex: 'sgtxt',
 			sortable: true,
 			field: {
-				type: 'textfield'
+				type: 'textfield',
+				allowBlank: false
 			}
 			},
 		    {text: "Due Date",
@@ -118,6 +119,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 				dataIndex: 'perct',
 				sortable: false,
 				align: 'right',
+				allowBlank: false,
 				field: Ext.create('BASE.form.field.PercentOrNumber'),
 				renderer: function(v,p,r){
 					var regEx = /%$/gi;

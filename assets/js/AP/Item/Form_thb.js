@@ -46,7 +46,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 					return true;
 			}
 		});*/
-		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
+		/*this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Deposit Payment',
 			name: 'deamt2',
@@ -56,7 +56,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 			margin: '4 0 0 0',
 			alwaysDisplayDecimals: true,
 			readOnly: true
-         });
+         });*/
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
@@ -189,7 +189,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 		},*/
 		this.txtDiscountValue,
 		this.txtDiscountSum,
-		this.txtDepositValue,
+		//this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -210,7 +210,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 		this.txtTaxValue.on('render', setAlignRight);
 		this.txtNet.on('render', setAlignRight);
 		this.txtNet.on('render', setBold);
-		this.txtDepositValue.on('render', setAlignRight);
+		//this.txtDepositValue.on('render', setAlignRight);
 		this.txtWHTValue.on('render', setAlignRight);
 
 		//this.txtDiscount.on('keyup', this.calculate, this);
@@ -261,7 +261,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 		if(total<=0) return;
 
 		var discount = this.txtDiscountValue.getValue();
-		var deposit = this.txtDepositValue.getValue();
+		//var deposit = this.txtDepositValue.getValue();
 			//discountValue = 0;
 		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -283,10 +283,10 @@ Ext.define('Account.AP.Item.Form_thb', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 		
-		deposit = isNaN(deposit)?0:deposit;
-		if(deposit>0){}else{
-			this.txtDepositValue.setValue('0.00');
-		}
+		//deposit = isNaN(deposit)?0:deposit;
+		//if(deposit>0){}else{
+		//	this.txtDepositValue.setValue('0.00');
+		//}
         
         var vat = this.txtTaxValue.getValue();
 		//var vat = _this.vatValue;
@@ -296,7 +296,7 @@ Ext.define('Account.AP.Item.Form_thb', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discount) + (vat - wht);
-		net = net - deposit;
+		//net = net - deposit;
 		this.txtNet.setValue(net);
         //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		//var net = total - discount;

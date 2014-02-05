@@ -32,7 +32,7 @@ for($i=0;$i<=strlen($num0)-1;$i++){
    } 
      
   }else{
-   //$bathtext1.= $digit[$cut_input_number]."".$digit2[$didit2_chk];
+   $bathtext1.= $digit[$cut_input_number]."".$digit2[$didit2_chk];
   }
   
   
