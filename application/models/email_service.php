@@ -18,7 +18,7 @@ class Email_service extends CI_Model {
 
 		$this->load->library('email');
 		$result = $this->email
-					->from('kitipong@primebiznets.com')
+					->from('erp@primebiznets.com')
 					->to($mail_data['to'])
 					//->to('khemmac@gmail.com')
 					//->cc('khemmac@gmail.com')

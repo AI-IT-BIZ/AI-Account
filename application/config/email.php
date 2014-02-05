@@ -3,9 +3,9 @@
 $config['useragent']        = 'PHPMailer';              // Mail engine switcher: 'CodeIgniter' or 'PHPMailer'
 $config['protocol']         = 'smtp';                   // 'mail', 'sendmail', or 'smtp'
 $config['mailpath']         = '/usr/sbin/sendmail';
-$config['smtp_host']        = 'mail.primebiznets.com';
-$config['smtp_user']        = 'kitipong@primebiznets.com';
-$config['smtp_pass']        = 'prime1234';
+$config['smtp_host']        = '202.57.162.199';
+$config['smtp_user']        = 'erp@primebiznets.com';
+$config['smtp_pass']        = 'erp1234';
 $config['smtp_port']        = 25;
 $config['smtp_timeout']     = 5;                        // (in seconds)
 $config['smtp_crypto']      = '';                       // '' or 'tls' or 'ssl'
