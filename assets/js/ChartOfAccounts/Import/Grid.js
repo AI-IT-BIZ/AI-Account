@@ -68,11 +68,11 @@ Ext.define('Account.ChartOfAccounts.Import.Grid', {
 			{text: "GL Code", width: 50, align: 'center',		dataIndex: 'saknr', sortable: false},
 			{text: "GL Name", width: 100, align: 'center',		dataIndex: 'sgtxt', sortable: false},
 			{text: "GL Name Eng", width: 100, align: 'center',		dataIndex: 'entxt', sortable: false},
-			{text: "GL Group", width: 50, align: 'center',		dataIndex: 'glgrp', sortable: false},
-			{text: "Level", width: 30, align: 'center',		dataIndex: 'gllev', sortable: false},
-			{text: "GL Type", width: 30, align: 'center',		dataIndex: 'gltyp', sortable: false},
+			{text: "GL Group", width: 55, align: 'center',		dataIndex: 'glgrp', sortable: false},
+			{text: "Level", width: 35, align: 'center',		dataIndex: 'gllev', sortable: false},
+			{text: "GL Type", width: 50, align: 'center',		dataIndex: 'gltyp', sortable: false},
 			{text: "GL Over", width: 50, align: 'center',		dataIndex: 'overs', sortable: false},
-			{text: "Department", width: 30, align: 'center',		dataIndex: 'depar', sortable: false},
+			{text: "Department", width: 55, align: 'center',		dataIndex: 'depar', sortable: false},
 			{
 				text: "Error", width: 250, dataIndex: 'error', sortable: false,
 				renderer: function(v,p,r){

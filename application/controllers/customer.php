@@ -281,7 +281,7 @@ class Customer extends CI_Controller {
 			db_helper_set_now($this, 'erdat');
 			$this->db->set('ernam', $current_username);
 			$this->db->insert('kna1', $formData);
-
+			
 			$inserted_id = $id;
 		}
 
