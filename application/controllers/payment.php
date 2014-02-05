@@ -255,6 +255,14 @@ class Payment extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 		}
 
         $paym = $this->input->post('paym');
@@ -344,6 +352,7 @@ class Payment extends CI_Controller {
 			'reanr' => $this->input->post('reanr'),
 			'statu' => $this->input->post('statu'),
 			'duedt' => $this->input->post('duedt'),
+			'reanr' => $this->input->post('reanr'),
 			'dispc' => $this->input->post('dispc')
 		);
 		

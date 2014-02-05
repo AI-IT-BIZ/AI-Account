@@ -331,6 +331,7 @@ class Po extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'beamt' => floatval($this->input->post('beamt')),
+			'reanr' => $this->input->post('reanr'),
 			'ctype' => $this->input->post('ctype')
 		);
 

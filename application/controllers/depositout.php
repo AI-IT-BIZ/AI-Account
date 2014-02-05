@@ -158,6 +158,14 @@ class Depositout extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 		}/*else{
            if($this->input->post('loekz')=='2' || $this->input->post('loekz')=='3'){
         	$emsg = 'The PO already created deposit/GR doc.';
@@ -218,6 +226,7 @@ class Depositout extends CI_Controller {
 			'whtxt' => $this->input->post('whtxt'),
 			'wht01' => floatval($this->input->post('wht01')),
 			'vat01' => floatval($this->input->post('vat01')),
+			'reanr' => $this->input->post('reanr'),
 			'duedt' => $this->input->post('duedt')
 		);
 		
