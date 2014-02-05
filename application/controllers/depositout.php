@@ -158,7 +158,7 @@ class Depositout extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-		}else{
+		}/*else{
            if($this->input->post('loekz')=='2' || $this->input->post('loekz')=='3'){
         	$emsg = 'The PO already created deposit/GR doc.';
 					echo json_encode(array(
@@ -167,7 +167,7 @@ class Depositout extends CI_Controller {
 					));
 					return;
            }
-		}
+		}*/
 
         $bven = $this->input->post('bven');
 		$gl_item_array = json_decode($bven);
@@ -242,10 +242,10 @@ class Depositout extends CI_Controller {
 			$this->db->insert('ebdk', $formData);
 			
 			$inserted_id = $id;
-			$this->db->set_dbprefix('tbl_');
-			$this->db->where('ebeln', $ebeln);
-			$this->db->set('loekz', '2');
-			$this->db->update('ekko');
+			//$this->db->set_dbprefix('tbl_');
+			//$this->db->where('ebeln', $ebeln);
+			//$this->db->set('loekz', '2');
+			//$this->db->update('ekko');
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
@@ -264,6 +264,7 @@ class Depositout extends CI_Controller {
 			$this->db->insert('ebdp', array(
 				'depnr'=>$id,
 				'vbelp'=>intval(++$item_index),
+				'paypr'=>intval($p->paypr),
 				'sgtxt'=>$p->sgtxt,
 				'pramt'=>floatval($p->pramt),
 				'perct'=>$p->perct,
@@ -273,6 +274,11 @@ class Depositout extends CI_Controller {
 				'disit'=>$p->disit,
 				'ctyp1'=>$p->ctyp1
 			));
+			//$this->db->set_dbprefix('tbl_');
+			$this->db->where('vbeln', $this->input->post('ebeln'));
+			$this->db->where('paypr', $p->paypr);
+			$this->db->set('chk01', '2');
+			$this->db->update('payp');
 	    	}
 		}
 
@@ -427,6 +433,7 @@ class Depositout extends CI_Controller {
 			$tbName = 'payp';
 		    $this->db->where('vbeln', $ponr);
 			$this->db->where('payty', '1');
+			$this->db->where('chk01', '1');
 
 		    $query = $this->db->get('payp');
 		}else{
@@ -503,22 +510,28 @@ class Depositout extends CI_Controller {
         
 // record ที่สาม
 		if($netpr>0){
-        $glno = '2131-14';  
-		$qdoc = $this->db->get_where('glno', array(
-				'saknr'=>$glno));
+        $query = $this->db->get_where('lfa1', array(
+				'lifnr'=>$lifnr));
+			if($query->num_rows()>0){
+				if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
 				
-		if($qdoc->num_rows()>0){
-		$q_doc = $qdoc->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$glno,
-			'sgtxt'=>$q_doc['sgtxt'],
-			'debit'=>0,
-			'credi'=>$net
-		);
-		$i++;
-		$credit += $net;
-		}
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>0,
+					'credi'=>$net
+				);
+				$i++;
+				$credit+=$net;
+				}
+				}
+			}
 		}
 
 /*        if($vwht>'1'){ 

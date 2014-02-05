@@ -67,7 +67,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				'chqdt',
 				{name:'pramt', type: 'string'},
 				'payam',
-				'reman',
+				//'reman',
 				'saknr',
 				'wht01'//,
 				//'vat01',
@@ -138,13 +138,13 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			},
 			},
 		    {text: "Bank Name",
-		    width: 120, dataIndex: 'bname', sortable: false,
+		    width: 140, dataIndex: 'bname', sortable: false,
 		    field: {
 				type: 'textfield'
 			},
 		    },
 			{text: "Branch",
-			width: 100, dataIndex: 'sgtxt', sortable: false,
+			width: 120, dataIndex: 'sgtxt', sortable: false,
 			field: {
 				type: 'textfield'
 			},
@@ -165,13 +165,13 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			    altFormats:'Y-m-d|d/m/Y',
 			    submitFormat:'Y-m-d'
            },
-           renderer: function(value) {
+           /*renderer: function(value) {
            	if (!isNaN(value)){
            		return Ext.Date.format(value, 'd/m/Y')
            	}else{
            		return "";
            	}
-           }
+           }*/
 		    },
 		    {text: "Amount", 
 		    xtype: 'numbercolumn',
@@ -194,7 +194,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 		    {text: "Pay Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'payam', 
+		    width: 120, dataIndex: 'payam', 
 		    sortable: false,
 		    field: {
                 type: 'numberfield',
@@ -206,9 +206,19 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 							field.selectText();
 					}
 				}
-			}
 			},
-		    {text: "Remain Amt", 
+			//renderer: function(v,p,r){
+					
+				//var item = parseFloat(r.data['reman']);
+				//alert(v+'aaa'+remain);
+			    //if(v>item){
+			    	//rModel.set(e.field, item);
+			    	//Ext.Msg.alert('Warning', 'Payment over Net Amount');
+			    	//return Ext.util.Format.usMoney(item).replace(/\$/, '');
+			    //}
+             //}
+			},
+		    /*{text: "Remain Amt", 
 		     xtype: 'numbercolumn',
 		    align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: false,
@@ -221,8 +231,9 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				var amt = pamt - pay;
 				if(amt<0) amt = 0;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-				}
-		},{
+				}*/
+		//},
+		{
 			dataIndex: 'saknr',
 			//width: 55,
 			hidden: true,
@@ -288,7 +299,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				});
 			}
 			
-			if(e.column.dataIndex=='payam'){
+			/*if(e.column.dataIndex=='payam'){
 				var v = parseFloat(e.value);
 				var rModel = _this.store.getById(e.record.data.id);
 				var item = _this.itemValue;
@@ -297,7 +308,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			    	rModel.set(e.field, item);
 			    	Ext.Msg.alert('Warning', 'Payment over Net Amount');
 			    }
-			}
+			}*/
 		});
 
 		_this.bankDialog.grid.on('beforeitemdblclick', function(grid, record, item){

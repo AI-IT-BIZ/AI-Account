@@ -469,14 +469,14 @@ class Invoice extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 			}else{
 				
-			if($this->input->post('loekz')=='2'){
+			/*if($this->input->post('loekz')=='2'){
         	$emsg = 'The sale order already created invoice doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-        }	
+            }*/	
 		}
 
         $bcus = $this->input->post('bcus');
@@ -555,9 +555,9 @@ class Invoice extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			$this->db->where('ordnr', $this->input->post('ordnr'));
-			$this->db->set('loekz', '2');
-			$this->db->update('vbok');
+			//$this->db->where('ordnr', $this->input->post('ordnr'));
+			//$this->db->set('loekz', '2');
+			//$this->db->update('vbok');
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -585,10 +585,53 @@ class Invoice extends CI_Controller {
 				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02
+				'chk02'=>$p->chk02,
+				'reman'=>floatval($p->reman),
+				'upqty'=>floatval($p->upqty)
 			));
 	    	}
 		}
+		
+		// ลบ pay_item ภายใต้ id ทั้งหมด
+		$this->db->where('vbeln', $id);
+		$this->db->delete('payp');
+
+		// เตรียมข้อมูล pay item
+		$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		$pp_item_array = json_decode($payp);
+		if(!empty($payp) && !empty($pp_item_array)){
+            $item_index = 0;
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			$pramt = 0;$amt = 0;
+			foreach($pp_item_array AS $p){
+				$perct = $p->perct;
+				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
+				$pos = strpos($perct, '%');
+				if($pos==false){
+					$pramt = $perct;
+				}else{
+					$perc = explode('%',$perct);
+					$pramt = $amt * $perc[0];
+					$pramt = $pramt / 100;
+				}
+               
+				$this->db->insert('payp', array(
+					'vbeln'=>$id,
+					'paypr'=>intval(++$item_index),
+					'loekz'=>$p->loekz,
+					'sgtxt'=>$p->sgtxt,
+					'duedt'=>$p->duedt,
+					'perct'=>$p->perct,
+					'pramt'=>floatval($pramt),
+					'ctyp1'=>$p->ctyp1,
+					'payty'=>$p->payty,
+					'disit'=>$p->disit,
+					'chk01'=>$p->chk01,
+					'chk02'=>$p->chk02,
+				));
+			}
+		}
+		
 // Save GL Posting	
         //$ids = $id;
     if($this->input->post('statu') == '02'){
@@ -858,13 +901,57 @@ class Invoice extends CI_Controller {
 		    $this->db->where('ordnr', $sonr);
 
 		    $query = $this->db->get('vbop');
+			
+			$res = $query->result_array();
+			$sumqty = 0;
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$this->db->where('ordnr', $sonr);
+			$this->db->where('vbelp', $r['vbelp']);
+			$q_vbrp = $this->db->get('vbrp');
+			
+			if($q_vbrp->num_rows()>0){
+				$vbrp = $q_vbrp->result_array();
+				for($j=0;$j<count($vbrp);$j++){
+					$rs = $vbrp[$j];
+					//echo 'aaa'.$rs['upqty'];
+					$sumqty = $sumqty + $rs['upqty'];
+				}
+                $res[$i]['reman'] = $res[$i]['menge'] - $sumqty;
+				$sumqty=0;
+			}else{
+			   $res[$i]['reman'] = $res[$i]['menge'];
+			}
+		    $res[$i]['upqty'] = 0;
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
 		}else{
             $this->db->set_dbprefix('v_');
 	     	$iv_id = $this->input->get('invnr');
 		    $this->db->where('invnr', $iv_id);
 
 		    $query = $this->db->get('vbrp');
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
 		}
+	}
+	
+	function loads_pay_item(){
+        //$this->db->set_dbprefix('v_');
+		$pp_id = $this->input->get('invnr');
+		$this->db->where('vbeln', $pp_id);
+
+		$query = $this->db->get('payp');
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -879,10 +966,10 @@ class Invoice extends CI_Controller {
 		if($iv_id!=0){
 		   //$matnr = array();
 		   $netpr = $this->input->get('netpr');  //Net amt
-	       $vvat = $this->input->get('vvat');    //VAT amt
-		   //$vwht = $this->input->get('vwht');    //WHT amt
+	       $vvat = $this->input->get('vvat');    //VAT amt    
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
 		   $deamt = $this->input->get('deamt');  //Deposit
+		   $devat = $this->input->get('devat');
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -919,7 +1006,7 @@ class Invoice extends CI_Controller {
 
 // record ที่สอง
    if(!empty($deamt)){
-		$glvat = '1130-05';
+		$glvat = '2130-00'; //'1130-05';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		if($qgl->num_rows()>0){
@@ -935,7 +1022,25 @@ class Invoice extends CI_Controller {
 		$debit = $debit + $deamt;	
 		}
 		}
-// record ที่สอง.ครึ่ง
+// record ที่สอง.หนึ่ง
+   if(!empty($devat)){
+		$glvat = '2136-00';
+		$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$devat,
+			'credi'=>0
+		);
+		$i++;
+		$debit = $debit + $devat;	
+		}
+		}
+// record ที่สอง.สอง
         if(!empty($items)){
 			// loop เพื่อ insert
 		for($j=0;$j<count($items);$j++){

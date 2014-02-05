@@ -51,29 +51,20 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				'serno'
+				'serno',
+				'reman',
+				'upqty',
+				'itsok'
 			],
 			remoteSort: true,
 			sorters: ['mbelp ASC']
 		});
 
 		this.columns = [{
-			xtype: 'actioncolumn',
-			width: 30,
-			sortable: false,
-			menuDisabled: true,
-			items: [{
-				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete GR Item',
-				scope: this,
-				disabled: true,
-				handler: this.removeRecord
-			}]
-		},{
 			id : 'GRiRowNumber',
 			header : "Items",
 			dataIndex : 'mbelp',
-			width : 60,
+			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -104,7 +95,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -150,7 +141,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			},
 			{text: "Discount",
 			//xtype: 'numbercolumn',
-			width: 80,
+			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
@@ -162,13 +153,13 @@ Ext.define('Account.GR.Item.Grid_i', {
 					else
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}*/
-					renderer: function(v,p,r){
+				renderer: function(v,p,r){
 					var regEx = v.substring(0,1);
 					if(regEx == '.')
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 					else
 						return v;
-             }
+					}
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',
@@ -192,28 +183,66 @@ Ext.define('Account.GR.Item.Grid_i', {
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']),
-						discount = parseFloat(r.data['dismt']);
+					var qty = parseFloat(r.data['upqty']),
+						price = parseFloat(r.data['unitp']);
+						//discount = parseFloat(r.data['dismt']);
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
-					discount = isNaN(discount)?0:discount;
+					//discount = isNaN(discount)?0:discount;
 
-					var amt = (qty * price) - discount;
+					var amt = qty * price;//) - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
 			{text: "Currency",
-			width: 65,
+			width: 50,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
 			//field: {
 			//	type: 'textfield'
 			//},
-		},
+		},{text: "Remain Qty",
+			xtype: 'numbercolumn',
+			width: 65,
+			dataIndex: 'reman',
+			sortable: false,
+			align: 'right',
+			/*field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+					}
+				}
+			},*/
+			},{text: "GR Qty",
+			xtype: 'numbercolumn',
+			width: 60,
+			dataIndex: 'upqty',
+			sortable: false,
+			allowBlank: false,
+			align: 'right',
+			field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+							_this.editing.completeEdit();
+							
+					},
+					
+				}
+			},
+			},
 		{text: "Serial No",
-		width: 80,
+		width: 90,
 		dataIndex: 'serno',
 		sortable: false,
 			field: {
@@ -223,79 +252,18 @@ Ext.define('Account.GR.Item.Grid_i', {
 
 		this.plugins = [this.editing];
 
-		// init event
-		/*this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-		
-		this.copyAct.setHandler(function(){
-			_this.copyRecord();
-		});
-
 		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='matnr'){
-				var v = e.value;
-
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'material/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
-							// Unit
-							rModel.set('meins', r.data.meins);
-							//rModel.set('amount', 100+Math.random());
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
+		if(e.column.dataIndex=='upqty'){
+				var v = parseFloat(e.value);
+				var rModel = _this.store.getById(e.record.data.id);
+				var remain = e.record.data.reman;
+				//alert(v+'aaa'+e.record.data.reman);
+			    if(v>remain){
+			    	Ext.Msg.alert('Warning', 'GR qty over remain qty');
+			    	rModel.set(e.field, 0);
+			    }
 			}
 		});
-
-		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('matnr', record.data.matnr);
-				// Materail text
-				rModel.set('maktx', record.data.maktx);
-				// Unit
-				rModel.set('meins', record.data.meins);
-				//rModel.set('amount', 100+Math.random());
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.materialDialog.hide();
-		});
-		
-		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-				// change cell code value (use db value)
-				rModel.set('meins', record.data.meins);
-			//_this.trigUnit.setValue(record.data.meins);
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.unitDialog.hide();
-			
-		});*/
-		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){
 			if(_this.readOnly){

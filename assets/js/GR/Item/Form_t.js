@@ -48,12 +48,13 @@ Ext.define('Account.GR.Item.Form_t', {
 		});*/
 		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Deposit Payment',
+			//fieldLabel: 'Deposit Payment',
 			name: 'deamt',
-			align: 'right',
-			width:270,
-			labelWidth: 150,
-			margin: '4 0 0 0',
+			//align: 'right',
+			//width:270,
+			//labelWidth: 150,
+			//margin: '4 0 0 0',
+			hidden:true,
 			alwaysDisplayDecimals: true,
 			readOnly: true
          });
@@ -162,7 +163,7 @@ Ext.define('Account.GR.Item.Form_t', {
 			margin: '3 0 0 0',
 			rows:2,
 			width:380,
-			name: 'sgtxt'
+			name: 'txz01'
 		},this.txtDepositVat,this.txtDepositWHT]
             },{
                 xtype: 'container',
@@ -259,7 +260,7 @@ Ext.define('Account.GR.Item.Form_t', {
 		var vat = this.txtTaxValue.getValue();
 
 		var net = (total - discountValue) + vat;
-		net = net - depositValue;
+		//var net = net - depositValue;
 		this.txtNet.setValue(net);
 		//return net;
 	}

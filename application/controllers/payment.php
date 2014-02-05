@@ -456,7 +456,7 @@ class Payment extends CI_Controller {
 					'ptype'=>$p->ptype,
 					'saknr'=>$p->saknr,
 					'pramt'=>floatval($p->pramt),
-					'reman'=>floatval($p->reman),
+					//'reman'=>floatval($p->reman),
 					'payam'=>floatval($p->payam)
 				));
 			}
@@ -728,7 +728,32 @@ class Payment extends CI_Controller {
 //record ที่ หนึ่ง -> New Deposit posting
         //$net_vat=$net+$vvat;
 		$debit=0;$credit=0;$j=0;
-		$gl_vat = '2131-14';
+		$query = $this->db->get_where('lfa1', array(
+				'lifnr'=>$lifnr));
+			if($query->num_rows()>0){
+				if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+		         $result[$i] = array(
+		              'belpr'=>$i + 1,
+			          'saknr'=>$q_data['saknr'],
+			          'sgtxt'=>$q_glno['sgtxt'],
+			          'debit'=>$net_wht,
+			          'credi'=>0,
+			          'statu'=>'1'
+		         );
+		         $i++;//$j++;
+		         $debit+=$net_wht;
+		         }
+			  }
+			}
+//record ที่ สอง-> New Deposit posting
+        if($vvat>0){
+        	$gl_vat = '1154-00';
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
 				if($qgl->num_rows()>0){
@@ -737,14 +762,14 @@ class Payment extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$gl_vat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$net_wht,
+			'debit'=>$vvat,
 			'credi'=>0,
 			'statu'=>'1'
 		);
 		$i++;//$j++;
-		$debit+=$net_wht;
-		}
-//record ที่ สอง-> New Deposit posting
+		$debit+=$vvat;
+		}}
+//record ที่ สาม-> New Deposit posting
         if($vwht>0){
         	$gl_vat = '2132-02';
 			$qgl = $this->db->get_where('glno', array(
@@ -762,7 +787,7 @@ class Payment extends CI_Controller {
 		$i++;//$j++;
 		$credit+=$vwht;
 		}}
-//record ที่ สาม -> New Deposit posting
+//record ที่ สี่-> New Deposit posting
         for($j=0;$j<count($items);$j++){
       	$item = explode('|',$items[$j]);
 			if(!empty($item[0]) && !empty($item[1])){
@@ -797,6 +822,24 @@ class Payment extends CI_Controller {
 				}
 			}
           }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
+//record ที่ สอง-> New Deposit posting
+        if($vvat>0){
+        	$gl_vat = '1155-00';
+			$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$gl_vat));
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$gl_vat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vvat,
+			'statu'=>'1'
+		);
+		$i++;//$j++;
+		$credit+=$vvat;
+		}}
 		
 		if(!empty($debit) || !empty($credit)){
 		$result[$i] = array(

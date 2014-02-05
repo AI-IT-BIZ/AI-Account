@@ -21,10 +21,18 @@ Ext.define('Account.Payment.Item.Window', {
 		this.form = Ext.create('Account.Payment.Item.Form',{ region:'center' });
 
 		this.previewDialog = Ext.create('Account.Payment.Item.PreviewWindow');
+		this.printDialog = Ext.create('Account.Payment.Item.PrintWindow');
 
 		this.items = [
 		     this.form
 		];
+		
+		this.btnPrint = Ext.create('Ext.Button', {
+			text: 'Print Cheque',
+			handler: function() {
+				_this.printDialog.openDialog(_this.dialogId);
+			}
+		});
 		
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
@@ -55,7 +63,7 @@ Ext.define('Account.Payment.Item.Window', {
 				_this.form.getForm().reset();
 				_this.hide();
 			}
-		}, this.btnPreview];
+		}, this.btnPreview,this.btnPrint];
 
 		return this.callParent(arguments);
 	},

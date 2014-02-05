@@ -59,6 +59,7 @@ class Po extends CI_Controller {
 		$this->db->where('vbeln', $po);
 		$this->db->where('paypr', $id);
 		$this->db->where('payty', '');
+		
 		$query = $this->db->get($tbName );
 		
 		if($query->num_rows()>0){
@@ -78,6 +79,7 @@ class Po extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'payp';
 		$vbeln = $this->input->post('ebeln');
+		
 		//$this->db->where('payty', '1');
 		// Start for report
 		function createQuery($_this){
@@ -107,7 +109,7 @@ class Po extends CI_Controller {
 			  $_this->db->where('vbeln <=', $vbeln2);
 			}
 			$_this->db->where('payty', '');
-            
+            $_this->db->where('chk01', '1');
 		}
 		// End for report		
 		
@@ -276,6 +278,14 @@ class Po extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 			}else{
 				if($this->input->post('loekz')=='2'){
         	$emsg = 'The PR already created PO doc.';
@@ -313,7 +323,7 @@ class Po extends CI_Controller {
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'sgtxt' => $this->input->post('sgtxt'),
+			'txz01' => $this->input->post('txz01'),
 			'statu' => $this->input->post('statu'),
 			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
@@ -368,7 +378,7 @@ class Po extends CI_Controller {
 					'matnr'=>$p->matnr,
 					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
-					'disit'=>floatval($p->disit),
+					'disit'=>$p->disit,
 					'unitp'=>floatval($p->unitp),
 					'itamt'=>$itamt,
 					'chk01'=>$p->chk01,

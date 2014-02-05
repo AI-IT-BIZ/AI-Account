@@ -276,6 +276,14 @@ class Pr extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
 		}else{
 
 		$this->db->where('lifnr', $lifnr);
@@ -317,12 +325,13 @@ class Pr extends CI_Controller {
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'sgtxt' => $this->input->post('sgtxt'),
+			'txz01' => $this->input->post('txz01'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'netwr' => floatval($this->input->post('netwr')),
 			'ptype' => $this->input->post('ptype'),
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
+			'reanr' => $this->input->post('reanr'),
 			'ctype' => $this->input->post('ctype')
 		);
 

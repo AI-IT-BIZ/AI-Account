@@ -541,6 +541,12 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			
+			_this.formTotal.txtDepositVat.setValue(r.data.devat);
+			r.data.deamt = r.data.deamt - r.data.devat;
+			r.data.deamt = r.data.deamt + r.data.dewht;
+			_this.formTotal.txtDepositValue.setValue(r.data.deamt);
 			_this.formTotal.txtDepositValue.setValue(r.data.deamt);
 			
 			//---Load PRitem to POitem Grid-----------
@@ -564,7 +570,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('whtpr').setValue('');
 			_this.getForm().findField('loekz').setValue('');
 			_this.getForm().findField('exchg').setValue('');
-			_this.formTotal.txtDepositValue.setValue('');
+			_this.getForm().findField('emnam').setValue('');
+			_this.formTotal.txtDepositValue.setValue(0);
+			_this.formTotal.txtDepositVat.setValue(0);
 			o.markInvalid('Could not find quotation no : '+o.getValue());
 						}
 					}
@@ -600,7 +608,13 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
-			_this.formTotal.txtDepositValue.setValue(r.data.deamt);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			_this.formTotal.txtDepositVat.setValue(r.data.devat);
+			var depamt=parseFloat(r.data.deamt);
+			depamt = depamt - parseFloat(r.data.devat);
+			depamt = depamt + parseFloat(r.data.dewht);
+		    _this.formTotal.txtDepositValue.setValue(depamt);
+			
 			       }
 				}
 				});           
@@ -833,7 +847,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
-
+            
+            if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -842,7 +857,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
-		    
+		   }
+		   
 			sum += amt;
 			
 			discounts += discountValue;

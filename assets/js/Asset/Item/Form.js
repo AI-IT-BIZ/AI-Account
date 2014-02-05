@@ -143,7 +143,7 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'meins',
 			fieldLabel: 'Unit',
 			triggerCls: 'x-form-search-trigger',
-			editable: false,
+			//editable: false,
 			enableKeyEvents: true
 			//width:290,
 		});

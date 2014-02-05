@@ -154,6 +154,8 @@ class Gr extends CI_Controller {
 		
 		$status_changed = false;
 		$inserted_id = false;
+		$netwr=$this->input->post('netwr');
+		if($netwr>0){
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('mbeln', $id);
@@ -197,16 +199,17 @@ class Gr extends CI_Controller {
 			// ##### END CHECK PERMISSIONS
 			}else{
 				
-			if($this->input->post('loekz')=='3'){
+			/*if($this->input->post('loekz')=='3'){
         	$emsg = 'The PO already created GR doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-            }	
+            }*/
 		}
-
+        
+		$ebeln = $this->input->post('ebeln');
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -218,7 +221,7 @@ class Gr extends CI_Controller {
 			'terms' => intval($this->input->post('terms')),
 			'dismt' => floatval($this->input->post('dismt')),
 			'taxpr' => floatval($this->input->post('taxpr')),
-			'sgtxt' => $this->input->post('sgtxt'),
+			'txz01' => $this->input->post('txz01'),
 			'beamt' => floatval($this->input->post('beamt')),
 			'vat01' => floatval($this->input->post('vat01')),
 			'netwr' => floatval($this->input->post('netwr')),
@@ -252,9 +255,9 @@ class Gr extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			$this->db->where('ebeln', $this->input->post('ebeln'));
-			$this->db->set('loekz', '3');
-			$this->db->update('ekko');
+			//$this->db->where('ebeln', $this->input->post('ebeln'));
+			//$this->db->set('loekz', '3');
+			//$this->db->update('ekko');
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('mbeln', $id);
@@ -265,11 +268,12 @@ class Gr extends CI_Controller {
 		$gr_item_array = json_decode($mseg);
 		if(!empty($mseg) && !empty($gr_item_array)){
 			// loop เพื่อ insert gr_item ที่ส่งมาใหม่
-			$item_index = 0;
+			$item_index = 0;$reman=0;
 			foreach($gr_item_array AS $p){
+				//$reman=$p->reman - $p->upqty;
 				$this->db->insert('mseg', array(
 					'mbeln'=>$id,
-					'mbelp'=>intval(++$item_index),//vbelp,
+					'mbelp'=>intval(++$item_index),
 					'matnr'=>$p->matnr,
 					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
@@ -278,9 +282,11 @@ class Gr extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype,
-					'serno'=>$p->serno
+					'serno'=>$p->serno,
+					'reman'=>floatval($p->reman),
+					'upqty'=>floatval($p->upqty)
 				));
-				
+			
 				if($this->input->post('statu')=='02'){
 				$this->db->where('matnr', $p->matnr);
 			    $this->db->set('ebeln', $id);
@@ -289,45 +295,6 @@ class Gr extends CI_Controller {
 				$this->db->set('costv', $p->itamt);
 			    $this->db->update('fara');
 				}
-			}
-		}
-		
-		// ลบ pay_item ภายใต้ id ทั้งหมด
-		$this->db->where('vbeln', $id);
-		$this->db->delete('payp');
-
-		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('payp');//$this->input->post('vbelp');
-		$pp_item_array = json_decode($payp);
-		if(!empty($payp) && !empty($pp_item_array)){
-            $item_index = 0;
-			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
-			$pramt = 0;$amt = 0;
-			foreach($pp_item_array AS $p){
-				$perct = $p->perct;
-				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
-				$pos = strpos($perct, '%');
-				if($pos==false){
-					$pramt = $perct;
-				}else{
-					$perc = explode('%',$perct);
-					$pramt = $amt * $perc[0];
-					$pramt = $pramt / 100;
-				}
-               
-				$this->db->insert('payp', array(
-					'vbeln'=>$id,
-					'paypr'=>intval(++$item_index),
-					'loekz'=>$p->loekz,
-					'sgtxt'=>$p->sgtxt,
-					'duedt'=>$p->duedt,
-					'perct'=>$p->perct,
-					'pramt'=>floatval($pramt),
-					'ctyp1'=>$p->ctyp1,
-					'payty'=>$p->payty,
-					'disit'=>$p->disit,
-					'chk01'=>$p->chk01,
-				));
 			}
 		}
 	
@@ -372,6 +339,7 @@ class Gr extends CI_Controller {
 				}
 			}catch(exception $e){}
 		}
+	  }
 	}
 
 
@@ -403,33 +371,48 @@ class Gr extends CI_Controller {
 			$this->db->where('ebeln', $grdebeln);
 			$query = $this->db->get('ekpo');
 			
+			$res = $query->result_array();
+			$sumqty = 0;
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$this->db->where('ebeln', $grdebeln);
+			$this->db->where('mbelp', $r['ebelp']);
+			$q_mseg = $this->db->get('mseg');
+			
+			if($q_mseg->num_rows()>0){
+				$mseg = $q_mseg->result_array();
+				for($j=0;$j<count($mseg);$j++){
+					$rs = $mseg[$j];
+					//echo 'aaa'.$rs['upqty'];
+					$sumqty = $sumqty + $rs['upqty'];
+				}
+                $res[$i]['reman'] = $res[$i]['menge'] - $sumqty;
+				$sumqty=0;
+			}else{
+			   $res[$i]['reman'] = $res[$i]['menge'];
+			}
+		    $res[$i]['upqty'] = 0;
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
+			
 		}else{
 			$this->db->set_dbprefix('v_');
 			$this->db->where('mbeln', $gr_id);
 			$query = $this->db->get('mseg');
+			
+			echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
+		));
 		
 		}
-		
-		//echo $sql;//exit;
-		
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-	
-	function loads_pay_item(){
-        //$this->db->set_dbprefix('v_');
-		$pp_id = $this->input->get('mbeln');
-		$this->db->where('vbeln', $pp_id);
-
-		$query = $this->db->get('payp');
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
 	}
 	
 }

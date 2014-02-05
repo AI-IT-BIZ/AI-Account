@@ -51,7 +51,8 @@ Ext.define('Account.AP.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'
+				'saknr'//,
+				//'upqty'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -162,6 +163,13 @@ Ext.define('Account.AP.Item.Grid_i', {
 					else
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}*/
+				renderer: function(v,p,r){
+					var regEx = v.substring(0,1);
+					if(regEx == '.')
+						return Ext.util.Format.usMoney(v).replace(/\$/, '');
+					else
+						return v;
+					}
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',

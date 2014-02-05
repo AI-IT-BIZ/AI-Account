@@ -51,6 +51,9 @@ $active_record = TRUE;
 
 
 
+
+
+
 $db['default']['hostname'] = '54.251.188.145';
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = 'ai_account_pass';
@@ -66,6 +69,8 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+
 
 
 

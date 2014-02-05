@@ -145,13 +145,12 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 202px;">
 <table width="0px" height="202PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:520PX;top:350PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:311PX;">
-<table width="0px" height="305PX"><td>&nbsp;</td></table>
-</div>
+
 <div style="left:49PX;top:395PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
 <div style="left:49PX;top:317PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:703PX;">
 </div>
+
 <div style="left:660PX;top:350PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:574PX;">
 <table width="0px" height="568PX"><td>&nbsp;</td></table>
 </div>
@@ -161,6 +160,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:385PX;top:351PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:310PX;">
   <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
+<div style="left:520PX;top:350PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:311PX;">
+<table width="0px" height="305PX"><td>&nbsp;</td></table>
+</div>
+
 <div style="left:49PX;top:660PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
 <div style="left:232PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">

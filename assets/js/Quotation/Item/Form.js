@@ -823,8 +823,8 @@ Ext.define('Account.Quotation.Item.Form', {
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
-		var store = this.gridItem.store;
-		var sum = 0;var vats=0; var whts=0;var discounts=0;
+		var store = this.gridItem.store;var amt=0;
+		var sum = 0;var vats=0;var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
@@ -836,13 +836,14 @@ Ext.define('Account.Quotation.Item.Form', {
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
 
-			var amt = qty * price;//) - discount;
+			amt = qty * price;//) - discount;
 
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
-
+            
+            if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -851,7 +852,8 @@ Ext.define('Account.Quotation.Item.Form', {
 				discountValue = parseFloat(discount);
 			}
 			discountValue = isNaN(discountValue)?0:discountValue;
-
+           }
+            
 			sum += amt;
 
 			discounts += discountValue;
@@ -893,7 +895,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var net2 = this.formTotalthb.calculate();
 
 		// set value to grid payment
-		this.gridPayment.netValue = net;
+		this.gridPayment.netValue = amt;
 		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
 
 		// set value to total form
