@@ -235,10 +235,19 @@ class Pr extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
+			if($status_changed&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('PR') && XUMS::CAN_APPROVE('PR')){
 					$limit = XUMS::LIMIT('PR');
-					if($limit<$row['netwr']){
+					if($this->input->post('statu')==01){
+						$emsg = 'Cannot Change status to waiting for approve';
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+					else if($limit<$row['netwr']){
 						$emsg = 'You do not have permission to change PR status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
