@@ -164,7 +164,7 @@ class Project extends CI_Controller {
 						));
 						return;
 					}
-					if($limit<$row['pramt']){
+					else if($limit<$row['pramt']){
 						$emsg = 'You do not have permission to change project status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
