@@ -531,10 +531,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			_this.getForm().findField('deamt').setValue(r.data.deamt);
+			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			_this.getForm().findField('devat').setValue(r.data.devat);
+			//_this.getForm().findField('devat').setValue(r.data.devat);
 
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -556,10 +556,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('whtnr').setValue('');
 			_this.getForm().findField('whtpr').setValue('');
 			_this.getForm().findField('loekz').setValue('');
-			_this.getForm().findField('deamt').setValue('');
+			//_this.getForm().findField('deamt').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
-			_this.getForm().findField('devat').setValue('');
+			//_this.getForm().findField('devat').setValue('');
 			o.markInvalid('Could not find saleorder no : '+o.getValue());
 						}
 					}
@@ -593,10 +593,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			_this.getForm().findField('deamt').setValue(r.data.deamt);
+			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			_this.getForm().findField('devat').setValue(r.data.devat);
+			//_this.getForm().findField('devat').setValue(r.data.devat);
 			       }
 				}
 				});

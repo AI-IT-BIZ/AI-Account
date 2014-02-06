@@ -80,23 +80,23 @@ class Printcheque extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { font-family: 'Angsana New'; }
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-1 { COLOR:000000;FONT-SIZE:16PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-1 { COLOR:000000;FONT-SIZE:16PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-3 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
+.fc1-7 { COLOR:000000;FONT-SIZE:25PX;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';}
 .fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -114,32 +114,33 @@ body { font-family: 'angsana_newregular'; }
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<DIV style="z-index:0"> &nbsp; </div>
+<div style="position:relative">
 
 <!--Copies-->
 
 <?php $chqdt = $r_pay['chqdt']; ?>
 
-<DIV style="left: 520px; top: 109px; width: 251px; height: 20PX;"><span class="fc1-7">&nbsp;<?=$chqdt[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[5];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[3];?></span></DIV>
+<DIV style="left: 1280px; top: 334px; width: 251px; height: 20PX;"><span class="fc1-7"><?=$chqdt[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[5];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[3];?></span></DIV>
 
 <!--Page No--><!--Header Text-->
-<DIV style="left: 681px; top: 172px; width: 62px; height: 21PX;"><span class="fc1-">---------</span></DIV>
+<DIV style="left: 1481px; top: 407px; width: 87px; height: 21px;"><span class="fc1-7">------------</span></DIV>
 
-<DIV style="left: 543px; top: 237px; width: 119px; height: 21PX;"><span class="fc1-7"><?=number_format($r_pay['payam'],2,'.',',')?></span></DIV>
+<DIV style="left: 1268px; top: 510px; width: 162px; height: 21PX;"><span class="fc1-7"><?=number_format($r_pay['payam'],2,'.',',')?></span></DIV>
 
 <!--Company Logo--><!--Company Text--><!--Vendor Name-->
-<DIV style="left: 185px; top: 173PX; width: 301px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left: 805px; top: 422PX; width: 568px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
 <?php
   $text_amt = $this->convert_amount->generate($r_pay['payam']);
 ?>
-<DIV style="left: 183px; top: 204px; width: 301px; height: 23PX;"><span class="fc1-7">(<?=$text_amt;?>)</span></DIV>
+<DIV style="left: 805px; top: 465px; width: 568px; height: 23px;"><span class="fc1-7">(<?=$text_amt;?>)</span></DIV>
 
+</div>
 <!--Item Table-->
 
 <!--Payment Table-->
 
-<!--Amount Text--><!--Signature Text--><BR>
+<!--Amount Text--><!--Signature Text-->
 
 </BODY></HTML>
 

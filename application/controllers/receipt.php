@@ -488,7 +488,7 @@ class Receipt extends CI_Controller {
 					'chqid'=>$p->chqid,
 					'chqdt'=>$p->chqdt,
 					'pramt'=>floatval($p->pramt),
-					'reman'=>floatval($p->reman),
+					//'reman'=>floatval($p->reman),
 					'payam'=>floatval($p->payam),
 					'saknr'=>$p->saknr
 				));
@@ -567,14 +567,14 @@ class Receipt extends CI_Controller {
 					'docty'=>'01',
 					'txz01' => 'Receipt No '.$id
 				));
-				}elseif($p->statu=='2' && !empty($p->saknr)){
-					$deposit = '1';
+				//}elseif($p->statu=='2' && !empty($p->saknr)){
+				//	$deposit = '1';
 				}
 			}
 		  }
 
 //Deposit Doc
-	if($deposit=='1'){
+	/*if($deposit=='1'){
 		if(!empty($id)){
 			$this->db->set_dbprefix('v_');
 			$this->db->limit(1);
@@ -644,7 +644,7 @@ class Receipt extends CI_Controller {
 				} 
 			}
 		  }
-		}
+		}*/
 	}//check status approved
 	
 		// end transaction
@@ -776,7 +776,9 @@ class Receipt extends CI_Controller {
 			$item_index = 0;
 			
             for($j=0;$j<count($items);$j++){
- // record แรก
+               $bamt=0;
+               if($dtype == 'D'){
+// Deposit record แรก
             $item = explode('|',$items[$j]);
 			if(!empty($item)){
 			$glno = $item[0];
@@ -812,6 +814,118 @@ class Receipt extends CI_Controller {
           }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
 		}//Check payment grid
 		
+
+//record ที่ สอง-> New Deposit posting
+        if($vvat>0){
+        	$gl_vat = '2136-00';
+			$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$gl_vat));
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$j + 1,
+			'saknr'=>$gl_vat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$vvat,
+			'credi'=>0,
+			'statu'=>'1'
+		);
+		$i++;
+		$debit+=$vvat;
+		}}
+
+// record ที่สาม  New Deposit posting
+      	if($net>0){
+      		$net+=$vwht;
+			$query = $this->db->get_where('kna1', array(
+				'kunnr'=>$kunnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$q_data['saknr'],
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>0,
+					'credi'=>$net,
+					'statu'=>'1'
+				);
+				$i++;
+				$credit+=$net;
+			}}
+		}
+
+//record ที่ สี่-> New Deposit posting
+       if($vvat>0){
+        $gl_vat = '1154-00';
+		    //$grand = $net + $vwht;
+			$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$gl_vat));
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+		    $result[$i] = array(
+		    'belpr'=>$j + 1,
+			'saknr'=>$gl_vat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>0,
+			'credi'=>$vvat,
+			'statu'=>'1'
+		);
+		$i++;
+		$credit+=$vvat;
+		}
+	   }
+		
+		if(!empty($debit) || !empty($credit)){
+		$result[$i] = array(
+		    'belpr'=>$j + 1,
+			'saknr'=>'',
+			'sgtxt'=>'Total',
+			'debit'=>$debit,
+			'credi'=>$credit
+		);
+		}
+		
+      }else{
+ // record แรก
+            $item = explode('|',$items[$j]);
+			if(!empty($item)){
+			$glno = $item[0];
+			$payam  = $item[1];
+			}
+			if(strlen($glno) == 2){
+		    $ptype = $glno;
+            $query = $this->db->get_where('ptyp', array(
+			'ptype'=>$ptype));
+			$q_data = $query->first_row('array');
+			$glno = $q_data['saknr'];
+			}
+			
+			if(!empty($glno)){
+				
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$glno));
+				if($qgl->num_rows()>0){
+				$q_glno = $qgl->first_row('array');
+
+				$result[$i] = array(
+				    'belpr'=>$i + 1,
+					'saknr'=>$glno,
+					'sgtxt'=>$q_glno['sgtxt'],
+					'debit'=>$payam,
+					'credi'=>0,
+					'statu'=>'1'
+				);
+				$i++;
+				$debit+=$payam;
+				}
+			}
+         // }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
+		//}//Check payment grid
+		
 // record ที่สอง
 		if($vwht>0){ 
 		//	$net_tax = floatval($net) * 0.07;}
@@ -831,127 +945,7 @@ class Receipt extends CI_Controller {
 		$i++;
 		$debit = $debit + $vwht;	
 		}}
-
-       $bamt=0;
-       if($dtype == 'D'){
-// record ที่สาม
-		if($net>0){
-			    $bamt = $net - $vvat;
-			    $bamt = $bamt + $vwht;
-			    $gl_sale = '4100-01';
-				$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_sale));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-				$result[$i] = array(
-				    'belpr'=>$i + 1,
-					'saknr'=>$gl_sale,
-					'sgtxt'=>$q_glno['sgtxt'],
-					'debit'=>0,
-					'credi'=>$bamt,
-					'statu'=>'1'
-				);
-				$i++;
-				$credit+=$bamt;
-			}
-		}
 		
-// record ที่สี่
-		if($vvat>0){
-        	$gl_vat = '2135-00';
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$vvat,
-			'statu'=>'1'
-		);
-		$i++;
-		$credit+=$vvat;
-		}}
-				
-		if(!empty($debit) || !empty($credit)){
-		$result[$i] = array(
-		    'belpr'=>$i + 1,
-			'saknr'=>'',
-			'sgtxt'=>'Total',
-			'debit'=>$debit,
-			'credi'=>$credit
-		);
-		$i++;
-		}
-
-//record ที่ หนึ่ง -> New Deposit posting
-		$debit=0;$credit=0;$j=0;
-		$gl_vat = '2133-00';
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$bamt,
-			'credi'=>0,
-			'statu'=>'2'
-		);
-		$i++;
-		$debit+=$bamt;
-		}
-//record ที่ สอง-> New Deposit posting
-        if($vvat>0){
-        	$gl_vat = '2136-00';
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$vvat,
-			'credi'=>0,
-			'statu'=>'2'
-		);
-		$i++;
-		$debit+=$vvat;
-		}}
-//record ที่ สาม -> New Deposit posting
-        $gl_vat = '1130-05';
-		    $grand = $net + $vwht;
-			$qgl = $this->db->get_where('glno', array(
-				'saknr'=>$gl_vat));
-				if($qgl->num_rows()>0){
-				$q_glno = $qgl->first_row('array');
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>$gl_vat,
-			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>0,
-			'credi'=>$grand,
-			'statu'=>'2'
-		);
-		$i++;
-		$credit+=$grand;
-		}
-		
-		if(!empty($debit) || !empty($credit)){
-		$result[$i] = array(
-		    'belpr'=>$j + 1,
-			'saknr'=>'',
-			'sgtxt'=>'Total',
-			'debit'=>$debit,
-			'credi'=>$credit
-		);
-		}
-		
-      }else{
 // record ที่สาม
       	if($net>0){
       		$net+=$vwht;
@@ -986,7 +980,7 @@ class Receipt extends CI_Controller {
 		);
 		}
       }
-		
+      
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$result,

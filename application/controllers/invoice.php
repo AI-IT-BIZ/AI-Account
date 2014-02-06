@@ -529,8 +529,8 @@ class Invoice extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			'whtxt' => $this->input->post('whtxt'),
-			'deamt' => floatval($this->input->post('deamt'))
+			'whtxt' => $this->input->post('whtxt')//,
+			//'deamt' => floatval($this->input->post('deamt'))
 		);
 		
 		// start transaction
@@ -968,8 +968,8 @@ class Invoice extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt    
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   $deamt = $this->input->get('deamt');  //Deposit
-		   $devat = $this->input->get('devat');
+		   //$deamt = $this->input->get('deamt');  //Deposit
+		   //$devat = $this->input->get('devat');
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -1005,7 +1005,7 @@ class Invoice extends CI_Controller {
 			}
 
 // record ที่สอง
-   if(!empty($deamt)){
+   /*if(!empty($deamt)){
 		$glvat = '2130-00'; //'1130-05';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
@@ -1039,7 +1039,7 @@ class Invoice extends CI_Controller {
 		$i++;
 		$debit = $debit + $devat;	
 		}
-		}
+		}*/
 // record ที่สอง.สอง
         if(!empty($items)){
 			// loop เพื่อ insert

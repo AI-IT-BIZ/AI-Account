@@ -205,7 +205,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				}
 			}
 			},
-		    {text: "Remain Amt", 
+		    /*{text: "Remain Amt", 
 		     xtype: 'numbercolumn',
 		    align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: false,
@@ -217,11 +217,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				pay = isNaN(pay)?0:pay;
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-/*
-					console.log(net);
-*/
+
+				//console.log(net);
+
 				}
-		    },{
+		    },*/{
 			dataIndex: 'saknr',
 			//width: 55,
 			hidden: true,

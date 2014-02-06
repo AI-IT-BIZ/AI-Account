@@ -480,22 +480,22 @@ class Depositin extends CI_Controller {
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   
-		// record แรก
-			//$query = $this->db->get_where('kna1', array(
-			//	'kunnr'=>$kunnr));
-			//if($query->num_rows()>0){
-			//	$q_data = $query->first_row('array');
-			//	$qgl = $this->db->get_where('glno', array(
-			//	'saknr'=>$q_data['saknr']));
-				$glno = '1130-05';  
-		        $qgl = $this->db->get_where('glno', array(
-				'saknr'=>$glno));
+// record แรก
+			$query = $this->db->get_where('kna1', array(
+				'kunnr'=>$kunnr));
+			if($query->num_rows()>0){
+				$q_data = $query->first_row('array');
+				$qgl = $this->db->get_where('glno', array(
+				'saknr'=>$q_data['saknr']));
+				//$glno = '1130-05';  
+		        //$qgl = $this->db->get_where('glno', array(
+				//'saknr'=>$glno));
 				
 				if($qgl->num_rows()>0){
 				$q_glno = $qgl->first_row('array');
 				$result[$i] = array(
 				    'belpr'=>$i + 1,
-					'saknr'=>$glno,
+					'saknr'=>$q_data['saknr'],
 					'sgtxt'=>$q_glno['sgtxt'],
 					'debit'=>$net,
 					'credi'=>0
@@ -503,7 +503,7 @@ class Depositin extends CI_Controller {
 				$i++;
 				$debit=$net;
 			}
-			//}
+		}
 
 // record ที่สอง
         if($netpr>0){
