@@ -34,9 +34,9 @@ class Quotation extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		
-		$strSQL = " select v_payp.*";
-        $strSQL = $strSQL . " from v_payp ";
-        $strSQL = $strSQL . " Where v_payp.vbeln = '$no'  ";
+		$strSQL = " select tbl_payp.*";
+        $strSQL = $strSQL . " from tbl_payp ";
+        $strSQL = $strSQL . " Where vbeln = '$no'  ";
         $strSQL .= "ORDER BY paypr ASC";
 		
 		$q_pay = $this->db->query($strSQL);
@@ -225,10 +225,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 475px; top: 315PX; width: 85PX; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">จำนวน</span></DIV>
 <DIV style="left: 475px; top: 333PX; width: 85PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Quantity</span></DIV>
 
-<DIV style="left: 562px; top: 315PX; width: 92PX; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ราคาต่อหน่วย</span></DIV>
-<DIV style="left: 566px; top: 333PX; width: 92px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Unit Price</span></DIV>
-<DIV style="left: 660PX; top: 315PX; width: 102px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
-<DIV style="left:660PX;top:333PX;width:103PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
+<DIV style="left: 560px; top: 315PX; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2">ราคาต่อหน่วย</span></DIV>
+<DIV style="left: 560px; top: 333PX; width: 92px; height: 20PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">Unit Price</span></DIV>
+<DIV style="left: 660PX; top: 315PX; width: 95px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-2">จำนวนเงิน</span></DIV>
+<DIV style="left: 660PX; top: 333PX; width: 95px; height: 20PX; TEXT-ALIGN: RIGHT;"><span class="fc1-5">Amount</span></DIV>
 
 <?php
 /*
@@ -267,7 +267,7 @@ $i=397+20;
 <DIV style="left:49PX;top:357px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
-$rows = $query->result_array();$aaa='';$k=0;
+$rows = $query->result_array();$aaa='';$k=0;$j=0;
 $allrow = count($rows) + count($rowp);
 //echo 'aaa'.$page_size.'bbb'.$allrow.'ccc'.$current_page_index;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<$allrow;$i++)://$rows as $key => $item):
@@ -291,9 +291,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	}else{
 		 
 		 $paytxt='';
-	   for($j=0;$j<count($rowp);$j++){
+	   //for($j=0;$j<count($rowp);$j++){
 		   $ipay = $rowp[$j];
-		   $paytxt = $ipay['paypr'].'. '.$ipay['sgtxt'];//.'   '.$ipay['perct'].'    '.number_format($ipay['pramt'],2,'.',',').'  '.$ipay['ctyp1'];
+		   $paytxt = $ipay['paypr'].'. '.$ipay['sgtxt'];
 		   if($j==0){
 ?>
        
@@ -307,7 +307,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		
 	  <td class="fc1-6" align="right" style="width:103px;"><?=$aaa;?></td>
 	</tr>
-<?php } ?>
+<?php } $j++; ?>
         <tr>
 		<td class="fc1-6" align="center" style="width:40px;"><?=$aaa;?></td>
 		<td class="fc1-6" align="center" style="width:89px;"><?=$aaa;?></td>
@@ -320,7 +320,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	</tr>
 
 <?php
-	  }}
+	  }
 endfor;
 ?>
 </table>

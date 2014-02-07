@@ -5,8 +5,6 @@ Ext.onReady(function() {
        // $om.invoiceDialog = Ext.create('Account.Invoice.MainWindow');
 		//$om.invoiceDialog.show();
 
-//<<<<<<< HEAD
-
 	$om.viewport.on('click_customer', function(){
 		if(!UMS.CAN.DISPLAY('CS')){
 			UMS.ALERT("You don't have permission for Customer Master.");
@@ -27,7 +25,6 @@ Ext.onReady(function() {
 		$om.vendorDialog.show();
 	});
 
-//=======
 	//Sale Module
 	$om.viewport.on('click_projectnew', function(){
 		if(!UMS.CAN.DISPLAY('PJ')){
@@ -114,6 +111,26 @@ Ext.onReady(function() {
 		if(!$om.saleorderDialog)
 			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
 		$om.saleorderDialog.show();
+	});
+	$om.viewport.on('click_saledeliverynew', function(){
+		if(!UMS.CAN.DISPLAY('DO')){
+			UMS.ALERT("You don't have permission for Delivery Order.");
+			return;
+		}
+
+		if(!$om.saledeliveryDialog)
+			$om.saledeliveryDialog = Ext.create('Account.Saledelivery.MainWindow');
+		$om.saledeliveryDialog.addAct.execute();
+	});
+	$om.viewport.on('click_saledelivery', function(){
+		if(!UMS.CAN.DISPLAY('DO')){
+			UMS.ALERT("You don't have permission for Delivery Order.");
+			return;
+		}
+
+		if(!$om.saledeliveryDialog)
+			$om.saledeliveryDialog = Ext.create('Account.Saledelivery.MainWindow');
+		$om.saledeliveryDialog.show();
 	});
 	$om.viewport.on('click_invoicenew', function(){
 		if(!UMS.CAN.DISPLAY('IV')){
