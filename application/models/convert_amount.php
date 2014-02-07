@@ -92,4 +92,24 @@ function text_month($month){
   return $monthtxt;
 }
 
+function text_month_en($month){
+  $monthtxt = null;
+  
+  switch($month){
+  	case '01': $monthtxt='January';break;
+	case '02': $monthtxt='Febuary';break;
+	case '03': $monthtxt='March';break;
+	case '04': $monthtxt='April';break;
+	case '05': $monthtxt='May';break;
+	case '06': $monthtxt='June';break;
+	case '07': $monthtxt='July';break;
+	case '08': $monthtxt='August';break;
+	case '09': $monthtxt='September';break;
+	case '10': $monthtxt='October';break;
+	case '11': $monthtxt='November';break;
+	case '12': $monthtxt='December';break;
+  }
+  return $monthtxt;
+}
+
 }

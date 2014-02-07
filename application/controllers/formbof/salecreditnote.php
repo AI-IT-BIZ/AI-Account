@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Saleorder extends CI_Controller {
+class Salecreditnote extends CI_Controller {
         public $query;
     public $strSQL;
 	function __construct()
@@ -23,14 +23,15 @@ class Saleorder extends CI_Controller {
 		$copies = intval($type = $this->uri->segment(5));
 		if($copies<=0) $copies = 1;
 		
-	    $strSQL = " select v_vbok.*,v_vbop.*";
-        $strSQL = $strSQL . " from v_vbok ";
-        $strSQL = $strSQL . " left join v_vbop on v_vbok.ordnr = v_vbop.ordnr ";
-        $strSQL = $strSQL . " Where v_vbok.ordnr = '$no'  ";
+	    $strSQL = " select v_vbcn.*,v_vbcp.*";
+        $strSQL = $strSQL . " from v_vbcn ";
+        $strSQL = $strSQL . " left join v_vbcp on v_vbcn.crenr = v_vbcp.crenr ";
+        $strSQL = $strSQL . " Where v_vbcn.crenr = '$no'  ";
         $strSQL .= "ORDER BY vbelp ASC";
 		
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
+		
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
@@ -40,6 +41,19 @@ class Saleorder extends CI_Controller {
 			$itamt = $item['menge'] * $item['unitp'];
 			$itamt = $itamt - $item['disit'];
 			$b_amt += $itamt;
+			/*$v=0;$w=0;
+			if(!empty($r_data['chk01']))
+			{
+			   $v = $itamt * $r_data['taxpr'];
+			   $v = $v / 100;
+			   $v_amt += $v;
+			}
+			if(!empty($r_data['chk02']))
+			{
+			   $w = $itamt * $r_data['whtpr'];
+			   $w = $w / 100;
+			   $w_amt += $w;
+			}*/
 		}
 
 		function check_page($page_index, $total_page, $value){
@@ -241,9 +255,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสั่งขาย</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบลดหนี้</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">SALE ORDER</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">CREDIT NOTE</span></DIV>
 
 <DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
 
@@ -251,7 +265,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['ordnr'];?></span></DIV>
+<DIV style="left:635PX;top:111PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['crenr'];?></span></DIV>
 
 <DIV style="left:569PX;top:130PX;width:66PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php 
@@ -293,22 +307,22 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <!--Delivery Place-->
 <DIV style="left:467PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">สถานที่ส่ง</span></DIV>
 
-<DIV style="left: 467PX; top: 221px; width: 52PX; height: 22PX;"><span class="fc1-2">Location</span></DIV>
+<DIV style="left:467PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Location</span></DIV>
 
 <DIV style="left: 519PX; top: 173PX; width: 233px; height: 23PX;"><span class="fc1-8"><?=$r_data['adr02'];?></span></DIV>
 
-<DIV style="left: 519PX; top: 220px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
+<DIV style="left: 519PX; top: 198PX; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
 
 <DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
-<DIV style="left:563PX;top:247PX;width:140PX;height:21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
+<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
 
 <!--Reference Table-->
-<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบเสนอราคา</span></DIV>
+<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Quotation no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Invoice no.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['invnr'];?></span></DIV>
 
 <!--2 Reference-->
 <DIV style="left:157PX;top:280PX;width:302PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">อ้างถึง</span></DIV>
@@ -336,9 +350,9 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <?php 
-//$duedt_str = util_helper_format_date($r_data['duedt']);
+  $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
-<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"></span></DIV>
+<DIV style="left:660PX;top:322PX;width:93PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$duedt_str;?></span></DIV>
 
 
 <!--Item Table-->
@@ -404,12 +418,11 @@ $i=397+20;
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();
-echo 'aaa'.$page_size.'bbb'.count($rows).'ccc'.$current_page_index;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$itamt = 0;$pos='';$disc=0;
 	$itamt = $item['menge'] * $item['unitp'];
-	//$itamt = $itamt - $item['disit'];
+	$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['vbelp'];?></td>
@@ -439,47 +452,37 @@ endfor;
 
 <!--Footer Text-->
 <DIV style="left:465PX;top:664PX;width:194PX;height:23PX;"><span class="fc1-4">รวมเงิน&nbsp;&nbsp;Total</span></DIV>
-<DIV style="left: 660PX; top: 663px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<DIV style="left:660PX;top:664PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['beamt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:686PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Discount</span></DIV>
 <?php
-$distxt='';$disamt=0;$a_amt=0;
-
+$distxt='';$disamt=0;
 /*if(strpos($r_data['dismt'], '%') !== false)
 {
 	$distxt = $r_data['dismt'];
 	$disamt = strstr($distxt, '%', true);
 	$disamt = $disamt * $r_data['beamt'];
 	$disamt = $disamt / 100;
-}else{$disamt = $r_data['dismt'];}
-if(empty($disamt)) $disamt = 0;*/
+}else{$disamt = $r_data['dismt'];}*/
+if(empty($disamt)) $disamt = 0;
 ?>
 <DIV style="left: 602px; top: 685px; width: 51px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, $distxt) ?></span></DIV>
 
-<DIV style="left: 660PX; top: 685px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
+<DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($disamt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
-<?php $d_amt = $r_data['beamt'] - $r_data['dismt']; 
-      $a_amt=$d_amt - $r_data['deamt'];
-?>
-
-<DIV style="left: 660PX; top: 707px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<?php $d_amt = $r_data['beamt'] - $disamt ?>
+<DIV style="left:660PX;top:709PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
-<DIV style="left: 660PX; top: 729px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($r_data['deamt'],2,'.',',')) ?></span></DIV>
-
-<DIV style="left: 660PX; top: 752px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($a_amt,2,'.',',')) ?></span></DIV>
-
-<DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Deposit Receipt</span></DIV>
+<DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 
 <DIV style="left:660PX;top:753PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
 
-<DIV style="left:465PX;top:753PX;width:194PX;height:19PX;"><span class="fc1-4">หลังหักมัดจำ&nbsp;&nbsp;After Deposit Receipt</span></DIV>
+<DIV style="left:465PX;top:753PX;width:194PX;height:19PX;"><span class="fc1-4">หลังหักมัดจำ&nbsp;&nbsp;After Advance payment</span></DIV>
 
 <DIV style="left:465PX;top:776PX;width:136PX;height:23PX;"><span class="fc1-4">ภาษีมูลค่าเพิ่ม&nbsp;&nbsp;VAT Amount</span></DIV>
 
@@ -555,8 +558,6 @@ else
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
-
-<DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 

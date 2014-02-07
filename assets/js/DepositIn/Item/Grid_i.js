@@ -68,9 +68,9 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			}]
 			},{
 			id : 'RowNumber4',
-			text : "No.",
+			text : "Item No.",
 			dataIndex : 'vbelp',
-			width : 90,
+			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -80,10 +80,11 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			text: "Period No.",
 			width: 60,
 			dataIndex: 'paypr',
+			align : 'center',
 			sortable: true,
 			},{
 			text: "Period Desc.",
-			width: 320,
+			width: 300,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			},
@@ -189,7 +190,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				}*/
 			},
 			{text: "Currency",
-			width: 70,
+			width: 55,
 			dataIndex: 'ctyp1',
 			//xtype: 'textcolumn',
 			sortable: true,

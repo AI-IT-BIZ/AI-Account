@@ -80,6 +80,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			text: "Period No.",
 			width: 60,
 			dataIndex: 'paypr',
+			align : 'center',
 			sortable: true,
 			//field: {
 			//	type: 'textfield'
