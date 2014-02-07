@@ -261,8 +261,8 @@ class Saleorder extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			'deamt' => floatval($this->input->post('deamt')),
-			'devat' => floatval($this->input->post('devat')),
+			//'deamt' => floatval($this->input->post('deamt')),
+			//'devat' => floatval($this->input->post('devat')),
 			'whtxt' => $this->input->post('whtxt')
 		);
 

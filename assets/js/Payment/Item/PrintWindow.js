@@ -4,6 +4,7 @@ Ext.define('Account.Payment.Item.PrintWindow', {
 
 		Ext.apply(this, {
 			title: 'Print Cheque',
+			width: 1500,
 			enableCopies: true
 		});
 

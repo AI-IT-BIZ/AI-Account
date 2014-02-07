@@ -44,10 +44,10 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 				'pramt',
 				'ctyp1',
 				'payty',
-				'loekz',
-				'chk01',
-				'chk02',
-				'disit'
+				'loekz'//,
+				//'chk01',
+				//'chk02',
+				//'disit'
 			],
 			remoteSort: true,
 			sorters: ['paypr ASC']
@@ -78,7 +78,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 			},{
 			text : "Periods No.",
 			dataIndex : 'loekz',
-			width : 60,
+			width : 70,
 			align : 'center',
 			sortable : false,
 			field: {
@@ -87,12 +87,13 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					_this.editing.completeEdit();
+					_this.partialDialog.grid.load();
 					_this.partialDialog.show();
 				}
 			},
 			},{
 			text: "Period Desc.",
-			width: 300,
+			width: 320,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			//field: {
@@ -101,6 +102,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 			},
 		    {text: "Due Date",
 		    width: 100,
+		    align: 'center',
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
 		    format:'d/m/Y',
@@ -121,7 +123,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 			},
 			{
 				text: "Amt/ %",
-				width: 70,
+				width: 120,
 				//xtype: 'numbercolumn',
 				dataIndex: 'perct',
 				sortable: false,
@@ -135,7 +137,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 						return Ext.util.Format.usMoney(v).replace(/\$/, '');
 				}*/
 			},
-			{text: "Discount",
+			/*{text: "Discount",
 			//xtype: 'numbercolumn',
 			width: 70,
 			dataIndex: 'disit',
@@ -178,26 +180,27 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 							field.selectText();
 					}
 				}}
-            },
+            },*/
 			
 			{
 				text: "Amount",
-				width: 120,
+				width: 140,
 				dataIndex: 'pramt',
 				xtype: 'numbercolumn',
 				//sortable: true,
 				align: 'right',
-				renderer: function(v,p,r){
+				/*renderer: function(v,p,r){
 					var net = _this.netValue,
 						percRaw = r.data['perct'],
 						regEx = /%$/gi;
+					if(net>0){	
 					if(regEx.test(percRaw)){
 						var perc = parseFloat(percRaw.replace(regEx, '')),
 							amt = (perc * net) / 100;
 						return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 					}else
 						return Ext.util.Format.usMoney(percRaw).replace(/\$/, '');
-				}
+				}}*/
 			},
 			{text: "Currency",
 			width: 70,

@@ -6,7 +6,7 @@ Ext.define('Account.Invoice.Item.Window', {
 			title: 'Create/Edit Invoice',
 			closeAction: 'hide',
 			height: 700,
-			width: 980,
+			width: 985,
 			layout: 'border',
 			border: false,
 			resizable: true,

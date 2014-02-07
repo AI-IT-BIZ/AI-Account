@@ -51,6 +51,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 			fieldLabel: 'Deposit Receipt',
 			name: 'deamt2',
 			align: 'right',
+			hidden: true,
 			width:270,
 			labelWidth: 155,
 			margin: '4 0 0 0',
@@ -189,7 +190,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		},*/
 		this.txtDiscountValue,
 		this.txtDiscountSum,
-		this.txtDepositValue,
+		//this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -260,7 +261,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		if(total<=0) return;
 
 		var discountValue = this.txtDiscountValue.getValue();
-		var depositValue = this.txtDepositValue.getValue();
+		//var depositValue = this.txtDepositValue.getValue();
 		//discountValue = discountValue + depositValue;
 			//discountValue = 0;
 		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
@@ -293,7 +294,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
 		var net = (total - discountValue) + (vat - wht);
-		net = net - depositValue;
+		//net = net - depositValue;
 		this.txtNet.setValue(net);
         //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		//var net = total - discount;

@@ -135,7 +135,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			},
 			},
 		    {text: "Bank Name",
-		    width: 120, dataIndex: 'bname', sortable: false,
+		    width: 140, dataIndex: 'bname', sortable: false,
 		    field: {
 				type: 'textfield'
 			},
@@ -147,7 +147,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			},
 			},
 			{text: "Cheque No", align : 'center',
-			width: 80, dataIndex: 'chqid', sortable: false,
+			width: 90, dataIndex: 'chqid', sortable: false,
 			field: {
 				type: 'textfield'
 			},
@@ -173,7 +173,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    {text: "Amount", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, 
+		    width: 120, 
 		    dataIndex: 'pramt', 
 		    sortable: false//,
 		    //readOnly: true,
@@ -192,7 +192,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 		    {text: "Pay Amt", 
 		    xtype: 'numbercolumn',
 		    align : 'right',
-		    width: 100, dataIndex: 'payam', sortable: false,
+		    width: 120, dataIndex: 'payam', sortable: false,
 		    field: {
                 type: 'numberfield',
                 decimalPrecision: 2,
@@ -205,7 +205,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				}
 			}
 			},
-		    {text: "Remain Amt", 
+		    /*{text: "Remain Amt", 
 		     xtype: 'numbercolumn',
 		    align : 'right',
 		    width: 100, dataIndex: 'reman', sortable: false,
@@ -217,11 +217,11 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 				pay = isNaN(pay)?0:pay;
 				var amt = pamt - pay;
 				return Ext.util.Format.usMoney(amt).replace(/\$/, '');
-/*
-					console.log(net);
-*/
+
+				//console.log(net);
+
 				}
-		    },{
+		    },*/{
 			dataIndex: 'saknr',
 			//width: 55,
 			hidden: true,

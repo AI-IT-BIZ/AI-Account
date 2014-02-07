@@ -40,6 +40,7 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 			fields: [
 			    //'vbeln',
 				'vbelp',
+				'paypr',
 				'sgtxt',
 				'duedt',
 				'perct',
@@ -63,27 +64,28 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 				icon: __base_url+'assets/images/icons/bin.gif',
 				tooltip: 'Delete Deposit Receipt',
 				scope: this,
-				disabled: true,
-				handler: this.removeRecord2
+				handler: this.removeRecord
 			}]
 			},{
 			id : 'RowNumber4',
-			text : "Periods No.",
+			text : "No.",
 			dataIndex : 'vbelp',
 			width : 90,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
-		}
+		    }
+			},{
+			text: "Period No.",
+			width: 60,
+			dataIndex: 'paypr',
+			sortable: true,
 			},{
 			text: "Period Desc.",
 			width: 320,
 			dataIndex: 'sgtxt',
 			sortable: true,
-			//field: {
-			//	type: 'textfield'
-			//}
 			},
 		    {text: "Period Date",
 		    width: 100,

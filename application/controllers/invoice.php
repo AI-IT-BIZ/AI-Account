@@ -467,16 +467,24 @@ class Invoice extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
-			}else{
-				
-			/*if($this->input->post('loekz')=='2'){
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+
+		}else{	
+			if($this->input->post('loekz')=='2'){
         	$emsg = 'The sale order already created invoice doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
 					));
 					return;
-            }*/	
+            }
 		}
 
         $bcus = $this->input->post('bcus');
@@ -504,7 +512,7 @@ class Invoice extends CI_Controller {
 					return;
         }
 		
-		
+		$quono = $this->input->post('vbeln');
 		$formData = array(
 		    //'invnr' => $this->input->post('invnr'),
 			'bldat' => $this->input->post('bldat'),
@@ -529,8 +537,8 @@ class Invoice extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			'whtxt' => $this->input->post('whtxt'),
-			'deamt' => floatval($this->input->post('deamt'))
+			'whtxt' => $this->input->post('whtxt')//,
+			//'deamt' => floatval($this->input->post('deamt'))
 		);
 		
 		// start transaction
@@ -555,11 +563,20 @@ class Invoice extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			//$this->db->where('ordnr', $this->input->post('ordnr'));
-			//$this->db->set('loekz', '2');
-			//$this->db->update('vbok');
+			//$invno = $this->input->post('invnr');
+			$qtno = $this->input->post('vbeln');
+			$this->db->where('vbeln', $qtno);
+			$this->db->where('chk01', '1');
+	        $q_gr = $this->db->get('payp');
+		
+		    if($q_gr->num_rows()>0){   
+			}else{
+			   $this->db->where('ordnr', $this->input->post('ordnr'));
+			   $this->db->set('loekz', '2');
+			   $this->db->update('vbok');
+			}
 		}
-
+        
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('invnr', $id);
 		$this->db->delete('vbrp');
@@ -602,8 +619,9 @@ class Invoice extends CI_Controller {
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
-			$pramt = 0;$amt = 0;
+			$pramt = 0;$amt = 0;$paypr=0;
 			foreach($pp_item_array AS $p){
+				$paypr=$p->loekz;
 				$perct = $p->perct;
 				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
 				$pos = strpos($perct, '%');
@@ -622,13 +640,14 @@ class Invoice extends CI_Controller {
 					'sgtxt'=>$p->sgtxt,
 					'duedt'=>$p->duedt,
 					'perct'=>$p->perct,
-					'pramt'=>floatval($pramt),
+					'pramt'=>floatval($this->input->post('beamt')),
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
-					'disit'=>$p->disit,
-					'chk01'=>$p->chk01,
-					'chk02'=>$p->chk02,
 				));
+				$this->db->where('vbeln', $quono);
+			    $this->db->where('paypr', $paypr);
+			    $this->db->set('chk01', '2');
+			    $this->db->update('payp');
 			}
 		}
 		
@@ -907,7 +926,7 @@ class Invoice extends CI_Controller {
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			
-			$this->db->where('ordnr', $sonr);
+			$this->db->where('Expr1', $sonr);
 			$this->db->where('vbelp', $r['vbelp']);
 			$q_vbrp = $this->db->get('vbrp');
 			
@@ -923,7 +942,7 @@ class Invoice extends CI_Controller {
 			}else{
 			   $res[$i]['reman'] = $res[$i]['menge'];
 			}
-		    $res[$i]['upqty'] = 0;
+		    $res[$i]['upqty'] = $res[$i]['reman'];
 		}
 		
 		echo json_encode(array(
@@ -968,8 +987,8 @@ class Invoice extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt    
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   $deamt = $this->input->get('deamt');  //Deposit
-		   $devat = $this->input->get('devat');
+		   //$deamt = $this->input->get('deamt');  //Deposit
+		   //$devat = $this->input->get('devat');
 		   $itms = $this->input->get('items');  //Doc Type
 		   $items = explode(',',$itms);
            
@@ -1005,7 +1024,7 @@ class Invoice extends CI_Controller {
 			}
 
 // record ที่สอง
-   if(!empty($deamt)){
+   /*if(!empty($deamt)){
 		$glvat = '2130-00'; //'1130-05';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
@@ -1039,7 +1058,7 @@ class Invoice extends CI_Controller {
 		$i++;
 		$debit = $debit + $devat;	
 		}
-		}
+		}*/
 // record ที่สอง.สอง
         if(!empty($items)){
 			// loop เพื่อ insert
