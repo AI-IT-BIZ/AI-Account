@@ -244,7 +244,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			},*/
 			},{text: "Invoice Qty",
 			xtype: 'numbercolumn',
-			width: 60,
+			width: 65,
 			dataIndex: 'upqty',
 			sortable: false,
 			allowBlank: false,

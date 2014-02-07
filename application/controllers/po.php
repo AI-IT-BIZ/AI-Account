@@ -50,31 +50,6 @@ class Po extends CI_Controller {
 			));
 	}
 	
-	function load_partial(){
-		//$this->db->set_dbprefix('v_');
-		$tbName = 'payp';
-		$id = $this->input->post('id');
-		$po = $this->input->post('po');
-	
-		$this->db->where('vbeln', $po);
-		$this->db->where('paypr', $id);
-		$this->db->where('payty', '');
-		
-		$query = $this->db->get($tbName );
-		
-		if($query->num_rows()>0){
-			$result_data = $query->first_row('array');
-			
-			echo json_encode(array(
-				'success'=>true,
-				'data'=>$result_data
-			));
-		}else
-			echo json_encode(array(
-				'success'=>false
-			));
-	}
-	
 	function loads_partial(){
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'payp';
@@ -132,6 +107,31 @@ class Po extends CI_Controller {
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount
 		));
+	}
+	
+	function load_partial(){
+		//$this->db->set_dbprefix('v_');
+		$tbName = 'payp';
+		$id = $this->input->post('id');
+		$po = $this->input->post('po');
+	
+		$this->db->where('vbeln', $po);
+		$this->db->where('paypr', $id);
+		$this->db->where('payty', '');
+		
+		$query = $this->db->get($tbName );
+		
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
 	}
 
 	function loads(){

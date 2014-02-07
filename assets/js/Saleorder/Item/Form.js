@@ -13,7 +13,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		// INIT other components ///////////////////////////////////
-		this.quotationDialog = Ext.create('Account.Quotation.MainWindow', {
+		this.quotationDialog = Ext.create('Account.SQuotation.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -543,11 +543,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			
-			_this.formTotal.txtDepositVat.setValue(r.data.devat);
-			r.data.deamt = r.data.deamt - r.data.devat;
-			r.data.deamt = r.data.deamt + r.data.dewht;
-			_this.formTotal.txtDepositValue.setValue(r.data.deamt);
-			_this.formTotal.txtDepositValue.setValue(r.data.deamt);
+			//_this.formTotal.txtDepositVat.setValue(r.data.devat);
+			//r.data.deamt = r.data.deamt - r.data.devat;
+			//r.data.deamt = r.data.deamt + r.data.dewht;
+			//_this.formTotal.txtDepositValue.setValue(r.data.deamt);
+			//_this.formTotal.txtDepositValue.setValue(r.data.deamt);
 			
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
@@ -571,8 +571,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('loekz').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
-			_this.formTotal.txtDepositValue.setValue(0);
-			_this.formTotal.txtDepositVat.setValue(0);
+			//_this.formTotal.txtDepositValue.setValue(0);
+			//_this.formTotal.txtDepositVat.setValue(0);
 			o.markInvalid('Could not find quotation no : '+o.getValue());
 						}
 					}
@@ -609,11 +609,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			_this.formTotal.txtDepositVat.setValue(r.data.devat);
-			var depamt=parseFloat(r.data.deamt);
-			depamt = depamt - parseFloat(r.data.devat);
-			depamt = depamt + parseFloat(r.data.dewht);
-		    _this.formTotal.txtDepositValue.setValue(depamt);
+			//_this.formTotal.txtDepositVat.setValue(r.data.devat);
+			//var depamt=parseFloat(r.data.deamt);
+			//depamt = depamt - parseFloat(r.data.devat);
+			//depamt = depamt + parseFloat(r.data.dewht);
+		    //_this.formTotal.txtDepositValue.setValue(depamt);
 			
 			       }
 				}
@@ -896,14 +896,14 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		
 		var rate = this.formTotal.txtRate.getValue();
-		var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
 	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  deamt = deamt * rate;
+		  //deamt = deamt * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -911,7 +911,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
         
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];

@@ -415,7 +415,7 @@ Ext.define('Account.AP.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:220,
+			height:195,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -1030,8 +1030,12 @@ Ext.define('Account.AP.Item.Form', {
 	changeCurrency: function(){
 		var _this=this;
 		var store = this.gridItem.store;
+		var store2 = this.gridPayment.store;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
+			r.set('ctyp1', currency);
+		});
+		store2.each(function(r){
 			r.set('ctyp1', currency);
 		});
 	}

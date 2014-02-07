@@ -1,13 +1,13 @@
-Ext.define('Account.SSaleorder.MainWindow', {
+Ext.define('Account.SQuotation.MainWindow', {
 	extend	: 'Ext.window.Window',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Saleorder List',
+			title: 'Quotation List',
 			closeAction: 'hide',
 			height: 600,
 			minHeight: 380,
-			width: 950,
+			width: 1090,
 			minWidth: 500,
 			resizable: true,
 			modal: true,
@@ -23,7 +23,7 @@ Ext.define('Account.SSaleorder.MainWindow', {
 
 		// --- object ---
 
-		this.grid = Ext.create('Account.SSaleorder.Grid', {
+		this.grid = Ext.create('Account.SQuotation.Grid', {
 			region:'center',
 			border: false,
 			tbar: [this.addAct, this.editAct, this.deleteAct, this.excelAct,this.importAct]
@@ -41,7 +41,7 @@ Ext.define('Account.SSaleorder.MainWindow', {
 			};
 		}
 		
-		this.searchForm = Ext.create('Account.SSaleorder.FormSearch', searchOptions);
+		this.searchForm = Ext.create('Account.SQuotation.FormSearch', searchOptions);
 
 		this.items = [this.searchForm, this.grid];
 		

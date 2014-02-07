@@ -351,7 +351,7 @@ Ext.define('Account.GR.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:170,
 			items: [
 				this.formTotal,
 				this.formTotalthb,

@@ -249,9 +249,9 @@ class Depositin extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			$this->db->where('vbeln', $this->input->post('vbeln'));
-			$this->db->set('loekz', '2');
-			$this->db->update('vbak');
+			//$this->db->where('vbeln', $this->input->post('vbeln'));
+			//$this->db->set('loekz', '2');
+			//$this->db->update('vbak');
 		}
 
 		// ลบ receipt item ภายใต้ id ทั้งหมด
@@ -277,8 +277,13 @@ class Depositin extends CI_Controller {
 				'chk01'=>$p->chk01,
 				'chk02'=>$p->chk02,
 				'disit'=>$p->disit,
-				'ctyp1'=>$p->ctyp1
+				'ctyp1'=>$p->ctyp1,
+				'paypr'=>intval($p->paypr)
 			));
+			$this->db->where('vbeln', $this->input->post('vbeln'));
+			$this->db->where('paypr', intval($p->paypr));
+			$this->db->set('chk01', '2');
+			$this->db->update('payp');
 	    	}
 		}
 
@@ -442,6 +447,7 @@ class Depositin extends CI_Controller {
 			$tbName = 'payp';
 		    $this->db->where('vbeln', $qtnr);
 			$this->db->where('payty', '1');
+			$this->db->where('chk01', '1');
 
 		    $query = $this->db->get('payp');
 			
