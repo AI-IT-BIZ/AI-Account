@@ -75,5 +75,6 @@ class Rapaging extends CI_Controller {
 		 
 		echo $report;		
 	}
+
 }
 ?>
