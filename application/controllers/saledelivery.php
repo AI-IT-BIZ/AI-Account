@@ -29,7 +29,7 @@ class Saledelivery extends CI_Controller {
 		}
 		$this->db->limit(1);
 
-		$this->db->where('ordnr', $id);
+		$this->db->where('delnr', $id);
 		$query = $this->db->get('vbvk');
 
 		if($query->num_rows()>0){
@@ -79,7 +79,7 @@ class Saledelivery extends CI_Controller {
 				$_this->db->where("(delnr LIKE '%$query%'
 				OR kunnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR vbeln LIKE '%$query%'
+				OR ordnr LIKE '%$query%'
 				OR salnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
@@ -103,14 +103,14 @@ class Saledelivery extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 
-			$vbeln1 = $_this->input->get('vbeln');
-			$vbeln2 = $_this->input->get('vbeln2');
-			if(!empty($vbeln1) && empty($vbeln2)){
-			  $_this->db->where('vbeln', $vbeln1);
+			$ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
 			}
-			elseif(!empty($vbeln1) && !empty($vbeln2)){
-			  $_this->db->where('vbeln >=', $vbeln1);
-			  $_this->db->where('vbeln <=', $vbeln2);
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
 			}
 
 			$kunnr1 = $_this->input->get('kunnr');
@@ -214,6 +214,15 @@ class Saledelivery extends CI_Controller {
 			}
 			// ##### END CHECK PERMISSIONS
 			
+			if($this->input->post('statu')=='03' && $this->input->post('reanr')==''){
+				$emsg = 'Please enter reason for reject status';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+			}
+			
 			/*$this->db->where('vbeln', $id);
 			$this->db->where('payty', '1');
 			$q_txt = $this->db->get('payp');
@@ -227,7 +236,7 @@ class Saledelivery extends CI_Controller {
 					return;
                 }
 			}*/
-			}else{
+			}/*else{
                 if($this->input->post('loekz')=='2'){
         	        $emsg = 'The sale order already created delivery doc.';
 					echo json_encode(array(
@@ -236,14 +245,14 @@ class Saledelivery extends CI_Controller {
 					));
 					return;
                 }
-		}
+		}*/
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'vbeln' => $this->input->post('vbeln'),
+			'ordnr' => $this->input->post('ordnr'),
 			'auart' => $this->input->post('auart'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
@@ -261,7 +270,7 @@ class Saledelivery extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			//'deamt' => floatval($this->input->post('deamt')),
+			'duedt' => $this->input->post('duedt'),
 			//'devat' => floatval($this->input->post('devat')),
 			'whtxt' => $this->input->post('whtxt')
 		);
@@ -316,7 +325,9 @@ class Saledelivery extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'ctype'=>$p->ctype,
 					'chk01'=>$p->chk01,
-					'chk02'=>$p->chk02
+					'chk02'=>$p->chk02,
+					'reman'=>floatval($p->reman),
+					'upqty'=>floatval($p->upqty)
 				));
 			}
 		}
@@ -342,19 +353,19 @@ class Saledelivery extends CI_Controller {
 				$total_amount = floatval($this->input->post('netwr'));
 				// send notification email
 				if(!empty($inserted_id)){
-					$q_row = $this->db->get_where('vbok', array('ordnr'=>$inserted_id));
+					$q_row = $this->db->get_where('vbvk', array('delnr'=>$inserted_id));
 					$row = $q_row->first_row();
 					$this->email_service->sendmail_create(
-						'SO', 'Sale Order',
+						'DO', 'Delivery Order',
 						$inserted_id, $total_amount,
 						$row->ernam
 					);
 				}else if(!empty($post_id)){
 					if($status_changed){
-						$q_row = $this->db->get_where('vbok', array('ordnr'=>$post_id));
+						$q_row = $this->db->get_where('vbvk', array('delnr'=>$post_id));
 						$row = $q_row->first_row();
 						$this->email_service->sendmail_change_status(
-							'SO', 'Sale Order',
+							'DO', 'Delivery Order',
 							$post_id, $total_amount, $row->statu,
 							$row->ernam
 						);
@@ -364,89 +375,10 @@ class Saledelivery extends CI_Controller {
 		}
 	}
 
-    public function loads_scombo(){
-		$tbName = 'psal';
-		$tbPK = 'salnr';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('name1', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-
-	public function loads_acombo(){
-		//$tbName = 'apov';
-		//$tbPK = 'statu';
-
-		$sql="SELECT *
-			FROM tbl_apov
-			WHERE apgrp = '1'";
-		$query = $this->db->query($sql);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-
-	public function loads_tcombo(){
-		//$tbName = 'ptyp';
-		//$tbPK = 'ptype';
-
-		$sql="SELECT *
-			FROM tbl_ptyp
-			WHERE ptype <> '02'";
-		$query = $this->db->query($sql);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-
-    public function loads_taxcombo(){
-		$tbName = 'tax1';
-		$tbPK = 'taxnr';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('taxtx', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-
 	function remove(){
 		$id = $this->input->post('id');
-		$this->db->where('ordnr', $id);
-		$query = $this->db->delete('vbok');
-		//$query2 = $this->db->delete('vbop');
+		$this->db->where('delnr', $id);
+		$query = $this->db->delete('vbvk');
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
@@ -457,26 +389,56 @@ class Saledelivery extends CI_Controller {
 	// Sale Order ITEM
 	///////////////////////////////////////////////
 
-	function loads_so_item(){
-		$qtnr = $this->input->get('qtnr');
-		if(!empty($qtnr)){
+	function loads_do_item(){
+		$sonr = $this->input->get('sonr');
+		if(!empty($sonr)){
 			$this->db->set_dbprefix('v_');
 	     	//$iv_id = $this->input->get('vbap');
-		    $this->db->where('vbeln', $qtnr);
+		    $this->db->where('ordnr', $sonr);
 
-		    $query = $this->db->get('vbap');
+		    $query = $this->db->get('vbop');
+		    
+			$res = $query->result_array();
+			$sumqty = 0;
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$this->db->where('ordnr', $sonr);
+			$this->db->where('vbelp', $r['vbelp']);
+			$q_vbvp = $this->db->get('vbvp');
+			
+			if($q_vbvp->num_rows()>0){
+				$vbvp = $q_vbvp->result_array();
+				for($j=0;$j<count($vbvp);$j++){
+					$rs = $vbvp[$j];
+					$sumqty = $sumqty + $rs['upqty'];
+				}
+                $res[$i]['reman'] = $res[$i]['menge'] - $sumqty;
+				$sumqty=0;
+			}else{
+			   $res[$i]['reman'] = $res[$i]['menge'];
+			}
+		    $res[$i]['upqty'] = $res[$i]['reman'];
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
 		}else{
         $this->db->set_dbprefix('v_');
-		$so_id = $this->input->get('ordnr');
-		$this->db->where('ordnr', $so_id);
+		$do_id = $this->input->get('delnr');
+		$this->db->where('delnr', $do_id);
 		
-		$query = $this->db->get('vbop');
-		}	
+		$query = $this->db->get('vbvp');
+		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
+		}	
 	}
 
     function loads_conp_item(){

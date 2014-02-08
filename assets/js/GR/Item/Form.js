@@ -783,7 +783,7 @@ Ext.define('Account.GR.Item.Form', {
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		
 		var rate = this.formTotal.txtRate.getValue();
-		var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  vats = vats * rate;

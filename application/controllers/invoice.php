@@ -571,9 +571,9 @@ class Invoice extends CI_Controller {
 		
 		    if($q_gr->num_rows()>0){   
 			}else{
-			   $this->db->where('ordnr', $this->input->post('ordnr'));
+			   $this->db->where('delnr', $this->input->post('delnr'));
 			   $this->db->set('loekz', '2');
-			   $this->db->update('vbok');
+			   $this->db->update('vbvk');
 			}
 		}
         
@@ -602,9 +602,9 @@ class Invoice extends CI_Controller {
 				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02,
-				'reman'=>floatval($p->reman),
-				'upqty'=>floatval($p->upqty)
+				'chk02'=>$p->chk02//,
+				//'reman'=>floatval($p->reman),
+				//'upqty'=>floatval($p->upqty)
 			));
 	    	}
 		}
@@ -797,107 +797,6 @@ class Invoice extends CI_Controller {
 		));
 	}
 
-    public function loads_acombo(){
-		//$tbName = 'apov';
-		//$tbPK = 'statu';
-		
-        $sql="SELECT *
-			FROM tbl_apov
-			WHERE apgrp = '1'";
-		$query = $this->db->query($sql);
-		
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-
-   public function loads_percombo(){
-		$tbName = 'payp';
-		$tbPK = 'ordnr';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('sgtxt', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-
-    public function loads_scombo(){
-		$tbName = 'psal';
-		$tbPK = 'salnr';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('name1', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-	
-	public function loads_tcombo(){
-		//$tbName = 'ptyp';
-		//$tbPK = 'ptype';
-
-		$sql="SELECT *
-			FROM tbl_ptyp
-			WHERE ptype <> '02'";
-		$query = $this->db->query($sql);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
-		));
-	}
-    
-    public function loads_taxcombo(){
-		$tbName = 'tax1';
-		$tbPK = 'taxnr';
-
-		$query = $this->input->post('query');
-
-		$totalCount = $this->db->count_all_results($tbName);
-
-		if(!empty($query) && $query!=''){
-			$this->db->or_like('taxtx', $query);
-			$this->db->or_like($tbPK, $query);
-		}
-
-		//$this->db->order_by($_POST['sort'], $_POST['dir']);
-		$query = $this->db->get($tbName);
-
-		echo json_encode(array(
-			'success'=>true,
-			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
-		));
-	}
-
 	function remove(){
 		$id = $this->input->post('id');
 		$this->db->where('invnr', $id);
@@ -913,36 +812,19 @@ class Invoice extends CI_Controller {
 	///////////////////////////////////////////////
 
 	function loads_iv_item(){
-		$sonr = $this->input->get('sonr');
-		if(!empty($sonr)){
+		$donr = $this->input->get('donr');
+		if(!empty($donr)){
 			$this->db->set_dbprefix('v_');
-	     	//$iv_id = $this->input->get('vbap');
-		    $this->db->where('ordnr', $sonr);
+		    $this->db->where('delnr', $donr);
 
-		    $query = $this->db->get('vbop');
+		    $query = $this->db->get('vbvp');
 			
 			$res = $query->result_array();
 			$sumqty = 0;
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			
-			$this->db->where('Expr1', $sonr);
-			$this->db->where('vbelp', $r['vbelp']);
-			$q_vbrp = $this->db->get('vbrp');
-			
-			if($q_vbrp->num_rows()>0){
-				$vbrp = $q_vbrp->result_array();
-				for($j=0;$j<count($vbrp);$j++){
-					$rs = $vbrp[$j];
-					//echo 'aaa'.$rs['upqty'];
-					$sumqty = $sumqty + $rs['upqty'];
-				}
-                $res[$i]['reman'] = $res[$i]['menge'] - $sumqty;
-				$sumqty=0;
-			}else{
-			   $res[$i]['reman'] = $res[$i]['menge'];
-			}
-		    $res[$i]['upqty'] = $res[$i]['reman'];
+			$res[$i]['menge'] = $res[$i]['upqty'];
 		}
 		
 		echo json_encode(array(

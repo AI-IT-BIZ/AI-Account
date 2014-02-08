@@ -206,7 +206,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['upqty']),
+					var qty = parseFloat(r.data['menge']),
 						price = parseFloat(r.data['unitp']);
 						//discount = parseFloat(r.data['dismt']);
 					qty = isNaN(qty)?0:qty;
