@@ -70,7 +70,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 27',
+			margin: '0 0 0 42',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -187,7 +187,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:20,
 			align: 'right',
 			margin: '0 0 0 8'
          });
@@ -382,13 +382,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 				layout: 'hbox',
 				margin: '0 0 5 0',
 				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
+				this.trigWHT,this.numberWHT]
 				},this.comboQStatus]
 				}]
 
