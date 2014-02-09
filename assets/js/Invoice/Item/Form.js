@@ -13,7 +13,7 @@ Ext.define('Account.Invoice.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 
-		this.soDialog = Ext.create('Account.SSaleorder.MainWindow', {
+		this.doDialog = Ext.create('Account.SSaledelivery.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly:true
 		});
@@ -232,9 +232,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			margin: '0 0 0 25'
          });
 
-        this.trigSO = Ext.create('Ext.form.field.Trigger', {
-			name: 'ordnr',
-			fieldLabel: 'SO No',
+        this.trigDO = Ext.create('Ext.form.field.Trigger', {
+			name: 'delnr',
+			fieldLabel: 'Delivery No',
 			labelAlign: 'letf',
 			width:240,
 			triggerCls: 'x-form-search-trigger',
@@ -326,7 +326,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		},{
 			xtype: 'hidden',
 			name: 'vbeln'
-		 },this.trigSO,{
+		 },this.trigDO,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
 			width:350,
@@ -505,13 +505,13 @@ Ext.define('Account.Invoice.Item.Form', {
 		];
 
 		// event trigQuotation///
-		this.trigSO.on('keyup',function(o, e){
+		this.trigDO.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'saleorder/load',
+					url: __site_url+'saledelivery/load',
 					method: 'POST',
 					params: {
 						id: v,
@@ -520,7 +520,7 @@ Ext.define('Account.Invoice.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.ordnr);
+							o.setValue(r.data.delnr);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
@@ -540,9 +540,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
 
 			//---Load PRitem to POitem Grid-----------
-			var sonr = _this.trigSO.value;
-			_this.gridItem.load({sonr: sonr });
-			_this.gridPayment.setpoCode(r.data.vbeln);
+			var donr = _this.trigDO.value;
+			_this.gridItem.load({donr: donr });
+			_this.gridPayment.setqtCode(r.data.vbeln);
 			//----------------------------------------
 						}else{
 							o.setValue('');
@@ -570,8 +570,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 		}, this);
 
-		_this.soDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigSO.setValue(record.data.ordnr);
+		_this.doDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigDO.setValue(record.data.delnr);
 
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
@@ -581,10 +581,10 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('terms').setValue(record.data.terms);
 
             Ext.Ajax.request({
-					url: __site_url+'saleorder/load',
+					url: __site_url+'saledelivery/load',
 					method: 'POST',
 					params: {
-						id: record.data.ordnr
+						id: record.data.delnr
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -600,23 +600,22 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			_this.gridPayment.setqtCode(r.data.vbeln);
 			       }
 				}
 				});
 
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
-			var sonr = _this.trigSO.value;
-			_this.gridItem.load({sonr: sonr });
-			
-			_this.gridPayment.setsoCode(record.data.vbeln);
+			var donr = _this.trigDO.value;
+			_this.gridItem.load({donr: donr });
 			//----------------------------------------
-			_this.soDialog.hide();
+			_this.doDialog.hide();
 		});
 
-		this.trigSO.onTriggerClick = function(){
-			_this.soDialog.grid.load();
-			_this.soDialog.show();
+		this.trigDO.onTriggerClick = function(){
+			_this.doDialog.grid.load();
+			_this.doDialog.show();
 		};
 
 		// event trigCustomer///
@@ -853,7 +852,7 @@ Ext.define('Account.Invoice.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
             _this.gridPrice.load({
-            	menge:parseFloat(sel.get('upqty')),
+            	menge:parseFloat(sel.get('menge')),
             	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
@@ -960,7 +959,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			percent = r.data['perct'];
 				
             store.each(function(r){
-			var qty = parseFloat(r.data['upqty']),
+			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
 				discountValue = 0,
 				discount = r.data['disit'];
@@ -986,7 +985,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			discountValue = isNaN(discountValue)?0:discountValue;
 			}
 			
-			netwr2 += amt;
+			netwr += amt;
 			//netwr = netwr;// - discountValue;
 			
 			if(isNaN(percent) && percent!='0.00'){
@@ -997,9 +996,12 @@ Ext.define('Account.Invoice.Item.Form', {
 				var percentPercent = parseFloat(per2);
 				amt = amt * percentPercent / 100;
 				discountValue=discountValue * percentPercent / 100;
+			}//else{
+				//netwr = par2;
+				//amt = par2;
+			//}
 			}
-			}
-
+			//alert('aaa'+amt);
 			sum += amt;
 			
 			discounts += discountValue;
@@ -1027,7 +1029,7 @@ Ext.define('Account.Invoice.Item.Form', {
 	    	});
 		}else{
 			store.each(function(r){
-			var qty = parseFloat(r.data['upqty']),
+			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
 				discountValue = 0,
 				discount = r.data['disit'];
@@ -1077,23 +1079,7 @@ Ext.define('Account.Invoice.Item.Form', {
         		saknr_list.push(item);
 		});
 		}
-		if(store2.count()>0){
-		    store2.each(function(r){
-			percent = r.data['perct'];
-			
-			if(isNaN(percent) && percent!='0.00'){
-				var per2 = percent;
-		    if(per2.match(/%$/gi)){
-		    	//alert(percent);
-				per2 = per2.replace('%','');
-				var percentPercent = parseFloat(per2);
-				netwr = netwr2 * percentPercent / 100;
-			}
-			}
-			//alert('aaa'+percent+'ccc'+netwr);
-			r.set('pramt', netwr);
-			});
-		}
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -1105,7 +1091,7 @@ Ext.define('Account.Invoice.Item.Form', {
 
 		this.gridItem.curValue = currency;
 		//alert('bbb'+netwr2);
-		//this.gridPayment.netValue = netwr2;
+		this.gridPayment.netValue = netwr;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
@@ -1146,7 +1132,7 @@ Ext.define('Account.Invoice.Item.Form', {
         if (sel) {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
-            	menge:parseFloat(sel.get('upqty')),
+            	menge:parseFloat(sel.get('menge')),
             	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),

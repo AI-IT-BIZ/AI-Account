@@ -237,6 +237,7 @@ class Service extends CI_Controller {
 			'cost2' => floatval($this->input->post('cost2')),
 			'unit3' => $this->input->post('unit3'),
 			'cost3' => floatval($this->input->post('cost3')),
+			'stype' => $this->input->post('stype'),
 			'statu' => $this->input->post('statu')
 			);
 			

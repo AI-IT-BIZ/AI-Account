@@ -1389,7 +1389,7 @@ function endsWith($haystack, $needle)
                                 pEl.getById('div-sales-dplist').on('click', function(){ $om.viewport.fireEvent('click_deposit1', c); }, c);
                                 pEl.getById('div-sales-sonew').on('click', function(){ $om.viewport.fireEvent('click_saleordernew', c); }, c);
                                 pEl.getById('div-sales-solist').on('click', function(){ $om.viewport.fireEvent('click_saleorder', c); }, c);
-                                pEl.getById('div-sales-delnew').on('click', function(){ $om.viewport.fireEvent('click_saledeliverynew', c); }, c);
+                                pEl.getById('div-sales-delnew').on('click', function(){ $om.viewport.fireEvent('click_deliverynew', c); }, c);
                                 pEl.getById('div-sales-dellist').on('click', function(){ $om.viewport.fireEvent('click_delivery', c); }, c);
 
                                 pEl.getById('div-sales-invnew').on('click', function(){ $om.viewport.fireEvent('click_invoicenew', c); }, c);
@@ -1450,8 +1450,8 @@ function endsWith($haystack, $needle)
 
                                 pEl.getById('div-master-cusnew').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
                                 pEl.getById('div-master-ventype').on('click', function(){ $om.viewport.fireEvent('click_vendor_type', c); }, c);
-
-                                pEl.getById('div-master-matnew').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+                                pEl.getById('div-master-vennew').on('click', function(){ $om.viewport.fireEvent('click_vendor', c); }, c);
+                                
                                 pEl.getById('div-master-mattype').on('click', function(){ $om.viewport.fireEvent('click_material_type', c); }, c);
                                 pEl.getById('div-master-matgrp').on('click', function(){ $om.viewport.fireEvent('click_material_group', c); }, c);
                                 pEl.getById('div-master-matnew').on('click', function(){ $om.viewport.fireEvent('click_material', c); }, c);

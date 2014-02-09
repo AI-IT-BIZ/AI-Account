@@ -112,7 +112,7 @@ Ext.onReady(function() {
 			$om.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
 		$om.saleorderDialog.show();
 	});
-	$om.viewport.on('click_saledeliverynew', function(){
+	$om.viewport.on('click_deliverynew', function(){
 		if(!UMS.CAN.DISPLAY('DO')){
 			UMS.ALERT("You don't have permission for Delivery Order.");
 			return;
@@ -122,7 +122,7 @@ Ext.onReady(function() {
 			$om.saledeliveryDialog = Ext.create('Account.Saledelivery.MainWindow');
 		$om.saledeliveryDialog.addAct.execute();
 	});
-	$om.viewport.on('click_saledelivery', function(){
+	$om.viewport.on('click_delivery', function(){
 		if(!UMS.CAN.DISPLAY('DO')){
 			UMS.ALERT("You don't have permission for Delivery Order.");
 			return;

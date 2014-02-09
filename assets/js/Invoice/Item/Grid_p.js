@@ -339,7 +339,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 		});
 		return rs;
 	},
-	setsoCode: function(vbeln){
+	setqtCode: function(vbeln){
 		this.poCode = vbeln;
 		var field = this.partialDialog.searchForm.form.findField('ebeln');
 		field.setValue(vbeln);

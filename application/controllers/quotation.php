@@ -267,7 +267,7 @@ class Quotation extends CI_Controller {
 		
         $payp = $this->input->post('payp');//$this->input->post('vbelp');
 		$pp_item_array = json_decode($payp);
-		if(!empty($payp) && !empty($pp_item_array)){
+		/*if(!empty($payp) && !empty($pp_item_array)){
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
 			$pramt = 0;$amt = 0;$total=0;
 			foreach($pp_item_array AS $p){
@@ -291,7 +291,7 @@ class Quotation extends CI_Controller {
 					));
 					return;
             }
-		}
+		}*/
 
         
 		$formData = array(

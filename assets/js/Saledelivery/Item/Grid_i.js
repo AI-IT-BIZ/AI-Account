@@ -1,4 +1,4 @@
-Ext.define('Account.Invoice.Item.Grid_i', {
+Ext.define('Account.Saledelivery.Item.Grid_i', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -6,7 +6,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 
 	initComponent : function() {
 		var _this=this;
-
+		
 		/*this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
@@ -16,9 +16,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			iconCls: 'b-small-copy'
 		});
 
-		// INIT Material search popup /////////////////////////////////
+		// INIT Material search popup //////////////////////////////////
 		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
-		// END Material search popup //////////////////////////////////
+		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
         
 		this.tbar = [this.addAct, this.copyAct];*/
@@ -30,15 +30,15 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"invoice/loads_iv_item",
+				url: __site_url+"saledelivery/loads_do_item",
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: 'delnr,vbelp'
 				}
 			},
 			fields: [
-			    'invnr',
+			    'delnr',
 				'vbelp',
 				'matnr',
 				'maktx',
@@ -50,16 +50,14 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'//,
-				//'reman',
-				//'upqty'
+				'reman',
+				'upqty'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
 		});
 
-		this.columns = [
-		    {
+		this.columns = [{
 			xtype: 'actioncolumn',
 			text: " ",
 			width: 30,
@@ -67,16 +65,16 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			menuDisabled: true,
 			items: [{
 				icon: __base_url+'assets/images/icons/bin.gif',
-				tooltip: 'Delete Invoice Item',
+				tooltip: 'Delete DO Item',
 				scope: this,
 				disabled: true,
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
-			text: "No.",
+			id : 'RowNumber32',
+			text : "Items",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -84,7 +82,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			}
 		},
 		{text: "Material Code",
-		width: 90,
+		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
 			/*field: {
@@ -107,7 +105,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -123,24 +121,22 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			},*/
 			},
-			{text: "Unit",
-			width: 50,
-			dataIndex: 'meins',
-			align: 'center',
+			{text: "Unit", width: 50, 
+			dataIndex: 'meins', 
 			sortable: false,
 			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
-					//_this.editing.completeEdit();
+					_this.editing.completeEdit();
 					_this.unitDialog.show();
 				}
 			},*/
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 80,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -155,10 +151,9 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 					}
 				}
 			},*/
-			},
-			{text: "Discount",
+			},{text: "Discount",
 			//xtype: 'numbercolumn',
-			width: 80,
+			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
@@ -198,43 +193,76 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							field.selectText();
 					}
 				}}
-            },
-			{
+            },{
 				text: "Amount",
-				//xtype: 'numbercolumn',
-				width: 100,
+				xtype: 'numbercolumn',
+				width: 90,
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
 				renderer: function(v,p,r){
-					var qty = parseFloat(r.data['menge']),
-						price = parseFloat(r.data['unitp']);
-						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+					var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
+						price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+						//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
+						chk01 = r.data['chk01'],
+						chk02 = r.data['chk02'];
+						
 					qty = isNaN(qty)?0:qty;
 					price = isNaN(price)?0:price;
 					//discount = isNaN(discount)?0:discount;
-                    
-					var amt = qty * price;//) - discount;
+					var amt = qty * price;// - discount;
 					return Ext.util.Format.usMoney(amt).replace(/\$/, '');
 				}
 			},
 			{text: "Currency",
-			width: 50,
+			width: 70,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			//field: {
-			//	type: 'textfield'
-			//},
-		},
-			{
-			dataIndex: 'saknr',
-			//width: 55,
-			hidden: true,
-			sortable: false
-		}];
+		},{text: "Remain Qty",
+			xtype: 'numbercolumn',
+			width: 65,
+			dataIndex: 'reman',
+			sortable: false,
+			align: 'right'
+			},{
+			text: "DO Qty",
+			xtype: 'numbercolumn',
+			width: 60,
+			dataIndex: 'upqty',
+			sortable: false,
+			allowBlank: false,
+			align: 'right',
+			field: {
+				type: 'numberfield',
+				decimalPrecision: 2,
+				listeners: {
+					focus: function(field, e){
+						var v = field.getValue();
+						if(Ext.isEmpty(v) || v==0)
+							field.selectText();
+							_this.editing.completeEdit();
+							
+					},
+					
+				}
+			},
+			}];
 
 		this.plugins = [this.editing];
+		
+		this.editing.on('edit', function(editor, e) {
+		if(e.column.dataIndex=='upqty'){
+				var v = parseFloat(e.value);
+				var rModel = _this.store.getById(e.record.data.id);
+				var remain = e.record.data.reman;
+				//alert(v+'aaa'+e.record.data.reman);
+			    if(v>remain){
+			    	Ext.Msg.alert('Warning', 'DO qty over remain qty');
+			    	rModel.set(e.field, 0);
+			    }
+			}
+		});
 
 		// init event
 		/*this.addAct.setHandler(function(){
@@ -248,14 +276,16 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='matnr'){
 				var v = e.value;
-
+                var cusno = _this.customerValue;
+                //var vatt = _this.vattValue;
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
 					url: __site_url+'material/load',
 					method: 'POST',
 					params: {
-						id: v
+						id: v,
+						kunnr: cusno
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
@@ -267,12 +297,11 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							rModel.set('maktx', r.data.maktx);
 							// Unit
 							rModel.set('meins', r.data.meins);
-							//rModel.set('amount', 100+Math.random());
 							// Cost
-							//var cost = r.data.cost;
-							rModel.set('unitp', r.data.cost);
+							var cost = r.data.cost;
+							rModel.set('unitp', cost);
 							//rModel.set('amount', 100+Math.random());
-                            rModel.set('saknr', r.data.saknr);
+
 						}else{
 							_this.editing.startEdit(e.record, e.column);
 						}
@@ -291,11 +320,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				rModel.set('maktx', record.data.maktx);
 				// Unit
 				rModel.set('meins', record.data.meins);
-				
-				rModel.set('saknr', r.data.saknr);
-
+				//rModel.set('amount', 100+Math.random());
 				var v = record.data.matnr;
                 var cusno = _this.customerValue;
+                //var vatt = _this.vattValue;
 				if(Ext.isEmpty(v)) return;
 
 				Ext.Ajax.request({
@@ -309,8 +337,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success && r.data.cost){
 							// Cost
-							rModel.set('unitp', r.data.cost);
-							
+							var cost = r.data.cost;
+							rModel.set('unitp', cost);
 						}
 					}
 				});
@@ -355,11 +383,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		this.store.load({
 			params: options
 		});
-		
-		//this.addRecord();
 	},
 
 	addRecord: function(){
+		var _this=this;
 		// หา record ที่สร้างใหม่ล่าสุด
 		var newId = -1;
 		this.store.each(function(r){
@@ -367,9 +394,10 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				newId = r.get('id');
 		});
 		newId--;
-
+		
+        var cur = _this.curValue;
 		// add new record
-		rec = { id:newId,ctype:'THB' };
+		rec = { id:newId, ctype:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

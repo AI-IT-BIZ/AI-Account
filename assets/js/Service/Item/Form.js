@@ -178,8 +178,23 @@ Ext.define('Account.Service.Item.Form', {
 						width:286//,
 						//allowBlank: false
                 }]
-            },
-		  this.trigUnit,{
+            },{
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigUnit,{
+						xtype: 'combo',
+						fieldLabel: 'Type',
+						name: 'stype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Income'],['02','Expense']],
+						margins: '4 0 0 6',
+						width:200
+                }]
+            },{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[this.trigGlno,{
@@ -242,7 +257,6 @@ Ext.define('Account.Service.Item.Form', {
 		}]
 
 		},this.comboQStatus];
-		
 		// event trigType//
 		/*this.trigType.on('keyup',function(o, e){
 			var v = o.getValue();

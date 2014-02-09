@@ -286,6 +286,7 @@ class Material extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'descr' => $this->input->post('descr'),
 			'brand' => $this->input->post('brand'),
+			'stype' => $this->input->post('stype'),
 			'buget' => floatval($this->input->post('buget'))
 			);
 			

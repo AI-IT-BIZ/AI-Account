@@ -194,7 +194,23 @@ Ext.define('Account.Material.Item.Form', {
 			name: 'brand',
 			width: 400
 		},this.numberBudget, 
-		  this.trigUnit,{
+		  {
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigUnit,{
+						xtype: 'combo',
+						fieldLabel: 'Type',
+						name: 'stype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Income'],['02','Expense']],
+						margins: '4 0 0 6',
+						width:200
+                }]
+            },{
                 xtype: 'container',
                 layout: 'hbox',
                 items :[this.trigGlno,{

@@ -1,9 +1,9 @@
-Ext.define('Account.Saleorder.Item.Form', {
+Ext.define('Account.Saledelivery.Item.Form', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'saleorder/save',
+			url: __site_url+'saledelivery/save',
 			layout: 'border',
 			border: false
 		});
@@ -13,7 +13,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		// INIT other components ///////////////////////////////////
-		this.quotationDialog = Ext.create('Account.SQuotation.MainWindow', {
+		this.soDialog = Ext.create('Account.SSaleorder.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
@@ -36,7 +36,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
-		this.gridItem = Ext.create('Account.Saleorder.Item.Grid_i',{
+		this.gridItem = Ext.create('Account.Saledelivery.Item.Grid_i',{
 			height: 320,
 			region:'center'
 		});
@@ -44,7 +44,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'Total->SO',
+			title:'Total->DO',
 			region:'south'
 		});
 		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
@@ -62,8 +62,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 		// END INIT other components ////////////////////////////////
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
-			readOnly: !UMS.CAN.APPROVE('SO'),
-			fieldLabel: 'SO Status',
+			readOnly: !UMS.CAN.APPROVE('DO'),
+			fieldLabel: 'DO Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -203,12 +203,12 @@ Ext.define('Account.Saleorder.Item.Form', {
          });
 
 		this.hdnSOItem = Ext.create('Ext.form.Hidden', {
-			name: 'vbop',
+			name: 'vbvp',
 		});
 
-		this.trigQuotation = Ext.create('Ext.form.field.Trigger', {
-			name: 'vbeln',
-			fieldLabel: 'Quotation No.',
+		this.trigSO = Ext.create('Ext.form.field.Trigger', {
+			name: 'ordnr',
+			fieldLabel: 'SO No.',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
@@ -250,9 +250,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 				collapsible: true,
 				defaultType: 'textfield',
 				layout: 'anchor',
-				//defaults: {
-				//	anchor: '100%'
-				//},
 				items:[{
 					// Quotation Code
 	 				xtype: 'container',
@@ -265,26 +262,32 @@ Ext.define('Account.Saleorder.Item.Form', {
 						xtype: 'hidden',
 						name: 'loekz'
 					},
-					this.trigQuotation,
+					this.trigSO,
 					{
 						xtype: 'displayfield',
-						name: 'bbb',
+						//name: 'aaa',
 						margins: '0 0 0 6',
-						width:350,
-						//emptyText: 'Customer',
+						width:110,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-						fieldLabel: 'SO No',
-						name: 'ordnr',
-						//flex: 3,
-						value: 'SOXXXX-XXXX',
+						fieldLabel: 'Delivery No',
+						name: 'delnr',
+						value: 'DOXXXX-XXXX',
 						labelAlign: 'right',
-						//name: 'qt',
 						width:240,
 						readOnly: true,
 						labelStyle: 'font-weight:bold'
-						//disabled: true
+					},{
+						xtype: 'datefield',
+						fieldLabel: 'Doc Date',
+						name: 'bldat',
+						labelAlign: 'right',
+						width:240,
+						format:'d/m/Y',
+						altFormats:'Y-m-d|d/m/Y',
+						submitFormat:'Y-m-d',
+						allowBlank: false
 					}]
 				// Customer Code
 				},{
@@ -297,12 +300,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 						name: 'name1',
 						margins: '0 0 0 6',
 						width:350,
-						//emptyText: 'Customer',
 						allowBlank: true
 					},{
 						xtype: 'datefield',
-						fieldLabel: 'Doc Date',
-						name: 'bldat',
+						fieldLabel: 'Delivery Date',
+						name: 'duedt',
 						labelAlign: 'right',
 						width:240,
 						format:'d/m/Y',
@@ -406,6 +408,118 @@ Ext.define('Account.Saleorder.Item.Form', {
 			]
 		}
 		];
+		
+		// event trigSO///
+		this.trigSO.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'saleorder/load',
+					method: 'POST',
+					params: {
+						id: v,
+						key: 1
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.ordnr);
+			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
+			_this.getForm().findField('name1').setValue(r.data.name1);
+			_this.getForm().findField('salnr').setValue(r.data.salnr);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			//_this.getForm().findField('deamt').setValue(r.data.deamt);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+
+			//---Load PRitem to POitem Grid-----------
+			var sonr = _this.trigSO.value;
+			_this.gridItem.load({sonr: sonr });
+			//----------------------------------------
+						}else{
+							o.setValue('');
+			_this.getForm().findField('kunnr').setValue('');
+			_this.getForm().findField('name1').setValue('');
+			_this.getForm().findField('salnr').setValue('');
+			_this.getForm().findField('ptype').setValue('');
+			_this.getForm().findField('taxnr').setValue('');
+			_this.getForm().findField('terms').setValue('');
+			_this.getForm().findField('adr01').setValue('');
+			_this.getForm().findField('adr02').setValue('');
+			_this.getForm().findField('ctype').setValue('');
+			_this.getForm().findField('taxpr').setValue('');
+			_this.getForm().findField('whtnr').setValue('');
+			_this.getForm().findField('whtpr').setValue('');
+			_this.getForm().findField('loekz').setValue('');
+			//_this.getForm().findField('deamt').setValue('');
+			_this.getForm().findField('exchg').setValue('');
+			_this.getForm().findField('emnam').setValue('');
+			//_this.getForm().findField('vbeln').setValue('');
+			o.markInvalid('Could not find saleorder no : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.soDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigSO.setValue(record.data.ordnr);
+
+			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('salnr').setValue(record.data.salnr);
+			_this.getForm().findField('ptype').setValue(record.data.ptype);
+			_this.getForm().findField('taxnr').setValue(record.data.taxnr);
+			_this.getForm().findField('terms').setValue(record.data.terms);
+
+            Ext.Ajax.request({
+					url: __site_url+'saleorder/load',
+					method: 'POST',
+					params: {
+						id: record.data.ordnr
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('ctype').setValue(r.data.ctype);
+			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			_this.getForm().findField('loekz').setValue(r.data.loekz);
+			//_this.getForm().findField('deamt').setValue(r.data.deamt);
+			_this.getForm().findField('exchg').setValue(r.data.exchg);
+			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			//_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			       }
+				}
+				});
+
+			grid.getSelectionModel().deselectAll();
+			//---Load PRitem to POitem Grid-----------
+			var sonr = _this.trigSO.value;
+			_this.gridItem.load({sonr: sonr });
+			//----------------------------------------
+			_this.soDialog.hide();
+		});
+
+		this.trigSO.onTriggerClick = function(){
+			_this.soDialog.grid.load();
+			_this.soDialog.show();
+		};
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
@@ -509,132 +623,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.saleDialog.show();
 		};
 
-		// event trigQuotation///
-		this.trigQuotation.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: v,
-						key: 1
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.vbeln);
-			//_this.getForm().findField('jobtx').setValue(r.data.jobtx);		
-			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
-			_this.getForm().findField('name1').setValue(r.data.name1);
-			_this.getForm().findField('salnr').setValue(r.data.salnr);	
-			_this.getForm().findField('ptype').setValue(r.data.ptype);	
-			_this.getForm().findField('taxnr').setValue(r.data.taxnr);	
-			_this.getForm().findField('terms').setValue(r.data.terms);	
-			_this.getForm().findField('adr01').setValue(r.data.adr01);
-			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('ctype').setValue(r.data.ctype);
-			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			_this.getForm().findField('exchg').setValue(r.data.exchg);
-			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			
-			//_this.formTotal.txtDepositVat.setValue(r.data.devat);
-			//r.data.deamt = r.data.deamt - r.data.devat;
-			//r.data.deamt = r.data.deamt + r.data.dewht;
-			//_this.formTotal.txtDepositValue.setValue(r.data.deamt);
-			//_this.formTotal.txtDepositValue.setValue(r.data.deamt);
-			
-			//---Load PRitem to POitem Grid-----------
-			var qtnr = _this.trigQuotation.value;
-			//alert(qtnr);
-			_this.gridItem.load({qtnr: qtnr });
-			//----------------------------------------			
-						}else{
-							o.setValue('');		
-			_this.getForm().findField('kunnr').setValue('');
-			_this.getForm().findField('name1').setValue('');
-			_this.getForm().findField('salnr').setValue('');	
-			_this.getForm().findField('ptype').setValue('');	
-			_this.getForm().findField('taxnr').setValue('');	
-			_this.getForm().findField('terms').setValue('');	
-			_this.getForm().findField('adr01').setValue('');
-			_this.getForm().findField('adr02').setValue('');
-			_this.getForm().findField('ctype').setValue('');
-			_this.getForm().findField('taxpr').setValue('');
-			_this.getForm().findField('whtnr').setValue('');
-			_this.getForm().findField('whtpr').setValue('');
-			_this.getForm().findField('loekz').setValue('');
-			_this.getForm().findField('exchg').setValue('');
-			_this.getForm().findField('emnam').setValue('');
-			//_this.formTotal.txtDepositValue.setValue(0);
-			//_this.formTotal.txtDepositVat.setValue(0);
-			o.markInvalid('Could not find quotation no : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-		
-		_this.quotationDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigQuotation.setValue(record.data.vbeln);
-			//_this.getForm().findField('jobtx').setValue(record.data.jobtx);
-			
-			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			_this.getForm().findField('salnr').setValue(record.data.salnr);
-			_this.getForm().findField('ptype').setValue(record.data.ptype);
-			_this.getForm().findField('taxnr').setValue(record.data.taxnr);
-			_this.getForm().findField('terms').setValue(record.data.terms);
-            
-            Ext.Ajax.request({
-					url: __site_url+'quotation/load',
-					method: 'POST',
-					params: {
-						id: record.data.vbeln
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-			_this.getForm().findField('adr01').setValue(r.data.adr01);
-			_this.getForm().findField('adr02').setValue(r.data.adr02);
-			_this.getForm().findField('ctype').setValue(r.data.ctype);
-			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			_this.getForm().findField('exchg').setValue(r.data.exchg);
-			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			//_this.formTotal.txtDepositVat.setValue(r.data.devat);
-			//var depamt=parseFloat(r.data.deamt);
-			//depamt = depamt - parseFloat(r.data.devat);
-			//depamt = depamt + parseFloat(r.data.dewht);
-		    //_this.formTotal.txtDepositValue.setValue(depamt);
-			
-			       }
-				}
-				});           
- 
-			grid.getSelectionModel().deselectAll();
-			//---Load PRitem to POitem Grid-----------
-			var qtnr = _this.trigQuotation.value;
-			//console.log(qtnr);
-			//alert(qtnr);
-			_this.gridItem.load({qtnr: qtnr });
-			//----------------------------------------
-			_this.quotationDialog.hide();
-		});
-
-		this.trigQuotation.onTriggerClick = function(){
-			_this.quotationDialog.grid.load();
-			_this.quotationDialog.show();
-		};
-
-		// event trigProject///
+		// event trigCurrency///
 		this.trigCurrency.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
@@ -748,8 +737,8 @@ Ext.define('Account.Saleorder.Item.Form', {
         //var id = sel.data[sel.idField.name];
         if (sel) {
             _this.gridPrice.load({
-            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
-            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	menge:parseFloat(sel.get('upqty')),
+            	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
@@ -769,7 +758,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'saleorder/load',
+			url:__site_url+'saledelivery/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
 			}
@@ -800,7 +789,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'saleorder/remove',
+			url:__site_url+'saledelivery/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -810,7 +799,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.getForm().reset();
 
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		this.gridItem.load({ ordnr: 0 });
+		this.gridItem.load({ delnr: 0 });
 		//this.gridPayment.load({ vbeln: 0 });
 		//this.gridPrice.load();
 
@@ -833,8 +822,9 @@ Ext.define('Account.Saleorder.Item.Form', {
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
-			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
-				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
+			var qty = parseFloat(r.data['upqty']),
+				price = parseFloat(r.data['unitp']),
+				reman = parseFloat(r.data['reman']),
 				discountValue = 0,
 				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
@@ -919,8 +909,8 @@ Ext.define('Account.Saleorder.Item.Form', {
         if (sel) {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({
-            	menge:sel.get('menge').replace(/[^0-9.]/g, ''),
-            	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
+            	menge:parseFloat(sel.get('upqty')),
+            	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
             	vwht:this.numberWHT.getValue(),
