@@ -194,6 +194,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			width: 60,
 			dataIndex: 'whtpr',
 			sortable: false,
+			value: '0%',
 			align: 'center'
 		   },
 			{
@@ -257,7 +258,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.whtnr);
+							//o.setValue(r.data.whtnr);
+							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
 						   
@@ -265,7 +267,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							o.setValue('');
 							_this.getForm().findField('whtpr').setValue('');
 							_this.getForm().findField('whtgp').setValue('');
-							o.markInvalid('Could not find wht code : '+o.getValue());
+							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
 				});
