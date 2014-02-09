@@ -80,7 +80,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			labelAlign: 'right',
 			//labelWidth: 95,
 			width: 240,
-			margin: '0 0 0 12',
+			margin: '0 0 0 5',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -142,7 +142,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Condition',
 			name : 'condi',
 			width: 240,
-			margin: '0 0 0 20',
+			margin: '0 0 0 5',
 			editable: false,
 			labelAlign: 'right',
 			triggerAction : 'all',
@@ -174,7 +174,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			fieldLabel: 'Vat type',
 			name : 'taxnr',
 			width: 240,
-			margin: '0 0 0 5',
+			margin: '0 0 0 20',
 			labelAlign: 'right',
 			editable: false,
 			triggerAction : 'all',
@@ -258,7 +258,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width: 240,
-			margin: '0 0 0 6',
+			//margin: '0 0 0 6',
 			labelAlign: 'right',
 			allowBlank : false
 		});
@@ -329,7 +329,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		 },this.trigDO,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
-			width:350,
+			width:110,
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
@@ -342,6 +342,16 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:240,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
+		},{
+			xtype: 'datefield',
+			fieldLabel: 'Doc Date',
+			name: 'bldat',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 
 // Customer Code
@@ -355,17 +365,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			margins: '0 0 0 6',
 			width:350,
             allowBlank: true
-		},{
-			xtype: 'datefield',
-			fieldLabel: 'Doc Date',
-			name: 'bldat',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-		}]
+		},this.trigCurrency]
 // Address Bill&Ship
 		},{
 			xtype: 'container',
@@ -409,7 +409,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			width:10,
 			value: 'Days'
 		}
-		,this.trigCurrency
+		,this.comboCond
 		]
 // Tax&Ref no.
          },{
@@ -429,7 +429,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
-		},this.comboCond
+		},this.comboTax
          ]
          },{
          xtype: 'container',
@@ -447,29 +447,9 @@ Ext.define('Account.Invoice.Item.Form', {
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		          },this.comboTax
+		          },this.comboQStatus
          ]
-       },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [{
-					xtype: 'displayfield',
-					width:350
-				   },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
-				},this.comboQStatus]
-			}]
+        }]
 		}]
 		};
 
@@ -531,8 +511,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			//_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+			//_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
@@ -556,14 +536,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr02').setValue('');
 			_this.getForm().findField('ctype').setValue('');
 			_this.getForm().findField('taxpr').setValue('');
-			_this.getForm().findField('whtnr').setValue('');
-			_this.getForm().findField('whtpr').setValue('');
+			//_this.getForm().findField('whtnr').setValue('');
+			//_this.getForm().findField('whtpr').setValue('');
 			_this.getForm().findField('loekz').setValue('');
 			//_this.getForm().findField('deamt').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
 			_this.getForm().findField('vbeln').setValue('');
-			o.markInvalid('Could not find saleorder no : '+o.getValue());
+			o.markInvalid('Could not find delivery order no : '+o.getValue());
 						}
 					}
 				});
@@ -593,8 +573,8 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('ctype').setValue(r.data.ctype);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+			//_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+			//_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
@@ -840,7 +820,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.numberWHT.on('change', this.calculateTotal, this);
+		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		
 		return this.callParent(arguments);
@@ -856,9 +836,9 @@ Ext.define('Account.Invoice.Item.Form', {
             	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	wht:sel.get('whtpr'),
             	vattype:this.comboTax.getValue()
             });
 
@@ -932,7 +912,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		//this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -1015,11 +995,12 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+			//if(r.data['chk02']==true){
+				var whtpr = r.data['whtpr'];
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
+			//}
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -1067,11 +1048,12 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+			//if(r.data['chk02']==true){
+				var whtpr = r.data['whtpr'];
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
+			//}
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -1108,7 +1090,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		  discounts = discounts * rate;
 		  //deamt = deamt * rate;
 		}
-		//this.formTotalthb.getForm().findField('beamt2').setValue(sum);
+		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
@@ -1121,8 +1103,6 @@ Ext.define('Account.Invoice.Item.Form', {
             	netpr:sum2,
             	vvat:vats,
             	kunnr:this.trigCustomer.getValue(),
-            	//deamt:deamt,
-            	//devat:devat,
             	items: saknr_list.join(',')
             });
            }
@@ -1136,9 +1116,9 @@ Ext.define('Account.Invoice.Item.Form', {
             	unitp:parseFloat(sel.get('unitp')),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	wht:sel.get('whtpr'),
             	vattype:this.comboTax.getValue()
             });
         }

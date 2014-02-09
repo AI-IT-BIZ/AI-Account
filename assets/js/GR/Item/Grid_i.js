@@ -51,10 +51,9 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				'serno',
+				//'serno',
 				'reman',
-				'upqty',
-				'itsok'
+				'upqty'
 			],
 			remoteSort: true,
 			sorters: ['mbelp ASC']
@@ -95,7 +94,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 60,
+			width: 70,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -110,7 +109,9 @@ Ext.define('Account.GR.Item.Grid_i', {
 				}
 			},*/
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 50, 
+			align: 'center',
+			dataIndex: 'meins', sortable: false,
 			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -195,7 +196,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 50,
+			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
@@ -204,7 +205,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			//},
 		},{text: "Remain Qty",
 			xtype: 'numbercolumn',
-			width: 65,
+			width: 70,
 			dataIndex: 'reman',
 			sortable: false,
 			align: 'right',
@@ -221,7 +222,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			},*/
 			},{text: "GR Qty",
 			xtype: 'numbercolumn',
-			width: 60,
+			width: 80,
 			dataIndex: 'upqty',
 			sortable: false,
 			allowBlank: false,
@@ -240,14 +241,6 @@ Ext.define('Account.GR.Item.Grid_i', {
 					
 				}
 			},
-			},
-		{text: "Serial No",
-		width: 90,
-		dataIndex: 'serno',
-		sortable: false,
-			field: {
-				type: 'textfield'
-			}
 			}];
 
 		this.plugins = [this.editing];

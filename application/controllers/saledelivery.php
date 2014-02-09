@@ -327,7 +327,8 @@ class Saledelivery extends CI_Controller {
 					'chk01'=>$p->chk01,
 					'chk02'=>$p->chk02,
 					'reman'=>floatval($p->reman),
-					'upqty'=>floatval($p->upqty)
+					'upqty'=>floatval($p->upqty),
+					'whtnr'=>$this->input->post('whtnr')
 				));
 			}
 		}

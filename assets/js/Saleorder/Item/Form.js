@@ -380,13 +380,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 				layout: 'hbox',
 				margin: '0 0 5 0',
 				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
+				this.trigWHT,this.numberWHT]
 				},this.comboQStatus]
 				}]
 

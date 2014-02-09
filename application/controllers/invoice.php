@@ -518,7 +518,7 @@ class Invoice extends CI_Controller {
 			'bldat' => $this->input->post('bldat'),
 			'statu' => $this->input->post('statu'),
 			'txz01' => $this->input->post('txz01'),
-			'ordnr' => $this->input->post('ordnr'),
+			'delnr' => $this->input->post('delnr'),
 			'reanr' => $this->input->post('reanr'),
 			'refnr' => $this->input->post('refnr'),
 			'ptype' => $this->input->post('ptype'),
@@ -534,7 +534,7 @@ class Invoice extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
 			'whtxt' => $this->input->post('whtxt')//,
@@ -602,7 +602,8 @@ class Invoice extends CI_Controller {
 				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02//,
+				'chk02'=>$p->chk02,
+				'whtnr'=>$p->whtnr
 				//'reman'=>floatval($p->reman),
 				//'upqty'=>floatval($p->upqty)
 			));
@@ -821,6 +822,7 @@ class Invoice extends CI_Controller {
 			
 			$res = $query->result_array();
 			$sumqty = 0;
+			//echo 'aaa'.$res[0]['whtpr'];
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			
