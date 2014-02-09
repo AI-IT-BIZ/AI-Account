@@ -233,7 +233,7 @@ Ext.define('Account.AP.Item.Form', {
 			//margin: '0 0 0 35'
 		 });
 		 
-		 this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
+		 this.numberWHT = Ext.create('Ext.form.field.Text', {
 			name: 'whtpr',
 			width:30,
 			align: 'right',
@@ -338,13 +338,7 @@ Ext.define('Account.AP.Item.Form', {
 				layout: 'hbox',
 				margin: '0 0 5 0',
 				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
+				this.trigWHT,this.numberWHT]
 				   }]
 		           }]
 		            },{

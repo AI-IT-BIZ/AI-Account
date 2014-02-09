@@ -300,7 +300,7 @@ class Gr extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype,
-					'serno'=>$p->serno,
+					//'serno'=>$p->serno,
 					'reman'=>floatval($p->reman),
 					'upqty'=>floatval($p->upqty)
 				));
@@ -431,6 +431,35 @@ class Gr extends CI_Controller {
 		));
 		
 		}
+	}
+
+    function loads_asset_item(){
+        $matnr = $this->input->get('matnr');
+		$menge = $this->input->get('menge');
+
+		//$amt = $menge * $unitp;
+		$i=0;$vamt=0;$damt=0;
+
+		$result = array();
+	    $this->db->set_dbprefix('v_');
+		$this->db->where('matnr', $matnr);
+		$query = $this->db->get('fara');
+
+        if($query->num_rows()>0 && $menge>0){
+			$row = $query->first_row('array');
+			for($i=0;$i<$menge;$i++){
+
+						$result[$i] = array(
+					    'matpr'=>$i+1,
+				     	'vtamt'=>$damt,
+					    'ttamt'=>$tamt
+				        );
+			}}
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$result,
+			'totalCount'=>count($result)
+		));
 	}
 	
 }
