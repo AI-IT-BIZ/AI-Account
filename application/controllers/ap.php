@@ -43,7 +43,7 @@ class Ap extends CI_Controller {
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
 			
-			$result_data['whtpr']=number_format($result_data['whtpr']);
+			//$result_data['whtpr']=number_format($result_data['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -565,7 +565,7 @@ class Ap extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
 			//'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'reanr' => $this->input->post('reanr'),
 			//'whtpr' => $this->input->post('whtpr'),
@@ -596,7 +596,7 @@ class Ap extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			$grno = $this->input->post('mbeln');
+			/*$grno = $this->input->post('mbeln');
 			$pono = $this->input->post('ebeln');
 			$this->db->where('vbeln', $pono);
 			$this->db->where('chk01', '1');
@@ -607,7 +607,7 @@ class Ap extends CI_Controller {
 				$this->db->where('mbeln', $grno);
 			    $this->db->set('loekz', '2');
 			    $this->db->update('mkpf');
-			}
+			}*/
 		}
 		
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -625,7 +625,7 @@ class Ap extends CI_Controller {
 		        $itamt = $itamt - $p->disit;
 				$this->db->insert('ebrp', array(
 					'invnr'=>$id,
-					'vbelp'=>intval(++$item_index),//vbelp,
+					'vbelp'=>intval(++$item_index),
 					'matnr'=>$p->matnr,
 					'menge'=>floatval($p->menge),
 					'meins'=>$p->meins,
@@ -634,7 +634,8 @@ class Ap extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'chk02'=>$p->chk02,
-					'ctype'=>$p->ctype
+					'ctype'=>$p->ctype,
+					'whtnr'=>$p->whtnr,
 				));
 			}
 		}
@@ -673,15 +674,12 @@ class Ap extends CI_Controller {
 					'pramt'=>floatval($p->pramt),
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
-					//'disit'=>$p->disit,
-					//'chk01'=>$p->chk01,
-					//'chk02'=>$p->chk02,
 				));
 				
-				$this->db->where('vbeln', $this->input->post('ebeln'));
+				/*$this->db->where('vbeln', $this->input->post('ebeln'));
 			    $this->db->where('paypr', $paypr);
 			    $this->db->set('chk01', '2');
-			    $this->db->update('payp');
+			    $this->db->update('payp');*/
 			}	
 		}
 	
@@ -837,7 +835,8 @@ class Ap extends CI_Controller {
 			// search item
 			//echo 'aaa'.$r['upqty'];
 			$res[$i]['menge'] = $res[$i]['upqty'];
-		   // $res[$i]['upqty'] = 0;
+		    $res[$i]['whtnr'] = '20';
+			$res[$i]['whtpr'] = '0%';
 		}
 		
 		echo json_encode(array(

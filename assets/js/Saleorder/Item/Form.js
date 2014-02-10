@@ -70,7 +70,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 27',
+			margin: '0 0 0 42',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -187,7 +187,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:20,
 			align: 'right',
 			margin: '0 0 0 8'
          });

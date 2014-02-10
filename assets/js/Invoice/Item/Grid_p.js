@@ -66,7 +66,7 @@ Ext.define('Account.Invoice.Item.Grid_p', {
 				handler: this.removeRecord2
 			}]
 			},{
-			id : 'RowNumber41',
+			id : 'IVRowNumber41',
 			text : "No.",
 			dataIndex : 'paypr',
 			width : 50,

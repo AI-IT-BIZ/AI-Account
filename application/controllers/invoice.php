@@ -419,7 +419,7 @@ class Invoice extends CI_Controller {
 		));
 	}
 
-
+    
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
@@ -563,8 +563,7 @@ class Invoice extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			//$invno = $this->input->post('invnr');
-			$qtno = $this->input->post('vbeln');
+			/*$qtno = $this->input->post('vbeln');
 			$this->db->where('vbeln', $qtno);
 			$this->db->where('chk01', '1');
 	        $q_gr = $this->db->get('payp');
@@ -574,7 +573,7 @@ class Invoice extends CI_Controller {
 			   $this->db->where('delnr', $this->input->post('delnr'));
 			   $this->db->set('loekz', '2');
 			   $this->db->update('vbvk');
-			}
+			}*/
 		}
         
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -645,10 +644,10 @@ class Invoice extends CI_Controller {
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
 				));
-				$this->db->where('vbeln', $quono);
+				/*$this->db->where('vbeln', $quono);
 			    $this->db->where('paypr', $paypr);
 			    $this->db->set('chk01', '2');
-			    $this->db->update('payp');
+			    $this->db->update('payp');*/
 			}
 		}
 		

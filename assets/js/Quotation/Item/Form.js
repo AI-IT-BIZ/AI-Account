@@ -820,7 +820,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;var amt=0;
 		var sum = 0;var vats=0;var whts=0;var discounts=0;
-		var vattype = this.comboTax.getValue();
+		var vattype = this.comboTax.getValue();var sum2 = 0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -853,7 +853,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 			discounts += discountValue;
 
-            amt = amt - discountValue;
+            sum2 += amt - discountValue;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -890,7 +890,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var net2 = this.formTotalthb.calculate();
 
 		// set value to grid payment
-		this.gridPayment.netValue = amt;
+		this.gridPayment.netValue = sum2;
 		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
 
 		// set value to total form

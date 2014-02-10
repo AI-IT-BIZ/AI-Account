@@ -203,26 +203,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			valueField: 'taxnr'
 		});
 
-		this.whtDialog = Ext.create('Account.WHT.Window');
-        this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-       	    fieldLabel: 'WHT Value',
-			name: 'whtnr',
-			labelAlign: 'right',
-			width:150,
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			margin: '0 0 0 25',
-			value: '10'
-		});
-		
-		this.numberWHT = Ext.create('Ext.form.field.Number', {
-			name: 'whtpr',
-			width:30,
-			align: 'right',
-			hideTrigger:true,
-			margin: '0 0 0 8'
-         });
-
          this.numberVat = Ext.create('Ext.form.field.Number', {
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
@@ -760,49 +740,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
-		
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
 
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
-						   
-						}else{
-							o.setValue('');
-							_this.getForm().findField('whtpr').setValue('');
-							_this.getForm().findField('whtgp').setValue('');
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-            _this.getForm().findField('whtgp').setValue(record.data.whtgp);
-            
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
 
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -1037,7 +975,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			
 			sum += amt;
-			
+			//alert(amt+'aaa'+sum);
 			discounts += discountValue;
             
             amt = amt - discountValue;
@@ -1079,9 +1017,6 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 
 // Set value to GL Posting grid
-        //var devat = this.formTotal.getForm().findField('devat').getValue();
-        //alert(deamt);
-        //sum2 = sum2 - deamt;
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  sum2 = sum2 * rate;

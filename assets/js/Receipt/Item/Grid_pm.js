@@ -98,7 +98,7 @@ Ext.define('Account.Receipt.Item.Grid_pm', {
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
 			}
-		}, {text: "Payment",
+		}, {text: "Receipt",
 		    width: 100,
 		    dataIndex: 'ptype',
 		    sortable: false,
