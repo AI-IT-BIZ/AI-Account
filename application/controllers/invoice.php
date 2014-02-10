@@ -492,7 +492,7 @@ class Invoice extends CI_Controller {
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
 		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
+						$emsg = 'Balance amount is not equivalent to Invoice Amount';
 						echo json_encode(array(
 							'success'=>false,
 							//'errors'=>array( 'statu' => $emsg ),

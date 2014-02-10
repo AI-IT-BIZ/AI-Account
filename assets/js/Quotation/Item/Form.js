@@ -808,7 +808,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		this.numberWHT.setValue('3%');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.txtRate.setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
