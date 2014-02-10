@@ -66,7 +66,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Invoice.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -838,7 +838,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('whtpr'),
+            	//wht:sel.get('whtpr'),
             	vattype:this.comboTax.getValue()
             });
 
@@ -1118,7 +1118,7 @@ Ext.define('Account.Invoice.Item.Form', {
             	vvat:this.numberVat.getValue(),
             	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('whtpr'),
+            	//wht:sel.get('whtpr'),
             	vattype:this.comboTax.getValue()
             });
         }

@@ -75,7 +75,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 30',
+			margin: '0 0 0 45',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -192,7 +192,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:20,
 			align: 'right',
 			margin: '0 0 0 5'
          });
@@ -386,11 +386,6 @@ Ext.define('Account.Quotation.Item.Form', {
 				margin: '0 0 5 0',
 				items: [
 				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
 		           }]
 				},this.comboQStatus]
 				}]

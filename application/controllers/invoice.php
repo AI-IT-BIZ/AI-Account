@@ -1026,7 +1026,8 @@ class Invoice extends CI_Controller {
 		$vvat = $this->input->get('vvat');
 		$vwht = $this->input->get('vwht');
 		$vat = $this->input->get('vat');
-		$wht = $this->input->get('wht');
+		$vattype = $this->input->get('vattype');
+		//$wht = $this->input->get('wht');
 		$amt = $menge * $unitp;
         $i=0;$vamt=0;
 		$result = array();
@@ -1037,13 +1038,28 @@ class Invoice extends CI_Controller {
 			foreach($rows AS $row){
 
 					if($row['conty']=='01'){
-						if(empty($disit)) $disit=0;
-						$tamt = $amt - $disit;
+						//if(empty($disit)) $disit=0;
+                        $pos = strpos($disit, '%');
+						if($pos==false){
+							$damt = $disit;
+						}else{
+							$perc = explode('%',$disit);
+							$damt = $amt * $perc[0];
+							$damt = $damt / 100;
+						}
+						
+						$tamt = $amt - $damt;
+						if($vattype=='02'){
+			                   $tamt = $tamt * 100;
+			                   $tamt = $tamt / 107;
+		                }
 						$amt = $tamt;
 						
+						//if(empty($damt)) $damt='0.00';
+
 						$result[$i] = array(
 					    'contx'=>$row['contx'],
-				     	'vtamt'=>$disit,
+				     	'vtamt'=>$damt,
 					    'ttamt'=>$tamt
 				        );
 						$i++;
@@ -1059,7 +1075,8 @@ class Invoice extends CI_Controller {
 						$i++;
 						}
 					}elseif($row['conty']=='03'){
-						if($wht=='true' || $wht=='1'){
+						if(!empty($vwht)){
+							$vwht = str_replace('%', ' ', $vwht);
 							$vwht = ($amt * $vwht) / 100;
 							$tamt = $amt - $vwht;
 							$tamt = $tamt + $vamt;
