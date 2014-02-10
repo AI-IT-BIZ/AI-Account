@@ -703,7 +703,6 @@ class Invoice extends CI_Controller {
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		
 		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
@@ -862,7 +861,6 @@ class Invoice extends CI_Controller {
 	}
 	
 	function loads_gl_item(){
-        
 		$iv_id = $this->input->get('netpr');
         $result = array();
 		if($iv_id!=0){
@@ -882,6 +880,7 @@ class Invoice extends CI_Controller {
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
+		   
 // record แรก
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
@@ -942,6 +941,7 @@ class Invoice extends CI_Controller {
 		$debit = $debit + $devat;	
 		}
 		}*/
+		
 // record ที่สอง.สอง
         if(!empty($items)){
 			// loop เพื่อ insert
@@ -967,6 +967,7 @@ class Invoice extends CI_Controller {
 			}
 	    }
 		}
+		
 // record ที่สาม
 		if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}

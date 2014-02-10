@@ -338,7 +338,7 @@ class Receipt extends CI_Controller {
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
 		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
+						$emsg = 'Balance amount is not equivalent to Receipt Amount';
 						echo json_encode(array(
 							'success'=>false,
 							//'errors'=>array( 'statu' => $emsg ),
@@ -772,12 +772,13 @@ class Receipt extends CI_Controller {
 		//$paym = $this->input->get('paym');
 		//$pm_item_array = json_decode($paym);
 //Check payment grid	
-		if(!empty($items)){
+		//
+	   if($dtype == 'D'){
 			$item_index = 0;
-			
+			if(!empty($items)){
             for($j=0;$j<count($items);$j++){
                $bamt=0;
-               if($dtype == 'D'){
+            
 // Deposit record แรก
             $item = explode('|',$items[$j]);
 			if(!empty($item)){
@@ -834,6 +835,27 @@ class Receipt extends CI_Controller {
 		$debit+=$vvat;
 		}}
 
+// record ที่สาม
+		if($vwht>0){ 
+		//	$net_tax = floatval($net) * 0.07;}
+		$glvat = '2132-02';
+		$qgl = $this->db->get_where('glno', 
+		array('saknr'=>$glvat));
+		if($qgl->num_rows()>0){
+		$q_glno = $qgl->first_row('array');
+		$result[$i] = array(
+		    'belpr'=>$i + 1,
+			'saknr'=>$glvat,
+			'sgtxt'=>$q_glno['sgtxt'],
+			'debit'=>$vwht,
+			'credi'=>0,
+			'statu'=>'1'
+		);
+		$i++;
+		$debit = $debit + $vwht;	
+		}
+		}
+
 // record ที่สาม  New Deposit posting
       	if($net>0){
       		$net+=$vwht;
@@ -860,7 +882,7 @@ class Receipt extends CI_Controller {
 
 //record ที่ สี่-> New Deposit posting
        if($vvat>0){
-        $gl_vat = '1154-00';
+        $gl_vat = '2135-00';
 		    //$grand = $net + $vwht;
 			$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$gl_vat));
@@ -891,11 +913,13 @@ class Receipt extends CI_Controller {
 		
       }else{
  // record แรก
+            for($j=0;$j<count($items);$j++){
             $item = explode('|',$items[$j]);
 			if(!empty($item)){
 			$glno = $item[0];
 			$payam  = $item[1];
 			}
+			
 			if(strlen($glno) == 2){
 		    $ptype = $glno;
             $query = $this->db->get_where('ptyp', array(
@@ -923,7 +947,7 @@ class Receipt extends CI_Controller {
 				$debit+=$payam;
 				}
 			}
-         // }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
+          }//loop เพื่อ insert pay_item ที่ส่งมาใหม่
 		//}//Check payment grid
 		
 // record ที่สอง
@@ -944,7 +968,8 @@ class Receipt extends CI_Controller {
 		);
 		$i++;
 		$debit = $debit + $vwht;	
-		}}
+		}
+		}
 		
 // record ที่สาม
       	if($net>0){

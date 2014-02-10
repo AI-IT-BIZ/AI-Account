@@ -865,6 +865,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
+				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}

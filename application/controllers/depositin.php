@@ -451,6 +451,21 @@ class Depositin extends CI_Controller {
 			$this->db->where('chk01', '1');
 
 		    $query = $this->db->get('payp');
+			$res = $query->result_array();
+			$sumqty = 0;
+			//echo 'aaa'.$res[0]['whtpr'];
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$res[$i]['whtnr'] = '20';
+			$res[$i]['whtpr'] = '0%';
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
 			
 		}else{
             $this->db->set_dbprefix('v_');
@@ -462,13 +477,14 @@ class Depositin extends CI_Controller {
 		//createQuery($this);
 	       $query = $this->db->get('vbdp');
       //  echo $this->db->last_query();
-		}
+		
 		$totalCount = $this->db->count_all_results($tbName);
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount
 		));
+		}
 	}
 	
 // GL Posting

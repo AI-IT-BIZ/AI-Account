@@ -81,13 +81,13 @@ Ext.define('Account.DepositIn.Item.Grid_i', {
 		    }
 			},{
 			text: "Period No.",
-			width: 60,
+			width: 50,
 			dataIndex: 'paypr',
 			align : 'center',
 			sortable: true,
 			},{
 			text: "Period Desc.",
-			width: 280,
+			width: 270,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			},
