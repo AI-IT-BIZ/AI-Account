@@ -113,7 +113,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			width: 280,
+			width: 175,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -178,11 +178,12 @@ Ext.define('Account.PR.Item.Form', {
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
+			labelWidth: 56,
 			name: 'taxpr',
-			labelAlign: 'right',
-			width:170,
-			align: 'right'//,
-			//margin: '0 0 0 35'
+			labelAlign: 'left',
+			width:100,
+			align: 'right',
+			margin: '0 0 0 13'
          });
 
 		var mainFormPanel = {
@@ -249,7 +250,20 @@ Ext.define('Account.PR.Item.Form', {
 			       width:15,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           }]
+		           },{
+						xtype: 'combo',
+						fieldLabel: 'PR Type',
+						labelWidth: 50,
+						name: 'ftype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Fixed Asset'],['02','Materials & Services']],
+						margins: '0 0 5 13',
+						width:170
+                	  }]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',

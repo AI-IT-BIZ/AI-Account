@@ -263,7 +263,23 @@ Ext.define('Account.Asset.Item.Form', {
 			name: 'pictu',
 			//width: 250
 		},*/
-		  this.trigUnit]
+		  {
+                xtype: 'container',
+                layout: 'hbox',
+                items :[this.trigUnit,{
+						xtype: 'combo',
+						fieldLabel: 'Type',
+						name: 'stype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Income'],['02','Expense']],
+						margin: '0 0 8 5',
+						width:200
+                }]
+            }]
 		}, {
 // Frame number 2	
 			xtype:'fieldset',
