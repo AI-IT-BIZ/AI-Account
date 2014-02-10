@@ -140,6 +140,7 @@ class Material extends CI_Controller {
 			  $_this->db->where('matnr >=', $matnr1);
 			  $_this->db->where('matnr <=', $matnr2);
 			}
+			$_this->db->where('stype','01');
 
 		}
 		// End for report		
