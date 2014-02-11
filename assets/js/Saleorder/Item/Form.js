@@ -70,7 +70,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
-			margin: '0 0 0 27',
+			margin: '0 0 0 42',
 			clearFilterOnReset: true,
 			emptyText: '-- Select Status --',
 			store: new Ext.data.JsonStore({
@@ -187,7 +187,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:20,
 			align: 'right',
 			margin: '0 0 0 8'
          });
@@ -813,7 +813,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		this.numberWHT.setValue('3%');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -865,6 +865,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
+				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
@@ -897,7 +898,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  //deamt = deamt * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -905,7 +905,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
         
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];

@@ -32,6 +32,18 @@ class Payment extends CI_Controller {
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		
+		$ads00 = explode('Kwang',$r_data['adr01']);
+		//echo 'aaa'.$ads00->num_rows().$ads00[1];
+		if(empty($ads00[0])){
+		   $ads00 = explode('kwang',$r_data['adr01']);
+		   if(empty($ads00[0])){
+			   $ads00 = explode('แขวง',$r_data['adr01']);
+			   if(!empty($ads00[1])){
+				   $ads00[1] = 'แขวง'.$ads00[1];
+				   }
+		   }else{ $ads00[1] = 'kwang'.$ads00[1]; }
+		}else{ $ads00[1] = 'Kwang'.$ads00[1]; }
+		
 		$strSQL = " select v_paym.*";
         $strSQL = $strSQL . " from v_paym ";
         $strSQL = $strSQL . " Where v_paym.recnr = '$no'  ";
@@ -119,7 +131,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 10;
+	$page_size = 9;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -131,22 +143,22 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		$real_current_page++;
 ?>
 <DIV style="z-index:0"> &nbsp; </div>
-<div style="left: 520PX; top: 278px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 383px;">
+<div style="left: 520PX; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:49PX;top:320PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
+<div style="left:49PX;top:343PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
-<div style="left: 660PX; top: 278px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 646px;">
+<div style="left: 660PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 622px;">
   <table width="0px" height="568PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 157PX; top: 278px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 383px;">
+<div style="left: 157PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 385PX; top: 278px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 383px;">
+<div style="left: 385PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
 <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 264px;">
-<table width="0px" height="568PX"><td>&nbsp;</td></table>
+<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 420px;">
+<table width="0px" height="418PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:660PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
@@ -206,10 +218,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table border=0 cellpadding=0 cellspacing=0 width=197px height=47px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:48PX;top:169PX;width:408PX;height:101PX;">
-<table border=0 cellpadding=0 cellspacing=0 width=462px height=94px><TD>&nbsp;</TD></TABLE>
+<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 48PX; top: 169PX; width: 498px; height: 125px;">
+<table border=0 cellpadding=0 cellspacing=0 width=498px height=94px><TD>&nbsp;</TD></TABLE>
 </DIV>
-<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 276px; width: 704PX; height: 802px;">
+<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 301px; width: 704PX; height: 777px;">
   <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
@@ -218,7 +230,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 365px; top: 895px; width: 93px; height: 20PX;"><span class="fc1-10"><?= $r_pay['sgtxt']; ?></span></DIV>
 <DIV style="left: 458px; top: 895px; width: 69px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqdt']; ?></span></DIV>
 <DIV style="left: 523px; top: 896px; width: 135px; height: 20PX;TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqid']; ?></span></DIV>
-<DIV style="left: 662px; top: 897px; width: 89px; height: 20PX;TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= $r_pay['payam']; ?></span></DIV>
+<DIV style="left: 662px; top: 897px; width: 89px; height: 20PX;TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= number_format($r_pay['payam'],2,'.',','); ?></span></DIV>
 
 <!--Copies-->
 <?php if($current_copy_index>0): ?>
@@ -241,21 +253,21 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:57PX;top:145PX;width:149PX;height:20PX;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
 
-<DIV style="left:519PX;top:176PX;width:75PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
+<DIV style="left: 559px; top: 176PX; width: 75PX; height: 20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
-<DIV style="left:615PX;top:174PX;width:112PX;height:25PX;"><span class="fc1-3"><?=$r_data['payno'];?></span></DIV>
+<DIV style="left: 635px; top: 174PX; width: 110px; height: 25PX;"><span class="fc1-3"><?=$r_data['payno'];?></span></DIV>
 
-<DIV style="left:519PX;top:198PX;width:76PX;height:20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
+<DIV style="left: 559px; top: 198PX; width: 76PX; height: 20PX;"><span class="fc1-2">วันที่ (Date) </span></DIV>
 <?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left:615PX;top:196PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$bldat_str?></span></DIV>
+<DIV style="left: 635px; top: 196PX; width: 108PX; height: 21PX;"><span class="fc1-3"><?=$bldat_str?></span></DIV>
 
-<DIV style="left: 519PX; top: 220PX; width: 84px; height: 20PX;"><span class="fc1-2">วันที่นัดชำระ (Due Date) </span></DIV>
+<DIV style="left: 558px; top: 220PX; width: 84px; height: 20PX;"><span class="fc1-2">วันที่นัดชำระ (Due Date) </span></DIV>
 <?php 
 $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
-<DIV style="left:615PX;top:218PX;width:108PX;height:21PX;"><span class="fc1-3"><?=$duedt_str?></span></DIV>
+<DIV style="left: 635px; top: 218PX; width: 108PX; height: 21PX;"><span class="fc1-3"><?=$duedt_str?></span></DIV>
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
@@ -278,29 +290,31 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 
 <DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left:109PX;top:198PX;width:400PX;height:23PX;"><span class="fc1-8"><?=$r_data['adr01'];?></span></DIV>
+<DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left:109PX;top:221PX;width:400PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 109PX; top: 219px; width: 436px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?></span></DIV>
 
-<DIV style="left:109PX;top:247PX;width:31PX;height:21PX;"><span class="fc1-8">Tel.</span></DIV>
+<DIV style="left: 109PX; top: 243px; width: 400PX; height: 22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
-<DIV style="left: 287PX; top: 247PX; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
+<DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
-<DIV style="left:143PX;top:247PX;width:140PX;height:21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
+<DIV style="left: 287PX; top: 267px; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
+
+<DIV style="left: 143PX; top: 269px; width: 140PX; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 
 <!--Item Table-->
-<DIV style="left: 49PX; top: 280PX; width: 109px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
-<DIV style="left: 49PX; top: 298PX; width: 109px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">No.</span></DIV>
-<DIV style="left:157PX;top:280PX;width:228PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
-<DIV style="left:157PX;top:298PX;width:228PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Invoice No.</span></DIV>
+<DIV style="left: 49PX; top: 303PX; width: 109px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
+<DIV style="left: 49PX; top: 321PX; width: 109px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">No.</span></DIV>
+<DIV style="left:157PX;top:303PX;width:228PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
+<DIV style="left:157PX;top:321PX;width:228PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Invoice No.</span></DIV>
 
-<DIV style="left: 385PX; top: 280PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
-<DIV style="left: 385PX; top: 298PX; width: 136px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
-<DIV style="left: 520PX; top: 280PX; width: 141px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่ครบกำหนด</span></DIV>
-<DIV style="left: 520PX; top: 298PX; width: 141px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Due Date</span></DIV>
-<DIV style="left:660PX;top:280PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
-<DIV style="left:660PX;top:298PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
+<DIV style="left: 385PX; top: 303PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
+<DIV style="left: 385PX; top: 321PX; width: 136px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
+<DIV style="left: 520PX; top: 303PX; width: 141px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่ครบกำหนด</span></DIV>
+<DIV style="left: 520PX; top: 321PX; width: 141px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Due Date</span></DIV>
+<DIV style="left:660PX;top:303PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
+<DIV style="left:660PX;top:321PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
 
 <?php
 /*
@@ -323,7 +337,7 @@ $i=322+20;
 */
 ?>
 
-<DIV style="left:49PX;top:322px">
+<DIV style="left:49PX;top:345px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();

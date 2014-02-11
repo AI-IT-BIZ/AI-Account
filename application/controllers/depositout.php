@@ -39,7 +39,7 @@ class Depositout extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=number_format($result['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -222,7 +222,7 @@ class Depositout extends CI_Controller {
 			'taxpr' => floatval($this->input->post('taxpr')),
 			//'whtpr' => $this->input->post('whtpr'),
 			//'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'wht01' => floatval($this->input->post('wht01')),
 			'vat01' => floatval($this->input->post('vat01')),
@@ -281,7 +281,8 @@ class Depositout extends CI_Controller {
 				'chk01'=>$p->chk01,
 				'chk02'=>$p->chk02,
 				'disit'=>$p->disit,
-				'ctyp1'=>$p->ctyp1
+				'ctyp1'=>$p->ctyp1,
+				'whtnr'=>$p->whtnr,
 			));
 			//$this->db->set_dbprefix('tbl_');
 			$this->db->where('vbeln', $this->input->post('ebeln'));
@@ -445,16 +446,33 @@ class Depositout extends CI_Controller {
 			$this->db->where('chk01', '1');
 
 		    $query = $this->db->get('payp');
+			$res = $query->result_array();
+			$sumqty = 0;
+
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$res[$i]['whtnr'] = '20';
+			$res[$i]['whtpr'] = '0%';
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
+		
 		}else{
             $this->db->set_dbprefix('v_');
 		    $this->db->where('depnr', $dp_id);
 	        $query = $this->db->get('ebdp');
-      	}
+      	
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
+		}
 	}
 	
 // GL Posting

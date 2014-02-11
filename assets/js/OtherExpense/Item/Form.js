@@ -222,7 +222,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:20,
 			align: 'right',
 			margin: '0 0 0 5'
          });
@@ -336,11 +336,6 @@ layout: 'anchor',
 				margin: '0 0 5 0',
 				items: [
 				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
 		           }]
 				}]
 		                }]
@@ -713,16 +708,18 @@ layout: 'anchor',
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
+			if(r.data['chk02']==true){
+			var whtpr = _this.numberWHT.getValue();
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
+				    whts += wht;
+		    }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
-				    whts += wht;
-			}
+			
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);

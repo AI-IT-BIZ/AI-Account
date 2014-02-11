@@ -419,7 +419,7 @@ class Invoice extends CI_Controller {
 		));
 	}
 
-
+    
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;
@@ -492,7 +492,7 @@ class Invoice extends CI_Controller {
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
 		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
+						$emsg = 'Balance amount is not equivalent to Invoice Amount';
 						echo json_encode(array(
 							'success'=>false,
 							//'errors'=>array( 'statu' => $emsg ),
@@ -563,8 +563,7 @@ class Invoice extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			//$invno = $this->input->post('invnr');
-			$qtno = $this->input->post('vbeln');
+			/*$qtno = $this->input->post('vbeln');
 			$this->db->where('vbeln', $qtno);
 			$this->db->where('chk01', '1');
 	        $q_gr = $this->db->get('payp');
@@ -574,7 +573,7 @@ class Invoice extends CI_Controller {
 			   $this->db->where('delnr', $this->input->post('delnr'));
 			   $this->db->set('loekz', '2');
 			   $this->db->update('vbvk');
-			}
+			}*/
 		}
         
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -645,10 +644,10 @@ class Invoice extends CI_Controller {
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
 				));
-				$this->db->where('vbeln', $quono);
+				/*$this->db->where('vbeln', $quono);
 			    $this->db->where('paypr', $paypr);
 			    $this->db->set('chk01', '2');
-			    $this->db->update('payp');
+			    $this->db->update('payp');*/
 			}
 		}
 		
@@ -704,7 +703,6 @@ class Invoice extends CI_Controller {
 		}
 		
 		// ลบ gl_item ภายใต้ id ทั้งหมด
-		
 		$this->db->where('belnr', $accno);
 		$this->db->delete('bcus');
 
@@ -863,7 +861,6 @@ class Invoice extends CI_Controller {
 	}
 	
 	function loads_gl_item(){
-        
 		$iv_id = $this->input->get('netpr');
         $result = array();
 		if($iv_id!=0){
@@ -883,6 +880,7 @@ class Invoice extends CI_Controller {
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
+		   
 // record แรก
 			$query = $this->db->get_where('kna1', array(
 				'kunnr'=>$kunnr));
@@ -943,6 +941,7 @@ class Invoice extends CI_Controller {
 		$debit = $debit + $devat;	
 		}
 		}*/
+		
 // record ที่สอง.สอง
         if(!empty($items)){
 			// loop เพื่อ insert
@@ -968,6 +967,7 @@ class Invoice extends CI_Controller {
 			}
 	    }
 		}
+		
 // record ที่สาม
 		if($vvat>0){ 
 		//	$net_tax = floatval($net) * 0.07;}

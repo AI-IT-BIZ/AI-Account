@@ -802,7 +802,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		this.numberWHT.setValue('3%');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -855,6 +855,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
+				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}

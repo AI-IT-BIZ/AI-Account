@@ -39,7 +39,7 @@ class Depositin extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=$result['whtpr'];
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -182,7 +182,7 @@ class Depositin extends CI_Controller {
 		foreach($gl_item_array AS $p){
 			if(empty($p->saknr) && $p->sgtxt == 'Total'){
 		    if($p->debit != $p->credi){
-						$emsg = 'Banlance Amount not equal';
+						$emsg = 'Balance amount is not equivalent to Deposit Amount';
 						echo json_encode(array(
 							'success'=>false,
 							//'errors'=>array( 'statu' => $emsg ),
@@ -221,7 +221,7 @@ class Depositin extends CI_Controller {
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
 			//'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'terms' => intval($this->input->post('terms'))
 		);
@@ -278,7 +278,8 @@ class Depositin extends CI_Controller {
 				'chk02'=>$p->chk02,
 				'disit'=>$p->disit,
 				'ctyp1'=>$p->ctyp1,
-				'paypr'=>intval($p->paypr)
+				'paypr'=>intval($p->paypr),
+				'whtnr'=>$p->whtnr,
 			));
 			$this->db->where('vbeln', $this->input->post('vbeln'));
 			$this->db->where('paypr', intval($p->paypr));
@@ -450,6 +451,21 @@ class Depositin extends CI_Controller {
 			$this->db->where('chk01', '1');
 
 		    $query = $this->db->get('payp');
+			$res = $query->result_array();
+			$sumqty = 0;
+			//echo 'aaa'.$res[0]['whtpr'];
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+			
+			$res[$i]['whtnr'] = '20';
+			$res[$i]['whtpr'] = '0%';
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
 			
 		}else{
             $this->db->set_dbprefix('v_');
@@ -461,13 +477,14 @@ class Depositin extends CI_Controller {
 		//createQuery($this);
 	       $query = $this->db->get('vbdp');
       //  echo $this->db->last_query();
-		}
+		
 		$totalCount = $this->db->count_all_results($tbName);
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount
 		));
+		}
 	}
 	
 // GL Posting

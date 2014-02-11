@@ -633,7 +633,7 @@ Ext.define('Account.PO.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0;var i=0;discounts=0;
-		var vattype = this.comboTax.getValue();
+		var vattype = this.comboTax.getValue();var sum2 = 0;
 		var currency = this.trigCurrency.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
@@ -667,6 +667,7 @@ Ext.define('Account.PO.Item.Form', {
 			discounts += discountValue;
             
             amt = amt - discountValue;
+            sum2 += amt;
             
 		if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -674,6 +675,7 @@ Ext.define('Account.PO.Item.Form', {
 				    vats += vat;
 			}
 		});
+		
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
@@ -690,6 +692,22 @@ Ext.define('Account.PO.Item.Form', {
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
+		
+		var store2 = this.gridPayment.store;
+		if(store2.count()>0){
+			store2.each(function(r){
+			   percent = r.data['perct'];
+			   //alert(percent+'bbb'+sum2);
+			   if(isNaN(percent) && percent!='0.00'){
+				var per2 = percent;
+		       if(per2.match(/%$/gi)){
+				per2 = per2.replace('%','');
+				var percentPercent = parseFloat(per2);
+				var sum3 = sum2 * percentPercent / 100;
+			   }}
+			   r.set('pramt', sum3);
+		    });
+		}
 		
 		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){

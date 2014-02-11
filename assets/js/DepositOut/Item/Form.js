@@ -46,7 +46,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Invoice.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -207,25 +207,6 @@ Ext.define('Account.DepositOut.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
-         
-         this.whtDialog = Ext.create('Account.WHT.Window');
-         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-       	    fieldLabel: 'WHT Value',
-			name: 'whtnr',
-			labelAlign: 'right',
-			width:150,
-			hideTrigger:false,
-			align: 'right',
-			value: '10'
-		 });
-		 
-		  this.numberWHT = Ext.create('Ext.ux.form.NumericField', {
-			name: 'whtpr',
-			width:30,
-			align: 'right',
-			hideTrigger:true,
-			margin: '0 0 0 5'
-         });
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -316,14 +297,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
 			                },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT]
+
 				}]
 		                }]
 		            },{
@@ -605,51 +582,6 @@ Ext.define('Account.DepositOut.Item.Form', {
 			_this.currencyDialog.show();
 		};
 		
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
-						   
-						}else{
-							o.setValue('');
-							_this.getForm().findField('whtpr').setValue('');
-							_this.getForm().findField('whtgp').setValue('');
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-			//if(record.data.whtnr != '6'){
-            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-            _this.getForm().findField('whtgp').setValue(record.data.whtgp);
-           //}
-            
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
-		
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -665,7 +597,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.numberWHT.on('change', this.calculateTotal, this);
+		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
         
 		return this.callParent(arguments);
@@ -681,9 +613,10 @@ Ext.define('Account.DepositOut.Item.Form', {
             	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02')
+            	//wht:sel.get('chk02')
+            	vattype:this.comboTax.getValue()
             });
 
         }
@@ -752,7 +685,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		//this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -800,11 +733,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 				    vats += vat;
 			}
             
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+			var whtpr = r.data['whtpr'];
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();
@@ -818,7 +750,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		//this.gridItem.netValue = net;
 		this.formTotal.taxType = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
-		this.gridItem.whtValue = this.numberWHT.getValue();
+		//this.gridItem.whtValue = this.numberWHT.getValue();
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		
 		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
@@ -829,9 +761,9 @@ Ext.define('Account.DepositOut.Item.Form', {
             	unitp:sel.get('pramt').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:vattype
             });
 

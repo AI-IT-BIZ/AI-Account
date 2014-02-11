@@ -52,7 +52,7 @@ Ext.define('Account.AP.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridPrice = Ext.create('Account.Quotation.Item.Grid_pc', {
+		this.gridPrice = Ext.create('Account.Invoice.Item.Grid_pc', {
 			border: true,
 			split: true,
 			title:'Item Pricing',
@@ -221,26 +221,6 @@ Ext.define('Account.AP.Item.Form', {
 			//margin: '0 0 0 35'
          });
          
-         this.whtDialog = Ext.create('Account.WHT.Window');
-         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-       	    fieldLabel: 'WHT Value',
-			name: 'whtnr',
-			labelAlign: 'right',
-			width:150,
-			hideTrigger:false,
-			align: 'right',
-			value: '10'
-			//margin: '0 0 0 35'
-		 });
-		 
-		 this.numberWHT = Ext.create('Ext.form.field.Text', {
-			name: 'whtpr',
-			width:30,
-			align: 'right',
-			hideTrigger:true,
-			margin: '0 0 0 5'
-         });
-		
 		var mainFormPanel = {
 			xtype: 'panel',
 			border: true,
@@ -331,15 +311,10 @@ Ext.define('Account.AP.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
 			                },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT]
-				   }]
+			 	   }]
 		           }]
 		            },{
 		                xtype: 'container',
@@ -637,46 +612,6 @@ Ext.define('Account.AP.Item.Form', {
 			_this.currencyDialog.show();
 		};
 		
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							//_this.formTotal.getForm().findField('curr').setValue(r.data.ctype);
-							//if(r.data.whtnr != '6'){
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-						   //}
-						}else{
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
-		
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -693,7 +628,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.numberWHT.on('change', this.calculateTotal, this);
+		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		
 		return this.callParent(arguments);
@@ -709,9 +644,9 @@ Ext.define('Account.AP.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });
 
@@ -783,7 +718,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		//this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
@@ -791,15 +726,7 @@ Ext.define('Account.AP.Item.Form', {
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
-	// Add duedate functions
-	/*getDuedate: function(){
-		var bForm = this.getForm(),
-			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue(),
-			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
-
-		bForm.findField('duedt').setValue(result);
-	},*/
+	
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
@@ -875,11 +802,10 @@ Ext.define('Account.AP.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+			var whtpr = r.data['whtpr'];
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -927,11 +853,10 @@ Ext.define('Account.AP.Item.Form', {
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+			var whtpr = r.data['whtpr'];
+				whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -984,8 +909,6 @@ Ext.define('Account.AP.Item.Form', {
             	netpr:sum2,
             	vvat:vats,
             	lifnr:this.trigVendor.getValue(),
-            	//deamt:deamt,
-            	//devat:devat,
             	items: saknr_list.join(',')
             }); 
            }
@@ -999,9 +922,8 @@ Ext.define('Account.AP.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit'),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });     
         }

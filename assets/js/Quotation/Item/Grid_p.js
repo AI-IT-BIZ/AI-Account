@@ -90,6 +90,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
                 format:'d/m/Y',
 			    altFormats:'Y-m-d|d/m/Y',
 			    submitFormat:'Y-m-d',
+			    allowBlank: false,
 			    listeners: {
 			    	'change':function(o){
 			    		if(_this.startDate)

@@ -503,14 +503,14 @@ Ext.define('Account.Quotation.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v,
+						salnr: v,
 						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.salnr);
-							_this.getForm().findField('sname').setValue(r.data.sname);
+							_this.getForm().findField('sname').setValue(r.data.name1);
 
 						}else{
 							o.setValue('');
@@ -525,7 +525,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		_this.saleDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigSale.setValue(record.data.salnr);
 			//alert(record.data.emnam);
-			_this.getForm().findField('sname').setValue(record.data.sname);
+			_this.getForm().findField('sname').setValue(record.data.emnam);
 
 			grid.getSelectionModel().deselectAll();
 			_this.saleDialog.hide();
@@ -808,7 +808,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		this.numberWHT.setValue('3%');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.txtRate.setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -820,7 +820,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;var amt=0;
 		var sum = 0;var vats=0;var whts=0;var discounts=0;
-		var vattype = this.comboTax.getValue();
+		var vattype = this.comboTax.getValue();var sum2 = 0;
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
@@ -853,7 +853,9 @@ Ext.define('Account.Quotation.Item.Form', {
 
 			discounts += discountValue;
 
-            amt = amt - discountValue;
+            amt += amt - discountValue;
+            sum2 += amt;
+            
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -861,6 +863,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
+				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
@@ -890,7 +893,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		var net2 = this.formTotalthb.calculate();
 
 		// set value to grid payment
-		this.gridPayment.netValue = amt;
+		this.gridPayment.netValue = sum2;
 		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
 
 		// set value to total form
@@ -919,7 +922,6 @@ Ext.define('Account.Quotation.Item.Form', {
             	wht:sel.get('chk02'),
             	vattype:vattype
             });
-
         }
 	},
 

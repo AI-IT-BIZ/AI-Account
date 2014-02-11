@@ -21,6 +21,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 		// END Material search popup ///////////////////////////////////
         //this.unitDialog = Ext.create('Account.SUnit.Window');
 		//this.tbar = [this.addAct, this.copyAct];
+		this.whtDialog = Ext.create('Account.WHT.Window');
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -47,7 +48,9 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				'ctyp1',
 				'chk01',
 				'chk02',
-				'disit'
+				'disit',
+				'whtnr',
+				'whtpr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -138,21 +141,28 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 							field.selectText();
 					}
 				}}
-            },{
-            xtype: 'checkcolumn',
-            text: 'WHT',
-            dataIndex: 'chk02',
-            width: 30,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },
+            },{text: "WHT Type",
+		    width: 60,
+		    dataIndex: 'whtnr',
+		    sortable: false,
+		    align: 'center',
+			field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.whtDialog.show();
+				}
+			}
+			},
+			{text: "WHT Value",
+			width: 60,
+			dataIndex: 'whtpr',
+			sortable: false,
+			value: '0%',
+			align: 'center'
+		   },
 			{text: "Amount/ %",
 			width: 100,
 			//xtype: 'textcolumn',
@@ -217,14 +227,12 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			_this.copyRecord();
 		});*/
 
-		/*this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='matnr'){
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='whtnr'){
 				var v = e.value;
-
 				if(Ext.isEmpty(v)) return;
-
 				Ext.Ajax.request({
-					url: __site_url+'material/load',
+					url: __site_url+'invoice/loads_wht',
 					method: 'POST',
 					params: {
 						id: v
@@ -232,71 +240,36 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
-							// Unit
-							rModel.set('meins', r.data.meins);
-
-							//rModel.set('amount', 100+Math.random());
-                            rModel.set('saknr', r.data.saknr);
-
+							//o.setValue(r.data.whtnr);
+							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							//_this.getForm().findField('whtgp').setValue(r.data.whtgp);
+						   
 						}else{
-							_this.editing.startEdit(e.record, e.column);
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
+							//_this.getForm().findField('whtgp').setValue('');
+							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
 				});
 			}
 		});
 
-		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-
-				// change cell code value (use db value)
-				rModel.set('matnr', record.data.matnr);
-				// Materail text
-				rModel.set('maktx', record.data.maktx);
-				// Unit
-				rModel.set('meins', record.data.meins);
-				// GL no
-				rModel.set('saknr', record.data.saknr);
-				//rModel.set('amount', 100+Math.random());
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.materialDialog.hide();
-		});
-		
-		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
 				// change cell code value (use db value)
-				rModel.set('meins', record.data.meins);
+				rModel.set('whtnr', record.data.whtnr);
+				rModel.set('whtpr', record.data.whtpr);
+				//rModel.set('whtgp', record.data.whtgp);
 			//_this.trigUnit.setValue(record.data.meins);
 			}
+            
 			grid.getSelectionModel().deselectAll();
-			_this.unitDialog.hide();
-			
+			_this.whtDialog.hide();
 		});
-		
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='unitp'){
-				var v = parseFloat(e.value);
-				var rModel = _this.store.getById(e.record.data.id);
-				//var poamt = parseFloat(rModel.get('poamt'));
-                //alert(v+'aaa'+poamt);
-			    if(v>poamt){
-			    	rModel.set(e.field, '');
-			    	Ext.Msg.alert('Warning', 'Payment amount over PO amount');
-			    }
-			}
-		});*/
 		
 		// for set readonly grid
 		this.store.on('load', function(store, rs){

@@ -671,6 +671,7 @@ class Quotation extends CI_Controller {
 					}elseif($row['conty']=='03'){
 						//unset($result[2]);
 						if($wht=='true' || $wht=='1'){
+							$vwht = str_replace('%', ' ', $vwht);
 							$vwht = ($amt * $vwht) / 100;
 							$tamt = $amt - $vwht;
 							$tamt = $tamt + $vamt;

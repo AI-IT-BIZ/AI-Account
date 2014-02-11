@@ -42,7 +42,7 @@ class Otexpense extends CI_Controller {
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
 			
-			$result_data['whtpr']=number_format($result_data['whtpr']);
+			//$result_data['whtpr']=number_format($result_data['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -505,6 +505,7 @@ class Otexpense extends CI_Controller {
 					'unitp'=>floatval($p->unitp),
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
+					'chk02'=>$p->chk02,
 					'ctype'=>$p->ctype
 				));
 			}

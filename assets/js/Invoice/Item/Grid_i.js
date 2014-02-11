@@ -54,8 +54,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'chk02',
 				'saknr',
 				'whtnr',
-				'whtpr',
-				'whtgp'
+				'whtpr'
 				
 			],
 			remoteSort: true,
@@ -226,12 +225,6 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			//width: 55,
 			hidden: true,
 			sortable: false
-		},
-			{
-			dataIndex: 'whtgp',
-			//width: 55,
-			hidden: true,
-			sortable: false
 		}];
 
 		this.plugins = [this.editing];
@@ -261,12 +254,12 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							//o.setValue(r.data.whtnr);
 							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-							_this.getForm().findField('whtgp').setValue(r.data.whtgp);
+							//_this.getForm().findField('whtgp').setValue(r.data.whtgp);
 						   
 						}else{
 							o.setValue('');
 							_this.getForm().findField('whtpr').setValue('');
-							_this.getForm().findField('whtgp').setValue('');
+							//_this.getForm().findField('whtgp').setValue('');
 							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
@@ -281,7 +274,7 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				// change cell code value (use db value)
 				rModel.set('whtnr', record.data.whtnr);
 				rModel.set('whtpr', record.data.whtpr);
-				rModel.set('whtgp', record.data.whtgp);
+				//rModel.set('whtgp', record.data.whtgp);
 			//_this.trigUnit.setValue(record.data.meins);
 			}
             

@@ -370,8 +370,8 @@ else
 	$tax_str = '';
 
 $wht_str = "";
-if(!empty($r_data['whtpr']) && intval($r_data['whtpr'])>0)
-	$wht_str = number_format($r_data['whtpr'],0,'.',',').'%';
+if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
+	$wht_str = $r_data['whtpr'];
 else
 	$wht_str = '';
 ?>
