@@ -76,7 +76,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			labelAlign: 'right',
 			//labelWidth: 95,
 			width: 240,
-			margin: '0 0 0 26',
+			//margin: '0 0 0 26',
 			//allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
@@ -137,7 +137,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			fieldLabel: 'Condition',
 			name : 'condi',
 			width: 240,
-			margin: '0 0 0 20',
+			//margin: '0 0 0 20',
 			editable: false,
 			labelAlign: 'right',
 			triggerAction : 'all',
@@ -169,7 +169,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			fieldLabel: 'Vat type',
 			name : 'taxnr',
 			width: 240,
-			margin: '0 0 0 5',
+			margin: '0 0 0 15',
 			labelAlign: 'right',
 			editable: false,
 			triggerAction : 'all',
@@ -197,25 +197,6 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			valueField: 'taxnr'
 		});
 
-		this.whtDialog = Ext.create('Account.WHT.Window');
-         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-       	    fieldLabel: 'WHT Value',
-			name: 'whtnr',
-			labelAlign: 'right',
-			width:150,
-			hideTrigger:false,
-			align: 'right',
-			margin: '0 0 0 25',
-			value: '10'
-		 });
-		 
-		  this.numberWHT = Ext.create('Ext.form.field.Display', {
-			name: 'whtpr',
-			width:15,
-			align: 'right',
-			margin: '0 0 0 5'
-         });
-
          this.numberVat = Ext.create('Ext.form.field.Number', {
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
@@ -227,7 +208,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
          
          this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
-						fieldLabel: 'PR Type',
+						fieldLabel: 'Doc Type',
 						width: 240,
 						name: 'ftype',
 						editable: false,
@@ -235,18 +216,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 						triggerAction: 'all',
 						fields: ['value','text'],
 						store: [['01','Fixed Asset'],['02','Materials & Services']],
-						value: '01'
+						value: '02'
          });
-
-        /*this.trigSO = Ext.create('Ext.form.field.Trigger', {
-			name: 'ordnr',
-			fieldLabel: 'SO No',
-			labelAlign: 'letf',
-			width:240,
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
-		});*/
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
@@ -264,7 +235,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width: 240,
-			margin: '0 0 0 6',
+			//margin: '0 0 0 6',
 			labelAlign: 'right',
 			allowBlank : false
 		});
@@ -324,7 +295,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		},this.comboFtype,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
-			width:550,
+			width:100,
 			margins: '0 0 0 6',
             //emptyText: 'Customer',
             allowBlank: true
@@ -334,10 +305,20 @@ Ext.define('Account.OtherIncome.Item.Form', {
             name: 'invnr',
             value: 'IVXXXX-XXXX',
             labelAlign: 'right',
-			width:240,
+			width:250,
 			labelWidth:140,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
+		},{
+			xtype: 'datefield',
+			fieldLabel: 'Doc Date',
+			name: 'bldat',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank: false
 		}]
 
 // Customer Code
@@ -351,17 +332,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			margins: '0 0 0 6',
 			width:350,
             allowBlank: true
-		},{
-			xtype: 'datefield',
-			fieldLabel: 'Doc Date',
-			name: 'bldat',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d',
-			allowBlank: false
-		}]
+		},this.trigCurrency]
 // Address Bill&Ship
 		},{
 			xtype: 'container',
@@ -403,7 +374,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			width:10,
 			value: 'Days'
 		}
-		,this.trigCurrency
+		,this.comboCond
 		]
 // Tax&Ref no.
          },{
@@ -423,7 +394,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d'
-		},this.comboCond
+		},this.comboTax
          ]
          },{
          xtype: 'container',
@@ -441,29 +412,9 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		          },this.comboTax
+		          },this.comboQStatus
          ]
-       },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [{
-					xtype: 'displayfield',
-					width:350
-				   },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
-				},this.comboQStatus]
-			}]
+       }]
 		}]
 		};
 
@@ -482,48 +433,6 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		}
 
 		];
-
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-						   
-						}else{
-							o.setValue('');
-							_this.getForm().findField('whtpr').setValue('');
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-			//if(record.data.whtnr != '6'){
-            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-           //}
-            
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){
@@ -701,7 +610,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.numberWHT.on('change', this.calculateTotal, this);
+		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
@@ -716,9 +625,9 @@ Ext.define('Account.OtherIncome.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });
 
@@ -790,22 +699,14 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		//this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
-	// Add duedate functions
-	/*getDuedate: function(){
-		var bForm = this.getForm(),
-			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue(),
-			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
-
-		bForm.findField('duedt').setValue(result);
-	},*/
+	
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
@@ -845,11 +746,13 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
+        		
+			    var whtpr = r.data['whtpr'];
+			    if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
+				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			}
+				   }
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
@@ -899,9 +802,9 @@ Ext.define('Account.OtherIncome.Item.Form', {
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });
         }
@@ -937,52 +840,4 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		}
 	}
 
-// Payments Method
-	/*selectPay: function(combo, record, index){
-		var _this=this;
-		var store = this.gridItem.store;
-		var vtax = combo.getValue();
-		var sum = 0;var vats=0; var whts=0;var i=0;
-		store.each(function(r){
-			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
-				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
-				mtart = r.data['mtart'];
-
-			qty = isNaN(qty)?0:qty;
-			price = isNaN(price)?0:price;
-			discount = isNaN(discount)?0:discount;
-
-			var amt = (qty * price) - discount;
-
-			sum += amt;
-			if(r.data['chk01']==true){
-				var vat = _this.numberVat.getValue();
-				    vat = (amt * vat) / 100;
-				    vats += vat;
-			}
-			if(r.data['chk02']==true){
-				var wht = _this.numberWHT.getValue();
-				    wht = (amt * wht) / 100;
-				    whts += wht;
-			}
-		});
-
-		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
-		  sum = sum * rate;
-		  vats = vats * rate;
-		  whts = whts * rate;
-		}
-		if(sum>0){
-            _this.gridGL.load({
-            	netpr:sum,
-            	vvat:vats,
-            	vwht:whts,
-            	kunnr:this.trigCustomer.getValue(),
-            	ptype:combo.getValue(),
-            	dtype:'01'
-            });
-           }
-	}*/
 });

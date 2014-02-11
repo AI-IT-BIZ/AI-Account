@@ -17,12 +17,13 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 		});
 
 		// INIT Material search popup /////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow');
-		var field = this.materialDialog.searchForm.form.findField('stype');
-		field.setValue('01');
-		this.materialDialog.grid.load();
+		this.materialDialog = Ext.create('Account.SMaterial.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup //////////////////////////////////
         this.unitDialog = Ext.create('Account.Unit.Window');
+        this.whtDialog = Ext.create('Account.WHT.Window');
         
 		this.tbar = [this.addAct, this.copyAct];
 
@@ -53,7 +54,9 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'
+				'saknr',
+				'whtnr',
+				'whtpr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -73,10 +76,10 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber',
-			text: "No.",
+			id : 'RowNumber121',
+			text: "Items",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 40,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -84,7 +87,7 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 			}
 		},
 		{text: "Material Code",
-		width: 110,
+		width: 80,
 		dataIndex: 'matnr',
 		sortable: false,
 			field: {
@@ -139,7 +142,7 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
-			width: 80,
+			width: 90,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -186,25 +189,32 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 							field.selectText();
 					}
 				}}
-            },{
-            xtype: 'checkcolumn',
-            text: 'WHT',
-            dataIndex: 'chk02',
-            width: 30,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },
+            },{text: "WHT Type",
+		    width: 60,
+		    dataIndex: 'whtnr',
+		    sortable: false,
+		    align: 'center',
+			field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.whtDialog.show();
+				}
+			}
+			},
+			{text: "WHT Value",
+			width: 60,
+			dataIndex: 'whtpr',
+			sortable: false,
+			value: '0%',
+			align: 'center'
+		   },
 			{
 				text: "Amount",
 				//xtype: 'numbercolumn',
-				width: 120,
+				width: 110,
 				dataIndex: 'itamt',
 				sortable: false,
 				align: 'right',
@@ -366,6 +376,50 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 			_this.unitDialog.hide();
 			
 		});
+		
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='whtnr'){
+				var v = e.value;
+				if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.whtnr);
+							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							//_this.getForm().findField('whtgp').setValue(r.data.whtgp);
+						   
+						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
+							//_this.getForm().findField('whtgp').setValue('');
+							//o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		});
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+				// change cell code value (use db value)
+				rModel.set('whtnr', record.data.whtnr);
+				rModel.set('whtpr', record.data.whtpr);
+				//rModel.set('whtgp', record.data.whtgp);
+			//_this.trigUnit.setValue(record.data.meins);
+			}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
+		});
 
 		return this.callParent(arguments);
 	},
@@ -388,7 +442,7 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, chk01:1, ctype:'THB' };
+		rec = { id:newId, chk01:1, whtnr:'20',whtpr:'0%', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
@@ -467,7 +521,9 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 	setFtype: function(ftype){
 		this.ftype = ftype;
 		var field = this.materialDialog.searchForm.form.findField('ftype');
+		if(field){
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
+		}
 	}
 });

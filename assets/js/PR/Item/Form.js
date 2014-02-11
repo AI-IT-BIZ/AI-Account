@@ -185,7 +185,7 @@ Ext.define('Account.PR.Item.Form', {
          
          this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
-						fieldLabel: 'PR Type',
+						fieldLabel: 'Doc Type',
 						name: 'ftype',
 						editable: false,
 						allowBlank: false,
