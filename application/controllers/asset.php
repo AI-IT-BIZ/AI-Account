@@ -340,7 +340,10 @@ class Asset extends CI_Controller {
 	
 	function load2(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'umat';
+		$tbName = 'fara';
+		if($this->input->get('ftype')=='02'){
+			$tbName = 'mara';
+		}
 		
 		function createQuery($_this){
 			
@@ -522,7 +525,6 @@ class Asset extends CI_Controller {
 			'lifes' => intval($this->input->post('lifes')),
 			'depre' => floatval($this->input->post('depre')),
 			'keepi' => $this->input->post('keepi'),
-			'stype' => $this->input->post('stype'),
 			'statu' => $this->input->post('statu')
 			);
 			

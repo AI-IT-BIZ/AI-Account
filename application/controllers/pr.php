@@ -332,7 +332,8 @@ class Pr extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'reanr' => $this->input->post('reanr'),
-			'ctype' => $this->input->post('ctype')
+			'ctype' => $this->input->post('ctype'),
+			'ftype' => $this->input->post('ftype')
 		);
 
 		// start transaction

@@ -185,6 +185,22 @@ Ext.define('Account.PR.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 13'
          });
+         
+         this.trigFtype = Ext.create('Ext.form.ComboBox', {
+						xtype: 'combo',
+						fieldLabel: 'PR Type',
+						labelWidth: 50,
+						name: 'ftype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Fixed Asset'],['02','Materials & Services']],
+						margins: '0 0 5 13',
+						width:170,
+						value: '01'
+         });
 
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -250,20 +266,7 @@ Ext.define('Account.PR.Item.Form', {
 			       width:15,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           },{
-						xtype: 'combo',
-						fieldLabel: 'PR Type',
-						labelWidth: 50,
-						name: 'ftype',
-						editable: false,
-						allowBlank: false,
-						triggerAction: 'all',
-						labelAlign: 'right',
-						fields: ['value','text'],
-						store: [['01','Fixed Asset'],['02','Materials & Services']],
-						margins: '0 0 5 13',
-						width:170
-                	  }]
+		           },this.trigFtype]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -440,6 +443,8 @@ Ext.define('Account.PR.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
+		
+		this.trigFtype.on('change', this.changeFtype, this);
 		
 //---------------------------------------------------------------------
 		// grid event
@@ -626,5 +631,13 @@ Ext.define('Account.PR.Item.Form', {
 		store.each(function(r){
 			r.set('ctyp1', currency);
 		});
+	},
+	
+	changeFtype: function(){
+		var _this=this;
+		if(_this.trigFtype.getValue()){
+			_this.gridItem.setFtype(_this.trigFtype.getValue().toString());
+		}
 	}
+
 });
