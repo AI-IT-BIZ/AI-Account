@@ -1120,4 +1120,28 @@ class Invoice extends CI_Controller {
 			'totalCount'=>$totalCount
 		));
 	}
-	}
+	
+	public function load_wht(){
+		$tbName = 'whty';
+		$tbPK = 'whtnr';
+		
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('whtnr', $id);
+
+		//$totalCount = $this->db->count_all_results($tbName);
+		$query = $this->db->get($tbName);
+
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+   }
+}

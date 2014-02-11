@@ -313,7 +313,7 @@ layout: 'anchor',
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
 			                },{
 

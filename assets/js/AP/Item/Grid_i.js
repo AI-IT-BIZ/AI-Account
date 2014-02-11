@@ -238,7 +238,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 				var v = e.value;
 				if(Ext.isEmpty(v)) return;
 				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
+					url: __site_url+'invoice/load_wht',
 					method: 'POST',
 					params: {
 						id: v
@@ -246,15 +246,13 @@ Ext.define('Account.AP.Item.Grid_i', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							//o.setValue(r.data.whtnr);
-							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-							//_this.getForm().findField('whtgp').setValue(r.data.whtgp);
+							var rModel = _this.store.getById(e.record.data.id);
+							rModel.set(e.field, r.data.whtnr);
+							rModel.set('whtpr', r.data.whtpr);
 						   
 						}else{
-							o.setValue('');
-							_this.getForm().findField('whtpr').setValue('');
-							//_this.getForm().findField('whtgp').setValue('');
+							rModel.set(e.field, '');
+							rModel.set('whtpr', '');
 							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
