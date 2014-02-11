@@ -587,13 +587,13 @@ Ext.define('Account.Saledelivery.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v
+						salnr: v
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.salnr);
-							_this.getForm().findField('emnam').setValue(r.data.emnam);
+							_this.getForm().findField('emnam').setValue(r.data.name1);
 							
 						}else{
 							o.markInvalid('Could not find project owner : '+o.getValue());

@@ -43,7 +43,7 @@ class Debitnote extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=number_format($result['whtpr']);
 			
 			//$q_qt = $this->db->get_where('psal', array(
 			//	'salnr'=>$result['salnr']
@@ -86,7 +86,7 @@ class Debitnote extends CI_Controller {
 			unset($result['beamt']);
 			unset($result['netwr']);
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=number_format($result['whtpr']);
 			
 			//$q_qt = $this->db->get_where('psal', array(
 			//	'salnr'=>$result['salnr']

@@ -453,7 +453,7 @@ class Otexpense extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
 			//'whtyp' => $this->input->post('whtyp'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'duedt' => $this->input->post('duedt')//,
 			//'docty' => $this->input->post('docty')
@@ -506,7 +506,8 @@ class Otexpense extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'chk02'=>$p->chk02,
-					'ctype'=>$p->ctype
+					'ctype'=>$p->ctype,
+					'whtnr'=>$p->whtnr,
 				));
 			}
 		}
@@ -654,17 +655,32 @@ class Otexpense extends CI_Controller {
 			$this->db->set_dbprefix('v_');
 			$this->db->where('mbeln', $grdmbeln);
 			$query = $this->db->get('mseg');
+			
+			$res = $query->result_array();
+		for($i=0;$i<count($res);$i++){
+			$r = $res[$i];
+
+		    $res[$i]['whtnr'] = '20';
+			$res[$i]['whtpr'] = '0%';
+		}
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$res,
+			'totalCount'=>$query->num_rows()
+		));
 		}else{
 			$this->db->set_dbprefix('v_');
 			$this->db->where('invnr', $ap_id);
 			$query = $this->db->get('ebrp');
-		}
+		
 		
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$query->num_rows()
 		));
+		}
 	}
 	
 	function loads_gl_item(){
