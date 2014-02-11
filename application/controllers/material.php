@@ -122,6 +122,10 @@ class Material extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'mara';
 		
+		if($this->input->get('ftype')=='01'){
+			$tbName = 'fara';
+		}
+		
 		function createQuery($_this){
 			
 			$query = $_this->input->get('query');

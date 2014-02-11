@@ -104,7 +104,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			width: 350,
+			width: 242,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -134,8 +134,9 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		this.comboTax = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Vat Type',
+			labelWidth: 95,
 			name : 'taxnr',
-			width: 240,
+			width: 236,
 			margin: '0 0 0 6',
 			labelAlign: 'right',
 			editable: false,
@@ -200,11 +201,12 @@ Ext.define('Account.Quotation.Item.Form', {
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
+			labelWidth: 56,
 			name: 'taxpr',
-			labelAlign: 'right',
-			width:200,
+			labelAlign: 'left',
+			width:100,
 			align: 'right',
-			margin: '0 0 0 35'
+			margin: '0 0 0 15'
          });
 
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
@@ -241,6 +243,22 @@ Ext.define('Account.Quotation.Item.Form', {
 			labelAlign: 'right',
 			allowBlank : false
 		});
+		
+		this.trigFtype = Ext.create('Ext.form.ComboBox', {
+						xtype: 'combo',
+						fieldLabel: 'PR Type',
+						//labelWidth: 50,
+						name: 'ftype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						labelAlign: 'right',
+						fields: ['value','text'],
+						store: [['01','Fixed Asset'],['02','Materials & Services']],
+						margins: '0 0 5 13',
+						width: 220,
+						value: '02'
+         });
 
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -370,7 +388,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           },this.comboTax]
+		           },this.trigFtype,this.comboTax]
 				},{
 			 	xtype: 'container',
 				layout: 'hbox',
@@ -711,6 +729,8 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigWHT.onTriggerClick = function(){
 			_this.whtDialog.show();
 		};
+		
+		this.trigFtype.on('change', this.changeFtype, this);
 
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -937,6 +957,13 @@ Ext.define('Account.Quotation.Item.Form', {
 		store2.each(function(r){
 			r.set('ctyp1', currency);
 		});
+	},
+	
+	changeFtype: function(){
+		var _this=this;
+		if(_this.trigFtype.getValue()){
+			_this.gridItem.setFtype(_this.trigFtype.getValue().toString());
+		}
 	}
 
 	// select tax functions

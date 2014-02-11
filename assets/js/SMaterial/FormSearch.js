@@ -83,6 +83,9 @@ Ext.define('Account.SMaterial.FormSearch', {
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', statusOptions);
 
 		this.items = [{
+			name: 'ftype',
+			xtype: 'hiddenfield'
+		},{
 			// column layout with 2 columns
 			layout:'column',
 			border:false,
