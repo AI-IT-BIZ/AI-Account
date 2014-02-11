@@ -211,7 +211,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
          
          this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
-						fieldLabel: 'Other Expense Type',
+						fieldLabel: 'Doc Type',
 						//width: 248,
 						name: 'ftype',
 						editable: false,
@@ -256,9 +256,7 @@ layout: 'anchor',
 //collapsible: true,
         items: [this.radioType]},*/{
 						xtype: 'displayfield',
-						//name: 'aaa',
-						//margins: '0 0 0 6',
-						width: 248,
+						width: 250,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
