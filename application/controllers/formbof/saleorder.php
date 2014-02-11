@@ -418,6 +418,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
 		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		if(!empty($item['disit'])){
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
@@ -425,6 +426,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 			echo number_format($disc,2,'.',',');
 		}else{
 			echo $item['disit'];
+		}
 		}
 		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>

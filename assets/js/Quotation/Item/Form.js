@@ -104,7 +104,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			width: 242,
+			width: 350,
 			editable: false,
 			allowBlank : false,
 			triggerAction : 'all',
@@ -193,7 +193,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 		  this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:20,
+			width:25,
 			align: 'right',
 			margin: '0 0 0 5'
          });
@@ -201,12 +201,11 @@ Ext.define('Account.Quotation.Item.Form', {
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
-			labelWidth: 56,
 			name: 'taxpr',
-			labelAlign: 'left',
-			width:100,
+			labelAlign: 'right',
+			width:200,
 			align: 'right',
-			margin: '0 0 0 15'
+			margin: '0 0 0 35'
          });
 
 		this.hdnQtItem = Ext.create('Ext.form.Hidden', {
@@ -239,24 +238,20 @@ Ext.define('Account.Quotation.Item.Form', {
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			width: 240,
-			margin: '0 0 0 6',
+			//margin: '0 0 0 6',
 			labelAlign: 'right',
 			allowBlank : false
 		});
 		
-		this.trigFtype = Ext.create('Ext.form.ComboBox', {
+		this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
-						fieldLabel: 'PR Type',
-						//labelWidth: 50,
+						fieldLabel: 'Quotation Type',
 						name: 'ftype',
 						editable: false,
 						allowBlank: false,
 						triggerAction: 'all',
-						labelAlign: 'right',
 						fields: ['value','text'],
 						store: [['01','Fixed Asset'],['02','Materials & Services']],
-						margins: '0 0 5 13',
-						width: 220,
 						value: '02'
          });
 
@@ -289,10 +284,9 @@ Ext.define('Account.Quotation.Item.Form', {
 						xtype: 'hidden',
 						name: 'id'
 					},
-					this.trigProject,
+					this.comboFtype,
 					{
 						xtype: 'displayfield',
-						name: 'jobtx',
 						width:350,
 						margins: '0 0 0 6',
 						allowBlank: true
@@ -311,16 +305,17 @@ Ext.define('Account.Quotation.Item.Form', {
 					}]
 				// Customer Code
 				},{
-					xtype: 'container',
+					// Project Code
+	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
-					items :[this.trigCustomer,
+	 				items :[
+					this.trigProject,
 					{
 						xtype: 'displayfield',
-						name: 'name1',
-						margins: '0 0 0 6',
+						name: 'jobtx',
 						width:350,
-						//emptyText: 'Customer',
+						margins: '0 0 0 6',
 						allowBlank: true
 					},{
 						xtype: 'datefield',
@@ -333,6 +328,20 @@ Ext.define('Account.Quotation.Item.Form', {
 						submitFormat:'Y-m-d',
 						allowBlank: false
 					}]
+				// Customer Code
+				},{
+					xtype: 'container',
+					layout: 'hbox',
+					margin: '0 0 5 0',
+					items :[this.trigCustomer,
+					{
+						xtype: 'displayfield',
+						name: 'name1',
+						margins: '0 0 0 6',
+						width:350,
+						//emptyText: 'Customer',
+						allowBlank: true
+					},this.trigCurrency]
 				// Address Bill&Ship
 				},{
 					xtype: 'container',
@@ -358,8 +367,9 @@ Ext.define('Account.Quotation.Item.Form', {
 						editable: false,
 						margin: '0 0 0 140'
 					 }]
-				// Sale Person
+				
 				},{
+					// Sale Person
 					xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
@@ -368,27 +378,26 @@ Ext.define('Account.Quotation.Item.Form', {
 			name: 'sname',
 			width:174,
 			margins: '0 0 0 6'
-		},
+		    },
 					this.numberCredit,{
 						xtype: 'displayfield',
 						margin: '0 0 0 5',
 						width:10,
 						value: 'Days'
-					},this.trigCurrency
+					},this.comboTax
 				]
              // Tax&Ref no.
 			 },{
 			 	xtype: 'container',
 				layout: 'hbox',
 				margin: '0 0 5 0',
-				items: [this.comboPay,
-				this.numberVat,{
+				items: [this.comboPay,this.trigWHT,this.numberWHT,this.numberVat,{
 			       xtype: 'displayfield',
 			       align: 'right',
 			       width:10,
 			       margin: '0 0 0 5',
 			       value: '%'
-		           },this.trigFtype,this.comboTax]
+		           }]
 				},{
 			 	xtype: 'container',
 				layout: 'hbox',
@@ -399,13 +408,11 @@ Ext.define('Account.Quotation.Item.Form', {
 					name: 'refnr',
 					width:350
 				   },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT,{
-		           }]
-				},this.comboQStatus]
+						xtype: 'displayfield',
+						width:200,
+						margins: '0 0 0 6',
+						allowBlank: true
+					},this.comboQStatus]
 				}]
 
 			}]
@@ -729,8 +736,6 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.trigWHT.onTriggerClick = function(){
 			_this.whtDialog.show();
 		};
-		
-		this.trigFtype.on('change', this.changeFtype, this);
 
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -744,6 +749,8 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
+		
+		this.comboFtype.on('change', this.changeFtype, this);
 
 		return this.callParent(arguments);
 	},
@@ -961,8 +968,8 @@ Ext.define('Account.Quotation.Item.Form', {
 	
 	changeFtype: function(){
 		var _this=this;
-		if(_this.trigFtype.getValue()){
-			_this.gridItem.setFtype(_this.trigFtype.getValue().toString());
+		if(_this.comboFtype.getValue()){
+			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
 	}
 
