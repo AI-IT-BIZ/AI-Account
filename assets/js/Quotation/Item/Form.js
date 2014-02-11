@@ -245,7 +245,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		
 		this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
-						fieldLabel: 'Quotation Type',
+						fieldLabel: 'Doc Type',
 						name: 'ftype',
 						editable: false,
 						allowBlank: false,

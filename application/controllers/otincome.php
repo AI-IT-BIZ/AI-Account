@@ -52,7 +52,7 @@ class Otincome extends CI_Controller {
 			$result['emnam'] = $r_qt['emnam'];
 			}
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=number_format($result['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,
@@ -517,7 +517,7 @@ class Otincome extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01'))
@@ -571,7 +571,8 @@ class Otincome extends CI_Controller {
 				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02
+				//'chk02'=>$p->chk02,
+				'whtnr'=>$p->whtnr,
 			));
 	    	}
 		}

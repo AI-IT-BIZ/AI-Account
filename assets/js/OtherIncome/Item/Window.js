@@ -6,7 +6,7 @@ Ext.define('Account.OtherIncome.Item.Window', {
 			title: 'Create/Edit Other Income',
 			closeAction: 'hide',
 			height: 700,
-			width: 950,
+			width: 970,
 			layout: 'border',
 			border: false,
 			resizable: true,
