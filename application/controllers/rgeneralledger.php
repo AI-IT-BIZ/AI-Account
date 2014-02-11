@@ -66,7 +66,7 @@ class Rgeneralledger extends CI_Controller {
 					isnull(v_bkpf.bldat,'') as bldat,
 					isnull(v_bkpf.belnr,'') as belnr,
 					isnull(v_bkpf.invnr,'') as invnr,
-					isnull(v_bkpf.name1,'') as name1,
+					isnull(v_bkpf.name1,'') + isnull(v_bkpf.name2,'') as name1,
 					isnull(v_uacc.saknr,'') as saknr,
 					isnull(tbl_glno.sgtxt,'') as sgtxt,
 					isnull(v_uacc.debit,0) as debit,
@@ -91,7 +91,7 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_bkpf.bldat,'') as bldat,
 					ifnull(v_bkpf.belnr,'') as belnr,
 					ifnull(v_bkpf.invnr,'') as invnr,
-					ifnull(v_bkpf.name1,'') as name1,
+					CONCAT(ifnull(v_bkpf.name1,''),ifnull(v_bkpf.name2,'')) as name1,
 					ifnull(v_uacc.saknr,'') as saknr,
 					ifnull(tbl_glno.sgtxt,'') as sgtxt,
 					ifnull(v_uacc.debit,'') as debit,
@@ -308,8 +308,8 @@ class Rgeneralledger extends CI_Controller {
 			
 			$current_sheet
                       ->setCellValue("E{$row_idx}", 'B/F')
-                      ->setCellValue("F{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : '')
-                      ->setCellValue("G{$row_idx}", (floatval($bf["debit"]) < floatval($bf["credi"]))? floatval($bf["credi"])*floatval($val["glcre"]) : '')
+                      ->setCellValue("F{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? abs(floatval($bf["debit"])*floatval($val["glcre"])*(-1)) : '')
+                      ->setCellValue("G{$row_idx}", (floatval($bf["debit"]) < floatval($bf["credi"]))? abs(floatval($bf["credi"])*floatval($val["glcre"])) : '')
                       ->setCellValue("H{$row_idx}", (floatval($bf["debit"]) > floatval($bf["credi"]))? floatval($bf["debit"])*floatval($val["glcre"])*(-1) : floatval($bf["credi"])*floatval($val["glcre"]) );
 			if(db_helper_is_mysql($this)){					
 			$sql = "
@@ -317,7 +317,7 @@ class Rgeneralledger extends CI_Controller {
 					ifnull(v_bkpf.bldat,'') as bldat,
 					ifnull(v_bkpf.belnr,'') as belnr,
 					ifnull(v_bkpf.invnr,'') as invnr,
-					ifnull(v_bkpf.name1,'') as name1,
+					CONCAT(ifnull(v_bkpf.name1,''),ifnull(v_bkpf.name2,'')) as name1,
 					ifnull(v_uacc.saknr,'') as saknr,
 					ifnull(tbl_glno.sgtxt,'') as sgtxt,
 					ifnull(v_uacc.debit,'') as debit,
@@ -342,7 +342,7 @@ class Rgeneralledger extends CI_Controller {
 					isnull(v_bkpf.bldat,'') as bldat,
 					isnull(v_bkpf.belnr,'') as belnr,
 					isnull(v_bkpf.invnr,'') as invnr,
-					isnull(v_bkpf.name1,'') as name1,
+					isnull(v_bkpf.name1,'') + isnull(v_bkpf.name2,'') as name1,
 					isnull(v_uacc.saknr,'') as saknr,
 					isnull(tbl_glno.sgtxt,'') as sgtxt,
 					isnull(v_uacc.debit,0) as debit,
