@@ -19,6 +19,8 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow');
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.Unit.Window');
+        this.whtDialog = Ext.create('Account.WHT.Window');
+        
 		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -48,7 +50,9 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				'ctype',
 				'chk01',
 				'chk02',
-				'saknr'
+				'saknr',
+				'whtnr',
+				'whtpr'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -175,21 +179,28 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 							field.selectText();
 					}
 				}}
-            },{
-            xtype: 'checkcolumn',
-            text: 'WHT',
-            dataIndex: 'chk02',
-            width: 30,
-            field: {
-                xtype: 'checkboxfield',
-                listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}}
-            },
+            },{text: "WHT Type",
+		    width: 60,
+		    dataIndex: 'whtnr',
+		    sortable: false,
+		    align: 'center',
+			field: {
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					_this.editing.completeEdit();
+					_this.whtDialog.show();
+				}
+			}
+			},
+			{text: "WHT Value",
+			width: 60,
+			dataIndex: 'whtpr',
+			sortable: false,
+			value: '0%',
+			align: 'center'
+		   },
 			{
 				text: "Amount",
 				width: 90,
@@ -329,6 +340,50 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
 			
+		});
+		
+		this.editing.on('edit', function(editor, e) {
+			if(e.column.dataIndex=='whtnr'){
+				var v = e.value;
+				if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'invoice/loads_wht',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//o.setValue(r.data.whtnr);
+							_this.getForm().findField('whtnr').setValue(r.data.whtnr);
+							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
+							//_this.getForm().findField('whtgp').setValue(r.data.whtgp);
+						   
+						}else{
+							o.setValue('');
+							_this.getForm().findField('whtpr').setValue('');
+							//_this.getForm().findField('whtgp').setValue('');
+							//o.markInvalid('Could not find wht code : '+o.getValue());
+						}
+					}
+				});
+			}
+		});
+
+		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			var rModels = _this.getView().getSelectionModel().getSelection();
+			if(rModels.length>0){
+				rModel = rModels[0];
+				// change cell code value (use db value)
+				rModel.set('whtnr', record.data.whtnr);
+				rModel.set('whtpr', record.data.whtpr);
+				//rModel.set('whtgp', record.data.whtgp);
+			//_this.trigUnit.setValue(record.data.meins);
+			}
+            
+			grid.getSelectionModel().deselectAll();
+			_this.whtDialog.hide();
 		});
 
 		return this.callParent(arguments);

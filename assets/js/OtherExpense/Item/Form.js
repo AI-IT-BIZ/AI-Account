@@ -208,34 +208,6 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
-         
-         this.whtDialog = Ext.create('Account.WHT.Window');
-         this.trigWHT = Ext.create('Ext.form.field.Trigger', {
-       	    fieldLabel: 'WHT Value',
-			name: 'whtnr',
-			labelAlign: 'right',
-			width:150,
-			hideTrigger:false,
-			align: 'right',
-			value: '10'
-		 });
-		 
-		  this.numberWHT = Ext.create('Ext.form.field.Display', {
-			name: 'whtpr',
-			width:20,
-			align: 'right',
-			margin: '0 0 0 5'
-         });
-         
-         /*this.radioType = Ext.create('Ext.form.RadioGroup', {
-			//xtype: 'radiogroup',
-           // fieldLabel: 'Payable Type',
-            cls: 'x-check-group-alt',
-            items: [
-                {boxLabel: 'Account Payable', width:150, name: 'docty', inputValue: 1, checked: true},
-                {boxLabel: 'Pretty Cash', width:100,  name: 'docty', inputValue: 2}
-            ]
-		});*/
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -331,12 +303,7 @@ layout: 'anchor',
 								width: 280, 
 								name: 'refnr',
 			                },{
-			 	xtype: 'container',
-				layout: 'hbox',
-				margin: '0 0 5 0',
-				items: [
-				this.trigWHT,this.numberWHT,{
-		           }]
+
 				}]
 		                }]
 		            },{
@@ -399,48 +366,6 @@ layout: 'anchor',
 			]
 		}	
 		];
-		
-		// event trigWHT///
-		this.trigWHT.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'invoice/loads_wht',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.whtnr);
-							_this.getForm().findField('whtpr').setValue(r.data.whtpr);
-						
-						}else{
-							o.setValue('');
-							_this.getForm().findField('whtpr').setValue('');
-							o.markInvalid('Could not find wht code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.whtDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigWHT.setValue(record.data.whtnr);
-			//if(record.data.whtnr != '6'){
-            _this.getForm().findField('whtpr').setValue(record.data.whtpr);
-           //}
-            
-			grid.getSelectionModel().deselectAll();
-			_this.whtDialog.hide();
-		});
-
-		this.trigWHT.onTriggerClick = function(){
-			_this.whtDialog.show();
-		};
 		
 		// event trigVender///
 		this.trigVendor.on('keyup',function(o, e){
@@ -572,7 +497,7 @@ layout: 'anchor',
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.numberWHT.on('change', this.calculateTotal, this);
+		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
@@ -587,9 +512,9 @@ layout: 'anchor',
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });
 
@@ -657,7 +582,7 @@ layout: 'anchor',
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		//this.numberWHT.setValue(3);
 		this.getForm().findField('bldat').setValue(new Date());
 		this.getForm().findField('duedt').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
@@ -708,12 +633,12 @@ layout: 'anchor',
 				    vat = (amt * vat) / 100;
 				    vats += vat;
 			}
-			if(r.data['chk02']==true){
-			var whtpr = _this.numberWHT.getValue();
-				whtpr = whtpr.replace('%','');
+			    var whtpr = r.data['whtpr'];
+			    if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-		    }
+				   }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -769,9 +694,9 @@ layout: 'anchor',
             	unitp:sel.get('unitp').replace(/[^0-9.]/g, ''),
             	disit:sel.get('disit').replace(/[^0-9.]/g, ''),
             	vvat:this.numberVat.getValue(),
-            	vwht:this.numberWHT.getValue(),
+            	vwht:sel.get('whtpr'),
             	vat:sel.get('chk01'),
-            	wht:sel.get('chk02'),
+            	//wht:sel.get('chk02'),
             	vattype:this.comboTax.getValue()
             });     
         }

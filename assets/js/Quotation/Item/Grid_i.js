@@ -482,7 +482,9 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 	setFtype: function(ftype){
 		this.ftype = ftype;
 		var field = this.materialDialog.searchForm.form.findField('ftype');
+		if(field){
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
+		}
 	}
 });
