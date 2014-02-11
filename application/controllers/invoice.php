@@ -50,7 +50,7 @@ class Invoice extends CI_Controller {
 			$r_qt = $q_qt->first_row('array');
 			$result['emnam'] = $r_qt['emnam'];
 			
-			$result['whtpr']=number_format($result['whtpr']);
+			//$result['whtpr']=number_format($result['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,

@@ -803,9 +803,11 @@ Ext.define('Account.AP.Item.Form', {
 				    vats += vat;
 			}
 			var whtpr = r.data['whtpr'];
-				whtpr = whtpr.replace('%','');
+			    if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
+				   }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -854,9 +856,11 @@ Ext.define('Account.AP.Item.Form', {
 				    vats += vat;
 			}
 			var whtpr = r.data['whtpr'];
-				whtpr = whtpr.replace('%','');
+			    if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
+				   }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}

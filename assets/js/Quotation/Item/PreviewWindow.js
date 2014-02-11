@@ -17,6 +17,6 @@ Ext.define('Account.Quotation.Item.PreviewWindow', {
 	
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
-		return __site_url+'formbof/quotation/index/'+id+'/'+copies;
+		return __site_url+'form/quotation/index/'+id+'/'+copies;
 	}
 });

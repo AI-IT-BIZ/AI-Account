@@ -659,14 +659,14 @@ Ext.define('Account.Invoice.Item.Form', {
 					url: __site_url+'saleperson/load',
 					method: 'POST',
 					params: {
-						id: v,
+						salnr: v,
 						key: 1
 					},
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.salnr);
-							_this.getForm().findField('emnam').setValue(r.data.emnam);
+							_this.getForm().findField('emnam').setValue(r.data.name1);
 							
 						}else{
 							o.setValue('');
@@ -935,10 +935,11 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			//if(r.data['chk02']==true){
 				var whtpr = r.data['whtpr'];
-				whtpr = whtpr.replace('%','');
+				if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			//}
+			     }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
@@ -987,11 +988,12 @@ Ext.define('Account.Invoice.Item.Form', {
 				    vats += vat;
 			}
 			//if(r.data['chk02']==true){
-				var whtpr = r.data['whtpr'];
-				whtpr = whtpr.replace('%','');
+				var whtpr = r.data['whtpr']
+                if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			//}
+			    }
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}

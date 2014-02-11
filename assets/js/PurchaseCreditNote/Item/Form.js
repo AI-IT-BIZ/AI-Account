@@ -224,7 +224,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		
 		this.numberWHT = Ext.create('Ext.form.field.Display', {
 			name: 'whtpr',
-			width:15,
+			width:25,
 			align: 'right',
 			margin: '0 0 0 8'
          });
@@ -323,11 +323,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 				margin: '0 0 5 0',
 				items: [
 				this.trigWHT,this.numberWHT,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
+			       
 		           }]
 				}]
 		                }]
@@ -432,7 +428,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
-			                _this.getForm().findField('deamt').setValue(r.data.deamt);
+			                //_this.getForm().findField('deamt').setValue(r.data.deamt);
 						}else{
 							o.setValue('');
 							_this.getForm().findField('lifnr').setValue('');
@@ -444,7 +440,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			                _this.getForm().findField('ctype').setValue('');
 			                _this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('loekz').setValue('');
-			                _this.getForm().findField('deamt').setValue('');
+			                //_this.getForm().findField('deamt').setValue('');
 							o.markInvalid('Could not find AP no : '+o.getValue());
 						}
 					}
@@ -753,7 +749,8 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
 		this.numberVat.setValue(7);
-		this.numberWHT.setValue(3);
+		this.trigWHT.setValue(10);
+		this.numberWHT.setValue('3%');
 		this.getForm().findField('bldat').setValue(new Date());
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
@@ -792,6 +789,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 			}
 			if(r.data['chk02']==true){
 				var wht = _this.numberWHT.getValue();
+				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
 			}
@@ -830,7 +828,7 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
         }
         
         var rate = this.formTotal.getForm().findField('exchg').getValue();
-        var deamt = this.formTotal.getForm().findField('deamt').getValue();
+        //var deamt = this.formTotal.getForm().findField('deamt').getValue();
         //alert(deamt);
 		if(currency != 'THB'){
 		  sum = sum * rate;
@@ -838,14 +836,14 @@ Ext.define('Account.PurchaseCreditNote.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  deamt = deamt * rate;
+		  //deamt = deamt * rate;
 		}
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
 		 
         if(sum>0 && this.trigVendor.getValue()!=''){
