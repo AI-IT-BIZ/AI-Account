@@ -6,8 +6,8 @@ Ext.define('Account.PO.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Purchase Order',
 			closeAction: 'hide',
-			height: 650,
-			width: 880,
+			height: 670,
+			width: 890,
 			layout: 'border',
 			border: false,
 			resizable: true,

@@ -18,13 +18,13 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 			frame: true,
 			items: [{
 				xtype: 'datefield',
-				fieldLabel: 'เริ่มต้น',
+				fieldLabel: 'Start Date',
 				name: 'start_date',
 				format: 'Y-m-d',
 				allowBlank: false
 			},{
 				xtype: 'datefield',
-				fieldLabel: 'สิ้นสุด',
+				fieldLabel: 'End Date',
 				name: 'end_date',
 				format: 'Y-m-d',
 				allowBlank: false
