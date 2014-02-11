@@ -36,11 +36,11 @@ class Rwht_docket extends CI_Controller {
 		if($copies<=0) $copies = 1;
 	
 		//Purchase
-		$strSQL="";
-		$strSQL = " select v_ebrk.*";
+		$strSQL = " select v_ebrk.*,v_ebrp.*";
         $strSQL = $strSQL . " from v_ebrk ";
+        $strSQL = $strSQL . " left join v_ebrp on v_ebrk.invnr = v_ebrp.invnr ";
         $strSQL = $strSQL . " Where v_ebrk.invnr = '".$invnr."'";
-		//$strSQL .= " ORDER BY payno ASC";
+		$strSQL .= "ORDER BY vbelp ASC";
        
 		$query = $this->db->query($strSQL);
 		if($query->num_rows()>0){
@@ -48,9 +48,8 @@ class Rwht_docket extends CI_Controller {
 		
 		$cusid = str_split($r_data['taxid']);
 		// calculate sum
-		//$rowp = $query->result_array();
-		//$tline = $query->num_rows();	
-
+		//$result = array();
+		
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
 		}

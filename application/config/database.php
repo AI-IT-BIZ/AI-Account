@@ -65,9 +65,9 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;*/
 
-/*
+
 //Connection to MySQL BOF=====================
-$db['default']['hostname'] = '25.168.218.171';
+/*$db['default']['hostname'] = '25.168.218.171';
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = 'ai_account_pass';
 $db['default']['database'] = 'ai_account';
@@ -83,7 +83,6 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 */
-
 
 //Connection to MSSQL=====================
 $db['default']['hostname'] = '203.144.166.102';
