@@ -113,7 +113,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			width: 175,
+			//width: 175,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
@@ -178,27 +178,21 @@ Ext.define('Account.PR.Item.Form', {
          this.numberVat = Ext.create('Ext.ux.form.NumericField', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
-			labelWidth: 56,
 			name: 'taxpr',
 			labelAlign: 'left',
-			width:100,
-			align: 'right',
-			margin: '0 0 0 13'
+			width:170,
+			align: 'right'
          });
          
-         this.trigFtype = Ext.create('Ext.form.ComboBox', {
+         this.comboFtype = Ext.create('Ext.form.ComboBox', {
 						xtype: 'combo',
 						fieldLabel: 'PR Type',
-						labelWidth: 50,
 						name: 'ftype',
 						editable: false,
 						allowBlank: false,
 						triggerAction: 'all',
-						labelAlign: 'right',
 						fields: ['value','text'],
 						store: [['01','Fixed Asset'],['02','Materials & Services']],
-						margins: '0 0 5 13',
-						width:170,
 						value: '01'
          });
 
@@ -225,11 +219,10 @@ Ext.define('Account.PR.Item.Form', {
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigVender,{
+					},this.comboFtype,{
 						xtype: 'displayfield',
-						name: 'name1',
 						margins: '0 0 0 6',
-						width:307,
+						width:267,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
@@ -245,48 +238,20 @@ Ext.define('Account.PR.Item.Form', {
 					}]
 				// Address Bill&Ship
 	            },{
+		    // Project Code
 	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
-            		items:[{
-		                xtype: 'container',
-		                flex: 0,
-		                items :[ this.comboLifnr,{
-						    xtype: 'textarea',
-						    fieldLabel: 'Vendor Address',
-						    name: 'adr01',
-						    width: 450, 
-						    rows:3,
-		                },{xtype: 'container',
-							layout: 'hbox',
-							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           },this.trigFtype]
-				 			},{
-			 				xtype: 'container',
-							layout: 'hbox',
-							margin: '0 0 5 0',
-				 			items :[{
-								xtype: 'textfield',
-								fieldLabel: 'Reference No',
-								width: 280, 
-								name: 'refnr',
-			                },this.numberCredit,{
+		 			items :[{
+						xtype: 'hidden',
+						name: 'id'
+					},this.trigVender,{
 						xtype: 'displayfield',
-						margin: '0 0 0 5',
-						width:25,
-						value: 'Days'
-						}]
-		                }]
-		            },{
-		                xtype: 'container',
-		            	margin: '0 0 0 70',
-		                items: [{
+						name: 'name1',
+						margins: '0 0 0 6',
+						width:267,
+						allowBlank: true
+					},{
 							xtype: 'datefield',
 							fieldLabel: 'Doc Date',
 							name: 'bldat',
@@ -296,7 +261,45 @@ Ext.define('Account.PR.Item.Form', {
 							format:'d/m/Y',
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
-		                }, {
+		                }]
+				// Address Bill&Ship
+	            },{
+	 				xtype: 'container',
+					layout: 'hbox',
+					margin: '0 0 5 0',
+            		items:[{
+		                xtype: 'container',
+		                flex: 0,
+		                items :[{
+						    xtype: 'textarea',
+						    fieldLabel: 'Vendor Address',
+						    name: 'adr01',
+						    width: 450, 
+						    rows:3,
+		                },{xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.comboPay,this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
+				 			},{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[{
+								xtype: 'textfield',
+								fieldLabel: 'Reference No',
+								width: 450, 
+								name: 'refnr',
+			                },{}]
+		                }]
+		            },{
+		                xtype: 'container',
+		            	margin: '0 0 0 70',
+		                items: [{
 							xtype: 'datefield',
 							fieldLabel: 'Delivery Date',
 							name: 'lfdat',
@@ -307,6 +310,18 @@ Ext.define('Account.PR.Item.Form', {
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
                 		}, this.comboTax,
+                		{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.numberVat,{
+			                xtype: 'displayfield',
+			                align: 'right',
+			                width:15,
+			                margin: '0 0 0 5',
+			                value: '%'
+		                    }]
+						},
                 		this.trigCurrency,
 					    this.comboQStatus]
 		          }]
@@ -444,7 +459,7 @@ Ext.define('Account.PR.Item.Form', {
 			_this.currencyDialog.show();
 		};
 		
-		this.trigFtype.on('change', this.changeFtype, this);
+		this.comboFtype.on('change', this.changeFtype, this);
 		
 //---------------------------------------------------------------------
 		// grid event
@@ -635,8 +650,8 @@ Ext.define('Account.PR.Item.Form', {
 	
 	changeFtype: function(){
 		var _this=this;
-		if(_this.trigFtype.getValue()){
-			_this.gridItem.setFtype(_this.trigFtype.getValue().toString());
+		if(_this.comboFtype.getValue()){
+			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
 	}
 

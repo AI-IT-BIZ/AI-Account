@@ -404,7 +404,6 @@ $i=397+20;
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();
-echo 'aaa'.$page_size.'bbb'.count($rows).'ccc'.$current_page_index;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$itamt = 0;$pos='';$disc=0;
@@ -493,8 +492,8 @@ else
 	$tax_str = '';
 
 $wht_str = "";
-if(!empty($r_data['whtpr']) && intval($r_data['whtpr'])>0)
-	$wht_str = number_format($r_data['whtpr'],0,'.',',').'%';
+if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
+	$wht_str = $r_data['whtpr'];
 else
 	$wht_str = '';
 ?>
