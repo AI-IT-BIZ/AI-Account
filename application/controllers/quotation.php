@@ -318,7 +318,8 @@ class Quotation extends CI_Controller {
 			'whtnr' => $this->input->post('whtnr'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			'whtxt' => $this->input->post('whtxt')
+			'whtxt' => $this->input->post('whtxt'),
+			'ftype' => $this->input->post('ftype')
 		);
 
 		// start transaction

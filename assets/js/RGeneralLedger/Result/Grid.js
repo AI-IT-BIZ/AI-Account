@@ -58,7 +58,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 			{text: 'Customer/ Supplier Code', sortable: false, dataIndex: 'kunnr'},
 			{text: 'Customer/ Supplier Name', sortable: false, dataIndex: 'name1'},
 			{text: 'Description', sortable: false, dataIndex: 'txz01'},
-			{text: 'Debit', sortable: false, dataIndex: 'debit', renderer: Ext.util.Format.numberRenderer('0,000.00'),
+			{text: 'Debit', align: "right", sortable: false, dataIndex: 'debit', renderer: Ext.util.Format.numberRenderer('0,000.00'),
 				summaryType: function(records){
 					var i = 0,
 						length = records.length,
@@ -74,7 +74,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 					return '<b>'+Ext.util.Format.number(value,'0,000.00')+'</b>';
 				}
 			},
-			{text: 'Credit', sortable: false, dataIndex: 'credi', renderer: Ext.util.Format.numberRenderer('0,000.00'),
+			{text: 'Credit', align: "right", sortable: false, dataIndex: 'credi', renderer: Ext.util.Format.numberRenderer('0,000.00'),
 				summaryType: function(records){
 					var i = 0,
 						length = records.length,
@@ -90,7 +90,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 					return '<b>'+Ext.util.Format.number(value,'0,000.00')+'</b>';
 				}
 			},
-			{text: 'Balance', sortable: false, dataIndex: 'balance', renderer: Ext.util.Format.numberRenderer('0,000.00'),
+			{text: 'Balance', align: "right", sortable: false, dataIndex: 'balance', renderer: Ext.util.Format.numberRenderer('0,000.00'),
 				summaryType: function(records){
 					var i = 0,
 						length = records.length,

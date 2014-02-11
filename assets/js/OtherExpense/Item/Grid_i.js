@@ -478,4 +478,5 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		});
 		return rs;
 	}
+	
 });
