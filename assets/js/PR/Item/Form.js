@@ -113,7 +113,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
 			name : 'ptype',
-			width: 175,
+			width: 184,
 			editable: false,
 			//allowBlank : false,
 			triggerAction : 'all',
