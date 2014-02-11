@@ -375,7 +375,7 @@ class Asset extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
-			$_this->db->where('stype',$_this->input->get('stype'));
+			$_this->db->where('stype','02');
 
 		}
 		// End for report		

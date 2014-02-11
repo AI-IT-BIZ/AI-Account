@@ -208,6 +208,19 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			align: 'right'//,
 			//margin: '0 0 0 35'
          });
+         
+         this.comboFtype = Ext.create('Ext.form.ComboBox', {
+						xtype: 'combo',
+						fieldLabel: 'Other Expense Type',
+						//width: 248,
+						name: 'ftype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						fields: ['value','text'],
+						store: [['01','Fixed Asset'],['02','Materials & Services']],
+						value: '01'
+         });
 		
 		var mainFormPanel = {
 			xtype: 'panel',
@@ -231,11 +244,13 @@ Ext.define('Account.OtherExpense.Item.Form', {
 					margin: '0 0 5 0',
 		 			items :[{
 						xtype: 'hidden',
+						width: 0,
 						name: 'id'
 					},{
 						xtype: 'hidden',
+						width: 0,
 						name: 'loekz'
-					},/*{xtype: 'fieldset',
+					},this.comboFtype,/*{xtype: 'fieldset',
 title: 'Payable Type',
 layout: 'anchor',
 //collapsible: true,
@@ -243,7 +258,7 @@ layout: 'anchor',
 						xtype: 'displayfield',
 						//name: 'aaa',
 						//margins: '0 0 0 6',
-						width:500,
+						width: 248,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
@@ -483,6 +498,8 @@ layout: 'anchor',
 			_this.currencyDialog.show();
 		};
 		
+		this.comboFtype.on('load', this.changeFtype, this);
+		this.comboFtype.on('change', this.changeFtype, this);
 //---------------------------------------------------------------------
 		// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -723,6 +740,13 @@ layout: 'anchor',
 		store.each(function(r){
 			r.set('ctype', currency);
 		});
+	},
+	
+	changeFtype: function(){
+		var _this=this;
+		if(_this.comboFtype.getValue()){
+			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
+		}
 	}
 	
 // Payments Method	

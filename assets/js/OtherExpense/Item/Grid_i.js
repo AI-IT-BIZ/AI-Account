@@ -479,6 +479,13 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			rs.push(r.getData());
 		});
 		return rs;
+	},
+	
+	setFtype: function(ftype){
+		this.ftype = ftype;
+		var field = this.materialDialog.searchForm.form.findField('ftype');
+		field.setValue(ftype);
+		this.materialDialog.grid.load();
 	}
 	
 });
