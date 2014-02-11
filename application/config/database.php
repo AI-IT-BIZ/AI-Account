@@ -65,14 +65,6 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;*/
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> df0a6949dab428f113957214064ce0f5593ee9b1
 
 //Connection to MySQL BOF=====================
 /*$db['default']['hostname'] = '25.168.218.171';
@@ -89,15 +81,10 @@ $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
-<<<<<<< HEAD
 $db['default']['stricton'] = FALSE;*/
-=======
-$db['default']['stricton'] = FALSE;
->>>>>>> df0a6949dab428f113957214064ce0f5593ee9b1
 
 
 
-/*
 //Connection to MSSQL=====================
 $db['default']['hostname'] = '203.144.166.102';
 $db['default']['username'] = 'ai_account';
@@ -115,7 +102,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 $db['default']['port'] = 1443;
-*/
+
 
 /*
 $db['default']['hostname'] = 'localhost';
