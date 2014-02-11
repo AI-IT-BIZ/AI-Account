@@ -32,17 +32,19 @@ class Payment extends CI_Controller {
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
 		
+		if(!empty($r_data['adr01'])){
 		$ads00 = explode('Kwang',$r_data['adr01']);
 		//echo 'aaa'.$ads00->num_rows().$ads00[1];
-		if(empty($ads00[0])){
+		if(empty($ads00[1])){
 		   $ads00 = explode('kwang',$r_data['adr01']);
-		   if(empty($ads00[0])){
+		   if(empty($ads00[1])){
 			   $ads00 = explode('แขวง',$r_data['adr01']);
 			   if(!empty($ads00[1])){
 				   $ads00[1] = 'แขวง'.$ads00[1];
 				   }
 		   }else{ $ads00[1] = 'kwang'.$ads00[1]; }
 		}else{ $ads00[1] = 'Kwang'.$ads00[1]; }
+		}
 		
 		$strSQL = " select v_paym.*";
         $strSQL = $strSQL . " from v_paym ";

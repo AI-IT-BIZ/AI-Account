@@ -49,8 +49,6 @@ $active_group = 'default';
 $active_record = TRUE;
 
 
-/*
-
 /*$db['default']['hostname'] = '54.251.188.145';
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = 'ai_account_pass';
@@ -67,15 +65,22 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;*/
 
+<<<<<<< HEAD
+=======
 
 
 
 
 
+>>>>>>> df0a6949dab428f113957214064ce0f5593ee9b1
 
 //Connection to MySQL BOF=====================
+<<<<<<< HEAD
 /*
 $db['default']['hostname'] = '25.168.218.171';
+=======
+/*$db['default']['hostname'] = '25.168.218.171';
+>>>>>>> 111db7bda9dab753156a070e04c46f29c17148c0
 $db['default']['username'] = 'ai_account';
 $db['default']['password'] = 'ai_account_pass';
 $db['default']['database'] = 'ai_account';
@@ -89,8 +94,15 @@ $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
+<<<<<<< HEAD
+$db['default']['stricton'] = FALSE;*/
+=======
 $db['default']['stricton'] = FALSE;
+<<<<<<< HEAD
 */
+=======
+>>>>>>> df0a6949dab428f113957214064ce0f5593ee9b1
+>>>>>>> 111db7bda9dab753156a070e04c46f29c17148c0
 
 
 //Connection to MSSQL=====================

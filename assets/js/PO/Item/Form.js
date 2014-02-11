@@ -278,13 +278,12 @@ Ext.define('Account.PO.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
+				 			items :[this.comboPay,this.numberCredit,{
+						xtype: 'displayfield',
+						margin: '0 0 0 5',
+						width:25,
+						value: 'Days'
+						}]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -292,14 +291,9 @@ Ext.define('Account.PO.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 280, 
+								width: 450, 
 								name: 'refnr',
-			                },this.numberCredit,{
-						xtype: 'displayfield',
-						margin: '0 0 0 5',
-						width:25,
-						value: 'Days'
-						}]
+			                },{}]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -330,6 +324,18 @@ Ext.define('Account.PO.Item.Form', {
 							submitFormat:'Y-m-d',
 							allowBlank: false
                 		}, this.comboTax,
+                		{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.numberVat,{
+			                xtype: 'displayfield',
+			                align: 'right',
+			                width:15,
+			                margin: '0 0 0 5',
+			                value: '%'
+		                    }]
+						},
                 		this.trigCurrency,
 					    this.comboQStatus]
 		            }]
