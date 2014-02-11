@@ -17,10 +17,10 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 		});
 
 		// INIT Material search popup /////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow');
-		var field = this.materialDialog.searchForm.form.findField('stype');
-		field.setValue('01');
-		this.materialDialog.grid.load();
+		this.materialDialog = Ext.create('Account.SMaterial.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		// END Material search popup //////////////////////////////////
         this.unitDialog = Ext.create('Account.Unit.Window');
         this.whtDialog = Ext.create('Account.WHT.Window');
@@ -521,7 +521,9 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 	setFtype: function(ftype){
 		this.ftype = ftype;
 		var field = this.materialDialog.searchForm.form.findField('ftype');
+		if(field){
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
+		}
 	}
 });
