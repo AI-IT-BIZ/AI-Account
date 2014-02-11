@@ -898,7 +898,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  //deamt = deamt * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
@@ -906,7 +905,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
         
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
