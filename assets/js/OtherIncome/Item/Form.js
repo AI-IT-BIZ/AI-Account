@@ -224,6 +224,19 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			align: 'right',
 			margin: '0 0 0 25'
          });
+         
+         this.comboFtype = Ext.create('Ext.form.ComboBox', {
+						xtype: 'combo',
+						fieldLabel: 'PR Type',
+						width: 240,
+						name: 'ftype',
+						editable: false,
+						allowBlank: false,
+						triggerAction: 'all',
+						fields: ['value','text'],
+						store: [['01','Fixed Asset'],['02','Materials & Services']],
+						value: '01'
+         });
 
         /*this.trigSO = Ext.create('Ext.form.field.Trigger', {
 			name: 'ordnr',
@@ -308,7 +321,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		},{
 			xtype: 'hidden',
 			name: 'loekz'
-		},{
+		},this.comboFtype,{
 			xtype: 'displayfield',
 			//name: 'jobtx',
 			width:550,
@@ -672,6 +685,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		this.trigCurrency.onTriggerClick = function(){
 			_this.currencyDialog.show();
 		};
+		
+		this.comboFtype.on('change', this.changeFtype, this);
 
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
@@ -913,6 +928,13 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		store.each(function(r){
 			r.set('ctype', currency);
 		});
+	},
+	
+	changeFtype: function(){
+		var _this=this;
+		if(_this.comboFtype.getValue()){
+			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
+		}
 	}
 
 // Payments Method

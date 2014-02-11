@@ -21,6 +21,9 @@ Ext.define('Account.PR.Item.Grid_i', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
+		var field = this.materialDialog.searchForm.form.findField('stype');
+		field.setValue('02');
+		this.materialDialog.grid.load();
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];
@@ -431,4 +434,5 @@ Ext.define('Account.PR.Item.Grid_i', {
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
 	}
+	
 });

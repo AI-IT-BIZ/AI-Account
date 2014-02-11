@@ -86,6 +86,9 @@ Ext.define('Account.SMatAsset.FormSearch', {
 			name: 'ftype',
 			xtype: 'hiddenfield'
 		},{
+			name: 'stype',
+			xtype: 'hiddenfield'
+		},{
 			// column layout with 2 columns
 			layout:'column',
 			border:false,
