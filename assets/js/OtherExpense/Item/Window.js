@@ -6,7 +6,7 @@ Ext.define('Account.OtherExpense.Item.Window', {
 			title: 'Create/Edit Other Expense',
 			closeAction: 'hide',
 			height: 670,
-			width: 940,
+			width: 960,
 			layout: 'border',
 			border: false,
 			resizable: true,

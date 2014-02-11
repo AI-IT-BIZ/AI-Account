@@ -73,7 +73,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			id : 'APiRowNumber2',
 			header : "Items",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 40,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -119,7 +119,9 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 50, dataIndex: 'meins', 
+			align: 'center',
+			sortable: false,
 			field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -132,7 +134,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			},
 			{text: "Price/Unit",
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 90,
 			dataIndex: 'unitp',
 			sortable: false,
 			align: 'right',
@@ -150,7 +152,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			},
 			{text: "Discount",
 			xtype: 'numbercolumn',
-			width: 80,
+			width: 70,
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
@@ -220,7 +222,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 65,
+			width: 55,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
@@ -405,7 +407,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		newId--;
 
 		// add new record
-		rec = { id:newId, chk01:1, ctype:'THB' };
+		rec = { id:newId, chk01:1, whtnr:'20', whtpr:'0%', ctype:'THB' };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record
