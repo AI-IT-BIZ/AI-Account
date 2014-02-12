@@ -57,7 +57,7 @@ Ext.define('Account.Quotation.Grid', {
 			{text: "Amount", xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency",
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			width: 55, align: 'center', dataIndex: 'ctype', sortable: true},
 			{text: "1",hidden: true,width: 0, sortable: false, dataIndex: 'ptype'},
 			{text: "2",hidden: true,width: 0, sortable: false, dataIndex: 'taxnr'},
 			{text: "3",hidden: true,width: 0, sortable: false, dataIndex: 'terms'}

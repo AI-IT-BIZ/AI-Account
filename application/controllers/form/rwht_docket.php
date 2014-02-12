@@ -342,24 +342,104 @@ body { font-family: 'angsana_newregular'; }
 
 <?php
 $t_beamt=0;$t_wht=0;$posit=0; 
+$t1_beamt=0;$t1_wht=0;
+$t2_beamt=0;$t2_wht=0;
+$t3_beamt=0;$t3_wht=0;
+$t4_beamt=0;$t4_wht=0;
+$t5_beamt=0;$t5_wht=0;
+$t6_beamt=0;$t6_wht=0;
+$tt_beamt=0;$tt_wht=0;
 $bldat_str = util_helper_format_date($r_data['bldat']); 
-$whtnr = $r_data['whtgp'];
+//$whtnr = $r_data['whtgp'];
 $t_beamt=$r_data['beamt'];
 $t_wht=$r_data['wht01'];
-switch($whtnr){
+/*switch($whtnr){
   	case '1': $posit=365;break;
 	case '2': $posit=384;break;
 	case '3': $posit=403;break;
 	case '4': $posit=422;break;
 	case '5': $posit=646;break;
 	case '6': $posit=734;break;
-}
+}*/
+
+        $rows = $query->result_array();
+		$b_amt = 0;
+		$v_amt = 0;$i=0;
+		$result = array();
+		
+		foreach ($rows as $key => $item) {
+			$itamt = 0;
+			$strSQL="";
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		 
+		if($q_wht->num_rows()>0){
+			$q_data = $q_wht->first_row('array');
+			switch($q_data['whtgp']){
+  	          case '1':  $t1_beamt+=$item['itamt'];
+			             $t1_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+			  break;
+			  case '2': $t2_beamt+=$item['itamt'];
+			             $t2_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+							break;
+			  case '3': $t3_beamt+= $item['itamt'];
+			             $t3_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+							break;
+			  case '4': $t4_beamt+=$item['itamt'];
+			             $t4_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+
+							break;
+			  case '5': $t5_beamt+= $item['itamt'];
+			             $t5_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+
+							break;
+			  case '6': $t6_beamt+=$item['itamt'];
+			             $t6_wht+=$item['itamt'] * $q_data['whtpr'] / 100;
+							break;
+             }
+			 $i++;
+		}
+		}
+
+        //echo 'aaa'.$t3_beamt.'bbb'.$t5_beamt;
+		foreach ($rows as $key => $item) {
+			$itamt = 0;
+			$strSQL="";
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+	
+		if($q_wht->num_rows()>0){
+			$q_data = $q_wht->first_row('array');
+			switch($q_data['whtgp']){
+  	          case '1': $posit=365;
+			            $tt_beamt=$t1_beamt;
+						$tt_wht=$t1_wht;
+						break;
+			  case '2': $posit=384;
+			            $tt_beamt=$t2_beamt;
+						$tt_wht=$t3_wht;break;
+			  case '3': $posit=403;
+			            $tt_beamt=$t3_beamt;
+						$tt_wht=$t3_wht;break;
+			  case '4': $posit=422;
+			            $tt_beamt=$t4_beamt;
+						$tt_wht=$t4_wht;break;
+			  case '5': $posit=646;
+			            $tt_beamt=$t5_beamt;
+						$tt_wht=$t5_wht;break;
+			  case '6': $posit=734;
+			            $tt_beamt=$t6_beamt;
+						$tt_wht=$t6_wht;break;
+             }
 ?>
 
 <DIV style="left:436PX;top:<?= $posit;?>PX;width:104PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-1"><?= $bldat_str;?></span></DIV>
 
-<DIV style="left: 539PX; top: <?= $posit;?>PX; width: 100px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($r_data['beamt'],2,'.',',');?></span></DIV>
-<DIV style="left: 649PX; top: <?= $posit;?>PX; width: 76px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($r_data['wht01'],2,'.',',');?></span></DIV>
+<DIV style="left: 539PX; top: <?= $posit;?>PX; width: 100px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($tt_beamt,2,'.',',');?></span></DIV>
+<DIV style="left: 649PX; top: <?= $posit;?>PX; width: 76px; height: 24PX; TEXT-ALIGN: RIGHT;"><span class="fc1-1"><?= number_format($tt_wht,2,'.',',');?></span></DIV>
+
+<?php }} ?>
+
 <DIV style="left: 649PX; top: 757PX; width: 76px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-3"><?= number_format($t_wht,2,'.',',');?></span></DIV>
 <DIV style="left: 539PX; top: 757PX; width: 100px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-3"><?= number_format($t_beamt,2,'.',',');?></span></DIV>
 <DIV style="left:139PX;top:813PX;width:153PX;height:22PX;"><span class="fc1-1">&nbsp;&nbsp;</span></DIV>

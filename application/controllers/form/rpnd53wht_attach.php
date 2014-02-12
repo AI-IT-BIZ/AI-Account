@@ -35,12 +35,40 @@ class Rpnd53wht_attach extends CI_Controller {
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
-		//$r_data = $query->first_row('array');
 		
+		if($query->num_rows()>0){
+			$r_data = $query->first_row('array');
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
 		$taxid = str_split($r_com['taxid']);
+		$t1_wht='';$t2_wht='';$t3_wht='';
+		
+		$strSQL = " select v_ebrp.*";
+        $strSQL = $strSQL . " from v_ebrp ";
+        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$r_data['invnr']."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+       
+		$q_inv = $this->db->query($strSQL);
+		if($q_inv->num_rows()>0){
+		   	$rowp = $query->result_array();
+			foreach($rowp as $key => $item){
+				$strSQL="";
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		 
+		if($q_wht->num_rows()>0){
+			$q_data = $q_wht->first_row('array');
+		    $t1_wht = $q_data['whtpr'];
+			if($t1_wht != $q_data['whtpr']){
+			  $t2_wht = $q_data['whtpr']; 
+			  if($t2_wht != $q_data['whtpr']){
+				 $t3_wht = $q_data['whtpr'];  
+			  }
+			}
+		}
+		}
+		}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -295,7 +323,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:75px;">0000</td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$invdt_str?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=$t1_wht;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=number_format($itamt,2,'.',',');?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
@@ -305,7 +333,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=$t2_wht;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
 	</tr>
@@ -315,7 +343,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=$t3_wht;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
 	</tr>
@@ -438,6 +466,7 @@ endfor; // end copy for
 
 
 <?php
+	}
 	}
 	}
 }
