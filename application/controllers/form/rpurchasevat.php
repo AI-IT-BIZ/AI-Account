@@ -65,18 +65,18 @@ class Rpurchasevat extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
@@ -84,6 +84,7 @@ body { font-family: 'angsana_newregular'; }
 .fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:BOLD;}
 .fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
+.fc1-13 { COLOR:000000;FONT-SIZE:14PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:0000FF;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -107,7 +108,7 @@ $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 	// check total page
-	$page_size = 25;
+	$page_size = 28;
 	$total_count = count($rows);
 	$total_page = ceil($total_count / $page_size);
 	$real_current_page = 0;
@@ -170,28 +171,23 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 262px; top: 29px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">รายงานภาษีซื้อ</span></DIV>
 <DIV style="left: 267px; top: 60px; width: 74px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ประจำเดือน</span></DIV>
 
-<DIV style="left: 341px; top: 60px; width: 81px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
+<DIV style="left: 341px; top: 60px; width: 81px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-13"><?= $text_month ?></span></DIV>
 
 <DIV style="left: 421px; top: 60px; width: 45px; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-1">ปี</span></DIV>
-<DIV style="left: 466px; top: 60px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $month[0]+543 ?></span></DIV>
+<DIV style="left: 466px; top: 60px; width: 61px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-13"><?= $month[0]+543 ?></span></DIV>
 
-<DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-3">ชื่อผู้ประกอบการ </span></DIV>
-<DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-3">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left: 51px; top: 126px; width: 75px; height: 20PX;"><span class="fc1-4">ชื่อผู้ประกอบการ </span></DIV>
+<DIV style="left: 51px; top: 151px; width: 119PX; height: 20PX;"><span class="fc1-4">เลขประจำตัวผู้เสียภาษี </span></DIV>
 <DIV style="left: 159px; top: 152px; width: 147px; height: 20PX;"><span class="fc1-3"><?= $r_com['taxid']; ?></span></DIV>
+<DIV style="left: 319px; top: 126px; width: 106PX; height: 20PX;"><span class="fc1-4">ชื่อสถานประกอบการ </span></DIV>
 
-<DIV style="left: 427px; top: 177px; width: 75PX; height: 20PX;"><span class="fc1-3">หน้าที่</span></DIV>
+<DIV style="left: 319px; top: 149px; width: 106PX; height: 20PX;"><span class="fc1-4">ที่อยู่สถานประกอบการ </span></DIV>
 
-<DIV style="left: 472px; top: 176px; width: 112PX; height: 25PX;"><span class="fc1-3"></span></DIV>
-
-<DIV style="left: 319px; top: 126px; width: 106PX; height: 20PX;"><span class="fc1-3">ชื่อสถานประกอบการ </span></DIV>
-
-<DIV style="left: 319px; top: 149px; width: 106PX; height: 20PX;"><span class="fc1-3">ที่อยู่สถานประกอบการ </span></DIV>
-
-<DIV style="left: 319px; top: 176px; width: 76PX; height: 20PX;"><span class="fc1-3">สาขาที่ </span></DIV>
+<DIV style="left: 319px; top: 176px; width: 76PX; height: 20PX;"><span class="fc1-4">สาขาที่ </span></DIV>
 <?php 
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
-<DIV style="left: 357px; top: 176px; width: 60px; height: 21PX;"><span class="fc1-5">0000</span></DIV>
+<DIV style="left: 357px; top: 178px; width: 60px; height: 21PX;"><span class="fc1-5">0000</span></DIV>
 <?php 
 $duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
@@ -203,12 +199,12 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 
 <DIV style="left: 420px; top: 149px; width: 327px; height: 25px;">
 <table width="330PX" border=0 cellpadding=0 cellspacing=0>
-  <td class="fc1-4"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
+  <td class="fc1-5"><?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td></table>
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left: 51px; top: 176PX; width: 79px; height: 22PX;"><span class="fc1-3">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 124px; top: 173PX; width: 181px; height: 26PX;"><span class="fc1-5">0000</span></DIV>
+<DIV style="left: 51px; top: 176PX; width: 79px; height: 22PX;"><span class="fc1-4">สำนักงานใหญ่</span></DIV>
+<DIV style="left: 124px; top: 179px; width: 181px; height: 26PX;"><span class="fc1-5">0000</span></DIV>
 
 <!--Item Table-->
 <DIV style="left: 49PX; top: 230PX; width: 38px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
@@ -252,13 +248,14 @@ foreach ($rows as $key => $item) {
 $i=322+20;
 }
 */
+$no=1;
 ?>
 
 <DIV style="left:49PX;top:272px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
 $rows = $query->result_array();
-$no=1;$v_amt=0;$t_amt=0;
+$v_amt=0;$t_amt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$itamt = $item['beamt'] - $item['dismt'];
@@ -268,7 +265,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$invdt_str = util_helper_format_date($r_data['bldat']);
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:38px;"><?=$no++;?></td>
+		<td class="fc1-8" align="center" style="width:38px;"><?=$i+1;?></td>
 	  <td class="fc1-8" align="center" style="width:65px;"><?=$invdt_str;?></td>
 	  <td class="fc1-8" align="center" style="width:77px;"><?=$item['invnr'];?></td>
 	  <td class="fc1-8" align="left" style="width:190px;"><?=$item['name1'];?></td>

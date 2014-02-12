@@ -9,9 +9,9 @@ Ext.define('Account.RInvoice.Item.Window', {
 		Ext.apply(this, {
 			title: 'Invoice Report',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
-			width: 1100,
+			width: 1200,
 			minWidth: 500,
 			resizable: true,
 			modal: true,

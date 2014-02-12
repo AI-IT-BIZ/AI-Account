@@ -67,15 +67,15 @@ class Rsalarywht extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-1 { COLOR:0000FF;FONT-SIZE:14PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-3 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
@@ -83,7 +83,7 @@ body { font-family: 'angsana_newregular'; }
 .fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}

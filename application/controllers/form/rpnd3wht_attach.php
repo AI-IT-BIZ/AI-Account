@@ -65,21 +65,21 @@ class Rpnd3wht_attach extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-1 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-3 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
-.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-5 { COLOR:000000;FONT-SIZE:29PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-5 { COLOR:000000;FONT-SIZE:29PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-7 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-8 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-8 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-10 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-11 { COLOR:000000;FONT-SIZE:11PT;FFONT-WEIGHT:NORMAL;}
@@ -87,13 +87,13 @@ body { font-family: 'angsana_newregular'; }
 .fc1-13 { COLOR:000000;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
 .fc1-14 { COLOR:000000;FONT-SIZE:8PT;FFONT-WEIGHT:NORMAL;}
 .fc1-15 { COLOR:000000;FONT-SIZE:10PT;FFONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-17 { COLOR:808080;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
 .fc1-18 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-19 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:AngsanaUPC;FONT-WEIGHT:NORMAL;TEXT-DECORATION:UNDERLINE;}
 .fc1-20 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-21 { COLOR:000000;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
-.fc1-22 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-22 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -106,7 +106,7 @@ body { font-family: 'angsana_newregular'; }
 <TITLE>Crystal Report Viewer</TITLE>
 <BODY BGCOLOR="FFFFFF"LEFTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 RIGHTMARGIN=0>
 <? if($query->num_rows()==0){ ?>
-		   <DIV style="left: 407px; top: 96px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
+		   <DIV style="left: 407px; top: 96px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">No Data was selected</span></DIV>
 <? }?>
 
 <?php

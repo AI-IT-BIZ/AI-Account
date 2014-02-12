@@ -8,7 +8,7 @@ Ext.define('Account.Saledelivery.MainWindow', {
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
-			width: 960,
+			width: 1050,
 			minWidth: 500,
 			resizable: true,
 			modal: true,

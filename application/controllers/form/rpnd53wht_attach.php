@@ -93,18 +93,18 @@ class Rpnd53wht_attach extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-1 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
-.fc1-3 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-5 { COLOR:000000;FONT-SIZE:29PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-5 { COLOR:000000;FONT-SIZE:29PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-6 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-7 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
@@ -113,15 +113,15 @@ body { font-family: 'angsana_newregular'; }
 .fc1-11 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-12 { COLOR:000000;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
 .fc1-13 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
-.fc1-14 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-14 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-15 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-17 { COLOR:808080;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
 .fc1-18 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-19 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;TEXT-DECORATION:UNDERLINE;}
 .fc1-20 { COLOR:000000;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;}
 .fc1-21 { COLOR:000000;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
-.fc1-22 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-22 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
 .ad1-2 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-style:solid;border-left-width:1PX;border-top-width:0PX;border-right-width:0PX;}
@@ -193,13 +193,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 45PX; top: 301px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left: 45PX; top: 367px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+<div style="left: 45PX; top: 368px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left: 45PX; top: 434px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+<div style="left: 45PX; top: 432px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left: 45PX; top: 501px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+<div style="left: 45PX; top: 500px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
 <div style="left:45PX;top:587PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:965PX;">
@@ -323,7 +323,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:75px;">0000</td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$invdt_str?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$t1_wht;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t1_wht);?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=number_format($itamt,2,'.',',');?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
@@ -333,17 +333,17 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$t2_wht;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t2_wht);?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
 	</tr>
     <tr>
 		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
-	  <td class="fc1-8" align="left" style="width:370px;height:20PX;">ที่อยู่&nbsp;<?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td>
+	  <td class="fc1-13" align="left" style="width:370px;height:20PX;">ที่อยู่&nbsp;<?=$r_com['adr01'];?>&nbsp;<?=$r_com['distx'];?>&nbsp;&nbsp;<?=$r_com['pstlz'];?></td>
 	  <td class="fc1-8" align="center" style="width:75px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:78px;"><?=$nos;?></td>
       <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$t3_wht;?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t3_wht);?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
       <td class="fc1-8" align="right" style="width:110px;"><?=$nos;?></td>
 	</tr>

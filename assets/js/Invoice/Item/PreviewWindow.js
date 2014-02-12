@@ -17,6 +17,6 @@ Ext.define('Account.Invoice.Item.PreviewWindow', {
 	
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
-		return __site_url+'formbof/invoice/index/'+id+'/'+copies;
+		return __site_url+'form/invoice/index/'+id+'/'+copies;
 	}
 });

@@ -70,18 +70,18 @@ class Rsalarywht_docket extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
 .fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-1 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-2 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-5 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-4 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-5 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-7 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
@@ -89,9 +89,9 @@ body { font-family: 'angsana_newregular'; }
 .fc1-10 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-11 { COLOR:808080;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-13 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';FONT-STYLE:ITALIC;}
-.fc1-14 { COLOR:000000;FONT-SIZE:17PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-13 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'Angsana New';FONT-STYLE:ITALIC;}
+.fc1-14 { COLOR:000000;FONT-SIZE:17PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-15 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-16 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
 .fc1-17 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-18 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
@@ -431,11 +431,11 @@ body { font-family: 'angsana_newregular'; }
 
 <DIV style="left:118PX;top:488PX;width:227PX;height:27PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">สรุปรายการภาษีที่นำส่ง</span></DIV>
 
-<DIV style="left:410PX;top:488PX;width:63PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">จำนวนราย</span></DIV>
+<DIV style="left:410PX;top:488PX;width:63PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">จำนวนราย</span></DIV>
 
-<DIV style="left:488PX;top:488PX;width:95PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">เงินได้ทั้งสิ้น</span></DIV>
+<DIV style="left:488PX;top:488PX;width:95PX;height:24PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">เงินได้ทั้งสิ้น</span></DIV>
 
-<DIV style="left:601PX;top:488PX;width:106PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-16">ภาษีที่นำส่งทั้งสิ้น</span></DIV>
+<DIV style="left:601PX;top:488PX;width:106PX;height:26PX;TEXT-ALIGN:CENTER;"><span class="fc1-15">ภาษีที่นำส่งทั้งสิ้น</span></DIV>
 
 <DIV style="left:66PX;top:544PX;width:312PX;height:24PX;"><span class="fc1-17">2. เงินได้ตาม มาตรา 40 (1)&nbsp;&nbsp;เงินเดือน&nbsp;&nbsp;ค่าจ้าง&nbsp;&nbsp;ฯลฯ&nbsp;&nbsp;กรณีได้รับ</span></DIV>
 

@@ -6,7 +6,7 @@ Ext.define('Account.RInvoice.MainWindow', {
 		Ext.apply(this, {
 			title: 'Invoice Selection',
 			closeAction: 'hide',
-			height: 200,
+			height: 210,
 			width: 500,
 			layout: 'border',
 			//layout: 'accordion',

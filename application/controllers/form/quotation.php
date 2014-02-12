@@ -31,6 +31,40 @@ class Quotation extends CI_Controller {
 		
 		$query = $this->db->query($strSQL);
 		$r_data = $query->first_row('array');
+		
+		$ads00='';$ads01='';
+		if(!empty($r_data['adr01'])){
+		$ads00 = explode('Kwang',$r_data['adr01']);
+		if(empty($ads00[1])){
+		   $ads00 = explode('kwang',$r_data['adr01']);
+		   if(empty($ads00[1])){
+			   $ads00 = explode('แขวง',$r_data['adr01']);
+			   if(!empty($ads00[1])){
+				   $ads00[1] = 'แขวง'.$ads00[1];
+				   }else{
+					   $ads00[0]=$r_data['adr01'];
+					   $ads00[1]='';
+					   }
+		   }else{ $ads00[1] = 'kwang'.$ads00[1]; }
+		}else{ $ads00[1] = 'Kwang'.$ads00[1]; }
+		}
+		
+		if(!empty($r_data['adr02'])){
+		$ads01 = explode('Kwang',$r_data['adr02']);
+		if(empty($ads01[1])){
+		   $ads01 = explode('kwang',$r_data['adr02']);
+		   if(empty($ads01[1])){
+			   $ads01 = explode('แขวง',$r_data['adr02']);
+			   if(!empty($ads01[1])){
+				   $ads01[1] = 'แขวง'.$ads01[1];
+				   }else{
+					   $ads01[0]=$r_data['adr02'];
+					   $ads01[1]='';
+					   }
+		   }else{ $ads01[1] = 'kwang'.$ads01[1]; }
+		}else{ $ads01[1] = 'Kwang'.$ads01[1]; }
+		}
+		
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
@@ -40,19 +74,7 @@ class Quotation extends CI_Controller {
 			$itamt = $item['menge'] * $item['unitp'];
 			$itamt = $itamt - $item['disit'];
 			$b_amt += $itamt;
-			/*$v=0;$w=0;
-			if(!empty($r_data['chk01']))
-			{
-			   $v = $itamt * $r_data['taxpr'];
-			   $v = $v / 100;
-			   $v_amt += $v;
-			}
-			if(!empty($r_data['chk02']))
-			{
-			   $w = $itamt * $r_data['whtpr'];
-			   $w = $w / 100;
-			   $w_amt += $w;
-			}*/
+			
 		}
 
 		function check_page($page_index, $total_page, $value){
@@ -78,15 +100,15 @@ class Quotation extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-1 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-1 { COLOR:0000FF;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-2 { COLOR:0000FF;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-3 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-4 { COLOR:0000FF;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
@@ -94,7 +116,7 @@ body { font-family: 'angsana_newregular'; }
 .fc1-7 { COLOR:000000;FONT-SIZE:15PT;FONT-WEIGHT:NORMAL;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-9 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
-.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-10 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-11 { COLOR:0000FF;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:0000FF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}
@@ -130,16 +152,16 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="z-index:0"> &nbsp; </div>
 
-<div style="left:460PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
+<div style="left: 460PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:602PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
+<div style="left: 602PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:660PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
+<div style="left: 660PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:157PX;top:276PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:70PX;">
+<div style="left: 157PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:460PX;top:350PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:574PX;">
@@ -225,11 +247,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table border=0 cellpadding=0 cellspacing=0 width=197px height=47px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:48PX;top:169PX;width:408PX;height:101PX;">
+<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 48PX; top: 169PX; width: 408PX; height: 123px;">
 <table border=0 cellpadding=0 cellspacing=0 width=401px height=94px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:49PX;top:276PX;width:704PX;height:69PX;">
+<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 296px; width: 704PX; height: 49px;">
 <table border=0 cellpadding=0 cellspacing=0 width=697px height=62px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
@@ -237,7 +259,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
-<DIV class="box" style="z-index:10; border-color:0000FF;border-style:solid;border-bottom-style:solid;border-bottom-width:1PX;border-left-style:solid;border-left-width:1PX;border-top-style:solid;border-top-width:1PX;border-right-style:solid;border-right-width:1PX;left:461PX;top:170PX;width:292PX;height:100PX;">
+<DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 461PX; top: 170PX; width: 292PX; height: 122px;">
 <table border=0 cellpadding=0 cellspacing=0 width=285px height=93px><TD>&nbsp;</TD></TABLE>
 </DIV>
 
@@ -293,59 +315,58 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:109PX;top:173PX;width:347PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left:109PX;top:198PX;width:347PX;height:23PX;"><span class="fc1-8"><?=$r_data['adr01'];?></span></DIV>
+<DIV style="left: 109PX; top: 198PX; width: 345px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left:109PX;top:221PX;width:347PX;height:22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 109PX; top: 219px; width: 347px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?></span></DIV>
 
-<DIV style="left:109PX;top:247PX;width:31PX;height:21PX;"><span class="fc1-8">Tel.</span></DIV>
+<DIV style="left: 109PX; top: 243px; width: 346px; height: 22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
-<DIV style="left: 287PX; top: 247PX; width: 162px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
+<DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
-<DIV style="left:143PX;top:247PX;width:140PX;height:21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
+<DIV style="left: 287PX; top: 267px; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
+
+<DIV style="left: 143PX; top: 269px; width: 140PX; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 <!--Delivery Place-->
 <DIV style="left:467PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">สถานที่ส่ง</span></DIV>
 
 <DIV style="left: 467PX; top: 222px; width: 52PX; height: 22PX;"><span class="fc1-2">Location</span></DIV>
 
-<DIV style="left: 519PX; top: 173PX; width: 233px; height: 23PX;"><span class="fc1-8"><?=$r_data['adr02'];?></span></DIV>
+<DIV style="left: 519PX; top: 176px; width: 233px; height: 23PX;"><span class="fc1-8"><?=$ads01[0];?></span></DIV>
 
-<DIV style="left: 519PX; top: 222px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
+<DIV style="left: 519PX; top: 199px; width: 233px; height: 23PX;"><span class="fc1-8"><?=$ads01[1];?></span></DIV>
+
+<DIV style="left: 519PX; top: 223px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
 
 <DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
 
 <DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
 
 <!--Reference Table-->
-<DIV style="left:49PX;top:280PX;width:108PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่โปรเจคงาน</span></DIV>
 
 <DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Job no.</span></DIV>
 
 <DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
 <!--2 Reference-->
-<DIV style="left:157PX;top:280PX;width:302PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">อ้างถึง</span></DIV>
 
 <DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reference</span></DIV>
 
 <DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
 
 <!--3 Vendor code-->
-<DIV style="left:460PX;top:280PX;width:142PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">รหัสลูกหนี้</span></DIV>
 
 <DIV style="left:456PX;top:298PX;width:142PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Customer Code</span></DIV>
 
 <DIV style="left:460PX;top:322PX;width:142PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['kunnr'];?></span></DIV>
 
 <!--4 Credit-->
-<DIV style="left:602PX;top:280PX;width:58PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เครดิต</span></DIV>
 
 <DIV style="left:598PX;top:298PX;width:58PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Credit</span></DIV>
 
 <DIV style="left:602PX;top:322PX;width:58PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$r_data['terms'];?></span></DIV>
 
 <!--5 Delivery date-->
-<DIV style="left:660PX;top:280PX;width:93PX;height:18PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">วันครบกำหนด</span></DIV>
 
 <DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <?php 
@@ -493,8 +514,8 @@ else
 	$tax_str = '';
 
 $wht_str = "";
-if(!empty($r_data['whtpr']) && intval($r_data['whtpr'])>0)
-	$wht_str = number_format($r_data['whtpr'],0,'.',',').'%';
+if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
+	$wht_str = $r_data['whtpr'];
 else
 	$wht_str = '';
 ?>

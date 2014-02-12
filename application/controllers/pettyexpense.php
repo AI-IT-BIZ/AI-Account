@@ -43,7 +43,7 @@ class Pettyexpense extends CI_Controller {
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
 			
-			$result_data['whtpr']=number_format($result_data['whtpr']);
+			//$result_data['whtpr']=number_format($result_data['whtpr']);
 			
 			echo json_encode(array(
 				'success'=>true,

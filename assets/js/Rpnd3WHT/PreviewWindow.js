@@ -4,6 +4,7 @@ Ext.define('Account.Rpnd3WHT.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'รายงานภาษีหัก ณ ที่จ่าย (ภ.ง.ด.3)',
+			width: 1120,
 			enableCopies: true
 		});
 

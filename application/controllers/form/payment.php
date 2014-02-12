@@ -41,7 +41,10 @@ class Payment extends CI_Controller {
 			   $ads00 = explode('แขวง',$r_data['adr01']);
 			   if(!empty($ads00[1])){
 				   $ads00[1] = 'แขวง'.$ads00[1];
-				   }
+				   }else{
+					   $ads00[0]=$r_data['adr01'];
+					   $ads00[1]='';
+					   }
 		   }else{ $ads00[1] = 'kwang'.$ads00[1]; }
 		}else{ $ads00[1] = 'Kwang'.$ads00[1]; }
 		}
@@ -57,20 +60,6 @@ class Payment extends CI_Controller {
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
-		//$v_amt = 0;
-		//foreach ($rows as $key => $item) {
-			//$itamt = 0;
-			//$itamt = $item['menge'] * $item['unitp'];
-			//$itamt = $itamt - $item['disit'];
-			//$b_amt += $item['itamt'];
-			//$v=0;
-			//if(!empty($r_data['chk01']))
-			//{
-			//   $v = $itamt * $r_data['taxpr'];
-			//   $v = $v / 100;
-			//   $v_amt += $v;
-			//}
-		//}
 
 		function check_page($page_index, $total_page, $value){
 			return ($page_index==0 && $total_page>1)?"":$value;
@@ -223,6 +212,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 48PX; top: 169PX; width: 498px; height: 125px;">
 <table border=0 cellpadding=0 cellspacing=0 width=498px height=94px><TD>&nbsp;</TD></TABLE>
 </DIV>
+
 <DIV class="box" style="z-index: 10; border-color: 0000FF; border-style: solid; border-bottom-style: solid; border-bottom-width: 1PX; border-left-style: solid; border-left-width: 1PX; border-top-style: solid; border-top-width: 1PX; border-right-style: solid; border-right-width: 1PX; left: 49PX; top: 301px; width: 704PX; height: 777px;">
   <table border=0 cellpadding=0 cellspacing=0 width=697px height=721px><TD>&nbsp;</TD></TABLE>
 </DIV>

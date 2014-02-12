@@ -31,8 +31,9 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			    'invnr',
 				'bldat',
                 'jobnr',
-				'ordnr',
 				'vbeln',
+				'ordnr',
+				'delnr',
 				'kunnr',
 				'name1',
 				'terms',
@@ -62,7 +63,10 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			dataIndex: 'jobnr', sortable: true},
 		    {text: "Ref. Quotation No.", width: 80, align: 'center', 
 			dataIndex: 'vbeln', sortable: true},
-		    {text: "Ref. Sale Order No.",  width: 80, align: 'center', dataIndex: 'ordnr', sortable: true},
+		    {text: "Ref. Sale Order No.",  width: 80, align: 'center', 
+		    dataIndex: 'ordnr', sortable: true},
+		    {text: "Ref. Delivery Order No.",  width: 80, align: 'center', 
+		    dataIndex: 'delnr', sortable: true},
 			{text: "Customer Code", width: 80, dataIndex: 'kunnr', sortable: true},
 			{text: "Customer Name", width: 120, dataIndex: 'name1', sortable: true},
 			{text: "Credit Term", width: 80, align: 'center', dataIndex: 'terms', sortable: true},
@@ -112,6 +116,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
                                          rt.set('jobnr','');
                                          rt.set('vbeln','');
                                          rt.set('ordnr','');
+                                         rt.set('delnr','');
                                          rt.set('kunnr','');
                                          rt.set('name1','');
                                          

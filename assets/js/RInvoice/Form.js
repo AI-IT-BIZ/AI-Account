@@ -21,12 +21,12 @@ Ext.define('Account.RInvoice.Form', {
 		var _this=this;
         // INIT Customer search popup ///////////////////////////////////
         this.invoiceDialog = Ext.create('Account.SInvoice.MainWindow');
-        //this.saleorderDialog = Ext.create('Account.Saleorder.MainWindow');
+        this.saleorderDialog = Ext.create('Account.SSaledelivery.MainWindow');
         //this.projectDialog = Ext.create('Account.Project.MainWindow');
 		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
 		
 		this.invoiceDialog2 = Ext.create('Account.SInvoice.MainWindow');
-		//this.saleorderDialog2 = Ext.create('Account.Saleorder.MainWindow');
+		this.saleorderDialog2 = Ext.create('Account.SSaledelivery.MainWindow');
         //this.projectDialog2 = Ext.create('Account.Project.MainWindow');
 		this.customerDialog2 = Ext.create('Account.SCustomer.MainWindow');
         
@@ -151,19 +151,19 @@ Ext.define('Account.RInvoice.Form', {
 			enableKeyEvents: true
 		});
 		
-		/*this.trigSaleorder = Ext.create('Ext.form.field.Trigger', {
-			name: 'ordnr',
+		this.trigSaleorder = Ext.create('Ext.form.field.Trigger', {
+			name: 'delnr',
 			labelWidth: 100,
-			fieldLabel: 'So No',
+			fieldLabel: 'Delivery No',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
 		});
 		
 		this.trigSaleorder2 = Ext.create('Ext.form.field.Trigger', {
-			name: 'ordnr2',
+			name: 'delnr2',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true
-		});*/
+		});
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
@@ -203,7 +203,7 @@ Ext.define('Account.RInvoice.Form', {
 		},
 		this.trigInvoice2]  
 // Quotation Code
-		/*},{
+		},{
      	xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
@@ -213,7 +213,7 @@ Ext.define('Account.RInvoice.Form', {
 		  width:40,
 		  margins: '0 0 0 25'
 		},
-		this.trigSaleorder2]*/
+		this.trigSaleorder2]
 // Customer Code
 		},{
           xtype: 'container',
@@ -328,13 +328,13 @@ Ext.define('Account.RInvoice.Form', {
 		};
 		
 		// event trigQuotation///
-		/*this.trigSaleorder.on('keyup',function(o, e){
+		this.trigSaleorder.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'saleorder/load',
+					url: __site_url+'saledelivery/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -342,10 +342,11 @@ Ext.define('Account.RInvoice.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.vbeln);
+							o.setValue(r.data.delnr);
 							
 						}else{
-							o.markInvalid('Could not find Saleorder code : '+o.getValue());
+							o.setValue('');
+							//o.markInvalid('Could not find Delivery order code : '+o.getValue());
 						}
 					}
 				});
@@ -358,7 +359,7 @@ Ext.define('Account.RInvoice.Form', {
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
-					url: __site_url+'saleorder/load',
+					url: __site_url+'saledelivery/load',
 					method: 'POST',
 					params: {
 						id: v
@@ -366,10 +367,11 @@ Ext.define('Account.RInvoice.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.vbeln);
+							o.setValue(r.data.delnr);
 							
 						}else{
-							o.markInvalid('Could not find Saleorder code : '+o.getValue());
+							o.setValue('');
+							//o.markInvalid('Could not find Delivery order code : '+o.getValue());
 						}
 					}
 				});
@@ -378,14 +380,14 @@ Ext.define('Account.RInvoice.Form', {
 
 
 		_this.saleorderDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigSaleorder.setValue(record.data.vbeln);
+			_this.trigSaleorder.setValue(record.data.delnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.saleorderDialog.hide();
 		});
 		
 		_this.saleorderDialog2.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigSaleorder2.setValue(record.data.vbeln);
+			_this.trigSaleorder2.setValue(record.data.delnr);
 
 			grid.getSelectionModel().deselectAll();
 			_this.saleorderDialog2.hide();
@@ -397,7 +399,7 @@ Ext.define('Account.RInvoice.Form', {
 		
 		this.trigSaleorder2.onTriggerClick = function(){
 			_this.saleorderDialog2.show();
-		};*/
+		};
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){

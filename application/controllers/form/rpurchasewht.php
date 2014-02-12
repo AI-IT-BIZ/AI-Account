@@ -263,9 +263,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=$item['whtpr'];?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=$itamt;?></td>
-	  <td class="fc1-8" align="right" style="width:108px;"><?=$item['wht01'];?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=str_replace('%','',$item['whtpr']); ?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($itamt,2,'.',',');?></td>
+	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 
 <?php

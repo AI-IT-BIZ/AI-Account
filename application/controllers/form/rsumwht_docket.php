@@ -74,34 +74,34 @@ class Rsumwht_docket extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
-.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-0 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-1 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-2 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-4 { COLOR:000000;FONT-SIZE:10PT;FFONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-6 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
-.fc1-7 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-8 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-7 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-8 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-9 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
 .fc1-10 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
-.fc1-11 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-11 { COLOR:000000;FONT-SIZE:10PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-12 { COLOR:000000;FONT-SIZE:8PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-13 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-13 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-14 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-15 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
-.fc1-16 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-16 { COLOR:000000;FONT-SIZE:15PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-17 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-18 { COLOR:000000;FONT-SIZE:10PT;;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-19 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-20 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
-.fc1-21 { COLOR:000000;FONT-SIZE:8PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-21 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-22 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
 .fc1-23 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .fc1-24 { COLOR:808080;FONT-SIZE:7PT;FONT-WEIGHT:NORMAL;}
@@ -204,7 +204,7 @@ body { font-family: 'angsana_newregular'; }
 
 <DIV style="left:43PX;top:213PX;width:35PX;height:25PX;"><span class="fc1-0">ที่อยู่:</span></DIV>
 
-<DIV style="left:43PX;top:275PX;width:71PX;height:24PX;"><span class="fc1-3"> รหัสไปรษณีย์</span></DIV>
+<DIV style="left:43PX;top:275PX;width:71PX;height:24PX;"><span class="fc1-0"> รหัสไปรษณีย์</span></DIV>
 
 <DIV style="left: 121px; top: 278px; width: 54px; height: 21PX; TEXT-ALIGN: CENTER;"><span class="fc1-13"><?=$r_com['pstlz'];?></span></DIV>
 
@@ -240,11 +240,11 @@ body { font-family: 'angsana_newregular'; }
 
 <DIV style="left:608PX;top:253PX;width:139PX;height:24PX;"><span class="fc1-5">ยื่นเพิ่มเติมครั้งที่ .................</span></DIV>
 
-<DIV style="left:45PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:45PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='01'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:45PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:45PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='02'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:45PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:45PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='03'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:486PX;top:256PX;width:23PX;height:20PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?= base_url('assets/images/icons/checkbox01.jpg') ?>"></DIV>
 
@@ -258,23 +258,23 @@ body { font-family: 'angsana_newregular'; }
 <tr><td class="fc1-7"><?=$r_com['distx'];?></td></tr></table>
 </DIV>
 
-<DIV style="left:141PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:141PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='04'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:141PX;top:378PX;width:15PX;height:15PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:141PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:141PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='06'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:232PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:232PX;top:358PX;width:15PX;height:16PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='07'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:232PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:232PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='08'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:232PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:232PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='09'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:331PX;top:358PX;width:15PX;height:19PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:331PX;top:358PX;width:15PX;height:19PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='10'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:331PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:331PX;top:378PX;width:15PX;height:18PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='11'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
-<DIV style="left:331PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='05'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
+<DIV style="left:331PX;top:396PX;width:15PX;height:21PX;"><img  WIDTH=15 HEIGHT=15 SRC="<?php if($month[1]=='12'){echo base_url('assets/images/icons/checkbox02.jpg');}else{echo base_url('assets/images/icons/checkbox01.jpg');} ?>"></DIV>
 
 <DIV style="left:478PX;top:118PX;width:256PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-8">นำส่งภาษีตาม</span></DIV>
 
@@ -331,12 +331,12 @@ body { font-family: 'angsana_newregular'; }
 <DIV style="left:615PX;top:453PX;width:127PX;height:27PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">จำนวน......................แผ่น</span></DIV>
 
 
-<DIV style="left:658PX;top:426PX;width:66PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?=number_format($tline,0,'.',',');?></span></DIV>
+<DIV style="left: 663px; top: 426PX; width: 66PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-21"><?=number_format($tline,0,'.',',');?></span></DIV>
 
 <?php
   $page = $tline / 6;
 ?>
-<DIV style="left:658PX;top:450PX;width:66PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"><?=number_format($page,0,'.',',');?></span></DIV>
+<DIV style="left: 663px; top: 450PX; width: 66PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-21"><?=number_format($page,0,'.',',');?></span></DIV>
 
 <DIV style="left:390PX;top:500PX;width:137PX;height:23PX;"><span class="fc1-0">สื่อบันทึกในระบบคอมพิวเตอร์</span></DIV>
 
@@ -360,9 +360,9 @@ body { font-family: 'angsana_newregular'; }
 
 <DIV style="left:123PX;top:693PX;width:276PX;height:25PX;"><span class="fc1-20">4. รวมยอดภาษีที่นำส่งทั้งสิ้น และเงินเพิ่ม (2. + 3.)</span></DIV>
 
-<DIV style="left: 584PX; top: 613PX; width: 113px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
-<DIV style="left: 584PX; top: 641PX; width: 113px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
-<DIV style="left: 584PX; top: 696PX; width: 113px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
+<DIV style="left: 580px; top: 613PX; width: 113px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_amt,2,'.',',');?></span></DIV>
+<DIV style="left: 580px; top: 641PX; width: 113px; height: 23PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
+<DIV style="left: 580px; top: 696PX; width: 113px; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-21"><?=number_format($purch_wht,2,'.',',');?></span></DIV>
 <DIV style="left:587PX;top:582PX;width:120PX;height:23PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">จำนวนเงิน</span></DIV>
 
 <DIV style="left:182PX;top:668PX;width:29PX;height:23PX;"><span class="fc1-22">(ถ้ามี)</span></DIV>

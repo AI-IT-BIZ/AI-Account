@@ -205,7 +205,7 @@ class Invoice extends CI_Controller {
 				$_this->db->where("(invnr LIKE '%$query%'
 				OR kunnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR ordnr LIKE '%$query%')", NULL, FALSE);
+				OR delnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$invnr1 = $_this->input->get('invnr');
@@ -218,14 +218,14 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('invnr <=', $invnr2);
 			}
 			
-	        $ordnr1 = $_this->input->get('ordnr');
-			$ordnr2 = $_this->input->get('ordnr2');
-			if(!empty($ordnr1) && empty($ordnr2)){
-			  $_this->db->where('ordnr', $ordnr1);
+	        $delnr1 = $_this->input->get('delnr');
+			$delnr2 = $_this->input->get('delnr');
+			if(!empty($delnr1) && empty($delnr2)){
+			  $_this->db->where('delnr', $delnr1);
 			}
-			elseif(!empty($ordnr1) && !empty($ordnr2)){
-			  $_this->db->where('ordnr >=', $ordnr1);
-			  $_this->db->where('ordnr <=', $ordnr2);
+			elseif(!empty($delnr1) && !empty($delnr2)){
+			  $_this->db->where('delnr >=', $delnr1);
+			  $_this->db->where('delnr <=', $delnr2);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -288,18 +288,29 @@ class Invoice extends CI_Controller {
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			// search item
+			
+			$q_do = $this->db->get_where('vbvk', array(
+				'delnr'=>$r['delnr']
+			));
+			
+			$result2 = $q_do->first_row('array');
+			if($q_do->num_rows()>0){
+			   $res[$i]['ordnr'] = $result2['ordnr'];
 			$q_so = $this->db->get_where('vbok', array(
-				'ordnr'=>$r['ordnr']
+				'ordnr'=>$result2['ordnr']
 			));
 			
 			$result_data = $q_so->first_row('array');
-			$res[$i]['vbeln'] = $result_data['vbeln'];
-			$q_qt = $this->db->get_where('vbak', array(
+			if($q_so->num_rows()>0){
+			   $res[$i]['vbeln'] = $result_data['vbeln'];
+			   $q_qt = $this->db->get_where('vbak', array(
 				'vbeln'=>$result_data['vbeln']
-			));
+			   ));
 			
-			$r_qt = $q_qt->first_row('array');
-			$res[$i]['jobnr'] = $r_qt['jobnr'];
+			   $r_qt = $q_qt->first_row('array');
+			   $res[$i]['jobnr'] = $r_qt['jobnr'];
+			}
+			}
 			
 			//$terms='+'.$res[$i]['terms']." days";
 			$my_date = util_helper_get_time_by_date_string($res[$i]['duedt']);
@@ -803,6 +814,22 @@ class Invoice extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$id
+		));
+	}
+
+    public function loads_acombo(){
+		//$tbName = 'apov';
+		//$tbPK = 'statu';
+
+		$sql="SELECT *
+			FROM tbl_apov
+			WHERE apgrp = '1'";
+		$query = $this->db->query($sql);
+
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$query->num_rows()
 		));
 	}
 	

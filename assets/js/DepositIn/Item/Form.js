@@ -701,12 +701,13 @@ Ext.define('Account.DepositIn.Item.Form', {
 				    vats += vat;
 			}
             
-			//if(r.data['chk02']==true){
+			
 				var whtpr = r.data['whtpr'];
-				whtpr = whtpr.replace('%','');
+				if(whtpr!='' && whtpr!=null){
+				    whtpr = whtpr.replace('%','');
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
-			//}
+			    }
 		});
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		var currency = this.trigCurrency.getValue();

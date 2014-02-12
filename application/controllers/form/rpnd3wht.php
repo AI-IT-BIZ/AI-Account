@@ -63,9 +63,9 @@ class Rpnd3wht extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {
@@ -76,9 +76,9 @@ body { font-family: 'angsana_newregular'; }
 .fc1-0 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:Tahoma;FONT-WEIGHT:NORMAL;}
 .fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-2 { COLOR:FFFFFF;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
-.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-3 { COLOR:FFFFFF;FONT-SIZE:14PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-4 { COLOR:000000;FONT-SIZE:10PT;;FONT-WEIGHT:NORMAL;}
-.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-5 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-8 { COLOR:000000;FONT-SIZE:13PT;FONT-WEIGHT:NORMAL;}
 .ad1-0 {border-color:FF8600;border-style:none;border-bottom-style:solid;border-bottom-width:1PX;border-left-width:0PX;border-top-style:solid;border-top-width:1PX;border-right-width:0PX;}
 .ad1-1 {border-color:000000;border-style:none;border-bottom-width:0PX;border-left-width:0PX;border-top-width:0PX;border-right-width:0PX;}

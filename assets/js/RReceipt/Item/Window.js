@@ -6,9 +6,9 @@ Ext.define('Account.RReceipt.Item.Window', {
 		Ext.apply(this, {
 			title: 'Receipt Report',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
-			width: 900,
+			width: 1000,
 			minWidth: 500,
 			resizable: true,
 			modal: true,

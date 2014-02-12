@@ -73,16 +73,16 @@ class Rwht_docket extends CI_Controller {
 		window.print()
 	}
 </script>
-<link rel="stylesheet" href="<?= base_url('assets/css/fonts/AngsanaNew/font.css') ?>" />
+
 <STYLE>
-body { font-family: 'angsana_newregular'; }
+body { FONT-FAMILY:'Angsana New';}
  A {text-decoration:none}
  A IMG {border-style:none; border-width:0;}
  DIV {position:absolute; z-index:25;}
 .fc1-0 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-1 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
-.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'angsana_newbold';}
-.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'angsana_newbold';}
+.fc1-2 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
+.fc1-3 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-4 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-5 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
 .fc1-6 { COLOR:000000;FONT-SIZE:11PT;'angsana_newbold';}

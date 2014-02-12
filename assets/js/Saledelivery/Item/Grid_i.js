@@ -71,7 +71,7 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 				handler: this.removeRecord
 			}]
 		},{
-			id : 'RowNumber32',
+			id : 'doRowNumber1',
 			text : "Items",
 			dataIndex : 'vbelp',
 			width : 50,

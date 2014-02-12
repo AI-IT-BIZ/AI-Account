@@ -859,7 +859,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			//discount = isNaN(discount)?0:discount;
 
 			amt = qty * price;//) - discount;
-
+            
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
@@ -880,7 +880,7 @@ Ext.define('Account.Quotation.Item.Form', {
 
 			discounts += discountValue;
 
-            amt += amt - discountValue;
+            amt = amt - discountValue;
             sum2 += amt;
             
 			if(r.data['chk01']==true){
@@ -905,7 +905,6 @@ Ext.define('Account.Quotation.Item.Form', {
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
-	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;
