@@ -32,6 +32,7 @@ Ext.define('Account.Rpnd53WHT.Form', {
 			format:'d/m/Y',
 			altFormats:'Y-m-d|d/m/Y',
 			submitFormat:'Y-m-d',
+			margin: '0 0 0 120',
 			value:new Date,
 			allowBlank: false
 			}]  
