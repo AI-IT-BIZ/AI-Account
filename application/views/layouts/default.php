@@ -518,6 +518,11 @@ function endsWith($haystack, $needle)
 				leaf: true,
 				id: 'click_saleorder'
 			};
+			var nodeDelivery = {
+				text: 'Create New Delivery Orders',
+				leaf: true,
+				id: 'click_delivery'
+			};
 			var nodeInvoice = {
 				text: 'Create New Invoices',
 				leaf: true,
@@ -560,6 +565,7 @@ function endsWith($haystack, $needle)
 					nodeQuotation,
 					nodeDepositReceipt,
 					nodeSaleOrder,
+					nodeDelivery,
 					nodeInvoice,
 					nodeSaleDN,
 					nodeSaleCN,
@@ -1599,6 +1605,13 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_saleorder')}
 				        },{
+				            text: 'Delivery Orders',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-delivery',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_delivery')}
+				        },{
 				            text: 'Invoices',
 				            scale: 'large',
 				            iconAlign: 'top',
@@ -1697,6 +1710,13 @@ function endsWith($haystack, $needle)
 				            iconCls: 's-sale',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_saleorder')}
+				        },{
+				            text: 'Delivery Orders',
+				            scale: 'large',
+				            iconAlign: 'top',
+				            iconCls: 's-delivery',
+                			cls: 'x-btn-as-arrow',
+                			handler: function(){$om.viewport.fireEvent('click_delivery')}
 				        },{
 				            text: 'Invoices',
 				            scale: 'large',
