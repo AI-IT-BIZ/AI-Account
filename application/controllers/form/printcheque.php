@@ -123,7 +123,7 @@ body { font-family: 'Angsana New'; }
 <DIV style="left: 1280px; top: 334px; width: 251px; height: 20PX;"><span class="fc1-7"><?=$chqdt[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[5];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$chqdt[3];?></span></DIV>
 
 <!--Page No--><!--Header Text-->
-<DIV style="left: 1481px; top: 407px; width: 87px; height: 21px;"><span class="fc1-7">------------</span></DIV>
+<DIV style="left: 1481px; top: 407px; width: 87px; height: 21px;"><span class="fc1-7"></span></DIV>
 
 <DIV style="left: 1268px; top: 510px; width: 162px; height: 21PX;"><span class="fc1-7"><?=number_format($r_pay['payam'],2,'.',',')?></span></DIV>
 

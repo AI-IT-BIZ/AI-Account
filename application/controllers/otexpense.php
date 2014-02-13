@@ -455,7 +455,8 @@ class Otexpense extends CI_Controller {
 			//'whtyp' => $this->input->post('whtyp'),
 			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
-			'duedt' => $this->input->post('duedt')//,
+			'duedt' => $this->input->post('duedt'),
+			'ftype' => $this->input->post('ftype')
 			//'docty' => $this->input->post('docty')
 		);
 
