@@ -612,7 +612,7 @@ class Invoice extends CI_Controller {
 				'itamt'=>floatval($p->itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02,
+				//'chk02'=>$p->chk02,
 				'whtnr'=>$p->whtnr
 				//'reman'=>floatval($p->reman),
 				//'upqty'=>floatval($p->upqty)

@@ -22,7 +22,7 @@ Ext.define('Account.PR.Item.Grid_i', {
 			isApproveOnly: true
 		});
 		var field = this.materialDialog.searchForm.form.findField('stype');
-		field.setValue('02');
+		if(field) field.setValue('02');
 		this.materialDialog.grid.load();
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
@@ -431,8 +431,10 @@ Ext.define('Account.PR.Item.Grid_i', {
 	setFtype: function(ftype){
 		this.ftype = ftype;
 		var field = this.materialDialog.searchForm.form.findField('ftype');
+		if(field){
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
+		}
 	}
 	
 });

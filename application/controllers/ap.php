@@ -633,7 +633,7 @@ class Ap extends CI_Controller {
 					'unitp'=>floatval($p->unitp),
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
-					'chk02'=>$p->chk02,
+					//'chk02'=>$p->chk02,
 					'ctype'=>$p->ctype,
 					'whtnr'=>$p->whtnr,
 				));

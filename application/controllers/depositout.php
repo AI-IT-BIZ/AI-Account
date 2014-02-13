@@ -279,7 +279,7 @@ class Depositout extends CI_Controller {
 				'perct'=>$p->perct,
 				'duedt'=>$p->duedt,
 				'chk01'=>$p->chk01,
-				'chk02'=>$p->chk02,
+				//'chk02'=>$p->chk02,
 				'disit'=>$p->disit,
 				'ctyp1'=>$p->ctyp1,
 				'whtnr'=>$p->whtnr,

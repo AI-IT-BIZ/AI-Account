@@ -351,7 +351,7 @@ class Pettyexpense extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'whtnr' => $this->input->post('whtnr'),
+			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'duedt' => $this->input->post('duedt'),
 			'deamt' => floatval($this->input->post('deamt'))
@@ -441,8 +441,9 @@ class Pettyexpense extends CI_Controller {
 					'unitp'=>floatval($p->unitp),
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
-					'chk02'=>$p->chk02,
-					'ctype'=>$p->ctype
+					//'chk02'=>$p->chk02,
+					'ctype'=>$p->ctype,
+					'whtnr'=>$p->whtnr
 				));
 			}
 		}

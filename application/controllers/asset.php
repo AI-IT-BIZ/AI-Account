@@ -525,6 +525,7 @@ class Asset extends CI_Controller {
 			'lifes' => intval($this->input->post('lifes')),
 			'depre' => floatval($this->input->post('depre')),
 			'keepi' => $this->input->post('keepi'),
+			'stype' => $this->input->post('stype'),
 			'statu' => $this->input->post('statu')
 			);
 			
