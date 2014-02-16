@@ -1363,8 +1363,8 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-other-income').on('click', function(){ $om.viewport.fireEvent('click_income', c); }, c);
 								pEl.getById('div-other-expense').on('click', function(){ $om.viewport.fireEvent('click_expense', c); }, c);
 
-								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
-								pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_rjournal', c); }, c);
+								pEl.getById('div-rgl').on('click', function(){ $om.viewport.fireEvent('click_report_gl', c); }, c);
+								pEl.getById('div-rjournal').on('click', function(){ $om.viewport.fireEvent('click_report_gr', c); }, c);
 								pEl.getById('div-asset-regist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
 								pEl.getById('div-rtrail-balance').on('click', function(){ $om.viewport.fireEvent('click_rtrail-balance', c); }, c);
 								pEl.getById('div-rbalance-sheet').on('click', function(){ $om.viewport.fireEvent('click_rbalance-sheet', c); }, c);
