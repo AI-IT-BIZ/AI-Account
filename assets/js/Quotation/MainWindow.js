@@ -14,9 +14,18 @@ Ext.define('Account.Quotation.MainWindow', {
 			width: 1025,
 			minWidth: 500,
 			resizable: true,
-			modal: true,
+			modal: false,
 			layout:'border',
-			maximizable: true
+			maximizable: true,
+			minimizable: true,
+			listeners: {
+				minimize: function(win,obj) {
+					if(!win.getCollapsed())
+						win.collapse(Ext.Component.DIRECTION_TOP, false);
+					else
+						win.expand(false);
+				}
+			}
 		});
 
 		return this.callParent(arguments);
@@ -66,7 +75,9 @@ Ext.define('Account.Quotation.MainWindow', {
 			//disabled: !UMS.CAN.CREATE('QT')
 		});
 
-        this.itemDialog = Ext.create('Account.Quotation.Item.Window');
+        this.itemDialog = Ext.create('Account.Quotation.Item.Window', {
+        	ownerCt: this
+        });
 
         //this.importDialog = Ext.create('Account.Quotation.Import.Window');
 
