@@ -520,7 +520,8 @@ class Otincome extends CI_Controller {
 			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
-			'wht01' => floatval($this->input->post('wht01'))
+			'wht01' => floatval($this->input->post('wht01')),
+			'ftype' => $this->input->post('ftype')
 		);
 		
 		// start transaction
