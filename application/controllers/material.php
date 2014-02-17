@@ -495,11 +495,12 @@ class Material extends CI_Controller {
 		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
+		$totalCount = $this->db->count_all_results($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount
 		));
 	}
 

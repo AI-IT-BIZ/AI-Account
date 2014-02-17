@@ -23,7 +23,7 @@ for($i=0;$i<=strlen($num0)-1;$i++){
   }elseif($cut_input_number==2 && $didit2_chk==1){ // ถ้าเลข 2 อยู่หลักสิบ
    $bathtext1.='ยี่'."".$digit2[$didit2_chk]; 
   }elseif($cut_input_number==1 && $didit2_chk==1){ // ถ้าเลข 1 อยู่หลักสิบ
-   //$bathtext1.= ''."".$digit2[$didit2_chk]; 
+   $bathtext1.= ''."".$digit2[$didit2_chk]; 
   }elseif($cut_input_number==1 && $didit2_chk==0){ // ถ้าเลข 1 อยู่หลักหน่วย
    if(substr($num0,$i-1,1)==0){
     $bathtext1.= 'หนึ่ง'."".$digit2[$didit2_chk];
@@ -38,10 +38,11 @@ for($i=0;$i<=strlen($num0)-1;$i++){
   
   $didit2_chk=$didit2_chk-1;
 }
-$bathtext1.='บาทถ้วน ';
 
 // เลขทศนิยม
 $didit2_chk=strlen($num1)-1;
+if($didit2_chk>0){
+	$bathtext1.='บาท ';
 for($i=0;$i<=strlen($num1)-1;$i++){
  
   $cut_input_number=substr($num1,$i,1);
@@ -64,9 +65,12 @@ for($i=0;$i<=strlen($num1)-1;$i++){
   
   $didit2_chk=$didit2_chk-1;
 }
-if($num1<>'00')
+}
+
+if($num1<>'00'){
 //echo $num1;
 $bathtext1.='สตางค์';
+}else{  $bathtext1.='ถ้วน';  }
 //return $didit2_chk;
 return $bathtext1;
 

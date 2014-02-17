@@ -282,6 +282,7 @@ Ext.define('Account.Billto.Item.Form', {
 		
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
+		this.gridItem.store.on('remove', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 

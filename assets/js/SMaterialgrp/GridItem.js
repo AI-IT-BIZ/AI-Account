@@ -39,7 +39,8 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 					root: 'rows',
 					idProperty: 'matkl',
 					totalProperty: 'totalCount'
-				}
+				},
+				simpleSortMode: true
 			},
 			fields: [
 				//{ name:'id_mgrp', type:'int' },
@@ -48,22 +49,12 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 				'saknr',
 				'sgtxt'
 			],
-			remoteSort: false,
-			sorters: ['matkl ASC'],
-			pageSize: 10000000
+			remoteSort: true,
+			sorters: [{property: 'matkl', direction: 'ASC'}]//,
+			//pageSize: 25
 		});
 
 		this.columns = [{
-			id : 'PMiRowNumber002',
-			header : "Type ID",
-			dataIndex : 'id_mgrp',
-			width : 60,
-			align : 'center',
-			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
-		},{
 			text: "Group Code",
 		    width: 80,
 		    dataIndex: 'matkl',
@@ -122,18 +113,20 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mgrp'
-				}
+					idProperty: 'matkl',
+					totalProperty: 'totalCount'
+				},
+				simpleSortMode: true
 			},
 			fields: [
-				{ name:'id_mgrp', type:'int' },
+				//{ name:'id_mgrp', type:'int' },
 				'mtart',
 				'matxt',
 				'saknr',
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mgrp ASC']
+			sorters: [{property: 'matkl', direction: 'ASC'}]
 		});
 	},
 	

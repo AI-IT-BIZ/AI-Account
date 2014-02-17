@@ -52,10 +52,10 @@ Ext.define('Account.SAssettype.GridItem', {
 				'depre'
 			],
 			remoteSort: false,
-			sorters: ['id_mtype ASC']
+			sorters: ['mtart ASC']
 		});
 
-		this.columns = [{
+		this.columns = [/*{
 			id : 'FAiRowNumber001',
 			header : "Type ID",
 			dataIndex : 'id_mtype',
@@ -65,7 +65,7 @@ Ext.define('Account.SAssettype.GridItem', {
 			renderer : function(value, metaData, record, rowIndex) {
 				return rowIndex+1;
 			}
-		},{
+		},*/{
 			text: "Type Code",
 		    width: 100,
 		    dataIndex: 'mtart',
@@ -186,11 +186,11 @@ Ext.define('Account.SAssettype.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mtype'
+					idProperty: 'mtart'
 				}
 			},
 			fields: [
-				{ name:'id_mtype', type:'int' },
+				//{ name:'id_mtype', type:'int' },
 				'mtart',
 				'matxt',
 				'saknr',
@@ -198,7 +198,7 @@ Ext.define('Account.SAssettype.GridItem', {
 				'depre'
 			],
 			remoteSort: false,
-			sorters: ['id_mtype ASC']
+			sorters: ['mtart ASC']
 		});
 	},
 	

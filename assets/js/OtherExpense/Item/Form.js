@@ -396,13 +396,17 @@ layout: 'anchor',
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.kunnr);
+							o.setValue(r.data.lifnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 							_this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -411,6 +415,7 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
 			                _this.getForm().findField('taxpr').setValue('');
+			                _this.numberVat.enable();
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -438,6 +443,10 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -515,7 +524,7 @@ layout: 'anchor',
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		//this.numberWHT.on('change', this.calculateTotal, this);
+		this.comboTax.on('select', this.selectTax, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
@@ -608,15 +617,7 @@ layout: 'anchor',
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
-	// Add duedate functions
-	/*getDuedate: function(){
-		var bForm = this.getForm(),
-			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue(),
-			result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
 
-		bForm.findField('duedt').setValue(result);
-	},*/
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;

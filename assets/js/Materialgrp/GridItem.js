@@ -52,7 +52,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_mgrp',
+					idProperty: 'id_mgrp, matkl',
 					totalProperty: 'totalCount'
 				}
 			},
@@ -64,7 +64,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: false,
-			sorters: ['id_mgrp ASC'],
+			sorters: [{property: 'matkl', direction: 'ASC'}],
 			pageSize: 10000000
 		});
 
@@ -196,28 +196,7 @@ Ext.define('Account.Materialgrp.GridItem', {
 	},
 	
 	load: function(options){
-		//alert("1234");
-		this.store.load({
-			params: options,
-			proxy: {
-				type: 'ajax',
-				url: __site_url+'material/loads_grp',
-				reader: {
-					type: 'json',
-					root: 'rows',
-					idProperty: 'id_mgrp'
-				}
-			},
-			fields: [
-				{ name:'id_mgrp', type:'int' },
-				'mtart',
-				'matxt',
-				'saknr',
-				'sgtxt'
-			],
-			remoteSort: false,
-			sorters: ['id_mgrp ASC']
-		});
+		this.store.load(options);
 	},
 	
 	addRecord: function(){

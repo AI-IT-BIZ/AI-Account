@@ -75,10 +75,10 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				scope: this,
 				handler: this.removeRecord
 			}]
-		},{
-						xtype: 'hidden',
-						name: 'loekz'
-					},{
+		    },{
+				xtype: 'hidden',
+				name: 'loekz'
+			},{
 			id : 'PMiRowNumber022',
 			header : "No.",
 			dataIndex : 'vbelp',
@@ -451,6 +451,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		});
 		return rs;
 	},
+	
 	setVendorCode: function(lifnr){
 		this.vendorCode = lifnr;
 		var field = this.apDialog.searchForm.form.findField('lifnr');

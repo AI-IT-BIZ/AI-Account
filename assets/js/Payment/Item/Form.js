@@ -75,17 +75,6 @@ Ext.define('Account.Payment.Item.Form', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});
-		
-		/*this.trigCurrency = Ext.create('Ext.form.field.Trigger', {
-			name: 'ctype',
-			fieldLabel: 'Currency',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			width: 200,
-			editable: false,
-			labelAlign: 'right',
-			allowBlank : false
-		});*/
 	
 		this.hdnPyItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebbp'
@@ -261,7 +250,7 @@ Ext.define('Account.Payment.Item.Form', {
 			_this.vendorDialog.hide();
 			
 			// set vendor code to grid item
-				_this.gridItem.setVendorCode(record.data.lifnr);
+			_this.gridItem.setVendorCode(record.data.lifnr);
 		});
 
 		this.trigVendor.onTriggerClick = function(){
@@ -270,6 +259,7 @@ Ext.define('Account.Payment.Item.Form', {
 		
 	// grid event
 		this.gridItem.store.on('update', this.calculateTotal, this);
+		this.gridItem.store.on('remove', this.calculateTotal, this);
 		this.gridItem.store.on('load', this.calculateTotal, this);
 		this.on('afterLoad', this.calculateTotal, this);
 		

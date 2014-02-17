@@ -365,6 +365,9 @@ Ext.define('Account.PR.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}else{
 							_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
@@ -372,7 +375,8 @@ Ext.define('Account.PR.Item.Form', {
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
 			                _this.getForm().findField('taxpr').setValue('');
-							o.markInvalid('Could not find vendor code : '+o.getValue());
+			                _this.numberVat.enable();
+							//o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
 				});
@@ -399,6 +403,9 @@ Ext.define('Account.PR.Item.Form', {
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -471,6 +478,7 @@ Ext.define('Account.PR.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
         this.comboTax.on('change', this.calculateTotal, this);
+        this.comboTax.on('select', this.selectTax, this);
         this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
@@ -655,6 +663,15 @@ Ext.define('Account.PR.Item.Form', {
 		if(_this.comboFtype.getValue()){
 			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 
 });
