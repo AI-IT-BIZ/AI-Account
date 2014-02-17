@@ -372,11 +372,20 @@ class Otexpense extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
-				if(XUMS::CAN_DISPLAY('AP') && XUMS::CAN_APPROVE('AP')){
-					$limit = XUMS::LIMIT('AP');
-					if($limit<$row['netwr']){
-						$emsg = 'You do not have permission to change AP status over than '.number_format($limit);
+			if($status_changed&&$row['statu']!=03){
+				if(XUMS::CAN_DISPLAY('OE') && XUMS::CAN_APPROVE('OE')){
+					$limit = XUMS::LIMIT('OE');
+					if($this->input->post('statu')==01){
+						$emsg = 'Cannot Change status to waiting for approve';
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+					else if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change Other Income status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -385,7 +394,7 @@ class Otexpense extends CI_Controller {
 						return;
 					}
 				}else{
-					$emsg = 'You do not have permission to change AP status.';
+					$emsg = 'You do not have permission to change Other Expense status.';
 					echo json_encode(array(
 						'success'=>false,
 						'errors'=>array( 'statu' => $emsg ),

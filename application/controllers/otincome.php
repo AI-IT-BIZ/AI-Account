@@ -437,11 +437,20 @@ class Otincome extends CI_Controller {
 			$row = $query->first_row('array');
 			// status has change
 			$status_changed = $row['statu']!=$this->input->post('statu');
-			if($status_changed&&$row['statu']!=02&&$row['statu']!=02&&$row['statu']!=03){
+			if($status_changed&&$row['statu']!=03){
 				if(XUMS::CAN_DISPLAY('OI') && XUMS::CAN_APPROVE('OI')){
 					$limit = XUMS::LIMIT('OI');
-					if($limit<$row['netwr']){
-						$emsg = 'You do not have permission to change other income status over than '.number_format($limit);
+					if($this->input->post('statu')==01){
+						$emsg = 'Cannot Change status to waiting for approve';
+						echo json_encode(array(
+							'success'=>false,
+							'errors'=>array( 'statu' => $emsg ),
+							'message'=>$emsg
+						));
+						return;
+					}
+					else if($limit<$row['netwr']){
+						$emsg = 'You do not have permission to change Other Income status over than '.number_format($limit);
 						echo json_encode(array(
 							'success'=>false,
 							'errors'=>array( 'statu' => $emsg ),
@@ -653,7 +662,7 @@ class Otincome extends CI_Controller {
 				if(!empty($p->saknr)){
 				$this->db->insert('bcus', array(
 					'belnr'=>$accno,
-					'belpr'=>inttval(++$item_index),
+					'belpr'=>intval(++$item_index),
 					'gjahr' => substr($date,0,4),
 					'saknr'=>$p->saknr,
 					'debit'=>floatval($p->debit),
