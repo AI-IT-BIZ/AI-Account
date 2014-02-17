@@ -148,8 +148,8 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 385PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
 <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 420px;">
-<table width="0px" height="418PX"><td>&nbsp;</td></table>
+<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 203px;">
+<table width="0px" height="203PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:660PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
@@ -379,7 +379,7 @@ if(empty($r_data['dismt'])) $r_data['dismt']=0.00;
 <DIV style="left:465PX;top:709PX;width:194PX;height:23PX;"><span class="fc1-4">จำนวนเงินหลังหักส่วนลด&nbsp;&nbsp;After Discount</span></DIV>
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt']; ?>
 
-<DIV style="left: 664px; top: 708px; width: 88PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
+<DIV style="left: 664px; top: 708px; width: 88PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:731PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 

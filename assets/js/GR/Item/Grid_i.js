@@ -24,6 +24,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];*/
+		this.assetDialog = Ext.create('Account.Assetgenno.Window');
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1

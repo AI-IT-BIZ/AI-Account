@@ -47,6 +47,20 @@ class Rwht_docket extends CI_Controller {
 		$r_data = $query->first_row('array');
 		
 		$cusid = str_split($r_data['taxid']);
+		
+		//Payment
+		$strSQL = '';
+		$strSQL = " select v_ebbk.*,v_ebbp.*";
+        $strSQL = $strSQL . " from v_ebbk ";
+        $strSQL = $strSQL . " left join v_ebbp on v_ebbk.payno = v_ebbp.payno ";
+        $strSQL = $strSQL . " Where v_ebbp.invnr = '".$invnr."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+       
+		$q_pay = $this->db->query($strSQL);
+		if($q_pay->num_rows()>0){
+		$r_pay = $q_pay->first_row('array');
+		
+		
 		// calculate sum
 		//$result = array();
 		
@@ -349,7 +363,7 @@ $t4_beamt=0;$t4_wht=0;
 $t5_beamt=0;$t5_wht=0;
 $t6_beamt=0;$t6_wht=0;
 $tt_beamt=0;$tt_wht=0;
-$bldat_str = util_helper_format_date($r_data['bldat']); 
+$bldat_str = util_helper_format_date($r_pay['duedt']); 
 //$whtnr = $r_data['whtgp'];
 $t_beamt=$r_data['beamt'];
 $t_wht=$r_data['wht01'];
@@ -424,7 +438,7 @@ $t_wht=$r_data['wht01'];
 			  case '4': $posit=422;
 			            $tt_beamt=$t4_beamt;
 						$tt_wht=$t4_wht;break;
-			  case '5': $posit=646;
+			  case '5': $posit=648;
 			            $tt_beamt=$t5_beamt;
 						$tt_wht=$t5_wht;break;
 			  case '6': $posit=734;
@@ -456,9 +470,9 @@ $t_wht=$r_data['wht01'];
 if(!empty($text_amt)) echo '( '.$text_amt.' )' ?></td></table>
 </DIV>
 
-<DIV style="left:216PX;top:303PX;width:95PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['vtype']=='02') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 3 </span></DIV>
+<DIV style="left:216PX;top:303PX;width:95PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['type1']=='2') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 3 </span></DIV>
 
-<DIV style="left:436PX;top:303PX;width:137PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['vtype']=='01') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 53 </span></DIV>
+<DIV style="left:436PX;top:303PX;width:137PX;height:22PX;"><span class="fc1-1">(&nbsp;&nbsp;<? if($r_data['type1']=='1') echo 'X'; else echo ' ';?>&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;ภ.ง.ด. 53 </span></DIV>
 
 <DIV style="left:311PX;top:303PX;width:92PX;height:23PX;"><span class="fc1-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;ภ.ง.ด. 3 ก </span></DIV>
 
@@ -505,6 +519,11 @@ if(!empty($text_amt)) echo '( '.$text_amt.' )' ?></td></table>
 </BODY></HTML>
 
 <?php
+		}else{
+?>
+<DIV style="left: 478px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">The AP Doc not yet do payment doc</span></DIV>
+<?php
+		}
 	  }
 	}
   }

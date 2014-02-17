@@ -364,12 +364,14 @@ Ext.define('Account.PR.Item.Form', {
 							_this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 						}else{
 							_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
 							_this.getForm().findField('terms').setValue('');
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
 							o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
@@ -396,6 +398,7 @@ Ext.define('Account.PR.Item.Form', {
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 						}
 					}
 				});

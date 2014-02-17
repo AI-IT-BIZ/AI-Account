@@ -600,7 +600,16 @@ class Invoice extends CI_Controller {
 			$item_index = 0;
 		foreach($iv_item_array AS $p){
 			$itamt = $p->menge * $p->unitp;
-		    $itamt = $itamt - $p->disit;
+				$pos = strpos($p->disit, '%');
+				if($pos==false){
+					$disit = $p->disit;
+				}else{
+					$perc = explode('%',$p->disit);
+					$pramt = $amt * $perc[0];
+					$disit = $pramt / 100;
+				}
+		        $itamt = $itamt - $disit;
+				
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
 				'vbelp'=>intval(++$item_index),
@@ -609,13 +618,11 @@ class Invoice extends CI_Controller {
 				'meins'=>$p->meins,
 				'disit'=>$p->disit,
 				'unitp'=>floatval($p->unitp),
-				'itamt'=>floatval($p->itamt),
+				'itamt'=>floatval($itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
 				//'chk02'=>$p->chk02,
 				'whtnr'=>$p->whtnr
-				//'reman'=>floatval($p->reman),
-				//'upqty'=>floatval($p->upqty)
 			));
 	    	}
 		}

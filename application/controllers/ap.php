@@ -622,7 +622,16 @@ class Ap extends CI_Controller {
 			$item_index = 0;
 			foreach($ap_item_array AS $p){
 				$itamt = $p->menge * $p->unitp;
-		        $itamt = $itamt - $p->disit;
+				$pos = strpos($p->disit, '%');
+				if($pos==false){
+					$disit = $p->disit;
+				}else{
+					$perc = explode('%',$p->disit);
+					$pramt = $amt * $perc[0];
+					$disit = $pramt / 100;
+				}
+		        $itamt = $itamt - $disit;
+				
 				$this->db->insert('ebrp', array(
 					'invnr'=>$id,
 					'vbelp'=>intval(++$item_index),
@@ -631,7 +640,7 @@ class Ap extends CI_Controller {
 					'meins'=>$p->meins,
 					'disit'=>$p->disit,
 					'unitp'=>floatval($p->unitp),
-					'itamt'=>floatval($p->itamt),
+					'itamt'=>floatval($itamt),
 					'chk01'=>$p->chk01,
 					//'chk02'=>$p->chk02,
 					'ctype'=>$p->ctype,

@@ -402,6 +402,7 @@ layout: 'anchor',
 							_this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -409,6 +410,7 @@ layout: 'anchor',
 							_this.getForm().findField('terms').setValue('');
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
 							o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
@@ -435,6 +437,7 @@ layout: 'anchor',
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 						}
 					}
 				});
@@ -745,47 +748,15 @@ layout: 'anchor',
 		if(_this.comboFtype.getValue()){
 			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 	
-// Payments Method	
-	/*selectPay: function(combo, record, index){
-		var _this=this;
-		var store = this.gridItem.store;
-		var vtax = combo.getValue();
-		var sum = 0;var vats=0;var i=0;
-		store.each(function(r){
-			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
-				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
-				mtart = r.data['mtart'];
-				
-			qty = isNaN(qty)?0:qty;
-			price = isNaN(price)?0:price;
-			discount = isNaN(discount)?0:discount;
-
-			var amt = (qty * price) - discount;
-            
-			sum += amt;
-			if(r.data['chk01']==true){
-				var vat = _this.numberVat.getValue();
-				    vat = (amt * vat) / 100;
-				    vats += vat;
-			}		
-		});
-		
-		if(currency != 'THB'){
-	      var rate = this.formTotal.getForm().findField('exchg').getValue();
-		  sum = sum * rate;
-		  vats = vats * rate;
-		} 
-		if(sum>0){
-            _this.gridGL.load({
-            	netpr:sum,
-            	vvat:vats,
-            	lifnr:this.trigVendor.getValue(),
-            	ptype:combo.getValue(),
-            	dtype:'01'
-            }); 
-           }
-	}*/
 });
