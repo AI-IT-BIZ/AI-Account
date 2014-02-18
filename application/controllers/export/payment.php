@@ -97,7 +97,7 @@ class Payment extends CI_Controller {
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-					->setCellValue('A'.$excel_i, $value['invnr'])
+					->setCellValue('A'.$excel_i, $value['payno'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
 		            ->setCellValue('C'.$excel_i, $value['duedt'])
 		            ->setCellValue('D'.$excel_i, $value['lifnr'])
