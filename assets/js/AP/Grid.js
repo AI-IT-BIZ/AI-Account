@@ -24,7 +24,11 @@ Ext.define('Account.AP.Grid', {
 				'lifnr',
 				'name1',
 				'netwr',
-				'statx'
+				'statx',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}]
@@ -45,7 +49,15 @@ Ext.define('Account.AP.Grid', {
 			{text: "Net Amount", flex: true, 
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'netwr', sortable: true},
-			{text: "AP Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "AP Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

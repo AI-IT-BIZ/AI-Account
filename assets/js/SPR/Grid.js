@@ -25,7 +25,11 @@ Ext.define('Account.SPR.Grid', {
 				'netwr',
 				'statx',
 				'ctype',
-				'deptx'
+				'deptx',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'purnr', direction: 'ASC'}]
@@ -45,7 +49,15 @@ Ext.define('Account.SPR.Grid', {
 			align: 'center', sortable: true},
 			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
 			flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "Currency", dataIndex: 'ctype', sortable: true}
+			{text: "Currency", dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true},
 		];
 
 		this.bbar = {

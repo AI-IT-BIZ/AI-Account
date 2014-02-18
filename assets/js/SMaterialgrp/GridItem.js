@@ -49,9 +49,9 @@ Ext.define('Account.SMaterialgrp.GridItem', {
 				'saknr',
 				'sgtxt'
 			],
-			remoteSort: true,
-			sorters: [{property: 'matkl', direction: 'ASC'}]//,
-			//pageSize: 25
+			remoteSort: false,
+			sorters: [{property: 'matkl', direction: 'ASC'}],
+			pageSize: 1000000
 		});
 
 		this.columns = [{

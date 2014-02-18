@@ -30,7 +30,11 @@ Ext.define('Account.SAp.Grid', {
 				'ctype',
 				'wht01',
 				'vat01',
-				'loekz'
+				'loekz',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 				
 			],
 			remoteSort: true,
@@ -53,6 +57,14 @@ Ext.define('Account.SAp.Grid', {
 			align: 'center', dataIndex: 'statx', sortable: true},
 			{text: "Currency", flex: true,
 			align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true},
 			{text: "1",hidden: true,width: 0, dataIndex: 'wht01', sortable: false},
 			{text: "2",hidden: true,width: 0, dataIndex: 'vat01', sortable: false},
 			{text: "3",hidden: true,width: 0, dataIndex: 'loekz', sortable: false}

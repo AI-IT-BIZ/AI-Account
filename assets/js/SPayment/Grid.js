@@ -26,8 +26,11 @@ Ext.define('Account.SPayment.Grid', {
 				'txz01',
 				'statx',
 				'netwr',
-				'ctype'
-				
+				'ctype',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'payno', direction: 'ASC'}]
@@ -50,7 +53,15 @@ Ext.define('Account.SPayment.Grid', {
 			{text: "Payment Status", flex: true, dataIndex: 'statx', sortable: true},	
 			{text: "Amount", xtype: 'numbercolumn',
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", dataIndex: 'ctype', sortable: true}
+			{text: "Currency", dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true},
 		];
 
 		this.bbar = {

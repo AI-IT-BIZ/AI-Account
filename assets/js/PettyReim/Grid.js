@@ -28,7 +28,11 @@ Ext.define('Account.PettyReim.Grid', {
 				'reman',
 				'dispc',
 				'upamt',
-				'statx'
+				'statx',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'remnr', direction: 'ASC'}]
@@ -62,7 +66,15 @@ Ext.define('Account.PettyReim.Grid', {
 			dataIndex: 'dispc', sortable: true},
 			
 			{text: "Currency", flex: true, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "CPV Status", flex: true, dataIndex: 'statx', sortable: true}
+			{text: "CPV Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

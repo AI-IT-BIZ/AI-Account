@@ -30,7 +30,11 @@ Ext.define('Account.Saleorder.Grid', {
 				'ctype',
 				'ptype',
 				'taxnr',
-				'terms'
+				'terms',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'ordnr', direction: 'ASC'}]
@@ -55,6 +59,14 @@ Ext.define('Account.Saleorder.Grid', {
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true},
 			{text: "2",hidden: true,width: 0, dataIndex: 'ptype', sortable: false},
 			{text: "3",hidden: true,width: 0, dataIndex: 'taxnr', sortable: false},
 			{text: "4",hidden: true,width: 0, dataIndex: 'terms', sortable: false}

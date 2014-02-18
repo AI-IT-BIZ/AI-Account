@@ -294,56 +294,6 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 			minValue: 0,
 			margin: '0 0 0 56'
          });
-//---Create Selection--------------------------------------------
-        /*this.glnoDialog = Ext.create('Account.GL.MainWindow');
-
-		this.trigGlno = Ext.create('Ext.form.field.Trigger', {
-			name: 'saknr',
-			fieldLabel: 'GL Account',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false,
-			width:290,
-		});*/
-//---event triger-----------------------------------------------
-		// event trigGlno//
-		/*this.trigGlno.on('keyup',function(o, e){
-
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'gl/load',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.saknr);
-							_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
-
-						}else{
-							o.markInvalid('Could not find GL Account : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-			_this.glnoDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigGlno.setValue(record.data.saknr);
-			_this.getForm().findField('sgtxt').setValue(record.data.sgtxt);
-
-			grid.getSelectionModel().deselectAll();
-			_this.glnoDialog.hide();
-		});
-
-		this.trigGlno.onTriggerClick = function(){
-			_this.glnoDialog.show();
-		};*/
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('CS'),
@@ -501,7 +451,7 @@ items:[{
 		            name: 'pstlz',
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
-		            regex: /^\d{5}$/,
+		            //regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
 					labelWidth: 93,
 		            width: 290
@@ -522,18 +472,28 @@ items:[{
 					fieldLabel: 'Phone Number',
 		            name: 'telf1',
 		            labelWidth: 93,
-		            width: 290,
+		            width: 450,
 		            emptyText: 'xxx-xxxxxxx',
-		            maskRe: /[\d\-]/
+		            maxValue: 30
+		            //maskRe: /[\d\-]/
                 }, {
+                }]
+
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
 		            labelAlign: 'right',
-		            maskRe: /[\d\-]/,
-		            //regexText: 'Must be in the format xxx-xxxxxx',
-            		margin: '0 0 0 50'
-                }]
+		            //maskRe: /[\d\-]/,
+		            labelWidth: 93,
+		            width: 450,
+            		maxValue: 30
+                },{}]
 
             },{
                 xtype: 'container',
@@ -592,7 +552,7 @@ items:[{
 		            name: 'pst02',
 		            emptyText: 'xxxxx',
 		            maskRe: /[\d\-]/,
-		            regex: /^\d{5}$/,
+		            //regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
 					labelWidth: 93,
 		            width: 290,
@@ -613,19 +573,28 @@ items:[{
 					fieldLabel: 'Phone Number',
 		            name: 'tel02',
 		            labelWidth: 93,
-		            width: 290,
+		            width: 450,
 		            emptyText: 'xxx-xxxxxxx',
-		            maskRe: /[\d\-]/,
+		            maxValue: 30
+		            //maskRe: /[\d\-]/
                 }, {
+                }]
+
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
-		            name: 'telf02',
+		            name: 'telf2',
 		            labelAlign: 'right',
-		            maskRe: /[\d\-]/,
-		            //regex: /^\d{2}-\d{6}$/,
-		            //regexText: 'Must be in the format xxx-xxxxxx',
-            		margin: '0 0 0 50',
-                }]
+		            //maskRe: /[\d\-]/,
+		            labelWidth: 93,
+		            width: 450,
+            		maxValue: 30
+                },{}]
 
             },{
                 xtype: 'container',
