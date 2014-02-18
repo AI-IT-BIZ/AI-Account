@@ -25,7 +25,11 @@ Ext.define('Account.GR.Grid', {
 				'ebeln',
 				'netwr',
 				'ctype',
-				'statx'
+				'statx',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'mbeln', direction: 'ASC'}]
@@ -41,7 +45,15 @@ Ext.define('Account.GR.Grid', {
 			{text: "Net Amount", width: 150, align: 'right',
 			xtype: 'numbercolumn',dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 50, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "GR Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true}
+			{text: "GR Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

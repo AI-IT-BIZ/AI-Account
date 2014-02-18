@@ -177,6 +177,17 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			allowBlank : false
 		});
 		
+		this.dateDoc = Ext.create('Ext.form.DateField', {
+			fieldLabel: 'Doc Date',
+			name: 'bldat',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank : false
+		});
+		
 	    this.numberCredit = Ext.create('Ext.ux.form.NumericField', {
             //xtype: 'numberfield',
 			fieldLabel: 'Credit Terms',
@@ -324,17 +335,7 @@ layout: 'anchor',
 		                flex: 0,
 		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [this.comboPtype,{
-		                //}, {
-							xtype: 'datefield',
-							fieldLabel: 'Doc Date',
-							name: 'bldat',
-							labelAlign: 'right',
-							width:240,
-							format:'d/m/Y',
-							altFormats:'Y-m-d|d/m/Y',
-							submitFormat:'Y-m-d',
-		                }, this.comboTax,
+		                items: [this.comboPtype,this.dateDoc, this.comboTax,
                 		this.trigCurrency,
                 		{
 			xtype: 'container',
@@ -520,6 +521,8 @@ layout: 'anchor',
         
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
+        this.dateDoc.on('keyup', this.getDuedate, this);
+        this.dateDoc.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);

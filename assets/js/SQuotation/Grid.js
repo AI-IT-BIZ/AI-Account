@@ -32,7 +32,11 @@ Ext.define('Account.SQuotation.Grid', {
 				'ctype',
 				'ptype',
 				'taxnr',
-				'terms'
+				'terms',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'vbeln', direction: 'ASC'}]
@@ -58,6 +62,14 @@ Ext.define('Account.SQuotation.Grid', {
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency",
 			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true},
 			{text: "1",hidden: true,width: 0, sortable: false, dataIndex: 'ptype'},
 			{text: "2",hidden: true,width: 0, sortable: false, dataIndex: 'taxnr'},
 			{text: "3",hidden: true,width: 0, sortable: false, dataIndex: 'terms'}

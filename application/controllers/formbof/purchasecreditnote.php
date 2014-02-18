@@ -274,7 +274,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--Company Logo-->
 <DIV style="z-index:15;left:51PX;top:26PX;width:102PX;height:102PX;">
-<img  WIDTH=106 HEIGHT=100 SRC="<?= base_url('assets/images/icons/bmblogo.jpg') ?>">
+<img  WIDTH=106 HEIGHT=100 SRC="<?= base_url('assets/images/icons/boflogo.jpg') ?>">
 </DIV>
 
 <!--Company Text-->

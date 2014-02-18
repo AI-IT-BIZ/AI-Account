@@ -373,7 +373,7 @@ Ext.define('Account.Vendor.Item.Form', {
 		            emptyText: 'xxxxx',
 		            labelAlign: 'right',
 		            maskRe: /[\d\-]/,
-		            regex: /^\d{5}$/,
+		            //regex: /^\d{5}$/,
 		            regexText: 'Must be in the format xxxxx',
             		margin: '0 0 0 43'
                 }]
@@ -387,15 +387,24 @@ Ext.define('Account.Vendor.Item.Form', {
 					fieldLabel: 'Phone Number',
 		            name: 'telf1',
 		            labelWidth:110,
-		            width: 290,
+		            width: 460,
 		            emptyText: 'xxx-xxxxxxx',
-		            maskRe: /[\d\-]/,
+		            maxValue: 30
+		            //maskRe: /[\d\-]/,
                 }, {
+                }]
+            },{
+                xtype: 'container',
+                flex: 1,
+                layout: 'hbox',
+                padding:2,
+                items :[{
 					xtype: 'textfield',
 					fieldLabel: 'Fax Number',
 		            name: 'telfx',
-		            labelAlign: 'right',
-		            margin: '0 0 0 46'
+		            labelWidth:110,
+		            width: 460,
+                }, {
                 }]
             },{
                 xtype: 'container',

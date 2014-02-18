@@ -25,28 +25,39 @@ Ext.define('Account.PR.Grid', {
 				'netwr',
 				'statx',
 				'ctype',
-				'deptx'
+				'deptx',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'purnr', direction: 'ASC'}]
 		});
 
 		this.columns = [
-			{text: "PR No", flex: true, dataIndex: 'purnr', 
+			{text: "PR No", width: 100, dataIndex: 'purnr', 
 			align: 'center',sortable: true},
-			{text: "PR Date", width: 125, 
-			xtype: 'datecolumn',
+			{text: "PR Date", width: 85, xtype: 'datecolumn',
 			align: 'center', format:'d/m/Y',
 			dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr',
+			{text: "Vendor Code", width: 80, dataIndex: 'lifnr',
 			align: 'center', sortable: true},
-			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "PR Status", flex: true, dataIndex: 'statx',
+			{text: "Vendor Name", width: 140, dataIndex: 'name1', sortable: true},
+			{text: "PR Status", width: 100, dataIndex: 'statx',
 			align: 'center', sortable: true},
-			{text: "Net Amount", xtype: 'numbercolumn',align: 'right',
-			flex: true, dataIndex: 'netwr', sortable: true},
-			{text: "Currency", width: 100, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "Department", flex: true, dataIndex: 'deptx', sortable: true}
+			{text: "Net Amount", width: 100, xtype: 'numbercolumn',align: 'right',
+			dataIndex: 'netwr', sortable: true},
+			{text: "Currency", width: 55, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "Department", width: 100, dataIndex: 'deptx', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

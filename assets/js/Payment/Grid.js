@@ -26,7 +26,11 @@ Ext.define('Account.Payment.Grid', {
 				'txz01',
 				'statx',
 				'netwr',
-				'ctype'
+				'ctype',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 				
 			],
 			remoteSort: true,
@@ -50,7 +54,15 @@ Ext.define('Account.Payment.Grid', {
 			{text: "Payment Status",width: 100, dataIndex: 'statx', sortable: true},	
 			{text: "Amount", xtype: 'numbercolumn',
 			width: 100, align: 'right', dataIndex: 'netwr', sortable: true},
-			{text: "Currency", dataIndex: 'ctype',width: 50,align: 'center', sortable: true}
+			{text: "Currency", dataIndex: 'ctype',width: 50,align: 'center', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

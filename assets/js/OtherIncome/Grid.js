@@ -28,7 +28,11 @@ Ext.define('Account.OtherIncome.Grid', {
 				'statx',
 				'paytx',
 				'netwr',
-				'ctype'
+				'ctype',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}]
@@ -56,7 +60,15 @@ Ext.define('Account.OtherIncome.Grid', {
 			xtype: 'numbercolumn',
 			width: 80, align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "Currency", 
-			width: 60, align: 'center', dataIndex: 'ctype', sortable: true}
+			width: 60, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

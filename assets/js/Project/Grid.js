@@ -22,14 +22,17 @@ Ext.define('Account.Project.Grid', {
 				'jobtx',
 			    'kunnr',
 				'name1',
-
 				'bldat',
 				'statx',
 				'salnr',
 				'emnam',
 				'stdat',
 				'endat',
-				'pramt'
+				'pramt',
+				'erdat',
+				'ernam',
+				'updat',
+				'upnam'
 			],
 			remoteSort: true,
 			sorters: [{property: 'jobnr', direction: 'ASC'}]
@@ -57,7 +60,15 @@ Ext.define('Account.Project.Grid', {
 			width: 80, align: 'center', dataIndex: 'endat', sortable: true},
 			{text: "Project Amount",
 			xtype: 'numbercolumn',
-			width: 90, align: 'right', dataIndex: 'pramt', sortable: true}
+			width: 90, align: 'right', dataIndex: 'pramt', sortable: true},
+			{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 120, dataIndex: 'erdat', sortable: true},
+			{text: "Update Name",
+			width: 100, dataIndex: 'upnam', sortable: true},
+			{text: "Update Date",
+			width: 120, dataIndex: 'updat', sortable: true}
 		];
 
 		this.bbar = {

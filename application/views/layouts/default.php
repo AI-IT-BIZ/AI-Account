@@ -289,7 +289,9 @@ function endsWith($haystack, $needle)
 		#div-rpnd3 { position:absolute; top:510px; left:890px; width: 100px; height:100px; }
 		#div-rpnd53 { position:absolute; top:620px; left:780px; width: 100px; height:100px; }
 		#div-rpnd50-form { position:absolute; top:620px; left:890px; width: 100px; height:100px; }
-
+        
+        #div-master-protype { top:30px; left:30px; width: 180px; height: 90px; }
+        
 		#div-master-custype { top:30px; left:250px; width: 180px; height: 90px; }
 		#div-master-cusnew { top:30px; left:470px; width: 180px; height: 90px; }
 
@@ -1251,6 +1253,7 @@ function endsWith($haystack, $needle)
 							'</div>',
 							'<div id="master-container" style="display:none;">',
 								'<div id="div1-4-container">',
+								    '<div id="div-master-protype" class="box box-purple"><span>Project Type</span></div>',
 								    '<div id="div-master-custype" class="box box-purple"><span>Customer Type</span></div>',
 
 									'<div id="div-master-cusnew" class="box box-purple"><span>Customer Master</span></div>',
@@ -1452,6 +1455,7 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-account-rincome').on('click', function(){ $om.viewport.fireEvent('click_rincome-statment', c); }, c);
 
                                 //Master Tab
+                                pEl.getById('div-master-protype').on('click', function(){ $om.viewport.fireEvent('click_projecttype', c); }, c);
                                 pEl.getById('div-master-custype').on('click', function(){ $om.viewport.fireEvent('click_customer_type', c); }, c);
 
                                 pEl.getById('div-master-cusnew').on('click', function(){ $om.viewport.fireEvent('click_customer', c); }, c);
