@@ -1,4 +1,4 @@
-Ext.define('Account.Payment.Item.PrintWindow', {
+/*Ext.define('Account.Payment.Item.PrintWindow', {
 	extend	: 'BASE.PreviewWindow',
 	constructor:function(config) {
 
@@ -18,5 +18,23 @@ Ext.define('Account.Payment.Item.PrintWindow', {
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
 		return __site_url+'form/printcheque/index/'+id+'/'+copies;
+	}
+});*/
+Ext.define('Account.Payment.Item.PrintWindow', {
+	extend	: 'BASE.PreviewWindow',
+	constructor:function(config) {
+		var _this=this;
+
+		Ext.apply(this, {
+			title: 'Print Cheque',
+			width: 1500,
+			enableCopies: false
+		});
+
+		return this.callParent(arguments);
+	},
+	initComponent : function() {
+
+		return this.callParent(arguments);
 	}
 });

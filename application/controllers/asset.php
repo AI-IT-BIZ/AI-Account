@@ -638,9 +638,10 @@ class Asset extends CI_Controller {
 		//$mtyp = $this->input->post('ftyp');
 		//$item_array = json_decode($mtyp);
 		
-		if(!empty($mtyp) && !empty($item_array)){
+		if(!empty($ftyp) && !empty($item_array)){
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 			$item_index = 0;
+		
 		foreach($item_array AS $p){
 			$this->db->insert('ftyp', array(
 				'mtart'=>$p->mtart,

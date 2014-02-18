@@ -30,7 +30,9 @@ Ext.define('Account.Payment.Item.Window', {
 		this.btnPrint = Ext.create('Ext.Button', {
 			text: 'Print Cheque',
 			handler: function() {
-				_this.printDialog.openDialog(_this.dialogId);
+				//_this.printDialog.openDialog(_this.dialogId);
+				params = "payno="+_this.dialogId;
+				_this.printDialog.openDialog(__base_url + 'index.php/form/printcheque2/pdf?'+params,'_blank');
 			}
 		});
 		

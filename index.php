@@ -1,14 +1,16 @@
 <?php
+/*
 define('JASPERSERVER', "192.168.1.244");
 define('JASPERPORT', 8080);
 define('JASPERUSER', 'jasperadmin');
 define('JASPERPASSWORD', 'jasperadmin');
-/*
-define('JASPERSERVER', "127.0.0.1");
-define('JASPERPORT', 8080);
+*/
+
+define('JASPERSERVER', "192.168.1.200");
+define('JASPERPORT', 8081);
 define('JASPERUSER', 'jasperadmin');
 define('JASPERPASSWORD', 'jasperadmin');
- */
+
 date_default_timezone_set('Asia/Bangkok');
 
 /*
