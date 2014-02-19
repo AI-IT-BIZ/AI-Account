@@ -444,7 +444,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 	reset: function(){
 		this.getForm().reset();
 		// สั่ง grid load เพื่อเคลียร์ค่า
-		//this.gridItem.load({ invnr: 0 });
+		this.gridItem.load({ invnr: 0 });
 		this.gridGL.load({ netpr: 0 });
 		
 		// สร้างรายการเปล่า 5 รายการใน grid item

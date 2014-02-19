@@ -18,10 +18,10 @@ Ext.define('Account.PO.Item.Form', {
 			isApproveOnly: true
 		});
 		
-		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
-			disableGridDoubleClick: true,
-			isApproveOnly: true
-		});
+		//this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
+		//	disableGridDoubleClick: true,
+		//	isApproveOnly: true
+		//});
 
 		this.gridItem = Ext.create('Account.PO.Item.Grid_i',{
 			title:'PO Items',
@@ -170,11 +170,11 @@ Ext.define('Account.PO.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.trigVender = Ext.create('Ext.form.field.Trigger', {
+		this.trigVender = Ext.create('Ext.form.TextField', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
+			//triggerCls: 'x-form-search-trigger',
+			//enableKeyEvents: true,
 			readOnly: true,
 			allowBlank : false
 		});
@@ -376,7 +376,7 @@ Ext.define('Account.PO.Item.Form', {
 		];		
 
 		// event trigVender///
-		this.trigVender.on('keyup',function(o, e){
+		/*this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -440,7 +440,7 @@ Ext.define('Account.PO.Item.Form', {
 
 		this.trigVender.onTriggerClick = function(){
 			_this.vendorDialog.show();
-		};
+		};*/
 
 		// event trigQuotation///
 		this.trigPR.on('keyup',function(o, e){

@@ -31,6 +31,8 @@ Ext.define('Account.SAp.Grid', {
 				'wht01',
 				'vat01',
 				'loekz',
+				'beamt',
+				'dismt',
 				'erdat',
 				'ernam',
 				'updat',
@@ -42,20 +44,20 @@ Ext.define('Account.SAp.Grid', {
 		});
 
 		this.columns = [
-			{text: "AP Doc", flex: true,  dataIndex: 'invnr',
+			{text: "AP Doc", width: 100,  dataIndex: 'invnr',
 			align: 'center', sortable: true},
-			{text: "AP Date", width: 125, format:'d/m/Y',
+			{text: "AP Date", width: 85, format:'d/m/Y',
 			align: 'center',dataIndex: 'bldat', sortable: true},
-			{text: "Ref Doc", flex: true,dataIndex: 'ebeln', 
+			{text: "Ref Doc", width: 100, dataIndex: 'ebeln', 
 			align: 'center', sortable: true},
-			{text: "Vendor Code", flex: true, 
+			{text: "Vendor Code", width: 100,
 			align: 'center', dataIndex: 'lifnr', sortable: true},
-			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
-			{text: "Net Amount", flex: true, xtype: 'numbercolumn',
+			{text: "Vendor Name", width: 100, dataIndex: 'name1', sortable: true},
+			{text: "Net Amount", width: 100, xtype: 'numbercolumn',
 			align: 'right', dataIndex: 'netwr', sortable: true},
 			{text: "AP Status", width: 80, 
 			align: 'center', dataIndex: 'statx', sortable: true},
-			{text: "Currency", flex: true,
+			{text: "Currency", width: 100,
 			align: 'center', dataIndex: 'ctype', sortable: true},
 			{text: "Create Name",
 			width: 100, dataIndex: 'ernam', sortable: true},
@@ -67,7 +69,9 @@ Ext.define('Account.SAp.Grid', {
 			width: 120, dataIndex: 'updat', sortable: true},
 			{text: "1",hidden: true,width: 0, dataIndex: 'wht01', sortable: false},
 			{text: "2",hidden: true,width: 0, dataIndex: 'vat01', sortable: false},
-			{text: "3",hidden: true,width: 0, dataIndex: 'loekz', sortable: false}
+			{text: "3",hidden: true,width: 0, dataIndex: 'loekz', sortable: false},
+			{text: "4",hidden: true,width: 0, dataIndex: 'beamt', sortable: false},
+			{text: "5",hidden: true,width: 0, dataIndex: 'dismt', sortable: false},
 		];
 
 		this.bbar = {

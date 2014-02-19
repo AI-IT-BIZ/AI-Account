@@ -20,7 +20,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		// INIT Customer search popup ///////////////////////////////
 		//this.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-		this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
+		//this.customerDialog = Ext.create('Account.SCustomer.MainWindow');
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 		
 		this.gridItem = Ext.create('Account.DepositIn.Item.Grid_i',{
@@ -128,13 +128,14 @@ Ext.define('Account.DepositIn.Item.Form', {
 			name: 'bcus',
 		});
 		
-		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
+		this.trigCustomer = Ext.create('Ext.form.TextField', {
 			name: 'kunnr',
 			labelAlign: 'letf',
 			width:240,
 			fieldLabel: 'Customer Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
+			//triggerCls: 'x-form-search-trigger',
+			//enableKeyEvents: true,
+			readOnly: true,
 			allowBlank : false
 		});
 		
@@ -241,7 +242,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			name: 'name1',
 			margins: '0 0 0 6',
 			width:350,
-            allowBlank: true
+            allowBlank: false
 		}]
 		},{
 			xtype: 'textarea',
@@ -348,8 +349,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
-							o.setValue(r.data.vbeln);
-			//_this.getForm().findField('jobtx').setValue(r.data.jobtx);		
+							o.setValue(r.data.vbeln);		
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
@@ -357,17 +357,17 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			//_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			//_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
-			
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 			//---Load PRitem to POitem Grid-----------
 			var qtnr = _this.trigQuotation.value;
 			//alert(qtnr);
 			_this.gridItem.load({qtnr: qtnr });
 			//----------------------------------------			
-						}else{
+			}else{
 							_this.getForm().findField('kunnr').setValue('');
 			    			_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
@@ -377,6 +377,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 							_this.getForm().findField('taxpr').setValue('');
 							_this.getForm().findField('loekz').setValue('');
 							_this.getForm().findField('exchg').setValue('');
+							_this.numberVat.enable();
 							//o.markInvalid('Could not find quotation no : '+o.getValue());
 						}
 					}
@@ -405,10 +406,11 @@ Ext.define('Account.DepositIn.Item.Form', {
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('terms').setValue(r.data.terms);
 			_this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			//_this.getForm().findField('whtnr').setValue(r.data.whtnr);
-			//_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 			       }
 				}
 				});           
@@ -431,7 +433,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		};
 		
 		// event trigCustomer///
-		this.trigCustomer.on('keyup',function(o, e){
+		/*this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -449,11 +451,25 @@ Ext.define('Account.DepositIn.Item.Form', {
 							o.setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+						    _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 			 			}else{
 			 				o.setValue('');
 							_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
-							o.markInvalid('Could not find customer code : '+o.getValue());
+			                _this.getForm().findField('adr02').setValue('');
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
+							_this.numberVat.enable();
+							//o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -462,21 +478,30 @@ Ext.define('Account.DepositIn.Item.Form', {
 
 		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigCustomer.setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-			
-			var _addr = record.data.adr01;
-			if(!Ext.isEmpty(record.data.distx))
-              _addr += ' '+record.data.distx;
-            if(!Ext.isEmpty(record.data.pstlz))
-              _addr += ' '+record.data.pstlz;
-            if(!Ext.isEmpty(record.data.telf1))
-               _addr += '\n'+'Tel: '+record.data.telf1;
-             if(!Ext.isEmpty(record.data.telfx))
-               _addr += ' '+'Fax: '+record.data.telfx;
-             if(!Ext.isEmpty(record.data.email))
-               _addr += '\n'+'Email: '+record.data.email;
-             _this.getForm().findField('adr01').setValue(_addr);
-             //_this.getForm().findField('adr11').setValue(_addr);
+			var v = record.data.kunnr;
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'customer/load2',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.getForm().findField('name1').setValue(r.data.name1);
+							_this.getForm().findField('adr01').setValue(r.data.adr01);
+			                _this.getForm().findField('adr02').setValue(r.data.adr02);
+			                _this.getForm().findField('terms').setValue(r.data.terms);
+			                _this.getForm().findField('ptype').setValue(r.data.ptype);
+			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
+						}
+					}
+				});
 
 			grid.getSelectionModel().deselectAll();
 			_this.customerDialog.hide();
@@ -485,7 +510,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
-		};
+		};*/
 		
 	// event trigCurrency///
 		this.trigCurrency.on('keyup',function(o, e){
@@ -549,6 +574,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.comboTax.on('select', this.selectTax, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		//this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
@@ -601,16 +627,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 		
 		var rsGL = _this.gridGL.getData();
 		this.hdnGlItem.setValue(Ext.encode(rsGL));
-/*
-		this.getForm().getFields().each(function(f){
-			//console.log(f.name);
-    		 if(!f.validate()){
-    		 	var p = f.up();
-    		 	console.log(p);
-    			 console.log('invalid at : '+f.name);
-    		 }
-    	 });
-*/
+
 		if (_form_basic.isValid()) {
 			_form_basic.submit({
 				success: function(form_basic, action) {
@@ -783,6 +800,15 @@ Ext.define('Account.DepositIn.Item.Form', {
 		store.each(function(r){
 			r.set('ctyp1', currency);
 		});
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 	
 });

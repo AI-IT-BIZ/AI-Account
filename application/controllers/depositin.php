@@ -530,7 +530,7 @@ class Depositin extends CI_Controller {
 
 // record ที่สอง
         if($netpr>0){
-        $glno = '2133-00';  
+        $glno = '2134-00';  
 		$qdoc = $this->db->get_where('glno', array(
 				'saknr'=>$glno));
 				

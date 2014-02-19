@@ -39,34 +39,32 @@ Ext.define('Account.PettyReim.Grid', {
 		});
 
 		this.columns = [
-			{text: "CPV No.", flex: true, dataIndex: 'remnr', 
+			{text: "CPV No.", width: 100, dataIndex: 'remnr', 
 			align: 'center', sortable: true},
-			{text: "CPV Date", width: 125, 
-			xtype: 'datecolumn',
-			align: 'center', format:'d/m/Y',
-			dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", flex: true, dataIndex: 'lifnr', 
+			{text: "CPV Date", width: 85, xtype: 'datecolumn',
+			align: 'center', format:'d/m/Y', dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", width: 100, dataIndex: 'lifnr', 
 			align: 'center', sortable: true},
-			{text: "Vendor Name", flex: true, dataIndex: 'name1', sortable: true},
+			{text: "Vendor Name", width: 140, dataIndex: 'name1', sortable: true},
 			
-			{text: "Limit Amount", flex: true, 
+			{text: "Limit Amount", width: 100,
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'deamt', sortable: true},
 			
-			{text: "Limit Remain Amt", flex: true, 
+			{text: "Limit Remain Amt", width: 100,
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'reman', sortable: true},
 			
-			{text: "CPV Amount", flex: true, 
+			{text: "CPV Amount", width: 100, 
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'netwr', sortable: true},
 			
-			{text: "CPV Remain Amt", flex: true, 
+			{text: "CPV Remain Amt", width: 100, 
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'dispc', sortable: true},
 			
-			{text: "Currency", flex: true, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "CPV Status", flex: true, dataIndex: 'statx', sortable: true},
+			{text: "Currency", width: 55, align: 'center', dataIndex: 'ctype', sortable: true},
+			{text: "CPV Status", width: 100, dataIndex: 'statx', sortable: true},
 			{text: "Create Name",
 			width: 100, dataIndex: 'ernam', sortable: true},
 			{text: "Create Date",

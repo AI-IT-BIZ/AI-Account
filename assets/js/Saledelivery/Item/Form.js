@@ -17,10 +17,10 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});
-		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
-			disableGridDoubleClick: true,
-			isApproveOnly: true
-		});
+		//this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
+		//	disableGridDoubleClick: true,
+		//	isApproveOnly: true
+		//});
 		this.saleDialog = Ext.create('Account.Saleperson.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
@@ -217,8 +217,9 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
 			name: 'kunnr',
 			fieldLabel: 'Customer Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
+			//triggerCls: 'x-form-search-trigger',
+			//enableKeyEvents: true,
+			readOnly: true,
 			allowBlank : false
 		});
 
@@ -437,6 +438,9 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			     _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
@@ -460,8 +464,8 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			//_this.getForm().findField('deamt').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
-			//_this.getForm().findField('vbeln').setValue('');
-			o.markInvalid('Could not find saleorder no : '+o.getValue());
+			_this.numberVat.enable();
+			//o.markInvalid('Could not find saleorder no : '+o.getValue());
 						}
 					}
 				});
@@ -494,10 +498,11 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			//_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			     _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 			       }
 				}
 				});
@@ -516,7 +521,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		};
 
 		// event trigCustomer///
-		this.trigCustomer.on('keyup',function(o, e){
+		/*this.trigCustomer.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -537,8 +542,21 @@ Ext.define('Account.Saledelivery.Item.Form', {
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                     _this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}else{
-							o.markInvalid('Could not find customer code : '+o.getValue());
+							o.setValue('');
+							_this.getForm().findField('name1').setValue('');
+							_this.getForm().findField('adr01').setValue('');
+			                _this.getForm().findField('adr02').setValue('');
+						    _this.getForm().findField('terms').setValue('');
+			                _this.getForm().findField('ptype').setValue('');
+			                _this.getForm().findField('taxnr').setValue('');
+			                _this.getForm().findField('taxpr').setValue('');
+							_this.numberVat.enable();
+							//o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -564,6 +582,10 @@ Ext.define('Account.Saledelivery.Item.Form', {
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                     _this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -575,7 +597,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.trigCustomer.onTriggerClick = function(){
 			_this.customerDialog.grid.load();
 			_this.customerDialog.show();
-		};
+		};*/
 		
 		// event Saleperson///
 		this.trigSale.on('keyup',function(o, e){
@@ -715,7 +737,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.comboTax.on('change', this.calculateTotal, this);
-		
+		this.comboTax.on('select', this.selectTax, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
@@ -924,6 +946,15 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		store.each(function(r){
 			r.set('ctyp1', currency);
 		});
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 
 	// select tax functions

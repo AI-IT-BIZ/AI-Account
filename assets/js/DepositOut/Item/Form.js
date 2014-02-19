@@ -19,10 +19,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
-			disableGridDoubleClick: true,
-			isApproveOnly: true
-		});
+		//this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
+		//	disableGridDoubleClick: true,
+		//	isApproveOnly: true
+		//});
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
 		this.gridItem = Ext.create('Account.DepositOut.Item.Grid_i',{
@@ -168,11 +168,12 @@ Ext.define('Account.DepositOut.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
+		this.trigVendor = Ext.create('Ext.form.TextField', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
+			//triggerCls: 'x-form-search-trigger',
+			//enableKeyEvents: true,
+			readOnly: true,
 			allowBlank : false
 		});
 		
@@ -392,7 +393,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
-			               // alert(r.data.netwr);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
+			                
 		                    store.each(function(v){
 			                v.set('poamt', r.data.netwr);
 		                    });
@@ -408,7 +412,8 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('loekz').setValue('');
 			                _this.getForm().findField('exchg').setValue('');
-			                //alert(r.data.netwr);
+			                _this.numberVat.enable();
+			                
 		                    store.each(function(v){
 			                v.set('poamt', '');
 		                    });
@@ -448,7 +453,9 @@ Ext.define('Account.DepositOut.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
-			                
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -467,7 +474,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		};
 		
 		// event trigVendor///
-		this.trigVendor.on('keyup',function(o, e){
+		/*this.trigVendor.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -488,6 +495,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 							_this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -495,7 +506,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 							_this.getForm().findField('terms').setValue('');
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
-							o.markInvalid('Could not find vendor code : '+o.getValue());
+							//o.markInvalid('Could not find vendor code : '+o.getValue());
 						}
 					}
 				});
@@ -521,6 +532,10 @@ Ext.define('Account.DepositOut.Item.Form', {
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+						    _this.getForm().findField('taxpr').setValue(r.data.vat01);
+						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -531,7 +546,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 
 		this.trigVendor.onTriggerClick = function(){
 			_this.vendorDialog.show();
-		};
+		};*/
 		
 		// event trigProject///
 		this.trigCurrency.on('keyup',function(o, e){
@@ -594,6 +609,7 @@ Ext.define('Account.DepositOut.Item.Form', {
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.comboTax.on('select', this.selectTax, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
@@ -816,5 +832,14 @@ Ext.define('Account.DepositOut.Item.Form', {
 		store.each(function(r){
 			r.set('ctyp1', currency);
 		});
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 });

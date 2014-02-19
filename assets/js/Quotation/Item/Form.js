@@ -471,6 +471,10 @@ Ext.define('Account.Quotation.Item.Form', {
 						    _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -479,7 +483,9 @@ Ext.define('Account.Quotation.Item.Form', {
 						    _this.getForm().findField('terms').setValue('');
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
-							o.markInvalid('Could not find customer code : '+o.getValue());
+			                _this.getForm().findField('taxpr').setValue('');
+							_this.numberVat.enable();
+							//o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -505,6 +511,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			                _this.getForm().findField('terms').setValue(r.data.terms);
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
+						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                	_this.numberVat.disable();
+			                }else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -584,11 +594,13 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('terms').setValue(r.data.terms);
-			_this.getForm().findField('vat01').setValue(r.data.vat01);
+			_this.getForm().findField('taxpr').setValue(r.data.vat01);
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('ptype').setValue(r.data.ptype);
 			_this.getForm().findField('sname').setValue(r.data.sname);
-
+            if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			      _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 			_this.getForm().findField('jobtx').setValue('');
@@ -598,11 +610,12 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('adr01').setValue('');
 			_this.getForm().findField('adr02').setValue('');
 			_this.getForm().findField('terms').setValue('');
-			_this.getForm().findField('vat01').setValue('');
+			_this.getForm().findField('taxpr').setValue('');
 			_this.getForm().findField('taxnr').setValue('');
 			_this.getForm().findField('ptype').setValue('');
 			_this.getForm().findField('sname').setValue('');
-			o.markInvalid('Could not find project code : '+o.getValue());
+			_this.numberVat.enable();
+			//o.markInvalid('Could not find project code : '+o.getValue());
 						}
 					}
 				});
@@ -630,10 +643,13 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
 			_this.getForm().findField('adr02').setValue(r.data.adr02);
 			_this.getForm().findField('terms').setValue(r.data.terms);
-			_this.getForm().findField('vat01').setValue(r.data.vat01);
+			_this.getForm().findField('taxpr').setValue(r.data.vat01);
 			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			_this.getForm().findField('ptype').setValue(r.data.ptype);
 			_this.getForm().findField('sname').setValue(r.data.sname);
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			      _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
 			       }
 				}
 				});
@@ -744,6 +760,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.gridItem.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.gridItem.getSelectionModel().on('viewready', this.onViewReady, this);
 		this.comboTax.on('change', this.calculateTotal, this);
+		this.comboTax.on('select', this.selectTax, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
@@ -970,6 +987,15 @@ Ext.define('Account.Quotation.Item.Form', {
 		if(_this.comboFtype.getValue()){
 			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
+	},
+	
+	// Tax Value
+	selectTax: function(combo, record, index){
+		var _this=this;
+		if(combo.getValue()=='03' || combo.getValue()=='04'){
+			this.numberVat.setValue(0);
+			this.numberVat.disable();
+		}else{this.numberVat.enable();}
 	}
 
 	// select tax functions

@@ -83,6 +83,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
 		    format:'d/m/Y',
+		    allowBlank: false,
 		    sortable: false,
 		    editor: {
                 xtype: 'datefield',
@@ -90,7 +91,6 @@ Ext.define('Account.Quotation.Item.Grid_p', {
                 format:'d/m/Y',
 			    altFormats:'Y-m-d|d/m/Y',
 			    submitFormat:'Y-m-d',
-			    allowBlank: false,
 			    listeners: {
 			    	'change':function(o){
 			    		if(_this.startDate)
@@ -189,7 +189,7 @@ Ext.define('Account.Quotation.Item.Grid_p', {
 
         var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, pramt:'0.00', ctyp1:cur };
+		rec = { id:newId, pramt:'0.00', duedt: new Date(), ctyp1:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

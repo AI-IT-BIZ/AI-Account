@@ -437,7 +437,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
-			                _this.getForm().findField('deamt').setValue(r.data.deamt);
+			                //_this.getForm().findField('deamt').setValue(r.data.deamt);
 						}else{
 							o.markInvalid('Could not find Purchase no : '+o.getValue());
 						}
@@ -469,7 +469,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
 			                _this.getForm().findField('ctype').setValue(r.data.ctype);
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
-			                _this.getForm().findField('deamt').setValue(r.data.deamt);
+			                //_this.getForm().findField('deamt').setValue(r.data.deamt);
 						}
 					}
 				});
@@ -821,7 +821,7 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
             });     
         }
         
-        var deamt = this.formTotal.getForm().findField('deamt').getValue();
+        //var deamt = this.formTotal.getForm().findField('deamt').getValue();
         //alert(deamt);
 		if(currency != 'THB'){
 		  sum = sum * rate;
@@ -829,14 +829,14 @@ Ext.define('Account.SaleDebitNote.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  deamt = deamt * rate;
+		  //deamt = deamt * rate;
 		}
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
 		
         if(sum>0 && this.trigCustomer.getValue()!=''){

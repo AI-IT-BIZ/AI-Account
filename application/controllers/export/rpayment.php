@@ -169,10 +169,19 @@ class Rpayment extends CI_Controller {
 				->setCellValue('G8', 'Paymented by')
 	            ->setCellValue('H8', 'Invoice No')
 	            ->setCellValue('I8', 'Invoice Date')
-	            ->setCellValue('J8', 'Amount');
+				->setCellValue('J8', 'Invoice Vat')
+	            ->setCellValue('K8', 'Invoice WHT')
+				->setCellValue('L8', 'Invoice Amount')
+				
+				->setCellValue('M8', 'Material Code')
+                ->setCellValue('N8', 'Material Description')
+                ->setCellValue('O8', 'Quantity')
+                ->setCellValue('P8', 'Unit Price')
+
+	            ->setCellValue('Q8', 'Amount');
 
 		// Add some data
-		$inv_temp='';$payment='';
+		$inv_temp='';$payment='';$inv2='';
 		$result_array = $query->result_array();
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
@@ -205,7 +214,6 @@ class Rpayment extends CI_Controller {
                          }
                          else {
                                $current_sheet
-                            
 		               ->setCellValue('A'.$excel_i, "")
 		               ->setCellValue('B'.$excel_i, "")
 		               ->setCellValue('C'.$excel_i, "")
@@ -216,20 +224,41 @@ class Rpayment extends CI_Controller {
                              
                          }
 			       //$total = $value['beamt'] + $value['vat01'];
-			            
-                       $current_sheet     
-                       ->setCellValue('H'.$excel_i, $value['invnr'])
-		               ->setCellValue('I'.$excel_i, util_helper_format_date($value['invdt']))
-		               ->setCellValue('J'.$excel_i, preg_replace('/(\.00)$/' ,'',$value['itamt'], 2));
-                       // ->setCellValue('I'.$excel_i, $payment);
-						    
+					   
+					   if($inv2 == "" || $inv2 != $value['invnr']){
+					   	  $current_sheet     
+                          ->setCellValue('H'.$excel_i, $value['invnr'])
+		                  ->setCellValue('I'.$excel_i, util_helper_format_date($value['invdt']))
+		              
+					      ->setCellValue('J'.$excel_i, $value['vat01'])
+		                  ->setCellValue('K'.$excel_i, $value['wht01'])
+					      ->setCellValue('L'.$excel_i, number_format($value['itamt'], 2));
+						  
+					   }else{
+					   	  $current_sheet
+		                  ->setCellValue('H'.$excel_i, "")
+		                  ->setCellValue('I'.$excel_i, "")
+		                  ->setCellValue('J'.$excel_i, "")
+		                  ->setCellValue('K'.$excel_i, "")
+		                  ->setCellValue('L'.$excel_i, "");
+					   }
+					   
+					   $current_sheet 
+					      ->setCellValue('M'.$excel_i, $value['matnr'])
+		                  ->setCellValue('N'.$excel_i, $value['maktx'])
+		              
+					      ->setCellValue('O'.$excel_i, number_format($value['menge'], 2))
+						  ->setCellValue('P'.$excel_i, number_format($value['unitp'], 2))
+					      ->setCellValue('Q'.$excel_i, number_format($value['Expr6'], 2));
+						
+						$inv2 = $value['invnr'];   
                         $inv_temp = $value['payno'];
 		
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','J') as $columnID) {
+		foreach(range('A','Q') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head

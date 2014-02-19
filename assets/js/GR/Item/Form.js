@@ -19,10 +19,10 @@ Ext.define('Account.GR.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
-			disableGridDoubleClick: true,
-			isApproveOnly: true
-		});
+		//this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
+		//	disableGridDoubleClick: true,
+		//	isApproveOnly: true
+		//});
 		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
@@ -168,11 +168,12 @@ Ext.define('Account.GR.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.trigVender = Ext.create('Ext.form.field.Trigger', {
+		this.trigVender = Ext.create('Ext.form.TextField', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
-			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
+			//triggerCls: 'x-form-search-trigger',
+			//enableKeyEvents: true,
+			readOnly: true,
 			allowBlank : false
 		});
 		
@@ -472,7 +473,7 @@ Ext.define('Account.GR.Item.Form', {
 		};
 		
 		// event trigVender///
-		this.trigVender.on('keyup',function(o, e){
+		/*this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -536,7 +537,7 @@ Ext.define('Account.GR.Item.Form', {
 
 		this.trigVender.onTriggerClick = function(){
 			_this.vendorDialog.show();
-		};
+		};*/
 		
 		// event trigProject///
 		this.trigCurrency.on('keyup',function(o, e){

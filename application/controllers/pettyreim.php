@@ -347,7 +347,8 @@ class Pettyreim extends CI_Controller {
 			'ctype' => $this->input->post('ctype'),
 			'reman' => floatval($reman),
 			'dispc' => floatval($this->input->post('netwr')),
-			'deamt' => floatval($this->input->post('deamt'))
+			'deamt' => floatval($this->input->post('deamt')),
+			'reman' => floatval($this->input->post('reman'))
 		);
 
 		// start transaction
