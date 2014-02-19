@@ -52,7 +52,8 @@ Ext.define('Account.SAssettype.GridItem', {
 				'depre'
 			],
 			remoteSort: false,
-			sorters: ['mtart ASC']
+			sorters: ['mtart ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [/*{

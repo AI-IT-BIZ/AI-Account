@@ -66,8 +66,8 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 			'CharacterSet'		=> $character_set,
 			'ReturnDatesAsStrings' => 1
 		);
-		
-		// If the username and password are both empty, assume this is a 
+
+		// If the username and password are both empty, assume this is a
 		// 'Windows Authentication Mode' connection.
 		if(empty($connection['UID']) && empty($connection['PWD'])) {
 			unset($connection['UID'], $connection['PWD']);
@@ -337,9 +337,9 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	{
 		if ($table == '')
 			return '0';
-	
+
 		$query = $this->query("SELECT COUNT(*) AS numrows FROM " . $this->dbprefix . $table);
-		
+
 		if ($query->num_rows() == 0)
 			return '0';
 
@@ -393,7 +393,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	function _field_data($table)
 	{
-		return "SELECT TOP 1 * FROM " . $this->_escape_table($table);	
+		return "SELECT TOP 1 * FROM " . $this->_escape_table($table);
 	}
 
 	// --------------------------------------------------------------------
@@ -439,7 +439,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	function _escape_table($table)
 	{
 		return $table;
-	}	
+	}
 
 
 	/**
@@ -492,7 +492,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 * @return	string
 	 */
 	function _insert($table, $keys, $values)
-	{	
+	{
 		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
 	}
 
@@ -517,10 +517,10 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 		{
 			$valstr[] = $key." = ".$val;
 		}
-	
+
 		return "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr)." WHERE ".implode(" ", $where);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -572,7 +572,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 	 */
 	protected function _limit($sql, $limit, $offset)
 {
- if($offset === FALSE) 
+ if($offset === FALSE)
  {
   // Do simple limit if no offset
   $i = $limit + $offset;
@@ -583,12 +583,17 @@ class CI_DB_sqlsrv_driver extends CI_DB {
   if(!$this->ar_orderby)
   {
    // We do not have an orderBy column set and do not have the tableName
-   // here, so grab the table name from the $sql statement by regex and 
+   // here, so grab the table name from the $sql statement by regex and
    // then grab the first column of the tableName in the $sql statement
    // from the schema and let that be the orderBy column. Phew.
    $match_pattern = '/(.*FROM )/s';
    $match_replacement = '';
    $table = preg_replace($match_pattern, $match_replacement, $sql);
+
+   // เอา ข้อมุลที่อยู่ด้านหลัง space ออกทั้งหมด
+   $match_pattern_extract = '/\s.*/s';
+   $table = preg_replace($match_pattern_extract, $match_replacement, $table);
+
    $orderBy  = "ORDER BY (SELECT [COLUMN_NAME] FROM [information_schema].[columns] WHERE [TABLE_NAME] = '".$table."' AND [ORDINAL_POSITION] = 1)";
   }
   else
@@ -605,7 +610,7 @@ class CI_DB_sqlsrv_driver extends CI_DB {
 
   if(empty($this->ar_select))
   {
-   // No ColumnName so do a wildcard   
+   // No ColumnName so do a wildcard
    $columns = '*';
   }
   else
@@ -615,13 +620,13 @@ class CI_DB_sqlsrv_driver extends CI_DB {
   $newSQL = "SELECT " . $columns . " \nFROM (\n" . $sql . ") AS A \nWHERE A.CI_offset_row_number BETWEEN (" .($offset + 1) . ") AND (".($offset + $limit).")";
   return $newSQL;
  }
-} 
+}
 	/*
 	function _limit($sql, $limit, $offset)
 	{
 		$i = $limit + $offset;
-	
-		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);		
+
+		return preg_replace('/(^\SELECT (DISTINCT)?)/i','\\1 TOP '.$i.' ', $sql);
 	}
 	*/
 

@@ -1,11 +1,11 @@
 <?php
-/*
+
 define('JASPERSERVER', "192.168.1.244");
 define('JASPERPORT', 8080);
 define('JASPERUSER', 'jasperadmin');
 define('JASPERPASSWORD', 'jasperadmin');
-*/
 
+/*
 define('JASPERSERVER', "192.168.1.200");
 define('JASPERPORT', 8081);
 define('JASPERUSER', 'jasperadmin');
