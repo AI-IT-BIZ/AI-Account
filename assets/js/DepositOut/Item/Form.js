@@ -13,7 +13,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.poDialog = Ext.create('Account.PO.MainWindow', {
+		this.poDialog = Ext.create('Account.SPO.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

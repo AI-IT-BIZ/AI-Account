@@ -333,7 +333,8 @@ class Pr extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'reanr' => $this->input->post('reanr'),
 			'ctype' => $this->input->post('ctype'),
-			'ftype' => $this->input->post('ftype')
+			'ftype' => $this->input->post('ftype'),
+			'jobnr' => $this->input->post('jobnr')
 		);
 
 		// start transaction

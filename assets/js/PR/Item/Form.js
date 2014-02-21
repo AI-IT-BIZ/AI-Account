@@ -13,6 +13,11 @@ Ext.define('Account.PR.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
+		this.projectDialog = Ext.create('Account.Project.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		
 		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
@@ -143,6 +148,14 @@ Ext.define('Account.PR.Item.Form', {
 		this.hdnPrItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebpo',
 		});
+		
+		this.trigProject = Ext.create('Ext.form.field.Trigger', {
+			name: 'jobnr',
+			fieldLabel: 'Project No.',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
 
 		this.trigVender = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
@@ -178,7 +191,7 @@ Ext.define('Account.PR.Item.Form', {
            // xtype: 'numberfield',
 			fieldLabel: 'Vat Value',
 			name: 'taxpr',
-			labelAlign: 'left',
+			labelAlign: 'right',
 			width:170,
 			align: 'right'
          });
@@ -211,7 +224,6 @@ Ext.define('Account.PR.Item.Form', {
 				title: 'Heading Data',
 				collapsible: true,
 				items:[{
-		    // Project Code
 	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
@@ -237,18 +249,18 @@ Ext.define('Account.PR.Item.Form', {
 					}]
 				// Address Bill&Ship
 	            },{
-		    // Project Code
 	 				xtype: 'container',
 					layout: 'hbox',
 					margin: '0 0 5 0',
 		 			items :[{
 						xtype: 'hidden',
 						name: 'id'
-					},this.trigVender,{
+					},this.trigProject,
+					{
 						xtype: 'displayfield',
-						name: 'name1',
-						margins: '0 0 0 6',
+						name: 'jobtx',
 						width:267,
+						margins: '0 0 0 6',
 						allowBlank: true
 					},{
 							xtype: 'datefield',
@@ -261,6 +273,28 @@ Ext.define('Account.PR.Item.Form', {
 							altFormats:'Y-m-d|d/m/Y',
 							submitFormat:'Y-m-d',
 		                }]
+				// Address Bill&Ship
+	            },{
+	 				xtype: 'container',
+					layout: 'hbox',
+					margin: '0 0 5 0',
+		 			items :[this.trigVender,{
+						xtype: 'displayfield',
+						name: 'name1',
+						margins: '0 0 0 6',
+						width:267,
+						allowBlank: true
+					},{
+							xtype: 'datefield',
+							fieldLabel: 'Delivery Date',
+							name: 'lfdat',
+							labelAlign: 'right',
+							width:240,
+							allowBlank: false,
+							format:'d/m/Y',
+							altFormats:'Y-m-d|d/m/Y',
+							submitFormat:'Y-m-d',
+                		}]
 				// Address Bill&Ship
 	            },{
 	 				xtype: 'container',
@@ -298,17 +332,7 @@ Ext.define('Account.PR.Item.Form', {
 		            },{
 		                xtype: 'container',
 		            	margin: '0 0 0 70',
-		                items: [{
-							xtype: 'datefield',
-							fieldLabel: 'Delivery Date',
-							name: 'lfdat',
-							labelAlign: 'right',
-							width:240,
-							allowBlank: false,
-							format:'d/m/Y',
-							altFormats:'Y-m-d|d/m/Y',
-							submitFormat:'Y-m-d',
-                		}, this.comboTax,
+		                items: [this.comboTax,
                 		{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -341,6 +365,46 @@ Ext.define('Account.PR.Item.Form', {
 			]
 		}
 		];	
+		
+		// event trigProject///
+		this.trigProject.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+
+						}else{
+							o.setValue('');
+			_this.getForm().findField('jobtx').setValue('');
+			//o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject.setValue(record.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog.hide();
+		});
+
+		this.trigProject.onTriggerClick = function(){
+			_this.projectDialog.show();
+		};
 
 		// event trigVender///
 		this.trigVender.on('keyup',function(o, e){

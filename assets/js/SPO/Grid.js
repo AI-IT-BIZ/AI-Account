@@ -1,4 +1,4 @@
-Ext.define('Account.PO.Grid', {
+Ext.define('Account.SPO.Grid', {
 	extend	: 'Ext.grid.Panel',
 	constructor:function(config) {
 		return this.callParent(arguments);
@@ -8,7 +8,7 @@ Ext.define('Account.PO.Grid', {
 		this.store = new Ext.data.JsonStore({
 			proxy: {
 				type: 'ajax',
-				url: __site_url+"po/loads",
+				url: __site_url+"po/loads_deposit",
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -36,16 +36,16 @@ Ext.define('Account.PO.Grid', {
 		});
 
 		this.columns = [
-			{text: "PO No", width: 100,align: 'center', dataIndex: 'ebeln', sortable: true},
-			{text: "PO Date", width: 100, xtype: 'datecolumn',align: 'center', 
-			format:'d/m/Y', dataIndex: 'bldat', sortable: true},
-			{text: "Vendor Code", width: 100,align: 'center', dataIndex: 'lifnr', sortable: true},
-			{text: "Vendor Name", width: 250, dataIndex: 'name1', sortable: true},
-			{text: "PR No", width: 100, dataIndex: 'purnr',align: 'center', sortable: true},
-			{text: "Net Amount", width: 150,xtype: 'numbercolumn',align: 'right', 
-			dataIndex: 'netwr', sortable: true},
+			{text: "PO No", width: 100, align: 'center', dataIndex: 'ebeln', sortable: true},
+			{text: "PO Date", width: 120, align: 'center', xtype: 'datecolumn',
+			 format:'d/m/Y',dataIndex: 'bldat', sortable: true},
+			{text: "Vendor Code", width: 100, align: 'center', dataIndex: 'lifnr', sortable: true},
+			{text: "Vendor Name", width: 200, dataIndex: 'name1', sortable: true},
+			{text: "PR No", width: 100, align: 'center', dataIndex: 'purnr', sortable: true},
+			{text: "Net Amount", width: 150, align: 'right',
+			xtype: 'numbercolumn',dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 50, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "PO Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true},
+			{text: "GR Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true},
 			{text: "Create Name",
 			width: 100, dataIndex: 'ernam', sortable: true},
 			{text: "Create Date",
@@ -53,12 +53,12 @@ Ext.define('Account.PO.Grid', {
 			{text: "Update Name",
 			width: 100, dataIndex: 'upnam', sortable: true},
 			{text: "Update Date",
-			width: 120, dataIndex: 'updat', sortable: true}
+			width: 120, dataIndex: 'updat', sortable: true},
 		];
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 25,
+			pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

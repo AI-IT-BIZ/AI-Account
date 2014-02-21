@@ -489,7 +489,7 @@ class Invoice extends CI_Controller {
 
 		}else{	
 			if($this->input->post('loekz')=='2'){
-        	$emsg = 'The sale order already created invoice doc.';
+        	$emsg = 'The delivery already created invoice doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg

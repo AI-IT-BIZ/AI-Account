@@ -405,9 +405,9 @@ layout: 'anchor',
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 			                
-			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                	_this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
+			                //if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                //	_this.numberVat.disable();
+			                //}else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -416,8 +416,8 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue('');
 			                _this.getForm().findField('taxnr').setValue('');
 			                _this.getForm().findField('taxpr').setValue('');
-			                _this.numberVat.enable();
-							o.markInvalid('Could not find customer code : '+o.getValue());
+			                //_this.numberVat.enable();
+							//o.markInvalid('Could not find customer code : '+o.getValue());
 						}
 					}
 				});
@@ -445,9 +445,9 @@ layout: 'anchor',
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
 			                
-			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                	_this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
+			                //if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			                //	_this.numberVat.disable();
+			                //}else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -521,13 +521,13 @@ layout: 'anchor',
         
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
-        this.dateDoc.on('keyup', this.getDuedate, this);
-        this.dateDoc.on('change', this.getDuedate, this);
+        //this.dateDoc.on('keyup', this.getDuedate, this);
+        //this.dateDoc.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		this.comboTax.on('select', this.selectTax, this);
+		//this.comboTax.on('select', this.selectTax, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		return this.callParent(arguments);
 	},
@@ -752,15 +752,6 @@ layout: 'anchor',
 		if(_this.comboFtype.getValue()){
 			_this.gridItem.setFtype(_this.comboFtype.getValue().toString());
 		}
-	},
-	
-	// Tax Value
-	selectTax: function(combo, record, index){
-		var _this=this;
-		if(combo.getValue()=='03' || combo.getValue()=='04'){
-			this.numberVat.setValue(0);
-			this.numberVat.disable();
-		}else{this.numberVat.enable();}
 	}
 	
 });

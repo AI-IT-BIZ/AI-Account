@@ -187,7 +187,7 @@ Ext.define('Account.PO.Item.Grid_p', {
 
         var cur = _this.curValue;
 		// add new record
-		rec = { id:newId, pramt:'0.00', ctyp1:cur };
+		rec = { id:newId, pramt:'0.00', duedt: new Date, ctyp1:cur };
 		edit = this.editing;
 		edit.cancelEdit();
 		// find current record

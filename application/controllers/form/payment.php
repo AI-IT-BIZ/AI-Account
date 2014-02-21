@@ -148,7 +148,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 385PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
 <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 203px;">
+<div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 263px;">
 <table width="0px" height="203PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:660PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
@@ -156,7 +156,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:232PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
 <table width="0px" height="122PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:520PX;top:862PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:63PX;">
+<div style="left: 520PX; top: 862PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 62px;">
 <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:923PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
@@ -332,10 +332,12 @@ $i=322+20;
 <DIV style="left:49PX;top:345px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
-$rows = $query->result_array();
+$rows = $query->result_array();$wht01=0;$vat01=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$itamt = $item['itamt'];
+	$vat01 += $item['vat01'];
+	$wht01 += $item['wht01'];
 	//$itamt = $item['menge'] * $item['unitp'];
 	//$itamt = $itamt - $item['disit'];
 	$b_amt += $itamt;
@@ -389,6 +391,8 @@ if(empty($r_data['dismt'])) $r_data['dismt']=0.00;
 
 <DIV style="left:465PX;top:776PX;width:136PX;height:23PX;"><span class="fc1-4">ภาษีมูลค่าเพิ่ม&nbsp;&nbsp;VAT Amount</span></DIV>
 
+<DIV style="left: 465PX; top: 799PX; width: 168px; height: 23PX;"><span class="fc1-4">ภาษีหัก ณ ที่จ่าย &nbsp;&nbsp;WHT Amount</span></DIV>
+
 <?php
 $tax_str = "";
 if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
@@ -396,7 +400,10 @@ if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
 else
 	$tax_str = '';
 ?>
-<DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
+<DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($vat01,2,'.',',')) ?></span></DIV>
+
+<DIV style="left:660PX;top:799PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($wht01,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 
