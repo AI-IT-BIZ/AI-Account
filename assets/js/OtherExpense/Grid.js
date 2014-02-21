@@ -23,6 +23,8 @@ Ext.define('Account.OtherExpense.Grid', {
 				'mbeln',
 				'lifnr',
 				'name1',
+				'jobnr',
+				'jobtx',
 				'netwr',
 				'statx'
 			],
@@ -41,6 +43,9 @@ Ext.define('Account.OtherExpense.Grid', {
 			{text: "Vendor Code", width: 100, dataIndex: 'lifnr', 
 			align: 'center', sortable: true},
 			{text: "Vendor Name", width: 140, dataIndex: 'name1', sortable: true},
+			{text: "Project No",
+			width: 100, align: 'center', dataIndex: 'jobnr', sortable: true},
+			{text: "Project Name", width: 150, dataIndex: 'jobtx', sortable: true},
 			{text: "Net Amount", width: 100, 
 			xtype: 'numbercolumn', align: 'right',
 			dataIndex: 'netwr', sortable: true},

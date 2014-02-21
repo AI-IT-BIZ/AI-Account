@@ -13,12 +13,11 @@ Ext.define('Account.OtherIncome.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 
-		//this.soDialog = Ext.create('Account.Saleorder.MainWindow', {
-		//	disableGridDoubleClick: true,
-		//	isApproveOnly:true
-		//});
-		// INIT Customer search popup ///////////////////////////////
-		//this.soDialog = Ext.create('Account.Saleorder.MainWindow');
+		this.projectDialog = Ext.create('Account.Project.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		
 		this.customerDialog = Ext.create('Account.SCustomer.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly:true
@@ -196,6 +195,15 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			displayField: 'taxtx',
 			valueField: 'taxnr'
 		});
+		
+		this.trigProject = Ext.create('Ext.form.field.Trigger', {
+			name: 'jobnr2',
+			fieldLabel: 'Project No.',
+			width:240,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
+			allowBlank : false
+		});
 
          this.numberVat = Ext.create('Ext.form.field.Number', {
 			fieldLabel: 'Vat Value',
@@ -294,10 +302,8 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			name: 'loekz'
 		},this.comboFtype,{
 			xtype: 'displayfield',
-			//name: 'jobtx',
-			width:100,
+			width:320,
 			margins: '0 0 0 6',
-            //emptyText: 'Customer',
             allowBlank: true
 		},{
 			xtype: 'displayfield',
@@ -309,7 +315,21 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			labelWidth:140,
             readOnly: true,
 			labelStyle: 'font-weight:bold'
+		}]
+
+// Customer Code
 		},{
+                xtype: 'container',
+                layout: 'hbox',
+                margin: '0 0 5 0',
+     items :[this.trigProject,
+					{
+						xtype: 'displayfield',
+						name: 'jobtx2',
+						width:350,
+						margins: '0 0 0 6',
+						allowBlank: true
+					    },{
 			xtype: 'datefield',
 			fieldLabel: 'Doc Date',
 			name: 'bldat',
@@ -320,8 +340,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			submitFormat:'Y-m-d',
 			allowBlank: false
 		}]
-
-// Customer Code
+// Address Bill&Ship
 		},{
                 xtype: 'container',
                 layout: 'hbox',
@@ -433,6 +452,97 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		}
 
 		];
+		
+		// event trigProject///
+		this.trigProject.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+			_this.getForm().findField('jobtx2').setValue(r.data.jobtx);
+			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
+			_this.getForm().findField('name1').setValue(r.data.name1);
+			_this.getForm().findField('salnr').setValue(r.data.salnr);
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('taxpr').setValue(r.data.vat01);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('emnam').setValue(r.data.sname);
+            if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			      _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
+						}else{
+							o.setValue('');
+			_this.getForm().findField('jobtx2').setValue('');
+			_this.getForm().findField('kunnr').setValue('');
+			_this.getForm().findField('name1').setValue('');
+			_this.getForm().findField('salnr').setValue('');
+			_this.getForm().findField('adr01').setValue('');
+			_this.getForm().findField('adr02').setValue('');
+			_this.getForm().findField('terms').setValue('');
+			_this.getForm().findField('taxpr').setValue('');
+			_this.getForm().findField('taxnr').setValue('');
+			_this.getForm().findField('ptype').setValue('');
+			_this.getForm().findField('emnam').setValue('');
+			_this.numberVat.enable();
+			//o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject.setValue(record.data.jobnr);
+			_this.getForm().findField('jobtx2').setValue(record.data.jobtx);
+
+			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('salnr').setValue(record.data.salnr);
+
+			Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: record.data.jobnr
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							//alert(r.data.terms);
+			_this.getForm().findField('adr01').setValue(r.data.adr01);
+			_this.getForm().findField('adr02').setValue(r.data.adr02);
+			_this.getForm().findField('terms').setValue(r.data.terms);
+			_this.getForm().findField('taxpr').setValue(r.data.vat01);
+			_this.getForm().findField('taxnr').setValue(r.data.taxnr);
+			_this.getForm().findField('ptype').setValue(r.data.ptype);
+			_this.getForm().findField('emnam').setValue(r.data.sname);
+			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
+			      _this.numberVat.disable();
+			}else{_this.numberVat.enable();}
+			       }
+				}
+				});
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog.hide();
+		});
+
+		this.trigProject.onTriggerClick = function(){
+			_this.projectDialog.show();
+		};
 
 		// event trigCustomer///
 		this.trigCustomer.on('keyup',function(o, e){

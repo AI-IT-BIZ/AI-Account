@@ -100,7 +100,8 @@ class Otincome extends CI_Controller {
 				$_this->db->where("(invnr LIKE '%$query%'
 				OR kunnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR ordnr LIKE '%$query%')", NULL, FALSE);
+				OR jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$invnr1 = $_this->input->get('invnr');
@@ -526,7 +527,7 @@ class Otincome extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			//'whtnr' => $this->input->post('whtnr'),
+			'jobnr' => $this->input->post('jobnr2'),
 			'whtxt' => $this->input->post('whtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),

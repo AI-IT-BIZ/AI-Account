@@ -34,7 +34,7 @@ Ext.define('Account.PR.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from PR No., Vendor or Reference No.',
+			emptyText: 'Find from PR No., Vendor or Project No.',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

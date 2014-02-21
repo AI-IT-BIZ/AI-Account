@@ -97,7 +97,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
 			_this.itemDialog.setReadOnly(false);
-			_this.itemDialog.setTitle('Create Depostion Payment');
+			_this.itemDialog.setTitle('Create Deposition Payment');
 		});
 
 		this.editAct.setHandler(function(){
@@ -106,7 +106,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-				_this.itemDialog.setTitle('Edit Depostion Payment');
+				_this.itemDialog.setTitle('Edit Deposition Payment');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -122,7 +122,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(true);
-				_this.itemDialog.setTitle('Display Depostion Payment');
+				_this.itemDialog.setTitle('Display Deposition Payment');
 			}
 		});
 
@@ -142,7 +142,7 @@ Ext.define('Account.DepositOut.MainWindow', {
 
 			var resultId = action.result.data.id;
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save Deposit Payment number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Deposit no: '+resultId+' successfully.');
 		});
 
 		this.itemDialog.form.on('afterDelete', function(){

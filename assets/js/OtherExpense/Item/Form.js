@@ -13,10 +13,10 @@ Ext.define('Account.OtherExpense.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		//this.grDialog = Ext.create('Account.OtherExpense.MainWindow', {
-		//	disableGridDoubleClick: true,
-		//	isApproveOnly:true
-		//});
+		this.projectDialog = Ext.create('Account.Project.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		
 		// INIT other components ///////////////////////////////////
 		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
@@ -159,15 +159,13 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			name: 'bven',
 		});
 
-        /*this.trigGR = Ext.create('Ext.form.field.Trigger', {
-			name: 'mbeln',
-			fieldLabel: 'GR No',
-			labelAlign: 'letf',
-			//width:240,
+        this.trigProject = Ext.create('Ext.form.field.Trigger', {
+			name: 'jobnr',
+			fieldLabel: 'Project No.',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
 			allowBlank : false
-		});*/
+		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
@@ -180,6 +178,17 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		this.dateDoc = Ext.create('Ext.form.DateField', {
 			fieldLabel: 'Doc Date',
 			name: 'bldat',
+			labelAlign: 'right',
+			width:240,
+			format:'d/m/Y',
+			altFormats:'Y-m-d|d/m/Y',
+			submitFormat:'Y-m-d',
+			allowBlank : false
+		});
+		
+		this.dateDue = Ext.create('Ext.form.DateField', {
+			fieldLabel: 'Due Date',
+			name: 'duedt',
 			labelAlign: 'right',
 			width:240,
 			format:'d/m/Y',
@@ -261,13 +270,9 @@ Ext.define('Account.OtherExpense.Item.Form', {
 						xtype: 'hidden',
 						width: 0,
 						name: 'loekz'
-					},this.comboFtype,/*{xtype: 'fieldset',
-title: 'Payable Type',
-layout: 'anchor',
-//collapsible: true,
-        items: [this.radioType]},*/{
+					},this.comboFtype,{
 						xtype: 'displayfield',
-						width: 250,
+						width: 290,
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
@@ -289,8 +294,19 @@ layout: 'anchor',
 		                xtype: 'container',
 		                flex: 0,
 		                layout: 'anchor',
-		                
 		                items :[{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
+				 			items :[this.trigProject,
+					{
+						xtype: 'displayfield',
+						name: 'jobtx',
+						width:200,
+						margins: '0 0 0 6',
+						allowBlank: true
+					    }]
+				    },{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
@@ -298,7 +314,7 @@ layout: 'anchor',
 								xtype: 'displayfield',
 								name: 'name1',
 								margins: '0 0 0 6',
-								width:160,
+								width:200,
 								allowBlank: true 
 			                }]
 						}, {
@@ -328,14 +344,14 @@ layout: 'anchor',
 								name: 'refnr',
 			                },{
 
-				}]
+				   }]
 		                }]
 		            },{
 		                xtype: 'container',
 		                flex: 0,
 		                layout: 'anchor',
 		            	margin: '0 0 0 70',
-		                items: [this.comboPtype,this.dateDoc, this.comboTax,
+		                items: [this.comboPtype,this.dateDoc,this.comboTax,
                 		this.trigCurrency,
                 		{
 			xtype: 'container',
@@ -348,17 +364,7 @@ layout: 'anchor',
 			width:25,
 			value: 'Days'
 		}]
-         },
-						{
-			xtype: 'datefield',
-			fieldLabel: 'Due Date',
-			name: 'duedt',
-			labelAlign: 'right',
-			width:240,
-			format:'d/m/Y',
-			altFormats:'Y-m-d|d/m/Y',
-			submitFormat:'Y-m-d'
-		},
+         },this.dateDue,
 					    this.comboQStatus]
 		            }]
 				}]
@@ -380,6 +386,46 @@ layout: 'anchor',
 			]
 		}	
 		];
+		
+		// event trigProject///
+		this.trigProject.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+
+						}else{
+							o.setValue('');
+			_this.getForm().findField('jobtx').setValue('');
+			//o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject.setValue(record.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog.hide();
+		});
+
+		this.trigProject.onTriggerClick = function(){
+			_this.projectDialog.show();
+		};
 		
 		// event trigVender///
 		this.trigVendor.on('keyup',function(o, e){
@@ -404,10 +450,6 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
-			                
-			                //if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                //	_this.numberVat.disable();
-			                //}else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -444,10 +486,6 @@ layout: 'anchor',
 			                _this.getForm().findField('ptype').setValue(r.data.ptype);
 			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
 			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
-			                
-			                //if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                //	_this.numberVat.disable();
-			                //}else{_this.numberVat.enable();}
 						}
 					}
 				});
@@ -726,15 +764,15 @@ layout: 'anchor',
 	
 	// Add duedate functions
 	getDuedate: function(){
-		var bForm = this.getForm(),
-			credit = this.numberCredit.getValue(),
-			startDate = bForm.findField('bldat').getValue();
+		//var bForm = this.getForm(),
+		var	credit = this.numberCredit.getValue(),
+			startDate = this.dateDoc.getValue();
 		if(!Ext.isEmpty(credit) && credit>0){
-			var result = Ext.Date.add(startDate, Ext.Date.DAY, credit),
-				dueDateField = bForm.findField('duedt');
+			var result = Ext.Date.add(startDate, Ext.Date.DAY, credit);
+				//dueDateField = bForm.findField('duedt');
 
-			if(!Ext.isEmpty(credit) && !Ext.isEmpty(dueDateField))
-				dueDateField.setValue(result);
+			if(!Ext.isEmpty(credit) && !Ext.isEmpty(this.dateDue))
+				this.dateDue.setValue(result);
 		}
 	},
 	

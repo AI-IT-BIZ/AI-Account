@@ -37,7 +37,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 		this.formTotal = Ext.create('Account.DepositOut.Item.Form_t', {
 			border: true,
 			split: true,
-			title:'GR Total',
+			title:'Deposit Total',
 			region:'south'
 		});
 		this.formTotalthb = Ext.create('Account.DepositOut.Item.Form_thb', {
