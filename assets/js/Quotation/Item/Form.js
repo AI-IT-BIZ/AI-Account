@@ -439,7 +439,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:220,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -767,6 +767,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		
+		this.formTotal.txtDiscount.on('keyup', this.calculateTotal, this);
 		this.comboFtype.on('change', this.changeFtype, this);
 
 		return this.callParent(arguments);
@@ -868,7 +869,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		store.each(function(r){
 			var qty = parseFloat(r.data['menge'].replace(/[^0-9.]/g, '')),
 				price = parseFloat(r.data['unitp'].replace(/[^0-9.]/g, '')),
-				//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, ''));
+				//discount = parseFloat(r.data['disit'].replace(/[^0-9.]/g, '')),
 				discountValue = 0,
 				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
@@ -919,6 +920,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 
+		var tdisc = this.formTotal.txtDiscount.getValue();
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){
@@ -926,16 +928,19 @@ Ext.define('Account.Quotation.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
+		  tdisc = tdisc * rate;
 		}
-
+        
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('dispc2').setValue(tdisc);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
 		var net2 = this.formTotalthb.calculate();
 
 		// set value to grid payment
+		sum2 = sum2 - tdisc;
 		this.gridPayment.netValue = sum2;
 		this.gridPayment.startDate = this.getForm().findField('bldat').getValue();
 
@@ -998,18 +1003,4 @@ Ext.define('Account.Quotation.Item.Form', {
 		}else{this.numberVat.enable();}
 	}
 
-	// select tax functions
-	/*
-	selectTax: function(combo, record, index){
-		var store = this.gridItem.store;
-		var vtax = combo.getValue();
-		//alert(vtax);
-		store.each(function(r){
-			price = parseFloat(r.data['unitp']),
-			      price = isNaN(price)?0:price;
-
-			      var amt = price  / 1.07;
-			      r.set('unitp', Ext.util.Format.usMoney(amt).replace(/\$/, ''));
-		});
-	}*/
 });

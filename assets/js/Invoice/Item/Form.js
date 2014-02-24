@@ -54,13 +54,13 @@ Ext.define('Account.Invoice.Item.Form', {
 			region:'center',
 			title: 'GL Posting'
 		});
-		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t',{
+		this.formTotal = Ext.create('Account.Quotation.Item.Form_t',{
 			border: true,
 			split: true,
 			title:'Total->Invoice',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -766,7 +766,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
-		//this.numberWHT.on('change', this.calculateTotal, this);
+		this.formTotal.txtDiscount.on('keyup', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
 		
 		return this.callParent(arguments);
@@ -1020,7 +1020,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.gridItem.vatValue = this.numberVat.getValue();
 
 		this.gridItem.curValue = currency;
-		//alert('bbb'+netwr2);
+		var tdisc = this.formTotal.txtDiscount.getValue();
+		netwr = netwr - tdisc;
 		this.gridPayment.netValue = netwr;
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
@@ -1033,20 +1034,21 @@ Ext.define('Account.Invoice.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
-		  //deamt = deamt * rate;
+		  tdisc = tdisc * rate;
 		}
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
+		this.formTotalthb.getForm().findField('dispc2').setValue(tdisc);
 		var net2 = this.formTotalthb.calculate();
 
         if(this.trigCustomer.getValue()!=''){
             _this.gridGL.load({
             	netpr:sum2,
             	vvat:vats,
+            	vdis:tdisc,
             	kunnr:this.trigCustomer.getValue(),
             	items: saknr_list.join(',')
             });

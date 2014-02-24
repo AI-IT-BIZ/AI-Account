@@ -26,16 +26,20 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 			//margin: '0 0 0 175',
 			readOnly: true
 		});
-		/*this.txtDiscount = Ext.create('Ext.form.field.Text', {
+		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
-			name: 'dismt',
+			name: 'dispc2',
 			align: 'right',
-			labelWidth: 80,
-			width:150,
+			labelWidth: 155,
+			width:270,
+			value: 0,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
+			hideTrigger:true,
 			//hideTrigger:true,
 			enableKeyEvents: true,
-			validator: function(v){
+			/*validator: function(v){
 				if(!Ext.isEmpty(v)){
 					var regEx = /^([0-9]*)(\.[1-9]*)?$|^([0-9]|[1-9][0-9]|100)(\.[1-9]*)?(%)$/gi;
 					if(regEx.test(v))
@@ -44,8 +48,8 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 						return 'Value can be only numbers or percent';
 				}else
 					return true;
-			}
-		});*/
+			}*/
+		});
 		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Deposit Receipt',

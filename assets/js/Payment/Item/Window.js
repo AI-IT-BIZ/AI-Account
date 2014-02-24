@@ -5,8 +5,8 @@ Ext.define('Account.Payment.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Payment',
 			closeAction: 'hide',
-			height: 650,
-			width: 1100,
+			height: 680,
+			width: 1020,
 			layout: 'border',
 			border: false,
 			resizable: true,
