@@ -12,7 +12,8 @@ Ext.define('Account.RReceipt.Item.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.recnr+o.vbelp; }//'invnr'
+					idProperty: function(o){ return o.recnr+o.vbelp; },
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},

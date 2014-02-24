@@ -116,13 +116,13 @@ class Payment extends CI_Controller {
 
     function loads_report(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebbp';
+		$tbName = 'rpay';
 		
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(paynr LIKE '%$query%'
+				$_this->db->where("(payno LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
 				OR invnr LIKE '%$query%')", NULL, FALSE);
@@ -465,7 +465,7 @@ class Payment extends CI_Controller {
 					'ptype'=>$p->ptype,
 					'saknr'=>$p->saknr,
 					'pramt'=>floatval($p->pramt),
-					//'reman'=>floatval($p->reman),
+					'chnam'=>$p->chnam,
 					'payam'=>floatval($p->payam)
 				));
 			}

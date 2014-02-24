@@ -12,7 +12,7 @@ class Rpayment extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ebbp';
+		$tbName = 'rpay';
 		
 		// Start for report
 		$period='';$docno='';$status='';

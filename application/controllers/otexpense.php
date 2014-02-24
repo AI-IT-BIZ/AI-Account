@@ -462,7 +462,7 @@ class Otexpense extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			//'whtyp' => $this->input->post('whtyp'),
+			'refno' => $this->input->post('refno'),
 			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'duedt' => $this->input->post('duedt'),

@@ -23,7 +23,8 @@ Ext.define('Account.RInvoice.Item.Grid', {
                 reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.invnr+o.vbelp; }//'invnr'
+					idProperty: function(o){ return o.invnr+o.vbelp; },
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
@@ -51,9 +52,7 @@ Ext.define('Account.RInvoice.Item.Grid', {
 			remoteSort: true,
 			sorters: [{property: 'invnr', direction: 'ASC'}],
 			groupField: 'invnr'
-		});
-                
-                
+		}); 
 
 		this.columns = [
 		    {text: "Invoice No.", width: 80, align: 'center', dataIndex: 'invnr', sortable: true},

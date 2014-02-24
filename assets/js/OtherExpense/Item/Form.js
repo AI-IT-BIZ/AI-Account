@@ -326,13 +326,12 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		                }, {xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.comboPay,this.numberVat,{
-			       xtype: 'displayfield',
-			       align: 'right',
-			       width:15,
-			       margin: '0 0 0 5',
-			       value: '%'
-		           }]
+				 			items :[this.comboPay,this.numberCredit,{
+			xtype: 'displayfield',
+			margin: '0 0 0 5',
+			width:25,
+			value: 'Days'
+		}]
 				 			},{
 			 				xtype: 'container',
 							layout: 'hbox',
@@ -340,11 +339,15 @@ Ext.define('Account.OtherExpense.Item.Form', {
 				 			items :[{
 								xtype: 'textfield',
 								fieldLabel: 'Reference No',
-								width: 450, 
+								width: 280, 
 								name: 'refnr',
-			                },{
-
-				   }]
+			                },this.numberVat,{
+			       xtype: 'displayfield',
+			       align: 'right',
+			       width:15,
+			       margin: '0 0 0 5',
+			       value: '%'
+		           }]
 		                }]
 		            },{
 		                xtype: 'container',
@@ -354,17 +357,12 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		                items: [this.comboPtype,this.dateDoc,this.comboTax,
                 		this.trigCurrency,
                 		{
-			xtype: 'container',
-                    layout: 'hbox',
-                    defaultType: 'textfield',
-                    margin: '0 0 5 0',
-   items: [this.numberCredit,{
-			xtype: 'displayfield',
-			margin: '0 0 0 5',
-			width:25,
-			value: 'Days'
-		}]
-         },this.dateDue,
+								xtype: 'textfield',
+								fieldLabel: 'Tax Invoice No',
+								width: 240, 
+								labelAlign: 'right',
+								name: 'refno',
+			                },this.dateDue,
 					    this.comboQStatus]
 		            }]
 				}]
