@@ -41,13 +41,13 @@ Ext.define('Account.Saleorder.Item.Form', {
 			region:'center'
 		});
 
-		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->SO',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -736,6 +736,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberWHT.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
+		this.formTotal.txtDiscount.on('keyup', this.calculateTotal, this);
 
 		return this.callParent(arguments);
 	},
@@ -894,6 +895,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		
+		var tdisc = this.formTotal.txtDiscount.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
@@ -902,12 +904,14 @@ Ext.define('Account.Saleorder.Item.Form', {
 		  vats = vats * rate;
 		  whts = whts * rate;
 		  discounts = discounts * rate;
+		  tdisc = tdisc * rate;
 		}  
 		
 		this.formTotalthb.getForm().findField('beamt2').setValue(sum);
 		this.formTotalthb.getForm().findField('vat02').setValue(vats);
 		this.formTotalthb.getForm().findField('wht02').setValue(whts);
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
+		this.formTotalthb.getForm().findField('dispc2').setValue(tdisc);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
 		var net2 = this.formTotalthb.calculate();
         

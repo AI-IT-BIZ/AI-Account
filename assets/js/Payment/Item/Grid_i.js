@@ -84,7 +84,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			id : 'PMiRowNumber022',
 			header : "No.",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -122,22 +122,15 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		    sortable: false,
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
-		    {text: "Ref.No",
+		    {text: "Ref.Tax Invoice",
 		    width: 100,
-		    dataIndex: 'refnr',
+		    dataIndex: 'refno',
 		    sortable: false,
 		    field: {
 				type: 'textfield'
 			}
 		    },
-		    {text: "Text Note",
-		    width: 120,
-		    dataIndex: 'texts',
-		    sortable: false,
-		    field: {
-				type: 'textfield'
-			}
-		    },{
+		    {
 		    text: "Amount",
 			dataIndex: 'beamt',
 			xtype: 'numbercolumn',
@@ -149,7 +142,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 		    text: "Discount",
 			dataIndex: 'dismt',
 			xtype: 'numbercolumn',
-			width: 100,
+			width: 80,
 			align: 'right',
 			sortable: false,
 			readOnly: true
@@ -274,11 +267,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 							// change cell code value (use db value)
 							rModel.set(e.field, r.data.invnr);
 							// Ref no
-							rModel.set('refnr', r.data.refnr);
+							rModel.set('refnr', r.data.refno);
 							// Invoice date
 							rModel.set('invdt', r.data.bldat);
 							// Text Note
-							rModel.set('texts', r.data.sgtxt);
+							//rModel.set('texts', r.data.sgtxt);
 							// GR No
 							rModel.set('ebeln', r.data.ebeln);
 							// Invoice amt
@@ -347,11 +340,11 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no
-				rModel.set('refnr', record.data.refnr);
+				rModel.set('refnr', record.data.refno);
 				// Invoice date
 				rModel.set('invdt', record.data.bldat);
 				// Text note
-				rModel.set('texts', record.data.sgtxt);
+				//rModel.set('texts', record.data.sgtxt);
 				// GR No
 				rModel.set('ebeln', record.data.ebeln);
 				// Invoice amt

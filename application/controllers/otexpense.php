@@ -86,7 +86,8 @@ class Otexpense extends CI_Controller {
 				$_this->db->where("(invnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR mbeln LIKE '%$query%')", NULL, FALSE);
+				OR jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -461,12 +462,12 @@ class Otexpense extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			//'whtyp' => $this->input->post('whtyp'),
+			'refno' => $this->input->post('refno'),
 			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'duedt' => $this->input->post('duedt'),
-			'ftype' => $this->input->post('ftype')
-			//'docty' => $this->input->post('docty')
+			'ftype' => $this->input->post('ftype'),
+			'jobnr' => $this->input->post('jobnr')
 		);
 
 		// start transaction

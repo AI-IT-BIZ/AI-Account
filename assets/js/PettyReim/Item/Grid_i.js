@@ -99,7 +99,10 @@ Ext.define('Account.PettyReim.Item.Grid_i', {
 			sortable: false,
 			align: 'right'
 			},
-			{text: "Unit", width: 40, dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 40, 
+			dataIndex: 'meins', 
+			align: 'center',
+			sortable: false,
 			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,

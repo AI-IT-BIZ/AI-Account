@@ -67,7 +67,7 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 				'chqdt',
 				{name:'pramt', type: 'string'},
 				'payam',
-				//'reman',
+				'chnam',
 				'saknr',
 				'wht01'//,
 				//'vat01',
@@ -217,6 +217,12 @@ Ext.define('Account.Payment.Item.Grid_pm', {
 			    	//return Ext.util.Format.usMoney(item).replace(/\$/, '');
 			    //}
              //}
+			},
+			{text: "Cheque Name",
+		    width: 180, dataIndex: 'chnam', sortable: false,
+		    field: {
+				type: 'textfield'
+			}
 			},
 		    /*{text: "Remain Amt", 
 		     xtype: 'numbercolumn',

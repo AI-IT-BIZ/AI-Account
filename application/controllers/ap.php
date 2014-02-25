@@ -568,7 +568,7 @@ class Ap extends CI_Controller {
 			//'whtnr' => $this->input->post('whtnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'reanr' => $this->input->post('reanr'),
-			//'whtpr' => $this->input->post('whtpr'),
+			'refno' => $this->input->post('refno'),
 			'duedt' => $this->input->post('duedt')//,
 			//'deamt' => floatval($this->input->post('deamt')),
 			//'devat' => floatval($this->input->post('devat'))

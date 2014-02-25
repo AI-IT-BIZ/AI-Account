@@ -63,7 +63,8 @@ class Pr extends CI_Controller {
 				$_this->db->where("(purnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR refnr LIKE '%$query%')", NULL, FALSE);
+				OR jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%')", NULL, FALSE);
 			}
 
 			$bldat1 = $_this->input->get('bldat');
@@ -152,7 +153,8 @@ class Pr extends CI_Controller {
 				$_this->db->where("(purnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR refnr LIKE '%$query%')", NULL, FALSE);
+				OR jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%')", NULL, FALSE);
 			}
 
 			$bldat1 = $_this->input->get('bldat');
@@ -333,7 +335,8 @@ class Pr extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'reanr' => $this->input->post('reanr'),
 			'ctype' => $this->input->post('ctype'),
-			'ftype' => $this->input->post('ftype')
+			'ftype' => $this->input->post('ftype'),
+			'jobnr' => $this->input->post('jobnr')
 		);
 
 		// start transaction

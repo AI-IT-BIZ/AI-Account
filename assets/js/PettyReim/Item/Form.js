@@ -269,7 +269,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:195,
+			height:175,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -520,6 +520,7 @@ Ext.define('Account.PettyReim.Item.Form', {
             }); 
            }
 	},
+	
 	changeCurrency: function(){
 		var _this=this;
 		var store = this.gridItem.store;
@@ -528,6 +529,7 @@ Ext.define('Account.PettyReim.Item.Form', {
 			r.set('ctype', currency);
 		});
 	},
+	
 	getRemain: function(){
 		var _this=this;
 		var petty = _this.numberPetty.getValue();
@@ -541,10 +543,10 @@ Ext.define('Account.PettyReim.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							_this.numberRemain.setValue(r.data);
-							_this.numberPetty2.setValue(r.data);
+							//_this.numberPetty2.setValue(r.data);
 						}else{
 							_this.numberRemain.setValue(petty);
-							_this.numberPetty2.setValue(petty);
+							//_this.numberPetty2.setValue(petty);
 							//o.markInvalid('Could not find Remain Amount : '+o.getValue());
 						}
 					}

@@ -222,6 +222,76 @@ class Po extends CI_Controller {
 		));
 	}
 
+    function loads_deposit(){
+		$this->db->set_dbprefix('v_');
+		$tbName = 'depo1';
+		$vbeln = $this->input->post('ebeln');
+		
+		//$this->db->where('payty', '1');
+		// Start for report
+		function createQuery($_this){
+			
+			$query = $_this->input->get('query');
+			if(!empty($query)){
+				$_this->db->where("(vbeln LIKE '%$query%')", NULL, FALSE);
+			}
+			
+			$duedt1 = $_this->input->get('duedt');
+			$duedt2 = $_this->input->get('duedt2');
+			if(!empty($duedt1) && empty($duedt2)){
+			  $_this->db->where('duedt', $duedt1);
+			}
+			elseif(!empty($bldat1) && !empty($bldat2)){
+			  $_this->db->where('bldat >=', $bldat1);
+			  $_this->db->where('bldat <=', $bldat2);
+			}
+
+            $vbeln1 = $_this->input->get('ebeln');
+			$vbeln2 = $_this->input->get('ebeln2');
+			if(!empty($vbeln1) && empty($vbeln2)){
+			  $_this->db->where('vbeln', $vbeln1);
+			}
+			elseif(!empty($vbeln1) && !empty($vbeln2)){
+			  $_this->db->where('vbeln >=', $vbeln1);
+			  $_this->db->where('vbeln <=', $vbeln2);
+			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+			
+			$_this->db->where('payty', '1');
+            //$_this->db->where('chk01', '1');
+		}
+		// End for report		
+		
+		createQuery($this);
+		$totalCount = $this->db->count_all_results($tbName);
+
+		createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
+		
+		$query = $this->db->get($tbName);
+		
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount
+		));
+	}
+
 	function save(){
 		$id = $this->input->post('id');
 		$query = null;

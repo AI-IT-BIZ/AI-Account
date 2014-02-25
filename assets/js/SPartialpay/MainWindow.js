@@ -3,7 +3,7 @@ Ext.define('Account.SPartialpay.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Purchase Requisitions',
+			title: 'Partial Receipt',
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
@@ -27,7 +27,7 @@ Ext.define('Account.SPartialpay.MainWindow', {
         x: 50,
         y: 50,
         hideLabel: true
-    });
+        });
 
       /*****************************************************/
 		// --- object ---

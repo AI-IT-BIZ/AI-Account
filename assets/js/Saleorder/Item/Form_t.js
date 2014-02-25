@@ -26,16 +26,20 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			//margin: '0 0 0 175',
 			readOnly: true
 		});
-		/*this.txtDiscount = Ext.create('Ext.form.field.Text', {
+		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Discount',
-			name: 'dismt',
+			name: 'dispc',
 			align: 'right',
-			labelWidth: 80,
-			width:150,
+			labelWidth: 155,
+			width:270,
+			value: 0,
+			margin: '4 0 0 0',
+			alwaysDisplayDecimals: true,
+			hideTrigger:true,
 			//hideTrigger:true,
 			enableKeyEvents: true,
-			validator: function(v){
+			/*validator: function(v){
 				if(!Ext.isEmpty(v)){
 					var regEx = /^([0-9]*)(\.[1-9]*)?$|^([0-9]|[1-9][0-9]|100)(\.[1-9]*)?(%)$/gi;
 					if(regEx.test(v))
@@ -44,8 +48,8 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 						return 'Value can be only numbers or percent';
 				}else
 					return true;
-			}
-		});*/
+			}*/
+		});
 		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
 			fieldLabel: 'Deposit Receipt',
@@ -197,6 +201,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},*/
 		this.txtDiscountValue,
+		this.txtDiscount,
 		this.txtDiscountSum,
 		//this.txtDepositValue,
 		this.txtTaxValue,
@@ -220,7 +225,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		this.txtNet.on('render', setBold);
 		this.txtWHTValue.on('render', setAlignRight);
 
-		//this.txtDiscount.on('keyup', this.calculate, this);
+		this.txtDiscount.on('keyup', this.calculate, this);
 		//this.txtTax.on('keyup', this.calculate, this);
 
 		return this.callParent(arguments);
@@ -268,6 +273,8 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		if(total<=0) return;
 
 		var discountValue = this.txtDiscountValue.getValue();
+		var disc = this.txtDiscount.getValue();
+		discountValue = discountValue + disc;
 		//var depositValue = this.txtDepositValue.getValue();
 		//discountValue = discountValue + depositValue;
 	

@@ -60,13 +60,13 @@ class Pettyreim extends CI_Controller {
 		$prefix = $this->input->post('id');
 		
 		if(db_helper_is_mysql($this)){
-			$sql = "SELECT reman FROM ".$tbname.
+			$sql = "SELECT reman, netwr FROM ".$tbname.
 			" WHERE remnr LIKE '".$prefix."%'"
 			." ORDER BY remnr DESC LIMIT 1";
 		}
 			
 		if(db_helper_is_mssql($this)){
-			$sql = "SELECT TOP 1 reman FROM ".$tbname.
+			$sql = "SELECT TOP 1 reman, netwr FROM ".$tbname.
 			" WHERE remnr LIKE '".$prefix."%'"
 			." ORDER BY remnr DESC ";
 		}
@@ -74,11 +74,12 @@ class Pettyreim extends CI_Controller {
 		$query = $this->db->query($sql);
             
 	    if($query->num_rows()>0){
-		$r_code = $query->first_row('array');
-			
+		    $r_code = $query->first_row('array');
+			$value = $r_code['reman'] - $r_code['netwr'];
+			if($value<=0) $value=0;
 			echo json_encode(array(
 			'success'=>true,
-			'data'=>$r_code['reman'],
+			'data'=>$value,
 			'totalCount'=>$query->num_rows()
 		     ));
 		}else{
@@ -161,7 +162,7 @@ class Pettyreim extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 
@@ -328,12 +329,12 @@ class Pettyreim extends CI_Controller {
 					return;
         }
 		
-		$netwr = $this->input->post('netwr');
-		$reman = $this->input->post('reman');
-		if(!empty($row['netwr'])){
-			$reman = $reman + $row['netwr'];
-		}
-		$reman = $reman - $netwr;
+		//$netwr = $this->input->post('netwr');
+		//$reman = $this->input->post('reman');
+		//if(!empty($row['netwr'])){
+		//	$reman = $reman + $row['netwr'];
+		//}
+		//$reman = $reman - $netwr;
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -345,7 +346,7 @@ class Pettyreim extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			'reman' => floatval($reman),
+			//'reman' => floatval($reman),
 			'dispc' => floatval($this->input->post('netwr')),
 			'deamt' => floatval($this->input->post('deamt')),
 			'reman' => floatval($this->input->post('reman'))

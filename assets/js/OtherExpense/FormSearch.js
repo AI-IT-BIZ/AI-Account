@@ -34,7 +34,7 @@ Ext.define('Account.OtherExpense.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from AP No., Vendor or GR No.',
+			emptyText: 'Find from AP No., Vendor, Project No or Name',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

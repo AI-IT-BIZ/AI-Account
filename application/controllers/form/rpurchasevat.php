@@ -267,7 +267,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	<tr>
 		<td class="fc1-8" align="center" style="width:38px;"><?=$i+1;?></td>
 	  <td class="fc1-8" align="center" style="width:65px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:77px;"><?=$item['invnr'];?></td>
+	  <td class="fc1-8" align="center" style="width:77px;"><?=$item['refno'];?></td>
 	  <td class="fc1-8" align="left" style="width:190px;"><?=$item['name1'];?></td>
 		<td class="fc1-8" align="center" style="width:80px;"><?=$item['taxid'];?></td>
       <td class="fc1-8" align="center" style="width:51px;">0000</td>

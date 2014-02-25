@@ -6,7 +6,7 @@ Ext.define('Account.Saleorder.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Sale Order',
 			closeAction: 'hide',
-			height: 700,
+			height: 720,
 			width: 950,
 			layout: 'border',
 			border: false,

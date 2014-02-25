@@ -263,6 +263,7 @@ class Saledelivery extends CI_Controller {
 			'netwr' => floatval($this->input->post('netwr')),
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
+			'dispc' => floatval($this->input->post('dispc')),
 			'taxpr' => floatval($this->input->post('taxpr')),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),

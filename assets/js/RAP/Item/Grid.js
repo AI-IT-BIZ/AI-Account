@@ -12,7 +12,8 @@ Ext.define('Account.RAP.Item.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.invnr+o.vbelp; }//'invnr'
+					idProperty: function(o){ return o.invnr+o.vbelp; },//'invnr'
+					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
@@ -62,7 +63,7 @@ Ext.define('Account.RAP.Item.Grid', {
 			align: 'left', sortable: true},
 			{text: "Material Code", width: 80, align: 'center', dataIndex: 'matnr', 
 			sortable: true},
-			{text: "Item Description", width: 60, align: 'center', 
+			{text: "Item Description", width: 60, 
 			dataIndex: 'maktx', sortable: true},
             {text: "Quantity", width: 60, align: 'right', 
             xtype: 'numbercolumn', dataIndex: 'menge', sortable: true},

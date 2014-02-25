@@ -13,7 +13,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
-		this.quotationDialog = Ext.create('Account.SQuotation.MainWindow', {
+		this.quotationDialog = Ext.create('Account.SDepositIn.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
 		});

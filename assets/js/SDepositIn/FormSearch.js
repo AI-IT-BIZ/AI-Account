@@ -1,4 +1,4 @@
-Ext.define('Account.PR.FormSearch', {
+Ext.define('Account.SDepositIn.FormSearch', {
 	extend	: 'Ext.form.Panel',
 	constructor:function(config) {
 
@@ -34,7 +34,7 @@ Ext.define('Account.PR.FormSearch', {
 		this.txtQuery = new Ext.form.TextField({
 			fieldLabel : 'Keyword',
 			name : "query",
-			emptyText: 'Find from PR No., Vendor or Project No.',
+			emptyText: 'Find from Quotation, Customer, Project or Sale',
 			labelAlign: 'right',
 			listeners : {
 				specialkey : function(o, e) {

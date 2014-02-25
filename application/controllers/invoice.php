@@ -489,7 +489,7 @@ class Invoice extends CI_Controller {
 
 		}else{	
 			if($this->input->post('loekz')=='2'){
-        	$emsg = 'The sale order already created invoice doc.';
+        	$emsg = 'The delivery already created invoice doc.';
 					echo json_encode(array(
 						'success'=>false,
 						'message'=>$emsg
@@ -539,6 +539,7 @@ class Invoice extends CI_Controller {
 			'netwr' => floatval($this->input->post('netwr')),
 			'beamt' => floatval($this->input->post('beamt')),
 			'dismt' => floatval($this->input->post('dismt')),
+			'dispc' => floatval($this->input->post('dispc')),
 			'taxpr' => floatval($this->input->post('taxpr')),
 			'salnr' => $this->input->post('salnr'),
 			'ctype' => $this->input->post('ctype'),
@@ -605,7 +606,7 @@ class Invoice extends CI_Controller {
 					$disit = $p->disit;
 				}else{
 					$perc = explode('%',$p->disit);
-					$pramt = $amt * $perc[0];
+					$pramt = $itamt * $perc[0];
 					$disit = $pramt / 100;
 				}
 		        $itamt = $itamt - $disit;
@@ -902,15 +903,15 @@ class Invoice extends CI_Controller {
 		   $netpr = $this->input->get('netpr');  //Net amt
 	       $vvat = $this->input->get('vvat');    //VAT amt    
 		   $kunnr = $this->input->get('kunnr');  //Customer Code
-		   //$deamt = $this->input->get('deamt');  //Deposit
+		   $vdis = $this->input->get('vdis');    //Discount
 		   //$devat = $this->input->get('devat');
-		   $itms = $this->input->get('items');  //Doc Type
+		   $itms = $this->input->get('items');   //Doc Type
 		   $items = explode(',',$itms);
            
 		   if(empty($vvat)) $vvat=0;
 		   //if(empty($vwht)) $vwht=0;
-		   
-		   $net = $netpr + $vvat;
+		   //echo 'aaa'.$vdis;
+		   $net = $netpr + $vvat - $vdis;
 		   
            $i=0;$n=0;$vamt=0;$debit=0;$credit=0;
 		   $result = array();
@@ -936,12 +937,12 @@ class Invoice extends CI_Controller {
 				$i++;
 				$debit=$net;
 				}
-				}
 			}
+		}
 
 // record ที่สอง
-   /*if(!empty($deamt)){
-		$glvat = '2130-00'; //'1130-05';
+   if(!empty($vdis)){
+		$glvat = '4100-04';//'4100‐04';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));
 		if($qgl->num_rows()>0){
@@ -950,15 +951,16 @@ class Invoice extends CI_Controller {
 		    'belpr'=>$i + 1,
 			'saknr'=>$glvat,
 			'sgtxt'=>$q_glno['sgtxt'],
-			'debit'=>$deamt,
+			'debit'=>$vdis,
 			'credi'=>0
 		);
 		$i++;
-		$debit = $debit + $deamt;	
-		}
-		}
+		$debit = $debit + $vdis;
+	  }
+	}
+   
 // record ที่สอง.หนึ่ง
-   if(!empty($devat)){
+   /*if(!empty($devat)){
 		$glvat = '2136-00';
 		$qgl = $this->db->get_where('glno', array(
 				'saknr'=>$glvat));

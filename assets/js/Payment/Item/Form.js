@@ -35,7 +35,7 @@ Ext.define('Account.Payment.Item.Form', {
 			region:'center',
 			title: 'Payment'
 		});
-		this.formTotal = Ext.create('Account.Billfrom.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Payment.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->Payment',
@@ -133,7 +133,7 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype: 'displayfield',
 			name: 'name1',
 			margins: '0 0 0 6',
-			width:350,
+			width:420,
             allowBlank: true
 		}]
 		},{
@@ -188,7 +188,7 @@ Ext.define('Account.Payment.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:170,
+			height:200,
 			items: [
 				this.formTotal,
 				this.gridPayment,
@@ -345,18 +345,30 @@ Ext.define('Account.Payment.Item.Form', {
 	calculateTotal: function(){
 		var _this=this;
 		var store = _this.gridItem.store;
-		var sum = 0;
+		var sum = 0;var sum_vat=0;var sum_wht=0;
+		var sum_amt=0;var sum_dis=0;
 		store.each(function(r){
 			var itamt = parseFloat(r.data['itamt'].replace(/[^0-9.]/g, ''));
-				//pay = parseFloat(r.data['payrc'].replace(/[^0-9.]/g, ''));
+			var vat01 = parseFloat(r.data['vat01'].replace(/[^0-9.]/g, ''));
+			var wht01 = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
+			var beamt = parseFloat(r.data['beamt'].replace(/[^0-9.]/g, ''));
+			var disc = parseFloat(r.data['dismt'].replace(/[^0-9.]/g, ''));
 			itamt = isNaN(itamt)?0:itamt;
 			//pay = isNaN(pay)?0:pay;
 
 			var amt = itamt; //- pay;
 			sum += amt;
+			sum_vat += vat01;
+			sum_wht += wht01;
+			sum_amt += beamt;
+			sum_dis += disc;
 		});
 		this.gridPayment.itemValue = sum;
-		this.formTotal.getForm().findField('beamt').setValue(sum);
+		//this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('vat01').setValue(sum_vat);
+		this.formTotal.getForm().findField('wht01').setValue(sum_wht);
+		this.formTotal.getForm().findField('beamt').setValue(sum_amt);
+		this.formTotal.getForm().findField('dismt').setValue(sum_dis);
 		
 		var net = this.formTotal.calculate();
 		this.gridPayment.netValue = net;
