@@ -158,7 +158,7 @@ class Pettyexpense extends CI_Controller {
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>2//$totalCount
+			'totalCount'=>$totalCount
 		));
 	}
 

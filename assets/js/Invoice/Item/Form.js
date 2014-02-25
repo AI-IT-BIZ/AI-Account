@@ -454,7 +454,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:195,
+			height:220,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -863,6 +863,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.formTotal.getForm().findField('exchg').setValue('1.0000');
 		this.formTotalthb.getForm().findField('exchg2').setValue('1.0000');
 		this.formTotal.getForm().findField('bbb').setValue('0.00');
+		this.formTotal.getForm().findField('dispc').setValue('0.00');
 		this.formTotal.getForm().findField('netwr').setValue('0.00');
 	},
 

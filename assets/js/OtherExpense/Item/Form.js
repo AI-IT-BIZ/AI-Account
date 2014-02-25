@@ -557,8 +557,8 @@ Ext.define('Account.OtherExpense.Item.Form', {
         
         this.numberCredit.on('keyup', this.getDuedate, this);
         this.numberCredit.on('change', this.getDuedate, this);
-        //this.dateDoc.on('keyup', this.getDuedate, this);
-        //this.dateDoc.on('change', this.getDuedate, this);
+        this.dateDoc.on('keyup', this.getDuedate, this);
+        this.dateDoc.on('change', this.getDuedate, this);
 		this.comboTax.on('change', this.calculateTotal, this);
 		this.trigCurrency.on('change', this.changeCurrency, this);
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
