@@ -5,6 +5,8 @@ define('JASPERPORT', 8080);
 define('JASPERUSER', 'jasperadmin');
 define('JASPERPASSWORD', 'jasperadmin');
 
+date_default_timezone_set('Asia/Bangkok');
+
 /*
 define('JASPERSERVER', "192.168.1.200");
 define('JASPERPORT', 8081);
