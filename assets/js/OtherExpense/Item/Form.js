@@ -163,8 +163,8 @@ Ext.define('Account.OtherExpense.Item.Form', {
 			name: 'jobnr',
 			fieldLabel: 'Project No.',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
+			enableKeyEvents: true//,
+			//allowBlank : false
 		});
 		
 		this.trigVendor = Ext.create('Ext.form.field.Trigger', {

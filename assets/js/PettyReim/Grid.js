@@ -61,7 +61,7 @@ Ext.define('Account.PettyReim.Grid', {
 			
 			{text: "CPV Remain Amt", width: 100, 
 			xtype: 'numbercolumn', align: 'right',
-			dataIndex: 'dispc', sortable: true},
+			dataIndex: 'reman', sortable: true},
 			
 			{text: "Currency", width: 55, align: 'center', dataIndex: 'ctype', sortable: true},
 			{text: "CPV Status", width: 100, dataIndex: 'statx', sortable: true},

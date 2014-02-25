@@ -98,7 +98,7 @@ Ext.define('Account.PettyExpense.Item.Grid_i', {
 			},
 			},
 		    {text: "Description",
-		    width: 220,
+		    width: 200,
 		    dataIndex: 'maktx',
 		    sortable: false,
 		    //field: {

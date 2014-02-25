@@ -13,6 +13,11 @@ Ext.define('Account.PettyExpense.Item.Form', {
 	initComponent : function() {
 		var _this=this;
 		
+		this.projectDialog = Ext.create('Account.Project.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
+		
 		this.pettyDialog = Ext.create('Account.PettyReim.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly:true
@@ -130,6 +135,14 @@ Ext.define('Account.PettyExpense.Item.Form', {
 		this.hdnGlItem = Ext.create('Ext.form.Hidden', {
 			name: 'bsid',
 		});
+		
+		this.trigProject = Ext.create('Ext.form.field.Trigger', {
+			name: 'jobnr',
+			fieldLabel: 'Project No.',
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true//,
+			//allowBlank : false
+		});
 
         this.trigPetty = Ext.create('Ext.form.field.Trigger', {
 			name: 'remnr',
@@ -162,13 +175,15 @@ Ext.define('Account.PettyExpense.Item.Form', {
 		this.numberPetty = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Petty Cash Limit',
 			name: 'deamt',
+			labelAlign: 'right',
+			width: 240,
 			alwaysDisplayDecimals: true,
 			readOnly: true
          });
          
          this.numberRemain = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Remain Amt',
-			name: 'dispc',
+			name: 'reman',
 			labelWidth: 70,
 			width: 187,
 			margin: '0 0 0 15',
@@ -236,6 +251,18 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
+				 			items :[this.trigProject,
+					    {
+						xtype: 'displayfield',
+						name: 'jobtx',
+						width:200,
+						margins: '0 0 0 6',
+						allowBlank: true
+					    }]
+						},{
+			 				xtype: 'container',
+							layout: 'hbox',
+							margin: '0 0 5 0',
 				 			items :[this.trigVendor,{
 								xtype: 'displayfield',
 								name: 'name1',
@@ -250,15 +277,15 @@ Ext.define('Account.PettyExpense.Item.Form', {
 							width: 450, 
 							rows:3,
 		                },{
-								xtype: 'textfield',
-								fieldLabel: 'Reference No',
-								width: 450, 
-								name: 'refnr',
-			                },{
 			 				xtype: 'container',
 							layout: 'hbox',
 							margin: '0 0 5 0',
-				 			items :[this.numberPetty,this.numberRemain]
+				 			items :[{
+								xtype: 'textfield',
+								fieldLabel: 'Reference No',
+								width: 250, 
+								name: 'refnr',
+			                },this.numberRemain]
 		                }]
 		                },{
 		                xtype: 'container',
@@ -288,7 +315,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			       margin: '0 0 0 5',
 			       value: '%'
 		           }]
-               },
+               },this.numberPetty,
 					    this.comboQStatus]
 		            }]
 				}]
@@ -301,7 +328,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:220,
+			height:200,
 			items: [
 				this.formTotal,
 				this.formTotalthb,
@@ -310,6 +337,46 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			]
 		}	
 		];
+		
+		// event trigProject///
+		this.trigProject.on('keyup',function(o, e){
+			var v = o.getValue();
+			if(Ext.isEmpty(v)) return;
+
+			if(e.getKey()==e.ENTER){
+				Ext.Ajax.request({
+					url: __site_url+'project/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							o.setValue(r.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
+
+						}else{
+							o.setValue('');
+			_this.getForm().findField('jobtx').setValue('');
+			//o.markInvalid('Could not find project code : '+o.getValue());
+						}
+					}
+				});
+			}
+		}, this);
+
+		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
+			_this.trigProject.setValue(record.data.jobnr);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
+
+			grid.getSelectionModel().deselectAll();
+			_this.projectDialog.hide();
+		});
+
+		this.trigProject.onTriggerClick = function(){
+			_this.projectDialog.show();
+		};
 		
 		// event trigGR///
 		this.trigPetty.on('keyup',function(o, e){
@@ -335,7 +402,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 			                _this.getForm().findField('deamt').setValue(r.data.netwr);
-			                _this.getForm().findField('dispc').setValue(r.data.dispc);
+			                //_this.getForm().findField('reman').setValue(r.data.reman);
 						}else{
 							_this.getForm().findField('lifnr').setValue('');
 							_this.getForm().findField('name1').setValue('');
@@ -344,8 +411,8 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			                _this.getForm().findField('loekz').setValue('');
 			                _this.getForm().findField('exchg').setValue('');
 			                _this.getForm().findField('deamt').setValue('');
-			                _this.getForm().findField('dispc').setValue('');
-							o.markInvalid('Could not find CPV no : '+o.getValue());
+			               //_this.getForm().findField('reman').setValue('');
+							//o.markInvalid('Could not find CPV no : '+o.getValue());
 						}
 					}
 				});
@@ -373,7 +440,26 @@ Ext.define('Account.PettyExpense.Item.Form', {
 			                _this.getForm().findField('loekz').setValue(r.data.loekz);
 			                _this.getForm().findField('exchg').setValue(r.data.exchg);
 			                _this.getForm().findField('deamt').setValue(r.data.netwr);
-			                _this.getForm().findField('dispc').setValue(r.data.dispc);
+			                //_this.getForm().findField('reman').setValue(r.data.reman);
+			        var petty = _this.numberPetty.getValue();
+		            Ext.Ajax.request({
+					url: __site_url+'pettyexpense/load_remain',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							_this.numberRemain.setValue(r.data);
+							//_this.numberPetty2.setValue(r.data);
+						}else{
+							_this.numberRemain.setValue(petty);
+							//_this.numberPetty2.setValue(petty);
+							//o.markInvalid('Could not find Remain Amount : '+o.getValue());
+						}
+					}
+				});
 						}
 					}
 				});
@@ -517,7 +603,7 @@ Ext.define('Account.PettyExpense.Item.Form', {
 	},
 	
 	onSelectChange: function(selModel, selections){
-		//var _this=this;
+		var _this=this;
 		var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
         //var id = sel.data[sel.idField.name];
         if (sel) {
