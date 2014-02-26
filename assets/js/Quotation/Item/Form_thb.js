@@ -28,7 +28,7 @@ Ext.define('Account.Quotation.Item.Form_thb', {
 		});
 		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Discount',
+			fieldLabel: 'Cash Discount',
 			name: 'dispc2',
 			align: 'right',
 			labelWidth: 155,
@@ -254,6 +254,12 @@ Ext.define('Account.Quotation.Item.Form_thb', {
 
 		var discount = this.txtDiscountValue.getValue();
 		var disc = this.txtDiscount.getValue();
+		if(disc>0){
+			disc = parseFloat(disc);
+		}else{
+			disc=0;
+			this.txtDiscount.setValue('0.00');
+			}
 		discount = discount + disc;
 			//discountValue = 0;
 		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){

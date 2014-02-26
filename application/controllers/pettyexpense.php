@@ -162,6 +162,43 @@ class Pettyexpense extends CI_Controller {
 		));
 	}
 
+    function load_remain(){
+		$this->db->set_dbprefix('v_');
+		$tbname = 'tbl_ebek';
+		$prefix = $this->input->post('id');
+
+		if(db_helper_is_mysql($this)){
+			$sql = "SELECT reman, netwr FROM ".$tbname.
+			" WHERE remnr LIKE '".$prefix."'"
+			." ORDER BY invnr DESC LIMIT 1";
+		}
+			
+		if(db_helper_is_mssql($this)){
+			$sql = "SELECT TOP 1 reman, netwr FROM ".$tbname.
+			" WHERE remnr LIKE '".$prefix."'"
+			." ORDER BY invnr DESC ";
+		}
+			
+		$query = $this->db->query($sql);
+            
+	    if($query->num_rows()>0){
+		    $r_code = $query->first_row('array');
+			$value = $r_code['reman'] - $r_code['netwr'];
+			if($value<=0) $value=0;
+			echo json_encode(array(
+			'success'=>true,
+			'data'=>$value,
+			'totalCount'=>$query->num_rows()
+		     ));
+		}else{
+		echo json_encode(array(
+			'success'=>false,
+			'data'=>0,
+			'totalCount'=>0
+		));
+		}
+	}
+
     function loads_report(){
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebep';
@@ -351,9 +388,10 @@ class Pettyexpense extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			//'whtnr' => $this->input->post('whtnr'),
+			'reman' => floatval($this->input->post('reman')),
 			'whtxt' => $this->input->post('whtxt'),
 			'duedt' => $this->input->post('duedt'),
+			'jobnr' => $this->input->post('jobnr'),
 			'deamt' => floatval($this->input->post('deamt'))
 		);
 
@@ -362,18 +400,11 @@ class Pettyexpense extends CI_Controller {
 		
 		$current_username = XUMS::USERNAME();
 		
-		if(db_helper_is_mysql($this)){
-			$sql = "SELECT remnr,reman,dispc FROM tbl_ebtk".
-			" WHERE remnr LIKE 'CPV%'"
-			." ORDER BY remnr DESC LIMIT 1";
-		    }
-			
-		    if(db_helper_is_mssql($this)){
-			$sql = "SELECT TOP 1 remnr,reman,dispc FROM tbl_ebtk".
-			" WHERE remnr LIKE 'CPV%'"
-			." ORDER BY remnr DESC ";
-		    }	
-		$q_code = $this->db->query($sql);
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		//$q_com = $this->db->query($strSQL);
+		$q_code = $this->db->query($strSQL);
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('invnr', $id);
@@ -385,14 +416,14 @@ class Pettyexpense extends CI_Controller {
 			if($q_code->num_rows()>0){
 		      $r_code = $q_code->first_row('array');
 			  $reman = $this->input->post('netwr') - $row['netwr'];
-			  $dispc = $r_code['dispc'] - $reman;
-			  $reman = $r_code['reman'] + $reman;
+			  //$dispc = $r_code['dispc'] - $reman;
+			  $reman = $r_code['began'] + $reman;
 			  
-			  $this->db->where('remnr', $r_code['remnr']);
-			  $this->db->set('reman', floatval($reman));
-			  $this->db->set('dispc', floatval($dispc));
-			  $this->db->set('upamt', floatval($this->input->post('netwr')));
-			  $this->db->update('ebtk');
+			  $this->db->where('comid', $comid);
+			  $this->db->set('began', floatval($reman));
+			  //$this->db->set('dispc', floatval($dispc));
+			  $this->db->set('endin', floatval($this->input->post('netwr')));
+			  $this->db->update('comp');
 		    }
 		}else{
 			$id = $this->code_model->generate('PC', 
@@ -407,13 +438,12 @@ class Pettyexpense extends CI_Controller {
             
 	    if($q_code->num_rows()>0){
 		    $r_code = $q_code->first_row('array');
-			$reman = $r_code['reman'] + $this->input->post('netwr');
-			$dispc = $r_code['dispc'] - $this->input->post('netwr');
-			$this->db->where('remnr', $r_code['remnr']);
-			$this->db->set('reman', floatval($reman));
-			$this->db->set('dispc', floatval($dispc));
-			$this->db->set('upamt', floatval($this->input->post('netwr')));
-			$this->db->update('ebtk');
+			$reman = $r_code['began'] + $this->input->post('netwr');
+			//$dispc = $r_code['dispc'] - $this->input->post('netwr');
+			$this->db->where('comid', $comid);
+			$this->db->set('began', floatval($reman));
+			$this->db->set('endin', floatval($this->input->post('netwr')));
+			$this->db->update('comp');
 		}
 
 		}// end save

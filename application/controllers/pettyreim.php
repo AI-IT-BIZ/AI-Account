@@ -55,27 +55,16 @@ class Pettyreim extends CI_Controller {
 	}
 	
 	function load_remain(){
-		$this->db->set_dbprefix('v_');
-		$tbname = 'tbl_ebtk';
-		$prefix = $this->input->post('id');
-		
-		if(db_helper_is_mysql($this)){
-			$sql = "SELECT reman, netwr FROM ".$tbname.
-			" WHERE remnr LIKE '".$prefix."%'"
-			." ORDER BY remnr DESC LIMIT 1";
-		}
-			
-		if(db_helper_is_mssql($this)){
-			$sql = "SELECT TOP 1 reman, netwr FROM ".$tbname.
-			" WHERE remnr LIKE '".$prefix."%'"
-			." ORDER BY remnr DESC ";
-		}
-			
+
+	    $comid = XUMS::COMPANY_ID();
+		$sql="";
+		$sql= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+
 		$query = $this->db->query($sql);
             
 	    if($query->num_rows()>0){
 		    $r_code = $query->first_row('array');
-			$value = $r_code['reman'] - $r_code['netwr'];
+			$value = $r_code['began'];// - $r_code['netwr'];
 			if($value<=0) $value=0;
 			echo json_encode(array(
 			'success'=>true,
@@ -329,12 +318,6 @@ class Pettyreim extends CI_Controller {
 					return;
         }
 		
-		//$netwr = $this->input->post('netwr');
-		//$reman = $this->input->post('reman');
-		//if(!empty($row['netwr'])){
-		//	$reman = $reman + $row['netwr'];
-		//}
-		//$reman = $reman - $netwr;
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
 			'lifnr' => $this->input->post('lifnr'),
@@ -356,6 +339,12 @@ class Pettyreim extends CI_Controller {
 		$this->db->trans_start();
 		
 		$current_username = XUMS::USERNAME();
+		
+		$comid = XUMS::COMPANY_ID();
+		$strSQL="";//echo $comid;
+		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
+		//$q_com = $this->db->query($strSQL);
+		$q_code = $this->db->query($strSQL);
 
 		if (!empty($query) && $query->num_rows() > 0){
 			$this->db->where('remnr', $id);
@@ -363,6 +352,19 @@ class Pettyreim extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('ebtk', $formData);
+			
+			if($q_code->num_rows()>0){
+		      $r_code = $q_code->first_row('array');
+			  $reman = $this->input->post('netwr') - $row['netwr'];
+			  //$dispc = $r_code['dispc'] - $reman;
+			  $reman = $r_code['began'] + $reman;
+			  
+			  $this->db->where('comid', $comid);
+			  $this->db->set('began', floatval($reman));
+			  //$this->db->set('dispc', floatval($dispc));
+			  $this->db->set('endin', floatval($this->input->post('netwr')));
+			  $this->db->update('comp');
+		    }
 		}else{
 			$id = $this->code_model->generate('CPV', 
 			$this->input->post('bldat'));
@@ -373,6 +375,15 @@ class Pettyreim extends CI_Controller {
 			$this->db->insert('ebtk', $formData);
 			
 			$inserted_id = $id;
+			
+			if($q_code->num_rows()>0){
+		    $r_code = $q_code->first_row('array');
+			$reman = $r_code['began'] - $this->input->post('netwr');
+			$this->db->where('comid', $comid);
+			$this->db->set('began', floatval($reman));
+			$this->db->set('endin', floatval($this->input->post('netwr')));
+			$this->db->update('comp');
+		    }
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('remnr', $id);
