@@ -1,6 +1,6 @@
 <?php
 
-define('JASPERSERVER', "203.144.166.102");
+define('JASPERSERVER', "25.168.218.171");
 define('JASPERPORT', 8080);
 define('JASPERUSER', 'jasperadmin');
 define('JASPERPASSWORD', 'jasperadmin');

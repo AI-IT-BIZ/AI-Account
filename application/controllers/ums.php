@@ -139,7 +139,8 @@ class Ums extends CI_Controller {
 							'UserState'=>array(
 								'uname'=>$sUser['uname'],
 								'name1'=>$sUser['name1'],
-								'comid'=>$sUser['comid']
+								'comid'=>$sUser['comid'],
+								'empnr'=>$sUser['empnr']
 							),
 							'Permission'=>$permission_state_buff,
 							'Limit'=>$limit_state_buff

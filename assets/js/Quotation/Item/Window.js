@@ -30,7 +30,11 @@ Ext.define('Account.Quotation.Item.Window', {
 		this.btnPreview = Ext.create('Ext.Button', {
 			text: 'Preview',
 			handler: function() {
-				_this.previewDialog.openDialog(_this.dialogId);
+				//_this.previewDialog.openDialog(_this.dialogId);
+				vbeln = _this.dialogId;
+				amtxt = _this.form.formTotal.getForm().findField('netwr').getValue();
+				params = "vbeln="+vbeln+"&amtxt="+amtxt;
+				_this.previewDialog.openDialog(__base_url + 'index.php/formbof/quotation/pdf?'+params,'_blank');
 			}
 		});
 

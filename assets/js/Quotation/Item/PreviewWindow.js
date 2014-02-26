@@ -5,7 +5,7 @@ Ext.define('Account.Quotation.Item.PreviewWindow', {
 
 		Ext.apply(this, {
 			title: 'Quotation preview',
-			enableCopies: true
+			enableCopies: false
 		});
 
 		return this.callParent(arguments);
@@ -14,9 +14,9 @@ Ext.define('Account.Quotation.Item.PreviewWindow', {
 
 		return this.callParent(arguments);
 	},
-	
+	/*
 	getFrameUrl: function(id, copies){
 		copies = copies || 1;
 		return __site_url+'formbof/quotation/index/'+id+'/'+copies;
-	}
+	}*/
 });

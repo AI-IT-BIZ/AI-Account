@@ -28,6 +28,14 @@ class XUMS {
 		else
 			return $us->name1;
 	}
+	
+	public static function EMPLOYEE_ID(){
+		$us = XUMS::getUserState();
+		if(empty($us))
+			return $us;
+		else
+			return $us->empnr;
+	}
 
 	public static function COMPANY_ID(){
 		$us = XUMS::getUserState();
