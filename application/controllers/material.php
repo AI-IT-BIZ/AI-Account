@@ -383,68 +383,59 @@ class Material extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'mtyp';
 		
+		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount 
 		));
 	}
 
 	function save_type(){
-		$mtyp= $this->input->post('mtyp');
-		$item_array = json_decode($mtyp);
-		$result_array = json_decode($mtyp);
-		if(!empty($mtyp) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->mtart == $o->mtart && $i!=$j){
-						$emsg = 'Cannot Save Material type '.$p->mtart.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
-			}
-		}
-		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('mtyp');
-		}
-		if(db_helper_is_mysql($this)){
-		$this->db->truncate('mtyp');
-		}
-		//$this->db->delete('ktyp');
+		$id = $this->input->post('id');
 
-		// เตรียมข้อมูล payment item
-		//$mtyp = $this->input->post('mtyp');
-		//$item_array = json_decode($mtyp);
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('mtart', $id);
+			$query = $this->db->get('mtyp');
+			}
 		
-		if(!empty($mtyp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('mtyp', array(
-				'mtart'=>$p->mtart,
-				'matxt'=>$p->matxt//,
-				//'saknr'=>$p->saknr
-			));
-	    	}
+		$formData = array(
+			'mtart' => $this->input->post('mtart'),
+			'matxt' => $this->input->post('matxt'),
+			//'saknr' => $this->input->post('saknr')
+		);
+
+		$current_username = XUMS::USERNAME();
+
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('mtart', $id);
+			$this->db->update('mtyp', $formData);
+
+		}else{
+			//$id = $this->code_model2->generate2('MT');
+			//$this->db->set('mtart', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('mtyp', $formData);
+
 		}
 
 		echo json_encode(array(
@@ -486,69 +477,57 @@ class Material extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'mgrp';
 		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
-		$totalCount = $this->db->count_all_results($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$totalCount
+			'totalCount'=>$totalCount 
 		));
 	}
 
 	function save_grp(){
-		$mgrp = $this->input->post('mgrp');
-		$item_array = json_decode($mgrp);
-		$result_array = json_decode($mgrp);
-		if(!empty($mgrp) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->matkl == $o->matkl && $i!=$j){
-						$emsg = 'Cannot Save Material group '.$p->matkl.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
-			}
-		}
-		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('mgrp');
-		}
-		if(db_helper_is_mysql($this)){
-		$this->db->truncate('mgrp');
-		}
-		//$this->db->delete('ktyp');
+		$id = $this->input->post('id');
 
-		// เตรียมข้อมูล payment item
-		//$mgrp = $this->input->post('mgrp');
-		//$item_array = json_decode($mgrp);
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('matkl', $id);
+			$query = $this->db->get('mgrp');
+			}
 		
-		if(!empty($mgrp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('mgrp', array(
-				'matkl'=>$p->matkl,
-				'matxt'=>$p->matxt,
-				'saknr'=>$p->saknr
-			));
-	    	}
+		$formData = array(
+			'matxt' => $this->input->post('matxt'),
+			'saknr' => $this->input->post('saknr')
+		);
+
+		$current_username = XUMS::USERNAME();
+
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('matkl', $id);
+			$this->db->update('mgrp', $formData);
+
+		}else{
+			$id = $this->code_model2->generate2('MG');
+			$this->db->set('matkl', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('mgrp', $formData);
+
 		}
 
 		echo json_encode(array(

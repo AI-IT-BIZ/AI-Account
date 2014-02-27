@@ -421,6 +421,7 @@ Ext.define('Account.Invoice.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Reference No',
 					name: 'refnr',
+					maxValue: 50,
 					width:350
 				   },this.numberVat,{
 			       xtype: 'displayfield',
@@ -559,6 +560,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
+
 			_this.gridPayment.setqtCode(r.data.vbeln);
 			       }
 				}
@@ -576,86 +578,6 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.doDialog.grid.load();
 			_this.doDialog.show();
 		};
-
-		// event trigCustomer///
-		/*this.trigCustomer.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
-					method: 'POST',
-					params: {
-						id: v,
-						key: 1
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.kunnr);
-							_this.getForm().findField('name1').setValue(r.data.name1);
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-			                _this.getForm().findField('adr02').setValue(r.data.adr02);
-						    _this.getForm().findField('terms').setValue(r.data.terms);
-			                _this.getForm().findField('ptype').setValue(r.data.ptype);
-			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
-			                _this.getForm().findField('taxpr').setValue(r.data.vat01);
-						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                     _this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
-						}else{
-							o.setValue('');
-							_this.getForm().findField('name1').setValue('');
-							_this.getForm().findField('adr01').setValue('');
-			                _this.getForm().findField('adr02').setValue('');
-						    _this.getForm().findField('terms').setValue('');
-			                _this.getForm().findField('ptype').setValue('');
-			                _this.getForm().findField('taxnr').setValue('');
-			                _this.getForm().findField('taxpr').setValue('');
-			                _this.numberVat.enable();
-							//o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
-
-			var v = record.data.kunnr;
-			if(Ext.isEmpty(v)) return;
-				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-			                _this.getForm().findField('adr02').setValue(r.data.adr02);
-						    _this.getForm().findField('terms').setValue(r.data.terms);
-			                _this.getForm().findField('ptype').setValue(r.data.ptype);
-			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
-						    if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                    _this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
-						}
-					}
-				});
-
-			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
-		});
-
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.grid.load();
-			_this.customerDialog.show();
-		};*/
 		
 		// event Saleperson///
 		this.trigSale.on('keyup',function(o, e){
@@ -1011,6 +933,10 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		}
 		
+		var tdisc = this.formTotal.txtDiscount.getValue();
+		var vat = _this.numberVat.getValue();
+        vat = (tdisc * vat) / 100;
+        vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -1021,7 +947,6 @@ Ext.define('Account.Invoice.Item.Form', {
 		this.gridItem.vatValue = this.numberVat.getValue();
 
 		this.gridItem.curValue = currency;
-		var tdisc = this.formTotal.txtDiscount.getValue();
 		netwr = netwr - tdisc;
 		this.gridPayment.netValue = netwr;
 		this.formTotal.getForm().findField('curr1').setValue(currency);

@@ -377,6 +377,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Reference No',
 					name: 'refnr',
+					maxValue: 50,
 					width:350
 				   },{
 			 	xtype: 'container',
@@ -434,14 +435,13 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('whtnr').setValue(r.data.whtnr);
 			_this.getForm().findField('whtpr').setValue(r.data.whtpr);
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
-			//_this.getForm().findField('deamt').setValue(r.data.deamt);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			     _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
-
 			//---Load PRitem to POitem Grid-----------
 			var sonr = _this.trigSO.value;
 			_this.gridItem.load({sonr: sonr });
@@ -461,9 +461,9 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('whtnr').setValue('');
 			_this.getForm().findField('whtpr').setValue('');
 			_this.getForm().findField('loekz').setValue('');
-			//_this.getForm().findField('deamt').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
+			_this.formTotal.getForm().findField('dispc').setValue('');
 			_this.numberVat.enable();
 			//o.markInvalid('Could not find saleorder no : '+o.getValue());
 						}
@@ -500,6 +500,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			     _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
@@ -519,85 +520,6 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.soDialog.grid.load();
 			_this.soDialog.show();
 		};
-
-		// event trigCustomer///
-		/*this.trigCustomer.on('keyup',function(o, e){
-			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
-
-			if(e.getKey()==e.ENTER){
-				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							o.setValue(r.data.kunnr);
-							_this.getForm().findField('name1').setValue(r.data.name1);
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-			                _this.getForm().findField('adr02').setValue(r.data.adr02);
-						    _this.getForm().findField('terms').setValue(r.data.terms);
-			                _this.getForm().findField('ptype').setValue(r.data.ptype);
-			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
-			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                     _this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
-						}else{
-							o.setValue('');
-							_this.getForm().findField('name1').setValue('');
-							_this.getForm().findField('adr01').setValue('');
-			                _this.getForm().findField('adr02').setValue('');
-						    _this.getForm().findField('terms').setValue('');
-			                _this.getForm().findField('ptype').setValue('');
-			                _this.getForm().findField('taxnr').setValue('');
-			                _this.getForm().findField('taxpr').setValue('');
-							_this.numberVat.enable();
-							//o.markInvalid('Could not find customer code : '+o.getValue());
-						}
-					}
-				});
-			}
-		}, this);
-
-		_this.customerDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			_this.trigCustomer.setValue(record.data.kunnr);
-			var v = record.data.kunnr;
-			if(Ext.isEmpty(v)) return;
-				Ext.Ajax.request({
-					url: __site_url+'customer/load2',
-					method: 'POST',
-					params: {
-						id: v
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							_this.getForm().findField('name1').setValue(r.data.name1);
-							_this.getForm().findField('adr01').setValue(r.data.adr01);
-			                _this.getForm().findField('adr02').setValue(r.data.adr02);
-						    _this.getForm().findField('terms').setValue(r.data.terms);
-			                _this.getForm().findField('ptype').setValue(r.data.ptype);
-			                _this.getForm().findField('taxnr').setValue(r.data.taxnr);
-			                _this.getForm().findField('taxpr').setValue(r.data.taxpr);
-			                if(r.data.taxnr=='03' || r.data.taxnr=='04'){
-			                     _this.numberVat.disable();
-			                }else{_this.numberVat.enable();}
-						}
-					}
-				});
-
-			grid.getSelectionModel().deselectAll();
-			_this.customerDialog.hide();
-		});
-
-		this.trigCustomer.onTriggerClick = function(){
-			_this.customerDialog.grid.load();
-			_this.customerDialog.show();
-		};*/
 		
 		// event Saleperson///
 		this.trigSale.on('keyup',function(o, e){
@@ -884,6 +806,10 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 		});
 		
+		var tdisc = this.formTotal.txtDiscount.getValue();
+		var vat = _this.numberVat.getValue();
+        vat = (tdisc * vat) / 100;
+        vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -903,7 +829,6 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		
-		var tdisc = this.formTotal.txtDiscount.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){

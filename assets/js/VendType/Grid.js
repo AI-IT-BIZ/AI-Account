@@ -1,81 +1,88 @@
-Ext.define('Account.SCustomertype.GridItem', {
+//http://www.sencha.com/blog/using-ext-loader-for-your-application
+
+Ext.define('Account.VendType.Grid', {
 	extend	: 'Ext.grid.Panel',
 	requires: [
 		'Ext.ux.grid.FiltersFeature'
 	],
 	constructor:function(config) {
-		
+
 		return this.callParent(arguments);
 	},
-
 	initComponent : function() {
-		var _this=this;
-
 		Ext.QuickTips.init();
 		var filters = {
 			ftype: 'filters',
 			local: true,
 			filters: [{
 				type: 'string',
-				dataIndex: 'ktype'
+				dataIndex: 'vtype'
 			},{
 				type: 'string',
-				dataIndex: 'custx'
+				dataIndex: 'ventx'
 			},{
 				type: 'string',
 				dataIndex: 'saknr'
 			},{
 				type: 'string',
 				dataIndex: 'sgtxt'
+			},{
+				type: 'string',
+				dataIndex: 'ernam'
+			},{
+				type: 'string',
+				dataIndex: 'erdat'
 			}]
 		};
-
-		//this.tbar = [this.addAct, this.deleteAct];
-
-		//this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-		//	clicksToEdit: 1
-		//});
-
+		
 		this.store = new Ext.data.JsonStore({
-
+			// store configs
 			proxy: {
 				type: 'ajax',
-				url: __site_url+'customertype/loads',
+				url: __site_url+'vendortype/loads',
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'ktype',
+					idProperty: 'vtype',
 					totalProperty: 'totalCount'
 				},
 				simpleSortMode: true
 			},
 			fields: [
-				//{ name:'id_ktype', type:'int' },
-				'ktype',
-				'custx',
+				'vtype',
+				'ventx',
 				'saknr',
-				'sgtxt'
+				'sgtxt',
+				'ernam',
+				'erdat'
 			],
-			remoteSort: true,
-		    sorters: [{property: 'ktype', direction: 'ASC'}]
+			remoteSort:true,
+			sorters: [{property: 'vtype', direction: 'ASC'}]
 		});
 
-		this.columns = [{
-			text: "Customer Type",
+		this.columns = [/*{
+			//id : 'CSiRowNumber77',
+			text: "No",
+			dataIndex : 'id_ktype',
+			width : 60,
+			align : 'center',
+			//hidden: true,
+			resizable : false, sortable : false,
+			renderer : function(value, metaData, record, rowIndex) {
+				return rowIndex+1;
+			}
+		},*/{
+			text: "Type Code",
 		    width: 80,
-		    dataIndex: 'ktype',
-		    sortable: true,
-		    //field: {
-			//	type: 'textfield',
-			//},
+		    dataIndex: 'vtype',
+		    maxLenges: 4,
+		    sortable: true
 		},{
 			text: "Type Description",
 		    width: 150,
-		    dataIndex: 'custx',
+		    dataIndex: 'ventx',
 		    sortable: true,
-		    //field: {
-			//	type: 'textfield',
-			//},
+		    maxLenges: 100
 		},{
 			text: "GL no", 
 			width: 100,
@@ -86,8 +93,16 @@ Ext.define('Account.SCustomertype.GridItem', {
 			width: 170, 
 			dataIndex: 'sgtxt', 
 			sortable: true
-		}];
+		},{text: "Create Name",
+			width: 100, dataIndex: 'ernam', sortable: true},
+			{text: "Create Date",
+			width: 100, dataIndex: 'erdat', sortable: true}];
 		
+		Ext.apply(this, {
+			forceFit: true,
+			features: [filters]
+		});
+
 		this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
@@ -95,15 +110,10 @@ Ext.define('Account.SCustomertype.GridItem', {
 			displayInfo: true
 		};
 
-		Ext.apply(this, {
-			forceFit: true,
-			features: [filters]
-		});
-
 		return this.callParent(arguments);
 	},
-	
 	load: function(options){
 		this.store.load(options);
 	}
 });
+

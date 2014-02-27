@@ -408,7 +408,14 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 					fieldLabel: 'Customer Name',
 					name: 'name1',
 					allowBlank: false,
-					width:460,
+					width:420,
+                },{
+					xtype: 'textfield',
+					fieldLabel: 'Branch No',
+					name: 'brach',
+					labelAlign: 'right',
+					allowBlank: false,
+					width:160,
                 }]
             },{
 xtype:'fieldset',

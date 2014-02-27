@@ -406,6 +406,7 @@ Ext.define('Account.Quotation.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Reference No',
 					name: 'refnr',
+					maxValue: 50,
 					width:350
 				   },{
 						xtype: 'displayfield',
@@ -574,7 +575,8 @@ Ext.define('Account.Quotation.Item.Form', {
 		// event trigProject///
 		this.trigProject.on('keyup',function(o, e){
 			var v = o.getValue();
-			if(Ext.isEmpty(v)) return;
+			
+			//if(Ext.isEmpty(v)) return;
 
 			if(e.getKey()==e.ENTER){
 				Ext.Ajax.request({
@@ -601,6 +603,7 @@ Ext.define('Account.Quotation.Item.Form', {
             if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
+			_this.trigCustomer.disable();
 						}else{
 							o.setValue('');
 			_this.getForm().findField('jobtx').setValue('');
@@ -615,6 +618,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.getForm().findField('ptype').setValue('');
 			_this.getForm().findField('sname').setValue('');
 			_this.numberVat.enable();
+			_this.trigCustomer.enable();
 			//o.markInvalid('Could not find project code : '+o.getValue());
 						}
 					}
@@ -625,7 +629,6 @@ Ext.define('Account.Quotation.Item.Form', {
 		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigProject.setValue(record.data.jobnr);
 			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
-
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
@@ -650,6 +653,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
+			_this.trigCustomer.disable();
 			       }
 				}
 				});
@@ -803,6 +807,11 @@ Ext.define('Account.Quotation.Item.Form', {
 			url:__site_url+'quotation/load',
 			success: function(form, act){
 				_this.fireEvent('afterLoad', form, act);
+				if(Ext.isEmpty(_this.trigProject.getValue())){
+					_this.trigCustomer.enable();
+				}else{
+					_this.trigCustomer.disable();
+				}
 			}
 		});
 	},
@@ -849,6 +858,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		//this.gridPrice.load();
 
 		// default status = wait for approve
+		this.trigCustomer.enable();
 		this.comboQStatus.setValue('01');
 		this.comboTax.setValue('01');
 		this.trigCurrency.setValue('THB');
@@ -913,14 +923,16 @@ Ext.define('Account.Quotation.Item.Form', {
 				    whts += wht;
 			}
 		});
-
+        var tdisc = this.formTotal.txtDiscount.getValue();
+        var vat = _this.numberVat.getValue();
+        vat = (tdisc * vat) / 100;
+        vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
 		var net = this.formTotal.calculate();
 
-		var tdisc = this.formTotal.txtDiscount.getValue();
 		var currency = this.trigCurrency.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		if(currency != 'THB'){

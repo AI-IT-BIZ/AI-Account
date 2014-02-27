@@ -28,7 +28,7 @@ Ext.define('Account.Quotation.Item.Form_thb', {
 		});
 		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Cash Discount',
+			fieldLabel: 'Sale Discount',
 			name: 'dispc2',
 			align: 'right',
 			labelWidth: 155,

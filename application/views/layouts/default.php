@@ -763,12 +763,12 @@ function endsWith($haystack, $needle)
 				id: 'click_vendor'
 			};
 			var nodeMaterialtype = {
-				text: 'Material type',
+				text: 'Material Type',
 				leaf: true,
 				id: 'click_material_type'
 			};
 			var nodeMaterialgrp = {
-				text: 'Material group',
+				text: 'Material Group',
 				leaf: true,
 				id: 'click_material_group'
 			};
@@ -783,12 +783,12 @@ function endsWith($haystack, $needle)
 				id: 'click_service'
 			};
 			var nodeAssettype = {
-				text: 'Fixed Asset type',
+				text: 'Fixed Asset Type',
 				leaf: true,
 				id: 'click_asset_type'
 			};
 			var nodeAssetgrp = {
-				text: 'Fixed Asset group',
+				text: 'Fixed Asset Group',
 				leaf: true,
 				id: 'click_asset_group'
 			};

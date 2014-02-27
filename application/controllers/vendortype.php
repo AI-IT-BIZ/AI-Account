@@ -56,39 +56,51 @@ class Vendortype extends CI_Controller {
 	}
 
 	function save(){
-		//echo "vendor type";
+		$id = $this->input->post('id');
 
-		// start transaction
-		//$this->db->trans_start();
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('vtype', $id);
+			$query = $this->db->get('vtyp');
+			}
+		
+		$formData = array(
+			'ventx' => $this->input->post('ventx'),
+			'saknr' => $this->input->post('saknr')
+		);
 
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-			$this->db->where('1=1');
-			$this->db->delete('vtyp');
-		}
-		if(db_helper_is_mysql($this)){
-			$this->db->truncate('vtyp');
-		}
+		$current_username = XUMS::USERNAME();
 
-		// เตรียมข้อมูล payment item
-		$vtyp = $this->input->post('vtyp');
-		$item_array = json_decode($vtyp);
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('vtype', $id);
+			$this->db->update('vtyp', $formData);
 
-		if(!empty($vtyp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('vtyp', array(
-				'vtype'=>$p->vtype,
-				'ventx'=>$p->ventx,
-				'saknr'=>$p->saknr
-			));
-	    	}
+		}else{
+			$id = $this->code_model2->generate2('VT');
+			$this->db->set('vtype', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('vtyp', $formData);
+
 		}
 
 		echo json_encode(array(
 			'success'=>true,
 			'data'=>$_POST
+		));
+	}
+	
+	function remove(){
+		$id = $this->input->post('id');
+		$this->db->where('vtype', $id);
+		$query = $this->db->delete('vtyp');
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$id
 		));
 	}
 
