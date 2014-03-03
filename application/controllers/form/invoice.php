@@ -157,7 +157,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 602PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 660PX; top: 295px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 51px;">
+<div style="left: 660PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 51px;">
+<table width="0px" height="64PX"><td>&nbsp;</td></table>
+</div>
+<div style="left: 305px; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
 <div style="left: 157PX; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 50px;">
@@ -192,9 +195,6 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 </div>
 <div style="left:232PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
 <table width="0px" height="122PX"><td>&nbsp;</td></table>
-</div>
-<div style="left:520PX;top:862PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:63PX;">
-<table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:923PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
@@ -274,9 +274,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบแจ้งหนี้/ใบกำกับภาษี</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบแจ้งหนี้</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">INVOICE/TAX INVOICE</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">INVOICE</span></DIV>
 
 <DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
@@ -284,7 +284,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left: 214px; top: 130px; width: 38px; height: 20PX;"><span class="fc1-2">สาขาที่</span></DIV>
 
-<DIV style="left: 213px; top: 147px; width: 39px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $r_com['brach']; ?></span></DIV>
+<DIV style="left: 213px; top: 145px; width: 39px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $r_com['brach']; ?></span></DIV>
 
 <DIV style="left:569PX;top:112PX;width:65PX;height:20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
@@ -348,15 +348,19 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--Reference Table-->
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Sale Order no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Delivery Order no.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
+<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['delnr'];?></span></DIV>
 
 <!--2 Reference-->
 
-<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reference</span></DIV>
+<DIV style="left: 156PX; top: 298PX; width: 149px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Sale Order no.</span></DIV>
 
-<DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
+<DIV style="left: 307px; top: 322PX; width: 148px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
+
+<DIV style="left: 309px; top: 299px; width: 149px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Quotation no.</span></DIV>
+
+<DIV style="left: 162px; top: 322PX; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
 
 <!--3 Vendor code-->
 
@@ -366,7 +370,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--4 Credit-->
 
-<DIV style="left:598PX;top:298PX;width:58PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Credit</span></DIV>
+<DIV style="left:598PX;top:298PX;width:58PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Credit Term</span></DIV>
 
 <DIV style="left:602PX;top:322PX;width:58PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-9"><?=$r_data['terms'];?></span></DIV>
 
@@ -541,53 +545,45 @@ else
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
-<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เงินสด&nbsp;&nbsp;Cash</span></DIV>
+<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Project No</span></DIV>
 
-<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
+<DIV style="left: 58px; top: 896px; width: 90PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
-<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
+<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Quotation No</span></DIV>
 
-<DIV style="left:460PX;top:865PX;width:60PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">วันที่&nbsp;&nbsp;Date</span></DIV>
+<DIV style="left: 162px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
 
-<DIV style="left:520PX;top:865PX;width:140PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เลขที่&nbsp;&nbsp;Cheque/Card no.</span></DIV>
+<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Sale Person</span></DIV>
 
-<DIV style="left:660PX;top:865PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">จำนวนเงิน&nbsp;&nbsp;Amount</span></DIV>
+<DIV style="left: 310px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
+
+<DIV style="left: 465px; top: 865PX; width: 195px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Payment Condition</span></DIV>
+
+<DIV style="left: 465px; top: 897px; width: 191px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
 
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text--><!--Signature Text-->
-<DIV style="left:57PX;top:955PX;width:177PX;height:34PX;">
-<table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">ได้รับสิ่งของ/บริการตามรายการข้างต้นในสภาพดี</td></table>
+<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ออกใบแจ้งหนี้........../............/.............</span></DIV>
 
-<table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">และถูกต้องแล้ว</td></table>
-</DIV>
+<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้อนุมัติ</span></DIV>
 
-<DIV style="left:57PX;top:984PX;width:176PX;height:27PX;">
-<table width="171PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">Goods/Service received in good condition</td></table>
+<DIV style="left:232PX;top:1059PX;width:64PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Issued by</span></DIV>
 
-<table width="171PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">and order</td></table>
-</DIV>
+<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Approved by</span></DIV>
 
-<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ส่งของ ........../............/................</span></DIV>
-
-<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้มีอำนาจลงนาม</span></DIV>
-
-<DIV style="left:232PX;top:1059PX;width:64PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Delivered by</span></DIV>
-
-<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Authorized Signature</span></DIV>
-
-<DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
+<DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Received by</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
 
 <DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
-<DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
+<DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผุ้รับใบแจ้งหนี้............/............./.............</span></DIV>
 
-<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้รับเงิน ........../.........../.............</span></DIV>
+<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้ตรวจสอบ</span></DIV>
 
-<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Collector</span></DIV>
+<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reviewed by</span></DIV>
 <BR>
 <?php
 		echo '</div>';

@@ -20,6 +20,7 @@ Ext.define('Account.SInvoice.Grid', {
 			fields: [
 			    'invnr',
 				'bldat',
+				'duedt',
 				'kunnr',
 				'name1',
 				'vbeln',
@@ -79,7 +80,8 @@ Ext.define('Account.SInvoice.Grid', {
 			{text: "2",hidden: true,width: 0, dataIndex: 'txz01', sortable: false},
 			{text: "3",hidden: true,width: 0, dataIndex: 'wht01', sortable: false},
 			{text: "4",hidden: true,width: 0, dataIndex: 'vat01', sortable: false},
-			{text: "5",hidden: true,width: 0, dataIndex: 'loekz', sortable: false}
+			{text: "5",hidden: true,width: 0, dataIndex: 'loekz', sortable: false},
+			{text: "6",hidden: true,width: 0, dataIndex: 'duedt', sortable: false}
 		];
 
 		this.bbar = {

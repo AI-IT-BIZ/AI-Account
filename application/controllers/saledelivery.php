@@ -246,6 +246,27 @@ class Saledelivery extends CI_Controller {
 					return;
                 }
 		}*/
+		
+		$this->db->where('delnr', $id);
+		$this->db->delete('vbvp');
+
+		// เตรียมข้อมูล  qt item
+		$vbvp = $this->input->post('vbvp');
+		$do_item_array = json_decode($vbvp);
+		if(!empty($vbvp) && !empty($do_item_array)){
+			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
+			$item_index = 0;
+			foreach($do_item_array AS $p){
+				if($p->upqty > $p->reman){
+					$emsg = 'DO qty over remain qty';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+		}
 
 		$formData = array(
 			//'vbeln' => $this->input->post('vbeln'),
@@ -303,12 +324,12 @@ class Saledelivery extends CI_Controller {
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		$this->db->where('delnr', $id);
-		$this->db->delete('vbvp');
+		//$this->db->where('delnr', $id);
+		//$this->db->delete('vbvp');
 
 		// เตรียมข้อมูล  qt item
-		$vbvp = $this->input->post('vbvp');//$this->input->post('vbelp');
-		$do_item_array = json_decode($vbvp);
+		//$vbvp = $this->input->post('vbvp');
+		//$do_item_array = json_decode($vbvp);
 		if(!empty($vbvp) && !empty($do_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
 			$item_index = 0;

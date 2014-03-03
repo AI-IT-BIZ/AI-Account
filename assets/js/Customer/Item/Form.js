@@ -393,7 +393,7 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 					labelAlign: 'right',
 					readOnly: true,
 					//disabled: true,
-					width:150,
+					width:200,
             		margin: '0 0 0 64',
 					value: 'XXXXX',
 					labelStyle: 'font-weight:bold',
@@ -414,7 +414,9 @@ this.comboPleve = Ext.create('Ext.form.ComboBox', {
 					fieldLabel: 'Branch No',
 					name: 'brach',
 					labelAlign: 'right',
+					value: '00000',
 					allowBlank: false,
+					maxLength: 5,
 					width:160,
                 }]
             },{
@@ -481,7 +483,7 @@ items:[{
 		            labelWidth: 93,
 		            width: 450,
 		            emptyText: 'xxx-xxxxxxx',
-		            maxValue: 30
+		            maxLength: 30
 		            //maskRe: /[\d\-]/
                 }, {
                 }]

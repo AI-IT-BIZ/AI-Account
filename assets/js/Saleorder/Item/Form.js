@@ -41,13 +41,13 @@ Ext.define('Account.Saleorder.Item.Form', {
 			region:'center'
 		});
 
-		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->SO',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',

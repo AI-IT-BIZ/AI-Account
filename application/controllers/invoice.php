@@ -575,7 +575,7 @@ class Invoice extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			/*$qtno = $this->input->post('vbeln');
+			$qtno = $this->input->post('vbeln');
 			$this->db->where('vbeln', $qtno);
 			$this->db->where('chk01', '1');
 	        $q_gr = $this->db->get('payp');
@@ -585,7 +585,7 @@ class Invoice extends CI_Controller {
 			   $this->db->where('delnr', $this->input->post('delnr'));
 			   $this->db->set('loekz', '2');
 			   $this->db->update('vbvk');
-			}*/
+			}
 		}
         
 		// ลบ pr_item ภายใต้ id ทั้งหมด
@@ -854,12 +854,20 @@ class Invoice extends CI_Controller {
 		    $query = $this->db->get('vbvp');
 			
 			$res = $query->result_array();
-			$sumqty = 0;
+			$sum = 0;
 			//echo 'aaa'.$res[0]['whtpr'];
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			
+			$sum = $res[$i]['upqty'] * $res[$i]['disit'];
+			if($res[$i]['menge'] > 0){
+			   $res[$i]['disit'] = $sum / $res[$i]['menge'];
+			}
 			$res[$i]['menge'] = $res[$i]['upqty'];
+			if(empty($res[$i]['chk02'])){
+				$res[$i]['whtnr'] = '20';
+				$res[$i]['whtpr'] = '0%';
+			}
 		}
 		
 		echo json_encode(array(

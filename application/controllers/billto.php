@@ -244,7 +244,7 @@ class Billto extends CI_Controller {
 				'texts'=>$p->texts,
 				'itamt'=>floatval($p->itamt),
 				//'reman'=>$p->reman,
-				//'payrc'=>$p->payrc,
+				'duein'=>$p->duein,
 				'refnr'=>$p->refnr,
 				'ctyp1'=>$p->ctyp1
 			));

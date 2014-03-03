@@ -41,13 +41,13 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			region:'center'
 		});
 
-		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->DO',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -759,11 +759,13 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
+		var sums = 0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
 			var qty = parseFloat(r.data['upqty']),
 				price = parseFloat(r.data['unitp']),
 				reman = parseFloat(r.data['reman']),
+				menge = parseFloat(r.data['menge']),
 				discountValue = 0,
 				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
@@ -789,10 +791,16 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		   }
 		   
 			sum += amt;
+			var cals=0;
+			if(menge>0){
+				cals = discountValue * qty;
+				discountValue = cals / menge;
+			}
 			
 			discounts += discountValue;
 
 			amt = amt - discountValue;
+			sums = amt;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -806,18 +814,63 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 		});
 		
-		var tdisc = this.formTotal.txtDiscount.getValue();
+		var disc = this.formTotal.txtDiscount.getValue();
 		var vat = _this.numberVat.getValue();
+		var tdisc=0;
+		if(sums>0){
+		store.each(function(r){
+			var qty = parseFloat(r.data['upqty']),
+				price = parseFloat(r.data['unitp']),
+				reman = parseFloat(r.data['reman']),
+				menge = parseFloat(r.data['menge']),
+				discountValue = 0,
+				discount = r.data['disit'];
+			qty = isNaN(qty)?0:qty;
+			price = isNaN(price)?0:price;
+			//discount = isNaN(discount)?0:discount;
+
+			var amt = qty * price;//) - discount;
+			
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
+            
+            if(discount!=null && discount!='0.00'){
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+		   }
+			
+		   var cals=0;
+			if(menge>0){
+				cals = discountValue * qty;
+				discountValue = cals / menge;
+			}
+			
+			amt = amt - discountValue;
+			cals = amt * 100; cals = cals / sums;
+			cals = cals * disc; cals = cals / 100;
+			if(menge>0){
+			  cals = cals / menge;
+			}
+		    tdisc += qty * cals;
+	    });
+	   }
         vat = (tdisc * vat) / 100;
         vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
 		this.formTotal.getForm().findField('dismt').setValue(discounts);
+		this.formTotal.getForm().findField('dispc').setValue(tdisc);
 		var net = this.formTotal.calculate();
 
-		// set value to grid payment
-		//this.gridPayment.netValue = net;
 		// set value to total form
 		this.gridItem.vattValue = this.comboTax.getValue();
 		this.gridItem.vatValue = this.numberVat.getValue();
@@ -846,11 +899,9 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		this.formTotalthb.getForm().findField('dismt2').setValue(discounts);
 		this.formTotalthb.getForm().findField('dispc2').setValue(tdisc);
 		this.formTotalthb.getForm().findField('exchg2').setValue(rate);
-		//this.formTotalthb.getForm().findField('deamt2').setValue(deamt);
 		var net2 = this.formTotalthb.calculate();
         
         var sel = this.gridItem.getView().getSelectionModel().getSelection()[0];
-        //var id = sel.data[sel.idField.name];
         if (sel) {
         	//_this.gridPrice.store.removeAll();
             _this.gridPrice.load({

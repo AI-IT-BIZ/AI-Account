@@ -36,7 +36,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: function(o){ return o.invnr+o.vbelp; },
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
@@ -269,28 +270,15 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
 				rModel = rModels[0];
-				// change cell code value (use db value)
+				//change cell code value (use db value)
 				rModel.set('whtnr', record.data.whtnr);
 				rModel.set('whtpr', record.data.whtpr);
-			//_this.trigUnit.setValue(record.data.meins);
+			    //_this.trigUnit.setValue(record.data.meins);
 			}
             
 			grid.getSelectionModel().deselectAll();
 			_this.whtDialog.hide();
 		});
-		
-		/*_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-				// change cell code value (use db value)
-				rModel.set('meins', record.data.meins);
-			//_this.trigUnit.setValue(record.data.meins);
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.unitDialog.hide();
-			
-		});*/
 		
 		this.store.on('load', function(store, rs){
 			if(_this.readOnly){

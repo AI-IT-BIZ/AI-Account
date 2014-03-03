@@ -34,7 +34,8 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'delnr,vbelp'
+					idProperty: function(o){ return o.delnr+o.vbelp; },
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
@@ -258,108 +259,12 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 				var remain = e.record.data.reman;
 				//alert(v+'aaa'+e.record.data.reman);
 			    if(v>remain){
+			    	//rModel.set('upqty', remain);
+			    	rModel.set(e.field, remain);
 			    	Ext.Msg.alert('Warning', 'DO qty over remain qty');
-			    	rModel.set(e.field, 0);
 			    }
 			}
 		});
-
-		// init event
-		/*this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-		
-		this.copyAct.setHandler(function(){
-			_this.copyRecord();
-		});
-
-		this.editing.on('edit', function(editor, e) {
-			if(e.column.dataIndex=='matnr'){
-				var v = e.value;
-                var cusno = _this.customerValue;
-                //var vatt = _this.vattValue;
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'material/load',
-					method: 'POST',
-					params: {
-						id: v,
-						kunnr: cusno
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success){
-							var rModel = _this.store.getById(e.record.data.id);
-							// change cell code value (use db value)
-							rModel.set(e.field, r.data.matnr);
-							// Materail text
-							rModel.set('maktx', r.data.maktx);
-							// Unit
-							rModel.set('meins', r.data.meins);
-							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', cost);
-							//rModel.set('amount', 100+Math.random());
-
-						}else{
-							_this.editing.startEdit(e.record, e.column);
-						}
-					}
-				});
-			}
-		});
-
-		_this.materialDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-				// change cell code value (use db value)
-				rModel.set('matnr', record.data.matnr);
-				// Materail text
-				rModel.set('maktx', record.data.maktx);
-				// Unit
-				rModel.set('meins', record.data.meins);
-				//rModel.set('amount', 100+Math.random());
-				var v = record.data.matnr;
-                var cusno = _this.customerValue;
-                //var vatt = _this.vattValue;
-				if(Ext.isEmpty(v)) return;
-
-				Ext.Ajax.request({
-					url: __site_url+'material/load',
-					method: 'POST',
-					params: {
-						id: v,
-						kunnr: cusno
-					},
-					success: function(response){
-						var r = Ext.decode(response.responseText);
-						if(r && r.success && r.data.cost){
-							// Cost
-							var cost = r.data.cost;
-							rModel.set('unitp', cost);
-						}
-					}
-				});
-
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.materialDialog.hide();
-		});
-		
-		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
-			var rModels = _this.getView().getSelectionModel().getSelection();
-			if(rModels.length>0){
-				rModel = rModels[0];
-				// change cell code value (use db value)
-				rModel.set('meins', record.data.meins);
-			//_this.trigUnit.setValue(record.data.meins);
-			}
-			grid.getSelectionModel().deselectAll();
-			_this.unitDialog.hide();
-			
-		});*/
 		
 		this.store.on('load', function(store, rs){
 			if(_this.readOnly){

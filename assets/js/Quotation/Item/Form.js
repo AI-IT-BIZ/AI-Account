@@ -225,7 +225,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 
 		this.trigCustomer = Ext.create('Ext.form.field.Trigger', {
-			name: 'kunnr',
+			name: 'kunnr2',
 			fieldLabel: 'Customer Code',
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
@@ -283,6 +283,9 @@ Ext.define('Account.Quotation.Item.Form', {
 	 				items :[{
 						xtype: 'hidden',
 						name: 'id'
+					},{
+						xtype: 'hidden',
+						name: 'kunnr'
 					},
 					this.comboFtype,
 					{
@@ -466,6 +469,7 @@ Ext.define('Account.Quotation.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.kunnr);
+							_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
@@ -478,6 +482,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			                }else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
+							_this.getForm().findField('kunnr').setValue('');
 							_this.getForm().findField('name1').setValue('');
 							_this.getForm().findField('adr01').setValue('');
 			                _this.getForm().findField('adr02').setValue('');
@@ -506,6 +511,7 @@ Ext.define('Account.Quotation.Item.Form', {
 					success: function(response){
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
+							_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 							_this.getForm().findField('name1').setValue(r.data.name1);
 							_this.getForm().findField('adr01').setValue(r.data.adr01);
 			                _this.getForm().findField('adr02').setValue(r.data.adr02);
@@ -591,6 +597,7 @@ Ext.define('Account.Quotation.Item.Form', {
 							o.setValue(r.data.jobnr);
 			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
+			_this.getForm().findField('kunnr2').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
 			_this.getForm().findField('adr01').setValue(r.data.adr01);
@@ -630,9 +637,10 @@ Ext.define('Account.Quotation.Item.Form', {
 			_this.trigProject.setValue(record.data.jobnr);
 			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
+			_this.getForm().findField('kunnr2').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);
 			_this.getForm().findField('salnr').setValue(record.data.salnr);
-
+            _this.trigCustomer.disable();
 			Ext.Ajax.request({
 					url: __site_url+'project/load',
 					method: 'POST',
@@ -653,7 +661,7 @@ Ext.define('Account.Quotation.Item.Form', {
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
-			_this.trigCustomer.disable();
+			
 			       }
 				}
 				});

@@ -166,6 +166,7 @@ Ext.define('Account.Invoice.Item.Form', {
 				sorters: 'ptype ASC'
 			}),
 			queryMode: 'remote',
+			value: '01',
 			displayField: 'contx',
 			valueField: 'condi'
 		});
@@ -497,6 +498,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
@@ -522,6 +524,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
 			_this.getForm().findField('vbeln').setValue('');
+			_this.formTotal.getForm().findField('dispc').setValue('');
 			_this.numberVat.enable();
 			//o.markInvalid('Could not find delivery order no : '+o.getValue());
 						}
@@ -557,6 +560,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}

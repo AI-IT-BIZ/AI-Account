@@ -47,7 +47,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				'invdt',
 				'texts',
 				{name:'itamt', type: 'string'},
-				//'payrc',
+				'duein',
 				//'reman',
 				//'belnr',
 				'ctyp1',
@@ -80,7 +80,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				return rowIndex+1;
 			}
 		},
-		{text: "Invoice Code",
+		{text: "Invoice No",
 		width: 100,
 		dataIndex: 'invnr',
 		align : 'center',
@@ -102,6 +102,13 @@ Ext.define('Account.Billto.Item.Grid_i', {
 		    sortable: false,
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
+		    {text: "Due Date",
+		    width: 80,
+		    xtype: 'datecolumn',
+		    dataIndex: 'duein',
+		    sortable: false,
+		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
+		    },
 		    {text: "Ref.No",
 		    width: 150,
 		    dataIndex: 'refnr',
@@ -111,7 +118,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 			},
 		    },
 		    {text: "Text Note",
-		    width: 300,
+		    width: 240,
 		    dataIndex: 'texts',
 		    sortable: false,
 		    field: {
@@ -233,6 +240,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							rModel.set('ctyp1', r.data.ctype);
 							//rModel.set('amount', 100+Math.random());
 							rModel.set('kunnr', r.data.kunnr);
+							rModel.set('duein', r.data.duedt);
 							//}
                           //  check='';
 						}else{
@@ -244,6 +252,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 							rModel.set('itamt', '');
 							rModel.set('ctyp1', '');
 							rModel.set('kunnr', '');
+							rModel.set('duein', '');
 							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
@@ -286,6 +295,7 @@ Ext.define('Account.Billto.Item.Grid_i', {
 				rModel.set('ctyp1', record.data.ctype);
 				//rModel.set('amount', 100+Math.random());
 				rModel.set('kunnr', record.data.kunnr);
+				rModel.set('duein', record.data.duedt);
 				//}
                 //checks=='';
 			}
