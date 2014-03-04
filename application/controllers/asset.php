@@ -564,7 +564,7 @@ class Asset extends CI_Controller {
 	}
 	
 	function load_type(){
-		//$this->db->set_dbprefix('v_');
+		$this->db->set_dbprefix('v_');
 		$id = $this->input->post('id');
 		$this->db->limit(1);
 		$this->db->where('mtart', $id);
@@ -586,70 +586,58 @@ class Asset extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ftyp';
 		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount 
 		));
 	}
 
 	function save_type(){
-		$ftyp = $this->input->post('ftyp');
-		$item_array = json_decode($ftyp);
-		$result_array = json_decode($ftyp);
-		if(!empty($ftyp) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->mtart == $o->mtart && $i!=$j){
-						$emsg = 'Cannot Save Asset type '.$p->mtart.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
-			}
-		} 
-		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-			$this->db->where('1=1');
-			$this->db->delete('ftyp');
-		}
-		if(db_helper_is_mysql($this)){
-			$this->db->truncate('ftyp');
-		}
-		//$this->db->delete('ktyp');
+		$id = $this->input->post('id');
 
-		// เตรียมข้อมูล payment item
-		//$mtyp = $this->input->post('ftyp');
-		//$item_array = json_decode($mtyp);
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('mtart', $id);
+			$query = $this->db->get('ftyp');
+			}
 		
-		if(!empty($ftyp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		
-		foreach($item_array AS $p){
-			$this->db->insert('ftyp', array(
-				'mtart'=>$p->mtart,
-				'matxt'=>$p->matxt,
-				'saknr'=>$p->saknr,
-				'depre'=>$p->depre
-			));
-	    	}
+		$formData = array(
+			'mtart' => $this->input->post('mtart'),
+			'matxt' => $this->input->post('matxt'),
+			'saknr' => $this->input->post('saknr')
+		);
+
+		$current_username = XUMS::USERNAME();
+
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('mtart', $id);
+			$this->db->update('mtyp', $formData);
+
+		}else{
+			$id = $this->code_model2->generate2('FT');
+			$this->db->set('mtart', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('mtyp', $formData);
+
 		}
 
 		echo json_encode(array(
@@ -691,70 +679,58 @@ class Asset extends CI_Controller {
 		$this->db->set_dbprefix('v_');
 		$tbName = 'fgrp';
 		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		//$sort = $this->input->post('sort');
-		//$dir = $this->input->post('dir');
-		//$this->db->order_by($sort, $dir);
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
 		echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
-			'totalCount'=>$query->num_rows()
+			'totalCount'=>$totalCount 
 		));
 	}
 
 	function save_grp(){
-		$fgrp = $this->input->post('fgrp');
-		$item_array = json_decode($fgrp);
-		$result_array = json_decode($fgrp);
-		if(!empty($fgrp) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->matkl == $o->matkl && $i!=$j){
-						$emsg = 'Cannot Save Asset group '.$p->matkl.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
+		$id = $this->input->post('id');
+
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('matkl', $id);
+			$query = $this->db->get('fgrp');
 			}
-		} 
 		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-			$this->db->where('1=1');
-			$this->db->delete('fgrp');
-		}
+		$formData = array(
+			'matkl' => $this->input->post('matkl'),
+			'matxt' => $this->input->post('matxt'),
+			'mtart' => $this->input->post('mtart')
+		);
 
-		if(db_helper_is_mysql($this)){
-			$this->db->truncate('fgrp');
-		}
-		//$this->db->delete('ktyp');
+		$current_username = XUMS::USERNAME();
 
-		// เตรียมข้อมูล payment item
-		//$mgrp = $this->input->post('fgrp');
-		//$item_array = json_decode($mgrp);
-		
-		if(!empty($fgrp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('fgrp', array(
-				'matkl'=>$p->matkl,
-				'matxt'=>$p->matxt,
-				'mtart'=>$p->mtart//,
-				//'saknr'=>$p->saknr
-			));
-	    	}
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('matkl', $id);
+			$this->db->update('mgrp', $formData);
+
+		}else{
+			$id = $this->code_model2->generate2('FG');
+			$this->db->set('matkl', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('mgrp', $formData);
+
 		}
 
 		echo json_encode(array(

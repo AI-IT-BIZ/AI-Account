@@ -3,7 +3,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			url: __site_url+'quotation/save',
+			url: __site_url+'saleorder/save',
 			border: false,
 			bodyPadding: 10,
 			fieldDefaults: {
@@ -28,7 +28,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		});
 		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Discount',
+			fieldLabel: 'Sale Discount',
 			name: 'dispc2',
 			align: 'right',
 			labelWidth: 155,
@@ -37,6 +37,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 			margin: '4 0 0 0',
 			alwaysDisplayDecimals: true,
 			hideTrigger:true,
+			readOnly: true,
 			//hideTrigger:true,
 			enableKeyEvents: true,
 			/*validator: function(v){
@@ -50,21 +51,9 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 					return true;
 			}*/
 		});
-		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
-			xtype: 'textfield',
-			fieldLabel: 'Deposit Receipt',
-			name: 'deamt2',
-			align: 'right',
-			hidden: true,
-			width:270,
-			labelWidth: 155,
-			margin: '4 0 0 0',
-			alwaysDisplayDecimals: true,
-			readOnly: true
-         });
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Discount',
+			fieldLabel: 'Item Discount',
 			name: 'dismt2',
 			align: 'right',
 			width:270,
@@ -193,8 +182,8 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 			items: [this.txtDiscount,this.txtDiscountValue]
 		},*/
 		this.txtDiscountValue,
+		this.txtDiscount,
 		this.txtDiscountSum,
-		//this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -264,9 +253,15 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 
 		if(total<=0) return;
 
-		var discountValue = this.txtDiscountValue.getValue();
-		//var depositValue = this.txtDepositValue.getValue();
-		//discountValue = discountValue + depositValue;
+		var discount = this.txtDiscountValue.getValue();
+		var disc = this.txtDiscount.getValue();
+		if(disc>0){
+			disc = parseFloat(disc);
+		}else{
+			disc=0;
+			this.txtDiscount.setValue('0.00');
+			}
+		discount = discount + disc;
 			//discountValue = 0;
 		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
@@ -281,12 +276,10 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 
 			this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
 */
-		if(discountValue>0){
-			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
+		if(discount>0){
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discount).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			this.txtDepositValue.setValue('0.00');
-			//this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
         
@@ -297,8 +290,7 @@ Ext.define('Account.Saleorder.Item.Form_thb', {
 		var wht = this.txtWHTValue.getValue();
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
-		var net = (total - discountValue) + (vat - wht);
-		//net = net - depositValue;
+		var net = (total - discount) + (vat - wht);
 		this.txtNet.setValue(net);
         //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
 		//var net = total - discount;

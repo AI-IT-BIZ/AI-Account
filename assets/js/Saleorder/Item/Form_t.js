@@ -28,13 +28,14 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		});
 		this.txtDiscount = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Discount',
+			fieldLabel: 'Sale Discount',
 			name: 'dispc',
 			align: 'right',
 			labelWidth: 155,
 			width:270,
 			value: 0,
 			margin: '4 0 0 0',
+			readOnly: true,
 			alwaysDisplayDecimals: true,
 			hideTrigger:true,
 			//hideTrigger:true,
@@ -50,26 +51,9 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 					return true;
 			}*/
 		});
-		this.txtDepositValue = Ext.create('Ext.ux.form.NumericField', {
-			xtype: 'textfield',
-			fieldLabel: 'Deposit Receipt',
-			name: 'deamt',
-			align: 'right',
-			hidden: true,
-			width:270,
-			labelWidth: 155,
-			margin: '4 0 0 0',
-			alwaysDisplayDecimals: true,
-			readOnly: true
-         });
-         this.txtDepositVat = Ext.create('Ext.ux.form.NumericField', {
-			//xtype: 'hiddenfield',
-			hidden:true,
-			name: 'devat',
-         });
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			xtype: 'textfield',
-			fieldLabel: 'Discount',
+			fieldLabel: 'Item Discount',
 			name: 'dismt',
 			align: 'right',
 			width:270,
@@ -119,13 +103,12 @@ Ext.define('Account.Saleorder.Item.Form_t', {
             fieldLabel: 'Exchange Rate',
 			align: 'right',
 			width:240,
-			hideTrigger:true,
 			alwaysDisplayDecimals: true,
 			decimalPrecision : 4,
 			name: 'exchg',
 			align: 'right'
          });
-         
+
 		this.txtNet = Ext.create('Ext.ux.form.NumericField', {
          	xtype: 'textfield',
 			fieldLabel: 'Net Amount',
@@ -189,7 +172,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
    	        name: 'whtxt',
    	        margin: '3 0 0 0',
 			width:380
-		},this.txtDepositVat]
+		}]
             },{
                 xtype: 'container',
                 layout: 'anchor',
@@ -203,7 +186,6 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		this.txtDiscountValue,
 		this.txtDiscount,
 		this.txtDiscountSum,
-		//this.txtDepositValue,
 		this.txtTaxValue,
 		this.txtWHTValue,
 	    this.txtNet]
@@ -217,6 +199,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		var setBold = function(o){
 			o.inputEl.setStyle('font-weight', 'bold');
 		};
+
 		this.txtTotal.on('render', setAlignRight);
 		this.txtDiscountValue.on('render', setAlignRight);
 		this.txtDiscountSum.on('render', setAlignRight);
@@ -233,7 +216,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 	load : function(id){
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'saleorder/load'
+			url:__site_url+'quotation/load'
 		});
 	},
 	save : function(){
@@ -255,7 +238,7 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 		var _this=this;
 		this.getForm().load({
 			params: { id: id },
-			url:__site_url+'saleorder/remove',
+			url:__site_url+'quotation/remove',
 			success: function(res){
 				_this.fireEvent('afterDelete', _this);
 			}
@@ -272,14 +255,17 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 
 		if(total<=0) return;
 
-		var discountValue = this.txtDiscountValue.getValue();
+		var discount = this.txtDiscountValue.getValue();
 		var disc = this.txtDiscount.getValue();
-		discountValue = discountValue + disc;
-		//var depositValue = this.txtDepositValue.getValue();
-		//discountValue = discountValue + depositValue;
-	
-		/*	discountValue = 0;
-		if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
+		if(disc>0){
+			disc = parseFloat(disc);
+		}else{
+			disc=0;
+			this.txtDiscount.setValue('0.00');
+			}	
+		discount = discount + disc;
+			//discountValue = 0;
+		/*if(this.txtDiscount.isValid() && !Ext.isEmpty(discount)){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -292,30 +278,24 @@ Ext.define('Account.Saleorder.Item.Form_t', {
 
 			this.txtDiscountValue.setValue(Ext.util.Format.usMoney(discountValue).replace(/\$/, ''));
 */
-		if(discountValue>0){
-			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discountValue).replace(/\$/, ''));
+		if(discount>0){
+			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total - discount).replace(/\$/, ''));
 		}else{
 			this.txtDiscountValue.setValue('0.00');
-			//this.txtDepositValue.setValue('0.00');
-			//this.txtDiscount.setValue('');
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
-		//depositValue = isNaN(depositValue)?0:depositValue;
-		//if(depositValue>0){}else{
-		//	this.txtDepositValue.setValue('0.00');
-		//}
         
         var vat = this.txtTaxValue.getValue();
 		//var vat = _this.vatValue;
 		//this.txtTaxValue.setValue(Ext.util.Format.usMoney(vat).replace(/\$/, ''));
-		
+
 		var wht = this.txtWHTValue.getValue();
 		//this.txtWHTValue.setValue(Ext.util.Format.usMoney(wht).replace(/\$/, ''));
 
-		var net = (total - discountValue) + (vat - wht);
-		//net = net - depositValue;
+		var net = (total - discount) + (vat - wht);
 		this.txtNet.setValue(net);
-
+        //this.txtNet2.setValue(Ext.util.Format.usMoney(net).replace(/\$/, ''));
+		var net = total - discount;
 		return net;
 	}
 });

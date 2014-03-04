@@ -541,7 +541,7 @@ function endsWith($haystack, $needle)
 				id: 'click_sale_cn'
 			};
 			var nodeReceipt = {
-				text: 'Create New Receipts',
+				text: 'Create New Receipt/Tax Invoice',
 				leaf: true,
 				id: 'click_receipt'
 			};
@@ -763,12 +763,12 @@ function endsWith($haystack, $needle)
 				id: 'click_vendor'
 			};
 			var nodeMaterialtype = {
-				text: 'Material type',
+				text: 'Material Type',
 				leaf: true,
 				id: 'click_material_type'
 			};
 			var nodeMaterialgrp = {
-				text: 'Material group',
+				text: 'Material Group',
 				leaf: true,
 				id: 'click_material_group'
 			};
@@ -783,12 +783,12 @@ function endsWith($haystack, $needle)
 				id: 'click_service'
 			};
 			var nodeAssettype = {
-				text: 'Fixed Asset type',
+				text: 'Fixed Asset Type',
 				leaf: true,
 				id: 'click_asset_type'
 			};
 			var nodeAssetgrp = {
-				text: 'Fixed Asset group',
+				text: 'Fixed Asset Group',
 				leaf: true,
 				id: 'click_asset_group'
 			};
@@ -1048,12 +1048,12 @@ function endsWith($haystack, $needle)
 									'<div id="div-delivery" class="box box-green"><span>Delivery Orders</span></div>',
 									'<div id="div-invoice" class="box box-green"><span>Invoices</span></div>',
 									'<div id="div-billto" class="box box-green"><span>Billing Note</span></div>',
-									'<div id="div-receipt" class="box box-green"><span>Receipts</span></div>',
+									'<div id="div-receipt" class="box box-green"><span>Receipt/Tax Invoice</span></div>',
 									'<div id="div-deposit1" class="box box-green"><span>Deposit Receipts</span></div>',
 									'<div id="div-customer" class="box box-green"><span>Customers</span></div>',
 
 									'<div id="div-rinvoice" class="box box-orange"><span>Invoices Report</span></div>',
-									'<div id="div-rreceipt" class="box box-orange"><span>Receipt Report</span></div>',
+									'<div id="div-rreceipt" class="box box-orange"><span>Receipt/Tax Invoice Report</span></div>',
 								'</div>',
 								//Purchase Module
 								'<div id="div1-2-container">',
@@ -1143,8 +1143,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-sales-dnlist" class="box box-green"><span>Debit Notes List</span></div>',
 									'<div id="div-sales-cnnew" class="box box-green"><span>Create New Credit Note</span></div>',
 									'<div id="div-sales-cnlist" class="box box-green"><span>Credit Notes List</span></div>',
-                                    '<div id="div-sales-recnew" class="box box-green"><span>Create New Receipt</span></div>',
-									'<div id="div-sales-reclist" class="box box-green"><span>Receipts List</span></div>',
+                                    '<div id="div-sales-recnew" class="box box-green"><span>Create New Receipt/Tax Invoice</span></div>',
+									'<div id="div-sales-reclist" class="box box-green"><span>Receipt/Tax Invoice List</span></div>',
 									'<div id="div-sales-rar-ledger" class="box box-orange"><span>Invoice Report</span></div>',
 									'<div id="div-sales-rar-aging" class="box box-orange"><span>Receipt Report</span></div>',
 
@@ -1308,7 +1308,7 @@ function endsWith($haystack, $needle)
 								//'<img src="'+__base_url+'assets/images/temp/bg-reports.gif?v=1" />',
 								'<div id="div1-6-container">',
 								      '<div id="div-report-rinvoice" class="box box-orange"><span>Invoice Report</span></div>',
-									  '<div id="div-report-rreceipt" class="box box-orange"><span>Receipt Report</span></div>',
+									  '<div id="div-report-rreceipt" class="box box-orange"><span>Receipt/Tax Invoice Report</span></div>',
 									  '<div id="div-report-rap" class="box box-orange"><span>Account Payable Report</span></div>',
 									  '<div id="div-report-rpayment" class="box box-orange"><span>Payment Report</span></div>',
 									  '<div id="div-report-rar-ledger" class="box box-orange"><span>AR Ledger Report</span></div>',

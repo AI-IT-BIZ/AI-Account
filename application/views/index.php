@@ -549,7 +549,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Customer Type.");
 	  		return;
 		}
-		$om.customertypeDialog = Ext.create('Account.Customertype.Window');
+		$om.customertypeDialog = Ext.create('Account.CustType.MainWindow');
 		$om.customertypeDialog.show();
 	});
 
@@ -558,7 +558,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Vendor Type.");
 	  		return;
 		}
-		$om.vendortypeDialog = Ext.create('Account.Vendortype.Window');
+		$om.vendortypeDialog = Ext.create('Account.VendType.MainWindow');
 		$om.vendortypeDialog.show();
 	});
 
@@ -567,7 +567,7 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Material Type.");
 	  		return;
 		}
-		$om.materialtypeDialog = Ext.create('Account.Materialtype.Window');
+		$om.materialtypeDialog = Ext.create('Account.MatType.MainWindow');
 		$om.materialtypeDialog.show();
 	});
 
@@ -576,25 +576,25 @@ Ext.onReady(function() {
 	 		UMS.ALERT("You don't have permission for Material Group.");
 	  		return;
 		}
-		$om.materialgrpDialog = Ext.create('Account.Materialgrp.Window');
+		$om.materialgrpDialog = Ext.create('Account.MatGrp.MainWindow');
 		$om.materialgrpDialog.show();
 	});
 
 	$om.viewport.on('click_asset_type', function(){
-		if(!UMS.CAN.DISPLAY('AT')){
+		if(!UMS.CAN.DISPLAY('FT')){
 	 		UMS.ALERT("You don't have permission for Asset Type.");
 	  		return;
 		}
-		$om.assettypeDialog = Ext.create('Account.Assettype.Window');
+		$om.assettypeDialog = Ext.create('Account.AssetType.MainWindow');
 		$om.assettypeDialog.show();
 	});
 
 	$om.viewport.on('click_asset_group', function(){
-		if(!UMS.CAN.DISPLAY('AH')){
+		if(!UMS.CAN.DISPLAY('FG')){
 	 		UMS.ALERT("You don't have permission for Asset Group.");
 	  		return;
 		}
-		$om.assetgrpDialog = Ext.create('Account.Assetgrp.Window');
+		$om.assetgrpDialog = Ext.create('Account.AssetGrp.MainWindow');
 		$om.assetgrpDialog.show();
 	});
 

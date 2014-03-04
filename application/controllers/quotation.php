@@ -46,6 +46,7 @@ class Quotation extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['vbeln'];
+			$result_data['kunnr2'] = $result_data['kunnr'];
 
 			$result_data['adr01'] .= ' '.$result_data['distx'].' '.$result_data['pstlz'].
 			                         PHP_EOL.'Tel: '.$result_data['telf1'].' '.'Fax: '.
@@ -82,7 +83,7 @@ class Quotation extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbak';
+		$tbName = 'quol';
 
 		// Start for report
 		function createQuery($_this){

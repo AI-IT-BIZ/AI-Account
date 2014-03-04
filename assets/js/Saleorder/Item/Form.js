@@ -41,13 +41,13 @@ Ext.define('Account.Saleorder.Item.Form', {
 			region:'center'
 		});
 
-		this.formTotal = Ext.create('Account.Quotation.Item.Form_t', {
+		this.formTotal = Ext.create('Account.Saleorder.Item.Form_t', {
 			border: true,
 			split: true,
 			title:'Total->SO',
 			region:'south'
 		});
-		this.formTotalthb = Ext.create('Account.Quotation.Item.Form_thb', {
+		this.formTotalthb = Ext.create('Account.Saleorder.Item.Form_thb', {
 			border: true,
 			split: true,
 			title:'Exchange Rate->THB',
@@ -375,6 +375,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 					xtype: 'textfield',
 					fieldLabel: 'Reference No',
 					name: 'refnr',
+					maxValue: 50,
 					width:350
 				   },{
 			 	xtype: 'container',
@@ -545,7 +546,8 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
-			
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
+
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
@@ -572,6 +574,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('loekz').setValue('');
 			_this.getForm().findField('exchg').setValue('');
 			_this.getForm().findField('emnam').setValue('');
+			_this.formTotal.getForm().findField('dispc').setValue('');
             _this.numberVat.enable();
 			//o.markInvalid('Could not find quotation no : '+o.getValue());
 						}
@@ -609,10 +612,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 			_this.getForm().findField('loekz').setValue(r.data.loekz);
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
+			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
+			
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			      _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
-			
 			       }
 				}
 				});           
@@ -876,6 +880,10 @@ Ext.define('Account.Saleorder.Item.Form', {
 			}
 		});
 		
+		var tdisc = this.formTotal.txtDiscount.getValue();
+		var vat = _this.numberVat.getValue();
+        vat = (tdisc * vat) / 100;
+        vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -895,7 +903,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.gridItem.customerValue = this.trigCustomer.getValue();
 		
-		var tdisc = this.formTotal.txtDiscount.getValue();
 		var rate = this.formTotal.txtRate.getValue();
 		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
