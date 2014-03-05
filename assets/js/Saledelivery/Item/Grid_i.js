@@ -52,7 +52,8 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 				'chk01',
 				'chk02',
 				'reman',
-				'upqty'
+				'upqty',
+				'tdisc'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -220,13 +221,14 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-		},{text: "Remain Qty",
+		},{
+			text: "Remain Qty",
 			xtype: 'numbercolumn',
 			width: 65,
 			dataIndex: 'reman',
 			sortable: false,
 			align: 'right'
-			},{
+		},{
 			text: "DO Qty",
 			xtype: 'numbercolumn',
 			width: 60,
@@ -248,7 +250,11 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 					
 				}
 			},
-			}];
+			},{
+			dataIndex: 'tdisc',
+			hidden: true,
+			sortable: false
+		    }];
 
 		this.plugins = [this.editing];
 		
@@ -257,9 +263,7 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 				var v = parseFloat(e.value);
 				var rModel = _this.store.getById(e.record.data.id);
 				var remain = e.record.data.reman;
-				//alert(v+'aaa'+e.record.data.reman);
 			    if(v>remain){
-			    	//rModel.set('upqty', remain);
 			    	rModel.set(e.field, remain);
 			    	Ext.Msg.alert('Warning', 'DO qty over remain qty');
 			    }

@@ -134,6 +134,9 @@ Ext.define('Account.Saleorder.Item.Form_t', {
                 xtype: 'container',
                 layout: 'anchor',
      items :[{
+			xtype: 'hidden',
+			name: 'disco'
+		},{
 			xtype: 'container',
             layout: 'hbox',
             anchor: '100%',

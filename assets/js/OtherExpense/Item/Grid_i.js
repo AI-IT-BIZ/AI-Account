@@ -38,6 +38,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 					type: 'json',
 					root: 'rows',
 					idProperty: function(o){ return o.invnr+o.vbelp; },//'invnr,vbelp'
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
@@ -362,11 +363,11 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
 							rModel.set(e.field, r.data.whtnr);
-							//rModel.set('whtpr', r.data.whtpr);
+							rModel.set('whtpr', r.data.whtpr);
 
 						}else{
 							rModel.set(e.field, '');
-							//rModel.set('whtpr', '');
+							rModel.set('whtpr', '');
 							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
@@ -380,7 +381,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				rModel = rModels[0];
 				// change cell code value (use db value)
 				rModel.set('whtnr', record.data.whtnr);
-				//rModel.set('whtpr', record.data.whtpr);
+				rModel.set('whtpr', record.data.whtpr);
 			//_this.trigUnit.setValue(record.data.meins);
 			}
 

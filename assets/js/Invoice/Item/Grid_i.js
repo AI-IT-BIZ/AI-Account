@@ -55,7 +55,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				'chk02',
 				'saknr',
 				'whtnr',
-				'whtpr'
+				'whtpr',
+				'tdisc'
 				
 			],
 			remoteSort: true,
@@ -175,7 +176,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 							field.selectText();
 					}
 				}}
-            },{text: "WHT Type",
+            },{
+            text: "WHT Type",
 		    width: 60,
 		    dataIndex: 'whtnr',
 		    sortable: false,
@@ -190,7 +192,8 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 				}
 			}
 			},
-			{text: "WHT Value",
+			{
+			text: "WHT Value",
 			width: 60,
 			dataIndex: 'whtpr',
 			sortable: false,
@@ -223,21 +226,18 @@ Ext.define('Account.Invoice.Item.Grid_i', {
 		    },
 			{
 			dataIndex: 'saknr',
-			//width: 55,
 			hidden: true,
 			sortable: false
-		}];
+		    },
+			{
+			dataIndex: 'tdisc',
+			hidden: true,
+			sortable: false
+		    }];
 
 		this.plugins = [this.editing];
 
 		// init event
-		/*this.addAct.setHandler(function(){
-			_this.addRecord();
-		});
-		
-		this.copyAct.setHandler(function(){
-			_this.copyRecord();
-		});*/
 
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='whtnr'){
