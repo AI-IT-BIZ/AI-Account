@@ -840,17 +840,20 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			price = isNaN(price)?0:price;
 
 			var amt = qty * price;
+			var amt2 = reman * price;
 			
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
+			    amt2 = amt2 * 100;
+			    amt2 = amt2 / 107;
 		    }
             
             if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
-				discountValue = amt * discountPercent / 100;
+				discountValue = amt2 * discountPercent / 100;
 			}else{
 				discountValue = parseFloat(discount);
 			}
