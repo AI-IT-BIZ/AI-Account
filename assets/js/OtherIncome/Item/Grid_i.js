@@ -38,7 +38,8 @@ Ext.define('Account.OtherIncome.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: function(o){ return o.invnr+o.vbelp; },//'invnr,vbelp'
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

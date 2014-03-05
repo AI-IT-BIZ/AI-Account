@@ -221,7 +221,7 @@ class Depositin extends CI_Controller {
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
 			//'whtyp' => $this->input->post('whtyp'),
-			//'whtnr' => $this->input->post('whtnr'),
+			'dispc' => $this->input->post('dispc'),
 			'whtxt' => $this->input->post('whtxt'),
 			'terms' => intval($this->input->post('terms'))
 		);

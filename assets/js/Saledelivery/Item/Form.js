@@ -439,6 +439,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.getForm().findField('vbeln').setValue(r.data.vbeln);
 			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
+			_this.formTotal.getForm().findField('disco').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			     _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
@@ -501,6 +502,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			_this.getForm().findField('exchg').setValue(r.data.exchg);
 			_this.getForm().findField('emnam').setValue(r.data.emnam);
 			_this.formTotal.getForm().findField('dispc').setValue(r.data.dispc);
+			_this.formTotal.getForm().findField('disco').setValue(r.data.dispc);
 			if(r.data.taxnr=='03' || r.data.taxnr=='04'){
 			     _this.numberVat.disable();
 			}else{_this.numberVat.enable();}
@@ -773,17 +775,19 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
-			
+			var amt2 = reman * price;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
+			    amt2 = amt2 * 100;
+			    amt2 = amt2 / 107;
 		    }
             
             if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
-				discountValue = amt * discountPercent / 100;
+				discountValue = amt2 * discountPercent / 100;
 			}else{
 				discountValue = parseFloat(discount);
 			}
@@ -793,14 +797,16 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			sum += amt;
 			var cals=0;
 			if(menge>0){
-				cals = discountValue * qty;
-				discountValue = cals / menge;
+				discountValue = discountValue / reman;
+				discountValue = discountValue * qty;
 			}
 			
 			discounts += discountValue;
-
+            //alert('aaa'+discountValue);
 			amt = amt - discountValue;
-			sums = amt;
+			//alert(amt);
+			sums += amt;
+			//alert('sums'+sums);
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -814,10 +820,15 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 		});
 		
-		var disc = this.formTotal.txtDiscount.getValue();
+		var disc = this.formTotal.getForm().findField('disco').getValue();
+		disc = parseFloat(disc);
+		var disc2 = 0;
+		
 		var vat = _this.numberVat.getValue();
+		var wht = _this.numberWHT.getValue();
+		wht = wht.replace('%','');
 		var tdisc=0;
-		if(sums>0){
+		if(sums>0 && disc>0){
 		store.each(function(r){
 			var qty = parseFloat(r.data['upqty']),
 				price = parseFloat(r.data['unitp']),
@@ -827,9 +838,8 @@ Ext.define('Account.Saledelivery.Item.Form', {
 				discount = r.data['disit'];
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
-			//discount = isNaN(discount)?0:discount;
 
-			var amt = qty * price;//) - discount;
+			var amt = qty * price;
 			
 			if(vattype =='02'){
 				amt = amt * 100;
@@ -849,21 +859,30 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			
 		   var cals=0;
 			if(menge>0){
+				//cals = discountValue * qty;
+				discountValue = discountValue / reman;
 				cals = discountValue * qty;
-				discountValue = cals / menge;
 			}
+			amt = amt - cals;
+			cals = reman / menge;
+			disc2 = disc * cals;
 			
-			amt = amt - discountValue;
-			cals = amt * 100; cals = cals / sums;
-			cals = cals * disc; cals = cals / 100;
-			if(menge>0){
-			  cals = cals / menge;
+			cals = amt / sums;
+			cals = cals * disc2; 
+            if(menge>0){
+			cals = cals / reman;
 			}
-		    tdisc += qty * cals;
+		    amt = qty * cals;
+			tdisc += amt;
+		    cals = qty * cals;
+		    r.set('tdisc', cals);
 	    });
-	   }
-        vat = (tdisc * vat) / 100;
+	    vat = (tdisc * vat) / 100;
         vats = vats - vat;
+        wht = (tdisc * wht) / 100;
+        whts = whts + wht;
+	   }
+        
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);
@@ -885,7 +904,6 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		var rate = this.formTotal.txtRate.getValue();
 		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
-	      //alert(rate);
 		  sum = sum * rate;
 		  vats = vats * rate;
 		  whts = whts * rate;

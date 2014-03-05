@@ -322,7 +322,7 @@ Ext.define('Account.DepositIn.Item.Form', {
 			xtype:'tabpanel',
 			region:'south',
 			activeTab: 0,
-			height:200,
+			height:220,
 			items: [
 				this.formTotal,
 				this.formTotalthb,

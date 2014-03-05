@@ -598,7 +598,7 @@ class Invoice extends CI_Controller {
 		
 		if(!empty($vbrp) && !empty($iv_item_array)){
 			// loop เพื่อ insert pr_item ที่ส่งมาใหม่
-			$item_index = 0;
+			$item_index = 0;$wht02 = 0;$wht = 0;
 		foreach($iv_item_array AS $p){
 			$itamt = $p->menge * $p->unitp;
 				$pos = strpos($p->disit, '%');
@@ -611,6 +611,19 @@ class Invoice extends CI_Controller {
 				}
 		        $itamt = $itamt - $disit;
 				
+				$pos = strpos($p->whtpr, '%');
+				if($pos==false){
+					$whtpr = $p->whtpr;
+				}else{
+					$perc = explode('%',$p->whtpr);
+					$whtpr = $perc[0];
+				}
+				$wht02 = $p->tdisc * $whtpr;
+				$wht02 = $wht02 / 100;
+				$wht = $itamt * $whtpr;
+				$wht = $wht / 100;
+				$wht02 = $wht + $wht02;
+				
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
 				'vbelp'=>intval(++$item_index),
@@ -622,7 +635,7 @@ class Invoice extends CI_Controller {
 				'itamt'=>floatval($itamt),
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
-				//'chk02'=>$p->chk02,
+				'wht02'=>floatval($wht02),
 				'whtnr'=>$p->whtnr
 			));
 	    	}
@@ -859,8 +872,9 @@ class Invoice extends CI_Controller {
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			
+			$pos = strpos($res[$i]['disit'], '%');
 			$sum = $res[$i]['upqty'] * $res[$i]['disit'];
-			if($res[$i]['menge'] > 0){
+			if($res[$i]['menge'] > 0 && $pos==false){
 			   $res[$i]['disit'] = $sum / $res[$i]['menge'];
 			}
 			$res[$i]['menge'] = $res[$i]['upqty'];

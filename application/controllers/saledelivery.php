@@ -52,8 +52,8 @@ class Saledelivery extends CI_Controller {
 			$r_qt = $q_qt->first_row('array');
 			$result_data['emnam'] = $r_qt['emnam'];
 			
-			//$result_data['whtpr']=number_format($result_data['whtpr']);
-
+			//$result_data['disco'] = $result_data['dispc'];
+			
 			// unset calculated value
 			unset($result_data['beamt']);
 			unset($result_data['netwr']);
@@ -293,7 +293,7 @@ class Saledelivery extends CI_Controller {
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
 			'duedt' => $this->input->post('duedt'),
-			//'devat' => floatval($this->input->post('devat')),
+			'disco' => floatval($this->input->post('disco')),
 			'whtxt' => $this->input->post('whtxt')
 		);
 
@@ -350,6 +350,7 @@ class Saledelivery extends CI_Controller {
 					'chk02'=>$p->chk02,
 					'reman'=>floatval($p->reman),
 					'upqty'=>floatval($p->upqty),
+					'tdisc'=>floatval($p->tdisc),
 					'whtnr'=>$this->input->post('whtnr')
 				));
 			}

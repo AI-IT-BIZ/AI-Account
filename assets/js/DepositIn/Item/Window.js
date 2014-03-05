@@ -5,7 +5,7 @@ Ext.define('Account.DepositIn.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Deposit Receipt',
 			closeAction: 'hide',
-			height: 650,
+			height: 700,
 			width: 950,
 			layout: 'border',
 			border: false,
