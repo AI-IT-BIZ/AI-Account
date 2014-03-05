@@ -775,17 +775,19 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			//discount = isNaN(discount)?0:discount;
 
 			var amt = qty * price;//) - discount;
-			
+			var amt2 = reman * price;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
+			    amt2 = amt2 * 100;
+			    amt2 = amt2 / 107;
 		    }
             
             if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
-				discountValue = amt * discountPercent / 100;
+				discountValue = amt2 * discountPercent / 100;
 			}else{
 				discountValue = parseFloat(discount);
 			}
@@ -800,7 +802,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 			
 			discounts += discountValue;
-            //alert(discountValue);
+            //alert('aaa'+discountValue);
 			amt = amt - discountValue;
 			//alert(amt);
 			sums += amt;
