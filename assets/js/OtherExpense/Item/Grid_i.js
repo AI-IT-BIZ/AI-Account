@@ -23,7 +23,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.Unit.Window');
         this.whtDialog = Ext.create('Account.WHT.Window');
-        
+
 		this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -37,7 +37,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: function(o){ return o.invnr+o.vbelp; },//'invnr,vbelp'
 				}
 			},
 			fields: [
@@ -122,7 +122,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				}
 			},
 			},
-			{text: "Unit", width: 50, dataIndex: 'meins', 
+			{text: "Unit", width: 50, dataIndex: 'meins',
 			align: 'center',
 			sortable: false,
 			field: {
@@ -246,7 +246,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		this.addAct.setHandler(function(){
 			_this.addRecord();
 		});
-		
+
 		this.copyAct.setHandler(function(){
 			_this.copyRecord();
 		});
@@ -303,12 +303,12 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				rModel.set('meins', record.data.meins);
 				//rModel.set('amount', 100+Math.random());
 				rModel.set('saknr', record.data.saknr);
-				
+
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.materialDialog.hide();
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='meins'){
 				var v = e.value;
@@ -334,7 +334,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				});
 			}
 		});
-		
+
 		_this.unitDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			var rModels = _this.getView().getSelectionModel().getSelection();
 			if(rModels.length>0){
@@ -344,9 +344,9 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			}
 			grid.getSelectionModel().deselectAll();
 			_this.unitDialog.hide();
-			
+
 		});
-		
+
 		this.editing.on('edit', function(editor, e) {
 			if(e.column.dataIndex=='whtnr'){
 				var v = e.value;
@@ -362,11 +362,11 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 						if(r && r.success){
 							var rModel = _this.store.getById(e.record.data.id);
 							rModel.set(e.field, r.data.whtnr);
-							rModel.set('whtpr', r.data.whtpr);
-						   
+							//rModel.set('whtpr', r.data.whtpr);
+
 						}else{
 							rModel.set(e.field, '');
-							rModel.set('whtpr', '');
+							//rModel.set('whtpr', '');
 							//o.markInvalid('Could not find wht code : '+o.getValue());
 						}
 					}
@@ -380,10 +380,10 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				rModel = rModels[0];
 				// change cell code value (use db value)
 				rModel.set('whtnr', record.data.whtnr);
-				rModel.set('whtpr', record.data.whtpr);
+				//rModel.set('whtpr', record.data.whtpr);
 			//_this.trigUnit.setValue(record.data.meins);
 			}
-            
+
 			grid.getSelectionModel().deselectAll();
 			_this.whtDialog.hide();
 		});
@@ -421,7 +421,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 
 		this.runNumRow();
 	},
-	
+
 	copyRecord: function(){
 		var _this=this;
 
@@ -480,12 +480,12 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 		});
 		return rs;
 	},
-	
+
 	setFtype: function(ftype){
 		this.ftype = ftype;
 		var field = this.materialDialog.searchForm.form.findField('ftype');
 		field.setValue(ftype);
 		this.materialDialog.grid.load();
 	}
-	
+
 });
