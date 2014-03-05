@@ -827,7 +827,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		var vat = _this.numberVat.getValue();
 		var wht = _this.numberWHT.getValue();
 		wht = wht.replace('%','');
-		var tdisc=0;
+		var tdisc=0;var tdisc2=0;var tdisc3=0;
 		if(sums>0 && disc>0){
 		store.each(function(r){
 			var qty = parseFloat(r.data['upqty']),
@@ -877,12 +877,14 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			}
 		    amt = qty * cals;
 			tdisc += amt;
+			if(r.data['chk01']==true){ tdisc2 += amt; }
+			if(r.data['chk02']==true){ tdisc3 += amt; }
 		    cals = qty * cals;
 		    r.set('tdisc', cals);
 	    });
-	    vat = (tdisc * vat) / 100;
+	    vat = (tdisc2 * vat) / 100;
         vats = vats - vat;
-        wht = (tdisc * wht) / 100;
+        wht = (tdisc3 * wht) / 100;
         whts = whts + wht;
 	   }
         
