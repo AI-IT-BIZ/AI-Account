@@ -65,7 +65,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;*/
 
-
+/*
 //Connection to MySQL BOF=====================
 /*$db['default']['hostname'] = '25.168.218.171';
 $db['default']['username'] = 'ai_account';
