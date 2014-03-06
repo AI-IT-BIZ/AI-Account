@@ -27,8 +27,9 @@ class Rpnd3wht extends CI_Controller {
 		
 		if($copies<=0) $copies = 1;
 		//Sale
-	    $strSQL1 = " select v_ebbp.*";
+	    $strSQL1 = " select v_ebbp.*, v_ebrk.whtpr";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
+		$strSQL1 = $strSQL1 . " left join v_ebrk on v_ebbp.invnr = v_ebrk.invnr ";
         $strSQL1 = $strSQL1 . " Where v_ebbp.type1 = '' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 = $strSQL1 . " And v_ebbp.statu = '02' ";
 		$strSQL1 .= " ORDER BY payno ASC";
@@ -267,8 +268,8 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	  
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($itamt,2,'.',',');?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=str_replace('%','',$item['whtpr']);?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['netwr'],2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 
