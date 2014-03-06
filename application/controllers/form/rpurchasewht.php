@@ -24,7 +24,7 @@ class Rpurchasewht extends CI_Controller {
 		$month = explode('-',$date);
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
-		
+		$whtxt='';$whtgp='';
 		if($copies<=0) $copies = 1;
 		
 		$strSQL1 = " select v_ebbp.*";
@@ -36,9 +36,57 @@ class Rpurchasewht extends CI_Controller {
 		$query = $this->db->query($strSQL1);
 		//$r_data = $query->first_row('array');
 		// calculate sum
+		//$rows = $query->result_array();
+		//$b_amt = 0;
+		$taxid = str_split($r_com['taxid']);
+		$b_amt = 0; $result = array();
+		$t1_wht='';$t2_wht='';$t3_wht='';
+		if($query->num_rows()>0){
+			$r_data = $query->first_row('array');
+		// calculate sum
 		$rows = $query->result_array();
+		foreach($rows as $key => $pay){
 		
-		$b_amt = 0;
+		$strSQL = " select v_ebrp.*";
+        $strSQL = $strSQL . " from v_ebrp ";
+        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$pay['invnr']."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+       
+		$q_inv = $this->db->query($strSQL);
+		if($q_inv->num_rows()>0){
+		   	$rowp = $q_inv->result_array();
+			foreach($rowp as $key => $item){
+				$strSQL="";
+        //if(!empty($item['whtnr'])){
+			//echo 'aaa'.$item['whtnr'];
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		 $g1_wht='';$g2_wht='';$g3_wht='';
+		 
+		if($q_wht->num_rows()>0){
+			$q_data = $q_wht->first_row('array');
+		    $t1_wht = $q_data['whtpr'];
+			$g1_wht = $q_data['whtgp'];
+			$whtxt = str_replace('%','',$t1_wht);
+			$whtgp = $g1_wht;
+			if($t1_wht != $q_data['whtpr']){
+			  $t2_wht = $q_data['whtpr'];
+			  $g2_wht = $q_data['whtgp']; 
+			  $whtxt = $whtxt.str_replace('%','',$t2_wht);
+			  $whtgp = $whtgp.$g2_wht;
+			  if($t2_wht != $q_data['whtpr']){
+				 $t3_wht = $q_data['whtpr'];  
+				 $g3_wht = $q_data['whtgp'];
+				 $whtxt = $whtxt.str_replace('%','',$t3_wht);
+				 $whtgp = $whtgp.$g3_wht;
+			  }
+			}
+		}//wht percent
+			//}//check whtnr
+			}//loop payment
+		}
+		}
+		}
 
 		function check_page($page_index, $total_page, $value){
 			//return ($page_index==0 && $total_page>1)?"":$value;
@@ -98,10 +146,6 @@ class Rpurchasewht extends CI_Controller {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <DIV style="z-index:0"> &nbsp; </div>
 
-<DIV style="left: 12px; top: 156PX; width: 1065px; height: 47PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
-<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
-</DIV>
-
 <? if($query->num_rows()==0){ ?>
 		   <DIV style="left: 478px; top: 94px; width: 263PX; height: 25PX; TEXT-ALIGN: CENTER;"><span class="fc1-0">No Data was selected</span></DIV>
 <? }?>
@@ -132,6 +176,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php endif; ?>
 
 <!--Page No-->
+
+<DIV style="left: 12px; top: 156PX; width: 1065px; height: 47PX; background-color: FFC16F; layer-background-color: FFC16F;" class="ad1-0">
+<table width="1026PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-0">&nbsp;</td></table>
+</DIV>
 
 <DIV style="left: 922px; top: 109px; width: 42px; height: 21PX;"><span class="fc1-1"><?=($current_page_index+1);?></span></DIV>
 
@@ -252,7 +300,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$b_amt += $itamt;
 	$duedt_str = util_helper_format_date($item['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
-	$total1 += $itamt;
+	$total1 += $item['netwr'];
 	$total2 += $item['wht01'];
 ?>
 	<tr>
@@ -262,9 +310,9 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
       <td class="fc1-8" align="left" style="width:297px;"><?=$adr01;?></td>
 	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
-      <td class="fc1-8" align="center" style="width:46px;">01</td>
-      <td class="fc1-8" align="center" style="width:52px;"><?=str_replace('%','',$item['whtpr']); ?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($itamt,2,'.',',');?></td>
+      <td class="fc1-8" align="center" style="width:46px;"><?=$whtgp; ?></td>
+      <td class="fc1-8" align="center" style="width:52px;"><?=$whtxt; ?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['netwr'],2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 

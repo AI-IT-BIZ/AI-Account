@@ -51,7 +51,7 @@ class Rpnd53wht_attach extends CI_Controller {
        
 		$q_inv = $this->db->query($strSQL);
 		if($q_inv->num_rows()>0){
-		   	$rowp = $query->result_array();
+		   	$rowp = $q_inv->result_array();
 			foreach($rowp as $key => $item){
 				$strSQL="";
 		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
