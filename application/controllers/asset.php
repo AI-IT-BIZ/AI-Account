@@ -595,7 +595,7 @@ class Asset extends CI_Controller {
 
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
@@ -688,7 +688,7 @@ class Asset extends CI_Controller {
 
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();
