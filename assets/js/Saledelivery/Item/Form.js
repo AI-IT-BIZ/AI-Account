@@ -761,7 +761,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
-		var sums = 0;
+		var sums = 0;var tdisc = 0;
 		var vattype = this.comboTax.getValue();
 		
 		store.each(function(r){
@@ -774,9 +774,9 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
-
+            if(reman>0){
 			var amt = qty * price;//) - discount;
-			var amt2 = reman * price;
+			var amt2 = menge * price;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
@@ -798,7 +798,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			sum += amt;
 			var cals=0;
 			if(menge>0){
-				discountValue = discountValue / reman;
+				discountValue = discountValue / menge;
 				discountValue = discountValue * qty;
 			}
 			
@@ -810,6 +810,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			
 			var disc = parseFloat(r.data['tdisc']);
             tdisc += disc * qty;
+            disc = disc * qty;
             amt = amt - disc;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -821,6 +822,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 				    wht = wht.replace('%','');
 				    wht = (amt * wht) / 100;
 				    whts += wht;
+			}
 			}
 		});
         

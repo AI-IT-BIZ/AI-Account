@@ -819,7 +819,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
-
+            if(qty>0){
 			var amt = qty * price;
 			
 			if(vattype =='02'){
@@ -880,18 +880,20 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
+        	}
 		    });
 	    	});
 		}else{
 			store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discountValue = 0,
-				discount = r.data['disit'];
+				discount = r.data['disit'],
+				discountValue = 0;
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
 			//discount = isNaN(discount)?0:discount;
-
+            if(qty>0){
+            
 			var amt = qty * price;
 			
 			if(vattype =='02'){
@@ -899,7 +901,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			    amt = amt / 107;
 		    }
 		    
-		    if(isNaN(discount) && discount!='0.00'){
+		    if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -911,7 +913,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			
 			sum += amt;
-			//alert(amt+'aaa'+sum);
+			
 			discounts += discountValue;
             
             amt = amt - discountValue;
@@ -934,13 +936,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			}
 			var item = r.data['saknr'] + '|' + amt;
         		saknr_list.push(item);
+        	}
 		});
 		}
 		
 		var tdisc = this.formTotal.txtDiscount.getValue();
-		var vat = _this.numberVat.getValue();
-        vat = (tdisc * vat) / 100;
-        vats = vats - vat;
+		//var vat = _this.numberVat.getValue();
+        //vat = (tdisc * vat) / 100;
+        //vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);

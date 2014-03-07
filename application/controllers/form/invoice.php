@@ -311,7 +311,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกหนี้</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื่อลูกค้า</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
@@ -342,9 +342,9 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left: 519PX; top: 223px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
 
-<DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
+<DIV style="left: 467PX; top: 247PX; width: 124px; height: 22PX;"><span class="fc1-2">เบอร์ติดต่อ / Contact No:</span></DIV>
 
-<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
+<DIV style="left: 591px; top: 247PX; width: 156px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
 
 <!--Reference Table-->
 
@@ -356,11 +356,11 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left: 156PX; top: 298PX; width: 149px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Sale Order no.</span></DIV>
 
-<DIV style="left: 307px; top: 322PX; width: 148px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
+<DIV style="left: 307px; top: 322PX; width: 148px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
 
 <DIV style="left: 309px; top: 299px; width: 149px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Quotation no.</span></DIV>
 
-<DIV style="left: 162px; top: 322PX; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+<DIV style="left: 162px; top: 322PX; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['expr1'];?></span></DIV>
 
 <!--3 Vendor code-->
 
@@ -450,7 +450,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$item = $rows[$i];
 	$itamt = 0;
 	$itamt = $item['menge'] * $item['unitp'];
-	$itamt = $itamt - $item['disit'];
+	//$itamt = $itamt - $item['disit'];
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:32px;"><?=$item['vbelp'];?></td>
@@ -460,6 +460,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
 		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		if(!empty($item['disit'])){
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
@@ -467,6 +468,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		}else{
 			echo $item['disit'];
 		}
+		}else{ echo '0.00';}
 		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
@@ -502,7 +504,7 @@ $distxt='';$disamt=0;$a_amt=0;
 ?>
 
 <DIV style="left: 660PX; top: 731px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($d_amt - $r_data['dispc'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:753PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Deposit Receipt</span></DIV>
 
@@ -549,11 +551,11 @@ else
 
 <DIV style="left: 58px; top: 896px; width: 90PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
-<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Quotation No</span></DIV>
+<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Reference No</span></DIV>
 
-<DIV style="left: 162px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+<DIV style="left: 162px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
 
-<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Sale Person</span></DIV>
+<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Contact Person</span></DIV>
 
 <DIV style="left: 310px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
 
@@ -565,7 +567,7 @@ else
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text--><!--Signature Text-->
-<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ออกใบแจ้งหนี้........../............/.............</span></DIV>
+<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ออกใบแจ้งหนี้........../.........../...........</span></DIV>
 
 <DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้อนุมัติ</span></DIV>
 

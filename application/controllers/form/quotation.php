@@ -350,7 +350,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--2 Reference-->
 
-<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;">Project Name</DIV>
+<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Project Name</span></DIV>
 
 <DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['jobtx'];?></span></DIV>
 
@@ -452,6 +452,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
 		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		if(!empty($item['disit'])){
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
@@ -460,6 +461,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		}else{
 			echo $item['disit'];
 		}
+		}else{ echo '0.00';}
 		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
@@ -491,7 +493,7 @@ $distxt='';$disamt=0;
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt'] - $r_data['dispc']; ?>
 
 <DIV style="left:660PX;top:731PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($d_amt - $r_data['dispc'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:753PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 

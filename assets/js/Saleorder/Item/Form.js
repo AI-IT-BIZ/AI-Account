@@ -832,7 +832,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 	// calculate total functions
 	calculateTotal: function(){
 		var _this=this;
-		var store = this.gridItem.store;
+		var store = this.gridItem.store; var tdisc=0;
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var vattype = this.comboTax.getValue();
 		store.each(function(r){
@@ -870,6 +870,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 			
 			var disc = parseFloat(r.data['tdisc']);
             tdisc += disc * qty;
+            disc = disc * qty;
             amt = amt - disc;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -884,10 +885,6 @@ Ext.define('Account.Saleorder.Item.Form', {
 			}
 		});
 		
-		var tdisc = this.formTotal.txtDiscount.getValue();
-		var vat = _this.numberVat.getValue();
-        vat = (tdisc * vat) / 100;
-        vats = vats - vat;
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);

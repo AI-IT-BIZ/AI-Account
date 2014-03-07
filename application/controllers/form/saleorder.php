@@ -196,11 +196,8 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 325px; top: 864px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
 <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:520PX;top:862PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:63PX;">
-<table width="0px" height="57PX"><td>&nbsp;</td></table>
-</div>
 <div style="left: 190px; top: 862PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
-<table width="0px" height="57PX"><td>&nbsp;</td></table>
+  <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:923PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
 </div>
@@ -312,7 +309,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกค้า</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื่อลูกค้า</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
@@ -357,7 +354,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Project Name</span></DIV>
 
-<DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['jobtx'];?></span></DIV>
+<DIV style="left: 165px; top: 322PX; width: 290px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['jobtx'];?></span></DIV>
 
 <!--3 Vendor code-->
 
@@ -457,6 +454,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		<td class="fc1-8" align="center" style="width:60px;"><?=$item['meins'];?></td>
 		<td class="fc1-8" align="right" style="width:82px;"><?=number_format($item['unitp'],2,'.',',');?></td>
 		<td class="fc1-8" align="right" style="width:58px;"><?php 
+		if(!empty($item['disit'])){
 		$pos = strpos($item['disit'], '%');
 		if($pos==false){
 			$disc = $item['disit'];
@@ -465,6 +463,7 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 		}else{
 			echo $item['disit'];
 		}
+		}else{ echo '0.00';}
 		?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
@@ -496,6 +495,9 @@ $distxt='';$disamt=0;$a_amt=0;
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt']; 
       //$a_amt=$d_amt - $r_data['deamt'];
 ?>
+
+<DIV style="left: 660PX; top: 731px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
+<?= check_page($current_page_index, $total_page, number_format($d_amt - $r_data['dispc'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left: 660PX; top: 775px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($a_amt,2,'.',',')) ?></span></DIV>
@@ -545,13 +547,13 @@ else
 
 <DIV style="left: 192px; top: 866px; width: 133px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Contact&nbsp;&nbsp;Person</span></DIV>
 
-<DIV style="left: 192px; top: 897px; width: 134px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
+<DIV style="left: 194px; top: 897px; width: 132px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
 
 <DIV style="left: 52px; top: 897px; width: 138px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
 
-<DIV style="left: 325px; top: 897px; width: 133px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
+<DIV style="left: 330px; top: 897px; width: 128px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
 
-<DIV style="left: 325px; top: 865PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;">Payment Condition</DIV>
+<DIV style="left: 325px; top: 865PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Payment Condition</span></DIV>
 
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
