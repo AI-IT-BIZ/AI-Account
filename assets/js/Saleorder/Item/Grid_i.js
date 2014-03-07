@@ -49,7 +49,8 @@ Ext.define('Account.Saleorder.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				'chk02'
+				'chk02',
+				'tdisc'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -217,10 +218,11 @@ Ext.define('Account.Saleorder.Item.Grid_i', {
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
-			//field: {
-			//	type: 'textfield'
-			//},
-		}];
+		    },{
+			dataIndex: 'tdisc',
+			hidden: true,
+			sortable: false
+		    }];
 
 		this.plugins = [this.editing];
 

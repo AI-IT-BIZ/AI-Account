@@ -383,7 +383,6 @@ class Material extends CI_Controller {
 		//$this->db->set_dbprefix('v_');
 		$tbName = 'mtyp';
 		
-		
 		$totalCount = $this->db->count_all_results($tbName);
 
 		//createQuery($this);
@@ -393,7 +392,7 @@ class Material extends CI_Controller {
 
 		$sort = $this->input->get('sort');
 		$dir = $this->input->get('dir');
-		$this->db->order_by($sort, $dir);
+		//$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 		//echo $this->db->last_query();

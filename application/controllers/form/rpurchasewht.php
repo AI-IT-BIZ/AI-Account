@@ -13,6 +13,7 @@ class Rpurchasewht extends CI_Controller {
 	function index()
 	{
 		$comid = XUMS::COMPANY_ID();
+		$no=1;$j=0;$total1=0;$total2=0;
 		$strSQL="";//echo $comid;
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
@@ -24,69 +25,31 @@ class Rpurchasewht extends CI_Controller {
 		$month = explode('-',$date);
 		$dt_result = util_helper_get_sql_between_month($date);
 		$text_month = $this->convert_amount->text_month($month[1]);
-		$whtxt='';$whtgp='';
+		
 		if($copies<=0) $copies = 1;
 		
 		$strSQL1 = " select v_ebbp.*";
         $strSQL1 = $strSQL1 . " from v_ebbp ";
         $strSQL1 = $strSQL1 . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
 		$strSQL1 = $strSQL1 . " And v_ebbp.statu = '02' ";
+		$strSQL1 = $strSQL1 . " And v_ebbp.wht01 > 0 ";
 		$strSQL1 .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL1);
-		//$r_data = $query->first_row('array');
-		// calculate sum
-		//$rows = $query->result_array();
-		//$b_amt = 0;
+
 		$taxid = str_split($r_com['taxid']);
 		$b_amt = 0; $result = array();
-		$t1_wht='';$t2_wht='';$t3_wht='';
+		
 		if($query->num_rows()>0){
 			$r_data = $query->first_row('array');
 		// calculate sum
 		$rows = $query->result_array();
-		foreach($rows as $key => $pay){
+		//foreach($rows as $key => $pay){
 		
-		$strSQL = " select v_ebrp.*";
-        $strSQL = $strSQL . " from v_ebrp ";
-        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$pay['invnr']."'";
-		$strSQL .= "ORDER BY vbelp ASC";
-       
-		$q_inv = $this->db->query($strSQL);
-		if($q_inv->num_rows()>0){
-		   	$rowp = $q_inv->result_array();
-			foreach($rowp as $key => $item){
-				$strSQL="";
-        //if(!empty($item['whtnr'])){
-			//echo 'aaa'.$item['whtnr'];
-		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item['whtnr']."'";
-		$q_wht = $this->db->query($strSQL);
-		 $g1_wht='';$g2_wht='';$g3_wht='';
-		 
-		if($q_wht->num_rows()>0){
-			$q_data = $q_wht->first_row('array');
-		    $t1_wht = $q_data['whtpr'];
-			$g1_wht = $q_data['whtgp'];
-			$whtxt = str_replace('%','',$t1_wht);
-			$whtgp = $g1_wht;
-			if($t1_wht != $q_data['whtpr']){
-			  $t2_wht = $q_data['whtpr'];
-			  $g2_wht = $q_data['whtgp']; 
-			  $whtxt = $whtxt.str_replace('%','',$t2_wht);
-			  $whtgp = $whtgp.$g2_wht;
-			  if($t2_wht != $q_data['whtpr']){
-				 $t3_wht = $q_data['whtpr'];  
-				 $g3_wht = $q_data['whtgp'];
-				 $whtxt = $whtxt.str_replace('%','',$t3_wht);
-				 $whtgp = $whtgp.$g3_wht;
-			  }
-			}
-		}//wht percent
-			//}//check whtnr
-			}//loop payment
-		}
-		}
-		}
+		
+		//}
+		//}
+		//}
 
 		function check_page($page_index, $total_page, $value){
 			//return ($page_index==0 && $total_page>1)?"":$value;
@@ -188,10 +151,10 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <!--Check Box 1-->
 <DIV style="left: 470px; top: 73px; width: 57px; height: 21PX;"><span class="fc1-1">สำหรับเดือน</span></DIV>
 <DIV style="left: 595px; top: 106px; width: 84px; height: 21PX;"><span class="fc1-1">สำนักงานใหญ่</span></DIV>
-<DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
+<DIV style="left: 682px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1"><?=$r_com['brach']?></span></DIV>
 
 <DIV style="left: 743px; top: 107px; width: 39px; height: 21PX;"><span class="fc1-1">สาขา</span></DIV>
-<DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1">00000</span></DIV>
+<DIV style="left: 787px; top: 106px; width: 33px; height: 21PX;"><span class="fc1-1"><?=$r_com['brach']?></span></DIV>
 
 <DIV style="left: 537px; top: 73px; width: 87px; height: 25PX; TEXT-ALIGN: LEFT;"><span class="fc1-1"><?= $text_month ?></span></DIV>
 
@@ -292,27 +255,87 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <?php
 //$rows = $query->result_array();
 
-$j=0;$no=1;$total1=0;$total2=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	
 	$item = $rows[$i];
-	$itamt = $item['beamt'] - $item['dismt'];
-	$b_amt += $itamt;
+	//$itamt = $item['beamt'] - $item['dismt'];
+	//$b_amt += $itamt;
 	$duedt_str = util_helper_format_date($item['bldat']);
 	$adr01 = $item['adr01'].$item['distx'];
-	$total1 += $item['netwr'];
+	//$total1 += $item['netwr'];
 	$total2 += $item['wht01'];
+	
+	    $strSQL = " select v_ebrp.*";
+        $strSQL = $strSQL . " from v_ebrp ";
+        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$item['invnr']."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+        
+		$q_inv = $this->db->query($strSQL);
+		$whtxt='';$whtgp='';
+		$g1_wht='';$g2_wht='';$g3_wht='';
+	    $t1_wht='';$t2_wht='';$t3_wht='';
+		$itamt2 = 0;
+		if($q_inv->num_rows()>0){
+		   	$rowp = $q_inv->result_array();
+			
+			foreach($rowp as $key => $item2){
+				$strSQL="";
+        if(!empty($item2['whtnr'])){
+			//echo 'aaa'.$item['whtnr'];
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item2['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		
+		if($q_wht->num_rows()>0){
+		$q_data = $q_wht->first_row('array');
+		$wht00=0; $wht00 = str_replace('%','',$q_data['whtpr']);
+		if($wht00 > 0){
+			$itamt = ($item2['unitp'] * $item2['menge']);
+	    
+				$pos = strpos($item2['disit'], '%');
+				if($pos==false){
+					$disit = $item2['disit'];
+				}else{
+					$perc = explode('%',$item2['disit']);
+					$pramt = $itamt * $perc[0];
+					$disit = $pramt / 100;
+				}
+		        $itamt = $itamt - $disit;
+				$itamt2 += $itamt;
+				$total1 += $itamt;
+		
+			if($t1_wht=='' || ($t1_wht == $q_data['whtpr'] && $t1_wht!='')){
+		    $t1_wht = $q_data['whtpr'];
+			$g1_wht = $q_data['whtgp'];
+			$whtxt = str_replace('%','',$t1_wht);
+			$whtgp = $g1_wht;
+			}elseif(($t2_wht == $q_data['whtpr']&&$t2_wht!='') || $t2_wht==''){
+			  $t2_wht = $q_data['whtpr'];
+			  $g2_wht = $q_data['whtgp']; 
+			  $whtxt = $whtxt.str_replace('%','',$t2_wht);
+			  $whtgp = $whtgp.$g2_wht;
+			}elseif($t3_wht == $q_data['whtpr'] && $t2_wht != ''){
+				 $t3_wht = $q_data['whtpr'];  
+				 $g3_wht = $q_data['whtgp'];
+				 $whtxt = $whtxt.str_replace('%','',$t3_wht);
+				 $whtgp = $whtgp.$g3_wht;
+			  }
+			  
+			}
+		    }//wht percent
+			}//check whtnr
+			}//loop payment
+		}
 ?>
 	<tr>
 	  <td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
 	  <td class="fc1-8" align="center" style="width:87px;"><?=$item['taxid'];?></td>
 	  <td class="fc1-8" align="left" style="width:223px;"><?=$item['name1'];?></td>
       <td class="fc1-8" align="left" style="width:297px;"><?=$adr01;?></td>
-	  <td class="fc1-8" align="center" style="width:40px;">0000</td>
+	  <td class="fc1-8" align="center" style="width:40px;"><?=$item['brach'];?></td>
 	  <td class="fc1-8" align="center" style="width:63px;"><?=$duedt_str;?></td>
       <td class="fc1-8" align="center" style="width:46px;"><?=$whtgp; ?></td>
       <td class="fc1-8" align="center" style="width:52px;"><?=$whtxt; ?></td>
-      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($item['netwr'],2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:105px;"><?=number_format($itamt2,2,'.',',');?></td>
 	  <td class="fc1-8" align="right" style="width:108px;"><?=number_format($item['wht01'],2,'.',',');?></td>
 	</tr>
 
@@ -717,6 +740,7 @@ endfor; // end copy for
 
 
 <?php
+	}
 	}
 	}
 }

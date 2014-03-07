@@ -502,7 +502,8 @@ class Quotation extends CI_Controller {
 					'itamt'=>floatval($itamt),
 					'ctype'=>$p->ctype,
 					'chk01'=>$p->chk01,
-					'chk02'=>$p->chk02
+					'chk02'=>$p->chk02,
+					'tdisc'=>floatval($p->tdisc),
 				));
 			}
 		}

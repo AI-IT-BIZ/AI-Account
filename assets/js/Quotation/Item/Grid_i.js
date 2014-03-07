@@ -54,7 +54,8 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				'chk02'
+				'chk02',
+				'tdisc'
 			],
 			remoteSort: true,
 			sorters: ['vbelp ASC']
@@ -221,11 +222,12 @@ Ext.define('Account.Quotation.Item.Grid_i', {
 			width: 70,
 			dataIndex: 'ctype',
 			sortable: false,
-			align: 'center',
-			//field: {
-			//	type: 'textfield'
-			//},
-		}];
+			align: 'center'
+		    },{
+			dataIndex: 'tdisc',
+			hidden: true,
+			sortable: false
+		    }];
 
 		this.plugins = [this.editing];
 

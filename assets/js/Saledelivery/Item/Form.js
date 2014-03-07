@@ -27,7 +27,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		});
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
-			fieldLabel: 'Salesperson',
+			fieldLabel: 'Salesperson(AE)',
 			triggerCls: 'x-form-search-trigger',
 			//labelWidth: 100,
 			labelAlign: 'left',
@@ -763,6 +763,7 @@ Ext.define('Account.Saledelivery.Item.Form', {
 		var sum = 0;var vats=0; var whts=0;var discounts=0;
 		var sums = 0;
 		var vattype = this.comboTax.getValue();
+		
 		store.each(function(r){
 			var qty = parseFloat(r.data['upqty']),
 				price = parseFloat(r.data['unitp']),
@@ -806,7 +807,10 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			amt = amt - discountValue;
 			//alert(amt);
 			sums += amt;
-			//alert('sums'+sums);
+			
+			var disc = parseFloat(r.data['tdisc']);
+            tdisc += disc * qty;
+            amt = amt - disc;
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -819,74 +823,6 @@ Ext.define('Account.Saledelivery.Item.Form', {
 				    whts += wht;
 			}
 		});
-		
-		var disc = this.formTotal.getForm().findField('disco').getValue();
-		disc = parseFloat(disc);
-		var disc2 = 0;
-		
-		var vat = _this.numberVat.getValue();
-		var wht = _this.numberWHT.getValue();
-		wht = wht.replace('%','');
-		var tdisc=0;var tdisc2=0;var tdisc3=0;
-		if(sums>0 && disc>0){
-		store.each(function(r){
-			var qty = parseFloat(r.data['upqty']),
-				price = parseFloat(r.data['unitp']),
-				reman = parseFloat(r.data['reman']),
-				menge = parseFloat(r.data['menge']),
-				discountValue = 0,
-				discount = r.data['disit'];
-			qty = isNaN(qty)?0:qty;
-			price = isNaN(price)?0:price;
-
-			var amt = qty * price;
-			var amt2 = reman * price;
-			
-			if(vattype =='02'){
-				amt = amt * 100;
-			    amt = amt / 107;
-			    amt2 = amt2 * 100;
-			    amt2 = amt2 / 107;
-		    }
-            
-            if(discount!=null && discount!='0.00'){
-			if(discount.match(/%$/gi)){
-				discount = discount.replace('%','');
-				var discountPercent = parseFloat(discount);
-				discountValue = amt2 * discountPercent / 100;
-			}else{
-				discountValue = parseFloat(discount);
-			}
-			discountValue = isNaN(discountValue)?0:discountValue;
-		   }
-			
-		   var cals=0;
-			if(menge>0){
-				//cals = discountValue * qty;
-				discountValue = discountValue / reman;
-				cals = discountValue * qty;
-			}
-			amt = amt - cals;
-			cals = reman / menge;
-			disc2 = disc * cals;
-			
-			cals = amt / sums;
-			cals = cals * disc2; 
-            if(menge>0){
-			cals = cals / reman;
-			}
-		    amt = qty * cals;
-			tdisc += amt;
-			if(r.data['chk01']==true){ tdisc2 += amt; }
-			if(r.data['chk02']==true){ tdisc3 += amt; }
-		    cals = qty * cals;
-		    r.set('tdisc', cals);
-	    });
-	    vat = (tdisc2 * vat) / 100;
-        vats = vats - vat;
-        wht = (tdisc3 * wht) / 100;
-        whts = whts + wht;
-	   }
         
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);

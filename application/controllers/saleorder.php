@@ -317,6 +317,7 @@ class Saleorder extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'ctype'=>$p->ctype,
 					'chk01'=>$p->chk01,
+					'tdisc'=>floatval($p->tdisc),
 					'chk02'=>$p->chk02
 				));
 			}

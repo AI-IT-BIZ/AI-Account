@@ -104,6 +104,10 @@ class Payment extends CI_Controller {
 		$limit = $this->input->get('limit');
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+		
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		$this->db->order_by($sort, $dir);
 
 		$query = $this->db->get($tbName);
 

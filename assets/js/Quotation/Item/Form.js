@@ -28,7 +28,7 @@ Ext.define('Account.Quotation.Item.Form', {
 		});
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
-			fieldLabel: 'Salesperson',
+			fieldLabel: 'Salesperson(AE)',
 			triggerCls: 'x-form-search-trigger',
 			//labelWidth: 100,
 			labelAlign: 'left',
@@ -932,9 +932,65 @@ Ext.define('Account.Quotation.Item.Form', {
 			}
 		});
         var tdisc = this.formTotal.txtDiscount.getValue();
-        var vat = _this.numberVat.getValue();
-        vat = (tdisc * vat) / 100;
-        vats = vats - vat;
+		tdisc = parseFloat(tdisc);
+		var disc2 = 0;
+		
+		var vat = _this.numberVat.getValue();
+		var wht = _this.numberWHT.getValue();
+		wht = wht.replace('%','');
+		var tdisc2=0;var tdisc3=0;
+		if(sum2>0 && tdisc>0){
+		store.each(function(r){
+			var //qty = parseFloat(r.data['upqty']),
+				price = parseFloat(r.data['unitp']),
+				//reman = parseFloat(r.data['reman']),
+				menge = parseFloat(r.data['menge']),
+				discountValue = 0,
+				discount = r.data['disit'];
+			//qty = isNaN(qty)?0:qty;
+			price = isNaN(price)?0:price;
+
+			var amt = menge * price;
+			
+			if(vattype =='02'){
+				amt = amt * 100;
+			    amt = amt / 107;
+		    }
+            
+            if(discount!=null && discount!='0.00'){
+			if(discount.match(/%$/gi)){
+				discount = discount.replace('%','');
+				var discountPercent = parseFloat(discount);
+				discountValue = amt * discountPercent / 100;
+			}else{
+				discountValue = parseFloat(discount);
+			}
+			discountValue = isNaN(discountValue)?0:discountValue;
+		   }
+			
+		   var cals=0;
+
+			amt = amt - discountValue;
+			cals = amt / sum2;
+			
+			amt = cals * tdisc; 
+
+			if(r.data['chk01']==true){ 
+			tdisc2 = (amt * vat) / 100;
+            vats = vats - tdisc2; 
+            }
+            
+			if(r.data['chk02']==true){ 
+				tdisc3 = (amt * wht) / 100;
+            whts = whts - tdisc3; 
+            }
+            cals = amt / menge;
+            r.set('tdisc', cals);
+		    
+	    });
+	    
+	   }
+	   
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);

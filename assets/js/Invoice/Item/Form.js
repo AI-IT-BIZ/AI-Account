@@ -29,7 +29,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		});
 		this.trigSale = Ext.create('Ext.form.field.Trigger', {
 			name: 'salnr',
-			fieldLabel: 'Salesperson',
+			fieldLabel: 'Salesperson(AE)',
 			triggerCls: 'x-form-search-trigger',
 			//labelWidth: 100,
 			labelAlign: 'left',

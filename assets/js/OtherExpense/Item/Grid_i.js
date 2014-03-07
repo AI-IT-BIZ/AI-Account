@@ -380,6 +380,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			if(rModels.length>0){
 				rModel = rModels[0];
 				// change cell code value (use db value)
+				//alert(record.data.whtpr);
 				rModel.set('whtnr', record.data.whtnr);
 				rModel.set('whtpr', record.data.whtpr);
 			//_this.trigUnit.setValue(record.data.meins);

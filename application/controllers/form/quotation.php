@@ -307,7 +307,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื่อลูกหนี้</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื่อลูกค้า</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
@@ -338,9 +338,9 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left: 519PX; top: 223px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
 
-<DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
+<DIV style="left: 467PX; top: 247PX; width: 124px; height: 22PX;"><span class="fc1-2">เบอร์ติดต่อ / Contact No:</span></DIV>
 
-<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
+<DIV style="left: 591px; top: 247PX; width: 156px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
 
 <!--Reference Table-->
 
@@ -350,9 +350,9 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--2 Reference-->
 
-<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reference No.</span></DIV>
+<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;">Project Name</DIV>
 
-<DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
+<DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['jobtx'];?></span></DIV>
 
 <!--3 Vendor code-->
 
@@ -368,7 +368,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--5 Delivery date-->
 
-<DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Due Date</span></DIV>
+<DIV style="left:660PX;top:298PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reference No.</span></DIV>
 <?php 
 //$duedt_str = util_helper_format_date($r_data['duedt']);
 ?>
@@ -534,13 +534,13 @@ else
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
-<DIV style="left: 49PX; top: 865PX; width: 212px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Sale&nbsp;&nbsp;Person</span></DIV>
+<DIV style="left: 49PX; top: 865PX; width: 212px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Contact&nbsp;&nbsp;Person</span></DIV>
 
 <DIV style="left: 52px; top: 897px; width: 208px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
 
 <DIV style="left: 263px; top: 897px; width: 195px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
 
-<DIV style="left: 265px; top: 865PX; width: 196px; height: 19PX; TEXT-ALIGN: CENTER;">Payment Condition</DIV>
+<DIV style="left: 265px; top: 865PX; width: 196px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Payment By</span></DIV>
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>

@@ -13,7 +13,7 @@ class Rpnd3wht_attach extends CI_Controller {
 	function index()
 	{
 		$comid = XUMS::COMPANY_ID();
-		$strSQL="";//echo $comid;
+		$strSQL="";$no=1;$v_amt=0;$t_amt=0;
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
@@ -32,18 +32,26 @@ class Rpnd3wht_attach extends CI_Controller {
         $strSQL = $strSQL . " from v_ebbp ";
         $strSQL = $strSQL . " Where v_ebbp.type1 = '' and v_ebbp.bldat ".$dt_result;
 		$strSQL = $strSQL . " And v_ebbp.statu = '02' ";
+		$strSQL = $strSQL . " And v_ebbp.wht01 > 0 ";
 		$strSQL .= " ORDER BY payno ASC";
        
 		$query = $this->db->query($strSQL);
 		//$r_data = $query->first_row('array');
-		
+		if($query->num_rows()>0){
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0; $result = array();
 		$taxid = str_split($r_com['taxid']);
 
 		function check_page($page_index, $total_page, $value){
-			return ($page_index==0 && $total_page>1)?"":$value;
+			//return ($page_index==0 && $total_page>1)?"":$value;
+			if($page_index==0&&$total_page==1){
+				return $value;
+			}else{
+			$page_index+=1;
+			if($page_index==$total_page && $total_page>1) return $value;
+			else "";
+			}
 		}
         ?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -79,8 +87,8 @@ body { FONT-FAMILY:'Angsana New';}
 .fc1-5 { COLOR:000000;FONT-SIZE:29PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-6 { COLOR:000000;FONT-SIZE:13PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
 .fc1-7 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;FONT-STYLE:ITALIC;}
-.fc1-8 { COLOR:000000;FONT-SIZE:9PT;FONT-FAMILY:'Angsana New';FONT-WEIGHT:BOLD;}
-.fc1-9 { COLOR:000000;FONT-SIZE:10PT;FONT-WEIGHT:NORMAL;}
+.fc1-8 { COLOR:000000;FONT-SIZE:11PT;FONT-FAMILY:'Angsana New';}
+.fc1-9 { COLOR:000000;FONT-SIZE:9PT;FONT-WEIGHT:NORMAL;}
 .fc1-10 { COLOR:000000;FONT-SIZE:11PT;FONT-WEIGHT:NORMAL;}
 .fc1-11 { COLOR:000000;FONT-SIZE:11PT;FFONT-WEIGHT:NORMAL;}
 .fc1-12 { COLOR:000000;FONT-SIZE:12PT;FONT-WEIGHT:NORMAL;}
@@ -163,19 +171,19 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table width="0px" height="18PX"><td>&nbsp;</td></table>
 </div>
 
-<div style="left:45PX;top:229PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+<div style="left: 45PX; top: 234px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left: 45px; top: 290px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
+<div style="left: 45px; top: 302px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left:45PX;top:351PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+<div style="left: 45PX; top: 367px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left:45PX;top:412PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+<div style="left: 45PX; top: 432px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
-<div style="left:45PX;top:473PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:985PX;">
+<div style="left: 45PX; top: 494px; border-color: 000000; border-style: solid; border-width: 0px; border-top-width: 1PX; width: 985PX;">
 </div>
 
 <div style="left:45PX;top:577PX;border-color:000000;border-style:solid;border-width:0px;border-top-width:1PX;width:965PX;">
@@ -202,11 +210,11 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:852PX;top:74PX;width:178PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-1">แผ่นที่...............ในจำนวน...............แผ่น</span></DIV>
 
-<DIV style="left:899PX;top:69PX;width:26PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
+<DIV style="left: 914px; top: 69PX; width: 26PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?=($current_page_index+1);?></span></DIV>
 
-<DIV style="left:976PX;top:69PX;width:29PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?=$total_page;?></span></DIV>
+<DIV style="left: 981px; top: 69PX; width: 29PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?=$total_page;?></span></DIV>
 
-<DIV style="left:969PX;top:50PX;width:61PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3">0000</span></DIV>
+<DIV style="left:969PX;top:50PX;width:61PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-3"><?=$r_com['brach']?></span></DIV>
 
 <DIV style="left:45PX;top:52PX;width:52PX;height:28PX;"><span class="fc1-4"> ใบแนบ</span></DIV>
 
@@ -220,21 +228,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <img  WIDTH=235 HEIGHT=20 SRC="<?= base_url('assets/images/icons/pp04.jpg') ?>">
 </DIV>
 
-<DIV style="left:556PX;top:57PX;width:235PX;height:20PX;"><span class="fc1-8">&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></span></DIV>
+<DIV style="left:556PX;top:57PX;width:235PX;height:20PX;"><span class="fc1-8">&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></span></DIV>
 
 <DIV style="left:884PX;top:96PX;width:146PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-9">รวมเงินภาษีที่หักและนำส่งในครั้งนี้</span></DIV>
-
-<DIV style="left:1008PX;top:130PX;width:19PX;height:32PX;">
-<table width="14PX" border=0 cellpadding=0 cellspacing=0>
-<tr><td class="fc1-9">เ</td></tr>
-<tr><td class="fc1-9">ง</td></tr>
-<tr><td class="fc1-9">ื</td></tr>
-<tr><td class="fc1-9">่</td></tr>
-<tr><td class="fc1-9">อ</td></tr>
-<tr><td class="fc1-9">น</td></tr>
-<tr><td class="fc1-9">ไ</td></tr>
-<tr><td class="fc1-9">ข</td></tr></table>
-</DIV>
 
 <DIV style="left:1008PX;top:117PX;width:21PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-10"></span></DIV>
 
@@ -249,9 +245,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left:726PX;top:120PX;width:32PX;height:43PX;TEXT-ALIGN:CENTER;">
 <table width="27PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-9">อัตรา</td></table>
 
-<table width="27PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-9">ภาษี</td></table>
-
-<table width="27PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-9">ร้อยละ</td></table>
+<table width="27PX" border=0 cellpadding=0 cellspacing=0><td ALIGN="CENTER" class="fc1-9">ภาษี %</td></table>
 </DIV>
 
 <DIV style="left:568PX;top:143PX;width:155PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-7">(ถ้ามากกว่าหนึ่งประเภทให้กรอกเรียงลงไป</span></DIV>
@@ -289,7 +283,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <table cellpadding="0" cellspacing="0" border="0" width="960">
 <?php
 $rows = $query->result_array();
-$no=1;$v_amt=0;$t_amt=0;$invdt_str='';
+$invdt_str='';
 $j=0;$no=1;$nos='';$itamt=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
     $item = $rows[$i];
@@ -299,35 +293,114 @@ for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size 
 	$t_amt+= $itamt;
 	$names = explode(' ',$item['name1']);
 	$taxid = str_split($item['taxid']);
+	
+	    $strSQL = " select v_ebrp.*";
+        $strSQL = $strSQL . " from v_ebrp ";
+        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$item['invnr']."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+        
+		$q_inv = $this->db->query($strSQL);
+		$whtxt='';$whtgp='';
+		$g1_wht='';$g2_wht='';$g3_wht='';
+	    $t1_wht='';$t2_wht='';$t3_wht='';
+		$a1_wht=0;$a2_wht=0;$a3_wht=0;
+		$w1_wht=0;$w2_wht=0;$w3_wht=0;
+		if($q_inv->num_rows()>0){
+		   	$rowp = $q_inv->result_array();
+			
+			foreach($rowp as $key => $item2){
+				$strSQL="";
+        if(!empty($item2['whtnr'])){
+			//echo 'aaa'.$item['whtnr'];
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item2['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		if($q_wht->num_rows()>0){
+		$q_data = $q_wht->first_row('array');
+		$wht00=0; $wht00 = str_replace('%','',$q_data['whtpr']);
+		if($wht00 > 0){
+		$itamt = ($item2['unitp'] * $item2['menge']);// - $item2['disit'];
+	    
+				$pos = strpos($item2['disit'], '%');
+				if($pos==false){
+					$disit = $item2['disit'];
+				}else{
+					$perc = explode('%',$item2['disit']);
+					$pramt = $itamt * $perc[0];
+					$disit = $pramt / 100;
+				}
+		        $itamt = $itamt - $disit;
+				$t_amt += $itamt;
+		
+			if($t1_wht=='' || ($t1_wht == $q_data['whtpr'] && $t1_wht!='')){
+		    $t1_wht = $q_data['whtpr'];
+			$g1_wht = $q_data['whtgp'];
+			$whtxt = str_replace('%','',$t1_wht);
+			$whtgp = $g1_wht;
+			$a1_wht += $itamt;
+			$wht1=0; $wht1=str_replace('%','',$t1_wht);
+			$wht1 = ($wht1 * $itamt) / 100;
+			$w1_wht += $wht1;
+			}
+			
+			elseif(($t2_wht == $q_data['whtpr']&&$t2_wht!='') || $t2_wht==''){
+			  $t2_wht = $q_data['whtpr'];
+			  $g2_wht = $q_data['whtgp']; 
+			  $whtxt = $whtxt.str_replace('%','',$t2_wht);
+			  $whtgp = $whtgp.$g2_wht;
+			  $a2_wht += $itamt;
+			  //$a1_wht = $a1_wht - $itamt;
+			  $wht2=0; $wht2=str_replace('%','',$t2_wht);
+			  $wht2 = ($wht2 * $itamt) / 100;
+			  $w2_wht += $wht2;
+			  //$w1_wht = $w1_wht - $itamt;
+			  
+			}
+			
+			elseif($t3_wht == $q_data['whtpr'] && $t2_wht != ''){
+				 $t3_wht = $q_data['whtpr'];  
+				 $g3_wht = $q_data['whtgp'];
+				 $whtxt = $whtxt.str_replace('%','',$t3_wht);
+				 $whtgp = $whtgp.$g3_wht;
+				 $a3_wht += $itamt;
+			     $wht3=0; $wht3=str_replace('%','',$t3_wht);
+			     $wht3 = ($wht3 * $itamt) / 100;
+			     $w3_wht += $wht3;
+			  }
+			$t_wht=$q_data['whtpr'];
+		}//wht percent
+		}
+			}//check whtnr
+			}//loop payment
+		}
 ?>
 	<tr>
 		<td class="fc1-8" align="center" style="width:40px;"><?=$no++;?></td>
-	  <td class="fc1-8" align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" style="width:415px;height:25PX;background-repeat: no-repeat;">&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
+	  <td class="fc1-8" align="left" background="<?= base_url('assets/images/icons/pp04.jpg') ?>" style="width:415px;height:25PX;background-repeat: no-repeat;">&nbsp;&nbsp;&nbsp;<?=$taxid[0];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[1];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[2];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[3];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[4];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[5];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[6];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[7];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[8];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[9];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[10];?>&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[11]?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$taxid[12];?></td>
 	  <td class="fc1-8" align="center" style="width:80px;"><?=$invdt_str;?></td>
-      <td class="fc1-8" align="center" style="width:144px;"><?=$item['whtnr']?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=number_format($item['whtpr'],0,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=number_format($itamt,2,'.',',');?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=number_format($item['wht01'],2,'.',',');?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$g1_wht?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t1_wht);?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($a1_wht>0) echo number_format($a1_wht,2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($w1_wht>0) echo number_format($w1_wht,2,'.',',');?></td>
 	</tr>
     
       <tr>
 		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
 	  <td class="fc1-8" align="left" style="width:415px;height:10PX;">ชื่อ&nbsp;<?=$names[0];?></td>
 	  <td class="fc1-8" align="center" style="width:80px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$g2_wht?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t2_wht);?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($a2_wht>0) echo number_format($a2_wht,2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($w2_wht>0) echo number_format($w2_wht,2,'.',',');?></td>
 	</tr>
     
     <tr>
 		<td class="fc1-8" align="center" style="width:40px;"><?=$nos;?></td>
 	  <td class="fc1-8" align="left" style="width:415px;height:20PX;">นามสกุล&nbsp;<?=$names[0];?></td>
 	  <td class="fc1-8" align="center" style="width:80px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:144px;"><?=$nos;?></td>
-      <td class="fc1-8" align="center" style="width:36px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
-      <td class="fc1-8" align="right" style="width:124px;"><?=$nos;?></td>
+      <td class="fc1-8" align="center" style="width:144px;"><?=$g3_wht?></td>
+      <td class="fc1-8" align="center" style="width:36px;"><?=str_replace('%','',$t3_wht);?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($a3_wht>0) echo number_format($a3_wht,2,'.',',');?></td>
+      <td class="fc1-8" align="right" style="width:124px;"><? if($w3_wht>0) echo number_format($w3_wht,2,'.',',');?></td>
 	</tr>
 <?php   
 endfor;
@@ -397,30 +470,18 @@ endfor;
 
 <DIV style="left:52PX;top:581PX;width:277PX;height:20PX;"><span class="fc1-18">(ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่นตามเงินได้แต่ละประเภท)</span></DIV>
 
-<DIV style="left:53PX;top:603PX;width:40PX;height:19PX;"><span class="fc1-19">หมายเหตุ </span></DIV>
-
-<DIV style="left:98PX;top:603PX;width:21PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">&nbsp;</span></DIV>
-
-<DIV style="left:121PX;top:603PX;width:461PX;height:42PX;">
-<table width="456PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20">ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์ </td></table>
+<DIV style="left: 53PX; top: 600px; width: 40PX; height: 19PX;"><span class="fc1-19">หมายเหตุ </span></DIV>
+<DIV style="left: 121PX; top: 599px; width: 461PX; height: 42PX;">
+  <table width="456PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20">ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์ </td></table>
 
 <table width="456PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20">ค่าก่อสร้าง รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด</td></table>
 
 <table width="456PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-20">การแข่งขัน การชิงโชค ค่าจ้างแสดงภาพยนต์ คร้องเพลงดนตรี ค่าจ้างทำของ ค่าจ้างโฆษณา ค่าขนส่งสินค้า ฯลฯ</td></table>
 </DIV>
-
-<DIV style="left:98PX;top:647PX;width:24PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-12"></span></DIV>
-
-<DIV style="left:123PX;top:647PX;width:119PX;height:17PX;"><span class="fc1-20">เงื่อนไขการหักภาษี ให้กรอกดังนี้</span></DIV>
-
-<DIV style="left:248PX;top:650PX;width:11PX;height:12PX;TEXT-ALIGN:CENTER;"><span class="fc1-21">n&nbsp;</span></DIV>
-
+<DIV style="left: 123PX; top: 645px; width: 119PX; height: 17PX;"><span class="fc1-20">เงื่อนไขการหักภาษี ให้กรอกดังนี้</span></DIV>
 <DIV style="left:258PX;top:647PX;width:73PX;height:17PX;"><span class="fc1-20">หัก ณ ที่จ่าย&nbsp;&nbsp;&nbsp;กรอก</span></DIV>
 
 <DIV style="left:334PX;top:647PX;width:9PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-22">1</span></DIV>
-
-<DIV style="left:355PX;top:650PX;width:11PX;height:12PX;TEXT-ALIGN:CENTER;"><span class="fc1-21">n&nbsp;</span></DIV>
-
 <DIV style="left:367PX;top:647PX;width:86PX;height:17PX;"><span class="fc1-20">ออกให้ตลอดไป&nbsp;&nbsp;&nbsp;กรอก</span></DIV>
 
 <DIV style="left:456PX;top:647PX;width:9PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-22">2</span></DIV>
@@ -431,7 +492,7 @@ endfor;
 
 <DIV style="left:568PX;top:647PX;width:9PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-22">3</span></DIV>
 
-<DIV style="left:123PX;top:662PX;width:489PX;height:62PX;">
+<DIV style="left: 123PX; top: 659px; width: 489PX; height: 62PX;">
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-9">เลขประจำตัวผู้เสียภาษีอากร (13หลัก)* หมายถึง</td></table>
 
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-9">&nbsp;&nbsp;1. กรณีบุคคลธรรมดาไทย ให้ใช้เลขประจำตัวประชาชนของกรมการปกครอง</td></table>
@@ -439,10 +500,6 @@ endfor;
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-9">&nbsp;&nbsp;2. กรณีนิติบุคคล ให้ใช้เลขทะเบียนนิติบุคคลของกรมพัฒนาธุรกิจการค้า</td></table>
 
 <table width="484PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-9">&nbsp;&nbsp;3. กรณีอื่นๆนอกเหนือจาก 1. และ 2. ให้ใช้เลขประจำตัวผู้เสียภาษีอากร (13หลัก)ของกรมสรรพากร</td></table>
-</DIV>
-
-<DIV style="z-index:15;left:53PX;top:725PX;width:467PX;height:28PX;">
-<img  WIDTH=397 HEIGHT=24 SRC="<?= base_url('assets/images/icons/pnd53_02.jpg') ?>">
 </DIV><BR>
 
 <?php
@@ -454,6 +511,7 @@ endfor; // end copy for
 
 
 <?php
+	}
 	}
 	}
 }

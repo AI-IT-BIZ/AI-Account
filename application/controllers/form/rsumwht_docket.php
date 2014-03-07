@@ -36,6 +36,7 @@ class Rsumwht_docket extends CI_Controller {
         $strSQL = $strSQL . " from v_ebbp ";
         $strSQL = $strSQL . " Where v_ebbp.type1 = '1' and v_ebbp.bldat ".$dt_result;
 		$strSQL = $strSQL . " And v_ebbp.statu = '02' ";
+		$strSQL = $strSQL . " And v_ebbp.wht01 > 0 ";
 		$strSQL .= " ORDER BY payno ASC";
 		//echo $strSQL;
        
@@ -47,8 +48,50 @@ class Rsumwht_docket extends CI_Controller {
 		
 		$purch_amt=0;$purch_wht=0;
 		foreach ($rowp as $key => $item) {
-		   $purch_amt += $item['beamt'] - $item['dismt'];
+		   //$purch_amt += $item['netwr'];
 		   $purch_wht += $item['wht01'];
+		   
+		   $strSQL = " select v_ebrp.*";
+        $strSQL = $strSQL . " from v_ebrp ";
+        $strSQL = $strSQL . " Where v_ebrp.invnr = '".$item['invnr']."'";
+		$strSQL .= "ORDER BY vbelp ASC";
+        
+		$q_inv = $this->db->query($strSQL);
+		$whtxt='';$whtgp='';
+		$g1_wht='';$g2_wht='';$g3_wht='';
+	    $t1_wht='';$t2_wht='';$t3_wht='';
+		if($q_inv->num_rows()>0){
+		   	$rowp = $q_inv->result_array();
+			
+			foreach($rowp as $key => $item2){
+				$strSQL="";
+        if(!empty($item2['whtnr'])){
+			//echo 'aaa'.$item['whtnr'];
+		$strSQL= " select tbl_whty.* from tbl_whty where tbl_whty.whtnr = '".$item2['whtnr']."'";
+		$q_wht = $this->db->query($strSQL);
+		
+		if($q_wht->num_rows()>0){
+		$q_data = $q_wht->first_row('array');
+		$wht00=0; $wht00 = str_replace('%','',$q_data['whtpr']);
+		if($wht00 > 0){
+			$itamt = ($item2['unitp'] * $item2['menge']);
+	    
+				$pos = strpos($item2['disit'], '%');
+				if($pos==false){
+					$disit = $item2['disit'];
+				}else{
+					$perc = explode('%',$item2['disit']);
+					$pramt = $itamt * $perc[0];
+					$disit = $pramt / 100;
+				}
+		        $itamt = $itamt - $disit;
+				$purch_amt += $itamt;
+			  
+			}
+		    }//wht percent
+			}//check whtnr
+			}//loop payment
+		}
 		}
 
 		function check_page($page_index, $total_page, $value){
@@ -291,7 +334,7 @@ body { FONT-FAMILY:'Angsana New';}
 <DIV style="left:529PX;top:208PX;width:213PX;height:24PX;"><span class="fc1-9"> (3) มาตรา 69 ทวิ แห่งประมวลรัษฎากร</span></DIV>
 
 
-<DIV style="left:382PX;top:332PX;width:51PX;height:17PX;TEXT-ALIGN:CENTER;"><span class="fc1-10">2556</span></DIV>
+<DIV style="left: 372px; top: 332PX; width: 51PX; height: 17PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?=$month[0] + 543;?></span></DIV>
 
 <DIV style="z-index:15;left:41PX;top:41PX;width:708PX;height:67PX;">
 <img  WIDTH=708 HEIGHT=67 SRC="<?= base_url('assets/images/icons/pnd53_01.jpg') ?>">
@@ -300,7 +343,7 @@ body { FONT-FAMILY:'Angsana New';}
 
 <DIV style="left:85PX;top:131PX;width:112PX;height:15PX;"><span class="fc1-12"> (ของผู้มีหน้าที่หัก ภาษี ณ ที่จ่าย)</span></DIV>
 
-<DIV style="left:241PX;top:118PX;width:200PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-13"><?= $r_com['taxid']; ?></span></DIV>
+<DIV style="left:241PX;top:118PX;width:200PX;height:26PX;TEXT-ALIGN:RIGHT;"><span class="fc1-21"><?= $r_com['taxid']; ?></span></DIV>
 
 <DIV style="left:43PX;top:159PX;width:127PX;height:23PX;"><span class="fc1-0">ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย</span></DIV>
 
@@ -308,7 +351,7 @@ body { FONT-FAMILY:'Angsana New';}
 
 <DIV style="left:322PX;top:159PX;width:54PX;height:23PX;TEXT-ALIGN:RIGHT;"><span class="fc1-15">สาขาที่</span></DIV>
 
-<DIV style="left: 378PX; top: 161PX; width: 39px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-13">0000</span></DIV>
+<DIV style="left: 378PX; top: 161PX; width: 39px; height: 21PX; TEXT-ALIGN: RIGHT;"><span class="fc1-13"><?=$r_com['brach']?></span></DIV>
 
 <DIV style="left:71PX;top:441PX;width:231PX;height:43PX;">
 <table width="226PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-3">มีรายละเอียดการหักเป็นรายผู้มีเงินได้&nbsp;&nbsp;&nbsp;ปรากฏตาม</td></table>
@@ -334,7 +377,8 @@ body { FONT-FAMILY:'Angsana New';}
 <DIV style="left: 663px; top: 426PX; width: 66PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-21"><?=number_format($tline,0,'.',',');?></span></DIV>
 
 <?php
-  $page = $tline / 6;
+  $page = $tline / 5;
+  if($page<1) $page = 1;
 ?>
 <DIV style="left: 663px; top: 450PX; width: 66PX; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-21"><?=number_format($page,0,'.',',');?></span></DIV>
 

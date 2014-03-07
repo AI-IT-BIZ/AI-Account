@@ -160,6 +160,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 660PX; top: 297px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 49px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
+<div style="left: 311px; top: 296px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 51px;">
+<table width="0px" height="64PX"><td>&nbsp;</td></table>
+</div>
 <div style="left: 157PX; top: 295px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 51px;">
 <table width="0px" height="64PX"><td>&nbsp;</td></table>
 </div>
@@ -309,7 +312,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกหนี้</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกค้า</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
@@ -339,21 +342,25 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left: 519PX; top: 223px; width: 235px; height: 22PX;"><span class="fc1-8"><?=$r_data['dis02'];?>&nbsp;&nbsp;<?=$r_data['pst02'];?></span></DIV>
 
-<DIV style="left: 467PX; top: 247PX; width: 96px; height: 22PX;"><span class="fc1-2">ติดต่อ / Contact :</span></DIV>
+<DIV style="left: 467PX; top: 247PX; width: 124px; height: 22PX;"><span class="fc1-2">เบอร์ติดต่อ / Contact No:</span></DIV>
 
-<DIV style="left: 563PX; top: 247PX; width: 184px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
+<DIV style="left: 591px; top: 247PX; width: 156px; height: 21PX;"><span class="fc1-8"><?=$r_data['tel02'];?></span></DIV>
 
 <!--Reference Table-->
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Sale Order no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Sale Order No.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
+<DIV style="left: 54px; top: 322PX; width: 99px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['ordnr'];?></span></DIV>
 
 <!--2 Reference-->
 
-<DIV style="left:156PX;top:298PX;width:302PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Reference</span></DIV>
+<DIV style="left: 156PX; top: 298PX; width: 155px; height: 19PX; TEXT-ALIGN: CENTER;">Quotation No.</DIV>
 
-<DIV style="left:175PX;top:322PX;width:280PX;height:22PX;TEXT-ALIGN:LEFT;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
+<DIV style="left: 158px; top: 322PX; width: 154px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+
+<DIV style="left: 313px; top: 298PX; width: 145px; height: 19PX; TEXT-ALIGN: CENTER;">Project No.</DIV>
+
+<DIV style="left: 314px; top: 322PX; width: 146px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
 <!--3 Vendor code-->
 
@@ -538,21 +545,16 @@ else
 <?= check_page($current_page_index, $total_page, number_format($r_data['netwr'],2,'.',',')) ?></span></DIV>
 
 <!--Payment Table-->
-<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Project No</span></DIV>
+<DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Reference No</span></DIV>
 
-<DIV style="left: 58px; top: 896px; width: 90PX; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
+<DIV style="left: 53px; top: 896px; width: 102px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['refnr'];?></span></DIV>
+<DIV style="left: 160px; top: 865PX; width: 145px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Sale Person</span></DIV>
 
-<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Quotation No</span></DIV>
+<DIV style="left: 161px; top: 896px; width: 143px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
 
-<DIV style="left: 162px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['vbeln'];?></span></DIV>
+<DIV style="left: 310px; top: 865PX; width: 151px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Payment Condition</span></DIV>
 
-<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Sale Person</span></DIV>
-
-<DIV style="left: 310px; top: 897px; width: 143px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['sname'];?></span></DIV>
-
-<DIV style="left: 465px; top: 865PX; width: 195px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">Payment Condition</span></DIV>
-
-<DIV style="left: 465px; top: 897px; width: 191px; height: 22PX; TEXT-ALIGN: CENTER;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
+<DIV style="left: 309px; top: 897px; width: 151px; height: 22PX; TEXT-ALIGN: LEFT;"><span class="fc1-6"><?=$r_data['paytx'];?></span></DIV>
 
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
@@ -561,11 +563,11 @@ else
 
 <DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ส่งของ ........../............/................</span></DIV>
 
-<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้มีอำนาจลงนาม</span></DIV>
+<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้อนุมัติ</span></DIV>
 
 <DIV style="left:232PX;top:1059PX;width:64PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Delivered by</span></DIV>
 
-<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Authorized Signature</span></DIV>
+<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Approve by</span></DIV>
 
 <DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
 
@@ -575,9 +577,9 @@ else
 
 <DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
 
-<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้รับเงิน ........../.........../.............</span></DIV>
+<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้อนุมัติ</span></DIV>
 
-<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Collector</span></DIV>
+<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;">Approve by</DIV>
 <BR>
 <?php
 		echo '</div>';
