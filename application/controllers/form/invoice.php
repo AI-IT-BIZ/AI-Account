@@ -490,7 +490,7 @@ $distxt='';$disamt=0;$a_amt=0;
 ?>
 
 <DIV style="left:660PX;top:684PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($disamt,2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($r_data['dismt'],2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:709PX;width:101PX;height:23PX;"><span class="fc1-4">ส่วนลด&nbsp;&nbsp;Sale Discount</span></DIV>
 

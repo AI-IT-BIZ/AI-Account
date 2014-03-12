@@ -48,8 +48,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				'texts',
 				{name:'itamt', type: 'string'},
 				'jobtx',
-				//'payrc',
-				//'reman',
+				'dismt',
+				'beamt',
 				'belnr',
 				'ctyp1',
 				'wht01',
@@ -81,7 +81,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			id : 'RowNumber5',
 			header : "No.",
 			dataIndex : 'vbelp',
-			width : 60,
+			width : 50,
 			align : 'center',
 			resizable : false, sortable : false,
 			renderer : function(value, metaData, record, rowIndex) {
@@ -103,7 +103,7 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			}
 			},
 			{text: "Project Description",
-		    width: 150,
+		    width: 160,
 		    dataIndex: 'jobtx',
 		    sortable: false,
 		    field: {
@@ -117,23 +117,40 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 		    sortable: false,
 		    renderer : Ext.util.Format.dateRenderer('m/d/Y')
 		    },
-		    {text: "Ref.No",
-		    width: 120,
-		    dataIndex: 'refnr',
-		    sortable: false,
-		    field: {
-				type: 'textfield'
-			}
+		    {
+		    text: "Amount",
+			dataIndex: 'beamt',
+			xtype: 'numbercolumn',
+			width: 100,
+			align: 'right',
+			sortable: false,
+			readOnly: true
+		    },{
+		    text: "Discount",
+			dataIndex: 'dismt',
+			xtype: 'numbercolumn',
+			width: 80,
+			align: 'right',
+			sortable: false,
+			readOnly: true
+		    },{
+		    text: "Vat Amt",
+			dataIndex: 'vat01',
+			xtype: 'numbercolumn',
+			width: 100,
+			align: 'right',
+			sortable: false,
+			readOnly: true
+		    },{
+		    text: "WHT Amt",
+			dataIndex: 'wht01',
+			xtype: 'numbercolumn',
+			width: 100,
+			align: 'right',
+			sortable: false,
+			readOnly: true
 		    },
-		    {text: "Text Note",
-		    width: 180,
-		    dataIndex: 'texts',
-		    sortable: false,
-		    field: {
-				type: 'textfield'
-			},
-		    },
-			{text: "Invoice Amt",
+			{text: "Net Amt",
 			xtype: 'numbercolumn',
 			width: 120,
 			dataIndex: 'itamt',
@@ -175,16 +192,6 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 			//field: {
 			//	type: 'textfield'
 			//},
-		},{
-			dataIndex: 'wht01',
-			//width: 55,
-			hidden: true,
-			sortable: false
-		},{
-			dataIndex: 'vat01',
-			//width: 55,
-			hidden: true,
-			sortable: false
 		},{
 			dataIndex: 'dtype',
 			//width: 55,
@@ -261,6 +268,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('wht01', r.data.wht01);
 							// VAT01
 							rModel.set('vat01', r.data.vat01);
+							// Amount
+				            rModel.set('beamt', r.data.beamt);
+				            // Discount
+				            rModel.set('dismt', r.data.dismt);
 							//Flag
 							rModel.set('loekz', r.data.loekz);
 							// Dtype
@@ -283,6 +294,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							rModel.set('loekz', '');
 				            rModel.set('dtype', '');
 							rModel.set('kunnr', '');
+							rModel.set('beamt', '');
+							rModel.set('dismt', '');
 							//_this.editing.startEdit(e.record, e.column);
 						}
 					}
@@ -328,6 +341,10 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				rModel.set('wht01', record.data.wht01);
 				// VAT01
 				rModel.set('vat01', record.data.vat01);
+				// Amount
+				rModel.set('beamt', record.data.beamt);
+				// Discount
+				rModel.set('dismt', record.data.dismt);
 				//Flag
 				rModel.set('loekz', record.data.loekz);
 				// Dtype

@@ -798,8 +798,8 @@ Ext.define('Account.Invoice.Item.Form', {
 		var _this=this;
 		var store = this.gridItem.store;
 		var store2 = this.gridPayment.store;
-		var sum = 0;var vats=0;sum2=0;
-		var whts=0;var discounts=0;
+		var sum=0;var vats=0;sum2=0;
+		var whts=0;var discounts=0;var tdisc=0;
 		var saknr_list = [];var netwr=0;var netwr2=0;
 		var vattype = this.comboTax.getValue();
 		var currency = this.trigCurrency.getValue();
@@ -821,13 +821,13 @@ Ext.define('Account.Invoice.Item.Form', {
 			//discount = isNaN(discount)?0:discount;
             if(qty>0){
 			var amt = qty * price;
-			
+			var amt2=0;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
 		    }
 		  
-		    if(isNaN(discount) && discount!='0.00'){
+		    if(discount!=null && discount!='0.00'){
 			if(discount.match(/%$/gi)){
 				discount = discount.replace('%','');
 				var discountPercent = parseFloat(discount);
@@ -841,7 +841,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			netwr += amt;
 			//netwr = netwr;// - discountValue;
 			
-			if(isNaN(percent) && percent!='0.00'){
+			if(percent!=null && percent!='0.00'){
 				var per2 = percent;
 		    if(per2.match(/%$/gi)){
 		    	//alert(percent);
@@ -859,9 +859,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			
 			discounts += discountValue;
             
-            amt = amt - discountValue;
+            amt2 = amt - discountValue;			
+			amt = amt - discountValue;
+            sum2+=amt;
             
-			sum2+=amt;
+            var disc = parseFloat(r.data['tdisc']);
+            tdisc += disc * qty;
+            disc = disc * qty;
+            amt = amt - disc;
 			
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -887,7 +892,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			store.each(function(r){
 			var qty = parseFloat(r.data['menge']),
 				price = parseFloat(r.data['unitp']),
-				discount = r.data['disit'],
+				discount = r.data['disit'].toString(),
 				discountValue = 0;
 			qty = isNaN(qty)?0:qty;
 			price = isNaN(price)?0:price;
@@ -895,7 +900,7 @@ Ext.define('Account.Invoice.Item.Form', {
             if(qty>0){
             
 			var amt = qty * price;
-			
+			var amt2=0;
 			if(vattype =='02'){
 				amt = amt * 100;
 			    amt = amt / 107;
@@ -916,8 +921,14 @@ Ext.define('Account.Invoice.Item.Form', {
 			
 			discounts += discountValue;
             
+            amt2 = amt - discountValue;
             amt = amt - discountValue;
             sum2+=amt;
+            
+            var disc = parseFloat(r.data['tdisc']);
+            tdisc += disc * qty;
+            disc = disc * qty;
+            amt = amt - disc;
             			
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
@@ -934,7 +945,7 @@ Ext.define('Account.Invoice.Item.Form', {
 			if(currency != 'THB'){
 				amt = amt * rate;
 			}
-			var item = r.data['saknr'] + '|' + amt;
+			var item = r.data['saknr'] + '|' + amt2;
         		saknr_list.push(item);
         	}
 		});

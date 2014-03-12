@@ -5,7 +5,7 @@ Ext.define('Account.SSaleorder.MainWindow', {
 		Ext.apply(this, {
 			title: 'Saleorder List',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 950,
 			minWidth: 500,

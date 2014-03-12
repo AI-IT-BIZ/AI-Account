@@ -36,7 +36,8 @@ Ext.define('Account.AP.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'invnr,vbelp'
+					idProperty: function(o){ return o.invnr+o.vbelp; },
+					totalProperty: 'totalCount'
 				}
 			},
 			fields: [

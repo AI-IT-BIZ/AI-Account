@@ -225,6 +225,23 @@ class Gr extends CI_Controller {
 					return;
             }*/
 		}
+			
+	    $mseg = $this->input->post('mseg');//$this->input->post('vbelp');
+		$gr_item_array = json_decode($mseg);
+		if(!empty($mseg) && !empty($gr_item_array)){
+			// loop เพื่อ insert gr_item ที่ส่งมาใหม่
+			$item_index = 0;$reman=0;
+			foreach($gr_item_array AS $p){
+				if($p->upqty > $p->reman){
+					$emsg = 'GR qty over remain qty';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
+		}
         
 		$ebeln = $this->input->post('ebeln');
 		$formData = array(
@@ -246,9 +263,6 @@ class Gr extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'statu' => $this->input->post('statu'),
 			'ctype' => $this->input->post('ctype'),
-			//'deamt' => floatval($this->input->post('deamt')),
-			//'devat' => floatval($this->input->post('devat')),
-			//'dewht' => floatval($this->input->post('dewht')),
 			'reanr' => $this->input->post('reanr')
 		);
 
@@ -282,8 +296,8 @@ class Gr extends CI_Controller {
 		$this->db->delete('mseg');
 
 		// เตรียมข้อมูล  qt item
-		$mseg = $this->input->post('mseg');//$this->input->post('vbelp');
-		$gr_item_array = json_decode($mseg);
+		//$mseg = $this->input->post('mseg');//$this->input->post('vbelp');
+		//$gr_item_array = json_decode($mseg);
 		if(!empty($mseg) && !empty($gr_item_array)){
 			// loop เพื่อ insert gr_item ที่ส่งมาใหม่
 			$item_index = 0;$reman=0;
@@ -300,7 +314,6 @@ class Gr extends CI_Controller {
 					'itamt'=>floatval($p->itamt),
 					'chk01'=>$p->chk01,
 					'ctype'=>$p->ctype,
-					//'serno'=>$p->serno,
 					'reman'=>floatval($p->reman),
 					'upqty'=>floatval($p->upqty)
 				));

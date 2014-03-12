@@ -42,6 +42,7 @@ Ext.define('Account.SDistrict.Grid', {
 			],
 			remoteSort: false,
 			sorters: ['distr ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [
@@ -49,12 +50,12 @@ Ext.define('Account.SDistrict.Grid', {
 			{text: "District Description", flex: true, dataIndex: 'distx', sortable: true},
 		];
 
-		this.bbar = {
+		/*this.bbar = {
 			xtype: 'pagingtoolbar',
 			pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};
+		};*/
 		
 		Ext.apply(this, {
 			forceFit: true,

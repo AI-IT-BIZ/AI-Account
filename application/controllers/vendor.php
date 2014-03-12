@@ -236,6 +236,7 @@ class Vendor extends CI_Controller {
 			'statu' => $this->input->post('statu'),
 			'ptype' => $this->input->post('ptype'),
 			'vat01' => $vat,
+			'brach' => $this->input->post('brach'),
 			'note1' => $this->input->post('note1'),
 			'type1' => $this->input->post('type1')
 		);

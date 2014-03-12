@@ -240,9 +240,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">BILLING NOTE</span></DIV>
 
-<DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
-<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;"><span class="fc1-2"><?=$r_com['taxid'];?></span></DIV>
+<DIV style="left: 49px; top: 145PX; width: 149PX; height: 20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
+
+<DIV style="left: 217px; top: 130px; width: 38px; height: 20PX;"><span class="fc1-2">สาขาที่</span></DIV>
+
+<DIV style="left: 216px; top: 145px; width: 39px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $r_com['brach']; ?></span></DIV>
 
 <DIV style="left: 562px; top: 176PX; width: 75PX; height: 20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
 
@@ -283,9 +287,11 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 
 <DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left: 109PX; top: 219px; width: 436px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?></span></DIV>
+<DIV style="left: 109PX; top: 219px; width: 347px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 243px; width: 400PX; height: 22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 109PX; top: 243px; width: 234px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
+
+<DIV style="left: 362px; top: 243px; width: 89px; height: 22PX;"><span class="fc1-8">สาขาที่&nbsp;<?=$r_data['brach'];?></span></DIV>
 
 <DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 

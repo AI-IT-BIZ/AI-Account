@@ -47,7 +47,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 					return true;
 			}
 		});*/
-		this.txtDiscountValue = Ext.create('Ext.form.field.Text', {
+		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
 			fieldLabel: 'Discount',
 			name: 'dismt',
 			align: 'right',
@@ -157,7 +157,6 @@ Ext.define('Account.Payment.Item.Form_t', {
         items: [this.txtTotal,{
 			xtype: 'container',
             layout: 'hbox',
-            //margin: '5 0 5 600',
 			items: [this.txtDiscountValue]
 		},this.txtDiscountSum,this.txtTaxValue,this.txtWHTValue,
 	this.txtNet]
@@ -257,16 +256,12 @@ Ext.define('Account.Payment.Item.Form_t', {
 			this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 		}
 
-		var tax = this.txtInterest.getValue(),
-			taxValue = 0;
-		if(this.txtInterest.isValid() && !Ext.isEmpty(tax)){
-			taxValue = parseFloat(tax);
-			taxValue = isNaN(taxValue)?0:taxValue;
-		}else{
-			this.txtInterest.setValue('');
-		}*/
+		*/
+		
+		total = total - discount;
+		this.txtDiscountSum.setValue(Ext.util.Format.usMoney(total).replace(/\$/, ''));
 
-		var net = total - discount - wht01;
+		var net = total - wht01;
 		net = net + vat01;
 		this.txtNet.setValue(net);
 		

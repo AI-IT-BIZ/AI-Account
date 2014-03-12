@@ -215,6 +215,20 @@ class Service extends CI_Controller {
 				}
 			}
 			// ##### END CHECK PERMISSIONS
+		}else{
+			$maktx=$this->input->post('maktx');
+	    	if(!empty($maktx)){
+			$this->db->where('maktx', $maktx);
+			$q_txt = $this->db->get('mara');
+			if($q_txt->num_rows() > 0){
+					$emsg = 'The Material Name already created.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+				}
+			}
 		}
 
 		$formData = array(
@@ -225,12 +239,7 @@ class Service extends CI_Controller {
 			'mtart' => $this->input->post('mtart'),
 			'meins' => $this->input->post('meins'),
 			'saknr' => $this->input->post('saknr'),
-			
-			/*'beqty' => $this->input->post('beqty'),
-			'beval' => $this->input->post('beval'),
-			'cosav' => $this->input->post('cosav'),
-			'enqty' => $this->input->post('enqty'),		
-			'enval' => $this->input->post('enval'),*/
+
 			'unit1' => $this->input->post('unit1'),
 			'cost1' => floatval($this->input->post('cost1')),
 			'unit2' => $this->input->post('unit2'),
@@ -273,7 +282,7 @@ class Service extends CI_Controller {
 		    'pleve' => $p,
 		    'matnr' => $id,
 			'unit' => $this->input->post($u),
-			'cost' => $this->input->post($c),
+			'cost' => floatval($this->input->post($c)),
 			);
 		  $this->db->insert('plev', $formCost);
 		}

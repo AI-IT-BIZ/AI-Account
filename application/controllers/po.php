@@ -380,6 +380,34 @@ class Po extends CI_Controller {
 					));
 					return;
 				}
+
+        $payp = $this->input->post('payp');//$this->input->post('vbelp');
+		$pp_item_array = json_decode($payp);
+		if(!empty($payp) && !empty($pp_item_array)){
+			// loop เพื่อ insert pay_item ที่ส่งมาใหม่
+			$pramt = 0;$amt = 0;$total=0;
+			foreach($pp_item_array AS $p){
+				$perct = $p->perct;
+				$amt = floatval($this->input->post('beamt')) - floatval($this->input->post('dismt'));
+				$pos = strpos($perct, '%');
+				if($pos==false){
+					$pramt = $perct;
+				}else{
+					$perc = explode('%',$perct);
+					$pramt = $amt * $perc[0];
+					$pramt = $pramt / 100;
+				}
+				$total+=$pramt;
+			}
+            if($total>$net){
+            	$emsg = 'The patial payment total have amount more than PO total.';
+					echo json_encode(array(
+						'success'=>false,
+						'message'=>$emsg
+					));
+					return;
+            }
+		}
 		
 		$formData = array(
 			'bldat' => $this->input->post('bldat'),
@@ -463,8 +491,8 @@ class Po extends CI_Controller {
 		$this->db->delete('payp');
 
 		// เตรียมข้อมูล pay item
-		$payp = $this->input->post('payp');//$this->input->post('vbelp');
-		$pp_item_array = json_decode($payp);
+		//$payp = $this->input->post('payp');//$this->input->post('vbelp');
+		//$pp_item_array = json_decode($payp);
 		if(!empty($payp) && !empty($pp_item_array)){
             $item_index = 0;
 			// loop เพื่อ insert pay_item ที่ส่งมาใหม่

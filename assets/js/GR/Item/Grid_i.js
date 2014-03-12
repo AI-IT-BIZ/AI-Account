@@ -253,8 +253,9 @@ Ext.define('Account.GR.Item.Grid_i', {
 				var remain = e.record.data.reman;
 				//alert(v+'aaa'+e.record.data.reman);
 			    if(v>remain){
+			    	rModel.set(e.field, remain);
 			    	Ext.Msg.alert('Warning', 'GR qty over remain qty');
-			    	rModel.set(e.field, 0);
+			    	//rModel.set(e.field, 0);
 			    }
 			}
 		});

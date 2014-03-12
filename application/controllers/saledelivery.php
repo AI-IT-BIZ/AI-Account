@@ -246,9 +246,6 @@ class Saledelivery extends CI_Controller {
 					return;
                 }
 		}*/
-		
-		$this->db->where('delnr', $id);
-		$this->db->delete('vbvp');
 
 		// เตรียมข้อมูล  qt item
 		$vbvp = $this->input->post('vbvp');
@@ -324,8 +321,8 @@ class Saledelivery extends CI_Controller {
 		}
 
 		// ลบ pr_item ภายใต้ id ทั้งหมด
-		//$this->db->where('delnr', $id);
-		//$this->db->delete('vbvp');
+		$this->db->where('delnr', $id);
+		$this->db->delete('vbvp');
 
 		// เตรียมข้อมูล  qt item
 		//$vbvp = $this->input->post('vbvp');

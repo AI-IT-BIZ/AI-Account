@@ -269,9 +269,13 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบขอซื้อ</span></DIV>
 
-<DIV style="left:57PX;top:130PX;width:119PX;height:20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษี </span></DIV>
+<DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
-<DIV style="left:57PX;top:145PX;width:149PX;height:20PX;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
+<DIV style="left: 49px; top: 145PX; width: 149PX; height: 20PX;TEXT-ALIGN:CENTER;"><span class="fc1-2"><?= $r_com['taxid']; ?></span></DIV>
+
+<DIV style="left: 217px; top: 130px; width: 38px; height: 20PX;"><span class="fc1-2">สาขาที่</span></DIV>
+
+<DIV style="left: 216px; top: 145px; width: 39px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-2"><?= $r_com['brach']; ?></span></DIV>
 <?php
 $bldat_str = util_helper_format_date($r_data['bldat']);
 ?>
@@ -295,13 +299,15 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
 
-<DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left: 109PX; top: 173PX; width: 438px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
 <DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left: 109PX; top: 219px; width: 436px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?></span></DIV>
+<DIV style="left: 109PX; top: 219px; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 243px; width: 400PX; height: 22PX;"><span class="fc1-8"><?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?>&nbsp;&nbsp;เลขประจำตัวผู้เสียภาษี&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 109PX; top: 243px; width: 234px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
+
+<DIV style="left: 362px; top: 243px; width: 89px; height: 22PX;"><span class="fc1-8">สาขาที่&nbsp;<?=$r_data['brach'];?></span></DIV>
 
 <DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
@@ -323,9 +329,9 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 <!--Reference Table-->
 
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Quotation no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Project no.</span></DIV>
 
-<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['purnr'];?></span></DIV>
+<DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
 <!--2 Reference-->
 
@@ -517,18 +523,6 @@ else
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text--><!--Signature Text-->
-<DIV style="left:57PX;top:955PX;width:177PX;height:34PX;">
-<table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">ได้รับสิ่งของ/บริการตามรายการข้างต้นในสภาพดี</td></table>
-
-<table width="172PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-11">และถูกต้องแล้ว</td></table>
-</DIV>
-
-<DIV style="left:57PX;top:984PX;width:176PX;height:27PX;">
-<table width="171PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">Goods/Service received in good condition</td></table>
-
-<table width="171PX" border=0 cellpadding=0 cellspacing=0><td class="fc1-5">and order</td></table>
-</DIV>
-
 <DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ส่งของ ........../............/................</span></DIV>
 
 <DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้มีอำนาจลงนาม</span></DIV>

@@ -364,10 +364,9 @@ Ext.define('Account.Payment.Item.Form', {
 			sum_dis += disc;
 		});
 		this.gridPayment.itemValue = sum;
-		//this.formTotal.getForm().findField('beamt').setValue(sum);
+		this.formTotal.getForm().findField('beamt').setValue(sum_amt);
 		this.formTotal.getForm().findField('vat01').setValue(sum_vat);
 		this.formTotal.getForm().findField('wht01').setValue(sum_wht);
-		this.formTotal.getForm().findField('beamt').setValue(sum_amt);
 		this.formTotal.getForm().findField('dismt').setValue(sum_dis);
 		
 		var net = this.formTotal.calculate();
@@ -405,15 +404,7 @@ Ext.define('Account.Payment.Item.Form', {
 		
         var discount = this.formTotal.getForm().findField('dismt').getValue();
         sum2 = sum - discount;
-		// set value to grid payment
-		//var rsPM = _this.gridPayment.getData();
-		// Set value to GL Posting grid  
-		//var currency = this.trigCurrency.getValue();
-		//if(currency != 'THB'){
-	    //  var rate = this.formTotal.getForm().findField('exchg').getValue();
-		//  sum = sum * rate;
-		//  sum2 = sum2 * rate;
-		//}   
+  
         if(sum>0 && this.trigVendor.getValue()!=''){
         	var r_data = _this.gridPayment.getData();
         	var pay_list = [];

@@ -5,7 +5,7 @@ Ext.define('Account.SSaledelivery.MainWindow', {
 		Ext.apply(this, {
 			title: 'Delivery Order List',
 			closeAction: 'hide',
-			height: 600,
+			height: 700,
 			minHeight: 380,
 			width: 1050,
 			minWidth: 500,

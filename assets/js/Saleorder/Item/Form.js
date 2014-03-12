@@ -869,9 +869,11 @@ Ext.define('Account.Saleorder.Item.Form', {
 			amt = amt - discountValue;
 			
 			var disc = parseFloat(r.data['tdisc']);
+			if(disc>0){
             tdisc += disc * qty;
             disc = disc * qty;
             amt = amt - disc;
+           }
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
@@ -884,7 +886,7 @@ Ext.define('Account.Saleorder.Item.Form', {
 				    whts += wht;
 			}
 		});
-		
+
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);

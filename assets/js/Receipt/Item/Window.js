@@ -5,8 +5,8 @@ Ext.define('Account.Receipt.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Receipt',
 			closeAction: 'hide',
-			height: 650,
-			width: 950,
+			height: 680,
+			width: 1000,
 			layout: 'border',
 			border: false,
 			resizable: true,

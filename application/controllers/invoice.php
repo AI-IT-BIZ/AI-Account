@@ -618,11 +618,11 @@ class Invoice extends CI_Controller {
 					$perc = explode('%',$p->whtpr);
 					$whtpr = $perc[0];
 				}
-				$wht02 = $p->tdisc * $whtpr;
+				$wht02 = ($p->tdisc * $p->menge) * $whtpr;
 				$wht02 = $wht02 / 100;
 				$wht = $itamt * $whtpr;
 				$wht = $wht / 100;
-				$wht02 = $wht + $wht02;
+				$wht02 = $wht - $wht02;
 				
 			$this->db->insert('vbrp', array(
 				'invnr'=>$id,
@@ -636,6 +636,7 @@ class Invoice extends CI_Controller {
 				'ctype'=>$p->ctype,
 				'chk01'=>$p->chk01,
 				'wht02'=>floatval($wht02),
+				'tdisc'=>floatval($p->tdisc),
 				'whtnr'=>$p->whtnr
 			));
 	    	}
@@ -676,10 +677,7 @@ class Invoice extends CI_Controller {
 					'ctyp1'=>$p->ctyp1,
 					'payty'=>$p->payty,
 				));
-				/*$this->db->where('vbeln', $quono);
-			    $this->db->where('paypr', $paypr);
-			    $this->db->set('chk01', '2');
-			    $this->db->update('payp');*/
+
 			}
 		}
 		

@@ -596,7 +596,7 @@ class Ap extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			/*$grno = $this->input->post('mbeln');
+			$grno = $this->input->post('mbeln');
 			$pono = $this->input->post('ebeln');
 			$this->db->where('vbeln', $pono);
 			$this->db->where('chk01', '1');
@@ -607,7 +607,7 @@ class Ap extends CI_Controller {
 				$this->db->where('mbeln', $grno);
 			    $this->db->set('loekz', '2');
 			    $this->db->update('mkpf');
-			}*/
+			}
 		}
 		
 		// ลบ pr_item ภายใต้ id ทั้งหมด

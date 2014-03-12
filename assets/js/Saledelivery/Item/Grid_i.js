@@ -6,22 +6,6 @@ Ext.define('Account.Saledelivery.Item.Grid_i', {
 
 	initComponent : function() {
 		var _this=this;
-		
-		/*this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
-		this.copyAct = new Ext.Action({
-			text: 'Copy',
-			iconCls: 'b-small-copy'
-		});
-
-		// INIT Material search popup //////////////////////////////////
-		this.materialDialog = Ext.create('Account.SMaterial.MainWindow');
-		// END Material search popup ///////////////////////////////////
-        this.unitDialog = Ext.create('Account.SUnit.Window');
-        
-		this.tbar = [this.addAct, this.copyAct];*/
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1

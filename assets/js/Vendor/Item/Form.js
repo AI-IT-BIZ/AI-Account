@@ -342,7 +342,16 @@ Ext.define('Account.Vendor.Item.Form', {
 					fieldLabel: 'Vendor Name',
 					name: 'name1',
 					allowBlank: false,
-					width:470
+					width:420
+                },{
+					xtype: 'textfield',
+					fieldLabel: 'Branch No',
+					name: 'brach',
+					labelAlign: 'right',
+					value: '00000',
+					allowBlank: false,
+					maxLength: 5,
+					width:180,
                 }]
             },{
             xtype:'fieldset',
