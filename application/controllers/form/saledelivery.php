@@ -275,9 +275,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 74px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบส่งของ</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบส่งสินค้า/บริการ/ใบแจ้งหนี้</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">DELIVERY ORDER</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">DELIVERY ORDER/INVOICE</span></DIV>
 
 <DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
@@ -530,12 +530,6 @@ if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
 else
 	$wht_str = '';
 ?>
-<DIV style="left:602PX;top:798PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
-<DIV style="left:602PX;top:821PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $wht_str ?></span></DIV>
-
 <DIV style="left:660PX;top:798PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 

@@ -525,12 +525,6 @@ if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
 else
 	$wht_str = '';
 ?>
-<DIV style="left:602PX;top:798PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
-<DIV style="left:602PX;top:821PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $wht_str ?></span></DIV>
-
 <DIV style="left:660PX;top:798PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 

@@ -245,12 +245,12 @@ class Ap extends CI_Controller {
 		for($i=0;$i<count($res);$i++){
 			$r = $res[$i];
 			// search item
-			$q_so = $this->db->get_where('mkpf', array(
-				'mbeln'=>$r['mbeln']
-			));
+			//$q_so = $this->db->get_where('mkpf', array(
+			//	'mbeln'=>$r['mbeln']
+			//));
 			
-			$result_data = $q_so->first_row('array');
-			$res[$i]['ebeln'] = $result_data['ebeln'];
+			//$result_data = $q_so->first_row('array');
+			//$res[$i]['ebeln'] = $result_data['ebeln'];
 			
 			//$terms='+'.$res[$i]['terms']." days";
 			$my_date = util_helper_get_time_by_date_string($res[$i]['duedt']);
@@ -844,6 +844,7 @@ class Ap extends CI_Controller {
 			// search item
 			//echo 'aaa'.$r['upqty'];
 			$res[$i]['menge'] = $res[$i]['upqty'];
+			$res[$i]['vbelp'] = $res[$i]['mbelp'];
 		    $res[$i]['whtnr'] = '20';
 			$res[$i]['whtpr'] = '0%';
 		}

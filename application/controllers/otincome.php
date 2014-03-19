@@ -24,12 +24,12 @@ class Otincome extends CI_Controller {
 		}
 		$this->db->limit(1);
 		$this->db->where('invnr', $id);
-		$query = $this->db->get('vbrk');
+		$query = $this->db->get('otin');
 		
 		if($query->num_rows()>0){
 			$result = $query->first_row('array');
 			$result['id'] = $result['invnr'];
-			
+			//$result['jobnr'] = $result['jobnr'];
 			$result['adr01'] .= ' '.$result['distx'].' '.$result['pstlz'].
 			                    PHP_EOL.'Tel: '.$result['telf1'].' '.'Fax: '.
 			                    $result['telfx'].
@@ -91,7 +91,7 @@ class Otincome extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'vbrk';
+		$tbName = 'otin';
 		
 		// Start for report
 		function createQuery($_this){
@@ -163,6 +163,8 @@ class Otincome extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
+			$_this->db->where('itype =', '1');
 		}
 // End for report
 
@@ -432,7 +434,7 @@ class Otincome extends CI_Controller {
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
-			$query = $this->db->get('vbrk');
+			$query = $this->db->get('otin');
 			
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');
@@ -527,11 +529,12 @@ class Otincome extends CI_Controller {
 			'exchg' => floatval($this->input->post('exchg')),
 			'duedt' => $this->input->post('duedt'),
 			'condi' => $this->input->post('condi'),
-			'jobnr' => $this->input->post('jobnr2'),
+			'jobnr' => $this->input->post('jobnr'),
 			'whtxt' => $this->input->post('whtxt'),
 			'vat01' => floatval($this->input->post('vat01')),
 			'wht01' => floatval($this->input->post('wht01')),
-			'ftype' => $this->input->post('ftype')
+			'ftype' => $this->input->post('ftype'),
+			'dispc' => 0,
 		);
 		
 		// start transaction

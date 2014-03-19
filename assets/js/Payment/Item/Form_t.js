@@ -48,6 +48,7 @@ Ext.define('Account.Payment.Item.Form_t', {
 			}
 		});*/
 		this.txtDiscountValue = Ext.create('Ext.ux.form.NumericField', {
+			xtype: 'textfield',
 			fieldLabel: 'Discount',
 			name: 'dismt',
 			align: 'right',

@@ -56,10 +56,9 @@ Ext.onReady(function() {
 		//if(!$om.quotationnewDialog)
 		//	$om.quotationnewDialog = Ext.create('Account.Quotation.Item.Window');
 		//$om.quotationnewDialog.show();
-		if(!$om.quotationDialog)
-			$om.quotationDialog = Ext.create('Account.Quotation.MainWindow');
-
-		$om.quotationDialog.addAct.execute();
+		if(!$om.quotationnewDialog)
+			$om.quotationnewDialog = Ext.create('Account.Quotation.MainWindow');
+		    $om.quotationnewDialog.addAct.execute();
 	});
 	$om.viewport.on('click_quotation', function(){
 		if(!UMS.CAN.DISPLAY('QT')){

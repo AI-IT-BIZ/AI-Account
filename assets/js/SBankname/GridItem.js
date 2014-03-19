@@ -55,8 +55,8 @@ Ext.define('Account.SBankname.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: true,
-			sorters: ['bcode ASC']//,
-			//pageSize: 10000000
+			sorters: ['bcode ASC'],
+		    pageSize: 10000000
 		});
 
 		this.columns = [
@@ -103,6 +103,13 @@ Ext.define('Account.SBankname.GridItem', {
 			sortable: true
 		}
 		];
+		
+		this.bbar = {
+			xtype: 'pagingtoolbar',
+		//	pageSize: 10,
+			store: this.store,
+			displayInfo: true
+		};
 		
 		Ext.apply(this, {
 			forceFit: true,

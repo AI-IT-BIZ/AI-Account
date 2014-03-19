@@ -155,14 +155,14 @@ Ext.define('Account.PO.Item.Grid_i', {
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: Ext.create('BASE.form.field.PercentOrNumber'),
-				renderer: function(v,p,r){
-					var regEx = /%$/gi;
-					if(regEx.test(v))
-						return v;
-					else
-						return Ext.util.Format.usMoney(v).replace(/\$/, '');
-				}
+			//field: Ext.create('BASE.form.field.PercentOrNumber'),
+			//	renderer: function(v,p,r){
+			//		var regEx = /%$/gi;
+			//		if(regEx.test(v))
+			//			return v;
+			//		else
+			//			return Ext.util.Format.usMoney(v).replace(/\$/, '');
+			//	}
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',

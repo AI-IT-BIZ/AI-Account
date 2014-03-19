@@ -37,7 +37,7 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.invnr+o.vbelp; },//'invnr,vbelp'
+					idProperty: function(o){ return o.matnr+o.vbelp; },//'invnr,vbelp'
 					totalProperty: 'totalCount'
 				}
 			},
@@ -160,17 +160,17 @@ Ext.define('Account.OtherExpense.Item.Grid_i', {
 			dataIndex: 'disit',
 			sortable: false,
 			align: 'right',
-			field: {
-				type: 'numberfield',
-				decimalPrecision: 2,
-				listeners: {
-					focus: function(field, e){
-						var v = field.getValue();
-						if(Ext.isEmpty(v) || v==0)
-							field.selectText();
-					}
-				}
-			},
+			//field: {
+			//	type: 'numberfield',
+			//	decimalPrecision: 2,
+			//	listeners: {
+			//		focus: function(field, e){
+			//			var v = field.getValue();
+			//			if(Ext.isEmpty(v) || v==0)
+			//				field.selectText();
+			//		}
+			//	}
+			//},
 			},{
             xtype: 'checkcolumn',
             text: 'Vat',

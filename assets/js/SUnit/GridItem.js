@@ -41,7 +41,8 @@ Ext.define('Account.SUnit.GridItem', {
 				'metxt'
 			],
 			remoteSort: false,
-			sorters: ['meins ASC']
+			sorters: ['meins ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
@@ -64,7 +65,7 @@ Ext.define('Account.SUnit.GridItem', {
 		
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		//	pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

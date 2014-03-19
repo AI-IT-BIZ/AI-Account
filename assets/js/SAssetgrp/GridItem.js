@@ -57,7 +57,8 @@ Ext.define('Account.SAssetgrp.GridItem', {
 				'depre'
 			],
 			remoteSort: false,
-			sorters: ['matkl ASC']
+			sorters: ['matkl ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [/*{
@@ -113,7 +114,7 @@ Ext.define('Account.SAssetgrp.GridItem', {
 		
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		//	pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

@@ -376,7 +376,7 @@ Ext.define('Account.Receipt.Item.Form', {
 			var vat01 = parseFloat(r.data['vat01'].replace(/[^0-9.]/g, ''));
 			var wht01 = parseFloat(r.data['wht01'].replace(/[^0-9.]/g, ''));
 			var beamt = parseFloat(r.data['beamt'].replace(/[^0-9.]/g, ''));
-			var disc = parseFloat(r.data['dismt'].replace(/[^0-9.]/g, ''));
+			var disc = parseFloat(r.data['dismt']);
 			itamt = isNaN(itamt)?0:itamt;
 			//pay = isNaN(pay)?0:pay;
 

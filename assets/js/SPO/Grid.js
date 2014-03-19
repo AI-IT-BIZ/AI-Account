@@ -45,7 +45,7 @@ Ext.define('Account.SPO.Grid', {
 			{text: "Net Amount", width: 150, align: 'right',
 			xtype: 'numbercolumn',dataIndex: 'netwr', sortable: true},
 			{text: "Currency", width: 50, align: 'center', dataIndex: 'ctype', sortable: true},
-			{text: "GR Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true},
+			{text: "PO Status", width: 150, align: 'center', dataIndex: 'statx', sortable: true},
 			{text: "Create Name",
 			width: 100, dataIndex: 'ernam', sortable: true},
 			{text: "Create Date",

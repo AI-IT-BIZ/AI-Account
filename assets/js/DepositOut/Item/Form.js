@@ -463,7 +463,7 @@ Ext.define('Account.DepositOut.Item.Form', {
 			grid.getSelectionModel().deselectAll();
 			//---Load PRitem to POitem Grid-----------
 			var ponr = _this.trigPO.value;
-			//alert(grdpurnr);
+			//alert(ponr);
 			_this.gridItem.load({ponr: ponr });
 			//----------------------------------------
 			_this.poDialog.hide();

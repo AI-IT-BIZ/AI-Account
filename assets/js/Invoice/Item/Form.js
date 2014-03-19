@@ -864,6 +864,7 @@ Ext.define('Account.Invoice.Item.Form', {
             sum2+=amt;
             
             var disc = parseFloat(r.data['tdisc']);
+            disc = isNaN(disc)?0:disc;
             tdisc += disc * qty;
             disc = disc * qty;
             amt = amt - disc;
@@ -926,19 +927,21 @@ Ext.define('Account.Invoice.Item.Form', {
             sum2+=amt;
             
             var disc = parseFloat(r.data['tdisc']);
+            disc = isNaN(disc)?0:disc;
             tdisc += disc * qty;
             disc = disc * qty;
             amt = amt - disc;
-            			
+            //alert('aaa'+amt);		
 			if(r.data['chk01']==true){
-				var vat = _this.numberVat.getValue();
+				var vat = parseFloat(_this.numberVat.getValue());
 				    vat = (amt * vat) / 100;
-				    vats += vat;
+				    vats += vat; 
 			}
+				
 			//if(r.data['chk02']==true){
 				var whtpr = r.data['whtpr']
                 if(whtpr!='' && whtpr!=null){
-				    whtpr = whtpr.replace('%','');
+				    whtpr = parseFloat(whtpr.replace('%',''));
 				    wht = (amt * whtpr) / 100;
 				    whts += wht;
 			    }
@@ -954,7 +957,7 @@ Ext.define('Account.Invoice.Item.Form', {
 		var tdisc = this.formTotal.txtDiscount.getValue();
 		//var vat = _this.numberVat.getValue();
         //vat = (tdisc * vat) / 100;
-        //vats = vats - vat;
+        //vats = vats - vat;	
 		this.formTotal.getForm().findField('beamt').setValue(sum);
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		this.formTotal.getForm().findField('wht01').setValue(whts);

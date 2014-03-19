@@ -10,10 +10,19 @@ Ext.define('Account.Saleperson.MainWindow', {
 			width: 600,
 			minWidth: 500,
 			resizable: true,
-			modal: true,
+			defaultFocus: 'code',
+			modal: false,
 			layout:'border',
 			maximizable: true,
-			defaultFocus: 'code'
+			minimizable: true,
+			listeners: {
+				minimize: function(win,obj) {
+					if(!win.getCollapsed())
+						win.collapse(Ext.Component.DIRECTION_BOTTOM, false);
+					else
+						win.expand(false);
+				}
+			}
 		});
 
 		return this.callParent(arguments);

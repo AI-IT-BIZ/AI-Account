@@ -344,7 +344,7 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 
 <!--Reference Table-->
 
-<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Project no.</span></DIV>
+<DIV style="left:49PX;top:298PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Project No.</span></DIV>
 
 <DIV style="left:60PX;top:322PX;width:90PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-6"><?=$r_data['jobnr'];?></span></DIV>
 
@@ -493,7 +493,7 @@ $distxt='';$disamt=0;
 <?php $d_amt = $r_data['beamt'] - $r_data['dismt'] - $r_data['dispc']; ?>
 
 <DIV style="left:660PX;top:731PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= check_page($current_page_index, $total_page, number_format($d_amt - $r_data['dispc'],2,'.',',')) ?></span></DIV>
+<?= check_page($current_page_index, $total_page, number_format($d_amt,2,'.',',')) ?></span></DIV>
 
 <DIV style="left:465PX;top:753PX;width:194PX;height:23PX;"><span class="fc1-4">เงินมัดจำ&nbsp;&nbsp;Advance Payment</span></DIV>
 
@@ -524,12 +524,6 @@ if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
 else
 	$wht_str = '';
 ?>
-<DIV style="left:602PX;top:798PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
-<DIV style="left:602PX;top:821PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $wht_str ?></span></DIV>
-
 <DIV style="left:465PX;top:843PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>
 
 <DIV style="left:660PX;top:843PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">

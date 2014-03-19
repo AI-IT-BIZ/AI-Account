@@ -5,7 +5,8 @@ class Bankname extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		$this->load->model('code_model2','',TRUE);
+		$this->load->model('email_service','',TRUE);
 	}
 
 
@@ -59,50 +60,37 @@ class Bankname extends CI_Controller {
 	
 	function save(){
 		
-		// เตรียมข้อมูล payment item
-		$bnam = $this->input->post('bnam');
-		$item_array = json_decode($bnam);
-		$result_array = json_decode($bnam);
-		if(!empty($bnam) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->bcode == $o->bcode && $i!=$j){
-						$emsg = 'Cannot Save Bank code '.$p->bcode.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
-			}
-		}
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-			$this->db->where('1=1');
-			$this->db->delete('bnam');
-		}
-		if(db_helper_is_mysql($this)){
-			$this->db->truncate('bnam');
-		}
+		$id = $this->input->post('id');
 
-		// เตรียมข้อมูล payment item
-		//$bnam = $this->input->post('bnam');
-		//$item_array = json_decode($bnam);
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('bcode', $id);
+			$query = $this->db->get('bnam');
+			}
 		
-		if(!empty($bnam) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		    foreach($item_array AS $p){
-			  $this->db->insert('bnam', array(
-				'bcode'=>$p->bcode,
-				'bname'=>$p->bname,
-				'saknr'=>$p->saknr,
-				'addrs'=>$p->addrs
-			 ));
-	    	}
+		$formData = array(
+			//'bcode' => $this->input->post('bcode'),
+			'bname' => $this->input->post('bname'),
+			'saknr' => $this->input->post('saknr'),
+		);
+
+		$current_username = XUMS::USERNAME();
+
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('bcode', $id);
+			$this->db->update('bnam', $formData);
+
+		}else{
+			$id = $this->code_model2->generate2('BK');
+			$this->db->set('bcode', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('bnam', $formData);
+
 		}
 
 		echo json_encode(array(

@@ -58,6 +58,7 @@ Ext.define('Account.AP.Item.Form', {
 			title:'Item Pricing',
 			region:'south'
 		});
+		
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('AP'),
@@ -92,6 +93,7 @@ Ext.define('Account.AP.Item.Form', {
 			displayField: 'statx',
 			valueField: 'statu'
 		});
+		
 /*---ComboBox Tax Type----------------------------*/
 		this.comboTax = Ext.create('Ext.form.ComboBox', {			
 			fieldLabel: 'Vat Type',
@@ -102,6 +104,7 @@ Ext.define('Account.AP.Item.Form', {
 			allowBlank : false,
 			triggerAction : 'all',
 			clearFilterOnReset: true,
+			
 		    //emptyText: '-- Please select data --',
 			store: new Ext.data.JsonStore({
 				proxy: {
@@ -125,6 +128,7 @@ Ext.define('Account.AP.Item.Form', {
 			readOnly: true,
 			valueField: 'taxnr'
 		});	
+		
 /*---ComboBox Payment type----------------------------*/
 		this.comboPay = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Payments',
@@ -157,6 +161,7 @@ Ext.define('Account.AP.Item.Form', {
 			readOnly: true,
 			valueField: 'ptype'
 		});
+		
 /*-------------------------------*/			
 		this.hdnApItem = Ext.create('Ext.form.Hidden', {
 			name: 'ebrp',
