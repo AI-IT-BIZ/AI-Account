@@ -197,7 +197,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 		});
 		
 		this.trigProject = Ext.create('Ext.form.field.Trigger', {
-			name: 'jobnr2',
+			name: 'jobnr',
 			fieldLabel: 'Project No.',
 			width:240,
 			triggerCls: 'x-form-search-trigger',

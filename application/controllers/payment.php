@@ -401,7 +401,7 @@ class Payment extends CI_Controller {
 				'invdt'=>$p->invdt,
 				'texts'=>$p->texts,
 				'itamt'=>floatval($p->itamt),
-				'refnr'=>$p->refnr,
+				'refno'=>$p->refno,
 				'ctype'=>$p->ctype,
 				'wht01'=>floatval($p->wht01),
 				'vat01'=>floatval($p->vat01),

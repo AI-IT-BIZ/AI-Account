@@ -167,12 +167,12 @@ Ext.define('Account.SAssettype.GridItem', {
 			_this.glnoDialog.hide();
 		});*/
 		
-		/*this.bbar = {
+		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		//	pageSize: 10,
 			store: this.store,
 			displayInfo: true
-		};*/
+		};
 
 		return this.callParent(arguments);
 	},

@@ -51,8 +51,8 @@ Ext.define('Account.SPosition.Grid', {
 				'deptx'
 			],
 			remoteSort: false,
-			sorters: ['posnr ASC']//,
-			//pageSize: 10000000
+			sorters: ['posnr ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [

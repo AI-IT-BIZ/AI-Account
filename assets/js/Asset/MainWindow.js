@@ -10,9 +10,18 @@ Ext.define('Account.Asset.MainWindow', {
 			width: 1200,
 			minWidth: 100,
 			resizable: true,
-			modal: true,
+			modal: false,
 			layout:'border',
-			maximizable: true
+			maximizable: true,
+			minimizable: true,
+			listeners: {
+				minimize: function(win,obj) {
+					if(!win.getCollapsed())
+						win.collapse(Ext.Component.DIRECTION_BOTTOM, false);
+					else
+						win.expand(false);
+				}
+			}
 		});
 
 		return this.callParent(arguments);

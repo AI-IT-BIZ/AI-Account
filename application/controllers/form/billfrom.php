@@ -282,25 +282,25 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อเจ้าหนี้</span></DIV>
+<DIV style="left: 57PX; top: 176PX; width: 67px; height: 22PX;"><span class="fc1-2">ชื่อผู้จำหน่าย</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
 
-<DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left: 123px; top: 173PX; width: 386px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
+<DIV style="left: 123px; top: 198PX; width: 424px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left: 109PX; top: 219px; width: 347px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
+<DIV style="left: 123px; top: 219px; width: 333px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 243px; width: 234px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 123px; top: 243px; width: 220px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
 <DIV style="left: 362px; top: 243px; width: 89px; height: 22PX;"><span class="fc1-8">สาขาที่&nbsp;<?=$r_data['brach'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
+<DIV style="left: 121px; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
 <DIV style="left: 287PX; top: 267px; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
 
-<DIV style="left: 143PX; top: 269px; width: 140PX; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
+<DIV style="left: 153px; top: 269px; width: 130px; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 <!--Delivery Place-->
 
@@ -443,9 +443,6 @@ if(!empty($r_data['taxpr']) && intval($r_data['taxpr'])>0)
 else
 	$tax_str = '';
 ?>
-<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
 <DIV style="left:660PX;top:776PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10"></span></DIV>
 
 <DIV style="left:465PX;top:821PX;width:194PX;height:23PX;"><span class="fc1-2">จำนวนเงินที่ต้องชำระ</span></DIV>

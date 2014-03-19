@@ -57,7 +57,8 @@ Ext.define('Account.SCustomertype.GridItem', {
 				'sgtxt'
 			],
 			remoteSort: true,
-		    sorters: [{property: 'ktype', direction: 'ASC'}]
+		    sorters: [{property: 'ktype', direction: 'ASC'}],
+			pageSize: 10000000
 		});
 
 		this.columns = [{
@@ -90,7 +91,7 @@ Ext.define('Account.SCustomertype.GridItem', {
 		
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		//	pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

@@ -134,7 +134,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 		$real_current_page++;
 ?>
 <DIV style="z-index:0"> &nbsp; </div>
-<div style="left: 520PX; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
+<div style="left: 548px; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:49PX;top:343PX;border-color:0000FF;border-style:solid;border-width:0px;border-top-width:1PX;width:705PX;">
@@ -142,10 +142,18 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left: 660PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 622px;">
   <table width="0px" height="568PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 157PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
+<div style="left: 126px; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
   <table width="0px" height="305PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 385PX; top: 302px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 359px;">
+<div style="left: 446px; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
+<table width="0px" height="304PX"><td>&nbsp;</td></table>
+</div>
+
+<div style="left: 338px; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
+<table width="0px" height="304PX"><td>&nbsp;</td></table>
+</div>
+
+<div style="left: 236px; top: 301px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 360px;">
 <table width="0px" height="304PX"><td>&nbsp;</td></table>
 </div>
 <div style="left: 460PX; top: 660px; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 263px;">
@@ -195,7 +203,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:403PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
 <table width="0px" height="122PX"><td>&nbsp;</td></table>
 </div>
-<div style="left: 361px; top: 861PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
+<div style="left: 390px; top: 861PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
 <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:569PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
@@ -218,9 +226,15 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 </DIV>
 
 <DIV style="left: 53px; top: 895px; width: 103px; height: 20PX;"><span class="fc1-10"><?= $r_pay['paytx']; ?></span></DIV>
-<DIV style="left: 160px; top: 896px; width: 201px; height: 20PX;"><span class="fc1-10"><?= $r_pay['bname']; ?></span></DIV>
-<DIV style="left: 365px; top: 895px; width: 93px; height: 20PX;"><span class="fc1-10"><?= $r_pay['sgtxt']; ?></span></DIV>
-<DIV style="left: 458px; top: 895px; width: 69px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqdt']; ?></span></DIV>
+<DIV style="left: 160px; top: 896px; width: 230px; height: 20PX;"><span class="fc1-10"><?= $r_pay['bname']; ?></span></DIV>
+<DIV style="left: 393px; top: 895px; width: 65px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['sgtxt']; ?></span></DIV>
+<?php 
+$chdat_str='';
+if($r_pay['chqdt'] <> '1900-01-01'){
+$chdat_str = util_helper_format_date($r_pay['chqdt']);
+}
+?>
+<DIV style="left: 458px; top: 895px; width: 64px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $chdat_str; ?></span></DIV>
 <DIV style="left: 523px; top: 896px; width: 135px; height: 20PX;TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqid']; ?></span></DIV>
 <DIV style="left: 662px; top: 897px; width: 89px; height: 20PX;TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= number_format($r_pay['payam'],2,'.',','); ?></span></DIV>
 
@@ -237,9 +251,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบเสร็จรับเงิน</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสำคัญจ่าย</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">OFFICIAL RECEIPT</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">PAYMENT VOUCHER</span></DIV>
 
 <DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
@@ -280,80 +294,69 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกหนี้</span></DIV>
+<DIV style="left: 57PX; top: 176PX; width: 67px; height: 22PX;"><span class="fc1-2">ชื่อผู้จำหน่าย</span></DIV>
 
-<DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
+<DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
 
-<DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left: 125px; top: 173PX; width: 384px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
+<DIV style="left: 125px; top: 198PX; width: 422px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left: 109PX; top: 219px; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
+<DIV style="left: 125px; top: 219px; width: 422px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 243px; width: 234px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 125px; top: 243px; width: 218px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
 <DIV style="left: 362px; top: 243px; width: 89px; height: 22PX;"><span class="fc1-8">สาขาที่&nbsp;<?=$r_data['brach'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
+<DIV style="left: 124px; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
 <DIV style="left: 287PX; top: 267px; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
 
-<DIV style="left: 143PX; top: 269px; width: 140PX; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
+<DIV style="left: 156px; top: 269px; width: 127px; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 
 <!--Item Table-->
-<DIV style="left: 49PX; top: 303PX; width: 109px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
-<DIV style="left: 49PX; top: 321PX; width: 109px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">No.</span></DIV>
-<DIV style="left:157PX;top:303PX;width:228PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
-<DIV style="left:157PX;top:321PX;width:228PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Invoice No.</span></DIV>
+<DIV style="left: 49PX; top: 303PX; width: 77px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">ลำดับ</span></DIV>
+<DIV style="left: 49PX; top: 321PX; width: 76px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">No.</span></DIV>
+<DIV style="left: 128px; top: 303PX; width: 108px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ใบตั้งหนี้</span></DIV>
+<DIV style="left: 128px; top: 321PX; width: 108px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">AP No.</span></DIV>
 
-<DIV style="left: 385PX; top: 303PX; width: 136px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
-<DIV style="left: 385PX; top: 321PX; width: 136px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
-<DIV style="left: 520PX; top: 303PX; width: 141px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่ครบกำหนด</span></DIV>
-<DIV style="left: 520PX; top: 321PX; width: 141px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Due Date</span></DIV>
+<DIV style="left: 340px; top: 303PX; width: 108px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ใบแจ้งหนี้</span></DIV>
+<DIV style="left: 339px; top: 323px; width: 108px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Tax Invoice No.</span></DIV>
+
+<DIV style="left: 236px; top: 303PX; width: 102px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่</span></DIV>
+<DIV style="left: 236px; top: 321PX; width: 103px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Date</span></DIV>
+
+<DIV style="left: 447px; top: 302px; width: 102px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">เลขที่ใบรับของ</span></DIV>
+<DIV style="left: 448px; top: 323px; width: 103px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">GR No.</span></DIV>
+
+<DIV style="left: 551px; top: 303PX; width: 110px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-2">วันที่ครบกำหนด</span></DIV>
+<DIV style="left: 551px; top: 321PX; width: 110px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-5">Due Date</span></DIV>
 <DIV style="left:660PX;top:303PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-2">จำนวนเงิน</span></DIV>
 <DIV style="left:660PX;top:321PX;width:93PX;height:20PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Amount</span></DIV>
-
-<?php
-/*
-$rows = $query->result_array();
-$i=322;$b_amt = 0;
-foreach ($rows as $key => $item) {
-	//echo $value['total_per_menge']."<br />";
-?>
-<DIV style="left:49PX;top:<?=$i?>PX;width:32PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-8"><?=$item['vbelp'];?></span></DIV>
-
-<DIV style="left:167PX;top:<?=$i?>PX;width:218PX;height:22PX;"><span class="fc1-8"><?=$item['invnr'];?></span></DIV>
-<DIV style="left:385PX;top:<?=$i?>PX;width:71PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=$item['invdt'];?></span></DIV>
-<DIV style="left:520PX;top:<?=$i?>PX;width:78PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=$item['coldt'];?></span></DIV>
-
-<DIV style="left:660PX;top:<?=$i?>PX;width:88PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-8"><?=number_format($item['itamt'],2,'.',',');?></span></DIV>
-
-<?php
-$i=322+20;
-}
-*/
-?>
 
 <DIV style="left:49PX;top:345px">
 <table cellpadding="0" cellspacing="0" border="0">
 <?php
-$rows = $query->result_array();$wht01=0;$vat01=0;
+$rows = $query->result_array();$vat01=0;$wht01=0;
 for ($i=($current_page_index * $page_size);$i<($current_page_index * $page_size + $page_size) && $i<count($rows);$i++)://$rows as $key => $item):
 	$item = $rows[$i];
 	$itamt = $item['itamt'];
-	$vat01 += $item['vat01'];
-	$wht01 += $item['wht01'];
-	//$itamt = $item['menge'] * $item['unitp'];
-	//$itamt = $itamt - $item['disit'];
+
 	$b_amt += $itamt;
 	$invdt_str = util_helper_format_date($r_data['invdt']);
+	$duedt_str = util_helper_format_date($r_data['duedt']);
+	$vat01 += $item['vat01'];
+	$wht01 += $item['wht01'];
+	//$deldt_str = util_helper_format_date($r_data['docdt']);
 ?>
 	<tr>
-		<td class="fc1-8" align="center" style="width:109px;"><?=$item['vbelp'];?></td>
-	  <td class="fc1-8" align="center" style="width:228px;"><?=$item['invnr'];?></td>
-	  <td class="fc1-8" align="center" style="width:136px;"><?=$invdt_str;?></td>
-	  <td class="fc1-8" align="center" style="width:137px;"><?=$item['txz01'];?></td>
+		<td class="fc1-8" align="center" style="width:77px;"><?=$item['vbelp'];?></td>
+	  <td class="fc1-8" align="center" style="width:108px;"><?=$item['invnr'];?></td>
+	  <td class="fc1-8" align="center" style="width:102px;"><?=$invdt_str;?></td>
+      <td class="fc1-8" align="center" style="width:108px;"><?=$item['refno'];?></td>
+	  <td class="fc1-8" align="center" style="width:102px;"><?=$item['mbeln'];?></td>
+	  <td class="fc1-8" align="center" style="width:110px;"><?=$duedt_str;?></td>
 		<td class="fc1-8" align="right" style="width:93px;"><?=number_format($itamt,2,'.',',');?></td>
 	</tr>
 
@@ -419,9 +422,9 @@ else
 <!--Payment Table-->
 <DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">Payment Method</span></DIV>
 
-<DIV style="left: 157PX; top: 865PX; width: 204px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
+<DIV style="left: 157PX; top: 865PX; width: 232px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
 
-<DIV style="left: 361px; top: 865PX; width: 99px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
+<DIV style="left: 392px; top: 865PX; width: 68px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
 
 <DIV style="left:460PX;top:865PX;width:60PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">วันที่&nbsp;&nbsp;Date</span></DIV>
 
@@ -433,25 +436,25 @@ else
   $text_amt = $this->convert_amount->generate($r_data['netwr']);
 ?>
 <!--Amount Text--><!--Signature Text-->
-<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้ส่งของ ........../............/................</span></DIV>
+<DIV style="left:232PX;top:1041PX;width:171PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">บันทึกชำระโดย ........./........../..........</span></DIV>
 
-<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้มีอำนาจลงนาม</span></DIV>
+<DIV style="left:403PX;top:1041PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">รับเงินโดย</span></DIV>
 
-<DIV style="left:232PX;top:1059PX;width:64PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Delivered by</span></DIV>
+<DIV style="left:232PX;top:1059PX;width:64PX;height:19PX;TEXT-ALIGN:LEFT;"><span class="fc1-5">Posted by</span></DIV>
 
-<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Authorized Signature</span></DIV>
+<DIV style="left:403PX;top:1059PX;width:166PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Received by</span></DIV>
 
-<DIV style="left:49PX;top:1059PX;width:47PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-5">Receiver</span></DIV>
+<DIV style="left: 49PX; top: 1059PX; width: 57px; height: 19PX; TEXT-ALIGN: LEFT;"><span class="fc1-5">Paid by</span></DIV>
 
 <DIV style="left:57PX;top:664PX;width:101PX;height:22PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">หมายเหตุ / Remark :</span></DIV>
 
 <DIV style="left: 75px; top: 695px; width: 374px; height: 155px;"><span class="fc1-3"><?=$r_data['txz01'];?></span></DIV>
 
-<DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ผู้รับของ ............./............../................</span></DIV>
+<DIV style="left:49PX;top:1041PX;width:183PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ชำระโดย ............./............../................</span></DIV>
 
-<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้รับเงิน ........../.........../.............</span></DIV>
+<DIV style="left:569PX;top:1041PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-12">ผู้อนุมัติ ........../.........../.............</span></DIV>
 
-<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Collector</span></DIV>
+<DIV style="left:569PX;top:1059PX;width:178PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-5">Approved by</span></DIV>
 <BR>
 <?php
 		echo '</div>';

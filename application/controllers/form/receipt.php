@@ -48,6 +48,14 @@ class Receipt extends CI_Controller {
 		}else{ $ads00[1] = 'Kwang'.$ads00[1]; }
 		}
 		
+		$strSQL = " select v_paym.*";
+        $strSQL = $strSQL . " from v_paym ";
+        $strSQL = $strSQL . " Where v_paym.recnr = '$no'  ";
+        $strSQL .= "ORDER BY paypr ASC";
+		
+		$q_pay = $this->db->query($strSQL);
+		$r_pay = $q_pay->first_row('array');
+		
 		// calculate sum
 		$rows = $query->result_array();
 		$b_amt = 0;
@@ -195,7 +203,7 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <div style="left:403PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
 <table width="0px" height="122PX"><td>&nbsp;</td></table>
 </div>
-<div style="left:307PX;top:861PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:63PX;">
+<div style="left: 379px; top: 861PX; border-color: 0000FF; border-style: solid; border-width: 0px; border-left-width: 1PX; height: 63PX;">
 <table width="0px" height="57PX"><td>&nbsp;</td></table>
 </div>
 <div style="left:569PX;top:951PX;border-color:0000FF;border-style:solid;border-width:0px;border-left-width:1PX;height:128PX;">
@@ -230,9 +238,9 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
-<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบเสร็จรับเงิน/ใบกำกับภาษี</span></DIV>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบเสร็จรับเงิน</span></DIV>
 
-<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT/TAX INVOICE</span></DIV>
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT</span></DIV>
 
 <DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
@@ -273,7 +281,7 @@ $duedt_str = util_helper_format_date($r_data['duedt']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อลูกหนี้</span></DIV>
+<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื่อลูกค้า</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Customer</span></DIV>
 
@@ -384,9 +392,6 @@ if(!empty($r_data['pertax']) && intval($r_data['pertax'])>0)
 else
 	$tax_str = '';
 ?>
-<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
 <DIV style="left: 663px; top: 776PX; width: 88PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?>
 </span></DIV>
 
@@ -400,10 +405,6 @@ if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
 else
 	$wht_str = '';
 ?>
-
-<DIV style="left: 602PX; top: 800px; width: 50PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
-<?= $wht_str ?></span></DIV>
-
 <DIV style="left: 660PX; top: 799px; width: 92PX; height: 19PX; TEXT-ALIGN: RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['wht01'],2,'.',',')) ?></span></DIV>
 
@@ -415,15 +416,28 @@ else
 <!--Payment Table-->
 <DIV style="left:49PX;top:865PX;width:108PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เงินสด&nbsp;&nbsp;Cash</span></DIV>
 
-<DIV style="left:157PX;top:865PX;width:149PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
+<DIV style="left: 157PX; top: 865PX; width: 223px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">ธนาคาร&nbsp;&nbsp;Bank</span></DIV>
 
-<DIV style="left:307PX;top:865PX;width:153PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
+<DIV style="left: 381px; top: 865PX; width: 79px; height: 19PX; TEXT-ALIGN: CENTER;"><span class="fc1-4">สาขา&nbsp;&nbsp;Branch</span></DIV>
 
 <DIV style="left:460PX;top:865PX;width:60PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">วันที่&nbsp;&nbsp;Date</span></DIV>
 
 <DIV style="left:520PX;top:865PX;width:140PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">เลขที่&nbsp;&nbsp;Cheque/Ref no.</span></DIV>
 
 <DIV style="left:660PX;top:865PX;width:93PX;height:19PX;TEXT-ALIGN:CENTER;"><span class="fc1-4">จำนวนเงิน&nbsp;&nbsp;Amount</span></DIV>
+
+<DIV style="left: 53px; top: 895px; width: 103px; height: 20PX;"><span class="fc1-10"><?= $r_pay['paytx']; ?></span></DIV>
+<DIV style="left: 160px; top: 896px; width: 218px; height: 20PX;"><span class="fc1-10"><?= $r_pay['bname']; ?></span></DIV>
+<DIV style="left: 382px; top: 895px; width: 76px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['sgtxt']; ?></span></DIV>
+<?php 
+$chdat_str='';
+if($r_pay['chqdt'] <> '1900-01-01'){
+$chdat_str = util_helper_format_date($r_pay['chqdt']);
+}
+?>
+<DIV style="left: 458px; top: 895px; width: 61px; height: 20PX; TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $chdat_str; ?></span></DIV>
+<DIV style="left: 523px; top: 896px; width: 135px; height: 20PX;TEXT-ALIGN: CENTER;"><span class="fc1-10"><?= $r_pay['chqid']; ?></span></DIV>
+<DIV style="left: 662px; top: 897px; width: 89px; height: 20PX;TEXT-ALIGN: RIGHT;"><span class="fc1-10"><?= number_format($r_pay['payam'],2,'.',','); ?></span></DIV>
 
 <?php
   $text_amt = $this->convert_amount->generate($r_data['netwr']);

@@ -809,17 +809,14 @@ Ext.define('Account.Saledelivery.Item.Form', {
 			sums += amt;
 			
 			var disc = parseFloat(r.data['tdisc']);
-			alert('aaa'+disc);
 			if(disc>0){
             tdisc += disc * qty;
             disc = disc * qty;
             amt = amt - disc;
            }
-           alert('bbb'+amt);
 			if(r.data['chk01']==true){
 				var vat = _this.numberVat.getValue();
 				    vat = (amt * vat) / 100;
-				    alert('ccc'+vat);
 				    vats += vat;
 			}
 			if(r.data['chk02']==true){

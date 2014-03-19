@@ -139,6 +139,8 @@ class Otexpense extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
+			$_this->db->where('itype =', '1');
 		}
 		// End for report	
 		createQuery($this);

@@ -21,7 +21,7 @@ Ext.define('Account.Quotation.MainWindow', {
 			listeners: {
 				minimize: function(win,obj) {
 					if(!win.getCollapsed())
-						win.collapse(Ext.Component.DIRECTION_TOP, false);
+						win.collapse(Ext.Component.DIRECTION_BOTTOM, false);
 					else
 						win.expand(false);
 				}
@@ -33,6 +33,17 @@ Ext.define('Account.Quotation.MainWindow', {
 
 	initComponent : function() {
 		var _this=this;
+		
+		/*****************************************************/
+
+       var fibasic = Ext.create('Ext.form.field.File', {
+        width: 200,
+        x: 50,
+        y: 50,
+        hideLabel: true
+        });
+ 
+      /*****************************************************/
 
 		// --- object ---
 		this.addAct = new Ext.Action({
@@ -108,7 +119,7 @@ Ext.define('Account.Quotation.MainWindow', {
 		// --- event ---
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
-			_this.itemDialog.setReadOnly(false);
+			//_this.itemDialog.setReadOnly(false);
 			//_this.itemDialog.form.reset();
 			//_this.itemDialog.show();
 			_this.itemDialog.setTitle('Create Quotation');

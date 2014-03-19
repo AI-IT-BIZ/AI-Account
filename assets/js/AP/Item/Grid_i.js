@@ -36,7 +36,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: function(o){ return o.invnr+o.vbelp; },
+					idProperty: function(o){ return o.matnr+o.vbelp; },
 					totalProperty: 'totalCount'
 				}
 			},
@@ -62,15 +62,15 @@ Ext.define('Account.AP.Item.Grid_i', {
 		});
 
 		this.columns = [{
-			id : 'APiRowNumber',
-			header : "Items",
+			id : 'APi001RowNumber',
+			text : "Items",
 			dataIndex : 'vbelp',
 			width : 40,
 			align : 'center',
 			resizable : false, sortable : false,
-			renderer : function(value, metaData, record, rowIndex) {
-				return rowIndex+1;
-			}
+			//renderer : function(value, metaData, record, rowIndex) {
+			//	return rowIndex+1;
+			//}
 		},
 		{text: "Material Code",
 		width: 80,
@@ -266,6 +266,7 @@ Ext.define('Account.AP.Item.Grid_i', {
 			if(rModels.length>0){
 				rModel = rModels[0];
 				// change cell code value (use db value)
+				//alert('aaa'+rModel.get('matnr')+'bbb'+rModel.get('vbelp'))
 				rModel.set('whtnr', record.data.whtnr);
 				rModel.set('whtpr', record.data.whtpr);
 				//rModel.set('whtgp', record.data.whtgp);

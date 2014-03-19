@@ -271,7 +271,8 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 							// Amount
 				            rModel.set('beamt', r.data.beamt);
 				            // Discount
-				            rModel.set('dismt', r.data.dismt);
+				            var discount = parseFloat(r.data.dismt) + parseFloat(r.data.dispc);
+				            rModel.set('dismt', discount);
 							//Flag
 							rModel.set('loekz', r.data.loekz);
 							// Dtype
@@ -344,7 +345,9 @@ Ext.define('Account.Receipt.Item.Grid_i', {
 				// Amount
 				rModel.set('beamt', record.data.beamt);
 				// Discount
-				rModel.set('dismt', record.data.dismt);
+				var discount = parseFloat(record.data.dismt) + parseFloat(record.data.dispc);
+				//alert('aaa'+record.data.dismt+'bbb'+record.data.dispc+'ccc'+discount);
+				rModel.set('dismt', discount);
 				//Flag
 				rModel.set('loekz', record.data.loekz);
 				// Dtype

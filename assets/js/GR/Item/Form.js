@@ -19,10 +19,10 @@ Ext.define('Account.GR.Item.Form', {
 		});
 		
 		// INIT other components ///////////////////////////////////
-		//this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
-		//	disableGridDoubleClick: true,
-		//	isApproveOnly: true
-		//});
+		this.vendorDialog = Ext.create('Account.SVendor.MainWindow', {
+			disableGridDoubleClick: true,
+			isApproveOnly: true
+		});
 		
 		this.currencyDialog = Ext.create('Account.SCurrency.MainWindow');
 
@@ -42,7 +42,7 @@ Ext.define('Account.GR.Item.Form', {
 			title:'Exchange Rate->THB',
 			region:'south'
 		});
-		this.gridSpec = Ext.create('Account.GR.Item.Grid_spec', {
+		this.formSpec = Ext.create('Account.GR.Item.Form_spec', {
 			border: true,
 			split: true,
 			title:'Asset Detail',
@@ -168,12 +168,11 @@ Ext.define('Account.GR.Item.Form', {
 			allowBlank : false
 		});
 		
-		this.trigVender = Ext.create('Ext.form.TextField', {
+		this.trigVender = Ext.create('Ext.form.field.Trigger', {
 			name: 'lifnr',
 			fieldLabel: 'Vendor Code',
-			//triggerCls: 'x-form-search-trigger',
-			//enableKeyEvents: true,
-			readOnly: true,
+			triggerCls: 'x-form-search-trigger',
+			enableKeyEvents: true,
 			allowBlank : false
 		});
 		
@@ -357,7 +356,7 @@ Ext.define('Account.GR.Item.Form', {
 				this.formTotal,
 				this.formTotalthb,
 				this.gridPrice,
-				this.gridSpec
+				this.formSpec
 			]
 		}
 		];	
@@ -473,7 +472,7 @@ Ext.define('Account.GR.Item.Form', {
 		};
 		
 		// event trigVender///
-		/*this.trigVender.on('keyup',function(o, e){
+		this.trigVender.on('keyup',function(o, e){
 			var v = o.getValue();
 			if(Ext.isEmpty(v)) return;
 
@@ -537,7 +536,7 @@ Ext.define('Account.GR.Item.Form', {
 
 		this.trigVender.onTriggerClick = function(){
 			_this.vendorDialog.show();
-		};*/
+		};
 		
 		// event trigProject///
 		this.trigCurrency.on('keyup',function(o, e){
@@ -600,10 +599,6 @@ Ext.define('Account.GR.Item.Form', {
 		this.formTotal.txtRate.on('keyup', this.calculateTotal, this);
 		this.formTotal.txtRate.on('change', this.calculateTotal, this);
 		this.numberVat.on('change', this.calculateTotal, this);
-		
-		this.gridItem.getView().on('itemdblclick', function(grid, record, item, index){
-	    	_this.editAct.execute();
-	    });
         
 		return this.callParent(arguments);
 	},
@@ -622,10 +617,44 @@ Ext.define('Account.GR.Item.Form', {
             	vat:sel.get('chk01')
             });
             
-            _this.gridSpec.load({
-            	matnr:sel.get('matnr'),
-            	menge:parseFloat(sel.get('menge')),
-            });
+            var v = sel.get('matnr');
+            
+			if(Ext.isEmpty(v)) return;
+				Ext.Ajax.request({
+					url: __site_url+'asset/load',
+					method: 'POST',
+					params: {
+						id: v
+					},
+					success: function(response){
+						var r = Ext.decode(response.responseText);
+						if(r && r.success){
+							if(sel.get('serno')==''){
+								_this.formSpec.getForm().findField('serno').setValue(r.data.serno);
+							}else{
+								_this.formSpec.getForm().findField('serno').setValue(sel.get('serno'));
+							}
+							_this.formSpec.getForm().findField('saknr').setValue(r.data.saknr);
+						    _this.formSpec.getForm().findField('brand').setValue(r.data.brand);
+			                
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('model').setValue(r.data.model);
+						    _this.formSpec.getForm().findField('specs').setValue(r.data.specs);
+			                _this.formSpec.getForm().findField('assnr').setValue(r.data.assnr);
+			                _this.formSpec.getForm().findField('reque').setValue(r.data.reque);
+			                _this.formSpec.getForm().findField('holds').setValue(r.data.holds);
+			                _this.formSpec.getForm().findField('depnr').setValue(r.data.depnr);
+						    _this.formSpec.getForm().findField('keepi').setValue(r.data.keepi);
+			                _this.formSpec.getForm().findField('resid').setValue(r.data.resid);
+			                
+			                _this.formSpec.getForm().findField('gltxt').setValue(r.data.sgtxt);
+			                _this.formSpec.getForm().findField('asstx').setValue(r.data.asstx);
+			                _this.formSpec.getForm().findField('reqtx').setValue(r.data.reqtx);
+			                _this.formSpec.getForm().findField('hodtx').setValue(r.data.hodtx);
+			                _this.formSpec.getForm().findField('deptx').setValue(r.data.deptx);
+						}
+					}
+				});
 
         }
     },
@@ -754,7 +783,7 @@ Ext.define('Account.GR.Item.Form', {
 		this.formTotal.getForm().findField('vat01').setValue(vats);
 		
 		var rate = this.formTotal.txtRate.getValue();
-		//var deamt = this.formTotal.getForm().findField('deamt').getValue();
+		var deamt = this.formTotal.getForm().findField('deamt').getValue();
 		if(currency != 'THB'){
 		  sum = sum * rate;
 		  vats = vats * rate;

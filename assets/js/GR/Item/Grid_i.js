@@ -24,7 +24,6 @@ Ext.define('Account.GR.Item.Grid_i', {
 		// END Material search popup ///////////////////////////////////
         this.unitDialog = Ext.create('Account.SUnit.Window');
 		this.tbar = [this.addAct, this.copyAct];*/
-		this.assetDialog = Ext.create('Account.Assetgenno.Window');
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -52,9 +51,10 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'itamt',
 				'ctype',
 				'chk01',
-				//'serno',
+				'serno',
 				'reman',
-				'upqty'
+				'upqty',
+				'itsok'
 			],
 			remoteSort: true,
 			sorters: ['mbelp ASC']
@@ -95,7 +95,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 		    },
 			{text: "Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 60,
 			dataIndex: 'menge',
 			sortable: false,
 			align: 'right',
@@ -110,9 +110,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				}
 			},*/
 			},
-			{text: "Unit", width: 50, 
-			align: 'center',
-			dataIndex: 'meins', sortable: false,
+			{text: "Unit", width: 50, dataIndex: 'meins', sortable: false,
 			/*field: {
 				xtype: 'triggerfield',
 				enableKeyEvents: true,
@@ -197,7 +195,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				}
 			},
 			{text: "Currency",
-			width: 55,
+			width: 50,
 			dataIndex: 'ctype',
 			sortable: false,
 			align: 'center',
@@ -206,7 +204,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			//},
 		},{text: "Remain Qty",
 			xtype: 'numbercolumn',
-			width: 70,
+			width: 65,
 			dataIndex: 'reman',
 			sortable: false,
 			align: 'right',
@@ -223,7 +221,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 			},*/
 			},{text: "GR Qty",
 			xtype: 'numbercolumn',
-			width: 80,
+			width: 60,
 			dataIndex: 'upqty',
 			sortable: false,
 			allowBlank: false,
@@ -242,6 +240,14 @@ Ext.define('Account.GR.Item.Grid_i', {
 					
 				}
 			},
+			},
+		{text: "Serial No",
+		width: 90,
+		dataIndex: 'serno',
+		sortable: false,
+			field: {
+				type: 'textfield'
+			}
 			}];
 
 		this.plugins = [this.editing];
@@ -253,9 +259,8 @@ Ext.define('Account.GR.Item.Grid_i', {
 				var remain = e.record.data.reman;
 				//alert(v+'aaa'+e.record.data.reman);
 			    if(v>remain){
-			    	rModel.set(e.field, remain);
 			    	Ext.Msg.alert('Warning', 'GR qty over remain qty');
-			    	//rModel.set(e.field, 0);
+			    	rModel.set(e.field, 0);
 			    }
 			}
 		});

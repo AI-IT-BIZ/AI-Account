@@ -44,7 +44,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 			    'payno',
 				'vbelp',
 				'invnr',
-				'refnr',
+				'refno',
 				'invdt',
 				'texts',
 				{name:'itamt', type: 'string'},
@@ -340,7 +340,7 @@ Ext.define('Account.Payment.Item.Grid_i', {
 				// change cell code value (use db value)
 				rModel.set('invnr', record.data.invnr);
 				// Ref no
-				rModel.set('refnr', record.data.refno);
+				rModel.set('refno', record.data.refnr);
 				// Invoice date
 				rModel.set('invdt', record.data.bldat);
 				// Text note

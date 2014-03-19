@@ -397,50 +397,36 @@ class Project extends CI_Controller {
 	}
 
 	function save_type(){
-		$jtyp = $this->input->post('jtyp');
-		$item_array = json_decode($jtyp);
-		$result_array = json_decode($jtyp);
-		if(!empty($jtyp) && !empty($item_array)){
-			$i=0;
-			foreach($item_array AS $p){
-				$j=0;
-				foreach($result_array AS $o){
-					if($p->bcode == $o->bcode && $i!=$j){
-						$emsg = 'Cannot Save Bank code '.$p->bcode.' is duplicated';
-					    echo json_encode(array(
-						  'success'=>false,
-						  'message'=>$emsg
-					    ));
-					    return;
-					}$j++;
-				}$i++;
+		$id = $this->input->post('id');
+
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('jtype', $id);
+			$query = $this->db->get('jtyp');
 			}
-		}
+		
+		$formData = array(
+			'jtype' => $this->input->post('jtype'),
+			'typtx' => $this->input->post('typtx')
+		);
 
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('jtyp');
-		}
-		if(db_helper_is_mysql($this)){
-		$this->db->truncate('jtyp');
-		}
-		//$this->db->delete('ktyp');
+		$current_username = XUMS::USERNAME();
 
-		// เตรียมข้อมูล payment item
-		//$jtyp = $this->input->post('jtyp');
-		//$item_array = json_decode($jtyp);
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('jtype', $id);
+			$this->db->update('jtyp', $formData);
 
-		if(!empty($jtyp) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('jtyp', array(
-				'jtype'=>$p->jtype,
-				'typtx'=>$p->typtx//,
-				//'saknr'=>$p->saknr
-			));
-	    	}
+		}else{
+			//$id = $this->code_model2->generate2('BK');
+			//$this->db->set('bcode', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('jtyp', $formData);
+
 		}
 
 		echo json_encode(array(

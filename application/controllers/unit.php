@@ -56,34 +56,36 @@ class Unit extends CI_Controller {
 
 
 	function save(){
-		//echo "vendor type";
-		
-		//start transaction
-		//$this->db->trans_start();  
-		
-		// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('unit');
-		}
-		if(db_helper_is_mysql($this)){
-		$this->db->truncate('unit');
-		}
-		//$this->db->delete('ktyp');
+		$id = $this->input->post('id');
 
-		// เตรียมข้อมูล payment item
-		$unit = $this->input->post('unit');
-		$item_array = json_decode($unit);
+		$query = null;
+		$status_changed = false;
+		$inserted_id = false;
+		if(!empty($id)){
+			$this->db->limit(1);
+			$this->db->where('meins', $id);
+			$query = $this->db->get('unit');
+			}
 		
-		if(!empty($unit) && !empty($item_array)){
-			// loop เพื่อ insert payment item ที่ส่งมาใหม่
-			$item_index = 0;
-		foreach($item_array AS $p){
-			$this->db->insert('unit', array(
-				'meins'=>$p->meins,
-				'metxt'=>$p->metxt
-			));
-	    	}
+		$formData = array(
+			'meins' => $this->input->post('meins'),
+			'metxt' => $this->input->post('metxt')
+		);
+
+		$current_username = XUMS::USERNAME();
+
+		if (!empty($query) && $query->num_rows() > 0){
+			$this->db->where('meins', $id);
+			$this->db->update('unit', $formData);
+
+		}else{
+			//$id = $this->code_model2->generate2('BK');
+			//$this->db->set('bcode', $id);
+			//$this->db->set('erdat', 'NOW()', false);
+			db_helper_set_now($this, 'erdat');
+			$this->db->set('ernam', $current_username);
+			$this->db->insert('unit', $formData);
+
 		}
 
 		echo json_encode(array(

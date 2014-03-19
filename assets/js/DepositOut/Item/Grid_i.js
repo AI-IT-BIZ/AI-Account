@@ -90,7 +90,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			//}
 			},{
 			text: "Period Desc.",
-			width: 240,
+			width: 230,
 			dataIndex: 'sgtxt',
 			sortable: true,
 			//field: {
@@ -98,7 +98,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			//}
 			},
 		    {text: "Period Date",
-		    width: 100,
+		    width: 70,
 		    xtype: 'datecolumn',
 		    dataIndex: 'duedt',
 		    format:'d/m/Y',
@@ -164,7 +164,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 			align: 'center'
 		   },
 			{text: "Amount/ %",
-			width: 100,
+			width: 80,
 			//xtype: 'textcolumn',
 			dataIndex: 'perct',
 			sortable: true,
@@ -206,7 +206,7 @@ Ext.define('Account.DepositOut.Item.Grid_i', {
 				}*/
 			},
 			{text: "Currency",
-			width: 70,
+			width: 55,
 			dataIndex: 'ctyp1',
 			//xtype: 'textcolumn',
 			sortable: true,

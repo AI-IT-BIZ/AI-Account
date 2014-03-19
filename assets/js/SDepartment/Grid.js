@@ -44,8 +44,8 @@ Ext.define('Account.SDepartment.Grid', {
 				'deptx'
 			],
 			remoteSort: false,
-			sorters: ['depnr ASC']//,
-			//pageSize: 10000000
+			sorters: ['depnr ASC'],
+			pageSize: 10000000
 		});
 
 		this.columns = [
@@ -69,7 +69,7 @@ Ext.define('Account.SDepartment.Grid', {
 
 		this.bbar = {
 			xtype: 'pagingtoolbar',
-			pageSize: 10,
+		//	pageSize: 10,
 			store: this.store,
 			displayInfo: true
 		};

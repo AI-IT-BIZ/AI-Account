@@ -136,7 +136,7 @@ class Po extends CI_Controller {
 
 	function loads(){
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ekko';
+		$tbName = 'order';
 		
 		// Start for report
 		function createQuery($_this){

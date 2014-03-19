@@ -289,25 +289,25 @@ $bldat_str = util_helper_format_date($r_data['bldat']);
 </DIV>
 
 <!--Vendor Name-->
-<DIV style="left:57PX;top:176PX;width:52PX;height:22PX;"><span class="fc1-2">ชื้อเจ้าหนี้</span></DIV>
+<DIV style="left: 57PX; top: 176PX; width: 69px; height: 22PX;"><span class="fc1-2">ชื่อผู้จำหน่าย</span></DIV>
 
 <DIV style="left:57PX;top:198PX;width:52PX;height:22PX;"><span class="fc1-2">Supplier</span></DIV>
 
-<DIV style="left:109PX;top:173PX;width:400PX;height:26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
+<DIV style="left: 127px; top: 173PX; width: 382px; height: 26PX;"><span class="fc1-7"><?=$r_data['name1'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 198PX; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
+<DIV style="left: 128px; top: 198PX; width: 419px; height: 23PX;"><span class="fc1-8"><?=$ads00[0];?></span></DIV>
 
-<DIV style="left: 109PX; top: 219px; width: 438px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
+<DIV style="left: 128px; top: 219px; width: 419px; height: 23PX;"><span class="fc1-8"><?=$ads00[1];?>&nbsp;&nbsp;<?=$r_data['distx'];?>&nbsp;&nbsp;<?=$r_data['pstlz'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 243px; width: 234px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
+<DIV style="left: 128px; top: 243px; width: 215px; height: 22PX;"><span class="fc1-8">เลขประจำตัวผู้เสียภาษีอากร&nbsp;<?=$r_data['taxid'];?></span></DIV>
 
 <DIV style="left: 362px; top: 243px; width: 89px; height: 22PX;"><span class="fc1-8">สาขาที่&nbsp;<?=$r_data['brach'];?></span></DIV>
 
-<DIV style="left: 109PX; top: 267px; width: 31PX; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
+<DIV style="left: 127px; top: 267px; width: 28px; height: 21PX;"><span class="fc1-8">Tel.</span></DIV>
 
 <DIV style="left: 287PX; top: 267px; width: 161px; height: 21PX;"><span class="fc1-8">Fax. &nbsp;<?=$r_data['telfx'];?></span></DIV>
 
-<DIV style="left: 143PX; top: 269px; width: 140PX; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
+<DIV style="left: 159px; top: 269px; width: 124px; height: 21PX;"><span class="fc1-8"><?=$r_data['telf1'];?></span></DIV>
 
 <!--Delivery Place-->
 <DIV style="left: 560px; top: 176PX; width: 75PX; height: 20PX;"><span class="fc1-2">เลขที่ (No.)</span></DIV>
@@ -485,12 +485,6 @@ if(!empty($r_data['whtpr']) && $r_data['wht01']>0)
 else
 	$wht_str = '';
 ?>
-<DIV style="left:602PX;top:776PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $tax_str ?></span></DIV>
-
-<DIV style="left:602PX;top:799PX;width:50PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
-<?= $wht_str ?></span></DIV>
-
 <DIV style="left:660PX;top:776PX;width:92PX;height:19PX;TEXT-ALIGN:RIGHT;"><span class="fc1-10">
 <?= check_page($current_page_index, $total_page, number_format($r_data['vat01'],2,'.',',')) ?></span></DIV>
 

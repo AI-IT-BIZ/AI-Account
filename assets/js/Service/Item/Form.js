@@ -95,7 +95,7 @@ Ext.define('Account.Service.Item.Form', {
 			//width:290,
 		});
 		
-		this.unit1Dialog = Ext.create('Account.Unit.Window');
+		this.unit1Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit1 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit1',
@@ -106,7 +106,7 @@ Ext.define('Account.Service.Item.Form', {
 			//width:290,
 		});
 		
-		this.unit2Dialog = Ext.create('Account.Unit.Window');
+		this.unit2Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit2 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit2',
@@ -116,7 +116,7 @@ Ext.define('Account.Service.Item.Form', {
 			enableKeyEvents: true
 		});
 		
-		this.unit3Dialog = Ext.create('Account.Unit.Window');
+		this.unit3Dialog = Ext.create('Account.SUnit.Window');
 		
 		this.trigUnit3 = Ext.create('Ext.form.field.Trigger', {
 			name: 'unit3',
@@ -135,9 +135,6 @@ Ext.define('Account.Service.Item.Form', {
             collapsible: true,
             defaultType: 'textfield',
             layout: 'anchor',
-            //defaults: {
-            //    anchor: '100%'
-           // },
 		items: [{
 			xtype:'displayfield',
 			fieldLabel: 'Service Code',

@@ -10,9 +10,18 @@ Ext.define('Account.OtherExpense.MainWindow', {
 			width: 1000,
 			minWidth: 500,
 			resizable: true,
-			modal: true,
+			modal: false,
 			layout:'border',
-			maximizable: true
+			maximizable: true,
+			minimizable: true,
+			listeners: {
+				minimize: function(win,obj) {
+					if(!win.getCollapsed())
+						win.collapse(Ext.Component.DIRECTION_BOTTOM, false);
+					else
+						win.expand(false);
+				}
+			}
 		});
 
 		return this.callParent(arguments);
@@ -48,7 +57,9 @@ Ext.define('Account.OtherExpense.MainWindow', {
 			iconCls: 'b-small-import'
 		});
 
-        this.itemDialog = Ext.create('Account.OtherExpense.Item.Window');
+        this.itemDialog = Ext.create('Account.OtherExpense.Item.Window', {
+        	ownerCt: this
+        });
         
 		this.grid = Ext.create('Account.OtherExpense.Grid', {
 			region:'center',
@@ -170,5 +181,6 @@ Ext.define('Account.OtherExpense.MainWindow', {
 		this.grid.load();
 
 		return this.callParent(arguments);
-	}
+	},
+	disableGridDoubleClick: false
 });
