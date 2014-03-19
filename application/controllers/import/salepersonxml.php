@@ -1,0 +1,83 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Saleperson extends CI_Controller {
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('email_service','',TRUE);
+		
+	}
+		
+	function convert()
+	{
+		$response = "";
+		function check_exist_pk($dataxml,$_this){
+			$_response = "";
+			$id = $dataxml['matnr'];
+			$_this->db->where('matnr',$id);
+			$query = $_this->db->get('mara');
+			
+			if($query->num_rows()>0){
+				$_response = "Edit";
+				return $_response;
+			}
+			else{
+				$_response = "Create";
+				return $_response;
+			}
+		}
+		
+		
+		$doc = new DOMDocument();
+		if($_REQUEST['url']){
+		$doc->load($_REQUEST['url']);
+		$service = array(
+					'matnr'=>$doc->getElementsByTagName('ServiceCode')->item(0)->nodeValue,
+					'maktx'=>$doc->getElementsByTagName('ServiceName')->item(0)->nodeValue,
+					'mtart'=>'SV', //ServiceType
+					'meins'=>$doc->getElementsByTagName('Unit1')->item(0)->nodeValue,
+					'stype'=>'',
+					'statu'=>"01"
+					);
+		
+		//$customer = check_exist_pk($customer,$this);
+		$response = check_exist_pk($service,$this);
+			if($response=="Create"){
+				$username = "BMS";
+				db_helper_set_now($this, 'erdat');
+				$this->db->set('ernam', $username);
+				$this->db->insert('mara', $service);
+			}
+			if($response=="Edit"){
+				$this->db->where('matnr', $service['matnr']);
+				$this->db->update('mara',$service);
+			}
+			echo json_encode(array(
+			'success'=>true,
+			'data'=>$service
+			));
+		}
+		else {
+			echo json_encode(array(
+				'success'=>false
+			));
+		}
+		
+		try{
+				$post_id = $service['matnr'];
+				$total_amount = '0';
+				// send notification email
+				if($post_id!=""){
+					$q_row = $this->db->get_where('mara', array('matnr'=>$post_id));
+					$row = $q_row->first_row();
+					$this->email_service->sendmail_create(
+						'SV', 'Service master',
+						$post_id, $total_amount,
+						$row->ernam
+					);
+				}
+			}catch(exception $e){}				
+	}
+
+}
