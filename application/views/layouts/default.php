@@ -1451,9 +1451,9 @@ function endsWith($haystack, $needle)
 								pEl.getById('div-account-rgl').on('click', function(){ $om.viewport.fireEvent('click_rgl', c); }, c);
 
 								pEl.getById('div-account-assetlist').on('click', function(){ $om.viewport.fireEvent('click_asset-regist', c); }, c);
-								pEl.getById('div-account-rtb').on('click', function(){ $om.viewport.fireEvent('click_rtrail-balance', c); }, c);
-								pEl.getById('div-account-rbs').on('click', function(){ $om.viewport.fireEvent('click_rbalance-sheet', c); }, c);
-								pEl.getById('div-account-rincome').on('click', function(){ $om.viewport.fireEvent('click_rincome-statment', c); }, c);
+								pEl.getById('div-account-rtb').on('click', function(){ $om.viewport.fireEvent('click_report_tb', c); }, c);
+								pEl.getById('div-account-rbs').on('click', function(){ $om.viewport.fireEvent('click_report_balance_sheet', c); }, c);
+								pEl.getById('div-account-rincome').on('click', function(){ $om.viewport.fireEvent('click_report_income', c); }, c);
 
                                 //Master Tab
                                 pEl.getById('div-master-protype').on('click', function(){ $om.viewport.fireEvent('click_projecttype', c); }, c);
