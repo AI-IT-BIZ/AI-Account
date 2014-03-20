@@ -70,7 +70,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 
 		this.comboQStatus = Ext.create('Ext.form.ComboBox',{
 			readOnly: !UMS.CAN.APPROVE('OI'),
-			fieldLabel: 'Other Income Status',
+			fieldLabel: 'Income Status',
 			name : 'statu',
 			labelAlign: 'right',
 			//labelWidth: 95,
@@ -202,7 +202,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			width:240,
 			triggerCls: 'x-form-search-trigger',
 			enableKeyEvents: true,
-			allowBlank : false
+			//allowBlank : false
 		});
 
          this.numberVat = Ext.create('Ext.form.field.Number', {
@@ -307,7 +307,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
             allowBlank: true
 		},{
 			xtype: 'displayfield',
-            fieldLabel: 'Other Income No',
+            fieldLabel: 'Income No',
             name: 'invnr',
             value: 'IVXXXX-XXXX',
             labelAlign: 'right',

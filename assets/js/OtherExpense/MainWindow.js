@@ -3,7 +3,7 @@ Ext.define('Account.OtherExpense.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Other Expense',
+			title: 'Expense',
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
@@ -94,7 +94,7 @@ Ext.define('Account.OtherExpense.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
 			_this.itemDialog.setReadOnly(false);
-			_this.itemDialog.setTitle('Create Other Expense');
+			_this.itemDialog.setTitle('Create Expense');
 		});
 
 		this.editAct.setHandler(function(){
@@ -104,7 +104,7 @@ Ext.define('Account.OtherExpense.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-			    _this.itemDialog.setTitle('Edit Other Expense');
+			    _this.itemDialog.setTitle('Edit Expense');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -119,7 +119,7 @@ Ext.define('Account.OtherExpense.MainWindow', {
 			if(id){
 				_this.itemDialog.form.remove(id);
 				_this.itemDialog.setReadOnly(true);
-			_this.itemDialog.setTitle('Display Other Expense');
+			_this.itemDialog.setTitle('Display Expense');
 			}
 		});
 
