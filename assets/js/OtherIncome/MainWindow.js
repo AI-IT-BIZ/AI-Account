@@ -3,7 +3,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Other Income',
+			title: 'Income',
 			closeAction: 'hide',
 			height: 700,
 			minHeight: 380,
@@ -98,7 +98,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 		this.addAct.setHandler(function(){
 			_this.itemDialog.openDialog();
 			_this.itemDialog.setReadOnly(false);
-			_this.itemDialog.setTitle('Create Other Income');
+			_this.itemDialog.setTitle('Create Income');
 		});
 
 		this.editAct.setHandler(function(){
@@ -108,7 +108,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 			if(id){
 				_this.itemDialog.openDialog(id);
 				_this.itemDialog.setReadOnly(false);
-			    _this.itemDialog.setTitle('Edit Other Income');
+			    _this.itemDialog.setTitle('Edit Income');
 				//_this.itemDialog.show();
 				//_this.itemDialog.form.load(id);
 
@@ -124,7 +124,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 				_this.itemDialog.form.remove(id);
 				_this.itemDialog.setReadOnly(true);
 				
-				_this.itemDialog.setTitle('Display Other Income');
+				_this.itemDialog.setTitle('Display Income');
 			}
 		});
 
@@ -135,7 +135,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 			var resultId = action.result.data.id;
 			//alert(resultId);
 			_this.itemDialog.openDialog(resultId);
-			Ext.Msg.alert('Status', 'Save Other Income number: '+resultId+' successfully.');
+			Ext.Msg.alert('Status', 'Save Income number: '+resultId+' successfully.');
 		});
 		
 		this.itemDialog.form.on('afterDelete', function(){

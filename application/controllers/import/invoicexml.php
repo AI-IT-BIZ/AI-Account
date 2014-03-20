@@ -118,16 +118,16 @@ class Invoicexml extends CI_Controller {
 		//===End Verify Data
 
 		//Fill Invoice Header into Array
-		$id = 'IV1403-0019';
+		$id = $this->code_model->generate('IV', $doc->getElementsByTagName('DocDate')->item(0)->nodeValue);
 		$formData = array(
 		    'invnr' => $id,
-			'bldat' => '2014-03-19',
+			'bldat' => $doc->getElementsByTagName('DocDate')->item(0)->nodeValue,
 			'statu' => '01',
 			'txz01' => '',
 			'reanr' => '',
-			'refnr' => $doc->getElementsByTagName('ReferenceNo')->item(0)->nodeValue,
+			'refnr' => $doc->getElementsByTagName('InvoiceNo')->item(0)->nodeValue,
 			'ptype' => "01",
-			'taxnr' => "02",
+			'taxnr' => "01",
 			'terms' => intval($doc->getElementsByTagName('CreditTerms')->item(0)->nodeValue),
 			'kunnr' => $doc->getElementsByTagName('CustomerCode')->item(0)->nodeValue,
 			'netwr' => floatval($doc->getElementsByTagName('NetAmont')->item(0)->nodeValue),
@@ -137,10 +137,11 @@ class Invoicexml extends CI_Controller {
 			'salnr' => $doc->getElementsByTagName('SalePerson')->item(0)->nodeValue,
 			'ctype' => "THB",
 			'exchg' => floatval("1.00"),
-			'duedt' => '2014-04-19',
+			'duedt' => $doc->getElementsByTagName('DueDate')->item(0)->nodeValue,
 			'vat01' => floatval($doc->getElementsByTagName('VatTotal')->item(0)->nodeValue),
 			'wht01' => floatval($doc->getElementsByTagName('WHTTotal')->item(0)->nodeValue),
-			'ftype' => "02"
+			'ftype' => "02",
+			'itype' => "1"
 		);
 		//Fill Invoice Item into Array
 		$itemData = array();

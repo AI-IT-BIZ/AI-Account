@@ -434,7 +434,7 @@ class Otincome extends CI_Controller {
 		if(!empty($id)){
 			$this->db->limit(1);
 			$this->db->where('invnr', $id);
-			$query = $this->db->get('otin');
+			$query = $this->db->get('vbrk');
 			
 			// ##### CHECK PERMISSIONS
 			$row = $query->first_row('array');

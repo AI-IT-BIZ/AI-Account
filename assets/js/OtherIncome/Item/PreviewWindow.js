@@ -3,7 +3,7 @@ Ext.define('Account.OtherIncome.Item.PreviewWindow', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Other Income preview',
+			title: 'Income preview',
 			enableCopies: true
 		});
 

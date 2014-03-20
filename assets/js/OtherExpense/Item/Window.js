@@ -3,7 +3,7 @@ Ext.define('Account.OtherExpense.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Other Expense',
+			title: 'Create/Edit Expense',
 			closeAction: 'hide',
 			height: 670,
 			width: 960,

@@ -3,7 +3,7 @@ Ext.define('Account.OtherIncome.Item.Window', {
 	constructor:function(config) {
 
 		Ext.apply(this, {
-			title: 'Create/Edit Other Income',
+			title: 'Create/Edit Income',
 			closeAction: 'hide',
 			height: 700,
 			width: 970,

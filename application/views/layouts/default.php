@@ -657,12 +657,12 @@ function endsWith($haystack, $needle)
 				id: 'click_journal'
 			};
 			var nodeIncome = {
-				text: 'Create New Other Income',
+				text: 'Create New Income',
 				leaf: true,
 				id: 'click_income'
 			};
 			var nodeExpense = {
-				text: 'Create New Other Expense',
+				text: 'Create New Expense',
 				leaf: true,
 				id: 'click_expense'
 			};
@@ -1076,8 +1076,8 @@ function endsWith($haystack, $needle)
 								    '<div id="div-chart-account" class="box box-blue"><span>Chart of Accounting</span></div>',
 									'<div id="div-journaltemp" class="box box-blue"><span>Journal Template</span></div>',
 									'<div id="div-journal" class="box box-blue"><span>Journal Posting</span></div>',
-									'<div id="div-other-income" class="box box-blue"><span>Other Incomes</span></div>',
-									'<div id="div-other-expense" class="box box-blue"><span>Other Expenses</span></div>',
+									'<div id="div-other-income" class="box box-blue"><span>Incomes</span></div>',
+									'<div id="div-other-expense" class="box box-blue"><span>Expenses</span></div>',
 
 									'<div id="div-rgl" class="box box-orange"><span>GL Report</span></div>',
 									'<div id="div-rjournal" class="box box-orange"><span>Journal Report</span></div>',
@@ -1229,8 +1229,8 @@ function endsWith($haystack, $needle)
 									'<div id="div-account-rtb" class="box box-orange"><span>Trial Balance Report</span></div>',
 									'<div id="div-account-rincome" class="box box-orange"><span>Income Statement Report</span></div>',
 									'<div id="div-account-rbs" class="box box-orange"><span>Balance Sheet Report</span></div>',
-									'<div id="div-account-otincome" class="box box-blue"><span>Other Income</span></div>',
-									'<div id="div-account-otexpense" class="box box-blue"><span>Other Expense</span></div>',
+									'<div id="div-account-otincome" class="box box-blue"><span>Income</span></div>',
+									'<div id="div-account-otexpense" class="box box-blue"><span>Expense</span></div>',
 									'<div id="div-account-pettyreim" class="box box-blue"><span>Petty Cash Reimbursement</span></div>',
 									'<div id="div-account-pettyexpense" class="box box-blue"><span>Petty Cash Expense</span></div>',
 
@@ -1875,14 +1875,14 @@ function endsWith($haystack, $needle)
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_journal')}
 				        },{
-				            text: 'Other Income',
+				            text: 'Income',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-income',
                 			cls: 'x-btn-as-arrow',
                 			handler: function(){$om.viewport.fireEvent('click_income')}
 				        },{
-				            text: 'Other Expense',
+				            text: 'Expense',
 				            scale: 'large',
 				            iconAlign: 'top',
 				            iconCls: 'a-expense',

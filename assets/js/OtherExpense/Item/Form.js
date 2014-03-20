@@ -56,7 +56,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 		// END INIT other components ////////////////////////////////
         this.comboQStatus = Ext.create('Ext.form.ComboBox', {
 			readOnly: !UMS.CAN.APPROVE('OE'),
-			fieldLabel: 'Other Expense Status',
+			fieldLabel: 'Expense Status',
 			name : 'statu',
 			labelAlign: 'right',
 			width: 240,
@@ -276,7 +276,7 @@ Ext.define('Account.OtherExpense.Item.Form', {
 						allowBlank: true
 					},{
 						xtype: 'displayfield',
-					    fieldLabel: 'Other Expense No',
+					    fieldLabel: 'Expense No',
 					    name: 'invnr',
 						value: 'IPXXXX-XXXX',
 						labelAlign: 'right',

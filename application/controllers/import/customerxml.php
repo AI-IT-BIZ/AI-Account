@@ -36,18 +36,10 @@ class Customerxml extends CI_Controller {
 			
 			if($query->num_rows()>0){
 				$arry_query = $query->result_array();
-				print_r($arry_query[0]['statu']);
-				if($arry_query[0]['statu']=="01"){
-					array_push($_response,"Customer ".$cus_code." is not approve");
-					return $_response;
-				}else if($arry_query[0]['statu']=="03"){
+				if($arry_query[0]['statu']=="03"){
 					array_push($_response,"Customer ".$cus_code." is rejected");
 					return $_response;
 				}
-				return $_response;
-			}
-			else{
-				array_push($_response,"Customer ".$cus_code." is not exist");
 				return $_response;
 			}
 		}
@@ -57,7 +49,6 @@ class Customerxml extends CI_Controller {
 		if($_REQUEST['url']){
 		$doc->load($_REQUEST['url']);
 		$customer = array(
-					'ktype'=>"",
 					'kunnr'=>$doc->getElementsByTagName('customerCode')->item(0)->nodeValue,
 					'name1'=>$doc->getElementsByTagName('customerName')->item(0)->nodeValue,
 					'adr01'=>$doc->getElementsByTagName('billAddress')->item(0)->nodeValue,
@@ -76,16 +67,13 @@ class Customerxml extends CI_Controller {
 					'tel02'=>$doc->getElementsByTagName('shipPhoneNumber')->item(0)->nodeValue,
 					'telf2'=>$doc->getElementsByTagName('shipFaxNumber')->item(0)->nodeValue,
 					'pson2'=>$doc->getElementsByTagName('shipContractPerson')->item(0)->nodeValue,
-					'ptype'=>"", //Payment Type
 					'terms'=>intval($doc->getElementsByTagName('creditTerms')->item(0)->nodeValue),
 					'apamt'=>floatval($doc->getElementsByTagName('creditLimitAmt')->item(0)->nodeValue),
 					'pleve'=>$doc->getElementsByTagName('priceLevel')->item(0)->nodeValue,
-					'taxnr'=>"", //Vat Type
 					'vat01'=>floatval($doc->getElementsByTagName('vatValue')->item(0)->nodeValue),
 					'began'=>floatval($doc->getElementsByTagName('minimumAmt')->item(0)->nodeValue),
 					'endin'=>floatval($doc->getElementsByTagName('maximunAmt')->item(0)->nodeValue),
 					'taxid'=>$doc->getElementsByTagName('taxID')->item(0)->nodeValue,
-					'type1'=>"", //Withholding Tax
 					'note1'=>$doc->getElementsByTagName('textNote')->item(0)->nodeValue,
 					'statu'=>"01"
 					);
@@ -101,7 +89,7 @@ class Customerxml extends CI_Controller {
 			if($response=="Edit"){
 				//Verify Data
 				$result = array();
-				$result = check_exist_customer($doc->getElementsByTagName('CustomerCode')->item(0)->nodeValue,$this,$result);
+				$result = check_exist_customer($customer['kunnr'],$this,$result);
 				if(count($result)>0){
 					echo json_encode(array(
 					'success'=>false,
