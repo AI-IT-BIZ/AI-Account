@@ -23,7 +23,7 @@ class Saleperson extends CI_Controller {
 		if($query->num_rows()>0){
 			$result_data = $query->first_row('array');
 			$result_data['id'] = $result_data['salnr'];
-			$result_data['name1'] = $result_data['emnam'];
+			//$result_data['name1'] = $result_data['emnam'];
 			echo json_encode(array(
 				'success'=>true,
 				'data'=>$result_data

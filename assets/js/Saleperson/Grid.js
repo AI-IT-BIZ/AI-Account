@@ -24,7 +24,7 @@ Ext.define('Account.Saleperson.Grid', {
 				'salnr',
 				//'name1',
 				'empnr',
-				'emnam',
+				'name1',
 				'ctype',
 				'statx'
 			],
@@ -34,7 +34,7 @@ Ext.define('Account.Saleperson.Grid', {
 
 		this.columns = [
 			{text: "Sale Person No", width: 100, dataIndex: 'salnr', sortable: true},
-			{text: "Name", width: 180, dataIndex: 'emnam', sortable: true},
+			{text: "Name", width: 180, dataIndex: 'name1', sortable: true},
 			{text: "Employee No", flex: true, dataIndex: 'empnr', sortable: true},
 			
 			{text: "Commission Type", flex: true, dataIndex: 'ctype', sortable: true},

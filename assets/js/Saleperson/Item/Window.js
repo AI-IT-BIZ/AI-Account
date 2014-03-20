@@ -5,7 +5,7 @@ Ext.define('Account.Saleperson.Item.Window', {
 		Ext.apply(this, {
 			title: 'Create/Edit Sale Person',
 			closeAction: 'hide',
-			height: 430,
+			height: 450,
 			width: 650,
 			layout: 'border',
 			resizable: true,

@@ -194,12 +194,19 @@ layout: 'anchor',
 					
 			}]
 	},{
+			xtype: 'textfield',
+			fieldLabel: 'Sale Person Name',
+			name: 'name1',
+			margins: '0 0 0 6',
+			width:350,
+            allowBlank: true
+		},{
                 xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[this.trigEmployee,{
 			xtype: 'displayfield',
-			name: 'name1',
+			name: 'emnam',
 			margins: '0 0 0 6',
 			width:350,
             allowBlank: true
