@@ -760,8 +760,9 @@ class Asset extends CI_Controller {
 
 	function loads_tag(){
 		
-		$matnr = $this->input->post('matnr');
-		$menge = $this->input->post('menge');
+		$matnr = $this->input->get('matnr');
+		$menge = $this->input->get('menge');
+		echo 'aaa'.$matnr.'bbb'.$menge;
 		$this->db->set_dbprefix('v_');
 		$tbName = 'fatp';
 		
