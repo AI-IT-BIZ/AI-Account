@@ -6,7 +6,7 @@ class Servicexml extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('email_service','',TRUE);
-		
+		$this->load->model('code_model2','',TRUE);
 	}
 		
 	function convert()
@@ -14,8 +14,8 @@ class Servicexml extends CI_Controller {
 		$response = "";
 		function check_exist_pk($dataxml,$_this){
 			$_response = "";
-			$id = $dataxml['matnr'];
-			$_this->db->where('matnr',$id);
+			$id = $dataxml['refnr'];
+			$_this->db->where('refnr',$id);
 			$query = $_this->db->get('mara');
 			
 			if($query->num_rows()>0){
@@ -31,16 +31,13 @@ class Servicexml extends CI_Controller {
 		function check_exist_service($serv_code,$_this,$_result){
 			$_response = $_result;
 			$id = $serv_code;
-			$_this->db->where('matnr',$id);
+			$_this->db->where('refnr',$id);
 			$query = $_this->db->get('mara');
 			$str = "";
 			if($query->num_rows()>0){
 				$arry_query = $query->result_array();
-				if($arry_query[0]['statu']=="01"){
-					array_push($_response,"Service ".$serv_code." is not approve");
-					return $_response;
-				}else if($arry_query[0]['statu']=="03"){
-					array_push($_response,"Service ".$serv_code." is rejected");
+				if($arry_query[0]['statu']=="03"){
+					array_push($_response,"Service ".$serv_code." has been rejected");
 					return $_response;
 				}
 				return $_response;
@@ -56,17 +53,18 @@ class Servicexml extends CI_Controller {
 		if($_REQUEST['url']){
 		$doc->load($_REQUEST['url']);
 		$service = array(
-					'matnr'=>$doc->getElementsByTagName('ServiceCode')->item(0)->nodeValue,
 					'maktx'=>$doc->getElementsByTagName('ServiceName')->item(0)->nodeValue,
 					'mtart'=>'SV', //ServiceType
 					'meins'=>$doc->getElementsByTagName('Unit1')->item(0)->nodeValue,
-					'stype'=>'',
-					'statu'=>"01"
+					'statu'=>"01",
+					'refnr'=>$doc->getElementsByTagName('ServiceCode')->item(0)->nodeValue
 					);
 		
 		//$customer = check_exist_pk($customer,$this);
 		$response = check_exist_pk($service,$this);
 			if($response=="Create"){
+				$id = $this->code_model2->generate2('SV');
+				$service['matnr']=$id;
 				$username = "BMS";
 				db_helper_set_now($this, 'erdat');
 				$this->db->set('ernam', $username);
@@ -83,7 +81,7 @@ class Servicexml extends CI_Controller {
 					return;
 				}		
 				else{
-					$this->db->where('matnr', $service['matnr']);
+					$this->db->where('refnr', $service['refnr']);
 					$this->db->update('mara',$service);
 				}
 			}
@@ -99,7 +97,12 @@ class Servicexml extends CI_Controller {
 		}
 		
 		try{
-				$post_id = $service['matnr'];
+				if($response=="Create"){$post_id = $service['matnr'];}
+				else{
+					$res = $this->db->get('mara');
+					$res_arry = $res->result_array();
+					$post_id = $res_arry[0]['matnr'];
+				}
 				$total_amount = '0';
 				// send notification email
 				if($post_id!=""){

@@ -31,7 +31,7 @@ class Invoicexml extends CI_Controller {
 		function check_exist_customer($cus_code,$_this,$_result){
 			$_response = $_result;
 			$id = $cus_code;
-			$_this->db->where('kunnr',$id);
+			$_this->db->where('refnr',$id);
 			$query = $_this->db->get('kna1');
 			
 			if($query->num_rows()>0){
@@ -40,7 +40,7 @@ class Invoicexml extends CI_Controller {
 					array_push($_response,"Customer ".$cus_code." is not approve");
 					return $_response;
 				}else if($arry_query[0]['statu']=="03"){
-					array_push($_response,"Customer ".$cus_code." is rejected");
+					array_push($_response,"Customer ".$cus_code." hass been rejected");
 					return $_response;
 				}
 				return $_response;
@@ -54,7 +54,7 @@ class Invoicexml extends CI_Controller {
 		function check_exist_saleperson($sale_code,$_this,$_result){
 			$_response = $_result;
 			$id = $sale_code;
-			$_this->db->where('salnr',$id);
+			$_this->db->where('refnr',$id);
 			$query = $_this->db->get('psal');
 			
 			if($query->num_rows()>0){
@@ -63,7 +63,7 @@ class Invoicexml extends CI_Controller {
 					array_push($_response,"Sale Person ".$sale_code." is not approve");
 					return $_response;
 				}else if($arry_query[0]['statu']=="03"){
-					array_push($_response,"Sale Person ".$sale_code." is rejected");
+					array_push($_response,"Sale Person ".$sale_code." has been rejected");
 					return $_response;
 				}
 				return $_response;
@@ -77,7 +77,7 @@ class Invoicexml extends CI_Controller {
 		function check_exist_service($serv_code,$_this,$_result){
 			$_response = $_result;
 			$id = $serv_code;
-			$_this->db->where('matnr',$id);
+			$_this->db->where('refnr',$id);
 			$query = $_this->db->get('mara');
 			$str = "";
 			if($query->num_rows()>0){
@@ -86,7 +86,7 @@ class Invoicexml extends CI_Controller {
 					array_push($_response,"Service ".$serv_code." is not approve");
 					return $_response;
 				}else if($arry_query[0]['statu']=="03"){
-					array_push($_response,"Service ".$serv_code." is rejected");
+					array_push($_response,"Service ".$serv_code." has been rejected");
 					return $_response;
 				}
 				return $_response;
@@ -95,6 +95,27 @@ class Invoicexml extends CI_Controller {
 				array_push($_response,"Service ".$serv_code." is not exist");
 				return $_response;
 			}
+		}
+		
+		function get_customer_code($_this,$code_xml){
+			$_this->db->where('refnr',$code_xml);
+			$query = $_this->db->get('kna1');
+			$arry_query = $query->result_array();
+			return $arry_query[0]['kunnr'];
+		}
+		
+		function get_sale_code($_this,$code_xml){
+			$_this->db->where('refnr',$code_xml);
+			$query = $_this->db->get('psal');
+			$arry_query = $query->result_array();
+			return $arry_query[0]['salnr'];
+		}
+		
+		function get_service_code($_this,$code_xml){
+			$_this->db->where('refnr',$code_xml);
+			$query = $_this->db->get('mara');
+			$arry_query = $query->result_array();
+			return $arry_query[0]['matnr'];
 		}
 				
 		$doc = new DOMDocument();
@@ -116,7 +137,11 @@ class Invoicexml extends CI_Controller {
 			return;
 		}		
 		//===End Verify Data
-
+		
+		//Get Customer Code
+		$customer_code = get_customer_code($this,$doc->getElementsByTagName('CustomerCode')->item(0)->nodeValue);
+		//Get Sale Person
+		$sale_code = get_sale_code($this,$doc->getElementsByTagName('SalePerson')->item(0)->nodeValue);
 		//Fill Invoice Header into Array
 		$id = $this->code_model->generate('IV', $doc->getElementsByTagName('DocDate')->item(0)->nodeValue);
 		$formData = array(
@@ -129,12 +154,12 @@ class Invoicexml extends CI_Controller {
 			'ptype' => "01",
 			'taxnr' => "01",
 			'terms' => intval($doc->getElementsByTagName('CreditTerms')->item(0)->nodeValue),
-			'kunnr' => $doc->getElementsByTagName('CustomerCode')->item(0)->nodeValue,
+			'kunnr' => $customer_code,
 			'netwr' => floatval($doc->getElementsByTagName('NetAmont')->item(0)->nodeValue),
 			'beamt' => floatval($doc->getElementsByTagName('Total')->item(0)->nodeValue),
 			'dismt' => floatval($doc->getElementsByTagName('SaleDiscount')->item(0)->nodeValue),
 			'taxpr' => floatval("7.00"),
-			'salnr' => $doc->getElementsByTagName('SalePerson')->item(0)->nodeValue,
+			'salnr' => $sale_code,
 			'ctype' => "THB",
 			'exchg' => floatval("1.00"),
 			'duedt' => $doc->getElementsByTagName('DueDate')->item(0)->nodeValue,
@@ -147,10 +172,11 @@ class Invoicexml extends CI_Controller {
 		$itemData = array();
 		for($i=0;$i<$doc->getElementsByTagName('InvoiceItem')->length;$i++){
 			$node = $doc->getElementsByTagName('InvoiceItem')->item($i);
+			$service_code = get_service_code($this,$node->getElementsByTagName('MaterialCode')->item(0)->nodeValue);
 			array_push($itemData,array(
 				'invnr' => $id,
 				'vbelp' => $i+1,
-				'matnr' => $node->getElementsByTagName('MaterialCode')->item(0)->nodeValue,
+				'matnr' => $service_code,
 				'menge' => $node->getElementsByTagName('Qty')->item(0)->nodeValue,
 				'meins' => $node->getElementsByTagName('Unit')->item(0)->nodeValue,
 				'disit' => '',
