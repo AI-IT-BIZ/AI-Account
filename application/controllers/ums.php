@@ -216,7 +216,7 @@ e.posnr,e.depnr,p.postx,d.deptx
 FROM tbl_user u
 LEFT JOIN tbl_empl e ON u.empnr=e.empnr
 LEFT JOIN tbl_posi p ON e.posnr=p.posnr
-LEFT JOIN tbl_posi d ON e.depnr=d.depnr
+LEFT JOIN tbl_depn d ON e.depnr=d.depnr
 WHERE u.comid=$comid_esc
 GROUP BY u.empnr, e.posnr, e.depnr, p.postx, d.deptx, u.comid, u.uname, u.name1, u.passw
 ORDER BY u.empnr";

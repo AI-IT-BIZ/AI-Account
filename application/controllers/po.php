@@ -508,6 +508,8 @@ class Po extends CI_Controller {
 					$pramt = $amt * $perc[0];
 					$pramt = $pramt / 100;
 				}
+				
+				if($p->payty == false) $p->payty = '';
                
 				$this->db->insert('payp', array(
 					'vbeln'=>$id,

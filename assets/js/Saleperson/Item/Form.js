@@ -26,8 +26,8 @@ Ext.define('Account.Saleperson.Item.Form', {
 			width:240,
 			fieldLabel: 'Employee No',
 			triggerCls: 'x-form-search-trigger',
-			enableKeyEvents: true,
-			allowBlank : false
+			enableKeyEvents: true//,
+			//allowBlank : false
 		});
 		
 		this.comboQStatus = Ext.create('Ext.form.ComboBox', {
@@ -194,12 +194,19 @@ layout: 'anchor',
 					
 			}]
 	},{
+			xtype: 'textfield',
+			fieldLabel: 'Sale Person Name',
+			name: 'name1',
+			margins: '0 0 0 6',
+			width:350,
+            allowBlank: true
+		},{
                 xtype: 'container',
                 layout: 'hbox',
                 margin: '0 0 5 0',
      items :[this.trigEmployee,{
 			xtype: 'displayfield',
-			name: 'name1',
+			name: 'emnam',
 			margins: '0 0 0 6',
 			width:350,
             allowBlank: true
@@ -338,7 +345,7 @@ defaults: {anchor: '100%'},
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.empnr);
-							_this.getForm().findField('name1').setValue(r.data.name1);
+							_this.getForm().findField('emnam').setValue(r.data.name1);
 						}else{
 							o.markInvalid('Could not find Employee code : '+o.getValue());
 						}
@@ -349,7 +356,7 @@ defaults: {anchor: '100%'},
 
 		_this.employeeDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigEmployee.setValue(record.data.empnr);
-			_this.getForm().findField('name1').setValue(record.data.name1);
+			_this.getForm().findField('emnam').setValue(record.data.name1);
 
 			grid.getSelectionModel().deselectAll();
 			_this.employeeDialog.hide();
