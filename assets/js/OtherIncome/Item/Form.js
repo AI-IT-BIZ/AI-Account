@@ -325,7 +325,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
      items :[this.trigProject,
 					{
 						xtype: 'displayfield',
-						name: 'jobtx2',
+						name: 'jobtx',
 						width:350,
 						margins: '0 0 0 6',
 						allowBlank: true
@@ -469,7 +469,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 						var r = Ext.decode(response.responseText);
 						if(r && r.success){
 							o.setValue(r.data.jobnr);
-			_this.getForm().findField('jobtx2').setValue(r.data.jobtx);
+			_this.getForm().findField('jobtx').setValue(r.data.jobtx);
 			_this.getForm().findField('kunnr').setValue(r.data.kunnr);
 			_this.getForm().findField('name1').setValue(r.data.name1);
 			_this.getForm().findField('salnr').setValue(r.data.salnr);
@@ -485,7 +485,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 			}else{_this.numberVat.enable();}
 						}else{
 							o.setValue('');
-			_this.getForm().findField('jobtx2').setValue('');
+			_this.getForm().findField('jobtx').setValue('');
 			_this.getForm().findField('kunnr').setValue('');
 			_this.getForm().findField('name1').setValue('');
 			_this.getForm().findField('salnr').setValue('');
@@ -506,7 +506,7 @@ Ext.define('Account.OtherIncome.Item.Form', {
 
 		_this.projectDialog.grid.on('beforeitemdblclick', function(grid, record, item){
 			_this.trigProject.setValue(record.data.jobnr);
-			_this.getForm().findField('jobtx2').setValue(record.data.jobtx);
+			_this.getForm().findField('jobtx').setValue(record.data.jobtx);
 
 			_this.getForm().findField('kunnr').setValue(record.data.kunnr);
 			_this.getForm().findField('name1').setValue(record.data.name1);

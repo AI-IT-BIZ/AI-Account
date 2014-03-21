@@ -20,10 +20,10 @@ Ext.define('Account.GR.Item.Grid_i', {
 		this.materialDialog = Ext.create('Account.SMatAsset.MainWindow', {
 			disableGridDoubleClick: true,
 			isApproveOnly: true
-		});
+		});*/
 		// END Material search popup ///////////////////////////////////
-        this.unitDialog = Ext.create('Account.SUnit.Window');
-		this.tbar = [this.addAct, this.copyAct];*/
+        this.assetDialog = Ext.create('Account.GenAsset.Window');
+		//this.tbar = [this.addAct, this.copyAct];
 
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
@@ -53,8 +53,7 @@ Ext.define('Account.GR.Item.Grid_i', {
 				'chk01',
 				'serno',
 				'reman',
-				'upqty',
-				'itsok'
+				'upqty'
 			],
 			remoteSort: true,
 			sorters: ['mbelp ASC']
@@ -241,13 +240,20 @@ Ext.define('Account.GR.Item.Grid_i', {
 				}
 			},
 			},
-		{text: "Serial No",
-		width: 90,
+		{text: "FA Tag No.",
+		width: 80,
 		dataIndex: 'serno',
 		sortable: false,
 			field: {
-				type: 'textfield'
-			}
+				xtype: 'triggerfield',
+				enableKeyEvents: true,
+				triggerCls: 'x-form-search-trigger',
+				onTriggerClick: function(){
+					//_this.editing.completeEdit();
+					_this.assetDialog.show();
+					_this.assetDialog.grid.load();
+				}
+			},
 			}];
 
 		this.plugins = [this.editing];

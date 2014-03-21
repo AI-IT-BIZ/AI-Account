@@ -739,6 +739,83 @@ class Asset extends CI_Controller {
 		));
 	}
 	
+	function load_tag(){
+		$this->db->set_dbprefix('v_');
+		$id = $this->input->post('id');
+		$this->db->limit(1);
+		$this->db->where('matnr', $id);
+		$query = $this->db->get('fatp');
+		if($query->num_rows()>0){
+			$result_data = $query->first_row('array');
+			$result_data['id'] = $result_data['matnr'];
+			echo json_encode(array(
+				'success'=>true,
+				'data'=>$result_data
+			));
+		}else
+			echo json_encode(array(
+				'success'=>false
+			));
+	}
+
+	function loads_tag(){
+		
+		$matnr = $this->input->post('matnr');
+		$menge = $this->input->post('menge');
+		$this->db->set_dbprefix('v_');
+		$tbName = 'fatp';
+		
+		$totalCount = $this->db->count_all_results($tbName);
+
+		//createQuery($this);
+		$limit = $this->input->get('limit');
+		$start = $this->input->get('start');
+		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
+
+		$sort = $this->input->get('sort');
+		$dir = $this->input->get('dir');
+		//$this->db->order_by($sort, $dir);
+
+		$query = $this->db->get($tbName);
+		//echo $this->db->last_query();
+		echo json_encode(array(
+			'success'=>true,
+			'rows'=>$query->result_array(),
+			'totalCount'=>$totalCount 
+		));
+	}
+	
+	function save_tag(){
+		// เตรียมข้อมูล payment item
+		$fatp = $this->input->post('fatp');
+		$item_array = json_decode($fatp);
+		
+		if(!empty($fatp) && !empty($item_array)){
+			// ลบ receipt item ภายใต้ id ทั้งหมด
+		if(db_helper_is_mssql($this)){
+		$this->db->where('1=1');
+		$this->db->delete('fatp');
+		}
+		if(db_helper_is_mysql($this)){
+		$this->db->truncate('fatp');
+		}
+			// loop เพื่อ insert payment item ที่ส่งมาใหม่
+	    $item_index = 0;
+		foreach($item_array AS $p){
+			$this->db->insert('fatp', array(
+				'matnr'=>$p->matnr,
+				'matpr'=>$p->matpr,
+				'print'=>$p->print
+			));
+	    	}
+		}
+
+		echo json_encode(array(
+			'success'=>true,
+			'data'=>$_POST
+		));
+	}
+	
 	function remove_grp(){
 		$id = $this->input->post('id');
 		$this->db->where('matkl', $id);
