@@ -426,6 +426,21 @@ class Otincome extends CI_Controller {
 
 
 	function save(){
+		//Function For Return Status To BMS
+		function bms($inv_id,$_this){
+			$_this->db->where('invnr',$inv_id);
+			$_query = $_this->db->get('vbrk');
+			$_arry = $_query->result_array();
+			if(($_arry[0]['ernam']=="BMS")&&($_arry[0]['statu']=="03")){
+				$_id = $_arry[0]['refnr'];
+				$_str = "http://bmswebservice.clicknext.co.th/WebService.asmx/BMSInvoiceConfirm?invCode=".$_id."&status=0";
+				$_curl = curl_init();
+				curl_setopt($_curl, CURLOPT_URL,$_str);
+				$_result = curl_exec($_curl);
+				curl_close($_curl);
+			}
+		}
+		
 		$id = $this->input->post('id');
 		$query = null;
 		
@@ -687,6 +702,7 @@ class Otincome extends CI_Controller {
 				'success'=>false
 			));
 		}else{
+			bms($id,$this);
 			echo json_encode(array(
 				'success'=>true,
 				// also send id after save
