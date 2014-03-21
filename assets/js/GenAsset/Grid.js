@@ -11,7 +11,7 @@ Ext.define('Account.GenAsset.Grid', {
 	},
 	initComponent : function() {
 		var _this=this;
-		
+
 		Ext.QuickTips.init();
 		var filters = {
 			ftype: 'filters',
@@ -27,7 +27,7 @@ Ext.define('Account.GenAsset.Grid', {
 				dataIndex: 'matpr'
 			}]
 		};
-		
+
 		this.addAct = new Ext.Action({
 			text: 'Add',
 			iconCls: 'b-small-plus'
@@ -38,11 +38,11 @@ Ext.define('Account.GenAsset.Grid', {
 		// END GL search popup ///////////////////////////////////////////////
 
 		this.tbar = [this.addAct];// this.deleteAct];
-		
+
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit: 1
 		});
-		
+
 		this.store = new Ext.data.JsonStore({
 			// store configs
 			proxy: {
@@ -80,26 +80,26 @@ Ext.define('Account.GenAsset.Grid', {
 				return rowIndex+1;
 			}
 		},{
-			text: "FA Code", 
+			text: "FA Code",
 			width: 100,
-			dataIndex: 'matnr', 
+			dataIndex: 'matnr',
 			sortable: true
 		},{
-			text: "FA Name", 
-			width: 150, 
-			dataIndex: 'deptx', 
+			text: "FA Name",
+			width: 150,
+			dataIndex: 'deptx',
 			sortable: true,
 			maxLenges: 100
 			},{
-			text: "FA Tag No.", 
+			text: "FA Tag No.",
 			width: 100,
-			dataIndex: 'matnr', 
+			dataIndex: 'matnr',
 			sortable: true
 		},{
 			xtype: 'checkcolumn',
-			text: "Print", 
-			width: 30, 
-			dataIndex: 'deptx', 
+			text: "Print",
+			width: 30,
+			dataIndex: 'deptx',
 			field: {
                 xtype: 'checkboxfield',
                 listeners: {
@@ -111,8 +111,8 @@ Ext.define('Account.GenAsset.Grid', {
 				}}
 			},
 		{text: "1",hidden: true,
-		 width: 0, 
-		 dataIndex: 'menge', 
+		 width: 0,
+		 dataIndex: 'menge',
 		 sortable: false},
 		];
 
@@ -122,14 +122,14 @@ Ext.define('Account.GenAsset.Grid', {
 			store: this.store,
 			displayInfo: true
 		};*/
-		
+
 		Ext.apply(this, {
 			forceFit: true,
 			features: [filters]
 		});
-		
+
 		this.plugins = [this.editing];
-		
+
 		// init event ///////
 		this.addAct.setHandler(function(){
 			_this.addRecord2();
@@ -138,8 +138,9 @@ Ext.define('Account.GenAsset.Grid', {
 		return this.callParent(arguments);
 	},
 	load: function(options){
-		this.store.load(options);
-		//if(options){ alert(options); }
+		this.store.load({
+			params: options
+		});
 	},
 	addRecord2: function(){
 		// หา record ที่สร้างใหม่ล่าสุด
@@ -168,10 +169,10 @@ Ext.define('Account.GenAsset.Grid', {
 
 		this.runNumRow2();
 	},
-	
+
 	save : function(){
 		var _this=this;
-		
+
 		var r_data = this.getData();
 		Ext.Ajax.request({
 			url: __site_url+'asset/save_tag',
@@ -189,18 +190,18 @@ Ext.define('Account.GenAsset.Grid', {
 			}
 		});
 	},
-	
+
 	removeRecord: function(grid, rowIndex){
 		this.store.removeAt(rowIndex);
 		this.runNumRow2();
 	},
-	
+
 	reset: function(){
 		//this.getForm().reset();
 		//สั่ง grid load เพื่อเคลียร์ค่า
 		this.grid.load({ matpr: 0 });
 	},
-	
+
 	getData: function(){
 		var rs = [];
 		this.store.each(function(r){
