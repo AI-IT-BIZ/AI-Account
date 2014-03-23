@@ -174,7 +174,7 @@ Ext.define('Account.OtherExpense.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/ap/index?'+query;
+			window.location = __site_url+'export/otherexpense/index?'+query;
 		});
 		
 		// --- after ---

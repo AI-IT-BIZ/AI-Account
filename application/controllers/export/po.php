@@ -12,12 +12,7 @@ class Po extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'ekko';
-
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
-
+		$tbName = 'order';
 		
 		// Start for report
 		function createQuery($_this){
@@ -30,7 +25,7 @@ class Po extends CI_Controller {
 				OR purnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -80,6 +75,7 @@ class Po extends CI_Controller {
 			  $_this->db->where('statu <=', $statu2);
 			}
 		}
+		// End for report	
 
 		createQuery($this);
 		$sort = $this->input->get('sort');

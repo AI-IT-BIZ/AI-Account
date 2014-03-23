@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gr extends CI_Controller {
+class Saledelivery extends CI_Controller {
 
 	function __construct()
 	{
@@ -12,19 +12,29 @@ class Gr extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mkpf';
+		$tbName = 'vbvk';
 
 		// Start for report
 		function createQuery($_this){
-			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(mbeln LIKE '%$query%'
-				OR lifnr LIKE '%$query%'
+				$_this->db->where("(delnr LIKE '%$query%'
+				OR kunnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR ebeln LIKE '%$query%')", NULL, FALSE);
+				OR ordnr LIKE '%$query%'
+				OR salnr LIKE '%$query%')", NULL, FALSE);
 			}
 			
+	        $delnr1 = $_this->input->get('delnr');
+			$delnr2 = $_this->input->get('delnr2');
+			if(!empty($delnr1) && empty($delnr2)){
+			  $_this->db->where('delnr', $delnr1);
+			}
+			elseif(!empty($delnr1) && !empty($delnr2)){
+			  $_this->db->where('delnr >=', $delnr1);
+			  $_this->db->where('delnr <=', $delnr2);
+			}
+
 			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
@@ -34,37 +44,27 @@ class Gr extends CI_Controller {
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
 			}
-			
-            $mbeln1 = $_this->input->get('mbeln');
-			$mbeln2 = $_this->input->get('mbeln2');
-			if(!empty($mbeln1) && empty($mbeln2)){
-			  $_this->db->where('mbeln', $mbeln1);
+
+			$ordnr1 = $_this->input->get('ordnr');
+			$ordnr2 = $_this->input->get('ordnr2');
+			if(!empty($ordnr1) && empty($ordnr2)){
+			  $_this->db->where('ordnr', $ordnr1);
 			}
-			elseif(!empty($mbeln1) && !empty($mbeln2)){
-			  $_this->db->where('mbeln >=', $mbeln1);
-			  $_this->db->where('mbeln <=', $mbeln2);
+			elseif(!empty($ordnr1) && !empty($ordnr2)){
+			  $_this->db->where('ordnr >=', $ordnr1);
+			  $_this->db->where('ordnr <=', $ordnr2);
 			}
 
-            $ebeln1 = $_this->input->get('ebeln');
-			$ebeln2 = $_this->input->get('ebeln2');
-			if(!empty($ebeln1) && empty($ebeln2)){
-			  $_this->db->where('ebeln', $ebeln1);
+			$kunnr1 = $_this->input->get('kunnr');
+			$kunnr2 = $_this->input->get('kunnr2');
+			if(!empty($kunnr1) && empty($kunnr2)){
+			  $_this->db->where('kunnr', $kunnr1);
 			}
-			elseif(!empty($ebeln1) && !empty($ebeln2)){
-			  $_this->db->where('ebeln >=', $ebeln1);
-			  $_this->db->where('ebeln <=', $ebeln2);
+			elseif(!empty($kunnr1) && !empty($kunnr2)){
+			  $_this->db->where('kunnr >=', $kunnr1);
+			  $_this->db->where('kunnr <=', $kunnr2);
 			}
-			
-			$lifnr1 = $_this->input->get('lifnr');
-			$lifnr2 = $_this->input->get('lifnr2');
-			if(!empty($lifnr1) && empty($lifnr2)){
-			  $_this->db->where('lifnr', $lifnr1);
-			}
-			elseif(!empty($lifnr1) && !empty($lifnr2)){
-			  $_this->db->where('lifnr >=', $lifnr1);
-			  $_this->db->where('lifnr <=', $lifnr2);
-			}
-			
+
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
@@ -75,7 +75,7 @@ class Gr extends CI_Controller {
 			  $_this->db->where('statu <=', $statu2);
 			}
 		}
-		// End for report
+// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
@@ -90,43 +90,45 @@ class Gr extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Goods Receipt")
-									 ->setSubject("Goods Receipt")
-									 ->setDescription("Goods Receipt information.");
+									 ->setTitle("Delivery Order")
+									 ->setSubject("Delivery Order")
+									 ->setDescription("Delivery Order information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'GR No')
-	            ->setCellValue('B1', 'GR Date')
-	            ->setCellValue('C1', 'Vendor No')
-	            ->setCellValue('D1', 'Vendor Name')
-				->setCellValue('E1', 'PO No')
+	            ->setCellValue('A1', 'Delivery Order No')
+	            ->setCellValue('B1', 'Delivery Order Date')
+	            ->setCellValue('C1', 'Customer No')
+	            ->setCellValue('D1', 'Customer Name')
+	            ->setCellValue('E1', 'Sale Order No')
 	            ->setCellValue('F1', 'Status')
-	            ->setCellValue('G1', 'Amount')
-	            ->setCellValue('H1', 'Currency');
-				
+	            ->setCellValue('G1', 'Sale Name')
+	            ->setCellValue('H1', 'Amount')
+	            ->setCellValue('I1', 'Currency');
+
 		// Add some data
 		$result_array = $query->result_array();
 		for($i=0;$i<count($result_array);$i++){
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-					->setCellValue('A'.$excel_i, $value['mbeln'])
+		            ->setCellValue('A'.$excel_i, $value['delnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['lifnr'])
+		            ->setCellValue('C'.$excel_i, $value['kunnr'])
 		            ->setCellValue('D'.$excel_i, $value['name1'])
-					->setCellValue('E'.$excel_i, $value['ebeln'])
+		            ->setCellValue('E'.$excel_i, $value['ordnr'])
 		            ->setCellValue('F'.$excel_i, $value['statx'])
-		            ->setCellValue('G'.$excel_i, number_format($value['netwr'],2,'.',','))
-		            ->setCellValue('H'.$excel_i, $value['ctype']);
+		            ->setCellValue('G'.$excel_i, $value['sname'])
+		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))
+		            ->setCellValue('I'.$excel_i, $value['ctype']);
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','H') as $columnID) {
+		foreach(range('A','I') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -152,7 +154,7 @@ class Gr extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="goods_receipt_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="deliveryorder_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

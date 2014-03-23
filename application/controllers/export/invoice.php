@@ -83,7 +83,14 @@ class Invoice extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
+			if(db_helper_is_mssql($_this))
+			   $_this->db->where("(itype is null)", NULL, FALSE);
+			elseif(db_helper_is_mysql($_this)) {
+			   $_this->db->where("(isnull(itype))", NULL, FALSE);
+			}
 		}
+// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
@@ -111,7 +118,7 @@ class Invoice extends CI_Controller {
 	            ->setCellValue('B1', 'Invoice Date')
 	            ->setCellValue('C1', 'Customer No')
 	            ->setCellValue('D1', 'Customer Name')
-	            ->setCellValue('E1', 'Sale Order No')
+	            ->setCellValue('E1', 'Delivery Order No')
 				->setCellValue('F1', 'Sale Name')
 	            ->setCellValue('G1', 'Status')
 	            ->setCellValue('H1', 'Amount')
@@ -127,7 +134,7 @@ class Invoice extends CI_Controller {
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
 		            ->setCellValue('C'.$excel_i, $value['kunnr'])
 		            ->setCellValue('D'.$excel_i, $value['name1'])
-		            ->setCellValue('E'.$excel_i, $value['ordnr'])
+		            ->setCellValue('E'.$excel_i, $value['delnr'])
 					->setCellValue('G'.$excel_i, $value['sname'])
 		            ->setCellValue('F'.$excel_i, $value['statx'])
 		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))

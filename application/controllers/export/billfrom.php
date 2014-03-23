@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gr extends CI_Controller {
+class Billfrom extends CI_Controller {
 
 	function __construct()
 	{
@@ -12,17 +12,15 @@ class Gr extends CI_Controller {
 	function index()
 	{
 		$this->db->set_dbprefix('v_');
-		$tbName = 'mkpf';
-
+		$tbName = 'ebkk';
+		
 		// Start for report
 		function createQuery($_this){
-			
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(mbeln LIKE '%$query%'
-				OR lifnr LIKE '%$query%'
-				OR name1 LIKE '%$query%'
-				OR ebeln LIKE '%$query%')", NULL, FALSE);
+				$_this->db->where("(bilnr LIKE '%$query%'
+				OR kunnr LIKE '%$query%'
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -35,26 +33,6 @@ class Gr extends CI_Controller {
 			  $_this->db->where('bldat <=', $bldat2);
 			}
 			
-            $mbeln1 = $_this->input->get('mbeln');
-			$mbeln2 = $_this->input->get('mbeln2');
-			if(!empty($mbeln1) && empty($mbeln2)){
-			  $_this->db->where('mbeln', $mbeln1);
-			}
-			elseif(!empty($mbeln1) && !empty($mbeln2)){
-			  $_this->db->where('mbeln >=', $mbeln1);
-			  $_this->db->where('mbeln <=', $mbeln2);
-			}
-
-            $ebeln1 = $_this->input->get('ebeln');
-			$ebeln2 = $_this->input->get('ebeln2');
-			if(!empty($ebeln1) && empty($ebeln2)){
-			  $_this->db->where('ebeln', $ebeln1);
-			}
-			elseif(!empty($ebeln1) && !empty($ebeln2)){
-			  $_this->db->where('ebeln >=', $ebeln1);
-			  $_this->db->where('ebeln <=', $ebeln2);
-			}
-			
 			$lifnr1 = $_this->input->get('lifnr');
 			$lifnr2 = $_this->input->get('lifnr2');
 			if(!empty($lifnr1) && empty($lifnr2)){
@@ -64,18 +42,7 @@ class Gr extends CI_Controller {
 			  $_this->db->where('lifnr >=', $lifnr1);
 			  $_this->db->where('lifnr <=', $lifnr2);
 			}
-			
-			$statu1 = $_this->input->get('statu');
-			$statu2 = $_this->input->get('statu2');
-			if(!empty($statu1) && empty($statu2)){
-			  $_this->db->where('statu', $statu1);
-			}
-			elseif(!empty($statu1) && !empty($statu2)){
-			  $_this->db->where('statu >=', $statu1);
-			  $_this->db->where('statu <=', $statu2);
-			}
 		}
-		// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
@@ -90,23 +57,24 @@ class Gr extends CI_Controller {
 		// Set document properties
 		$objPHPExcel->getProperties()->setCreator("Prime BizNet")
 									 ->setLastModifiedBy("Prime BizNet")
-									 ->setTitle("Goods Receipt")
-									 ->setSubject("Goods Receipt")
-									 ->setDescription("Goods Receipt information.");
+									 ->setTitle("Bill Receipt")
+									 ->setSubject("Bill Receipt")
+									 ->setDescription("Bill Receipt information.");
 
 		$objPHPExcel->setActiveSheetIndex(0);
 		$current_sheet = $objPHPExcel->getActiveSheet();
 
 		// add header data
 		$current_sheet
-	            ->setCellValue('A1', 'GR No')
-	            ->setCellValue('B1', 'GR Date')
-	            ->setCellValue('C1', 'Vendor No')
-	            ->setCellValue('D1', 'Vendor Name')
-				->setCellValue('E1', 'PO No')
-	            ->setCellValue('F1', 'Status')
-	            ->setCellValue('G1', 'Amount')
-	            ->setCellValue('H1', 'Currency');
+	            ->setCellValue('A1', 'Bill Receipt No')
+	            ->setCellValue('B1', 'Bill Receipt Date')
+				->setCellValue('C1', 'Due Date')
+	            ->setCellValue('D1', 'Vendor No')
+	            ->setCellValue('E1', 'Vendor Name')
+				->setCellValue('F1', 'Text Note')
+	            ->setCellValue('G1', 'Status')
+	            ->setCellValue('I1', 'Amount')
+	            ->setCellValue('J1', 'Currency');
 				
 		// Add some data
 		$result_array = $query->result_array();
@@ -114,19 +82,20 @@ class Gr extends CI_Controller {
 			$value = $result_array[$i];
 			$excel_i = $i+2;
 			$current_sheet
-					->setCellValue('A'.$excel_i, $value['mbeln'])
+					->setCellValue('A'.$excel_i, $value['bilnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['lifnr'])
-		            ->setCellValue('D'.$excel_i, $value['name1'])
-					->setCellValue('E'.$excel_i, $value['ebeln'])
-		            ->setCellValue('F'.$excel_i, $value['statx'])
-		            ->setCellValue('G'.$excel_i, number_format($value['netwr'],2,'.',','))
-		            ->setCellValue('H'.$excel_i, $value['ctype']);
+		            ->setCellValue('C'.$excel_i, $value['duedt'])
+		            ->setCellValue('D'.$excel_i, $value['lifnr'])
+		            ->setCellValue('E'.$excel_i, $value['name1'])
+					->setCellValue('F'.$excel_i, $value['txz01'])
+		            ->setCellValue('G'.$excel_i, $value['statx'])
+		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))
+		            ->setCellValue('I'.$excel_i, $value['ctype']);
 		}
 
 
 		// Adjust header cell format
-		foreach(range('A','H') as $columnID) {
+		foreach(range('A','I') as $columnID) {
 		    $current_sheet->getColumnDimension($columnID)->setAutoSize(true);
 
 			// add color to head
@@ -152,7 +121,7 @@ class Gr extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="goods_receipt_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="billreceipt_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

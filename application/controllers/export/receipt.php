@@ -18,10 +18,9 @@ class Receipt extends CI_Controller {
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
-				$_this->db->where("(invnr LIKE '%$query%'
+				$_this->db->where("(recnr LIKE '%$query%'
 				OR kunnr LIKE '%$query%'
-				OR name1 LIKE '%$query%'
-				OR ordnr LIKE '%$query%')", NULL, FALSE);
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
@@ -43,7 +42,19 @@ class Receipt extends CI_Controller {
 			  $_this->db->where('kunnr >=', $kunnr1);
 			  $_this->db->where('kunnr <=', $kunnr2);
 			}
+			
+			$statu1 = $_this->input->get('statu');
+			$statu2 = $_this->input->get('statu2');
+			if(!empty($statu1) && empty($statu2)){
+			  $_this->db->where('statu', $statu1);
+			}
+			elseif(!empty($statu1) && !empty($statu2)){
+			  $_this->db->where('statu >=', $statu1);
+			  $_this->db->where('statu <=', $statu2);
+			}
+
 		}
+// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
@@ -68,8 +79,8 @@ class Receipt extends CI_Controller {
 		// add header data
 		$current_sheet
 	            ->setCellValue('A1', 'Receipt No')
-	            ->setCellValue('B1', 'Receipt Date')
-				->setCellValue('C1', 'Due Date')
+	            ->setCellValue('B1', 'Doc Date')
+				->setCellValue('C1', 'Receipt Date')
 	            ->setCellValue('D1', 'Customer No')
 	            ->setCellValue('E1', 'Customer Name')
 	            ->setCellValue('F1', 'Text Note')
@@ -88,7 +99,7 @@ class Receipt extends CI_Controller {
 		            ->setCellValue('C'.$excel_i, $value['duedt'])
 		            ->setCellValue('D'.$excel_i, $value['kunnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
-		            ->setCellValue('F'.$excel_i, $value['vbeln'])
+		            ->setCellValue('F'.$excel_i, $value['txz01'])
 		            ->setCellValue('G'.$excel_i, $value['statx'])
 		            ->setCellValue('H'.$excel_i, number_format($value['netwr'],2,'.',','))
 		            ->setCellValue('I'.$excel_i, $value['ctype']);

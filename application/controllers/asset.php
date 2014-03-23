@@ -762,7 +762,8 @@ class Asset extends CI_Controller {
 		
 		$matnr = $this->input->get('matnr');
 		$menge = $this->input->get('menge');
-		echo 'aaa'.$matnr.'bbb'.$menge;
+		//echo 'aaa'.$matnr.'bbb'.$menge;
+		
 		$this->db->set_dbprefix('v_');
 		$tbName = 'fatp';
 		
@@ -773,40 +774,77 @@ class Asset extends CI_Controller {
 		$start = $this->input->get('start');
 		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
-		$sort = $this->input->get('sort');
-		$dir = $this->input->get('dir');
+		//$sort = $this->input->get('sort');
+		//$dir = $this->input->get('dir');
 		//$this->db->order_by($sort, $dir);
-
+        $this->db->where('matnr', $matnr);
 		$query = $this->db->get($tbName);
-		//echo $this->db->last_query();
-		echo json_encode(array(
+		if($query->num_rows()>0){
+			echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
 			'totalCount'=>$totalCount 
-		));
+		    ));
+		}else{
+			$result = array();
+			$i=0;$j=0;$k=0;$num='';$l='';
+			$qmat = $this->db->get_where('fara', array(
+				'matnr'=>$matnr));
+			if($qmat->num_rows()>0){
+		    $q_matno = $qmat->first_row('array');
+			}
+			$items = explode('.',$menge);
+			for($j=0;$j<$items[0];$j++){
+			   $l=$i++;	
+				
+			   $k=strlen($i);
+			   //echo 'aaa'.$i;
+			   if($k==1){
+			   	 $num = $matnr.'-000'.$i;
+			   }elseif($k==2){
+			   	 //echo 'bbb';
+			   	 $num=$matnr.'-00'.$i;
+			   }elseif($k==3){
+			   	 $num=$matnr.'-0'.$i;
+			   }
+			   
+			   $result[$j] = array(
+		       'id_matnr'=>$i,
+			   'matnr'=>$matnr,
+			   'maktx'=>$q_matno['maktx'],
+			   'matpr'=>$num,
+			   'lvorm'=>1
+		       );
+		       //$i++;
+			}
+            echo json_encode(array(
+			'success'=>true,
+			'rows'=>$result,
+			'totalCount'=>count($result)
+		    ));
+		}
 	}
 	
 	function save_tag(){
 		// เตรียมข้อมูล payment item
+		$matnr = $this->input->post('matnr');
+		// ลบ pay_item ภายใต้ id ทั้งหมด
+		$this->db->where('matnr', $matnr);
+		$this->db->delete('fatp');
+		
 		$fatp = $this->input->post('fatp');
 		$item_array = json_decode($fatp);
 		
 		if(!empty($fatp) && !empty($item_array)){
-			// ลบ receipt item ภายใต้ id ทั้งหมด
-		if(db_helper_is_mssql($this)){
-		$this->db->where('1=1');
-		$this->db->delete('fatp');
-		}
-		if(db_helper_is_mysql($this)){
-		$this->db->truncate('fatp');
-		}
 			// loop เพื่อ insert payment item ที่ส่งมาใหม่
 	    $item_index = 0;
 		foreach($item_array AS $p){
+			if($p->lvorm==false)
+			{ $p->lvorm = ''; }
 			$this->db->insert('fatp', array(
 				'matnr'=>$p->matnr,
 				'matpr'=>$p->matpr,
-				'print'=>$p->print
+				'lvorm'=>$p->lvorm
 			));
 	    	}
 		}

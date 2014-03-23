@@ -181,7 +181,7 @@ Ext.define('Account.OtherIncome.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/invoice/index?'+query;
+			window.location = __site_url+'export/otherincome/index?'+query;
 		});
 		
 		// --- after ---

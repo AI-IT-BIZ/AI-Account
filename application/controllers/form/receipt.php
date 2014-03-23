@@ -119,6 +119,9 @@ body { FONT-FAMILY:'Angsana New';}
 <?php
 $current_copy_index = 0;
 for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
+    $c = 0;
+	do {
+       ++$c;
 
 	// check total page
 	$page_size = 10;
@@ -238,9 +241,15 @@ for($current_copy_index=0;$current_copy_index<$copies;$current_copy_index++):
 <DIV style="left: 665PX; top: 24PX; width: 78px; height: 25PX;"><span class="fc1-3"><?=($current_page_index+1).'/'.$total_page;?></span></DIV>
 
 <!--Header Text-->
+<?php if($c==1): ?>
 <DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบเสร็จรับเงิน</span></DIV>
 
 <DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT</span></DIV>
+<?php else: ?>
+<DIV style="left:278PX;top:109PX;width:263PX;height:25PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">ใบสำคัญรับเงิน</span></DIV>
+
+<DIV style="left:278PX;top:128PX;width:263PX;height:21PX;TEXT-ALIGN:CENTER;"><span class="fc1-0">RECEIPT VOUCHER</span></DIV>
+<?php endif; ?>
 
 <DIV style="left: 48px; top: 130PX; width: 152px; height: 20PX;"><span class="fc1-2">เลขประจำตัวผู้เสียภาษีอากร</span></DIV>
 
@@ -467,6 +476,7 @@ $chdat_str = util_helper_format_date($r_pay['chqdt']);
 <?php
 		echo '</div>';
 	endfor; // end page for
+	} while ($c < 2);
 endfor; // end copy for
 ?>
 </BODY></HTML>

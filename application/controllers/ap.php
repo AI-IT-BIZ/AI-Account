@@ -139,6 +139,12 @@ class Ap extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
+			if(db_helper_is_mssql($_this))
+			   $_this->db->where("(itype is null)", NULL, FALSE);
+			elseif(db_helper_is_mysql($_this)) {
+			   $_this->db->where("(isnull(itype))", NULL, FALSE);
+			}
 		}
 		// End for report	
 		createQuery($this);

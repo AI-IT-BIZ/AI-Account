@@ -67,7 +67,7 @@ class Material extends CI_Controller {
 	            ->setCellValue('F1', 'GL Description')
 	            ->setCellValue('G1', 'Unit')
 	            ->setCellValue('H1', 'Create Date')
-	            ->setCellValue('I1', 'GL No')
+	            ->setCellValue('I1', 'Create Name')
 				->setCellValue('J1', 'Status')
 				
 				->setCellValue('K1', 'Cost 1')
@@ -91,7 +91,7 @@ class Material extends CI_Controller {
                     ->setCellValue('F'.$excel_i, $value['sgtxt'])
 		            ->setCellValue('G'.$excel_i, $value['meins'])
                     ->setCellValue('H'.$excel_i, $value['erdat'])
-					->setCellValue('I'.$excel_i, $value['saknr'])
+					->setCellValue('I'.$excel_i, $value['ernam'])
 					
 					->setCellValue('J'.$excel_i, $value['statu'])
 					->setCellValue('K'.$excel_i, number_format($value['cost1'],2,'.',','))

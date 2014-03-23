@@ -28,10 +28,10 @@ Ext.define('Account.GenAsset.Grid', {
 			}]
 		};
 
-		this.addAct = new Ext.Action({
-			text: 'Add',
-			iconCls: 'b-small-plus'
-		});
+		//this.addAct = new Ext.Action({
+		//	text: 'Add',
+		//	iconCls: 'b-small-plus'
+		//});
 
 		// INIT GL search popup ///////////////////////////////////////////////
            //this.depnrDialog = Ext.create('Account.SDepartment.MainWindow');
@@ -51,17 +51,17 @@ Ext.define('Account.GenAsset.Grid', {
 				reader: {
 					type: 'json',
 					root: 'rows',
-					idProperty: 'id_matnr2',
+					idProperty: 'id_matnr',
 					totalProperty: 'totalCount'
 				}
 			},
 			fields: [
-			   { name:'id_matnr2', type:'int'},
+			   { name:'id_matnr', type:'int'},
 			    'matnr',
 				'maktx',
 				'matpr',
 				'menge',
-				'print'
+				'lvorm'
 			],
 			remoteSort: false,
 			sorters: ['id_matnr2 ASC'],
@@ -72,7 +72,7 @@ Ext.define('Account.GenAsset.Grid', {
 			{
 			//id : 'DPiRowNumber05',
 			text : "No",
-			dataIndex : 'id_matnr2',
+			dataIndex : 'id_matnr',
 			width : 60,
 			align : 'center',
 			resizable : false, sortable : false,
@@ -87,19 +87,19 @@ Ext.define('Account.GenAsset.Grid', {
 		},{
 			text: "FA Name",
 			width: 150,
-			dataIndex: 'deptx',
+			dataIndex: 'maktx',
 			sortable: true,
 			maxLenges: 100
 			},{
 			text: "FA Tag No.",
 			width: 100,
-			dataIndex: 'matnr',
+			dataIndex: 'matpr',
 			sortable: true
 		},{
 			xtype: 'checkcolumn',
 			text: "Print",
 			width: 30,
-			dataIndex: 'deptx',
+			dataIndex: 'lvorm',
 			field: {
                 xtype: 'checkboxfield',
                 listeners: {
@@ -116,12 +116,12 @@ Ext.define('Account.GenAsset.Grid', {
 		 sortable: false},
 		];
 
-		/*this.bbar = {
-			xtype: 'pagingtoolbar',
-			pageSize: 10,
-			store: this.store,
-			displayInfo: true
-		};*/
+		//this.bbar = {
+		//	xtype: 'pagingtoolbar',
+			//pageSize: 10,
+		//	store: this.store,
+		//	displayInfo: true
+		//};
 
 		Ext.apply(this, {
 			forceFit: true,
@@ -131,9 +131,9 @@ Ext.define('Account.GenAsset.Grid', {
 		this.plugins = [this.editing];
 
 		// init event ///////
-		this.addAct.setHandler(function(){
-			_this.addRecord2();
-		});
+		//this.addAct.setHandler(function(){
+		//	_this.addRecord2();
+		//});
 
 		return this.callParent(arguments);
 	},
@@ -172,13 +172,17 @@ Ext.define('Account.GenAsset.Grid', {
 
 	save : function(){
 		var _this=this;
-
+		var matnr='';
+        _this.store.each(function(r){
+			matnr = r.get('matnr');
+		});
 		var r_data = this.getData();
 		Ext.Ajax.request({
 			url: __site_url+'asset/save_tag',
 			method: 'POST',
 			params: {
-				depn: Ext.encode(r_data)
+				matnr:matnr,
+				fatp: Ext.encode(r_data)
 			},
 			success: function(response){
 				var r = Ext.decode(response.responseText);

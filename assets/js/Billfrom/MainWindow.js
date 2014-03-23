@@ -155,7 +155,7 @@ Ext.define('Account.Billfrom.MainWindow', {
 				dir: sorters.direction
 			}, params);
 			query = Ext.urlEncode(params);
-			window.location = __site_url+'export/po/index?'+query;
+			window.location = __site_url+'export/billfrom/index?'+query;
 		});
 
 		this.itemDialog.form.on('afterSave', function(){

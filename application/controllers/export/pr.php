@@ -13,23 +13,20 @@ class Pr extends CI_Controller {
 	{
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebko';
-		
-		$limit = $this->input->get('limit');
-		$start = $this->input->get('start');
-		if(isset($limit) && isset($start)) $this->db->limit($limit, $start);
 
 		// Start for report
 		function createQuery($_this){
-			
+
 			$query = $_this->input->get('query');
 			if(!empty($query)){
 				$_this->db->where("(purnr LIKE '%$query%'
 				OR lifnr LIKE '%$query%'
 				OR name1 LIKE '%$query%'
-				OR refnr LIKE '%$query%')", NULL, FALSE);
+				OR jobnr LIKE '%$query%'
+				OR jobtx LIKE '%$query%')", NULL, FALSE);
 			}
-			
-			$bldat1 = $_this->input->get('bldat1');
+
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -48,7 +45,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('purnr >=', $purnr1);
 			  $_this->db->where('purnr <=', $purnr2);
 			}
-			
+
 			$lifnr1 = $_this->input->get('lifnr');
 			$lifnr2 = $_this->input->get('lifnr2');
 			if(!empty($lifnr1) && empty($lifnr2)){
@@ -58,7 +55,7 @@ class Pr extends CI_Controller {
 			  $_this->db->where('lifnr >=', $lifnr1);
 			  $_this->db->where('lifnr <=', $lifnr2);
 			}
-			
+
 			$statu1 = $_this->input->get('statu');
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
@@ -68,7 +65,20 @@ class Pr extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			//Get PR by Userlogin Department Accept Accounting
+			$uname = XUMS::USERNAME();
+			$sql = "select t1.uname, t1.empnr, t2.name1, t2.depnr
+					from tbl_user t1
+					join tbl_empl t2 on t1.empnr=t2.empnr
+					join tbl_depn t3 on t2.depnr=t3.depnr
+					where t1.uname = '$uname'";
+			$q_dep = $_this->db->query($sql);
+            if($q_dep->num_rows()>0){
+			  $r_dep = $q_dep->first_row('array');
+			  $_this->db->where('depnr',$r_dep['depnr']);
+			}
 		}
+		// End for report
 
 		createQuery($this);
 		$sort = $this->input->get('sort');
@@ -109,7 +119,7 @@ class Pr extends CI_Controller {
 			$current_sheet
 		            ->setCellValue('A'.$excel_i, $value['purnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $value['duedt'])
+		            ->setCellValue('C'.$excel_i, $value['lfdat'])
 		            ->setCellValue('D'.$excel_i, $value['lifnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
 		            ->setCellValue('F'.$excel_i, $value['statx'])

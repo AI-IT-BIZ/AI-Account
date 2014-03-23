@@ -13,7 +13,9 @@ class Rsumvat extends CI_Controller {
 	function index()
 	{
 		$comid = XUMS::COMPANY_ID();
-		$strSQL="";//echo $comid;
+		$strSQL="";
+		$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;$k=0;$l=0;$m=0;$n=0;
+$invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;
 		$strSQL= " select tbl_comp.* from tbl_comp where tbl_comp.comid = '".$comid."'";
 		$q_com = $this->db->query($strSQL);
 		$r_com = $q_com->first_row('array');
@@ -295,8 +297,7 @@ $rows = $query->result_array();
 $rowp = $q_purch->result_array();
 $alls = count($rows) + count($rowp) + count($rowscn) 
 	  + count($rowpcn) + count($rowsdn) + count($rowpdn);
-$s_amt=0;$s_vat=0;$p_amt=0;$p_vat=0;$t_vat=0;$k=0;$l=0;$m=0;$n=0;
-$invdt_str='';$d_vat=0;$ts_amt=0;$ts_vat=0;$tp_amt=0;$tp_vat=0;$invoice='';
+$invoice='';
 for ($i=($current_page_index * $page_size);
      $i<($current_page_index * $page_size + $page_size) && $i<$alls;$i++)://$rows as $key => $item):
      if($i<count($rows)){
@@ -323,8 +324,8 @@ for ($i=($current_page_index * $page_size);
 		         $k++;
 		         $p_amt = $item['beamt'];
 		         $p_vat = $item['vat01'];
-		         $tp_amt += $item['beamt'];
-		         $tp_vat += $item['vat01'];
+		         $ts_amt += $item['beamt'];
+		         $ts_vat += $item['vat01'];
 		         $d_vat = $item['vat01'];
 				 $invoice = $item['debnr'];
 	             }else{
@@ -343,8 +344,8 @@ for ($i=($current_page_index * $page_size);
 		                    $m++;
 		                    $p_amt = $item['beamt'];
 		                    $p_vat = $item['vat01'];
-		                    $tp_amt += $item['beamt'];
-		                    $tp_vat += $item['vat01'];
+		                    $ts_amt += $item['beamt'];
+		                    $ts_vat += $item['vat01'];
 		                    $d_vat = $item['vat01'];
 							$invoice = $item['crenr'];
 	                        }else{
@@ -376,7 +377,7 @@ for ($i=($current_page_index * $page_size);
 	  <td class="fc1-8" align="center" valign="top" style="width:36px;"><?=$no++;?></td>
 	  <td class="fc1-8" align="center" valign="top" style="width:56px;"><?=$invdt_str;?></td>
 	  <td class="fc1-8" align="center" valign="top" style="width:70px;"><?=$invoice;?></td>
-      <td class="fc1-8" align="center" valign="top" style="width:53px;">0000</td>
+      <td class="fc1-8" align="center" valign="top" style="width:53px;"><?=$item['brach'];?></td>
 	  <td class="fc1-8" align="left" valign="top" style="width:181px;"><?=$item['name1'];?></td>
       <td class="fc1-8" align="left" valign="top" style="width:263px;"><?=$adr01;?></td>
 

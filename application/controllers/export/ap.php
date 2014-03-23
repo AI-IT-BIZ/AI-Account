@@ -13,7 +13,7 @@ class Ap extends CI_Controller {
 	{
 		$this->db->set_dbprefix('v_');
 		$tbName = 'ebrk';
-		
+
 		// Start for report
 		function createQuery($_this){
 			$query = $_this->input->get('query');
@@ -24,7 +24,7 @@ class Ap extends CI_Controller {
 				OR mbeln LIKE '%$query%')", NULL, FALSE);
 			}
 			
-			$bldat1 = $_this->input->get('bldat1');
+			$bldat1 = $_this->input->get('bldat');
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
@@ -73,7 +73,14 @@ class Ap extends CI_Controller {
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
+			
+			if(db_helper_is_mssql($_this))
+			   $_this->db->where("(itype is null)", NULL, FALSE);
+			elseif(db_helper_is_mysql($_this)) {
+			   $_this->db->where("(isnull(itype))", NULL, FALSE);
+			}
 		}
+		// End for report
 
 		createQuery($this);
 		//$sort = $this->input->get('sort');

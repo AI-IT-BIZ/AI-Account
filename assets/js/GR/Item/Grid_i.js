@@ -251,12 +251,13 @@ Ext.define('Account.GR.Item.Grid_i', {
 				onTriggerClick: function(){
 					//_this.editing.completeEdit();
 					var sel = _this.getView().getSelectionModel().getSelection()[0];
-					alert('aaa'+sel.get('matnr'));
-					_this.assetDialog.show();
+					//alert('aaa'+sel.get('matnr'));
 					_this.assetDialog.grid.load({
 						matnr: sel.get('matnr'),
 			            menge: sel.get('menge')
 						});
+					_this.assetDialog.show();
+					
 				}
 			},
 			}];

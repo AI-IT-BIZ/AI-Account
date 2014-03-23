@@ -55,9 +55,7 @@ class Billfrom extends CI_Controller {
 			if(!empty($query)){
 				$_this->db->where("(bilnr LIKE '%$query%'
 				OR kunnr LIKE '%$query%'
-				OR name1 LIKE '%$query%'
-				OR jobnr LIKE '%$query%'
-				OR sname LIKE '%$query%')", NULL, FALSE);
+				OR name1 LIKE '%$query%')", NULL, FALSE);
 			}
 			
 			$bldat1 = $_this->input->get('bldat');
