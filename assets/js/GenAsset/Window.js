@@ -50,6 +50,12 @@ Ext.define('Account.GenAsset.Window', {
 
 		// --- event ---
 		this.buttons = [{
+			text: 'Print Barcode',
+			handler: function() {
+				//_this.grid.getForm().reset();
+				_this.grid.barcode();
+			}
+		},{
 			text: 'Save',
 			handler: function() {
 				Ext.Msg.show({

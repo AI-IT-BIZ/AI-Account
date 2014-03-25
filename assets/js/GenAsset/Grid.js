@@ -11,6 +11,8 @@ Ext.define('Account.GenAsset.Grid', {
 	},
 	initComponent : function() {
 		var _this=this;
+		
+		this.preview = Ext.create('Account.Assetgenno.PreviewWindow');
 
 		Ext.QuickTips.init();
 		var filters = {
@@ -193,6 +195,34 @@ Ext.define('Account.GenAsset.Grid', {
 		       }
 			}
 		});
+	},
+	
+	barcode : function(){
+		var _this=this;
+		var matpr='';
+        _this.store.each(function(r){
+        	if(r.get('lvorm')){
+        		if(matpr==""){matpr = "'"+r.get('matpr')+"'";}
+				else {matpr = matpr+","+"'"+r.get('matpr')+"'";}
+			}
+		});
+		_this.preview.openDialog(__base_url + 'index.php/asset/barcode?matpr='+matpr,'_blank');
+		/*Ext.Ajax.request({
+			url: __site_url+'asset/save_tag',
+			method: 'POST',
+			params: {
+				matpr:matpr,
+				fatp: Ext.encode(r_data)
+			},
+			success: function(response){
+				var r = Ext.decode(response.responseText);
+				if(r && r.success){
+					//Ext.Msg.alert('SUCCESS');
+		       }else{
+		       		Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+		       }
+			}
+		});*/
 	},
 
 	removeRecord: function(grid, rowIndex){

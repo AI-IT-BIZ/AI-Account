@@ -865,4 +865,26 @@ class Asset extends CI_Controller {
 		));
 	}
 
+	function barcode(){
+		$matpr = "(".$_GET['matpr'].")";
+		require_once substr(BASEPATH,0,-7).'application/libraries/jasper/rest/client/JasperClient.php';
+		$client = new Jasper\JasperClient(JASPERSERVER,
+						JASPERPORT,
+					   JASPERUSER,
+					   JASPERPASSWORD,
+					   '/jasperserver'
+				   );
+		$controls = array('matpr' => $matpr);
+		//echo $matpr;
+		$report = $client->runReport('/ai_account/barcode', 'pdf', null, $controls);
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Description: File Transfer');
+		header('Content-Disposition: inline;');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: ' . strlen($report));
+		header('Content-Type: application/pdf');
+		echo $report; 
+	}
+
 }
