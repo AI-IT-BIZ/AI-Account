@@ -9,7 +9,7 @@ Ext.define('Account.RPettyCashJournal.Result.Grid', {
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report Petty Cash Journal',
+	title: 'Petty Cash Journal Report',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,

@@ -9,7 +9,7 @@ Ext.define('Account.RPaymentJournal.Result.Grid', {
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report Payment Journal',
+	title: 'Payment Journal Report',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,

@@ -15,7 +15,6 @@ class Rap extends CI_Controller {
 		$tbName = 'ebrp';
 
 		// Start for report
-		$period='';$docno='';$status='';
 		function createQuery($_this){
 			$query = $_this->input->get('query');
 			if(!empty($query)){
@@ -29,12 +28,10 @@ class Rap extends CI_Controller {
 			$bldat2 = $_this->input->get('bldat2');
 			if(!empty($bldat1) && empty($bldat2)){
 			  $_this->db->where('bldat', $bldat1);
-			  $period=$bldat1;
 			}
 			elseif(!empty($bldat1) && !empty($bldat2)){
 			  $_this->db->where('bldat >=', $bldat1);
 			  $_this->db->where('bldat <=', $bldat2);
-			  $period=$bldat1.' - '.$bldat2;
 			}
 			
             $mbeln1 = $_this->input->get('mbeln');
@@ -51,12 +48,10 @@ class Rap extends CI_Controller {
 			$invnr2 = $_this->input->get('invnr2');
 			if(!empty($invnr1) && empty($invnr2)){
 			  $_this->db->where('invnr', $invnr1);
-				$docno=$invnr1;
 			}
 			elseif(!empty($invnr1) && !empty($invnr2)){
 			  $_this->db->where('invnr >=', $invnr1);
 			  $_this->db->where('invnr <=', $invnr2);
-			  $docno=$invnr1.' - '.$invnr2;
 			}
 			
 			$lifnr1 = $_this->input->get('lifnr');
@@ -73,14 +68,13 @@ class Rap extends CI_Controller {
 			$statu2 = $_this->input->get('statu2');
 			if(!empty($statu1) && empty($statu2)){
 			  $_this->db->where('statu', $statu1);
-			  $status=$statu1;
 			}
 			elseif(!empty($statu1) && !empty($statu2)){
 			  $_this->db->where('statu >=', $statu1);
 			  $_this->db->where('statu <=', $statu2);
 			}
 		}
-// End for report
+		// End for report
 
 		createQuery($this);
 		//$sort = $this->input->get('sort');
@@ -95,6 +89,12 @@ class Rap extends CI_Controller {
 		$irow=$irow-1;  
 		$end = $result_array[$irow]; 
 		if(empty($docno)) $docno=$start['invnr'].' - '.$end['invnr']; 
+		
+		$period = '';
+		if(!empty($bldat1) && empty($bldat2)) $period = $bldat1;
+		if(!empty($bldat1) && !empty($bldat2)) $period = $bldat1.' - '.$bldat2;
+		
+		$status = $this->input->get('statu');
 		/********************************************************/
 
 		// Create new PHPExcel object
@@ -200,12 +200,12 @@ class Rap extends CI_Controller {
 					if($inv_temp == "" || $inv_temp != $value['invnr'])   
                     {
                     
-					$q_gr = $this->db->get_where('mkpf', array(
-				    'mbeln'=>$value['mbeln']
-			        ));
+					//$q_gr = $this->db->get_where('mkpf', array(
+				    //'mbeln'=>$value['mbeln']
+			        //));
 			
-			        $result_data = $q_gr->first_row('array');
-			        $ebeln = $result_data['ebeln'];
+			       //$result_data = $q_gr->first_row('array');
+			       //$ebeln = $result_data['ebeln'];
 			
 			        //$terms='+'.$res[$i]['terms']." days";
 			        $my_date = util_helper_get_time_by_date_string($value['duedt']);
@@ -220,7 +220,7 @@ class Rap extends CI_Controller {
                     $current_sheet
 		            ->setCellValue('A'.$excel_i, $value['invnr'])
 		            ->setCellValue('B'.$excel_i, util_helper_format_date($value['bldat']))
-		            ->setCellValue('C'.$excel_i, $ebeln)
+		            ->setCellValue('C'.$excel_i, $value['ebeln'])
 					->setCellValue('D'.$excel_i, $value['lifnr'])
 		            ->setCellValue('E'.$excel_i, $value['name1'])
 		            ->setCellValue('F'.$excel_i, $value['terms'])
@@ -281,7 +281,7 @@ class Rap extends CI_Controller {
 
 		// Redirect output to a client’s web browser (Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="account_payable_'.date('Y-m-d_H:i:s').'.xls"');
+		header('Content-Disposition: attachment;filename="ap_report_'.date('Y-m-d_H:i:s').'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');

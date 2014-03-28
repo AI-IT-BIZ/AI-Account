@@ -250,11 +250,15 @@ Ext.define('Account.GR.Item.Grid_i', {
 				triggerCls: 'x-form-search-trigger',
 				onTriggerClick: function(){
 					//_this.editing.completeEdit();
+					var date1 = _this.dateValue;
+					var mbeln = _this.grValue;
 					var sel = _this.getView().getSelectionModel().getSelection()[0];
 					//alert('aaa'+sel.get('matnr'));
 					_this.assetDialog.grid.load({
 						matnr: sel.get('matnr'),
-			            menge: sel.get('menge')
+						bldat: date1,
+						mbeln: mbeln,
+			            menge: sel.get('upqty')
 						});
 					_this.assetDialog.show();
 					

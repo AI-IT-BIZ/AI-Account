@@ -762,7 +762,9 @@ class Asset extends CI_Controller {
 		
 		$matnr = $this->input->get('matnr');
 		$menge = $this->input->get('menge');
-		//echo 'aaa'.$matnr.'bbb'.$menge;
+		$bldat = $this->input->get('bldat');
+		$mbeln = $this->input->get('mbeln');
+		//echo 'aaa'.$bldat;
 		
 		$this->db->set_dbprefix('v_');
 		$tbName = 'fatp';
@@ -777,9 +779,12 @@ class Asset extends CI_Controller {
 		//$sort = $this->input->get('sort');
 		//$dir = $this->input->get('dir');
 		//$this->db->order_by($sort, $dir);
-        $this->db->where('matnr', $matnr);
-		$query = $this->db->get($tbName);
-		if($query->num_rows()>0){
+        
+		if($mbeln <> 'GRXXXX-XXXX'){
+			$this->db->where('matnr', $matnr);
+			$this->db->where('mbeln', $mbeln);
+		    $query = $this->db->get($tbName);
+			
 			echo json_encode(array(
 			'success'=>true,
 			'rows'=>$query->result_array(),
@@ -788,15 +793,42 @@ class Asset extends CI_Controller {
 		}else{
 			$result = array();
 			$i=0;$j=0;$k=0;$num='';$l='';
+			
+			if(db_helper_is_mysql($this)){
+				$sql = "SELECT matpr FROM tbl_fatp
+				WHERE matnr = ".$matnr." matpr LIKE '".$matnr."%'"
+				." ORDER BY matpr DESC LIMIT 1";
+			}
+			
+			if(db_helper_is_mssql($this)){
+				$sql = "SELECT TOP 1 matpr FROM tbl_fatp WHERE matnr = ".$matnr."
+				and matpr LIKE '".$matnr."%'"
+				." ORDER BY matpr DESC ";
+			}
+			
+			$query_code = $this->db->query($sql);
+            $last_no='';
+			if($query_code->num_rows()>0){
+				$result_code = $query_code->first_row('array');
+				// หาเลขตัวหลัง
+				$running = explode('-',$result_code['matpr']);
+				$last_no = $running[1];
+			}else{
+				$last_no = '0';
+			}
+			   
+			
 			$qmat = $this->db->get_where('fara', array(
 				'matnr'=>$matnr));
 			if($qmat->num_rows()>0){
 		    $q_matno = $qmat->first_row('array');
 			}
 			$items = explode('.',$menge);
+			$i = abs(intval($last_no));
 			for($j=0;$j<$items[0];$j++){
-			   $l=$i++;	
-				
+			   //$l=$i++;	
+			   //$l = abs(intval($last_no))+1;
+			   $i = $i+1;
 			   $k=strlen($i);
 			   //echo 'aaa'.$i;
 			   if($k==1){
@@ -811,6 +843,8 @@ class Asset extends CI_Controller {
 			   $result[$j] = array(
 		       'id_matnr'=>$i,
 			   'matnr'=>$matnr,
+			   'mbeln'=>$mbeln,
+			   'bldat'=>$bldat,
 			   'maktx'=>$q_matno['maktx'],
 			   'matpr'=>$num,
 			   'lvorm'=>1
@@ -844,6 +878,8 @@ class Asset extends CI_Controller {
 			$this->db->insert('fatp', array(
 				'matnr'=>$p->matnr,
 				'matpr'=>$p->matpr,
+				'bldat'=>$p->bldat,
+				'mbeln'=>$p->mbeln,
 				'lvorm'=>$p->lvorm
 			));
 	    	}

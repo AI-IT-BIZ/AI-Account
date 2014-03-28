@@ -145,7 +145,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 				allowBlank: false
 			},this.trigGlno1,this.trigGlno2],
 			buttons: [{
-				text: 'ยืนยัน',
+				text: 'Report',
 				handler: function(){
 					form = this.up('form').getForm();
 					_this.loadMask.show();
@@ -168,7 +168,7 @@ Ext.define('Account.RGeneralLedger.MainWindow', {
 					}
 				}
 			},{
-				text: 'ยกเลิก',
+				text: 'Cancel',
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();

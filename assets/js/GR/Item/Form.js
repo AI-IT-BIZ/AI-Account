@@ -778,6 +778,9 @@ Ext.define('Account.GR.Item.Form', {
 		this.gridItem.vatValue = this.numberVat.getValue();
 		var currency = this.trigCurrency.getValue();
 		this.gridItem.curValue = currency;
+		this.gridItem.grValue = this.getForm().findField('mbeln').getValue();
+		this.gridItem.dateValue = Ext.Date.format(this.getForm().findField('bldat').getValue(),'Y-m-d');
+		//this.gridItem.grValue = this.getForm().findField('mbeln').getValue();
 		this.formTotal.getForm().findField('curr1').setValue(currency);
 		this.formTotalthb.getForm().findField('curr2').setValue(currency);
 		this.formTotal.getForm().findField('vat01').setValue(vats);

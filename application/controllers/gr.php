@@ -277,6 +277,7 @@ class Gr extends CI_Controller {
 			db_helper_set_now($this, 'updat');
 			$this->db->set('upnam', $current_username);
 			$this->db->update('mkpf', $formData);
+			
 		}else{
 			
 			$id = $this->code_model->generate('GR', $this->input->post('bldat'));
@@ -287,9 +288,10 @@ class Gr extends CI_Controller {
 			
 			$inserted_id = $id;
 			
-			//$this->db->where('ebeln', $this->input->post('ebeln'));
-			//$this->db->set('loekz', '3');
-			//$this->db->update('ekko');
+			$this->db->where('mbeln', 'GRXXXX-XXXX');
+			db_helper_set_now($this, 'updat');
+			$this->db->set('mbeln', $id);
+			$this->db->update('fatp');
 		}
 		// ลบ pr_item ภายใต้ id ทั้งหมด
 		$this->db->where('mbeln', $id);

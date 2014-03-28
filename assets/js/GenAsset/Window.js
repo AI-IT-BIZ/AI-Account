@@ -8,7 +8,7 @@ Ext.define('Account.GenAsset.Window', {
 			closeAction: 'hide',
 			height: 650,
 			minHeight: 380,
-			width: 600,
+			width: 700,
 			minWidth: 500,
 			resizable: true,
 			modal: true,

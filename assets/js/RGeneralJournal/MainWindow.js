@@ -34,7 +34,7 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 				fieldLabel: 'Customer / Supplier Code',
 			}],
 			buttons: [{
-				text: 'ยืนยัน',
+				text: 'Report',
 				handler: function(){
 					form = this.up('form').getForm();
 					if (form.isValid()){
@@ -58,7 +58,7 @@ Ext.define('Account.RGeneralJournal.MainWindow', {
 					}
 				}
 			},{
-				text: 'ยกเลิก',
+				text: 'Cancel',
 				handler: function(){
 					form = this.up('form').getForm();
 					form.reset();

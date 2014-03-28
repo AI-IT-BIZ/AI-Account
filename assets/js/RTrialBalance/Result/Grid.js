@@ -9,7 +9,7 @@ Ext.define('Account.RTrialBalance.Result.Grid', {
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report Trial Balance',
+	title: 'Trial Balance Report',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,

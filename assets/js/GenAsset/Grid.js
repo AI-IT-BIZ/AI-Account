@@ -26,6 +26,12 @@ Ext.define('Account.GenAsset.Grid', {
 				dataIndex: 'maktx'
 			},{
 				type: 'string',
+				dataIndex: 'mbeln'
+			},{
+				type: 'string',
+				dataIndex: 'bldat'
+			},{
+				type: 'string',
 				dataIndex: 'matpr'
 			}]
 		};
@@ -63,6 +69,8 @@ Ext.define('Account.GenAsset.Grid', {
 				'maktx',
 				'matpr',
 				'menge',
+				'mbeln',
+				'bldat',
 				'lvorm'
 			],
 			remoteSort: false,
@@ -97,6 +105,14 @@ Ext.define('Account.GenAsset.Grid', {
 			width: 100,
 			dataIndex: 'matpr',
 			sortable: true
+		},{
+			text: "GR No",
+			width: 100,
+			dataIndex: 'mbeln',
+			sortable: true
+		},{text: "GR Date", width: 80, 
+			xtype: 'datecolumn', align: 'center', 
+			format:'d/m/Y', dataIndex: 'bldat', sortable: true
 		},{
 			xtype: 'checkcolumn',
 			text: "Print",

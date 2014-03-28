@@ -9,7 +9,7 @@ Ext.define('Account.RGeneralLedger.Result.Grid', {
 		'Ext.ux.grid.FiltersFeature',
 		'Ext.ux.DataTip'
 	],
-	title: 'Report General Ledger',
+	title: 'General Ledger Report',
 	closeAction: 'hide',
 	width: 780,
 	height: 500,
